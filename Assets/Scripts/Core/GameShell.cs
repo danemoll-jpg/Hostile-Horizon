@@ -31,7 +31,7 @@ namespace HostileHorizon
         public Explosion Blast { get; private set; }
         Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
-        MenuPanel.Page title, freeFlight, settings, axes, credits, pause, crashed, loading;
+        MenuPanel.Page title, freeFlight, settings, axes, display, credits, pause, crashed, loading;
         MenuPanel.Page settingsReturn;
         bool editingSeed; int seedCursor;
 
@@ -296,6 +296,7 @@ namespace HostileHorizon
                     d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
                 .Add(Option("Invert throttle lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }))
                 .Add(Action("Axis display", () => Menu.Show(axes)))
+                .Add(Action("Display", () => Menu.Show(display)))
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
                 .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
                 .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
@@ -313,6 +314,13 @@ namespace HostileHorizon
             axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(settings),
                 Body = Controls.AxisReport, Hint = () => "B / Esc / HOTAS button 2: back" };
             axes.Add(Action("Back", () => Menu.Show(settings)));
+
+            // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
+            display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>
+                "Full screen fills the whole screen at the chosen resolution.\nThe display's own resolution is the default (1280 x 800 on the Steam Deck).\nAlt+Enter also switches for the moment." };
+            display.Add(Option("Screen", () => ScreenSetting.ScreenLabel, d => ScreenSetting.Set(!ScreenSetting.Fullscreen)))
+                   .Add(Option("Resolution", () => ScreenSetting.ResolutionLabel, ScreenSetting.StepResolution))
+                   .Add(Action("Back", () => Menu.Show(settings)));
 
             credits = new MenuPanel.Page { Title = "CREDITS", Back = () => Menu.Show(title), Body = () =>
                 "<b>Hostile Horizon</b>\nA game by Dan, built with Claude.\nInspired by the rescue flight games of the 1980s; all names, art, sound and text are new.\n\n" +

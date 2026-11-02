@@ -36,7 +36,7 @@ namespace HostileHorizon
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;   // and its virtual pad keeps working
             pad = InputSystem.AddDevice<Gamepad>("CheckPad");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "mute" ? MuteCheck() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : All();
             while (true)
             {
                 object cur;
@@ -127,6 +127,69 @@ namespace HostileHorizon
             yield return StartFromTitle(1);
             yield return Fly(10f);
             yield return Shot("mute_check_flying");
+        }
+
+        // Fix 2.1: the full-screen start. Runs ScreenSetting's size code path for a simulated Steam Deck desktop (1280 x 800) and for this
+        // PC's display, says the check itself changed nothing (its -screen-* size stands), then plays at the check's size (run it at
+        // --size 1280x800) and measures whether every menu / HUD element and every line of text lies inside the view.
+        IEnumerator ScreenCheck()
+        {
+            yield return WaitFor(() => G.Now == GameShell.State.Title && G.Menu.Current != null, 60f);
+            foreach (var (w, h, what) in new[] { (1280, 800, "simulated Steam Deck"), (Display.main.systemWidth, Display.main.systemHeight, "this PC's display (Display.main)"),
+                                                 (Screen.currentResolution.width, Screen.currentResolution.height, "this PC's desktop (Screen.currentResolution)") })
+            {
+                var t = ScreenSetting.Target(w, h, true, 0, 0); var win = ScreenSetting.Target(w, h, false, 0, 0);
+                Log($"screen setting, {what} {w} x {h}: default asks for {t.w} x {t.h} {t.mode} -> {(t.w == w && t.h == h && t.mode == FullScreenMode.FullScreenWindow ? "fills the screen" : "DOES NOT FILL THE SCREEN")}; Windowed would be {win.w} x {win.h}");
+            }
+            Log($"check run applied nothing: Screen {Screen.width} x {Screen.height} {Screen.fullScreenMode}; setting shown as {ScreenSetting.ScreenLabel}, {ScreenSetting.ResolutionLabel}");
+            yield return new WaitForSecondsRealtime(1f);
+            yield return Shot("s1_title"); UiInside("title");
+            yield return Nav(GamepadButton.DpadDown, 2); yield return Press(GamepadButton.South);   // Settings
+            yield return Shot("s2_settings"); UiInside("settings");
+            yield return Nav(GamepadButton.DpadDown, 5); yield return Press(GamepadButton.South);   // Display
+            Log($"page {G.Menu.Current?.Title}");
+            yield return Shot("s3_display"); UiInside("display");
+            yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);       // back to the title
+            yield return StartFromTitle(1);
+            yield return Fly(5f);
+            yield return Shot("s4_cockpit"); UiInside("cockpit HUD");
+            yield return Press(GamepadButton.North); yield return Fly(2f);
+            yield return Shot("s5_chase"); UiInside("chase HUD");
+            yield return Press(GamepadButton.Start); yield return WaitFor(() => G.Now == GameShell.State.Paused, 3f);
+            yield return Shot("s6_pause"); UiInside("pause");
+        }
+
+        // Every visible image and every drawn glyph of the screen canvases, in view pixels: how far anything sticks out of the view.
+        void UiInside(string what)
+        {
+            Canvas.ForceUpdateCanvases();
+            float vw = TestRun.Headless ? TestRun.View.width : Screen.width, vh = TestRun.Headless ? TestRun.View.height : Screen.height;
+            float worst = 0; string worstName = "-"; int n = 0;
+            void Point(Vector3 world, Canvas c, string name)
+            {
+                var cam = c.renderMode == RenderMode.ScreenSpaceOverlay ? null : c.worldCamera;
+                var p = RectTransformUtility.WorldToScreenPoint(cam, world);
+                float o = Mathf.Max(-p.x, p.x - vw, -p.y, p.y - vh);
+                if (o > worst) { worst = o; worstName = name; }
+            }
+            var corners = new Vector3[4];
+            foreach (var c in FindObjectsByType<Canvas>())
+            {
+                if (!c.isRootCanvas || c.renderMode == RenderMode.WorldSpace || !c.isActiveAndEnabled) continue;
+                foreach (var g in c.GetComponentsInChildren<UnityEngine.UI.Graphic>())
+                {
+                    if (!g.isActiveAndEnabled || g.color.a < .01f) continue;
+                    n++;
+                    if (g is UnityEngine.UI.Text tx)
+                    {
+                        if (string.IsNullOrEmpty(tx.text)) continue;
+                        float ppu = tx.pixelsPerUnit;
+                        foreach (var v in tx.cachedTextGenerator.verts) Point(tx.rectTransform.TransformPoint(v.position / ppu), c, c.name + "/" + tx.name);
+                    }
+                    else { g.rectTransform.GetWorldCorners(corners); foreach (var k in corners) Point(k, c, c.name + "/" + g.name); }
+                }
+            }
+            Log($"inside the view ({vw} x {vh}), {what}: {n} elements; {(worst <= 1 ? "nothing cut off" : $"CUT OFF by {worst:0} px: {worstName}")}");
         }
 
         IEnumerator Perf()

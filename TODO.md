@@ -168,41 +168,13 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 2.1: full screen on the Steam Deck (do this now)
+Current Objective — Round 3: Aliens (to be written by the planning chat)
 ---------------------------------------------------------------------------
 
-Dan (2026-11-02, on the Steam Deck, 0.2.0): "the screen is not fullscreen".
-Cause found by the planning chat: Chastain Rush's `ScreenSetting.cs` was never
-ported. Hostile Horizon sets nothing at start-up, so it opens at the project's
-default 1920 x 1080 (or whatever size Unity last saved), not at the Deck's own
-1280 x 800 screen.
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Port `ScreenSetting.cs` from Chastain Rush** (`Assets/Scripts/ScreenSetting.cs`
-   there): at start-up the game goes full screen (borderless full-screen window)
-   at the display's own resolution (`Display.main.systemWidth/Height`), which
-   wins over the size Unity remembers from earlier runs. The saved choice is in
-   its own file in the save folder. Test runs never apply or save it (their
-   `-screen-*` arguments stand, and they stay muted and unfocused per the
-   testing rules).
-2. **Settings > Display:** a Screen row (Full screen / Windowed) and a
-   Resolution row (the display's own first), as in Chastain Rush.
-3. **Check:** run the exe at a 1280 x 800 desktop-sized start (simulate the
-   Deck: the screen-size code path with 1280 x 800) and show it fills the whole
-   screen with nothing cut off and the HUD/menus inside it; plus a normal start
-   on Dan's PC fills his screen. No visible or focused test window without
-   asking Dan first.
-4. **Publish as 0.2.1** (the launcher on the Deck picks it up on its next start).
-5. **Update `TODO.md` / `CLAUDE.md`**, commit and push. Per-item status as usual.
-
-**For Dan to check:** start the game on the Deck from the same Steam shortcut:
-it updates to 0.2.1 and fills the screen. If it still doesn't: in Settings >
-Display, what do Screen and Resolution show?
-
-Then Round 3 (Aliens), which the planning chat writes next.
-
-Round 2 is built, checked in the exe and published (status below, under
-"Previous deliveries"). Round 2's specification, as the planning chat wrote it, is in `TODO-ARCHIVE.md`.
+Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
+muted) and published as 0.2.1 (status below, under "Previous deliveries"; its
+specification, as the planning chat wrote it, is in `TODO-ARCHIVE.md`). Round 3
+(Aliens) is next; the planning chat writes it here. Nothing to build until then.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -230,6 +202,48 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 2.1 — full screen on the Steam Deck (2026-11-02). Published: 0.2.1
+(`game-201`, Latest).** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
+`Data/screenshots/fix2.1/`. Every check headless (`-batchmode`, no window) and
+muted: measured output 0.000 RMS; no step played sound; no window opened.
+
+0. **Commit first — done.** "Fix 2.1 planning" (d4bfb66).
+1. **ScreenSetting ported — done.** `Core/ScreenSetting.cs` (Chastain Rush's):
+   before the first scene the game asks for a borderless full-screen window at
+   `Display.main.systemWidth/Height`, overriding the size Unity remembers; choice
+   saved in `display.json` beside `settings.json`. Test runs (`-mute`,
+   `-exeCheck`, `-racerTestSave`) never apply or save it. Check: "check run
+   applied nothing: Screen 1280 x 800 Windowed" (its `-screen-*` size stood).
+2. **Settings > Display — done.** New "Display" row under Axis display: Screen
+   (Full screen / Windowed) and Resolution (the display's own first, then its
+   sizes from 1280 wide, largest first). Check: `s3_display.jpg`.
+3. **Check — done for the Deck, PC window not run.** New `-exeCheckOnly screen`
+   (`python Tools/run_check.py <dir> --only screen --size 1280x800 --extra
+   "-steamDeck 1"`): the size code path for a 1280 x 800 desktop asks for 1280 x
+   800 FullScreenWindow (fills the screen); title, settings, display, cockpit,
+   chase, pause played at 1280 x 800: every image and text glyph measured inside
+   the view, "nothing cut off" on all six (`s1`-`s6`, `exe_check_screen.txt`).
+   Dan's PC: the same path for his display (3840 x 2160) asks for 3840 x 2160
+   FullScreenWindow. A real full-screen start on his PC was **not run**: it needs
+   a visible, focused window (Dan's rule: ask first). For Dan to check.
+4. **Publish — done.** 0.2.1 = build 201, tag `game-201`, Latest:
+   https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/game-201 .
+   Check: the `starter-200` ZIP extracted to an empty folder, its launcher run
+   with `--auto-check` against the real GitHub catalog (hidden, game in batch
+   mode): "Updating to game 0.2.1", "Game activated 0.2.1", started
+   `versions/201`, ready handshake, exit 0 (`launcher/`). Found on the way: the
+   first try, from a 144-character folder, failed with "Cannot create extracted
+   file" (Windows' 260-character path limit inside Unity's data folders) and
+   started the old version; from a short folder it worked. Not changed (launcher
+   code, not this fix); keep installs in short paths.
+5. **TODO.md / CLAUDE.md — done.** Committed and pushed. Clean-up: disk use 1.7 GB -> 1.5 GB.
+
+**For Dan to check:** start the game on the Deck from the same Steam shortcut:
+it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
+Screen and Resolution show? On the PC: the game now always opens full screen at
+your display's own size (3840 x 2160 reported); Settings > Display > Resolution
+can pick 1920 x 1080 if the frame rate drops.
 
 **Round 2 — Campaign core (2026-11-02). Published: 0.2.0 (`build-200`, Latest)
 and the starter package (`starter-200`).** Exe `Builds/HostileHorizon/HostileHorizon.exe`

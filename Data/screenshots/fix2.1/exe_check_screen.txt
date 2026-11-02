@@ -1,0 +1,20 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 120832 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 13:08; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+screen setting, simulated Steam Deck 1280 x 800: default asks for 1280 x 800 FullScreenWindow -> fills the screen; Windowed would be 960 x 600
+screen setting, this PC's display (Display.main) 3840 x 2160: default asks for 3840 x 2160 FullScreenWindow -> fills the screen; Windowed would be 2880 x 1620
+screen setting, this PC's desktop (Screen.currentResolution) 3840 x 2160: default asks for 3840 x 2160 FullScreenWindow -> fills the screen; Windowed would be 2880 x 1620
+check run applied nothing: Screen 1280 x 800 Windowed; setting shown as Full screen, Display's own (3840 x 2160)
+screenshot s1_title.png
+inside the view (1280 x 800), title: 19 elements; nothing cut off
+screenshot s2_settings.png
+inside the view (1280 x 800), settings: 19 elements; nothing cut off
+page DISPLAY
+screenshot s3_display.png
+inside the view (1280 x 800), display: 19 elements; nothing cut off
+screenshot s4_cockpit.png
+inside the view (1280 x 800), cockpit HUD: 7 elements; nothing cut off
+screenshot s5_chase.png
+inside the view (1280 x 800), chase HUD: 7 elements; nothing cut off
+screenshot s6_pause.png
+inside the view (1280 x 800), pause: 19 elements; nothing cut off
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.062 RMS, peak 0.294, zeroed before the speakers; 1089536 samples); master volume 0.00

@@ -3,6 +3,42 @@ Hostile Horizon — TODO archive
 Older rounds and finished round specifications, moved here word for word from `TODO.md`
 (grep it, don't read it whole).
 
+=== Fix 2.1 specification (as the planning chat wrote it, moved from TODO.md at the end of Fix 2.1) ===
+
+---------------------------------------------------------------------------
+Current Objective — Fix 2.1: full screen on the Steam Deck (do this now)
+---------------------------------------------------------------------------
+
+Dan (2026-11-02, on the Steam Deck, 0.2.0): "the screen is not fullscreen".
+Cause found by the planning chat: Chastain Rush's `ScreenSetting.cs` was never
+ported. Hostile Horizon sets nothing at start-up, so it opens at the project's
+default 1920 x 1080 (or whatever size Unity last saved), not at the Deck's own
+1280 x 800 screen.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Port `ScreenSetting.cs` from Chastain Rush** (`Assets/Scripts/ScreenSetting.cs`
+   there): at start-up the game goes full screen (borderless full-screen window)
+   at the display's own resolution (`Display.main.systemWidth/Height`), which
+   wins over the size Unity remembers from earlier runs. The saved choice is in
+   its own file in the save folder. Test runs never apply or save it (their
+   `-screen-*` arguments stand, and they stay muted and unfocused per the
+   testing rules).
+2. **Settings > Display:** a Screen row (Full screen / Windowed) and a
+   Resolution row (the display's own first), as in Chastain Rush.
+3. **Check:** run the exe at a 1280 x 800 desktop-sized start (simulate the
+   Deck: the screen-size code path with 1280 x 800) and show it fills the whole
+   screen with nothing cut off and the HUD/menus inside it; plus a normal start
+   on Dan's PC fills his screen. No visible or focused test window without
+   asking Dan first.
+4. **Publish as 0.2.1** (the launcher on the Deck picks it up on its next start).
+5. **Update `TODO.md` / `CLAUDE.md`**, commit and push. Per-item status as usual.
+
+**For Dan to check:** start the game on the Deck from the same Steam shortcut:
+it updates to 0.2.1 and fills the screen. If it still doesn't: in Settings >
+Display, what do Screen and Resolution show?
+
+Then Round 3 (Aliens), which the planning chat writes next.
+
 === Round 2 specification (as the planning chat wrote it, moved from TODO.md at the end of Round 2) ===
 
 ---------------------------------------------------------------------------

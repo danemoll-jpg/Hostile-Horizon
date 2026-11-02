@@ -159,6 +159,10 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `settings.json`; the launcher backs the folder up before every update and never
   changes it). Saved on dock, death, quitting to the title and closing the game.
   `Assets/Scripts/Core/Career.cs`. A check run saves into `<check dir>/save`.
+- **Screen (Fix 2.1):** `Core/ScreenSetting.cs` (Chastain Rush's): full screen
+  (borderless) at the display's own resolution by default, applied before the
+  first scene; Settings > Display (Screen, Resolution); saved in `display.json`
+  beside `settings.json`. Test runs never apply or save it.
 - **Campaign tuning file (Round 2):** `Assets/Resources/Tuning/CampaignTuning.json`
   (built into the game; `Core/Tuning.cs` holds the same defaults). All Campaign
   numbers: starting credits, pilot pay, clear bonus, fuel / repair prices, free
@@ -180,9 +184,11 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|mute] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
-  the output level).
+  the output level; `screen` (Fix 2.1) = the full-screen size path for a simulated
+  1280 x 800 Deck and this display, then menus / HUD measured inside the view; run
+  it with `--size 1280x800`).
 - **Ship model:** `F:\blender\blender.exe --background --factory-startup --python Tools/Blender/ship.py`
   writes `SourceArt/Blender/Ship.blend` and `Assets/Resources/Models/Ship.fbx`
   (cockpit points mirrored in `Assets/Scripts/Flight/ShipLayout.cs`). Blender FBX
@@ -210,20 +216,27 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   re-run with `--resume-draft`). **Next rounds** publish the game alone:
   `python Tools/Prepare-ComponentUpdate.py game --source Builds/HostileHorizon --previous-catalog Builds/LauncherRelease-<last>/assets/update-catalog.json --previous-manifest Builds/LauncherRelease-<last>/assets/game-manifest.json --out Builds/LauncherRelease-<build> --build <build> --version 0.<round>.<fix> --notes "..."`
   and publish that draft the same way (keep the last release folder: it is the
-  next one's "previous"). **Starter package** (launcher + an installed game; the
+  next one's "previous"; its tag is `game-<build>`, e.g. 0.2.1 = `game-201`). **Starter package** (launcher + an installed game; the
   launcher updates it on first start): `python Tools/Package-LauncherStarter.py --game <installed game folder> --game-manifest <its signed game-manifest.json> --music <soundtrack folder> --music-manifest <its soundtrack-manifest.json> --out Builds/LauncherStarter-<n> --zip-name HostileHorizon-Starter.zip --tag starter-<n> --title "..." --notes "..." --not-latest`,
   published with `Publish-LauncherRelease.py` the same way (`--not-latest`
   leaves Latest, and so every launcher's catalog, on the game release). Starter
   README `Docs/Starter/README-LAUNCHER.md`. Check a fresh install against GitHub:
   extract the published starter ZIP, then
   `HostileHorizonLauncher.exe --auto-check --root <extracted HostileHorizon> --test-save <dir> --evidence <dir>`
-  (no `--catalog`: the real GitHub catalog; saves isolated).
+  (no `--catalog`: the real GitHub catalog; saves isolated). Extract it to a short
+  folder (e.g. `Builds/StarterCheck`): from a 144-character path the update fails
+  with "Cannot create extracted file" (Windows' 260-character path limit).
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
-**Round 2 (Campaign core; see `TODO.md`, status there) is built, checked in the exe
-(headless, muted) and published as 0.2.0 (`build-200`, Latest) with the starter
-package (`starter-200`); not yet played by Dan.** Round 1 (Free Flight) was played
+**Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
+muted: the Deck's 1280 x 800 asks for a 1280 x 800 borderless full screen, menus
+and HUD all inside the view) and published as 0.2.1 (`game-201`, Latest); a
+starter-200 install updates to it from GitHub. Not yet seen by Dan on the Deck;
+a real full-screen start on his PC (display 3840 x 2160) not run (needs a
+visible window).** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
+(`build-200`) with the starter package (`starter-200`); not yet played by Dan.
+Round 1 (Free Flight) was played
 by Dan on PC ("ran well"); HOTAS and Steam Deck still for him to check. The
 Campaign: an ongoing career saved in `career.json` (Continue / New career), a home
 system and today's planet named from the seed of the day, seeded downed pilots
@@ -236,9 +249,9 @@ a live camera flight to the regeneration pod -> recovery or the loaner. Numbers 
 `Assets/Resources/Tuning/CampaignTuning.json`. Test runs follow Dan's rules
 (muted, no window): `Core/TestRun.cs`, `Tools/run_check.py`. About 370-440 fps at
 1080p on the 1660 Ti. Code layout: `Assets/Scripts/` Core (GameShell +
-GameShell.Campaign, settings, career, tuning, names, seeds, TestRun), Terrain,
-Flight (ShipController, ShipExtras), Campaign (Mothership, DownedPilot,
-PlanetSites), Effects (Explosion), Cameras, Input, UI (incl. Radar), Audio (incl.
-Sfx), Checks. **Next: Round 3 (Aliens)**, to be written into `TODO.md` by the
-planning chat. Design decisions (credits, ongoing campaign, planets, the five
-alien types) are at the top of `TODO.md`.
+GameShell.Campaign, settings, screen setting, career, tuning, names, seeds,
+TestRun), Terrain, Flight (ShipController, ShipExtras), Campaign (Mothership,
+DownedPilot, PlanetSites), Effects (Explosion), Cameras, Input, UI (incl. Radar),
+Audio (incl. Sfx), Checks. **Next: Round 3 (Aliens)**, to be written into
+`TODO.md` by the planning chat. Design decisions (credits, ongoing campaign,
+planets, the five alien types) are at the top of `TODO.md`.
