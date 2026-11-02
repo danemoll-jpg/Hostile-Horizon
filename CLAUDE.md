@@ -117,6 +117,23 @@ Same launcher as Chastain Rush (from Woodstock Rush), renamed:
 - **Targeted testing:** one check per change, where it changed. Dan plays the rest.
 - **Tuning limit:** if a number the round asks for is not hit after two
   attempts, stop, report the numbers, Dan decides.
+- **Testing on Dan's PC — always muted, never steal focus (Dan, 2026-11-02;
+  `collaboration-process-notes.md`, "Testing on Dan's PC").**
+  1. Every test run (exe checks, editor play runs, launcher checks) is muted from
+     the first frame by a command-line flag (`-mute`) that sets the master volume /
+     `AudioListener.volume` to 0 before any sound starts; never rely on a saved
+     setting or on muting after start-up. Every check reports the measured audio
+     output level, and it must be 0. Unmute only for an actual sound check, as
+     briefly as possible, then mute again; say which step played sound and for how
+     long.
+  2. Test windows never pop up or take keyboard / mouse focus. Prefer no window
+     (batch mode, off-screen rendering for screenshots); otherwise start minimized /
+     not activated with run-in-background on. If a test truly needs a visible or
+     focused window, stop and ask Dan first and wait for his OK.
+  Hostile Horizon: `Core/TestRun.cs` (muted for `-mute`, `-exeCheck`,
+  `-racerTestSave`; a listener filter zeroes the final mix and measures it; a
+  `-batchmode` check draws its view off-screen); start checks with
+  `python Tools/run_check.py` (batch mode, `-mute`, Below Normal).
 - **One heavy job at a time** (Unity batch build, exe check), started at Below
   Normal priority with fewer worker threads, so Dan's PC stays usable.
 - **Build and publish every round:** the local build
@@ -138,19 +155,45 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `Builds/LauncherLocal/`, remade by `python Tools/make_local_launcher.py` when
   the build is newer). Settings and `Player.log`:
   `%USERPROFILE%\AppData\LocalLow\Hostile Horizon\Hostile Horizon\`.
+- **Career save (Round 2):** `career.json` in that same folder (beside
+  `settings.json`; the launcher backs the folder up before every update and never
+  changes it). Saved on dock, death, quitting to the title and closing the game.
+  `Assets/Scripts/Core/Career.cs`. A check run saves into `<check dir>/save`.
+- **Campaign tuning file (Round 2):** `Assets/Resources/Tuning/CampaignTuning.json`
+  (built into the game; `Core/Tuning.cs` holds the same defaults). All Campaign
+  numbers: starting credits, pilot pay, clear bonus, fuel / repair prices, free
+  minimum fill, tow fee, recovery fee (base + share of ship value), exhaust kill
+  range and penalty, cabin size, pilots per planet tier and their spread, pickup
+  range, run speed, energy drains, hover speeds, touchdown limits, mothership
+  altitude, docking height.
 - **Exe self-check** (plays from the title through the input actions with a
   virtual gamepad; screenshots, fps, views, pause / settings, typed seed, every
   crash level, determinism, a height map, sound level, world-space menu):
-  `Builds\HostileHorizon\HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf] [-steamDeck 1] -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -logFile <dir>\Player.log`
+  `Builds\HostileHorizon\HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf|campaign] [-steamDeck 1] -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -logFile <dir>\Player.log`
   writes `<dir>/exe_check.txt` and pictures, then quits (settings are defaults,
-  never saved). `Checks/ExeCheck.cs`.
+  never saved). `Checks/ExeCheck.cs`. `-exeCheckOnly campaign` (Round 2,
+  `Checks/ExeCheck.Campaign.cs`, about 15 min) plays a whole career: new career,
+  launch, radar, landing, pickup, docking, exhaust kill, out of energy + tow,
+  crash with a pilot aboard, regeneration, loaner, recovery, quit + Continue, and
+  logs the camera's top speed in every live sequence (a cut shows as a jump). A
+  check keeps running unfocused (`runInBackground`, Input System `IgnoreFocus`);
+  a player's build pauses as before. Frame rates from a batch-mode check are
+  measured rendering into the off-screen view (no present to a window). Round 2 launchers:
+  `local/round2/build.ps1 -Name <log>`; **start every check with**
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|mute] [--extra "-steamDeck 1"] [--size 1280x800]`
+  (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
+  the output level).
 - **Ship model:** `F:\blender\blender.exe --background --factory-startup --python Tools/Blender/ship.py`
   writes `SourceArt/Blender/Ship.blend` and `Assets/Resources/Models/Ship.fbx`
   (cockpit points mirrored in `Assets/Scripts/Flight/ShipLayout.cs`). Blender FBX
   models import facing back: the game turns them 180 degrees on load.
+- **Mothership model (Round 2):** `F:lenderlender.exe --background --factory-startup --python Tools/Blender/mothership.py`
+  writes `SourceArt/Blender/Mothership.blend` and `Assets/Resources/Models/Mothership.fbx`
+  (bay, doors' opening, regeneration pod mirrored in `Assets/Scripts/Campaign/Mothership.cs`).
 - **Icon and cover:** `python Tools/make_icon.py` (exe icon, launcher .ico);
-  `python Tools/make_cover.py <menu-free title screenshot>` (launcher cover,
-  `SourceArt/Title/HostileHorizonCover.png`).
+  `python Tools/make_cover.py <menu-free title screenshot>` (launcher cover
+  `SourceArt/Title/HostileHorizonCover.png` and, Round 2, the Steam library poster
+  `SourceArt/Title/HostileHorizonPoster.png` for the starter package).
 - **Launcher** (Chastain Rush's / Woodstock Rush's, renamed): build
   `powershell -File Tools/Build-Launcher.ps1 [-CoreOnly]` (VS 18; SDK read from
   Racer's `Builds/LauncherSDK`) gives `Builds/Launcher/HostileHorizonLauncher.exe`
@@ -158,28 +201,44 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (made once by `python Tools/New-LauncherKey.py`, key ID `0c9c29ff...`; never
   delete, print or replace it). Self-check against a local test catalog:
   `python Tools/launcher_selfcheck.py` (two signed local releases, update 1 to 2,
-  start, ready handshake; output `Builds/LauncherCheck/`). Releases (every round): `Prepare-LauncherRelease.py`, `Prepare-ComponentUpdate.py`,
-  `Package-LauncherStarter.py`, `Publish-LauncherRelease.py` as in Chastain Rush's
-  CLAUDE.md, repo `danemoll-jpg/Hostile-Horizon-releases`; starter README
-  `Docs/Starter/README-LAUNCHER.md`.
+  start, ready handshake; output `Builds/LauncherCheck/`).
+- **Releases (every round; version `0.<round>.<fix>`, build `<round>*100+<fix>`,
+  e.g. 0.2.0 = build 200, tag `build-200`).** First release (Round 2):
+  `python Tools/Prepare-LauncherRelease.py --game Builds/HostileHorizon --bundle-music <dir with placeholder.txt> --out Builds/LauncherRelease-200 --version 0.2.0 --build 200 --music-build 1 --notes "..."`,
+  then `python Tools/Publish-LauncherRelease.py Builds/LauncherRelease-200 --publish --confirm-repository danemoll-jpg/Hostile-Horizon-releases`
+  (gh: Racer's `Builds/PublisherTools`; a new draft may not be listed at once:
+  re-run with `--resume-draft`). **Next rounds** publish the game alone:
+  `python Tools/Prepare-ComponentUpdate.py game --source Builds/HostileHorizon --previous-catalog Builds/LauncherRelease-<last>/assets/update-catalog.json --previous-manifest Builds/LauncherRelease-<last>/assets/game-manifest.json --out Builds/LauncherRelease-<build> --build <build> --version 0.<round>.<fix> --notes "..."`
+  and publish that draft the same way (keep the last release folder: it is the
+  next one's "previous"). **Starter package** (launcher + an installed game; the
+  launcher updates it on first start): `python Tools/Package-LauncherStarter.py --game <installed game folder> --game-manifest <its signed game-manifest.json> --music <soundtrack folder> --music-manifest <its soundtrack-manifest.json> --out Builds/LauncherStarter-<n> --zip-name HostileHorizon-Starter.zip --tag starter-<n> --title "..." --notes "..." --not-latest`,
+  published with `Publish-LauncherRelease.py` the same way (`--not-latest`
+  leaves Latest, and so every launcher's catalog, on the game release). Starter
+  README `Docs/Starter/README-LAUNCHER.md`. Check a fresh install against GitHub:
+  extract the published starter ZIP, then
+  `HostileHorizonLauncher.exe --auto-check --root <extracted HostileHorizon> --test-save <dir> --evidence <dir>`
+  (no `--catalog`: the real GitHub catalog; saves isolated).
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
-**Round 1 (see `TODO.md`, status there) is built and checked in the exe; Dan
-played it on PC ("ran well"), HOTAS and Steam Deck still for him to check;
-local build only, not published.** Free Flight works from the
-title: seeded canyon terrain (seed of the day / random / typed in), the ship
-with a 1:1 cockpit and three cockpit displays plus a screen HUD, four views,
-one Input Actions asset (HOTAS / gamepad / keyboard + mouse; HOTAS untested),
-five crash levels, title / Free Flight / Settings / pause / crash / Credits
-menus, the Steam Deck setting, code-made placeholder sound, and the launcher
-(own key, self-check passed against a local catalog). About 415 fps at 1080p on
-the 1660 Ti. Code layout: `Assets/Scripts/` Core (GameShell, settings, Steam
-Deck, seeds), Terrain (CanyonField, TerrainStreamer, WorldLook), Flight, Cameras,
-Input, UI, Audio, Checks; shaders in `Assets/Resources/Shaders/`. **Current: Round 2
-(Campaign core) is written in `TODO.md`:** helicopter landing, pilots + radar,
-pickup, energy, live docking, credits (no score), an ongoing career with save,
-death -> regeneration -> recovery fee or loaner, today's planet with a generated
-name, crash explosion with the wreck staying on screen. Design decisions
-(credits, ongoing campaign, planets, the five alien types) are at the top of
-`TODO.md`.
+**Round 2 (Campaign core; see `TODO.md`, status there) is built, checked in the exe
+(headless, muted) and published as 0.2.0 (`build-200`, Latest) with the starter
+package (`starter-200`); not yet played by Dan.** Round 1 (Free Flight) was played
+by Dan on PC ("ran well"); HOTAS and Steam Deck still for him to check. The
+Campaign: an ongoing career saved in `career.json` (Continue / New career), a home
+system and today's planet named from the seed of the day, seeded downed pilots
+with wrecks and beacons, a radar (cockpit + HUD), helicopter-style landing mode
+with gear, engines on / off, the pickup (run, knock, airlock), exhaust kills,
+energy and the mothership tow, the Blender mothership with live launch and live
+docking, credits (pay, clear bonus, fuel, repair, tow, recovery), the hangar
+page, crash explosions with the burning wreck kept (all modes, no fade), death ->
+a live camera flight to the regeneration pod -> recovery or the loaner. Numbers in
+`Assets/Resources/Tuning/CampaignTuning.json`. Test runs follow Dan's rules
+(muted, no window): `Core/TestRun.cs`, `Tools/run_check.py`. About 370-440 fps at
+1080p on the 1660 Ti. Code layout: `Assets/Scripts/` Core (GameShell +
+GameShell.Campaign, settings, career, tuning, names, seeds, TestRun), Terrain,
+Flight (ShipController, ShipExtras), Campaign (Mothership, DownedPilot,
+PlanetSites), Effects (Explosion), Cameras, Input, UI (incl. Radar), Audio (incl.
+Sfx), Checks. **Next: Round 3 (Aliens)**, to be written into `TODO.md` by the
+planning chat. Design decisions (credits, ongoing campaign, planets, the five
+alien types) are at the top of `TODO.md`.

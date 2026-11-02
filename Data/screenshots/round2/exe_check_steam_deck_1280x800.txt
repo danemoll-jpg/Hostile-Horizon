@@ -1,0 +1,9 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 57344 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 07:49; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+screenshot title.png
+screenshot cockpit.png
+cockpit, flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.072 RMS, peak 0.343, zeroed before the speakers; 2162688 samples); master volume 0.00
+fps cockpit, flying low: average 1113.2, 1% low 314.3, worst frame 41 ms over 16701 frames; mean height over ground 36 m; terrain chunks 231, waiting 0
+chase view: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.075 RMS, peak 0.343, zeroed before the speakers; 3796992 samples); master volume 0.00
+fps chase view: average 1046.8, 1% low 285.2, worst frame 24 ms over 15702 frames; mean height over ground 40 m; terrain chunks 233, waiting 1
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.075 RMS, peak 0.343, zeroed before the speakers; 3796992 samples); master volume 0.00

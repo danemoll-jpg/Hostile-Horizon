@@ -132,7 +132,7 @@ namespace HostileHorizon
                 line++;
             }
             body.text = p.Body?.Invoke() ?? "";
-            hint.text = p.Hint?.Invoke() ?? "Up / down: choose     Left / right: change     A / Enter / trigger: select     B / Esc: back";
+            hint.text = p.Hint?.Invoke() ?? "Up / down: choose     Left / right: change     A / Enter / trigger: select" + (p.Back != null ? "     B / Esc: back" : "");
         }
     }
 }

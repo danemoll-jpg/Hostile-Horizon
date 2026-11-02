@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -23,6 +23,7 @@ namespace HostileHorizon
             var f = Asset.FindActionMap("Flight"); var u = Asset.FindActionMap("UI");
             pitch = f["Pitch"]; roll = f["Roll"]; yaw = f["Yaw"]; throttleAxis = f["ThrottleAxis"]; throttleChange = f["ThrottleChange"];
             look = f["Look"]; mouseLook = f["MouseLook"]; mouseHold = f["MouseLookHold"]; camera = f["Camera"]; menu = f["Menu"];
+            land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"];
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
             ApplySettings();
             Asset.Enable();
@@ -51,6 +52,10 @@ namespace HostileHorizon
         public static Vector2 MouseLook => mouseHold.IsPressed() ? mouseLook.ReadValue<Vector2>() : Vector2.zero;
         public static bool CameraPressed => camera.WasPressedThisFrame();
         public static bool MenuPressed => menu.WasPressedThisFrame();
+        // Round 2: landing mode (hover), engines on / off, the airlock
+        public static bool LandPressed => land.WasPressedThisFrame();
+        public static bool EnginesPressed => engines.WasPressedThisFrame();
+        public static bool AirlockPressed => airlock.WasPressedThisFrame();
         public static Vector2 Navigate => navigate.ReadValue<Vector2>();
         public static bool SubmitPressed => submit.WasPressedThisFrame();
         public static bool CancelPressed => cancel.WasPressedThisFrame();

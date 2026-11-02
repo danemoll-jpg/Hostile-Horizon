@@ -67,6 +67,29 @@ Chastain Rush use. Reference implementation: `C:\Users\danmo\chastain_rush`
   priority, so Dan's PC stays usable.
 - Clean up the disk at the end of every round.
 
+## Testing on Dan's PC — STANDING RULES (Dan, 2026-11-02) — every project
+Dan uses his PC while Code tests. Code's test runs must not be heard or get in
+his way.
+1. **Always muted.** Every test run (exe checks, editor play runs, launcher
+   checks) starts muted and stays muted, unless that step is a sound check.
+   - Mute it in the game itself, from the first frame, through a command-line
+     flag (e.g. `-mute`) that sets the master volume / `AudioListener.volume` to
+     0 before any sound starts. Don't rely on a saved setting or on muting
+     after start-up.
+   - **Prove it:** the check reports the measured audio output level, and it
+     must be 0 for a muted run. "I muted it" without that number is not done.
+     (Hostile Horizon, Round 2: Code said it muted and Dan could still hear it.)
+   - **Sound checks:** unmute only for the sound check itself, as briefly as
+     possible, then mute again. Say in the status which step played sound and
+     for how long.
+2. **Never steal focus.** Test windows must not pop up over Dan's work or take
+   keyboard/mouse focus.
+   - Prefer runs with no window at all (batch mode, rendering to off-screen
+     targets for screenshots). Otherwise start the window minimized / without
+     activating it, with "run in background" on so it keeps working unfocused.
+   - **If a test truly needs a visible or focused window, stop and ask Dan
+     first**, and wait for his OK. Never do it on your own, even once.
+
 ## The core loop
 1. You bring an idea, bug report, or piece of feedback to Claude in plain
    language — however casual or half-formed.

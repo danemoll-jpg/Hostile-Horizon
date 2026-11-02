@@ -22,6 +22,7 @@ namespace HostileHorizon
         public int seedMode;                  // 0 seed of the day, 1 random, 2 typed in
         public int customSeed = 1984;
         public int frameLimit;                // 0 = vsync (check runs set it off)
+        public int campaignCrashLevel = 3;    // Round 2, item 14: CrashLevel for the Campaign (Lasting damage)
 
         public static readonly string[] ThrottleAxes = { "Auto", "slider", "z", "rz", "rx", "ry", "dial" };
 

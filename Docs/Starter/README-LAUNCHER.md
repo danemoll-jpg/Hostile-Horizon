@@ -2,6 +2,8 @@
 
 This ZIP holds the launcher, the game, the cover art, and the icon and poster. The launcher keeps the game up to date: each time you open it, it checks for a newer version and installs it before the game starts, so you only install once.
 
+The game in this ZIP may be older than the newest release: the first start downloads and installs the newest version (tens of MB), so be online for it.
+
 ## Windows
 
 1. Extract the ZIP anywhere you can write to (for example `Documents\Games`). You get a `HostileHorizon` folder.

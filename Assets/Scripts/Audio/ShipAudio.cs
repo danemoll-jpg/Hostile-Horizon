@@ -29,9 +29,10 @@ namespace HostileHorizon
 
         void Update()
         {
-            bool on = Ship && Ship.gameObject.activeInHierarchy && !Ship.Crashed && Time.timeScale > 0;
+            bool on = Ship && Ship.gameObject.activeInHierarchy && !Ship.Crashed && Ship.EnginesOn && Time.timeScale > 0;
             active = Mathf.MoveTowards(active, on ? 1 : 0, Time.unscaledDeltaTime * 2f);
-            if (Ship) { throttle = Ship.Throttle; speed01 = Mathf.InverseLerp(0, ShipController.MaxSpeed, Ship.Speed); }
+            // Round 2: silent with the engines off; in hover the engines work against the lift
+            if (Ship) { throttle = Ship.Mode == FlightMode.Hover ? .45f + Mathf.Abs(Ship.Lift) * .35f : Ship.Throttle; speed01 = Mathf.InverseLerp(0, ShipController.MaxSpeed, Ship.Speed); }
         }
 
         float Rand() { rng ^= rng << 13; rng ^= rng >> 17; rng ^= rng << 5; return (rng & 0xffffff) / 8388608f - 1f; }

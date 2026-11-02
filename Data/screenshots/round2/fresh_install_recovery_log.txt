@@ -1,0 +1,4 @@
+367156718 Game activated 0.2.0
+367157375 Game child started; launcher remains alive
+367162437 PASS nonce startup handshake; parent still alive
+367167906 Child exit 0

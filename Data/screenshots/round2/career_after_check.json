@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "systemSeed": 94298916,
+    "systemName": "Ophkos",
+    "credits": 500,
+    "ship": {
+        "damage": 0.0,
+        "energy": 55.848289489746094,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261102,
+            "name": "Bryshra-IV",
+            "tier": 0,
+            "pilots": [
+                2,
+                2,
+                1
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 2
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 1,
+        "pilotsLost": 2,
+        "creditsEarned": 1500,
+        "creditsSpent": 5678,
+        "deaths": 1,
+        "planetsCleared": 1,
+        "sorties": 3,
+        "tows": 1
+    },
+    "started": "2026-11-02 07:34",
+    "lastSaved": "2026-11-02 07:46:41"
+}

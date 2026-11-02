@@ -1,0 +1,150 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 61440 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 07:34; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+save folder: C:\Users\danmo\Hostile-Horizon\local\round2\final_campaign\save (a check never touches Dan's career)
+today's planet: Bryshra-IV (twice: Bryshra-IV), seed 20261102; next day's Zanir-IV; pilot spots twice identical: 2715 m out, bumps 1.1 m, 2869 m out, bumps 0.6 m, 2172 m out, bumps 0.8 m
+screenshot 20_campaign_menu.png
+new career: Ophkos system, 3000 cr; planet Bryshra-IV, 3 pilots, 3 placed; save written: True
+screenshot 21_hangar.png
+screenshot 21b_hangar_bay_view.png
+screenshot 22_launch_drop.png
+    [1266 fps] Auto/launch Hover alt 1456 gnd 1458 spd 44 hdg 300 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 70°/s (continuous: no cut)
+screenshot 23_after_launch.png
+  to pilot 3: 2524 m; radar says: PILOT 3  020°  2.0 km
+    [938 fps] Flying/ Flight alt 1228 gnd 942 spd 73 hdg 9 energy 98
+    [846 fps] Flying/ Flight alt 947 gnd 651 spd 73 hdg 24 energy 96
+    [799 fps] Flying/ Flight alt 665 gnd 663 spd 73 hdg 27 energy 95
+  near: radar says: PILOT 3  030°  460 m
+  landing mode: Hover, prompt "Landing mode: stick moves and turns, throttle up / down, set down gently"
+    [871 fps] Flying/ Hover alt 501 gnd 495 spd 23 hdg 34 energy 91
+    [893 fps] Flying/ Hover alt 361 gnd 359 spd 15 hdg 40 energy 88
+    [902 fps] Flying/ Hover alt 241 gnd 239 spd 12 hdg 44 energy 84
+    [483 fps] Flying/ Hover alt 137 gnd 135 spd 12 hdg 44 energy 81
+    [197 fps] Flying/ Hover alt 51 gnd 49 spd 12 hdg 44 energy 79
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 76%
+screenshot 24_landed.png
+  engines off: True; pilot 3: Running
+    [196 fps] Flying/ Hover landed alt 4 gnd 2 spd 0 hdg 44 energy 76
+screenshot 25_pilot_running_chase.png
+  pilot at the hull, knocking, after 3 s; prompt "Pilot at the airlock: open it (B / O / HOTAS 6)"
+screenshot 26_knocking.png
+  airlock: pilot 3 Aboard, cabin 1
+screenshot 27_aboard.png
+    [175 fps] Flying/ Hover alt 8 gnd 6 spd 9 hdg 44 energy 76
+    [76 fps] Flying/ Flight alt 108 gnd 108 spd 64 hdg 44 energy 74
+    [41 fps] Flying/ Flight alt 256 gnd 257 spd 116 hdg 44 energy 73
+    [312 fps] Flying/ Flight alt 987 gnd 875 spd 125 hdg 44 energy 70
+docking started at 1004 m (dock-approach)
+    [269 fps] Auto/dock-approach Flight alt 1582 gnd 1463 spd 48 hdg 177 energy 70
+screenshot 28_docking_approach.png
+  looking round while docking: view 116° off the nose
+screenshot 29_docking_look_round.png
+    [410 fps] Auto/dock-final Flight alt 1351 gnd 1353 spd 58 hdg 232 energy 70
+    [384 fps] Auto/dock-final Flight alt 1363 gnd 1367 spd 35 hdg 2 energy 70
+    [399 fps] Auto/dock-rise Flight alt 1451 gnd 1452 spd 7 hdg 300 energy 70
+screenshot 30_rising_into_bay.png
+docked: camera: fastest 125 m/s, fastest turn 167°/s (continuous: no cut)
+  credits 3000 -> 3322; debrief: Delivered 1 pilot: +500 cr | Energy used 30%. Refuelled 30%: -178 cr
+  planet: rescued 1, lost 0, waiting 2; save 07:37:16
+    [460 fps] Docked/docked Hover alt 1500 gnd 1501 spd 0 hdg 300 energy 100
+screenshot 31_hangar_after_dock.png
+launch: doors, drop, engines; handed over at 1423 m, 264 km/h; camera: fastest 73 m/s, fastest turn 85°/s (continuous: no cut)
+  to pilot 2: 1578 m; radar says: 
+    [587 fps] Flying/ Flight alt 1368 gnd 1363 spd 73 hdg 290 energy 100
+  near: radar says: PILOT 2  276°  450 m
+  landing mode: Hover, prompt "Find the beacons on the radar. Landing mode: X / G / HOTAS 4"
+    [406 fps] Flying/ Hover alt 1197 gnd 1037 spd 23 hdg 267 energy 97
+    [406 fps] Flying/ Hover alt 1060 gnd 1064 spd 15 hdg 263 energy 93
+    [477 fps] Flying/ Hover alt 942 gnd 946 spd 12 hdg 258 energy 90
+    [405 fps] Flying/ Hover alt 829 gnd 833 spd 12 hdg 258 energy 86
+    [414 fps] Flying/ Hover alt 719 gnd 723 spd 12 hdg 258 energy 83
+    [439 fps] Flying/ Hover alt 602 gnd 607 spd 12 hdg 258 energy 80
+    [361 fps] Flying/ Hover alt 486 gnd 490 spd 12 hdg 258 energy 76
+    [329 fps] Flying/ Hover alt 376 gnd 380 spd 12 hdg 258 energy 73
+    [341 fps] Flying/ Hover alt 260 gnd 264 spd 12 hdg 258 energy 70
+    [343 fps] Flying/ Hover alt 147 gnd 151 spd 12 hdg 258 energy 66
+    [304 fps] Flying/ Hover alt 51 gnd 55 spd 12 hdg 258 energy 64
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 61%
+engines started with pilot 2 21 m away: pilot Dead, planet says Lost, credits 3322 -> 2922; message "Pilot 2 killed by your exhaust. Penalty -400 cr"
+    [613 fps] Flying/ Hover landed alt -2 gnd 2 spd 0 hdg 258 energy 61
+screenshot 32_exhaust_killed.png
+    [270 fps] Flying/ Flight alt 138 gnd 141 spd 73 hdg 224 energy 58
+    [167 fps] Flying/ Flight alt 381 gnd 91 spd 73 hdg 226 energy 57
+    [105 fps] Flying/ Flight alt 384 gnd 90 spd 73 hdg 224 energy 56
+    [56 fps] Flying/ Flight alt 376 gnd 80 spd 73 hdg 224 energy 55
+    [305 fps] Flying/ Flight alt 273 gnd 272 spd 73 hdg 224 energy 53
+    [424 fps] Flying/ Flight alt 182 gnd 69 spd 73 hdg 222 energy 52
+    [436 fps] Flying/ Flight alt 116 gnd 72 spd 73 hdg 220 energy 50
+    [357 fps] Flying/ Hover alt 74 gnd 71 spd 62 hdg 217 energy 48
+    [142 fps] Flying/ Hover alt 34 gnd 34 spd 18 hdg 206 energy 45
+energy set to 0.5 % over pilot 1's spot (35 m up) to see the end of energy
+    [233 fps] Flying/ Hover alt 32 gnd 32 spd 7 hdg 213 energy 0
+  powerless: Landed (2.5 m/s); landed True, hull 100%, page 
+    [148 fps] Auto/stranded Hover landed alt 1 gnd 2 spd 0 hdg 215 energy 0
+screenshot 33_out_of_energy.png
+    [511 fps] Auto/tow-wait Hover landed alt 1 gnd 2 spd 0 hdg 215 energy 0
+screenshot 34_tow_lift.png
+    [232 fps] Auto/tow-lift Flight alt 122 gnd 123 spd 31 hdg 300 energy 0
+    [595 fps] Auto/tow-lift Flight alt 548 gnd 549 spd 45 hdg 300 energy 0
+    [544 fps] Auto/tow-lift Flight alt 997 gnd 998 spd 45 hdg 300 energy 0
+    [549 fps] Auto/tow-lift Flight alt 1343 gnd 1343 spd 22 hdg 300 energy 0
+    [428 fps] Auto/dock-rise Flight alt 1452 gnd 1452 spd 7 hdg 300 energy 0
+    [203 fps] Auto/dock-rise Flight alt 1500 gnd 1501 spd 1 hdg 300 energy 0
+tow: camera: fastest 45 m/s, fastest turn 68°/s (continuous: no cut); credits 2922 -> 822; debrief: Tow: -1500 cr | Energy used 100%. Refuelled 100%: -600 cr
+launch: doors, drop, engines; handed over at 1423 m, 264 km/h; camera: fastest 74 m/s, fastest turn 84°/s (continuous: no cut)
+  to pilot 1: 1435 m; radar says: 
+  near: radar says: PILOT 1  105°  170 m
+  landing mode: Hover, prompt "Find the beacons on the radar. Landing mode: X / G / HOTAS 4"
+    [442 fps] Flying/ Hover alt 1385 gnd 1382 spd 42 hdg 204 energy 99
+    [381 fps] Flying/ Hover alt 1260 gnd 1260 spd 23 hdg 121 energy 96
+    [607 fps] Flying/ Hover alt 1126 gnd 1130 spd 23 hdg 121 energy 93
+    [239 fps] Flying/ Hover alt 1034 gnd 1035 spd 19 hdg 120 energy 90
+    [392 fps] Flying/ Hover alt 916 gnd 917 spd 12 hdg 114 energy 87
+    [276 fps] Flying/ Hover alt 834 gnd 834 spd 12 hdg 114 energy 85
+    [173 fps] Flying/ Hover alt 755 gnd 756 spd 12 hdg 114 energy 82
+    [70 fps] Flying/ Hover alt 705 gnd 706 spd 12 hdg 114 energy 81
+    [308 fps] Flying/ Hover alt 619 gnd 620 spd 12 hdg 114 energy 78
+    [371 fps] Flying/ Hover alt 506 gnd 507 spd 12 hdg 114 energy 75
+    [380 fps] Flying/ Hover alt 392 gnd 393 spd 12 hdg 114 energy 72
+    [405 fps] Flying/ Hover alt 291 gnd 292 spd 12 hdg 114 energy 69
+    [406 fps] Flying/ Hover alt 179 gnd 179 spd 12 hdg 114 energy 65
+    [375 fps] Flying/ Hover alt 67 gnd 68 spd 12 hdg 114 energy 62
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 59%
+    [368 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 114 energy 59
+    [696 fps] Flying/ Hover alt 57 gnd 58 spd 14 hdg 114 energy 57
+crash run: 1 pilot aboard, Lasting damage, hull 100%, credits 822, deaths 0
+screenshot 35_explosion.png
+screenshot 36_explosion_debris.png
+    [358 fps] Crashed/dead Flight alt 3 gnd 0 spd 0 hdg 221 energy 56
+screenshot 37_wreck_burning_death_page.png
+crash: state Crashed, impact 397 km/h, wreck kept True, explosion in the scene; page "SHIP DESTROYED" over the live scene; camera: fastest 54 m/s, fastest turn 532°/s (continuous: no cut)
+  career: deaths 1, pilots lost 2, own ship wrecked True; planet pilots 2,2,1
+screenshot 38_wreck_no_menu.png
+screenshot 39_regen_trip.png
+    [769 fps] Auto/regen-trip Flight alt 3 gnd 0 spd 0 hdg 221 energy 56
+regeneration trip: camera: fastest 221 m/s, fastest turn 501°/s (continuous: no cut)
+screenshot 40_regeneration_bay.png
+    [662 fps] Auto/recovery Hover alt 949 gnd 836 spd 55 hdg 300 energy 100
+screenshot 41_loaner_arriving.png
+    [692 fps] Auto/recovery Hover alt 1373 gnd 1260 spd 27 hdg 300 energy 100
+    [759 fps] Auto/recovery Hover alt 1499 gnd 1386 spd 2 hdg 300 energy 100
+loaner: flying it True, own ship wrecked True, credits 1822, recovery fee 3000
+screenshot 42_hangar_loaner.png
+check shortcut: credits 1822 -> 3500 so the recovery from the hangar can be tried
+    [1033 fps] Auto/recovery Hover alt 1500 gnd 1387 spd 0 hdg 300 energy 100
+    [785 fps] Auto/recovery Hover alt 1151 gnd 1038 spd 46 hdg 300 energy 56
+    [679 fps] Auto/recovery Hover alt 1456 gnd 1344 spd 15 hdg 300 energy 56
+    [850 fps] Auto/recovery Hover alt 1500 gnd 1387 spd 3 hdg 300 energy 56
+recovered own ship: loaner False, wrecked False, credits 3500 -> 500
+screenshot 43_own_ship_back.png
+quit and Continue: before [500 cr, rescued 1, lost 2, deaths 1, planet 2,2,1, loaner False] after [500 cr, rescued 1, lost 2, deaths 1, planet 2,2,1, loaner False] (same)
+screenshot 44_continue_hangar.png
+fps in the hangar: average 531, 1% low 63
+    [577 fps] Auto/launch Hover alt 1500 gnd 1502 spd 0 hdg 300 energy 56
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 81°/s (continuous: no cut)
+    [514 fps] Flying/ Flight alt 1323 gnd 1320 spd 73 hdg 300 energy 55
+    [197 fps] Flying/ Flight alt 1039 gnd 1034 spd 73 hdg 286 energy 54
+Campaign, flying low with the beacons and the mothership in the world: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.082 RMS, peak 2.532, zeroed before the speakers; 75483136 samples); master volume 0.00
+fps Campaign, flying low with the beacons and the mothership in the world: average 159.3, 1% low 11.4, worst frame 849 ms over 2378 frames; mean height over ground 1071 m; terrain chunks 583, waiting 1
+career save copied to career_after_check.json
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.082 RMS, peak 2.532, zeroed before the speakers; 75483136 samples); master volume 0.00

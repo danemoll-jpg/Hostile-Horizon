@@ -23,7 +23,7 @@ namespace HostileHorizon
     // input actions a player's pad does (menus, flight, view button, pause). Screenshots from the player's view, frame rate while
     // flying low through the canyon, every crash level, seed determinism, a height map of the seed of the day. Writes
     // <dir>/exe_check.txt, then quits. Settings are the defaults and are never saved (CheckRun).
-    public sealed class ExeCheck : MonoBehaviour
+    public sealed partial class ExeCheck : MonoBehaviour
     {
         Gamepad pad; GamepadState state; readonly StringBuilder log = new StringBuilder(); string dir;
         GameShell G => GameShell.I;
@@ -31,9 +31,12 @@ namespace HostileHorizon
         IEnumerator Start()
         {
             dir = CheckRun.Dir; Directory.CreateDirectory(dir);
+            Application.runInBackground = true;   // a check keeps playing unfocused (players' builds pause)
+            Log(TestRun.WindowReport() + "; " + TestRun.Report());
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;   // and its virtual pad keeps working
             pad = InputSystem.AddDevice<Gamepad>("CheckPad");
-            Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {Screen.width}x{Screen.height}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : All();
+            Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "mute" ? MuteCheck() : All();
             while (true)
             {
                 object cur;
@@ -42,6 +45,7 @@ namespace HostileHorizon
                 yield return cur;
             }
             Release();
+            Log("end: " + TestRun.WindowReport() + "; " + TestRun.Report());
             File.WriteAllText(Path.Combine(dir, "exe_check.txt"), log.ToString());
             yield return new WaitForSecondsRealtime(.5f);
             Application.Quit(0);
@@ -61,7 +65,8 @@ namespace HostileHorizon
         IEnumerator Shot(string name)
         {
             yield return new WaitForEndOfFrame();
-            ScreenCapture.CaptureScreenshot(Path.Combine(dir, name + ".png"));
+            if (TestRun.Headless) TestRun.SaveView(G.Rig.Head, Path.Combine(dir, name + ".png"));
+            else ScreenCapture.CaptureScreenshot(Path.Combine(dir, name + ".png"));
             yield return null; yield return null;
             Log($"screenshot {name}.png");
         }
@@ -115,6 +120,15 @@ namespace HostileHorizon
             yield return WaitFor(() => G.Now == GameShell.State.Title, 30f);
         }
 
+        // Short check of the test-run rules: title, then 10 s of Free Flight (engine and wind playing), muted and unfocused.
+        IEnumerator MuteCheck()
+        {
+            yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
+            yield return StartFromTitle(1);
+            yield return Fly(10f);
+            yield return Shot("mute_check_flying");
+        }
+
         IEnumerator Perf()
         {
             yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
@@ -131,12 +145,10 @@ namespace HostileHorizon
 
         IEnumerator MeasureFps(string what)
         {
-            AudioListener.GetOutputData(new float[2048], 0);   // the first read only starts Unity's capture of the output
             var times = new List<float>(); float aglSum = 0; int n = 0;
             yield return Fly(15f, dt => { times.Add(dt); aglSum += G.Ship.AboveGround; n++; });
             if (times.Count < 10) { Log($"fps {what}: not measured (flight ended)"); yield break; }
-            var buf = new float[2048]; AudioListener.GetOutputData(buf, 0); float rms = Mathf.Sqrt(buf.Sum(x => x * x) / buf.Length);
-            Log($"sound while flying ({what}): output level {rms:0.000} RMS (engine hum + wind; 0 = silent)");
+            Log($"{what}: " + TestRun.Report());
             times.Sort();
             float avg = times.Count / times.Sum(), p99 = 1f / times[(int)(times.Count * .99f)];
             Log($"fps {what}: average {avg:0.0}, 1% low {p99:0.0}, worst frame {times[times.Count - 1] * 1000:0} ms over {times.Count} frames; mean height over ground {aglSum / Math.Max(1, n):0} m; terrain chunks {G.Terrain.Built}, waiting {G.Terrain.Pending}");

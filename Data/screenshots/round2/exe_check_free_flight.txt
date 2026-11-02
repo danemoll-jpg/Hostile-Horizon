@@ -1,0 +1,42 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 51200 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 07:47; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+screenshot 01_title.png
+screenshot 01_title_no_menu.png
+determinism: seed 20261102 twice -> identical (2000 heights + start); seed 20261103 -> different
+terrain heights over 12 x 12 km: -8 m to 341 m
+height map of seed 20261102: 00_heightmap.png (7.2 km square, 12 m a pixel, black 0 m, white 420 m, red cross = start)
+screenshot 02_free_flight_setup.png
+screenshot 02b_seed_typing.png
+typed-in seed: 1984 -> D-pad up x3 and a typed 5 -> 1987; after B 198; chosen seed 198 (expected 1987)
+seed mode back to: Seed of the day
+flight 1: seed 20261102, Bounce, start (0.00, 43.29, 0.00), heading 120
+screenshot 03_cockpit.png
+cockpit, flying low (1080p target 60): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.069 RMS, peak 0.343, zeroed before the speakers; 2541568 samples); master volume 0.00
+fps cockpit, flying low (1080p target 60): average 415.7, 1% low 57.0, worst frame 592 ms over 6239 frames; mean height over ground 36 m; terrain chunks 580, waiting 1
+screenshot 04_chase.png
+screenshot 05_close_chase.png
+screenshot 06_canyon.png
+view after four presses of Y: Cockpit (expected Cockpit)
+cockpit again: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.074 RMS, peak 0.343, zeroed before the speakers; 4837376 samples); master volume 0.00
+fps cockpit again: average 332.6, 1% low 29.8, worst frame 269 ms over 4969 frames; mean height over ground 41 m; terrain chunks 585, waiting 1
+screenshot 07_cockpit_look_right.png
+throttle with RT held 2 s: 30% -> 100%, speed 362 km/h
+screenshot 08_pause.png
+screenshot 09_settings.png
+screenshot 10_axis_display.png
+after two B presses: page PAUSED
+after B on pause: Flying
+flight 2, same seed: start (0.00, 43.29, 0.00) (same place)
+screenshot 11_crash_0_ghost.png
+crash level Ghost: hits 0, lowest height over ground -62.6 m, most damage 0%, state Flying
+screenshot 11_crash_1_bounce.png
+crash level Bounce: hits 3, lowest height over ground 2.1 m, most damage 0%, state Flying
+screenshot 11_crash_2_regenerating.png
+crash level Regenerating damage: hits 1, lowest height over ground 2.7 m, most damage 32%, state Flying; damage 32% -> 19% after 4 s more flying
+screenshot 11_crash_3_lasting.png
+crash level Lasting damage: hits 1, lowest height over ground 2.8 m, most damage 31%, state Flying; damage 31% -> 31% after 4 s more flying
+screenshot 11_crash_4_instant.png
+crash level Instant crash: hits 1, lowest height over ground 5.8 m, most damage 0%, state Crashed
+screenshot 12_ship_lost_4.png
+screenshot 13_menu_world_space.png
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.081 RMS, peak 2.053, zeroed before the speakers; 10061824 samples); master volume 0.00

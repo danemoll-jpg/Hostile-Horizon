@@ -7,10 +7,13 @@ namespace HostileHorizon
 {
     // The game's one scene object (Assets/Scenes/Main.unity, made by Hostile Horizon > Build Executable). It builds everything at
     // start: settings, input, the look (sun, sky, haze, rock), the camera rig, the terrain streamer, the ship, the displays, the
-    // sound and the menus; then runs the flow: title -> Free Flight setup -> flying <-> paused -> crashed -> restart / title.
-    public sealed class GameShell : MonoBehaviour
+    // sound, the mothership and the menus; then runs the flow: title -> Free Flight setup -> flying <-> paused -> crashed ->
+    // restart / title. The Campaign flow (hangar, launch, docking, tow, death, regeneration) is in GameShell.Campaign.cs.
+    // Round 2, item 1: a crash is an explosion and the burning wreck stays; the view pulls out live and circles it, and the menu
+    // comes up over the live scene (Round 1's fade to black is gone: VR rule 5).
+    public sealed partial class GameShell : MonoBehaviour
     {
-        public enum State { Loading, Title, Flying, Paused, Crashed }
+        public enum State { Loading, Title, Flying, Paused, Crashed, Docked, Auto }
         public static GameShell I { get; private set; }
         public State Now { get; private set; } = State.Loading;
         public TerrainStreamer Terrain { get; private set; }
@@ -23,7 +26,10 @@ namespace HostileHorizon
         public CrashLevel FlightLevel { get; private set; }
         public bool EditingSeed => editingSeed;
 
-        ShipAudio shipAudio; Image fade; float fadeTarget, fadeAlpha;
+        ShipAudio shipAudio;
+        public ShipExtras Extras { get; private set; }
+        public Explosion Blast { get; private set; }
+        Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
         MenuPanel.Page title, freeFlight, settings, axes, credits, pause, crashed, loading;
         MenuPanel.Page settingsReturn;
@@ -46,11 +52,13 @@ namespace HostileHorizon
             shipAudio = ShipAudio.Create(Ship);
             Ship.OnHit += i => { shipAudio.Thud(i); Displays.NoteHit(); };
             Ship.OnCrash += OnCrash;
+            Ship.OnEnginesStarted += OnEnginesStarted;
+            Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
             Menu = MenuPanel.Create();
-            var fc = UiKit.ScreenCanvas("Fade", 8);
-            fade = UiKit.Panel(fc.transform, "Fade", new Color(.06f, .01f, .01f, 0), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             RandomSeed = Seeds.NewRandom();
             BuildPages();
+            BuildCampaignPages();
+            TestRun.SetupHeadless(Rig.Head);   // a headless check: no window, the view drawn off-screen
             ApplySettings();
 
             Menu.Show(loading);
@@ -67,6 +75,7 @@ namespace HostileHorizon
             var m = Instantiate(prefab, go.transform); m.name = "Model";
             m.transform.localRotation = Quaternion.Euler(0, 180, 0);   // Blender FBX files import facing back (as Chastain Rush's VehicleVisual)
             var glass = new Material(Shader.Find("HostileHorizon/Glass"));
+            var used = new System.Collections.Generic.List<(Material, string)>();
             foreach (var r in m.GetComponentsInChildren<Renderer>())
             {
                 string slot = r.name.Contains("__") ? r.name.Substring(r.name.IndexOf("__") + 2) : r.name;
@@ -75,6 +84,7 @@ namespace HostileHorizon
                 else if (slot == "glow" || slot == "lamp") { mat = new Material(Shader.Find("HostileHorizon/Glow")); mat.SetColor("_Color", slot == "glow" ? new Color(1f, .5f, .18f) * 2.2f : new Color(1f, .95f, .8f) * 1.6f); }
                 else
                 {
+                    if (!litTemplate) litTemplate = new Material(r.sharedMaterial) { name = "Lit template" };
                     mat = new Material(r.sharedMaterial);
                     Color c; float smooth = .35f, metal = 0;
                     switch (slot)
@@ -89,9 +99,11 @@ namespace HostileHorizon
                     }
                     mat.SetColor("_BaseColor", c); mat.SetFloat("_Smoothness", smooth); mat.SetFloat("_Metallic", metal);
                 }
-                r.sharedMaterial = mat;
+                r.sharedMaterial = mat; used.Add((mat, slot));
             }
             model = m.transform;
+            Extras = ShipExtras.Add(ship, litTemplate, used);
+            debrisMaterial = new Material(litTemplate); debrisMaterial.SetColor("_BaseColor", new Color(.13f, .12f, .11f)); debrisMaterial.SetFloat("_Smoothness", .1f);
             go.SetActive(false);
             return ship;
         }
@@ -99,7 +111,7 @@ namespace HostileHorizon
         public void ApplySettings()
         {
             var s = GameSettings.S;
-            AudioListener.volume = s.volume / 100f;
+            AudioListener.volume = TestRun.Muted ? 0 : s.volume / 100f;   // test runs stay muted (TestRun)
             QualitySettings.vSyncCount = CheckRun.Active || s.frameLimit > 0 ? 0 : 1;
             Application.targetFrameRate = CheckRun.Active ? -1 : s.frameLimit > 0 ? s.frameLimit : -1;
             WorldLook.ApplyQuality(Terrain, Rig.Head);
@@ -112,6 +124,7 @@ namespace HostileHorizon
             SetWorld(Seeds.OfTheDay);
             Terrain.Field.FindStart(out titlePos, out titleHeading);
             titlePos += Quaternion.Euler(0, titleHeading, 0) * new Vector3(0, -10, -40);
+            LeaveCampaign(); ClearCrash();
             Rig.FollowShip = false; Ship.gameObject.SetActive(false); Displays.SetVisible(false);
             Rig.transform.SetPositionAndRotation(titlePos, Quaternion.Euler(-4, titleHeading, 0));
             Terrain.SetFocus(titlePos);
@@ -127,8 +140,6 @@ namespace HostileHorizon
 
         void Update()
         {
-            fadeAlpha = Mathf.MoveTowards(fadeAlpha, fadeTarget, Time.unscaledDeltaTime / 1.2f);
-            fade.color = new Color(.06f, .01f, .01f, fadeAlpha * .85f);
             switch (Now)
             {
                 case State.Title:
@@ -139,14 +150,19 @@ namespace HostileHorizon
                 case State.Flying:
                     Terrain.SetFocus(Rig.transform.position);
                     if (Controls.CameraPressed) Rig.Cycle();
-                    if (Controls.MenuPressed) Pause();
+                    if (InCampaign) CampaignTick();
+                    if (Controls.MenuPressed && Now == State.Flying) Pause();
                     break;
                 case State.Paused:
                     Terrain.SetFocus(Rig.transform.position);
                     if (Controls.MenuPressed && Menu.Current == pause) Resume();
                     break;
                 case State.Crashed:
+                case State.Docked:
+                case State.Auto:
                     Terrain.SetFocus(Rig.transform.position);
+                    if (Now == State.Docked) HoldDocked();
+                    if (Now == State.Auto && Controls.CameraPressed && !Rig.Scripted) Rig.Cycle();
                     break;
             }
         }
@@ -155,7 +171,7 @@ namespace HostileHorizon
 
         void ShowTitle()
         {
-            Now = State.Title; Time.timeScale = 1; fadeTarget = 0;
+            Now = State.Title; Time.timeScale = 1;
             Menu.SetBackdrop(.15f); Menu.Show(title);
         }
 
@@ -165,16 +181,17 @@ namespace HostileHorizon
         {
             Now = State.Loading; Time.timeScale = 1; Menu.SetBackdrop(.6f); Menu.Show(loading);
             FlightSeed = seed; FlightLevel = level;
+            LeaveCampaign(); ClearCrash();
             SetWorld(seed);
             Terrain.Field.FindStart(out var pos, out var heading);
             Terrain.SetFocus(pos);
             float end = Time.realtimeSinceStartup + 10f;
             while (!Terrain.ReadyNear(700f) && Time.realtimeSinceStartup < end) yield return null;
             Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
+            Ship.UsesEnergy = false; Ship.Energy = 100;
             Ship.Spawn(pos, heading, level);
             Rig.Current = (CameraRig.Mode)Mathf.Clamp(GameSettings.S.cameraDefault, 0, 3); Rig.Snap(); Rig.FollowShip = true;
-            Displays.SetVisible(true);
-            fadeTarget = 0; fadeAlpha = 0;
+            Displays.Campaign = false; Displays.SetVisible(true);
             Menu.Hide();
             Now = State.Flying;
         }
@@ -182,30 +199,47 @@ namespace HostileHorizon
         public void Pause()
         {
             if (Now != State.Flying) return;
-            Now = State.Paused; Time.timeScale = 0; Displays.SetVisible(false); Menu.SetBackdrop(.45f); Menu.Show(pause);
+            Now = State.Paused; Time.timeScale = 0; Displays.SetVisible(false); Menu.SetBackdrop(.45f); Menu.Show(InCampaign ? campaignPause : pause);
         }
 
         public void Resume()
         {
             if (Now != State.Paused) return;
-            Menu.Hide(); Displays.SetVisible(true); Time.timeScale = 1; Now = State.Flying;
+            Menu.Hide(); Displays.SetVisible(true); Time.timeScale = 1; Now = State.Flying; Ship.IgnoreButtonsUntil = Time.frameCount + 2;
         }
 
+        // The crash, in every mode: the explosion where the ship hit, the burning wreck left there, the view pulling out to circle it.
         void OnCrash()
         {
-            Now = State.Crashed; fadeTarget = 1;
-            StartCoroutine(ShowCrashed());
+            var at = Ship.transform.position;
+            int seed = Terrain.Field.SeedNumber ^ Mathf.RoundToInt(at.x * 7 + at.z * 13);
+            Explosion.SettleWreck(Ship.transform, Terrain.Field, seed);
+            Blast = Explosion.Create(at, Ship.CrashVelocity, Ship.transform, Terrain.Field, debrisMaterial, seed);
+            Extras.SetLook(ShipExtras.Look.Wreck);
+            Rig.WatchWreck(Ship.transform.position);
+            Displays.SetVisible(false);
+            Now = State.Crashed;
+            if (InCampaign) Died(); else StartCoroutine(ShowCrashed());
         }
 
         IEnumerator ShowCrashed()
         {
-            yield return new WaitForSecondsRealtime(1.3f);
+            yield return new WaitForSecondsRealtime(2.5f);
             if (Now != State.Crashed) yield break;
-            Displays.SetVisible(false); Menu.SetBackdrop(.2f); Menu.Show(crashed);
+            Menu.SetBackdrop(0); Menu.Show(crashed);
+        }
+
+        // Remove the last crash's explosion and wreck fire, the ship back to its own paint.
+        void ClearCrash()
+        {
+            if (Blast) Destroy(Blast.gameObject);
+            var fire = Ship.transform.Find("Wreck fire"); if (fire) Destroy(fire.gameObject);
+            Extras.SetLook(ShipExtras.Look.Own);
+            Rig.Watch = null; Rig.Scripted = false;
         }
 
         void ToTitle() => StartCoroutine(ToTitleRoutine());
-        IEnumerator ToTitleRoutine() { Time.timeScale = 1; Menu.Show(loading); yield return ShowTitleWorld(); ShowTitle(); }
+        IEnumerator ToTitleRoutine() { Time.timeScale = 1; if (InCampaign) SaveCareer(); Menu.Show(loading); yield return ShowTitleWorld(); ShowTitle(); }
 
         public int ChosenSeed => GameSettings.S.seedMode == 0 ? Seeds.OfTheDay : GameSettings.S.seedMode == 1 ? RandomSeed : GameSettings.S.customSeed;
 
@@ -224,7 +258,7 @@ namespace HostileHorizon
             title = new MenuPanel.Page { Title = "HOSTILE HORIZON", Subtitle = "Rescue flights over a world that wants you dead",
                 Body = () => $"Today's canyons: seed {Seeds.OfTheDay}" };
             title.Add(Action("Free Flight", () => Menu.Show(freeFlight)))
-                 .Add(new MenuPanel.Row { Label = () => "Campaign  <size=22>(coming soon)</size>", Disabled = () => true })
+                 .Add(Action("Campaign", () => Menu.Show(campaignPage)))
                  .Add(Action("Settings", () => { settingsReturn = title; Menu.Show(settings); }))
                  .Add(Action("Credits", () => Menu.Show(credits)))
                  .Add(Action("Quit", Quit));
@@ -270,8 +304,10 @@ namespace HostileHorizon
             settings.Body = () =>
                 "<b>Controls</b>\n" +
                 "HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button 9 / 10 menu.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start menu.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc menu.\n\n" +
+                "  button 4 landing mode, 5 engines, 6 airlock.\n" +
+                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start menu,\n  X landing mode, A engines, B airlock.\n" +
+                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc menu,\n  G landing mode, K engines, O airlock.\n" +
+                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks.\n\n" +
                 "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
 
             axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(settings),
