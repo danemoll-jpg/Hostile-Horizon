@@ -1,0 +1,117 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 57344 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 14:02; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+save folder: C:\Users\danmo\Hostile-Horizon\Data\screenshots\fix2.3\run1\save; tuning: recall 900 cr (tow 1500 cr), hold 1 s, climb rate 30 m/s, margin 3 %, RETURN NOW within 8 %, beam reach 600 m, pilot fuel 3-15 %
+new career: planet Bryshra-IV (seed 20261102), 3 pilots, 3000 cr
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 67°/s (continuous: no cut)
+  to pilot 3: 2550 m; radar says: 
+    [1188 fps] Flying/ Flight alt 1421 gnd 1421 spd 73 hdg 300 energy 100
+    [529 fps] Flying/ Flight alt 1149 gnd 1144 spd 73 hdg 20 energy 98
+    [480 fps] Flying/ Flight alt 879 gnd 686 spd 73 hdg 22 energy 96
+  near: radar says: PILOT 3  027°  460 m
+  landing mode: Hover, prompt "Landing mode: stick moves and turns, throttle up / down, set down gently"
+    [535 fps] Flying/ Hover alt 614 gnd 610 spd 48 hdg 31 energy 94
+    [630 fps] Flying/ Hover alt 475 gnd 474 spd 23 hdg 32 energy 90
+    [629 fps] Flying/ Hover alt 341 gnd 339 spd 12 hdg 41 energy 87
+    [746 fps] Flying/ Hover alt 222 gnd 220 spd 12 hdg 41 energy 83
+    [753 fps] Flying/ Hover alt 103 gnd 101 spd 12 hdg 41 energy 80
+    [738 fps] Flying/ Hover alt 7 gnd 5 spd 2 hdg 41 energy 76
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 76%
+(e) pilot 3 aboard: energy 75.9% -> 84.9% (brought 9 %, range 3-15); message "Pilot 3 aboard (1 / 6), brought 9 % energy"
+screenshot h01_pilot_brought_energy.png
+    [1021 fps] Flying/ Hover alt 8 gnd 6 spd 9 hdg 41 energy 85
+  climbing: alt 47 m, display "HOME 044° 0.3 km / DOCK ↑ 953 m", advice "Pilot 3 aboard (1 / 6), brought 9 % energy"
+  climbing: alt 150 m, display "HOME 044° 0.2 km / DOCK ↑ 850 m", advice "Pilot close by: landing mode (X / G / HOTAS 4) to set down"
+  climbing: alt 300 m, display "HOME 047° 0.1 km / DOCK ↑ 700 m", advice "Pilot close by: landing mode (X / G / HOTAS 4) to set down"
+    [765 fps] Flying/ Flight alt 412 gnd 413 spd 125 hdg 41 energy 81
+  climbing: alt 450 m, display "HOME 198° 0.0 km / DOCK ↑ 550 m", advice "Pilot close by: landing mode (X / G / HOTAS 4) to set down"
+screenshot h02_climb_dock_readout.png
+  climbing: alt 600 m, display "HOME 217° 0.1 km / DOCK ↑ 400 m", advice "1 aboard: more pilots, or climb to dock (↑ 400 m)"
+  climbing: alt 751 m, display "HOME 219° 0.2 km / DOCK ↑ 250 m", advice "1 aboard: more pilots, or climb to dock (↑ 250 m)"
+  climbing: alt 900 m, display "HOME 220° 0.3 km / DOCK ↑ 100 m", advice "1 aboard: more pilots, or climb to dock (↑ 100 m)"
+(a) docking started at alt 1001 m (docking height 1000 m), phase dock-approach; last readout "HOME 220° 0.4 km / DOCK ↑ 0 m"
+    [549 fps] Auto/dock-approach Flight alt 1243 gnd 1047 spd 90 hdg 55 energy 79
+    [637 fps] Auto/dock-approach Flight alt 1595 gnd 1435 spd 72 hdg 199 energy 79
+    [611 fps] Auto/dock-final Flight alt 1308 gnd 1310 spd 32 hdg 264 energy 79
+    [615 fps] Auto/dock-final Flight alt 1409 gnd 1413 spd 24 hdg 349 energy 79
+    [528 fps] Auto/dock-rise Flight alt 1471 gnd 1473 spd 7 hdg 300 energy 79
+  docked: Delivered 1 pilot: +500 cr | Energy used 21%. Refuelled 21%: -125 cr
+    [591 fps] Auto/launch Hover alt 1463 gnd 1466 spd 36 hdg 300 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 74 m/s, fastest turn 86°/s (continuous: no cut)
+  to pilot 2: 1565 m; radar says: 
+  near: radar says: MOTHERSHIP  116°  380 m
+  landing mode: Hover, prompt "Find the beacons on the radar. Landing mode: X / G / HOTAS 4"
+    [377 fps] Flying/ Hover alt 1292 gnd 1139 spd 44 hdg 269 energy 99
+    [315 fps] Flying/ Hover alt 1160 gnd 1092 spd 23 hdg 268 energy 95
+    [314 fps] Flying/ Hover alt 1032 gnd 1036 spd 13 hdg 260 energy 92
+    [482 fps] Flying/ Hover alt 916 gnd 920 spd 12 hdg 259 energy 89
+    [454 fps] Flying/ Hover alt 800 gnd 804 spd 12 hdg 259 energy 85
+    [586 fps] Flying/ Hover alt 683 gnd 687 spd 12 hdg 259 energy 82
+    [491 fps] Flying/ Hover alt 565 gnd 569 spd 12 hdg 259 energy 78
+    [460 fps] Flying/ Hover alt 446 gnd 450 spd 12 hdg 259 energy 75
+    [447 fps] Flying/ Hover alt 328 gnd 332 spd 12 hdg 259 energy 71
+    [446 fps] Flying/ Hover alt 210 gnd 214 spd 12 hdg 259 energy 68
+    [551 fps] Flying/ Hover alt 91 gnd 95 spd 12 hdg 259 energy 64
+    [548 fps] Flying/ Hover alt 0 gnd 4 spd 2 hdg 259 energy 61
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 60%
+(e) pilot 2 aboard: energy 60.5% -> 65.5% (brought 5 %, range 3-15); message "Pilot 2 aboard (1 / 6), brought 5 % energy"
+    [1171 fps] Flying/ Hover alt 11 gnd 15 spd 14 hdg 259 energy 65
+(b) flying low: energy 63.2%, needed to dock 13.2%, alt 44 m (gnd 45 m), warning "", advice "1 aboard: more pilots, or climb to dock (↑ 956 m)"
+  energy set to 21.8% (just above the RETURN NOW point)
+    [640 fps] Flying/ Flight alt 44 gnd 37 spd 73 hdg 329 energy 21
+  RETURN NOW shown True: energy 21.2%, needed to dock 13.2%, alt 44 m (gnd 37 m), warning "RETURN NOW", advice "RETURN NOW: climb to dock (↑ 956 m), or recall (View / H / HOTAS 7)"
+screenshot h03_return_now.png
+  energy set to 13.6% (just above the CAN'T REACH point)
+  CAN'T REACH shown True: energy 13.2%, needed to dock 13.2%, alt 41 m (gnd 38 m), warning "CAN'T REACH THE MOTHERSHIP: recall or land", advice "Can't reach the mothership: recall (View / H / HOTAS 7, 900 cr) or land"
+screenshot h04_cant_reach.png
+(c) energy set to 0.3 % in the air, 1 pilot aboard, mothership 359 m away (level)
+  out of energy at gnd 38 m: advice "Can't reach the mothership: recall (View / H / HOTAS 7, 900 cr) or land"
+  beam caught the ship at gnd 38 m, landed False (in the air: True)
+screenshot h05_beam_lift_look_up.png
+    [749 fps] Auto/tow-lift Flight alt 96 gnd 94 spd 40 hdg 300 energy 0
+    [1062 fps] Auto/tow-lift Flight alt 350 gnd 352 spd 32 hdg 300 energy 0
+    [1011 fps] Auto/tow-lift Flight alt 705 gnd 704 spd 45 hdg 300 energy 0
+    [1037 fps] Auto/tow-lift Flight alt 1074 gnd 1074 spd 45 hdg 300 energy 0
+    [895 fps] Auto/tow-lift Flight alt 1359 gnd 1072 spd 22 hdg 300 energy 0
+    [971 fps] Auto/dock-rise Flight alt 1452 gnd 1151 spd 7 hdg 300 energy 0
+  docked: camera: fastest 73 m/s, fastest turn 165°/s (continuous: no cut); credits 3375 -> 1775; debrief: Delivered 1 pilot: +500 cr | Tow: -1500 cr | Energy used 100%. Refuelled 100%: -600 cr
+    [1004 fps] Auto/launch Hover alt 1498 gnd 1198 spd 6 hdg 300 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 74 m/s, fastest turn 83°/s (continuous: no cut)
+    [929 fps] Flying/ Flight alt 1250 gnd 1199 spd 73 hdg 275 energy 99
+(d) recall held 0.4 s: called False (needs 1 s), advice "Keep holding to recall the mothership (900 cr)"
+  recall held 1.4 s in the air at gnd 831 m: called True, advice "Recall: the mothership is lifting you"
+  beam caught the ship at gnd 831 m (phase tow-lift)
+screenshot h06_recall_air.png
+    [649 fps] Auto/tow-lift Flight alt 1021 gnd 960 spd 33 hdg 299 energy 98
+    [733 fps] Auto/tow-lift Flight alt 1104 gnd 1106 spd 17 hdg 300 energy 98
+    [559 fps] Auto/tow-lift Flight alt 1256 gnd 1253 spd 45 hdg 300 energy 98
+    [495 fps] Auto/tow-lift Flight alt 1393 gnd 1339 spd 25 hdg 300 energy 98
+    [494 fps] Auto/dock-rise Flight alt 1443 gnd 1243 spd 7 hdg 300 energy 98
+    [415 fps] Auto/dock-rise Flight alt 1500 gnd 1299 spd 1 hdg 300 energy 98
+  docked: camera: fastest 73 m/s, fastest turn 81°/s (continuous: no cut); credits 1775 -> 863; debrief: Recall: -900 cr | Energy used 2%. Refuelled 2%: -12 cr
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 85°/s (continuous: no cut)
+  to pilot 1: 4251 m; radar says: 
+    [568 fps] Flying/ Flight alt 1330 gnd 1041 spd 73 hdg 265 energy 99
+    [661 fps] Flying/ Flight alt 1049 gnd 1047 spd 73 hdg 206 energy 97
+    [262 fps] Flying/ Flight alt 786 gnd 523 spd 73 hdg 205 energy 95
+    [424 fps] Flying/ Flight alt 505 gnd 501 spd 73 hdg 204 energy 93
+    [259 fps] Flying/ Flight alt 330 gnd 200 spd 73 hdg 203 energy 92
+    [214 fps] Flying/ Flight alt 120 gnd 117 spd 73 hdg 200 energy 90
+  near: radar says: PILOT 1  195°  370 m
+  landing mode: Hover, prompt "Landing mode: stick moves and turns, throttle up / down, set down gently"
+    [287 fps] Flying/ Hover alt 37 gnd 35 spd 18 hdg 193 energy 87
+    [509 fps] Flying/ Hover alt 34 gnd 35 spd 9 hdg 187 energy 83
+  landed True at 4 m from the spot, Landed (2.4 m/s); hits 0, hull 100%, energy 80%
+    [428 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 182 energy 80
+  recall while pilot 1 runs to the ship: called False (must be False), message "Not now: a pilot is coming to the ship"
+(e) pilot 1 aboard: energy 80.3% -> 93.3% (brought 13 %, range 3-15); message "Pilot 1 aboard (1 / 6), brought 13 % energy"
+  recall held 1.4 s landed False: called True, advice "Recall: the mothership is lifting you"
+  beam lifting from the ground (phase tow-lift)
+    [1092 fps] Auto/tow-lift Flight alt 33 gnd 34 spd 16 hdg 295 energy 93
+    [889 fps] Auto/tow-lift Flight alt 377 gnd 378 spd 45 hdg 300 energy 93
+    [510 fps] Auto/tow-lift Flight alt 769 gnd 770 spd 45 hdg 300 energy 93
+    [667 fps] Auto/tow-lift Flight alt 1206 gnd 1205 spd 34 hdg 300 energy 93
+    [263 fps] Auto/tow-lift Flight alt 1407 gnd 1406 spd 13 hdg 300 energy 93
+    [683 fps] Auto/dock-rise Flight alt 1479 gnd 1478 spd 7 hdg 300 energy 93
+  docked: camera: fastest 45 m/s, fastest turn 95°/s (continuous: no cut); credits 863 -> 1422; debrief: Delivered 1 pilot: +500 cr | Bryshra-IV cleared: bonus +1000 cr | Recall: -900 cr | Energy used 7%. Refuelled 7%: -41 cr
+career: tows 1, recalls 2, rescued 3
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.081 RMS, peak 1.031, zeroed before the speakers; 58138624 samples); master volume 0.00

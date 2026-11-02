@@ -14,6 +14,10 @@ namespace HostileHorizon
     // Out of energy on the ground: call the mothership tow (item 8). Death: the explosion and wreck (item 1), pilots aboard lost,
     // the view rises live from the wreck into the mothership's regeneration pod; pay the recovery or take the loaner (item 13).
     // No fades and no cuts (VR rule 5): every move between places is a camera or ship that actually travels.
+    // Fix 2.3, getting home: the mothership's bearing and the height still to climb ("DOCK ↑") on the displays, a sky marker on it,
+    // RETURN NOW / CAN'T REACH warnings from the energy the climb to the docking height needs, the recall (hold the button: the
+    // mothership comes and its tow beam lifts you, live, recall fee), the same beam catching the ship in mid-air when it runs dry
+    // (tow fee), and the energy each boarding pilot brings (random every time, not from the seed).
     public sealed partial class GameShell
     {
         public bool InCampaign { get; private set; }
@@ -28,10 +32,17 @@ namespace HostileHorizon
         bool dockArmed;
         string debrief = "", flash = ""; float flashUntil, beepTimer;
         Coroutine seq; LineRenderer beam;
+        int calling; bool recallLift; float recallHold, warnTimer; Renderer skyMark;   // calling: 0 no, 1 tow (ran dry in the air), 2 recall
+        readonly System.Random fuelRoll = new System.Random();                        // pilot fuel: not the planet's seed (Dan's call)
+        public int HomeState { get; private set; }                                     // 0 fine, 1 RETURN NOW, 2 CAN'T REACH
+        public int Calling => calling;
+        public float LastPilotFuel { get; private set; }
+        // Energy (%) to climb from here to the docking height in flight mode at full throttle, plus the margin.
+        public float EnergyHome { get { var t = Tuning.T; return Mathf.Max(0, t.dockingHeight - Ship.Altitude) / t.homeClimbRate * (t.energyDrainFlightBase + t.energyDrainFlightThrottle) + t.homeMargin; } }
         MenuPanel.Page campaignPage, confirmNew, hangar, dead, regen, outOfEnergy, campaignPause;
 
         int Waiting { get { int n = 0; foreach (var p in Pilots) if (p.OnFoot) n++; return n; } }
-        bool CanDock => cabin.Count > 0 || Waiting == 0 || Ship.Energy < Tuning.T.dockAnyTimeBelowEnergy;
+        bool CanDock => cabin.Count > 0 || Waiting == 0 || Ship.Energy < Tuning.T.dockAnyTimeBelowEnergy || Ship.Energy < EnergyHome + Tuning.T.returnNowWarning;
         void Flash(string s, float seconds = 4f) { flash = s; flashUntil = Time.time + seconds; }
         void Run(IEnumerator r) { if (seq != null) StopCoroutine(seq); seq = StartCoroutine(r); }
         static Vector3 Flat(Vector3 v) { v.y = 0; return v; }
@@ -93,7 +104,7 @@ namespace HostileHorizon
             Pilots.Clear(); cabin.Clear();
             if (Mother) Mother.gameObject.SetActive(false);
             Beam(false);
-            InCampaign = false; Phase = "";
+            InCampaign = false; Phase = ""; calling = 0;
             if (Displays) Displays.Campaign = false;
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; }
         }
@@ -137,7 +148,7 @@ namespace HostileHorizon
             Now = State.Auto; Phase = "launch"; Menu.Hide(); Displays.SetVisible(true);
             var c = Career.C; c.stats.sorties++;
             Ship.SetEnergyAndDamage(c.Current.energy, c.Current.damage);
-            cabin.Clear(); dockArmed = false; debrief = "";
+            cabin.Clear(); dockArmed = false; debrief = ""; calling = 0; recallHold = 0; HomeState = 0;
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
             while (Mother.DoorsOpen < .98f) { HoldShip(); yield return null; }
@@ -166,7 +177,8 @@ namespace HostileHorizon
         void CampaignTick()
         {
             float dt = Time.deltaTime; var t = Tuning.T;
-            if (!Mother.Holding) Mother.Follow(Ship.transform.position, Ship.transform.forward, dt);
+            if (calling != 0) { Mother.Holding = false; Mother.MoveOver(Ship.transform.position, dt); }   // called: it comes to you, quicker
+            else if (!Mother.Holding) Mother.Follow(Ship.transform.position, Ship.transform.forward, dt);
             bool free = cabin.Count < t.cabinSize;
             foreach (var p in Pilots) if (p.Now != DownedPilot.State.Aboard) p.Tick(Ship, free, dt);
 
@@ -176,19 +188,71 @@ namespace HostileHorizon
                 else { Extras.OpenAirlock(4f); foreach (var p in Pilots) if (p.AtDoor && cabin.Count < t.cabinSize) p.Board(); }
             }
 
-            // the radar: beacons still waiting, and the mothership once you can dock
+            // the recall: held for a moment so a stray press costs nothing
+            if (Ship.InputEnabled && Controls.RecallHeld && calling == 0)
+            {
+                if (recallHold >= 0) recallHold += dt;
+                if (recallHold >= t.recallHoldSeconds) { recallHold = -1; Recall(); }
+                else if (recallHold >= 0) Flash($"Keep holding to recall the mothership ({t.recallFee} cr)", .4f);
+            }
+            else if (!Controls.RecallHeld) recallHold = 0;
+
+            // the radar: beacons still waiting, and the mothership (always: the way home)
             var con = Displays.Contacts; con.Clear();
             foreach (var p in Pilots) if (p.OnFoot) con.Add(new RadarContact { position = p.Beacon, number = p.Index + 1 });
-            if (CanDock) con.Add(new RadarContact { position = Mother.transform.position, mothership = true });
+            con.Add(new RadarContact { position = Mother.transform.position, mothership = true });
+            Vector3 toMother = Flat(Mother.transform.position - Ship.transform.position);
+            float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude), brg = (Mathf.Atan2(toMother.x, toMother.z) * Mathf.Rad2Deg + 360f) % 360f;
+            Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
+            HomeWarnings(dt);
             Displays.Cabin = cabin.Count;
             Displays.Place = $"{Planet.name} · {CrashLevels.Names[(int)Ship.Level]}";
             Displays.Prompt = Time.time < flashUntil ? flash : Advice();
 
             if (Ship.Energy < t.energyWarning && Ship.EnginesOn) { beepTimer -= dt; if (beepTimer <= 0) { beepTimer = 4f; Sfx.Play(Sfx.Beep, Ship.transform.TransformPoint(ShipLayout.DashCentre), .5f, 2f); } }
 
-            if (Ship.Landed && Ship.OutOfEnergy) { Now = State.Auto; Phase = "stranded"; Displays.SetVisible(false); Menu.SetBackdrop(0); Menu.Show(outOfEnergy); return; }
+            if (calling != 0 && toMother.magnitude < t.beamReach) { Run(BeamLift(calling == 2)); return; }   // the beam catches the ship, in the air or landed
+            if (Ship.Landed && Ship.OutOfEnergy && calling == 0) { Now = State.Auto; Phase = "stranded"; Displays.SetVisible(false); Menu.SetBackdrop(0); Menu.Show(outOfEnergy); return; }
             if (Ship.Altitude < t.dockingHeight - 50f) dockArmed = true;
-            if (dockArmed && Ship.Altitude > t.dockingHeight && CanDock) Run(Dock(false));
+            if (dockArmed && Ship.Altitude > t.dockingHeight && CanDock) { calling = 0; Run(Dock(false)); }   // made it up: docking is free
+        }
+
+        // RETURN NOW when the energy left is within the warning of what the climb to the docking height needs; CAN'T REACH below it.
+        // A distinct sound when a warning starts and every few seconds while it stays (the 15 % beep goes on as before).
+        void HomeWarnings(float dt)
+        {
+            var t = Tuning.T; float e = Ship.Energy, need = EnergyHome;
+            int Level(float extra) => Ship.OutOfEnergy || calling != 0 ? 0 : e < need + extra ? 2 : e < need + t.returnNowWarning + extra ? 1 : 0;
+            int now = Level(0), back = Level(1);   // 1 % of hysteresis before a warning clears
+            if (now > HomeState) { HomeState = now; warnTimer = 0; }
+            else if (back < HomeState) HomeState = back;
+            if (HomeState > 0) { warnTimer -= dt; if (warnTimer <= 0) { warnTimer = HomeState == 2 ? 6f : 10f; Sfx.Play(Sfx.Warn, Ship.transform.TransformPoint(ShipLayout.DashCentre), .6f, 2f); } }
+            Displays.HomeWarning = HomeState == 2 ? "CAN'T REACH THE MOTHERSHIP: recall or land" : HomeState == 1 ? "RETURN NOW" : "";
+        }
+
+        void Recall()
+        {
+            foreach (var p in Pilots)
+                if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding)
+                { Flash("Not now: a pilot is coming to the ship", 3f); return; }
+            calling = 2;
+            Flash($"Recall: the mothership is coming ({Tuning.T.recallFee} cr at the dock)", 5f);
+        }
+
+        // Out of energy in the air: the mothership comes and its beam catches the ship before it reaches the ground (if it can).
+        void OnOutOfEnergy()
+        {
+            if (!InCampaign || Now != State.Flying || Ship.Landed || calling != 0) return;
+            calling = 1;
+            Flash("Out of energy: the mothership is coming, its tow beam will catch you", 6f);
+        }
+
+        IEnumerator BeamLift(bool recall)
+        {
+            calling = 0; recallLift = recall;
+            Mother.Holding = true; Mother.SetDoors(1); Beam(true);
+            Sfx.Play(Sfx.Hiss, Ship.transform.position, .8f, 10f);
+            yield return Dock(true);
         }
 
         // What to do next, on the centre display and the HUD.
@@ -198,6 +262,11 @@ namespace HostileHorizon
             foreach (var p in Pilots) if (p.AtDoor) return "Pilot at the airlock: open it (B / O / HOTAS 6)";
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running) return "Pilot running to the ship: keep the engines off";
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Boarding) return "Pilot coming aboard";
+            float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude);
+            if (calling == 2) return "Recall: the mothership is coming. Its beam will lift you";
+            if (calling == 1) return "Out of energy: the mothership is coming. Its beam will catch you";
+            if (HomeState == 2) return $"Can't reach the mothership: recall ({Controls.RecallKeys}, {t.recallFee} cr) or land";
+            if (HomeState == 1) return $"RETURN NOW: climb to dock (↑ {climb:0} m), or recall ({Controls.RecallKeys})";
             if (Ship.Landed)
             {
                 if (cabin.Count >= t.cabinSize) return "Cabin full: take off and dock with the mothership";
@@ -205,19 +274,24 @@ namespace HostileHorizon
                         return Ship.EnginesOn ? "Engines off (A / K / HOTAS 5) so the pilot can come to you" : "Waiting for the pilot";
                 return Ship.EnginesOn ? "Landed. Climb (throttle up) to take off" : "Engines off. Throttle up or A / K to start them";
             }
-            if (cabin.Count >= t.cabinSize) return $"Cabin full: climb above {t.dockingHeight:0} m to dock";
-            if (Waiting == 0) return $"Everyone found: climb above {t.dockingHeight:0} m to dock";
+            if (cabin.Count >= t.cabinSize) return $"Cabin full: climb to dock (↑ {climb:0} m)";
+            if (Waiting == 0) return $"Everyone found: climb to dock (↑ {climb:0} m)";
             if (Ship.Mode == FlightMode.Hover) return "Landing mode: stick moves and turns, throttle up / down, set down gently";
             float nearest = float.MaxValue; foreach (var p in Pilots) if (p.OnFoot) nearest = Mathf.Min(nearest, Vector3.Distance(p.Position, Ship.transform.position));
             if (nearest < 900f) return "Pilot close by: landing mode (X / G / HOTAS 4) to set down";
-            if (cabin.Count > 0 && dockArmed) return $"{cabin.Count} aboard: more pilots, or climb above {t.dockingHeight:0} m to dock";
+            if (cabin.Count > 0) return $"{cabin.Count} aboard: more pilots, or climb to dock (↑ {climb:0} m)";
+            if (CanDock) return $"Climb to dock (↑ {climb:0} m)";
+            if (Ship.Energy < t.energyWarning) return $"Energy low: recall the mothership any time ({Controls.RecallKeys}, {t.recallFee} cr)";
             return "";
         }
 
         void PilotBoarded(DownedPilot p)
         {
             cabin.Add(p.Index);
-            Flash($"Pilot {p.Index + 1} aboard ({cabin.Count} / {Tuning.T.cabinSize})", 3.5f);
+            var t = Tuning.T;
+            LastPilotFuel = Mathf.Round(t.pilotFuelMin + (float)fuelRoll.NextDouble() * (t.pilotFuelMax - t.pilotFuelMin));
+            Ship.Energy = Mathf.Min(100, Ship.Energy + LastPilotFuel);
+            Flash($"Pilot {p.Index + 1} aboard ({cabin.Count} / {t.cabinSize}), brought {LastPilotFuel:0} % energy", 4f);
         }
 
         // Engines started near pilots on foot: the exhaust kills those within its range.
@@ -240,8 +314,8 @@ namespace HostileHorizon
         {
             Now = State.Auto; Phase = towLift ? "tow-lift" : "dock-approach"; Mother.Holding = true;
             Ship.MakeKinematic(false);
-            Vector3 pos = Ship.transform.position, vel = towLift ? Vector3.zero : Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;
-            Displays.Prompt = towLift ? "Tow: the mothership is lifting you" : "Docking: autopilot";
+            Vector3 pos = Ship.transform.position, vel = Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;   // caught as it moves (zero when landed)
+            Displays.Prompt = !towLift ? "Docking: autopilot" : recallLift ? "Recall: the mothership is lifting you" : "Tow: the mothership is lifting you";
             if (!towLift)
             {
                 // A: fly round to a point behind and below the bay, lined up with it
@@ -268,8 +342,10 @@ namespace HostileHorizon
                 Vector3 e = Mother.BelowBay(60f), to = e - pos; float d = to.magnitude;
                 if (d < .3f || d < 1.5f && vel.magnitude < 1.5f) break;
                 float cap = Mathf.Min(towLift ? 45f : 70f, Mathf.Sqrt(2f * (towLift ? 2.5f : 4f) * d));
-                vel = Vector3.MoveTowards(vel, to / d * cap, (towLift ? 4f : 12f) * dt);
+                vel = Vector3.MoveTowards(vel, to / d * cap, (towLift ? (vel.magnitude > cap + 2f ? 12f : 4f) : 12f) * dt);
+                if (towLift && vel.y < 0) vel.y = Mathf.MoveTowards(vel.y, 0, 10f * dt);   // the beam stops a fall first
                 pos += vel * dt;
+                if (towLift) pos.y = Mathf.Max(pos.y, Ship.Field.SurfaceHeight(pos.x, pos.z) + 1.5f);   // and never drags it through the rock
                 Quaternion want = Mother.DockRotation;
                 if (!towLift && vel.sqrMagnitude > 4f) want = Quaternion.Slerp(Quaternion.LookRotation(vel), Mother.DockRotation, Mathf.InverseLerp(30f, 6f, vel.magnitude));
                 rot = Quaternion.Slerp(rot, want, 1 - Mathf.Exp(-(towLift ? .8f : 2.5f) * dt));
@@ -315,7 +391,12 @@ namespace HostileHorizon
                 cabin.Clear();
             }
             CheckCleared(sb);
-            if (towLift) { int paid = c.Spend(t.towFee); c.stats.tows++; sb.AppendLine($"Tow: -{paid} cr" + (paid < t.towFee ? $" (the corps covered the other {t.towFee - paid} cr)" : "")); }
+            if (towLift)
+            {
+                int fee = recallLift ? t.recallFee : t.towFee, paid = c.Spend(fee);
+                if (recallLift) c.stats.recalls++; else c.stats.tows++;
+                sb.AppendLine($"{(recallLift ? "Recall" : "Tow")}: -{paid} cr" + (paid < fee ? $" (the corps covered the other {fee - paid} cr)" : ""));
+            }
             c.Current.energy = Ship.Energy; c.Current.damage = Ship.Damage;
             float used = 100 - Ship.Energy;
             string fuel = c.Refuel();
@@ -335,7 +416,7 @@ namespace HostileHorizon
             Mother.Holding = false;
             while (!Mother.MoveOver(Ship.transform.position, Time.deltaTime)) { Displays.Prompt = "Tow: the mothership is coming"; yield return null; }
             Mother.Holding = true; Mother.SetDoors(1);
-            Beam(true);
+            Beam(true); recallLift = false;
             float t = 0; while (t < 1.5f) { t += Time.deltaTime; yield return null; }
             yield return Dock(true);
         }
@@ -355,13 +436,36 @@ namespace HostileHorizon
         {
             if (beam && beam.gameObject.activeSelf && Mother && Ship)
             { beam.SetPosition(0, Mother.transform.TransformPoint(new Vector3(0, -5.5f, 1.5f))); beam.SetPosition(1, Ship.transform.TransformPoint(new Vector3(0, 1.2f, -1.5f))); }
+            SkyMarker();
+        }
+
+        // A blinking blue light under the mothership, kept at the same size on screen however far it is (and drawn inside the camera's
+        // range, in its true direction), so it can be seen and flown toward. A world object: it works the same in VR.
+        void SkyMarker()
+        {
+            bool on = InCampaign && Now == State.Flying && Mother && Rig;
+            if (on && !skyMark)
+            {
+                var go = GameObject.CreatePrimitive(PrimitiveType.Sphere); go.name = "Mothership marker"; Destroy(go.GetComponent<Collider>());
+                skyMark = go.GetComponent<Renderer>(); skyMark.sharedMaterial = new Material(Shader.Find("HostileHorizon/Glow"));
+                skyMark.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; skyMark.receiveShadows = false;
+            }
+            if (!skyMark) return;
+            var cam = Rig.Head.transform.position; Vector3 to = on ? Mother.transform.position + Vector3.down * 9f - cam : Vector3.zero; float d = to.magnitude;
+            on &= d > 250f;
+            skyMark.gameObject.SetActive(on);
+            if (!on) return;
+            float place = Mathf.Min(d, Rig.Head.farClipPlane * .85f), blink = Mathf.Repeat(Time.time, 1.2f) < .8f ? 1f : .35f;
+            skyMark.transform.position = cam + to / d * place;
+            skyMark.transform.localScale = Vector3.one * place * .013f * (.8f + .2f * blink);
+            skyMark.sharedMaterial.SetColor("_Color", new Color(.45f, .75f, 1f) * (1.8f * blink));
         }
 
         // ---- death and regeneration
 
         void Died()
         {
-            var c = Career.C; Phase = "dead";
+            var c = Career.C; Phase = "dead"; calling = 0;
             int lost = cabin.Count;
             foreach (int i in cabin) Planet.pilots[i] = (int)PilotFate.Lost;
             c.stats.pilotsLost += lost; c.stats.deaths++; cabin.Clear();

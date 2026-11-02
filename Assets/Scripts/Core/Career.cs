@@ -32,7 +32,7 @@ namespace HostileHorizon
 
     [Serializable] public sealed class CareerStats
     {
-        public int pilotsRescued, pilotsLost, creditsEarned, creditsSpent, deaths, planetsCleared, sorties, tows;
+        public int pilotsRescued, pilotsLost, creditsEarned, creditsSpent, deaths, planetsCleared, sorties, tows, recalls;
     }
 
     [Serializable] public sealed class Career

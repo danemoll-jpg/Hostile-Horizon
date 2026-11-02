@@ -34,6 +34,14 @@ namespace HostileHorizon
         public float safeTouchdownSpeed = 3.5f, maxLandingSlope = 14, powerlessSinkRate = 9;
         public float mothershipAltitude = 1500, dockingHeight = 1000;
         public float dockAnyTimeBelowEnergy = 25;     // with no pilots aboard you can still dock when this low on energy
+        // Fix 2.3: getting home
+        public int recallFee = 900;                   // calling the mothership to you (the tow when out of energy stays towFee)
+        public float recallHoldSeconds = 1;           // hold the recall button this long (a stray press costs nothing)
+        public float homeClimbRate = 30;              // m/s assumed for the climb to the docking height (flight mode, full throttle)
+        public float homeMargin = 3;                  // % added to the energy that climb needs
+        public float returnNowWarning = 8;            // RETURN NOW shows when the energy left is within this many % of what's needed
+        public float beamReach = 600;                 // m, level distance at which the mothership's tow beam can catch the ship
+        public float pilotFuelMin = 3, pilotFuelMax = 15;   // % energy a boarding pilot brings (random each time, not seeded)
 
         static Tuning t;
         public static Tuning T

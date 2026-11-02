@@ -9,6 +9,8 @@ namespace HostileHorizon
     //  - on the flat screen: a small overlay in the corners (shown in every view).
     // Both show the same facts. Round 2 adds: flight / hover mode, gear, engines, energy (warning at 15 %), cabin, the radar
     // (cockpit right display and the HUD's lower right) and a prompt line (what to do next: "Pilot knocking: open the airlock").
+    // Fix 2.3: the way home (mothership bearing and distance, "DOCK ↑ <m>" still to climb) and the RETURN NOW / CAN'T REACH warning,
+    // on the cockpit's left display and on the HUD.
     public sealed class FlightDisplays : MonoBehaviour
     {
         public ShipController Ship;
@@ -16,6 +18,7 @@ namespace HostileHorizon
         public bool Campaign;
         public int Cabin, CabinSize;
         public string Prompt = "", Place = "";
+        public string Home = "", HomeWarning = "";   // Fix 2.3, set by GameShell.Campaign while flying
         public readonly List<RadarContact> Contacts = new List<RadarContact>();
         Text left, centre, right, rightList, screenLeft, screenRight, screenList, warning, prompt;
         RadarScope cockpitRadar, screenRadar; Image listBack;
@@ -81,10 +84,15 @@ namespace HostileHorizon
             float energy = Ship.Energy; bool energyLow = Campaign && energy < Tuning.T.energyWarning;
             string cabin = Campaign ? $"CABIN {Cabin}/{CabinSize}" : "";
             string notice = Ship.Notice;
-            string say = notice != "" ? notice : Prompt;
+            string say = notice != "" && !Ship.Kinematic ? notice : Prompt;   // autopilot / beam: what is happening now
+            bool homeOn = Campaign && !Ship.Kinematic && !Ship.Crashed;
+            string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
 
             centre.text = $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>";
-            left.text = $"{power}  {(hover ? "" : Bar(thr / 100f, 8))}\n" + (Campaign ? $"ENERGY {energy:0}%  {Bar(energy / 100f, 8)}{(energyLow ? "\nENERGY LOW" : "")}\n{hull}  {cabin}" : hull);
+            // the way home first: the lower lines of this display sit below the flat screen's view
+            string shortWarn = HomeState(homeWarn);
+            left.text = (Campaign && home != "" ? (shortWarn != "" ? $"<color=#FF6A50>{shortWarn}</color>\n" : "") + $"<size=22>{home.Replace("\n", " · ")}</size>\n" : "") +
+                $"{power}  {(hover ? "" : Bar(thr / 100f, 8))}\n" + (Campaign ? $"ENERGY {energy:0}%  {Bar(energy / 100f, 8)}{(energyLow && shortWarn == "" ? " LOW" : "")}\n{hull}  {cabin}" : hull);
             if (Campaign)
             {
                 right.text = "";
@@ -95,16 +103,19 @@ namespace HostileHorizon
             cockpitRadar.Show(Campaign); screenRadar.Show(Campaign); listBack.enabled = Campaign;
 
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
-                (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" : "");
+                (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") : "");
             screenRight.text = Campaign ? $"{Place}\nView: {CameraRig.ModeNames[(int)Rig.Current]}" : $"Seed {seed}   ·   {level}\nView: {CameraRig.ModeNames[(int)Rig.Current]}";
             screenList.text = Campaign ? RadarScope.List(Ship.transform, Contacts, 6) : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
             warning.text = Ship.Crashed ? "" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
-                : Ship.OutOfEnergy && !Ship.Landed ? "OUT OF ENERGY" : low ? "TERRAIN" : energyLow && Time.time % 1f < .6f ? "ENERGY LOW" : "";
+                : Ship.OutOfEnergy && !Ship.Landed && !Ship.Kinematic ? "OUT OF ENERGY" : low ? "TERRAIN" : homeWarn != "" ? (Time.time % 1f < .7f ? homeWarn : "")
+                : energyLow && !Ship.Kinematic && Time.time % 1f < .6f ? "ENERGY LOW" : "";
         }
 
         public void NoteHit() => lastHitTime = Time.time;
+
+        static string HomeState(string warn) => warn.StartsWith("CAN'T") ? "CAN'T REACH: RECALL OR LAND" : warn;
     }
 
     public static class CrashLevels

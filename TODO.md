@@ -168,61 +168,11 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 2.3: getting home (warnings, rescue in the air, recall, pilot fuel)
+Current Objective — Round 3 (Aliens): to be written by the planning chat
 ---------------------------------------------------------------------------
 
-Fixes 2.1 / 2.2 (full screen) are done and published (status under "Previous
-deliveries"). Round 3 (Aliens) comes after this fix.
-
-Dan (2026-11-02, playing 0.2.x): he had one pilot aboard and was running out of
-energy. He didn't understand how to get home; he flew toward the mothership but
-ran dry before docking started. "There should be warnings." Root cause: docking
-only starts above 1000 m, the climb costs energy, nothing says how far up that
-is or whether the energy left is enough, and at 0 energy in the air the only way
-out is sink, land, pay the tow.
-
-0. **Commit first** (the repo as it is, with this text).
-1. **A clear way home on the displays.** On the cockpit display and the HUD,
-   always while flying in the Campaign: the mothership's direction and a
-   "DOCK ↑ <metres>" readout (height still to climb to the docking height),
-   and the Advice line says plainly "Climb to dock" when docking is allowed.
-   A sky marker on the mothership so it can be seen and flown toward.
-2. **Energy-to-get-home warnings.** Work out the energy needed to climb from
-   here to the docking height (plus a small margin). When the energy left gets
-   near it: a "RETURN NOW" warning (display, HUD, a distinct warning sound,
-   not the 15 % beep). When it's below it: "CAN'T REACH THE MOTHERSHIP: recall
-   or land" (see 3 and 4). The 15 % warning stays.
-3. **Rescue in the air.** At 0 energy while flying (not landed) in the
-   Campaign: the mothership comes to you and its tow beam catches the ship in
-   mid-air, live (no fade, VR rule 5), then the normal docking ending. Pilots
-   aboard are delivered and paid. Same tow fee as now (tuning file).
-4. **Recall button.** Call the mothership to you any time in the Campaign, in
-   the air or landed, for a recall fee (tuning file; less than the tow fee,
-   starting value Code's call). It comes over and lifts you up on the beam,
-   live, then the normal docking ending (pilots delivered and paid). Bound on
-   HOTAS / gamepad / keyboard; listed on the Advice line when energy is low.
-   Not while a pilot is running to the ship or at the airlock.
-5. **Pilots bring fuel (Dan's idea).** Each downed pilot's wreck still has a
-   little fuel: when they board, they bring a random amount of energy, rolled
-   fresh each time a pilot boards — NOT from the planet's seed (Dan: "random
-   amounts so you never know how much you get"; this is the one deliberate
-   exception to "the seed decides everything"). Starting range 3-15 % (tuning
-   file). Energy goes up with a short message: "Pilot 2 aboard (1 / 6),
-   brought 8 % energy". Energy never goes above 100 %.
-6. **Check (muted, no focus, as the testing rules say):** (a) climb with one
-   pilot: the DOCK readout counts down and docking starts at the height;
-   (b) energy set low over the canyon floor: RETURN NOW, then CAN'T REACH
-   appear at the right points; (c) run dry in the air: caught by the beam, docks,
-   pilot paid, tow fee charged; (d) recall from the air and from landed: fee
-   charged, docks; (e) a pilot boards: energy goes up by their amount, and the
-   amount differs between two runs of the same planet. Pictures of (a)-(c) from the
-   cockpit.
-7. **Publish as 0.2.3**, update `TODO.md` (per-item status) and `CLAUDE.md`
-   (new tuning values, the recall control), commit and push.
-
-**For Dan to check:** with a pilot aboard and low energy, is it clear how to get
-home, and do the warnings come early enough? Run dry in the air: does the beam
-catch you? Try the recall. Does pilot fuel help enough?
+Fix 2.3 (getting home) is done and published as 0.2.3 (status under "Previous
+deliveries"). Round 3 is queued below; the planning chat writes it here.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -250,6 +200,52 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 2.3 — getting home (2026-11-02). Published: 0.2.3 (`game-203`, Latest).**
+Exe built 2026-11-02 14:27 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.3/`
+(`run1`-`run3`: `exe_check.txt` + pictures; `launcher/`). Every check headless
+(`-batchmode`, no window) and muted: measured output 0.000 RMS at start and end;
+no step played sound; no window opened. New check: `python Tools/run_check.py <dir> --only home`.
+
+0. **Commit first — done.** "Fix 2.3 planning" (d36c2d7).
+1. **A clear way home — done.** Cockpit left display (top line: the lower lines sit below the
+   flat view) and HUD: `HOME <bearing>° <km> · DOCK ↑ <m>`; the mothership is always on the
+   radar; Advice says "Climb to dock (↑ 450 m)" whenever docking is allowed; a blinking blue
+   sky marker under the mothership, same size on screen at any distance. Check: the readout
+   counted 953 -> 850 -> 700 -> ... -> 100 -> 0 m, docking started at 1001 m (`h02`, `h03b`).
+2. **Energy-to-get-home warnings — done.** Needed = height to climb / 30 m/s x full-throttle
+   drain + 3 %. RETURN NOW within 8 % of it, CAN'T REACH below it (display, HUD, Advice with
+   the recall keys, a new falling two-tone warning sound, repeated every 10 s / 6 s); 1 % of
+   hysteresis; the 15 % beep stays. Check over the canyon floor (44 m): need 13.2 %, RETURN NOW
+   at 21.2 %, CAN'T REACH at 13.2 % (`h03_return_now`, `h04_cant_reach`). Low energy also
+   lets you dock with no pilots aboard (as below 25 %).
+3. **Rescue in the air — done.** At 0 energy in the air the mothership comes (faster than
+   station keeping) and its beam catches the ship within 600 m level distance, live, then the
+   normal docking. Check: caught at 36-38 m above ground (not landed), docked, pilot paid
+   +500, tow -1500 cr; camera continuous (run 1: fastest 73 m/s; runs 2-3 show a "JUMP" only
+   because the check presses the camera button for the chase picture `h05b`).
+4. **Recall — done.** Hold 1 s: gamepad View, keyboard H, HOTAS button 7 (`Recall` action),
+   fee 900 cr at the dock (tow 1500). A short press only shows "Keep holding…". Check: 0.4 s
+   did nothing; from the air (801 m up) and from the ground both docked, -900 cr each, camera
+   continuous; refused while a pilot runs to the ship ("Not now: a pilot is coming").
+5. **Pilots bring fuel — done.** 3-15 % per boarding, `System.Random` (not the seed), never
+   above 100 %, message "Pilot 3 aboard (1 / 6), brought 9 % energy". Check, same planet and
+   pilots in three runs: pilot 3 9 / 5 / 5 %, pilot 2 5 / 13 / 7 %, pilot 1 13 / 11 / 11 %.
+6. **Checks — done** (above; `-exeCheckOnly home`, `Checks/ExeCheck.Home.cs`). Fixed on the
+   way: the HUD flashed "OUT OF ENERGY" / "ENERGY LOW" during the beam lift (now the lift's
+   own prompt); `run_check.py` crashed printing "↑" to the console (now UTF-8).
+7. **Publish — done.** 0.2.3 = build 203, tag `game-203`, Latest. Check: the `starter-200`
+   ZIP extracted to `Builds/StarterCheck`, `--auto-check` against GitHub: "Updating to game
+   0.2.3", installed `versions/203`, started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed. Clean-up:
+   disk use 1.9 GB -> 1.6 GB (incl. the 0.2 GB starter test install).
+
+**New tuning (`CampaignTuning.json`):** recallFee 900, recallHoldSeconds 1, homeClimbRate 30,
+homeMargin 3, returnNowWarning 8, beamReach 600, pilotFuelMin 3, pilotFuelMax 15.
+
+**For Dan to check:** with a pilot aboard and low energy, is it clear how to get home, and do
+the warnings come early enough (30 m/s is a cautious climb)? Run dry in the air: does the
+beam catch you? Try the recall (hold View on the Deck / H / HOTAS 7: is button 7 a good
+one on your HOTAS?). Is the sky marker big enough? Does pilot fuel help enough?
 
 **Fix 2.1 — full screen on the Steam Deck (2026-11-02). Published: 0.2.1
 (`game-201`), then 0.2.2 (`game-202`, Latest) with Dan's 1080 default.** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
@@ -440,112 +436,6 @@ runs passed that point; not reproduced. Placeholder art and code-made sounds.
 - HOTAS: buttons 4 / 5 / 6 are guesses for landing mode / engines / airlock.
 - Continue after quitting keeps everything.
 
-**Round 1 — project setup + Free Flight (2026-11-02). Local build only, not
-published.** Exe `Builds/HostileHorizon/HostileHorizon.exe` (built 2026-11-02
-03:34, see its `BUILD_INFO.txt`). Checked in the built exe from the title screen
-through the game's own input actions (a virtual gamepad added to the Input
-System), 1920x1080 on Dan's PC (GTX 1660 Ti): `Data/screenshots/round1/`
-(`exe_check.txt` and pictures). HOTAS: not checked (code can't hold it).
-
-0. **Commit first — done.** "Round 1 planning docs" committed and pushed before
-   any change.
-1. **Unity project — done.** Unity 6000.6.1f1, URP 17.6.0, Input System 1.20.0
-   only (ProjectSettings, URP assets and package list copied from Chastain Rush;
-   `com.unity.modules.screencapture` added for screenshots). Folders
-   `Assets/Scripts/<System>/`, `Assets/Editor/`, `Tools/`, `Docs/`, `SourceArt/`;
-   `.gitignore` from Chastain Rush minus its map lines. **Hostile Horizon > Build
-   Executable** + batch command; `Play Hostile Horizon.bat`. Check: batch build
-   succeeds (0 errors, 98 MB, about 35 s once imported).
-2. **Seeded canyon terrain — done.** `Terrain/CanyonField.cs` (two warped noise
-   fields give winding, forking canyons; wider basins; terraced walls 150-350 m;
-   ridges), 256 m chunks streamed around the camera at 4/8/16/32 m detail with
-   skirts (`TerrainStreamer.cs`). Look: own triplanar rock shader with sediment
-   layers on the walls, dust on flats, darker canyon floors, sun shadows, height
-   haze; teal-to-amber alien sky with sun and a banded gas giant. Textures are
-   generated by the game (no third-party art). Checks: same seed twice gives
-   identical heights and start, the next seed differs; restart starts at the same
-   place; height map `00_heightmap.jpg`; **415-424 fps average, 1 % low about
-   183 fps** flying low at 1080p High (target 60).
-3. **Ship + flight model — done.** `Tools/Blender/ship.py` (Chastain Rush's kit)
-   makes `Assets/Resources/Models/Ship.fbx`, 4.1k triangles, 1:1 cockpit (seat,
-   consoles, dash, canopy). Arcade model: pitch / roll / yaw / throttle, 108-450
-   km/h, no hovering (landing is Round 2), bank turns, wings level slowly when the
-   stick is centred. Speed, altitude, height over ground, heading, throttle, hull,
-   seed, crash level and view on three cockpit displays and on a screen HUD.
-   Check: `03_cockpit.jpg`; RT held 2 s: throttle 30 to 100 %, 369 km/h.
-4. **Cameras — done.** Cockpit (default), Chase, Close chase, Canyon (low,
-   behind and below); one button cycles (Y / C / HOTAS button 3); look on hat /
-   right stick / arrows / right mouse. Camera rig per the VR rule (code moves the
-   rig root only). Check: four presses go round to Cockpit; pictures `04`-`07`.
-5. **Input — done; HOTAS for Dan to check.** One asset
-   (`Assets/Resources/Input/Controls.inputactions`) with HOTAS / Gamepad /
-   Keyboard+mouse binding sets; deadzone (8 %), invert pitch, HOTAS throttle axis
-   picker (Auto = slider if present, else z) and invert lever (on); Settings >
-   Axis display shows every joystick axis, held buttons and what the ship reads.
-   Check: menus, flight, view, look, throttle and pause all driven through the
-   actions by a virtual gamepad; `10_axis_display.jpg`. HOTAS button numbers are
-   guesses (see "For Dan to check").
-6. **Free Flight + crash levels — done.** Checks (nose pushed into the ground):
-   Ghost: through the rock (62 m under the surface), no hits; Bounce: 3 hits, no
-   damage; Regenerating: one hit -32 %, healed to -18 % 4 s later; Lasting: -32 %
-   stays -32 %; Instant: first hit ends it, SHIP LOST (fade, then Restart same
-   seed / Return to title). Pictures `11_*`, `12_ship_lost_4.jpg`.
-7. **Title menu + settings — done.** Title (Free Flight, Campaign "coming
-   soon", Settings, Credits, Quit); Free Flight page (seed of the day / random /
-   typed in, crash level, Start); Settings (invert pitch, deadzone, HOTAS throttle
-   axis + invert, axis display, default view, graphics quality, Steam Deck,
-   volume); pause menu. The same panel shown as a world-space board in
-   `13_menu_world_space.jpg` (VR rule 3). Typed seed checked: D-pad digits plus a
-   typed "5", B deletes it, result 1987. Credits page added (CLAUDE.md licensing
-   rule).
-8. **Steam Deck setting — done.** Chastain Rush's `SteamDeck.cs` ported (Auto /
-   On / Off; Auto = the Deck's screen or GPU): view and shadow distance 60 %, no
-   MSAA, one shadow cascade. Check `-steamDeck 1` at 1280x800: view 1920 m,
-   `14_steam_deck_cockpit_1280x800.jpg` (frame rate measured on the 1660 Ti, not
-   on a Deck).
-9. **Launcher — done, not published.** Ported and renamed
-   (`HostileHorizonLauncher.exe`, catalog `danemoll-jpg/Hostile-Horizon-releases`),
-   new signing key made once (key ID `0c9c29ff...`, private key in
-   `Builds/PublisherPrivate/`), built with VS 18. Self-check against a local test
-   catalog (`Tools/launcher_selfcheck.py`): found build 2, downloaded, verified,
-   installed, started the game, got its ready signal, both exited cleanly
-   (`launcher_self_check.txt`, `15_launcher_self_check.jpg`). Added: in the
-   self-check's hidden batch run the game closes itself after the ready signal.
-   `Play Hostile Horizon (launcher).bat` starts a local launcher install of the
-   newest build (`Tools/make_local_launcher.py`); the real catalog has no release
-   yet (404), so the launcher says it couldn't check and starts the game.
-10. **Placeholder audio — done (made in code, not ElevenLabs).** Engine hum
-    (pitch with throttle), wind (with speed) and a thud on hits, synthesized at
-    run time; no sound files this round. Check: output level 0.07-0.09 RMS while
-    flying (silent = 0). Nobody has listened to it yet.
-11. **End of round — done.** TODO.md / CLAUDE.md updated, disk cleaned,
-    committed and pushed.
-
-Decisions made: the scene is one GameShell that builds everything in code (no
-hand-edited scenes or prefabs); ground contact is tested against the drawn
-terrain (no physics engine); Blender models are turned 180 degrees on load (as
-Chastain Rush does); flight assist = bank turns + slow wing levelling; two start
-files (the exe, and through the launcher). Ported from Chastain Rush: project
-settings, URP assets, package list, `.gitignore`, PlayerBuild, the Play bat,
-SteamDeck.cs, LauncherBridge.cs, `Launcher/` with its vendor licences, the six
-launcher tools, `cleanup_round.py`, README-LAUNCHER (rewritten), Blender `kit.py`.
-Known: the full exe check ran on the build before last; the last build only
-shortened one cockpit display's text and was checked with the short run
-(`exe_check_final_build.txt`). The wavy strata "drips" and the plain ship are
-placeholder art (Round 6).
-
-**For Dan to check (Round 1):**
-- HOTAS 4: in Settings > Axis display, do stick, twist, throttle lever and hat
-  move the bars? Which button numbers show for the buttons you want for View,
-  Menu, Select (trigger) and Back? If the lever works backwards, toggle "Invert
-  throttle lever"; if it doesn't move the bar, try another "HOTAS throttle axis".
-- Fly with a gamepad (LB / RB yaw, RT / LT throttle, Y view, Start menu).
-- Does the canyon look "a little more realistic"? Is flying low through it fun?
-- The five crash levels.
-- Sound: engine hum and wind (placeholders): too loud or annoying?
-- The launcher: `Play Hostile Horizon (launcher).bat` should show the launcher,
-  say it couldn't check for updates, then start the game.
-
 ---------------------------------------------------------------------------
 Technical Notes / Blockers
 ---------------------------------------------------------------------------
@@ -562,7 +452,7 @@ Technical Notes / Blockers
   roll, `<Joystick>/twist` and `/rz` yaw, throttle lever `<Joystick>/slider`
   (the Settings picker overrides it: slider, z, rz, rx, ry, dial), `/hat` look and
   menu navigation, `/trigger` select, `/button2` back, `/button3` view,
-  `/button9` and `/button10` menu.
+  `/button9` and `/button10` menu. Fix 2.3: `/button7` recall (hold 1 s).
 - The launcher self-check needs the game to close itself in its hidden batch run
   (LauncherBridge does it when `-racerTestSave` is given).
 - Blender FBX files import facing backwards: turn the model 180 degrees on load,

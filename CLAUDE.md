@@ -14,7 +14,9 @@ is the source of truth for what to build; this file is the standing context.
   can be ported between them.
 - **Blender** for models, scripted where possible (`Tools/Blender/*.py`, same
   pattern as Chastain Rush). **Suno** for long music tracks, **ElevenLabs** for
-  sound effects and short music/stings. All paid licenses.
+  sound effects and short music/stings. All paid licenses. **Meshy**
+  (meshy.ai, paid license + API; Dan, 2026-11-02) for generated 3D models,
+  finished in Blender; **Mixamo** (mixamo.com) for rigging / character animation.
 - **Platforms, in order:** Windows PC + Steam Deck (Proton) first → PC VR
   (Quest 3 over Virtual Desktop / SteamVR, via OpenXR) → maybe native Quest later.
 - **Dan's PC:** Dell XPS 8930, i7-9700, GTX 1660 Ti 6 GB, 64 GB RAM, Win 11.
@@ -170,22 +172,33 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   minimum fill, tow fee, recovery fee (base + share of ship value), exhaust kill
   range and penalty, cabin size, pilots per planet tier and their spread, pickup
   range, run speed, energy drains, hover speeds, touchdown limits, mothership
-  altitude, docking height.
+  altitude, docking height. Fix 2.3 adds: `recallFee` 900, `recallHoldSeconds` 1,
+  `homeClimbRate` 30 (m/s assumed for the climb to dock), `homeMargin` 3 %,
+  `returnNowWarning` 8 %, `beamReach` 600 m, `pilotFuelMin` / `pilotFuelMax` 3 / 15 %.
+- **Recall (Fix 2.3):** the `Recall` input action, **held 1 s**: gamepad View
+  (Select; the Deck's View button), keyboard **H**, HOTAS **button 7**. The
+  mothership comes and its beam lifts you to the dock (in the air or landed),
+  `recallFee` at the dock; refused while a pilot is running / knocking / boarding.
+  At 0 energy in the air the same beam catches the ship (tow fee). Code:
+  `GameShell.Campaign` (`calling`, `BeamLift`, `HomeWarnings`, `SkyMarker`).
 - **Exe self-check** (plays from the title through the input actions with a
   virtual gamepad; screenshots, fps, views, pause / settings, typed seed, every
   crash level, determinism, a height map, sound level, world-space menu):
-  `Builds\HostileHorizon\HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf|campaign] [-steamDeck 1] -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -logFile <dir>\Player.log`
+  `Builds\HostileHorizon\HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf|campaign|home] [-steamDeck 1] -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -logFile <dir>\Player.log`
   writes `<dir>/exe_check.txt` and pictures, then quits (settings are defaults,
   never saved). `Checks/ExeCheck.cs`. `-exeCheckOnly campaign` (Round 2,
   `Checks/ExeCheck.Campaign.cs`, about 15 min) plays a whole career: new career,
   launch, radar, landing, pickup, docking, exhaust kill, out of energy + tow,
   crash with a pilot aboard, regeneration, loaner, recovery, quit + Continue, and
-  logs the camera's top speed in every live sequence (a cut shows as a jump). A
+  logs the camera's top speed in every live sequence (a cut shows as a jump).
+  `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
+  fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
+  catch, the recall from the air and the ground. A
   check keeps running unfocused (`runInBackground`, Input System `IgnoreFocus`);
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -232,13 +245,16 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
-**Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
-muted: the Deck's 1280 x 800 asks for a 1280 x 800 borderless full screen, menus
-and HUD all inside the view) and published as 0.2.1, then 0.2.2 (`game-202`, Latest); a starter-200 install
-updates to it from GitHub. A real start on Dan's PC (with his OK) filled his 3840
-x 2160 display at 13.6 fps, so (Dan's decision) the default full-screen size is
-now the display's own at most 1080 tall: 1920 x 1080 there, 1280 x 800 on the
-Deck. Not yet seen by Dan on the Deck or on PC.** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
+**Fix 2.3 (getting home) is built, checked in the exe (headless, muted, three runs
+of `--only home`) and published as 0.2.3 (`game-203`, Latest); a starter-200
+install updates to it from GitHub. Not yet played by Dan.** It adds the way home
+on the displays (HOME bearing / km and DOCK ↑ metres, mothership always on the
+radar, a sky marker), RETURN NOW / CAN'T REACH warnings with their own sound, the
+beam catching a ship that runs dry in the air, the recall (hold View / H / HOTAS
+7, 900 cr) and pilots bringing 3-15 % energy (random, not seeded). Fix 2.1 / 2.2
+(full screen: the display's own size at most 1080 tall; 1920 x 1080 on Dan's 4K,
+1280 x 800 on the Deck) published as 0.2.1 / 0.2.2; not yet seen by Dan on the
+Deck. Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
 (`build-200`) with the starter package (`starter-200`); not yet played by Dan.
 Round 1 (Free Flight) was played
 by Dan on PC ("ran well"); HOTAS and Steam Deck still for him to check. The
@@ -246,8 +262,8 @@ Campaign: an ongoing career saved in `career.json` (Continue / New career), a ho
 system and today's planet named from the seed of the day, seeded downed pilots
 with wrecks and beacons, a radar (cockpit + HUD), helicopter-style landing mode
 with gear, engines on / off, the pickup (run, knock, airlock), exhaust kills,
-energy and the mothership tow, the Blender mothership with live launch and live
-docking, credits (pay, clear bonus, fuel, repair, tow, recovery), the hangar
+energy, the mothership tow and recall, the Blender mothership with live launch and live
+docking, credits (pay, clear bonus, fuel, repair, tow, recall, recovery), the hangar
 page, crash explosions with the burning wreck kept (all modes, no fade), death ->
 a live camera flight to the regeneration pod -> recovery or the loaner. Numbers in
 `Assets/Resources/Tuning/CampaignTuning.json`. Test runs follow Dan's rules

@@ -34,5 +34,13 @@
     "powerlessSinkRate": 9,
     "mothershipAltitude": 1500,
     "dockingHeight": 1000,
-    "dockAnyTimeBelowEnergy": 25
+    "dockAnyTimeBelowEnergy": 25,
+    "recallFee": 900,
+    "recallHoldSeconds": 1,
+    "homeClimbRate": 30,
+    "homeMargin": 3,
+    "returnNowWarning": 8,
+    "beamReach": 600,
+    "pilotFuelMin": 3,
+    "pilotFuelMax": 15
 }

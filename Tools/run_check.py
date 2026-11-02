@@ -4,6 +4,7 @@ the game draws its view off-screen for the screenshots, Core/TestRun.cs), Below 
 <dir>/exe_check.txt.
 Usage: python Tools/run_check.py <dir> [--only all|perf|campaign|mute|screen] [--minutes N] [--extra "-steamDeck 1"] [--size 1920x1080]"""
 import argparse, pathlib, shutil, subprocess, sys
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 a = argparse.ArgumentParser(); a.add_argument('dir'); a.add_argument('--only', default='all'); a.add_argument('--minutes', type=float, default=25)

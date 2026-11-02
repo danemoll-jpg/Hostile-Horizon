@@ -53,6 +53,7 @@ namespace HostileHorizon
             Ship.OnHit += i => { shipAudio.Thud(i); Displays.NoteHit(); };
             Ship.OnCrash += OnCrash;
             Ship.OnEnginesStarted += OnEnginesStarted;
+            Ship.OnOutOfEnergy += OnOutOfEnergy;   // Fix 2.3: the beam catches a ship that runs dry in the air
             Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();

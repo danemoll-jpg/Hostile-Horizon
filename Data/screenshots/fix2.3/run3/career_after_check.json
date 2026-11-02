@@ -1,0 +1,47 @@
+{
+    "version": 1,
+    "systemSeed": 69315853,
+    "systemName": "Vekel",
+    "credits": 1384,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261102,
+            "name": "Bryshra-IV",
+            "tier": 0,
+            "pilots": [
+                1,
+                1,
+                1
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 1
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 3,
+        "pilotsLost": 0,
+        "creditsEarned": 2500,
+        "creditsSpent": 4116,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 4,
+        "tows": 1,
+        "recalls": 2
+    },
+    "started": "2026-11-02 14:28",
+    "lastSaved": "2026-11-02 14:38:04"
+}

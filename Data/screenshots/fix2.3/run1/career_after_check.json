@@ -1,0 +1,47 @@
+{
+    "version": 1,
+    "systemSeed": 12214353,
+    "systemName": "Ceshae",
+    "credits": 1422,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261102,
+            "name": "Bryshra-IV",
+            "tier": 0,
+            "pilots": [
+                1,
+                1,
+                1
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 1
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 3,
+        "pilotsLost": 0,
+        "creditsEarned": 2500,
+        "creditsSpent": 4078,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 4,
+        "tows": 1,
+        "recalls": 2
+    },
+    "started": "2026-11-02 14:02",
+    "lastSaved": "2026-11-02 14:12:58"
+}

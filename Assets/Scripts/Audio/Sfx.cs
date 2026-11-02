@@ -6,7 +6,7 @@ namespace HostileHorizon
     // they come from where they happen (VR rule 4): the explosion, a knock on the hull, the airlock, a warning beep, fire.
     public static class Sfx
     {
-        static AudioClip boom, knock, hiss, beep, fire, thunk;
+        static AudioClip boom, knock, hiss, beep, fire, thunk, warn;
         static int rate => AudioSettings.outputSampleRate;
 
         public static AudioClip Boom => boom ? boom : boom = Make("boom", 4.5f, (t, n, s) =>
@@ -36,6 +36,14 @@ namespace HostileHorizon
 
         public static AudioClip Beep => beep ? beep : beep = Make("beep", .5f, (t, n, s) =>
             (t % .25f < .12f ? 1 : 0) * Mathf.Sin(t * 2 * Mathf.PI * 880f) * .35f);
+
+        // Fix 2.3: the get-home warning (RETURN NOW / CAN'T REACH): a falling two-tone, unlike the 15 % beep's short high pips.
+        public static AudioClip Warn => warn ? warn : warn = Make("warn", 1.2f, (t, n, s) =>
+        {
+            float note = t % .3f, f = (int)(t / .3f) % 2 == 0 ? 740f : 520f;
+            float env = Mathf.Min(1, note * 60f) * Mathf.Clamp01((.26f - note) * 40f);
+            return env * (Mathf.Sin(t * 2 * Mathf.PI * f) * .3f + Mathf.Sin(t * 2 * Mathf.PI * f * 2f) * .08f);
+        });
 
         public static AudioClip Fire => fire ? fire : fire = Make("fire", 3f, (t, n, s) =>
         {
