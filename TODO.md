@@ -30,7 +30,9 @@ effects, short songs). Paid licences.
 **Launcher — DECIDED:** the Chastain Rush / Woodstock Rush launcher, renamed
 `HostileHorizonLauncher.exe`, own signing key, catalog repo
 `danemoll-jpg/Hostile-Horizon-releases`. Checks for the latest version on every
-start and updates automatically. Local builds unless a round says "publish".
+start and updates automatically. **Every round is published (DECIDED, Dan
+2026-11-02):** Dan tests on the Steam Deck, especially while his PC is busy, so
+each round ends with a release the launcher picks up.
 
 **Controls — DECIDED:** Thrustmaster T.Flight HOTAS 4 (confirmed by Dan), any
 gamepad (incl. Steam Deck), keyboard + mouse fallback.
@@ -66,22 +68,38 @@ The seed decides terrain, pilots, enemies and which pilots are aliens.
      on the hull.
   4. **Stalker:** doesn't come straight to the airlock. It circles the ship,
      drops off the radar for a moment, or turns up from behind.
+  5. **Sleeper (Dan, 2026-11-02):** boards like a normal pilot and passes
+     every check at the airlock. You think you rescued a pilot. Some time later
+     in flight it turns:
+     - **With other rescued pilots aboard:** it kills one of them (heard and
+       glimpsed from the cockpit, not shown in full). If enough pilots are left
+       aboard, they fight it off and kill it: the ship survives, you lose the
+       pilot it killed. If too few are left, it gets through to the cockpit
+       and kills you (the same horror sequence and death as any alien aboard).
+     - **With no other pilots aboard:** it goes straight for the cockpit.
+     - Starting number (tunable): the pilots win if at least 2 are left after
+       the first kill. More pilots aboard = safer against it.
+     - Its tell is subtle and only comes after boarding (e.g. cabin sounds that
+       are off, a cabin-camera glimpse). A player who spots it in time can dock
+       before it turns, or another answer Round 3 settles. Field Journal rule
+       as for the others.
 - **Field Journal (modern touch):** after you meet a type, a journal entry
   unlocks with a vague hint; after you meet it again, the hint gets clearer.
 - **What you can do:** don't open the airlock; fire up engines and shields
   (kills whatever is at the hull, the original's answer); or take off. Doing
-  that to a real pilot kills them: no rescue, a score penalty. The choice must
+  that to a real pilot kills them: no rescue, a credit penalty. The choice must
   cost something.
 - **If you ignore it:** an alien left at the hull too long climbs onto the
   canopy and breaks in.
 - **If you let it in:** a full horror sequence (lights die, alarms, something
-  inside the cabin, use of the space behind the player for VR), then the ship
-  is lost. Built for maximum scare; no scare-intensity setting (Dan: "make it
+  inside the cabin, use of the space behind the player for VR), then you die
+  (see "Ongoing campaign" below: you are regenerated, the ship is wrecked). Built for maximum scare; no scare-intensity setting (Dan: "make it
   scary as hell"). Avoid full-screen strobe flashes (photosensitivity) — the
   scare comes from darkness, sound and timing.
 
 **Modes — DECIDED:**
-1. **Campaign (the story):** rescue missions level after level. Difficulty is
+1. **Campaign (the story):** an ongoing career (see below), planet after
+   planet. Difficulty is
    set by presets (Easy / Normal / Hard / Nightmare) plus custom options:
    - enemies: Off / Turrets / Turrets + Saucers, and how aggressive;
    - how reliably alien tells show, and whether real pilots show false tells;
@@ -96,108 +114,185 @@ The seed decides terrain, pilots, enemies and which pilots are aliens.
    - **Instant crash:** any hit ends the flight.
 
 **Modern touches — DECIDED: all of them.**
-- score and a high-score table (overall and per seed, including the seed of the day);
-- ship upgrades between Campaign levels (engine, hull/shields, energy, radar
+- **credits instead of score** (see below); career stats and a best run per
+  planet replace the high-score table;
+- ship upgrades bought with credits (engine, hull/shields, energy, radar
   range, cabin size);
 - radar for downed pilots (bearing and range, more detail as you get closer);
-- checkpoints (after a death, restart from the last rescue, not the level start);
+- checkpoints: covered by the ongoing campaign (a planet keeps its state, so
+  after a death you carry on where it stands);
 - mission objectives beyond "rescue X pilots" (examples: recover a flight
   recorder, knock out a turret cluster, rescue everyone within a time limit,
   finish with no hull damage).
 
-**OPEN — Free Flight time trial.** Should Free Flight also have a timed run
-through a marked route (gates through the canyon) with a best time per seed?
-Default: yes, as a later round, once Free Flight feels good. Dan to decide.
+**Free Flight time trial — DECIDED yes (Dan accepted the default):** a later
+round adds a timed run through gates in the canyon, best time per seed.
+
+**Planning defaults — DECIDED (Dan, 2026-11-02: "the defaults are good"):**
+shields/engines on a real pilot kills them; an ignored alien breaks in through
+the canopy; the alien types and their tells; Field Journal; Campaign
+difficulty presets + custom options.
+
+**Landing — DECIDED: like a helicopter.** Slow to a hover, turn on the spot,
+set straight down. **Cabin — DECIDED: 6 pilots at the start** (upgrades raise
+it). **Pilots — DECIDED: the first planet has 3**, more on later planets.
+
+**Crash — DECIDED: an explosion, and the wreck stays on screen.** No fade to
+black, in every mode; the menu appears over the live scene.
+
+**Credits — DECIDED (replaces score).** Earned by delivering pilots (plus a bonus
+for clearing a planet). Spent on fuel, repairs, ship recovery and upgrades.
+
+**Ongoing campaign — DECIDED (Dan, 2026-11-02: "sounds perfect").** The game never
+ends like the original. You are a rescue-corps pilot whose mind is backed up on
+the mothership.
+- **Death:** you wake in the mothership's regeneration bay. You keep credits,
+  upgrades and career stats. Pilots in your cabin die with you (no pay, lost
+  for good on that planet).
+- **Your ship** is a wreck on the planet: pay a **recovery** fee (repaired,
+  upgrades kept, fee grows with the ship's value), or take a free **loaner**
+  (basic, no upgrades) and pay the recovery later. Later: **recover it
+  yourself** by flying back and landing at the wreck (free, risky), and optional
+  **insurance** paid before a sortie.
+- **Fuel:** docking refuels and charges for what you used. Out of energy on the
+  planet: land, and the mothership **tows** you back for a big fee. If you
+  can't afford fuel, the corps gives a free minimum fill: a career never gets
+  stuck.
+
+**Planets — DECIDED.** A new career generates a **home star system** with its
+own name. The **seed of the day is a new planet** in it, with a name generated
+from the seed (e.g. "Vessra-IV"); the same day gives the same planet. Planets
+keep their state between visits (rescued / lost pilots stay that way; "cleared"
+when none are left). Later: a **star map** to return to older planets, a typed
+seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
+the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 1: project setup + Free Flight (DELIVERED 2026-11-02)
+Current Objective — Round 2: Campaign core (rescue loop, credits, ongoing career)
 ---------------------------------------------------------------------------
 
-Round 1 is built; per-item status is under "Previous deliveries" below. The
-round text is kept here unchanged so the planning chat can reconcile it item by
-item, then write Round 2 in its place.
+Round 1 reconciled by the planning chat (2026-11-02): all 12 items done as
+reported. Dan played it on PC ("ran well"). Still for Dan to check: HOTAS 4,
+Steam Deck. Placeholder sounds are made in code (ElevenLabs comes in Round 6).
 
-**Goal:** a local Windows build Dan can play from the launcher: pick Free Flight,
-fly a seeded canyon with the HOTAS, a gamepad or the keyboard, switch cameras,
-choose a crash level. No pilots, enemies or aliens yet.
+**Goal:** Dan can start a Campaign career, fly today's planet, find downed
+pilots on the radar, land like a helicopter, pick them up, climb to the
+mothership and dock (live, no fade), get paid in credits, pay for fuel and
+repairs, die, get regenerated and carry on. Everything saves. All pilots are
+real this round (aliens are Round 3), no enemies (Round 4).
 
-0. **Commit first.** Commit the planning docs as they are before changing
-   anything ("Round 1 planning docs").
-1. **Unity project:** Unity 6000.6.1f1, URP 17.6.0, Input System 1.20.0 only.
-   Folders: `Assets/Scripts/<System>/`, `Assets/Editor/`, `Tools/`, `Docs/`,
-   `SourceArt/`. `.gitignore` (start from Chastain Rush's, minus its map-data
-   lines; `Builds/` and `Builds/PublisherPrivate/` ignored). Editor menu
-   **Hostile Horizon > Build Executable** plus a batch command producing
-   `Builds/HostileHorizon/HostileHorizon.exe`, and `Play Hostile Horizon.bat` in the root.
-2. **Seeded canyon terrain:** chunked terrain meshes streamed around the
-   player, generated from the seed (fractal/ridged noise shaped into a network
-   of winding canyons with walls tall enough to fly between, open basins and
-   ridges). Same seed = same world, every time. Seed sources: seed of the day,
-   random, typed in. "A little more realistic" look: triplanar rock materials
-   with layering on the walls, haze that gives depth, an alien sky and sun. Meet
-   60 fps at 1080p on Dan's PC.
-3. **Ship + flight model:** a placeholder ship made by a Blender script
-   (`Tools/Blender/ship.py`) with a 1:1 3D cockpit. An arcade-leaning flight
-   model in the spirit of the original: pitch, roll, yaw, throttle, a minimum
-   forward speed when flying (landing comes in Round 2), easy to fly low through
-   canyons. Speed and altitude shown in the cockpit instruments (and on a screen
-   HUD in flat-screen mode).
-4. **Cameras:** cockpit (default), chase, close chase, low canyon cam; one
-   button cycles them. Built on the VR camera-rig rule in `CLAUDE.md`.
-5. **Input:** one Input Actions asset with binding sets for the T.Flight HOTAS 4
-   (stick pitch/roll, twist yaw, throttle lever absolute throttle, hat look,
-   buttons for camera and menu), gamepad (Xbox layout / Steam Deck) and
-   keyboard + mouse. Deadzones; invert pitch option; a simple axis display in
-   Settings so Dan can see the HOTAS axes respond. HOTAS = "for Dan to check".
-6. **Free Flight mode + crash levels:** all five levels (Ghost, Bounce,
-   Regenerating damage, Lasting damage, Instant crash). After a crash: restart
-   at the same seed, or return to the menu.
-7. **Title menu + settings:** title screen (Hostile Horizon), Free Flight
-   (seed + crash level picker), Campaign shown as "coming soon", Settings
-   (controls, invert, camera default, graphics quality, volume), Quit. Menus
-   usable with HOTAS buttons, gamepad and keyboard; built to the world-space
-   panel rule.
-8. **Steam Deck setting:** port `SteamDeck.cs` from Chastain Rush (lower view
-   distance and effects; on by itself when running on the Deck).
-9. **Launcher:** port the launcher and tools (see `CLAUDE.md`), rename to
-   Hostile Horizon, make the signing key once, point the catalog at
-   `danemoll-jpg/Hostile-Horizon-releases`, add `LauncherBridge.cs`. Build the
-   launcher and run its self-check against a local test catalog. **Do not
-   publish** a release this round.
-10. **Placeholder audio:** engine hum and wind (ElevenLabs or simple
-    placeholders). Music comes later (Suno).
-11. **End of round:** update `TODO.md` (per-item status, "For Dan to check")
-    and `CLAUDE.md` (Commands, Where things stand), clean up the disk, commit
-    and push.
+0. **Commit first.** Commit the repo as it is (it holds the planning chat's
+   doc updates) before changing anything.
+1. **Crash = explosion, wreck stays (all modes, Free Flight too).** A real
+   explosion (fireball, debris, smoke, sound) where the ship hits; the burning
+   wreck stays in the scene and the camera stays on it live. The Ship Lost /
+   death menu appears over the live scene. Remove Round 1's fade to black.
+2. **Save file (career).** One career save: credits, the ship (hull, energy,
+   wrecked or not, upgrades list — empty for now), the home system, every
+   planet visited and its state, career stats. Autosave on dock, death and quit.
+   Keep it where the launcher's save backup covers it (check `LauncherBridge` /
+   Chastain Rush's save location), so updates never touch it. Campaign menu:
+   **Continue** / **New career** (New asks to confirm before replacing a save).
+3. **Home system + planets with generated names.** A new career generates its
+   home star system and its name once. Today's planet comes from the seed of
+   the day and gets a name generated from that seed (e.g. "Vessra-IV"); the
+   same day gives the same planet and name. A planet keeps its state between
+   visits: pilots rescued or lost stay that way. A planet is "cleared" when no
+   pilots are left to rescue. (Star map and older planets: Round 5.)
+4. **Downed pilots.** Seeded: each pilot sits by their crashed ship, which
+   sends a beacon, with landable ground within reach. The first planet has 3
+   pilots; later planets have more and spread them wider (tier rises with
+   planets cleared in the career). Numbers in the tuning file (item 11).
+5. **Radar.** Bearing and distance to each beacon, more detail as you close in
+   (rough direction far out, exact spot near). On a cockpit display and on the
+   flat-screen HUD (VR rule 2). Rescued and lost pilots drop off it.
+6. **Helicopter landing.** A landing mode (one button on HOTAS / gamepad /
+   keyboard): the ship can slow to a hover, turn on the spot, go straight down
+   and up, gear down, and settle on fairly flat ground. Landing too hard or on
+   a slope does damage by the crash level. Take off again by climbing out of
+   the hover and going back to flight mode. Round 1's minimum speed applies
+   only outside landing mode.
+7. **The pickup.** Landed + engines off: the pilot leaves their wreck, runs to
+   the ship and knocks the three-knock code on the hull. Airlock button opens
+   the airlock and the pilot boards (seen and heard from the cockpit; the cabin
+   count goes up). Engines started while a pilot is within the exhaust range
+   kills them: lost for good on that planet, credit penalty. Cabin holds 6.
+8. **Energy.** Drains with flight (more at high throttle and in hover). Gauge
+   in the cockpit and HUD, warning at 15 %. At 0 the ship can only come down;
+   once landed, call a **mothership tow** for a big fee (the lift plays live).
+9. **Mothership + docking, live.** A mothership high above the planet (Blender
+   placeholder model). With pilots aboard, climbing above the docking height
+   starts the approach: the ship flies itself into the bay, live and
+   continuous, and the player can look around the whole time (CLAUDE.md VR
+   rule 5: no fade, no cut). Docked = the hangar (item 12). Launching again
+   plays the drop out of the bay live.
+10. **Credits (no score).** Paid per pilot delivered, plus a bonus when a
+    planet is cleared. At docking: pilots paid, fuel used is charged, hull
+    damage repair is charged (repair can be skipped and paid later). If the
+    player can't afford fuel, the corps gives a free minimum fill, so a career
+    can never get stuck.
+11. **Tuning file.** All numbers (pilot pay, clear bonus, starting credits,
+    fuel price, repair price, tow fee, recovery fee, pilots per planet tier,
+    exhaust kill range) in one JSON file Code names and lists in `CLAUDE.md`.
+    Starting values are Code's call; report them.
+12. **Hangar screen (between flights).** Inside the mothership, built to the
+    world-space panel rule: credits, ship hull and energy, today's planet name
+    and pilots left (rescued / lost / waiting), career stats (pilots rescued,
+    pilots lost, credits earned, deaths, planets cleared). Buttons: Launch,
+    Repair, Refuel, Back to title.
+13. **Death and regeneration.** On death (crash at any crash level that ends a
+    flight): the explosion (item 1), then pilots aboard are lost (no pay, lost
+    for good on that planet). You wake in the mothership's regeneration bay and
+    keep credits, upgrades and stats. Your ship is a wreck on the planet; choose:
+    - **Pay recovery:** the ship is hauled back and repaired, upgrades kept;
+      fee grows with the ship's value.
+    - **Take the loaner:** a free basic ship with no upgrades; your own ship
+      stays wrecked until you pay its recovery later from the hangar.
+    (Recovering the wreck yourself: Round 5.)
+14. **Campaign crash level.** A Campaign setting using the Free Flight scale;
+    default **Lasting damage**.
+15. **Publish the round.** After the round's checks pass, publish it as a
+    release to `danemoll-jpg/Hostile-Horizon-releases` with the launcher tools
+    (version 0.2.0). This is the first real release, so also publish the
+    starter package (launcher + game, `Package-LauncherStarter.py`, with the
+    rewritten `README-LAUNCHER.md`) as a downloadable asset Dan can install on
+    the Steam Deck. Check: a launcher installed from that starter package finds
+    and installs the release from GitHub (not a local test catalog). Give Dan
+    the starter download link in the status.
+16. **End of round.** Update `TODO.md` (per-item status: done / not done /
+    deferred and why, never skip one silently; "For Dan to check") and
+    `CLAUDE.md` (Commands, tuning file, save location, Where things stand).
+    Clean up the disk, commit and push.
 
-**For Dan to check (after Round 1):** fly with the HOTAS 4 (axes, twist,
-throttle, buttons); fly with a gamepad; does the canyon look "a little more
-realistic"; is flying low through canyons fun; the crash levels; the launcher
-starts the game.
+**For Dan to check (after Round 2):** install on the Steam Deck from the
+starter package (steps in its README) and play through the launcher; landing feels like a helicopter and is
+fair in tight canyons; finding pilots with the radar; the pickup (knock,
+airlock); docking live (does it feel real?); credits feel right for fuel and
+repairs; the crash explosion and the death / recovery / loaner choice; the
+planet name; Continue after quitting keeps everything.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 2 — Campaign core:** downed pilots with beacons, the radar, landing
-  (slow, low, flat enough ground), engines off, pilot runs over and knocks,
-  airlock, boarding, cabin capacity, energy, climb and dock with the
-  mothership, level end, score. All pilots are real in this round.
-- **Round 3 — Aliens:** the four types and their tells, tell reliability and
+- **Round 3 — Aliens:** the five types (incl. the Sleeper's fight against
+  rescued pilots in the cabin) and their tells, tell reliability and
   false tells by difficulty, the shields/engines answer, canopy break-in, the
   on-board horror sequence, Field Journal. Scare sound design (ElevenLabs).
 - **Round 4 — Enemies + difficulty:** turrets on ridges, saucers, enemy fire,
   shields and hull, damage; Campaign difficulty presets + custom options.
-- **Round 5 — Modern progression:** upgrades between levels, mission
-  objectives, checkpoints, high-score tables (overall + per seed, seed of the
-  day).
+- **Round 5 — Modern progression:** the upgrade shop (credits), mission
+  objectives, the star map (return to older planets, typed seed), recovering
+  your own wreck yourself, insurance, best run per planet.
 - **Round 6 — Look, sound and first release:** art pass (ship model, cockpit,
   pilots and aliens from Blender), Suno soundtrack, ElevenLabs sound pass,
-  Steam Deck tuning, credits. First "publish" through the launcher.
+  Steam Deck tuning, credits.
 - **Round 7+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
-  head-tracked cockpit, world-space menus, comfort options, VR performance
+  head-tracked cockpit, world-space menus, comfort options (all OFF by
+  default: no snap turn, no fades, no vignette; Dan wants realism), VR performance
   pass. Native Quest decided afterwards.
-- **OPEN (see above):** Free Flight time trial.
+- **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
+  After Round 5 unless Dan moves it.
 
 ---------------------------------------------------------------------------
 Previous deliveries

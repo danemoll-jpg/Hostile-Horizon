@@ -35,8 +35,10 @@ Chastain Rush use. Reference implementation: `C:\Users\danmo\chastain_rush`
   `Builds/PublisherPrivate/`, git-ignored — never delete, print or replace it),
   and use a separate GitHub releases repo `danemoll-jpg/<game>-releases` as
   the update catalog (the code repo stays separate).
-- **Publishing rule:** a round ends with a local build Dan can play. Only
-  build/publish a public release when the round says "publish" or Dan asks.
+- **Publishing rule (updated 2026-11-02, Hostile Horizon):** publish a release
+  every round, so the launcher picks it up and Dan can test on his Steam Deck
+  (handy while his PC is busy). Chastain Rush used "local build unless asked";
+  for a new game, ask Dan which one he wants, defaulting to publish every round.
 
 ## Round handoff (Dan, 2026-11-02) — every project
 - **The planning chat writes each round into the repo.** Once Dan and the chat

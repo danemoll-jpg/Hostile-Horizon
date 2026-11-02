@@ -46,8 +46,15 @@ is the source of truth for what to build; this file is the standing context.
      uGUI with a canvas that can switch to World Space).
   4. No effects that only work in screen space for gameplay-critical
      information (e.g. the alien tells must be visible in the 3D world).
-  5. No forced camera moves the player can't stop during flight (comfort);
-     cutscene-style moments happen while landed or are fades.
+  5. **Realism first, comfort options OFF by default (Dan, 2026-11-02).** Dan
+     is not prone to VR sickness and hates snap turn and fades: "I want it to
+     feel more real". So by default: smooth continuous turning, no snap turn,
+     no fade-to-black transitions, no vignette. Moments like docking with the
+     mothership play out live and continuous (the ship flies in; you can still
+     look around). Comfort options (snap turn, fades instead of camera moves,
+     vignette) may be added later as settings, off unless the player turns
+     them on. This applies to flat-screen play too: prefer live, continuous
+     moments over fades and cuts.
   6. Input goes through Input System actions, never direct device reads, so
      XR controllers can be added as another binding set.
 - **Input devices:** Thrustmaster T.Flight HOTAS 4 (stick: pitch/roll, twist:
@@ -83,8 +90,11 @@ Same launcher as Chastain Rush (from Woodstock Rush), renamed:
   `Builds/PublisherPrivate/` (git-ignored). Never delete, print or replace it.
 - On every launch it checks for a newer version, installs it, then starts the
   game; B/Esc skips; menu for check / update / soundtrack / restore previous.
-- **Local build by default.** Only build and publish a public release when the
-  round says "publish" or Dan asks.
+- **Publish every round (Dan, 2026-11-02 — replaces "local build by default").**
+  Dan tests on his Steam Deck, especially while his PC is busy, so every round
+  ends with a release published to `danemoll-jpg/Hostile-Horizon-releases`
+  that the launcher picks up (after the round's checks pass). Version
+  `0.<round>.<fix>`. A follow-up fix to a round is published too.
 
 ## Process (Dan's standing rules, carried from Chastain Rush)
 - **Commit before starting a round** (a safety checkpoint), and commit + push at
@@ -109,8 +119,9 @@ Same launcher as Chastain Rush (from Woodstock Rush), renamed:
   attempts, stop, report the numbers, Dan decides.
 - **One heavy job at a time** (Unity batch build, exe check), started at Below
   Normal priority with fewer worker threads, so Dan's PC stays usable.
-- **Local build every round:** `Builds/HostileHorizon/HostileHorizon.exe`, started by
-  `Play Hostile Horizon.bat` in the repo root.
+- **Build and publish every round:** the local build
+  `Builds/HostileHorizon/HostileHorizon.exe` (started by `Play Hostile Horizon.bat`
+  in the repo root), then the published release (see "Launcher" above).
 - **Clean up the disk at the end of every round** (Chastain Rush's
   `Tools/cleanup_round.py`), and give disk use before/after in one line.
 
@@ -147,16 +158,16 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (made once by `python Tools/New-LauncherKey.py`, key ID `0c9c29ff...`; never
   delete, print or replace it). Self-check against a local test catalog:
   `python Tools/launcher_selfcheck.py` (two signed local releases, update 1 to 2,
-  start, ready handshake; output `Builds/LauncherCheck/`). Releases (only when a
-  round says "publish"): `Prepare-LauncherRelease.py`, `Prepare-ComponentUpdate.py`,
+  start, ready handshake; output `Builds/LauncherCheck/`). Releases (every round): `Prepare-LauncherRelease.py`, `Prepare-ComponentUpdate.py`,
   `Package-LauncherStarter.py`, `Publish-LauncherRelease.py` as in Chastain Rush's
   CLAUDE.md, repo `danemoll-jpg/Hostile-Horizon-releases`; starter README
   `Docs/Starter/README-LAUNCHER.md`.
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
-**Round 1 (see `TODO.md`, status there) is built and checked in the exe, not
-yet flown by Dan; local build only, not published.** Free Flight works from the
+**Round 1 (see `TODO.md`, status there) is built and checked in the exe; Dan
+played it on PC ("ran well"), HOTAS and Steam Deck still for him to check;
+local build only, not published.** Free Flight works from the
 title: seeded canyon terrain (seed of the day / random / typed in), the ship
 with a 1:1 cockpit and three cockpit displays plus a screen HUD, four views,
 one Input Actions asset (HOTAS / gamepad / keyboard + mouse; HOTAS untested),
@@ -165,5 +176,10 @@ menus, the Steam Deck setting, code-made placeholder sound, and the launcher
 (own key, self-check passed against a local catalog). About 415 fps at 1080p on
 the 1660 Ti. Code layout: `Assets/Scripts/` Core (GameShell, settings, Steam
 Deck, seeds), Terrain (CanyonField, TerrainStreamer, WorldLook), Flight, Cameras,
-Input, UI, Audio, Checks; shaders in `Assets/Resources/Shaders/`. Next: Round 2
-(Campaign core), to be written by the planning chat.
+Input, UI, Audio, Checks; shaders in `Assets/Resources/Shaders/`. **Current: Round 2
+(Campaign core) is written in `TODO.md`:** helicopter landing, pilots + radar,
+pickup, energy, live docking, credits (no score), an ongoing career with save,
+death -> regeneration -> recovery fee or loaner, today's planet with a generated
+name, crash explosion with the wreck staying on screen. Design decisions
+(credits, ongoing campaign, planets, the five alien types) are at the top of
+`TODO.md`.
