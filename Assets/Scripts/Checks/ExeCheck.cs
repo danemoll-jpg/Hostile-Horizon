@@ -135,11 +135,11 @@ namespace HostileHorizon
         IEnumerator ScreenCheck()
         {
             yield return WaitFor(() => G.Now == GameShell.State.Title && G.Menu.Current != null, 60f);
-            foreach (var (w, h, what) in new[] { (1280, 800, "simulated Steam Deck"), (Display.main.systemWidth, Display.main.systemHeight, "this PC's display (Display.main)"),
+            foreach (var (w, h, what) in new[] { (1280, 800, "simulated Steam Deck"), (3840, 2160, "simulated 4K display"), (Display.main.systemWidth, Display.main.systemHeight, "this PC's display (Display.main)"),
                                                  (Screen.currentResolution.width, Screen.currentResolution.height, "this PC's desktop (Screen.currentResolution)") })
             {
                 var t = ScreenSetting.Target(w, h, true, 0, 0); var win = ScreenSetting.Target(w, h, false, 0, 0);
-                Log($"screen setting, {what} {w} x {h}: default asks for {t.w} x {t.h} {t.mode} -> {(t.w == w && t.h == h && t.mode == FullScreenMode.FullScreenWindow ? "fills the screen" : "DOES NOT FILL THE SCREEN")}; Windowed would be {win.w} x {win.h}");
+                Log($"screen setting, {what} {w} x {h}: default asks for {t.w} x {t.h} {t.mode} -> {(t.mode == FullScreenMode.FullScreenWindow && t.h == Mathf.Min(h, ScreenSetting.DefaultMaxHeight) && Mathf.Abs((float)t.w / t.h - (float)w / h) < .01f ? (t.w == w ? "fills the screen at its own size" : "fills the screen, same shape, drawn smaller and stretched") : "DOES NOT FILL THE SCREEN")}; Windowed would be {win.w} x {win.h}");
             }
             Log($"check run applied nothing: Screen {Screen.width} x {Screen.height} {Screen.fullScreenMode}; setting shown as {ScreenSetting.ScreenLabel}, {ScreenSetting.ResolutionLabel}");
             yield return new WaitForSecondsRealtime(1f);
@@ -166,7 +166,7 @@ namespace HostileHorizon
             yield return WaitFor(() => G.Now == GameShell.State.Title && G.Menu.Current != null, 60f);
             yield return new WaitForSecondsRealtime(2f);
             int dw = Display.main.systemWidth, dh = Display.main.systemHeight;
-            bool fills = Screen.width == dw && Screen.height == dh && Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+            var want = ScreenSetting.DefaultSize(dw, dh); bool fills = Screen.width == want.x && Screen.height == want.y && Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
             Log($"real start: window {Screen.width} x {Screen.height} {Screen.fullScreenMode}; display {dw} x {dh}; desktop {Screen.currentResolution.width} x {Screen.currentResolution.height} -> {(fills ? "fills the screen" : "DOES NOT FILL THE SCREEN")}");
             yield return Shot("f1_title"); UiInside("title");
             yield return StartFromTitle(1);

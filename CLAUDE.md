@@ -160,7 +160,8 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   changes it). Saved on dock, death, quitting to the title and closing the game.
   `Assets/Scripts/Core/Career.cs`. A check run saves into `<check dir>/save`.
 - **Screen (Fix 2.1):** `Core/ScreenSetting.cs` (Chastain Rush's): full screen
-  (borderless) at the display's own resolution by default, applied before the
+  (borderless) by default at the display's own resolution capped at 1080 tall
+  (Dan: 4K ran 13.6 fps; 1920 x 1080 there, 1280 x 800 on the Deck), applied before the
   first scene; Settings > Display (Screen, Resolution); saved in `display.json`
   beside `settings.json`. Test runs never apply or save it.
 - **Campaign tuning file (Round 2):** `Assets/Resources/Tuning/CampaignTuning.json`
@@ -233,10 +234,11 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 ## Where things stand
 **Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
 muted: the Deck's 1280 x 800 asks for a 1280 x 800 borderless full screen, menus
-and HUD all inside the view) and published as 0.2.1 (`game-201`, Latest); a
-starter-200 install updates to it from GitHub. A real start on Dan's PC (with his
-OK) fills his 3840 x 2160 display but runs at 13.6 fps there: default resolution
-on big displays for Dan to decide. Not yet seen by Dan on the Deck.** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
+and HUD all inside the view) and published as 0.2.1, then 0.2.2 (`game-202`, Latest); a starter-200 install
+updates to it from GitHub. A real start on Dan's PC (with his OK) filled his 3840
+x 2160 display at 13.6 fps, so (Dan's decision) the default full-screen size is
+now the display's own at most 1080 tall: 1920 x 1080 there, 1280 x 800 on the
+Deck. Not yet seen by Dan on the Deck or on PC.** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
 (`build-200`) with the starter package (`starter-200`); not yet played by Dan.
 Round 1 (Free Flight) was played
 by Dan on PC ("ran well"); HOTAS and Steam Deck still for him to check. The

@@ -317,7 +317,7 @@ namespace HostileHorizon
 
             // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
             display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>
-                "Full screen fills the whole screen at the chosen resolution.\nThe display's own resolution is the default (1280 x 800 on the Steam Deck).\nAlt+Enter also switches for the moment." };
+                "Full screen fills the whole screen at the chosen resolution.\nDefault: the display's own resolution, at most 1080 lines tall (1280 x 800 on the Steam Deck).\nAlt+Enter also switches for the moment." };
             display.Add(Option("Screen", () => ScreenSetting.ScreenLabel, d => ScreenSetting.Set(!ScreenSetting.Fullscreen)))
                    .Add(Option("Resolution", () => ScreenSetting.ResolutionLabel, ScreenSetting.StepResolution))
                    .Add(Action("Back", () => Menu.Show(settings)));

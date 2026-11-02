@@ -204,7 +204,7 @@ Previous deliveries
 ---------------------------------------------------------------------------
 
 **Fix 2.1 — full screen on the Steam Deck (2026-11-02). Published: 0.2.1
-(`game-201`, Latest).** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
+(`game-201`), then 0.2.2 (`game-202`, Latest) with Dan's 1080 default.** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
 `Data/screenshots/fix2.1/`. Every check headless (`-batchmode`, no window) and
 muted: measured output 0.000 RMS; no step played sound; no window opened.
 
@@ -232,10 +232,15 @@ muted: measured output 0.000 RMS; no step played sound; no window opened.
    screen", title and cockpit HUD nothing cut off (`f1_title.jpg`,
    `f2_cockpit.jpg`, `exe_check_pc_fullscreen.txt`). **But only 13.6 fps (1 %
    low 10.4) at 3840 x 2160** in the cockpit, at Below Normal priority; the
-   performance target is 60 fps at 1080p. Not changed: Dan decides (e.g. a
-   1920 x 1080 default on displays bigger than that, or a render scale). Player
-   behaviour unchanged by the check mode, so not republished; the local exe
-   (built 13:17) has the extra check mode.
+   performance target is 60 fps at 1080p. **Dan decided: "Default to 1920 x
+   1080" -> 0.2.2:** the default full-screen size is the display's own, at most
+   1080 tall, same shape (`ScreenSetting.DefaultSize`): 4K -> 1920 x 1080
+   stretched to fill, Deck 1280 x 800 unchanged; Resolution offers "Default
+   (1920 x 1080)" first and the display's own 3840 x 2160 among the rest.
+   Check (headless, muted, exe built 13:42): Deck 1280 x 800 -> 1280 x 800,
+   simulated 4K and this PC -> 1920 x 1080 FullScreenWindow; six screens at 1280
+   x 800 nothing cut off (`exe_check_screen_v022.txt`, `v022_s3_display.jpg`).
+   Not re-run in a visible window (one OK, used once).
 4. **Publish — done.** 0.2.1 = build 201, tag `game-201`, Latest:
    https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/game-201 .
    Check: the `starter-200` ZIP extracted to an empty folder, its launcher run
@@ -245,14 +250,16 @@ muted: measured output 0.000 RMS; no step played sound; no window opened.
    first try, from a 144-character folder, failed with "Cannot create extracted
    file" (Windows' 260-character path limit inside Unity's data folders) and
    started the old version; from a short folder it worked. Not changed (launcher
-   code, not this fix); keep installs in short paths.
+   code, not this fix); keep installs in short paths. 0.2.2 = build 202, tag
+   `game-202`, Latest; the same starter check updated to 0.2.2 and started
+   `versions/202` (`launcher-202/`).
 5. **TODO.md / CLAUDE.md — done.** Committed and pushed. Clean-up: disk use 1.7 GB -> 1.5 GB.
 
 **For Dan to check:** start the game on the Deck from the same Steam shortcut:
 it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
-Screen and Resolution show? On the PC: the game now opens full screen at 3840 x
-2160 and measured 13.6 fps there; Settings > Display > Resolution > 1920 x 1080
-until a default is decided.
+Screen and Resolution show? On the PC (0.2.2): full screen at 1920 x 1080
+stretched over the 4K screen; is the frame rate back to normal, and is it sharp
+enough?
 
 **Round 2 — Campaign core (2026-11-02). Published: 0.2.0 (`build-200`, Latest)
 and the starter package (`starter-200`).** Exe `Builds/HostileHorizon/HostileHorizon.exe`
