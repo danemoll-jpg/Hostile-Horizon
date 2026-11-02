@@ -1,0 +1,20 @@
+# Unity
+Library/
+Temp/
+Obj/
+Logs/
+UserSettings/
+Build/
+Builds/
+# Builds/PublisherPrivate/ holds the launcher signing key: never commit it (covered by Builds/ above, listed for clarity)
+Builds/PublisherPrivate/
+*.csproj
+*.sln
+*.slnx
+.vs/
+__pycache__/
+# Unity crash-recovery scenes
+Assets/_Recovery/
+Assets/_Recovery.meta
+# Per-machine check output and scratch
+local/

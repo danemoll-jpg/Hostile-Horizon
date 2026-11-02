@@ -111,16 +111,59 @@ Same launcher as Chastain Rush (from Woodstock Rush), renamed:
   Normal priority with fewer worker threads, so Dan's PC stays usable.
 - **Local build every round:** `Builds/HostileHorizon/HostileHorizon.exe`, started by
   `Play Hostile Horizon.bat` in the repo root.
-- **Clean up the disk at the end of every round** (port Chastain Rush's
+- **Clean up the disk at the end of every round** (Chastain Rush's
   `Tools/cleanup_round.py`), and give disk use before/after in one line.
 
 ## Commands
-<!-- Code fills this in as commands come to exist (Round 1: build exe, play,
-launcher build, cleanup). Keep them exact and copy-pasteable. -->
+All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Editor\Unity.exe`
+(below: `Unity.exe`). Run heavy jobs at Below Normal priority, one at a time.
+- **Build the exe:** Unity menu **Hostile Horizon > Build Executable**, or batch
+  `Unity.exe -batchmode -nographics -quit -projectPath . -executeMethod HostileHorizon.PlayerBuild.BuildFromCommandLine -job-worker-count 3 -logFile <file>`.
+  It remakes `Assets/Scenes/Main.unity` (one GameShell; everything else is built
+  in code at start) and writes `Builds/HostileHorizon/HostileHorizon.exe` +
+  `BUILD_INFO.txt` (give its build time at the end of a round).
+- **Play:** `Play Hostile Horizon.bat` (the exe), or `Play Hostile Horizon (launcher).bat`
+  (through the launcher: a local install of the newest build in
+  `Builds/LauncherLocal/`, remade by `python Tools/make_local_launcher.py` when
+  the build is newer). Settings and `Player.log`:
+  `%USERPROFILE%\AppData\LocalLow\Hostile Horizon\Hostile Horizon\`.
+- **Exe self-check** (plays from the title through the input actions with a
+  virtual gamepad; screenshots, fps, views, pause / settings, typed seed, every
+  crash level, determinism, a height map, sound level, world-space menu):
+  `Builds\HostileHorizon\HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf] [-steamDeck 1] -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -logFile <dir>\Player.log`
+  writes `<dir>/exe_check.txt` and pictures, then quits (settings are defaults,
+  never saved). `Checks/ExeCheck.cs`.
+- **Ship model:** `F:\blender\blender.exe --background --factory-startup --python Tools/Blender/ship.py`
+  writes `SourceArt/Blender/Ship.blend` and `Assets/Resources/Models/Ship.fbx`
+  (cockpit points mirrored in `Assets/Scripts/Flight/ShipLayout.cs`). Blender FBX
+  models import facing back: the game turns them 180 degrees on load.
+- **Icon and cover:** `python Tools/make_icon.py` (exe icon, launcher .ico);
+  `python Tools/make_cover.py <menu-free title screenshot>` (launcher cover,
+  `SourceArt/Title/HostileHorizonCover.png`).
+- **Launcher** (Chastain Rush's / Woodstock Rush's, renamed): build
+  `powershell -File Tools/Build-Launcher.ps1 [-CoreOnly]` (VS 18; SDK read from
+  Racer's `Builds/LauncherSDK`) gives `Builds/Launcher/HostileHorizonLauncher.exe`
+  and `LauncherChecks.exe`. Signing key `Builds/PublisherPrivate/launcher-signing.pem`
+  (made once by `python Tools/New-LauncherKey.py`, key ID `0c9c29ff...`; never
+  delete, print or replace it). Self-check against a local test catalog:
+  `python Tools/launcher_selfcheck.py` (two signed local releases, update 1 to 2,
+  start, ready handshake; output `Builds/LauncherCheck/`). Releases (only when a
+  round says "publish"): `Prepare-LauncherRelease.py`, `Prepare-ComponentUpdate.py`,
+  `Package-LauncherStarter.py`, `Publish-LauncherRelease.py` as in Chastain Rush's
+  CLAUDE.md, repo `danemoll-jpg/Hostile-Horizon-releases`; starter README
+  `Docs/Starter/README-LAUNCHER.md`.
+- **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
-Nothing built yet. The repo holds only these planning docs. Round 1 (see
-`TODO.md`) sets up the Unity project and builds Free Flight: seeded canyon
-terrain, the flight model, cameras, HOTAS + gamepad + keyboard input, crash
-levels, the title menu, the Steam Deck setting and the launcher (local build
-only, no publish).
+**Round 1 (see `TODO.md`, status there) is built and checked in the exe, not
+yet flown by Dan; local build only, not published.** Free Flight works from the
+title: seeded canyon terrain (seed of the day / random / typed in), the ship
+with a 1:1 cockpit and three cockpit displays plus a screen HUD, four views,
+one Input Actions asset (HOTAS / gamepad / keyboard + mouse; HOTAS untested),
+five crash levels, title / Free Flight / Settings / pause / crash / Credits
+menus, the Steam Deck setting, code-made placeholder sound, and the launcher
+(own key, self-check passed against a local catalog). About 415 fps at 1080p on
+the 1660 Ti. Code layout: `Assets/Scripts/` Core (GameShell, settings, Steam
+Deck, seeds), Terrain (CanyonField, TerrainStreamer, WorldLook), Flight, Cameras,
+Input, UI, Audio, Checks; shaders in `Assets/Resources/Shaders/`. Next: Round 2
+(Campaign core), to be written by the planning chat.

@@ -1,0 +1,7 @@
+Hostile Horizon exe check 2026-11-02 03:32; 1280x800; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+screenshot title.png
+screenshot cockpit.png
+sound while flying (cockpit, flying low): output level 0.078 RMS (engine hum + wind; 0 = silent)
+fps cockpit, flying low: average 486.8, 1% low 226.3, worst frame 11 ms over 7303 frames; mean height over ground 36 m; terrain chunks 230, waiting 0
+sound while flying (chase view): output level 0.074 RMS (engine hum + wind; 0 = silent)
+fps chase view: average 452.0, 1% low 190.6, worst frame 11 ms over 6779 frames; mean height over ground 40 m; terrain chunks 233, waiting 0

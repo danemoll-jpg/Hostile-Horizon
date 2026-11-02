@@ -1,0 +1,18 @@
+python Tools/launcher_selfcheck.py (local test catalog, builds 1 -> 2)
+
+--- auto-status.txt
+351310375 Downloading 0%  (0 / 38 MiB)
+351318250 Updating the soundtrack…
+351318359 Update installed. Starting the game…
+
+--- startup.json
+{
+  "child": 14312,
+  "game": "C:\\Users\\danmo\\Hostile-Horizon\\Builds\\LauncherCheck\\install\\versions\\2\\HostileHorizon.exe",
+  "parentAlive": true,
+  "ready": true,
+  "save": "C:\\Users\\danmo\\Hostile-Horizon\\Builds\\LauncherCheck\\saves"
+}
+--- game.log [Launcher] lines
+[Launcher] ready signal written; soundtrack C:\Users\danmo\Hostile-Horizon\Builds\LauncherCheck\install\shared\soundtracks\2, personal music C:\Users\danmo\Hostile-Horizon\Builds\LauncherCheck\install\shared\PersonalMusic
+[Launcher] self-check run: closing
