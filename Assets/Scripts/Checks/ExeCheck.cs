@@ -36,7 +36,7 @@ namespace HostileHorizon
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;   // and its virtual pad keeps working
             pad = InputSystem.AddDevice<Gamepad>("CheckPad");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : All();
             while (true)
             {
                 object cur;
@@ -115,7 +115,7 @@ namespace HostileHorizon
         {
             yield return Press(GamepadButton.Start);
             yield return WaitFor(() => G.Now == GameShell.State.Paused, 3f);
-            yield return Nav(GamepadButton.DpadDown, 3);                   // Return to title
+            yield return Nav(GamepadButton.DpadDown, 4);                   // Return to title (Fix 2.4: after Reset position)
             yield return Press(GamepadButton.South);
             yield return WaitFor(() => G.Now == GameShell.State.Title, 30f);
         }
@@ -288,14 +288,15 @@ namespace HostileHorizon
             yield return Press(GamepadButton.Start);
             yield return WaitFor(() => G.Now == GameShell.State.Paused, 3f);
             yield return Shot("08_pause");
-            yield return Nav(GamepadButton.DpadDown, 2); yield return Press(GamepadButton.South);   // Settings
+            yield return Nav(GamepadButton.DpadDown, 3); yield return Press(GamepadButton.South);   // Settings
             yield return Shot("09_settings");
-            yield return Nav(GamepadButton.DpadDown, 4); yield return Press(GamepadButton.South);   // Axis display
+            yield return Nav(GamepadButton.DpadDown, 4); yield return Press(GamepadButton.South);   // Controls and HOTAS
+            yield return Nav(GamepadButton.DpadDown, 3); yield return Press(GamepadButton.South);   // Axis display
             state.leftStick = new Vector2(.5f, -.3f); Set(); yield return null; yield return null;
             yield return Shot("10_axis_display");
             state.leftStick = Vector2.zero; Set();
-            yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);       // back to pause
-            Log($"after two B presses: page {G.Menu.Current?.Title}");
+            yield return Press(GamepadButton.East); yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);   // back to pause
+            Log($"after three B presses: page {G.Menu.Current?.Title}");
             yield return Press(GamepadButton.East);                                                 // resume
             Log($"after B on pause: {G.Now}");
             yield return Fly(1f);
@@ -371,12 +372,12 @@ namespace HostileHorizon
             for (int j = 0; j < N; j++) for (int i = 0; i < N; i++)
             {
                 float x = start.x + (i - N / 2) * step, z = start.z + (j - N / 2) * step; float h = f.Height(x, z);
-                byte v = (byte)Mathf.Clamp(h / 420f * 255f, 0, 255); px[j * N + i] = new Color32(v, v, v, 255);
+                byte v = (byte)Mathf.Clamp(h / 750f * 255f, 0, 255); px[j * N + i] = new Color32(v, v, v, 255);
             }
             for (int k = -3; k <= 3; k++) { px[(N / 2) * N + N / 2 + k] = new Color32(255, 60, 30, 255); px[(N / 2 + k) * N + N / 2] = new Color32(255, 60, 30, 255); }
             tex.SetPixels32(px); tex.Apply();
             File.WriteAllBytes(Path.Combine(dir, "00_heightmap.png"), tex.EncodeToPNG());
-            Log($"height map of seed {seed}: 00_heightmap.png ({N * step / 1000:0.0} km square, 12 m a pixel, black 0 m, white 420 m, red cross = start)");
+            Log($"height map of seed {seed}: 00_heightmap.png ({N * step / 1000:0.0} km square, 12 m a pixel, black 0 m, white 750 m (Fix 2.4; 0.2.3's maps used 420 m), red cross = start)");
         }
     }
 }

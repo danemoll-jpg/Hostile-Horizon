@@ -11,6 +11,9 @@ namespace HostileHorizon
     // restart / title. The Campaign flow (hangar, launch, docking, tow, death, regeneration) is in GameShell.Campaign.cs.
     // Round 2, item 1: a crash is an explosion and the burning wreck stays; the view pulls out live and circles it, and the menu
     // comes up over the live scene (Round 1's fade to black is gone: VR rule 5).
+    // Fix 2.4: pause anywhere in play (also during launch, docking, tow, recall, the beam; time stops, resume carries on), with Start /
+    // Esc / HOTAS 9 (or the button picked in Settings > Controls) / 10 and a tap of the gamepad's View; auto-pause when a player's
+    // build loses focus; "≡ / Esc: Pause" on the HUD for the first minute of a flight; Reset position in the pause menu.
     public sealed partial class GameShell : MonoBehaviour
     {
         public enum State { Loading, Title, Flying, Paused, Crashed, Docked, Auto }
@@ -32,7 +35,8 @@ namespace HostileHorizon
         Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
         MenuPanel.Page title, freeFlight, settings, axes, display, credits, pause, crashed, loading;
-        MenuPanel.Page settingsReturn;
+        MenuPanel.Page settingsReturn, controls;
+        State pausedFrom; bool hudWasOn, viewDown, recallFiredThisHold; float flightStartedAt = -99;
         bool editingSeed; int seedCursor;
 
         void Awake() { I = this; }
@@ -54,6 +58,7 @@ namespace HostileHorizon
             Ship.OnCrash += OnCrash;
             Ship.OnEnginesStarted += OnEnginesStarted;
             Ship.OnOutOfEnergy += OnOutOfEnergy;   // Fix 2.3: the beam catches a ship that runs dry in the air
+            Ship.OnBrake += () => Sfx.Play(Sfx.Brake, Ship.transform.position, .8f, 10f, Ship.transform);   // Fix 2.4: the air brakes
             Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
@@ -151,12 +156,14 @@ namespace HostileHorizon
                 case State.Flying:
                     Terrain.SetFocus(Rig.transform.position);
                     if (Controls.CameraPressed) Rig.Cycle();
+                    if (Controls.ViewPressed) { viewDown = true; recallFiredThisHold = false; }
                     if (InCampaign) CampaignTick();
-                    if (Controls.MenuPressed && Now == State.Flying) Pause();
+                    Displays.PauseHint = Time.time - flightStartedAt < 60f;
+                    if (Now == State.Flying && (Controls.MenuPressed || ViewTap())) Pause();
                     break;
                 case State.Paused:
                     Terrain.SetFocus(Rig.transform.position);
-                    if (Controls.MenuPressed && Menu.Current == pause) Resume();
+                    if ((Controls.MenuPressed || Controls.ViewPressed) && (Menu.Current == pause || Menu.Current == campaignPause)) Resume();
                     break;
                 case State.Crashed:
                 case State.Docked:
@@ -164,6 +171,7 @@ namespace HostileHorizon
                     Terrain.SetFocus(Rig.transform.position);
                     if (Now == State.Docked) HoldDocked();
                     if (Now == State.Auto && Controls.CameraPressed && !Rig.Scripted) Rig.Cycle();
+                    if (Now == State.Auto && (Controls.MenuPressed || Controls.ViewPressed)) Pause();
                     break;
             }
         }
@@ -194,19 +202,54 @@ namespace HostileHorizon
             Rig.Current = (CameraRig.Mode)Mathf.Clamp(GameSettings.S.cameraDefault, 0, 3); Rig.Snap(); Rig.FollowShip = true;
             Displays.Campaign = false; Displays.SetVisible(true);
             Menu.Hide();
-            Now = State.Flying;
+            Now = State.Flying; flightStartedAt = Time.time;
         }
+
+        // A tap of View opens the pause menu: at once in Free Flight; in the Campaign on release, unless the hold became the recall.
+        bool ViewTap()
+        {
+            if (!InCampaign) { bool p = Controls.ViewPressed; if (p) viewDown = false; return p; }
+            if (viewDown && Controls.ViewReleased) { viewDown = false; return !recallFiredThisHold; }
+            return false;
+        }
+
+        // Fix 2.4: in every state of play: flying, and the automatic parts (launch, docking, tow, recall, the beam) while no menu is up.
+        public bool CanPause => Now == State.Flying || Now == State.Auto && !Menu.Visible;
+        public State PausedFrom => pausedFrom;
 
         public void Pause()
         {
-            if (Now != State.Flying) return;
+            if (!CanPause) return;
+            pausedFrom = Now; hudWasOn = Displays.Visible; viewDown = false;
             Now = State.Paused; Time.timeScale = 0; Displays.SetVisible(false); Menu.SetBackdrop(.45f); Menu.Show(InCampaign ? campaignPause : pause);
         }
 
         public void Resume()
         {
             if (Now != State.Paused) return;
-            Menu.Hide(); Displays.SetVisible(true); Time.timeScale = 1; Now = State.Flying; Ship.IgnoreButtonsUntil = Time.frameCount + 2;
+            Menu.Hide(); Displays.SetVisible(hudWasOn); Time.timeScale = 1; Now = pausedFrom; Ship.IgnoreButtonsUntil = Time.frameCount + 2;
+        }
+
+        // Fix 2.4: a player's build pauses when it loses focus (alt-tab, the Steam overlay, the Deck's Steam / ... buttons). Check runs
+        // keep running unfocused; the check calls FocusLost itself to simulate it.
+        void OnApplicationFocus(bool focus) { if (!focus && !CheckRun.Active && !TestRun.Muted) FocusLost(); }
+        void OnApplicationPause(bool paused) { if (paused && !CheckRun.Active && !TestRun.Muted) FocusLost(); }
+        public void FocusLost() => Pause();
+
+        // Fix 2.4: Reset position: a steady hover over the nearest flat landing pad (else the start), same cabin and energy, no charge.
+        // Not while a pilot is running to the ship or at the airlock, nor during the automatic parts.
+        public bool CanReset => pausedFrom == State.Flying && !Ship.Crashed && !PilotComing;
+        bool PilotComing { get { foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding) return true; return false; } }
+
+        public void ResetPosition()
+        {
+            if (Now != State.Paused || !CanReset) return;
+            var f = Terrain.Field; Vector3 at;
+            if (f.NearestPad(Ship.transform.position, out var pad)) at = pad.Position; else { f.FindStart(out at, out _); at.y = f.SurfaceHeight(at.x, at.z); }
+            Ship.ResetTo(at + Vector3.up * Tuning.T.resetHeight, Ship.Heading);
+            Rig.Snap(); Terrain.SetFocus(Ship.transform.position);
+            Resume();
+            Flash("Position reset: hovering over a landing pad", 4f);
         }
 
         // The crash, in every mode: the explosion where the ship hit, the burning wreck left there, the view pulling out to circle it.
@@ -291,12 +334,12 @@ namespace HostileHorizon
             };
 
             settings = new MenuPanel.Page { Title = "SETTINGS", Back = () => Menu.Show(settingsReturn ?? title) };
-            settings.Add(Option("Invert pitch", () => GameSettings.S.invertPitch ? "On" : "Off", d => { GameSettings.S.invertPitch = !GameSettings.S.invertPitch; Saved(); }))
+            // Fix 2.4: Flight assist and Stick sensitivity first; the HOTAS rows moved to Settings > Controls (a page has at most 12 rows)
+            settings.Add(Option("Flight assist", () => GameSettings.AssistNames[Mathf.Clamp(GameSettings.S.flightAssist, 0, 2)], d => { GameSettings.S.flightAssist = Wrap(GameSettings.S.flightAssist + d, 3); Saved(); }))
+                .Add(Option("Stick sensitivity", () => GameSettings.S.sensitivity + "%", d => { GameSettings.S.sensitivity = Mathf.Clamp(GameSettings.S.sensitivity + d * 10, 50, 150); Saved(); }))
+                .Add(Option("Invert pitch", () => GameSettings.S.invertPitch ? "On" : "Off", d => { GameSettings.S.invertPitch = !GameSettings.S.invertPitch; Saved(); }))
                 .Add(Option("Stick deadzone", () => GameSettings.S.deadzone + "%", d => { GameSettings.S.deadzone = Mathf.Clamp(GameSettings.S.deadzone + d * 2, 0, 30); Saved(); }))
-                .Add(Option("HOTAS throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.ThrottleAxisPath.Replace("<Joystick>/", "")})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
-                    d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
-                .Add(Option("Invert throttle lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }))
-                .Add(Action("Axis display", () => Menu.Show(axes)))
+                .Add(Action("Controls and HOTAS", () => Menu.Show(controls)))
                 .Add(Action("Display", () => Menu.Show(display)))
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
                 .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
@@ -304,17 +347,28 @@ namespace HostileHorizon
                 .Add(Option("Volume", () => GameSettings.S.volume + "%", d => { GameSettings.S.volume = Mathf.Clamp(GameSettings.S.volume + d * 10, 0, 100); Saved(); }))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
-                "<b>Controls</b>\n" +
-                "HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button 9 / 10 menu.\n" +
-                "  button 4 landing mode, 5 engines, 6 airlock.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start menu,\n  X landing mode, A engines, B airlock.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc menu,\n  G landing mode, K engines, O airlock.\n" +
-                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks.\n\n" +
+                "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): a gentler bank turn and wing levelling. Off: none; bank and pull to turn.\n" +
+                "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n\n" +
                 "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
 
-            axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(settings),
+            controls = new MenuPanel.Page { Title = "CONTROLS", Back = () => Menu.Show(settings) };
+            controls.Add(Option("HOTAS throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.ThrottleAxisPath.Replace("<Joystick>/", "")})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
+                    d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
+                .Add(Option("Invert throttle lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }))
+                .Add(Option("HOTAS pause button", () => "button " + GameSettings.S.hotasPauseButton, d => { GameSettings.S.hotasPauseButton = Mathf.Clamp(GameSettings.S.hotasPauseButton + d, 1, 16); Saved(); }))
+                .Add(Action("Axis display", () => Menu.Show(axes)))
+                .Add(Action("Back", () => Menu.Show(settings)));
+            controls.Body = () =>
+                "<b>Controls</b>\n" +
+                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall.\n" +
+                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall.\n" +
+                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall.\n" +
+                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up).\n\n" +
+                "Pause button: watch Axis display's \"buttons held\" to find a button's number.";
+
+            axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(controls),
                 Body = Controls.AxisReport, Hint = () => "B / Esc / HOTAS button 2: back" };
-            axes.Add(Action("Back", () => Menu.Show(settings)));
+            axes.Add(Action("Back", () => Menu.Show(controls)));
 
             // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
             display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>
@@ -334,6 +388,7 @@ namespace HostileHorizon
             pause.Subtitle = "";
             pause.Body = () => $"Seed {FlightSeed}  ·  {CrashLevels.Names[(int)FlightLevel]}";
             pause.Add(Action("Resume", Resume))
+                 .Add(Action("Reset position", ResetPosition, () => !CanReset))
                  .Add(Action("Restart (same seed)", () => StartFlight(FlightSeed, FlightLevel)))
                  .Add(Action("Settings", () => { settingsReturn = pause; Menu.Show(settings); }))
                  .Add(Action("Return to title", ToTitle))

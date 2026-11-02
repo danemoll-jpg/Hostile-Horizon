@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -23,7 +23,7 @@ namespace HostileHorizon
             var f = Asset.FindActionMap("Flight"); var u = Asset.FindActionMap("UI");
             pitch = f["Pitch"]; roll = f["Roll"]; yaw = f["Yaw"]; throttleAxis = f["ThrottleAxis"]; throttleChange = f["ThrottleChange"];
             look = f["Look"]; mouseLook = f["MouseLook"]; mouseHold = f["MouseLookHold"]; camera = f["Camera"]; menu = f["Menu"];
-            land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"];
+            land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"];
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
             ApplySettings();
             Asset.Enable();
@@ -39,14 +39,19 @@ namespace HostileHorizon
             ThrottleAxisPath = "<Joystick>/" + axis;
             throttleAxis.ApplyBindingOverride(0, ThrottleAxisPath);
             throttleRange = 0;
+            // Fix 2.4: the HOTAS pause button Dan picks (Settings > Controls); button 10 always pauses too
+            int pb = menu.bindings.IndexOf(b => b.path == "<Joystick>/button9");
+            if (pb >= 0) menu.ApplyBindingOverride(pb, "<Joystick>/button" + Mathf.Clamp(GameSettings.S.hotasPauseButton, 1, 16));
         }
 
         static float Dead(float v, float dz) { float a = Mathf.Abs(v); return a <= dz ? 0 : Mathf.Sign(v) * (a - dz) / (1 - dz); }
         static float DZ => GameSettings.S.deadzone / 100f;
 
-        public static float Pitch => Dead(pitch.ReadValue<float>(), DZ) * (GameSettings.S.invertPitch ? -1 : 1);
-        public static float Roll => Dead(roll.ReadValue<float>(), DZ);
-        public static float Yaw => Dead(yaw.ReadValue<float>(), Mathf.Max(DZ, .12f));   // twist grips are loose: a little more
+        // Fix 2.4: a response curve (tuning stickCurve): small moves stay fine, full stick is still full.
+        static float Curve(float v) { float k = Mathf.Clamp01(Tuning.T.stickCurve); return v * (1 - k) + v * v * v * k; }
+        public static float Pitch => Curve(Dead(pitch.ReadValue<float>(), DZ)) * (GameSettings.S.invertPitch ? -1 : 1);
+        public static float Roll => Curve(Dead(roll.ReadValue<float>(), DZ));
+        public static float Yaw => Curve(Dead(yaw.ReadValue<float>(), Mathf.Max(DZ, .12f)));   // twist grips are loose: a little more
         public static float ThrottleChange => throttleChange.ReadValue<float>();
         public static Vector2 Look => look.ReadValue<Vector2>();
         public static Vector2 MouseLook => mouseHold.IsPressed() ? mouseLook.ReadValue<Vector2>() : Vector2.zero;
@@ -59,6 +64,10 @@ namespace HostileHorizon
         // Fix 2.3: call the mothership to you (held: GameShell.Campaign times the hold)
         public static bool RecallHeld => recall.IsPressed();
         public const string RecallKeys = "View / H / HOTAS 7";
+        // Fix 2.4: the gamepad's View button (the Deck's ⧉) also opens the pause menu: a tap (held, it is the recall in the Campaign)
+        public static bool ViewPressed => view.WasPressedThisFrame();
+        public static bool ViewReleased => view.WasReleasedThisFrame();
+        public const string LandKeys = "X / G / HOTAS 4", EngineKeys = "A / K / HOTAS 5";
         public static Vector2 Navigate => navigate.ReadValue<Vector2>();
         public static bool SubmitPressed => submit.WasPressedThisFrame();
         public static bool CancelPressed => cancel.WasPressedThisFrame();

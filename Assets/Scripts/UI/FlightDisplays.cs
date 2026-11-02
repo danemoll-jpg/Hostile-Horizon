@@ -19,8 +19,10 @@ namespace HostileHorizon
         public int Cabin, CabinSize;
         public string Prompt = "", Place = "";
         public string Home = "", HomeWarning = "";   // Fix 2.3, set by GameShell.Campaign while flying
+        public string Cue = "";                      // Fix 2.4: SLOW DOWN - PRESS X, on the radar
+        public bool PilotNear, PauseHint;            // Fix 2.4: a waiting pilot within pickup range; the first minute of a flight
         public readonly List<RadarContact> Contacts = new List<RadarContact>();
-        Text left, centre, right, rightList, screenLeft, screenRight, screenList, warning, prompt;
+        Text left, centre, right, rightList, screenLeft, screenRight, screenList, warning, prompt, stateLine, hint;
         RadarScope cockpitRadar, screenRadar; Image listBack;
         Canvas overlay;
         float lastHitTime = -9;
@@ -46,6 +48,9 @@ namespace HostileHorizon
             d.warning = UiKit.Label(t, "Warning", 40, TextAnchor.MiddleCenter, new Color(1f, .35f, .25f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(-500, 140), new Vector2(500, 220));
             d.prompt = UiKit.Label(t, "Prompt", 30, TextAnchor.UpperCenter, new Color(1f, .8f, .45f), new Vector2(.5f, 1), new Vector2(.5f, 1), new Vector2(-480, -150), new Vector2(480, -36));   // top centre: clear of the cockpit displays
             d.screenRadar = new RadarScope(t, new Vector2(-190, 190), 300, new Vector2(1, 0));
+            // Fix 2.4: the landing state (BRAKING, HOVER with the height in big type, TOUCHDOWN, LANDED ...) and the pause hint
+            d.stateLine = UiKit.Label(t, "State", 46, TextAnchor.MiddleCenter, new Color(.6f, 1f, .85f), new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(-620, 250), new Vector2(620, 330));
+            d.hint = UiKit.Label(t, "Pause hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(30, 20), new Vector2(500, 60));
             d.listBack = UiKit.Panel(t, "List back", new Color(0, 0, 0, .35f), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-470, 352), new Vector2(-24, 520));
             d.screenList = UiKit.Label(t, "List", 22, TextAnchor.LowerRight, UiKit.Ink, new Vector2(1, 0), new Vector2(1, 0), new Vector2(-460, 360), new Vector2(-40, 512));
             return d;
@@ -65,6 +70,25 @@ namespace HostileHorizon
         }
 
         public void SetVisible(bool on) => overlay.gameObject.SetActive(on);   // the cockpit displays stay live (they are part of the ship)
+        public bool Visible => overlay.gameObject.activeSelf;
+
+        // Fix 2.4: what the ship is doing in the landing steps, big on the HUD and on the cockpit's centre display.
+        public string StateText
+        {
+            get
+            {
+                if (!Ship || Ship.Kinematic || Ship.Crashed) return "";
+                if (Ship.Braking) return $"BRAKING  {Ship.Speed * 3.6f:0} km/h";
+                if (Ship.Landed)
+                {
+                    if (Time.time - Ship.LandedAt < 2.5f) return "TOUCHDOWN";
+                    if (!Ship.EnginesOn) return "LANDED — engines off";
+                    return Campaign && PilotNear ? $"LANDED — engines off ({Controls.EngineKeys.Split(' ')[0]}) so the pilot comes" : "LANDED";
+                }
+                if (Ship.Mode == FlightMode.Hover) return $"HOVER   GND <b>{Ship.AboveGround:0}</b> m   {Ship.Velocity.y:+0;-0;0} m/s";
+                return "";
+            }
+        }
 
         static string Bar(float v01, int n) { int k = Mathf.RoundToInt(Mathf.Clamp01(v01) * n); return new string('█', k) + new string('·', n - k); }
 
@@ -77,7 +101,8 @@ namespace HostileHorizon
             string hull = lvl == CrashLevel.Regenerating || lvl == CrashLevel.Lasting ? $"HULL {100 - dmg:0}%" : lvl == CrashLevel.Instant ? "HULL one hit" : "HULL no damage";
             bool hover = Ship.Mode == FlightMode.Hover;
             bool low = agl < 25 && !Ship.Crashed && !hover && !Ship.Kinematic;
-            string mode = Ship.Kinematic ? "AUTOPILOT" : Ship.Landed ? "LANDED" : hover ? "HOVER" : "FLIGHT";
+            string mode = Ship.Kinematic ? "AUTOPILOT" : Ship.Landed ? "LANDED" : Ship.Braking ? "BRAKING" : hover ? "HOVER" : "FLIGHT";
+            string st = StateText;
             string gear = Ship.Gear > .95f ? "GEAR DOWN" : Ship.Gear > .05f ? "GEAR MOVING" : "gear up";
             string engines = Ship.OutOfEnergy ? "NO ENERGY" : Ship.EnginesOn ? "engines on" : "ENGINES OFF";
             string power = hover ? $"LIFT {(Ship.Lift > .05f ? "UP" : Ship.Lift < -.05f ? "DOWN" : "HOLD")}" : $"THROTTLE {thr:0}%";
@@ -88,7 +113,11 @@ namespace HostileHorizon
             bool homeOn = Campaign && !Ship.Kinematic && !Ship.Crashed;
             string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
 
-            centre.text = $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>";
+            centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : "") +
+                $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
+                (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "");
+            stateLine.text = st; hint.text = PauseHint ? "≡ / Esc: Pause" : "";
+            string cue = Cue != "" && Campaign && !Ship.Kinematic && Ship.Mode == FlightMode.Flight ? $"<color=#FF9A40><b>{Cue}</b></color>\n" : "";
             // the way home first: the lower lines of this display sit below the flat screen's view
             string shortWarn = HomeState(homeWarn);
             left.text = (Campaign && home != "" ? (shortWarn != "" ? $"<color=#FF6A50>{shortWarn}</color>\n" : "") + $"<size=22>{home.Replace("\n", " · ")}</size>\n" : "") +
@@ -96,7 +125,7 @@ namespace HostileHorizon
             if (Campaign)
             {
                 right.text = "";
-                rightList.text = RadarScope.List(Ship.transform, Contacts, 5).Replace("PILOT ", "P").Replace("MOTHERSHIP", "MS") + $"\n<size=16>{Place}</size>";
+                rightList.text = (cue != "" ? "<size=19><color=#FF9A40><b>SLOW DOWN — PRESS X</b></color></size>\n" : "") + RadarScope.List(Ship.transform, Contacts, 5).Replace("PILOT ", "P").Replace("MOTHERSHIP", "MS") + $"\n<size=16>{Place}</size>";
                 cockpitRadar.Draw(Ship.transform, Contacts); screenRadar.Draw(Ship.transform, Contacts);
             }
             else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
@@ -105,7 +134,7 @@ namespace HostileHorizon
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
                 (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") : "");
             screenRight.text = Campaign ? $"{Place}\nView: {CameraRig.ModeNames[(int)Rig.Current]}" : $"Seed {seed}   ·   {level}\nView: {CameraRig.ModeNames[(int)Rig.Current]}";
-            screenList.text = Campaign ? RadarScope.List(Ship.transform, Contacts, 6) : "";
+            screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 6) : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
             warning.text = Ship.Crashed ? "" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")

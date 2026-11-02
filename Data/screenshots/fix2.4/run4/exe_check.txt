@@ -1,0 +1,134 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 55296 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 17:20; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: pitch 95 / roll 170 / yaw 55 °/s; bank turn Full 38 Light 26; levelling Full 22 Light 8; stick curve 0.35; air brake 42 m/s²; hover sink 30 (above 150 m) / 14 (60 m) / 3 (below 8 m); reset 60 m
+settings (defaults): Flight assist Light, Stick sensitivity 100%, HOTAS pause button 9
+determinism: seed 20261102 twice -> identical (2000 heights + start); seed 20261103 -> different
+terrain heights over 12 x 12 km: -6 m to 584 m
+height map of seed 20261102: 00_heightmap.png (7.2 km square, 12 m a pixel, black 0 m, white 750 m (Fix 2.4; 0.2.3's maps used 420 m), red cross = start)
+landing pads: 306 of 400 cells of 520 m (10.4 km square) have one
+screenshot f01_cockpit_pause_hint.png
+pause hint shown in the first minute: True
+    [1226 fps] Flying/ Flight alt 2600 gnd 2245 spd 87 hdg 31 energy 100
+flight 0.2.3 (before): rates pitch 70 / roll 130 / yaw 32 °/s, bank turn 38, levelling 22 °/s -> roll to 60° 0.46 s; 90° turn, 60° bank held, no pull 3.06 s; 90° turn, bank and pull 1.28 s; yaw (RB) 32 °/s; nose up 30° 0.43 s; wings level from 45° 1.82 s
+    [1770 fps] Flying/ Flight alt 2607 gnd 2603 spd 87 hdg 0 energy 100
+flight Full (new rates): rates pitch 95 / roll 170 / yaw 55 °/s, bank turn 38, levelling 22 °/s -> roll to 60° 0.35 s; 90° turn, 60° bank held, no pull 3.02 s; 90° turn, bank and pull 1.02 s; yaw (RB) 55 °/s; nose up 30° 0.32 s; wings level from 45° 1.82 s
+    [1694 fps] Flying/ Flight alt 2600 gnd 2428 spd 87 hdg 1 energy 100
+flight Light (default): rates pitch 95 / roll 170 / yaw 55 °/s, bank turn 26, levelling 8 °/s -> roll to 60° 0.35 s; 90° turn, 60° bank held, no pull 4.33 s; 90° turn, bank and pull 1.08 s; yaw (RB) 55 °/s; nose up 30° 0.32 s; wings level from 45° 5.00 s
+    [1730 fps] Flying/ Flight alt 2600 gnd 2599 spd 87 hdg 0 energy 100
+    [1813 fps] Flying/ Flight alt 2600 gnd 2584 spd 87 hdg 0 energy 100
+    [1883 fps] Flying/ Flight alt 2600 gnd 2210 spd 87 hdg 0 energy 100
+    [561 fps] Flying/ Flight alt 2600 gnd 2124 spd 87 hdg 0 energy 100
+flight Off: rates pitch 95 / roll 170 / yaw 55 °/s, bank turn 0, levelling 0 °/s -> roll to 60° 0.35 s; 90° turn, 60° bank held, no pull never; 90° turn, bank and pull 1.25 s; yaw (RB) 55 °/s; nose up 30° 0.32 s; wings level from 45° never
+    [1245 fps] Flying/ Hover alt 2600 gnd 2178 spd 34 hdg 90 energy 100
+brake 0.2.3 (before) (air brake 12 m/s², hover brake 12): from 450 km/h, mode Hover -> hover speed in 8.84 s, stopped in 10.4 s after 651 m; predicted stop point 0.1 m from where it stopped (within 50 m)
+brake new (air brake 42 m/s², hover brake 12): from 450 km/h, mode Hover -> hover speed in 2.53 s, stopped in 4.1 s after 196 m; predicted stop point 0.7 m from where it stopped (within 50 m)
+    [1247 fps] Flying/ Hover alt 977 gnd 978 spd 14 hdg 0 energy 100
+    [1287 fps] Flying/ Hover alt 837 gnd 838 spd 14 hdg 0 energy 100
+    [1335 fps] Flying/ Hover alt 697 gnd 698 spd 14 hdg 0 energy 100
+    [1397 fps] Flying/ Hover alt 557 gnd 558 spd 14 hdg 0 energy 100
+    [1330 fps] Flying/ Hover alt 417 gnd 418 spd 14 hdg 0 energy 100
+    [1338 fps] Flying/ Hover alt 277 gnd 278 spd 14 hdg 0 energy 100
+    [1293 fps] Flying/ Hover alt 137 gnd 138 spd 14 hdg 0 energy 100
+hover descent 0.2.3 (before): 1000 m to 5 m over the ground in 71.8 s; fastest sink 14.0 m/s, at the ground 14.0 m/s (safe touchdown 3.5 m/s); ; hits 0
+    [1342 fps] Flying/ Hover alt 1 gnd 2 spd 1 hdg 0 energy 100
+    [1295 fps] Flying/ Hover alt 730 gnd 731 spd 30 hdg 0 energy 100
+    [1233 fps] Flying/ Hover alt 430 gnd 431 spd 30 hdg 0 energy 100
+    [1218 fps] Flying/ Hover alt 131 gnd 132 spd 27 hdg 0 energy 100
+    [1419 fps] Flying/ Hover alt 10 gnd 11 spd 4 hdg 0 energy 100
+hover descent new: 1000 m to landed in 43.0 s; fastest sink 30.0 m/s, at the ground 3.0 m/s (safe touchdown 3.5 m/s); Landed (3.0 m/s); hits 0
+screenshot f02_landed_free_flight.png
+screenshot f03_pause_free_flight.png
+Start: Paused, menu rows: Resume / Reset position / Restart (same seed) / Settings / Return to title / Quit game
+B: Flying
+tap of View: Paused
+View again: Flying
+focus lost (simulated, as a player's build): Paused
+Start: Flying
+reset position from high up: before pos (2757, 1801, 4878), gnd 1802 m, Flight, speed 106.0 m/s, engines on, energy 100.0% -> after pos (2757, 59, 4877), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 100.0%; 0 m from the nearest pad's centre; state Flying
+screenshot f04_after_reset_high.png
+    [1080 fps] Flying/ Flight alt 36 gnd 35 spd 59 hdg 48 energy 100
+in the canyon: pos (423, 36, 381), gnd 35 m, Flight, speed 58.5 m/s, engines on, energy 100.0%
+reset position from low in a canyon: before pos (423, 36, 381), gnd 35 m, Flight, speed 58.5 m/s, engines on, energy 100.0% -> after pos (140, 60, 188), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 100.0%; 0 m from the nearest pad's centre; state Flying
+screenshot f05_canyon_cockpit.png
+    [872 fps] Flying/ Flight alt 59 gnd 59 spd 59 hdg 34 energy 100
+    [811 fps] Flying/ Flight alt 108 gnd 92 spd 59 hdg 44 energy 100
+cockpit, flying low in the new canyons: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.100 RMS, peak 1.806, zeroed before the speakers; 22228992 samples); master volume 0.00
+fps cockpit, flying low in the new canyons: average 835.1, 1% low 211.6, worst frame 44 ms over 12533 frames; mean height over ground 51 m; terrain chunks 579, waiting 0
+screenshot f06_canyon_chase.png
+screenshot f07_canyon_low_view.png
+new career: planet Bryshra-IV, 3 pilots, landing spot to the nearest pad's centre: 0 m, 0 m, 0 m
+    [1079 fps] Paused/launch Hover alt 1500 gnd 1500 spd 0 hdg 240 energy 100
+screenshot c01_pause_launch.png
+pause during the launch: state Paused (from Auto, phase launch); in 1.5 s the ship moved 0.00 m, the mothership 0.00 m; menu "PAUSED"
+  resumed: state Auto, phase launch
+to pilot 3: 2241 m
+  stop ring shown at 1708 m from the pilot
+    [925 fps] Flying/ Flight alt 1327 gnd 875 spd 73 hdg 263 energy 99
+    [513 fps] Flying/ Flight alt 1045 gnd 570 spd 73 hdg 347 energy 97
+    [511 fps] Flying/ Flight alt 763 gnd 264 spd 73 hdg 44 energy 95
+    [508 fps] Flying/ Flight alt 598 gnd 367 spd 73 hdg 46 energy 93
+  cue "SLOW DOWN — PRESS X" at 224 m from the pilot, 262 km/h, 75 m over the ground; ring 0.1 m from the predicted stop point, which is 151 m from the pilot; advice "Slow down now: press X to stop near the pilot (the ring shows where)"
+screenshot c02_cue_and_ring.png
+screenshot c03_braking.png
+screenshot c03b_braking_chase_ring.png
+  braked: stopped 0.6 m from the ring's point (within 50 m), 147 m from the pilot, 68 m over the ground
+screenshot c04_hover.png
+    [491 fps] Flying/ Hover alt 565 gnd 116 spd 30 hdg 41 energy 91
+    [427 fps] Flying/ Hover alt 279 gnd 279 spd 27 hdg 38 energy 87
+    [641 fps] Flying/ Hover alt 61 gnd 61 spd 12 hdg 35 energy 84
+    [691 fps] Flying/ Hover alt 12 gnd 13 spd 1 hdg 35 energy 80
+    [547 fps] Flying/ Hover alt 5 gnd 5 spd 1 hdg 35 energy 77
+  set down in 49 s (move over the spot and descend): landed True 4 m from the spot; Landed
+screenshot c05_touchdown.png
+screenshot c06_landed.png
+  landing states shown: BRAKING  261 km/h -> HOVER   GND 66 m   0 m/s -> HOVER   GND 68 m   -1 m/s -> TOUCHDOWN -> LANDED — engines off (A) so the pilot comes
+  tap of View on the ground: Paused
+  Start: Flying
+  paused while pilot 3 runs: Reset position greyed out
+  pressing it anyway: Paused
+    [404 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 35 energy 74
+(e) pilot 3 aboard: energy 73.6% -> 87.6% (brought 14 %, range 3-15); message "Pilot 3 aboard (1 / 6), brought 14 % energy"
+    [702 fps] Flying/ Hover alt 41 gnd 41 spd 14 hdg 35 energy 87
+    [230 fps] Flying/ Flight alt 641 gnd 642 spd 125 hdg 1 energy 84
+screenshot c07_pause_docking.png
+pause during docking: state Paused (from Auto, phase dock-approach); in 1.5 s the ship moved 0.00 m, the mothership 0.00 m; menu "PAUSED"
+  resumed: state Auto, phase dock-approach
+    [472 fps] Auto/dock-approach Flight alt 1387 gnd 1294 spd 80 hdg 48 energy 82
+    [675 fps] Auto/dock-approach Flight alt 1544 gnd 1083 spd 69 hdg 165 energy 82
+    [696 fps] Auto/dock-final Flight alt 1378 gnd 1277 spd 32 hdg 276 energy 82
+    [743 fps] Auto/dock-rise Flight alt 1457 gnd 1402 spd 7 hdg 240 energy 82
+  docked: Delivered 1 pilot: +500 cr / Energy used 18%. Refuelled 18%: -107 cr / Hull damage 36%: repair 436 cr (Repair below, or fly as it is)
+    [990 fps] Auto/launch Hover alt 1491 gnd 1437 spd 14 hdg 240 energy 100
+recall held 2 s: calling 0, state after release Auto (a held View is the recall, not a pause)
+screenshot c08_pause_recall.png
+pause during the recall lift: state Paused (from Auto, phase tow-lift); in 1.5 s the ship moved 0.00 m, the mothership 0.00 m; menu "PAUSED"
+  resumed: state Auto, phase tow-lift
+    [889 fps] Auto/tow-lift Flight alt 1386 gnd 996 spd 52 hdg 240 energy 100
+    [1000 fps] Auto/tow-lift Flight alt 1398 gnd 921 spd 9 hdg 240 energy 100
+    [1016 fps] Auto/tow-lift Flight alt 1418 gnd 994 spd 31 hdg 240 energy 100
+    [966 fps] Auto/tow-lift Flight alt 1433 gnd 1433 spd 31 hdg 240 energy 100
+    [974 fps] Auto/tow-lift Flight alt 1440 gnd 1435 spd 6 hdg 240 energy 100
+    [888 fps] Auto/dock-rise Flight alt 1493 gnd 1481 spd 4 hdg 240 energy 100
+  docked: Recall: -900 cr / Energy used 0%. Refuelled 0%: -3 cr / Hull damage 36%: repair 436 cr (Repair below, or fly as it is)
+    [1052 fps] Flying/ Hover alt 1418 gnd 1410 spd 39 hdg 240 energy 100
+    [714 fps] Flying/ Hover alt 1163 gnd 1077 spd 35 hdg 342 energy 96
+    [680 fps] Flying/ Hover alt 863 gnd 862 spd 30 hdg 338 energy 93
+    [733 fps] Flying/ Hover alt 599 gnd 599 spd 26 hdg 334 energy 89
+    [761 fps] Flying/ Hover alt 344 gnd 344 spd 26 hdg 334 energy 86
+    [758 fps] Flying/ Hover alt 99 gnd 99 spd 18 hdg 334 energy 82
+    [649 fps] Flying/ Hover alt 18 gnd 17 spd 2 hdg 334 energy 79
+    [510 fps] Flying/ Hover alt 7 gnd 6 spd 1 hdg 334 energy 75
+    [554 fps] Paused/tow-wait Hover landed alt 3 gnd 2 spd 0 hdg 334 energy 0
+screenshot c09_pause_tow.png
+pause during the tow: state Paused (from Auto, phase tow-wait); in 1.5 s the ship moved 0.00 m, the mothership 0.00 m; menu "PAUSED"
+  resumed: state Auto, phase tow-wait
+    [1363 fps] Auto/tow-wait Hover landed alt 3 gnd 2 spd 0 hdg 334 energy 0
+    [1450 fps] Auto/tow-wait Hover landed alt 3 gnd 2 spd 0 hdg 334 energy 0
+    [1267 fps] Auto/tow-lift Flight alt 54 gnd 53 spd 20 hdg 242 energy 0
+    [1113 fps] Auto/tow-lift Flight alt 428 gnd 427 spd 45 hdg 240 energy 0
+    [1123 fps] Auto/tow-lift Flight alt 878 gnd 877 spd 45 hdg 240 energy 0
+    [1017 fps] Auto/tow-lift Flight alt 1275 gnd 1274 spd 29 hdg 240 energy 0
+    [1010 fps] Auto/tow-lift Flight alt 1437 gnd 1436 spd 4 hdg 240 energy 0
+    [902 fps] Auto/dock-rise Flight alt 1497 gnd 1496 spd 3 hdg 240 energy 0
+  docked: Tow: -1500 cr / Energy used 100%. Refuelled 100%: -600 cr / Hull damage 36%: repair 436 cr (Repair below, or fly as it is)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.088 RMS, peak 1.806, zeroed before the speakers; 61700096 samples); master volume 0.00

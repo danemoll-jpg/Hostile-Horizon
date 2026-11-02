@@ -172,7 +172,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   minimum fill, tow fee, recovery fee (base + share of ship value), exhaust kill
   range and penalty, cabin size, pilots per planet tier and their spread, pickup
   range, run speed, energy drains, hover speeds, touchdown limits, mothership
-  altitude, docking height. Fix 2.3 adds: `recallFee` 900, `recallHoldSeconds` 1,
+  altitude, docking height. Fix 2.4 adds the flight-feel and landing numbers: `pitchRate` 95,
+  `rollRate` 170, `yawRate` 55, `bankTurnFull/Light` 38 / 26, `levelRateFull/Light` 22 / 8,
+  `stickCurve` .35, `airBrake` 42 m/s², `hoverVerticalAccel` 15, `hoverSinkHigh` 30 (above
+  `hoverSinkHighAbove` 150 m), `hoverSinkMid` 14 (`hoverSinkMidAbove` 60 m), `hoverSinkLow` 3
+  (below `hoverSinkLowBelow` 8 m), `stopMarkerRange` 2500, `brakeCueLead` 150, `resetHeight` 60.
+  Fix 2.3 adds: `recallFee` 900, `recallHoldSeconds` 1,
   `homeClimbRate` 30 (m/s assumed for the climb to dock), `homeMargin` 3 %,
   `returnNowWarning` 8 %, `beamReach` 600 m, `pilotFuelMin` / `pilotFuelMax` 3 / 15 %.
 - **Recall (Fix 2.3):** the `Recall` input action, **held 1 s**: gamepad View
@@ -181,6 +186,31 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `recallFee` at the dock; refused while a pilot is running / knocking / boarding.
   At 0 energy in the air the same beam catches the ship (tow fee). Code:
   `GameShell.Campaign` (`calling`, `BeamLift`, `HomeWarnings`, `SkyMarker`).
+- **Pause / reset (Fix 2.4):** pause anywhere in play, including launch, docking,
+  tow, recall and the beam (time stops; resume carries on): gamepad Start or a
+  **tap** of View (held 1 s it is still the recall), keyboard Esc, HOTAS button 9
+  (Settings > Controls and HOTAS > "HOTAS pause button", any of 1-16) or 10. A
+  player's build auto-pauses on focus loss (`OnApplicationFocus` / `OnApplicationPause`;
+  check runs don't). "≡ / Esc: Pause" shows on the HUD and the cockpit display for the
+  first minute of a flight. Pause menu: Resume, **Reset position** (hover 60 m over
+  the nearest landing pad, same cabin / energy, free; greyed out while a pilot runs /
+  knocks / boards and during the automatic parts), Free Flight: Restart; Campaign:
+  Recall (900 cr); Settings, quit. Code: `GameShell.Pause / Resume / ResetPosition`.
+- **Landing (Fix 2.4):** X / G / HOTAS 4 from flight = air brakes (top speed to hover
+  speed in 2.5 s, stopped in about 4 s, brake sound), BRAKING / HOVER (height in big
+  type) / TOUCHDOWN / LANDED states on the HUD and the cockpit display; near a waiting
+  pilot (2.5 km) an amber ring + post on the ground marks where the ship would stop
+  (`ShipController.StopPoint`), and "SLOW DOWN — PRESS X" on the radar when braking
+  now stops you near the pilot. Hover descent: 30 m/s full down above 150 m, 14 at
+  60 m, 3 m/s (a safe touchdown) below 8 m.
+- **Flight feel (Fix 2.4):** Settings > **Flight assist** Full (0.2.3's bank turn 38
+  and levelling 22 °/s) / **Light** (default: 26 / 8) / Off; **Stick sensitivity**
+  50-150 % (100); a response curve on the sticks (tuning `stickCurve`). Rates pitch 95 /
+  roll 170 / yaw 55 °/s (0.2.3: 70 / 130 / 32). Settings has at most 12 rows: the HOTAS
+  rows moved to Settings > Controls and HOTAS (with the Axis display).
+- **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
+  about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
+  it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
 - **Exe self-check** (plays from the title through the input actions with a
   virtual gamepad; screenshots, fps, views, pause / settings, typed seed, every
   crash level, determinism, a height map, sound level, world-space menu):
@@ -191,6 +221,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   launch, radar, landing, pickup, docking, exhaust kill, out of energy + tow,
   crash with a pilot aboard, regeneration, loaner, recovery, quit + Continue, and
   logs the camera's top speed in every live sequence (a cut shows as a jump).
+  `-exeCheckOnly fix24` (Fix 2.4, `Checks/ExeCheck.Fix24.cs`, about 12 min): flight
+  response numbers with 0.2.3's handling and each Flight assist, brake from top speed
+  and descent from 1000 m (0.2.3's and new) against the predicted stop point, pause
+  (Start, View tap, simulated focus loss, during launch / docking / recall / tow),
+  Reset position, the stop ring / cue / landing states at a pilot, new-canyon pictures
+  and fps, the height map (white = 750 m).
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
   fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
   catch, the recall from the air and the ground. A
@@ -198,7 +234,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -245,6 +281,15 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 2.4 (flying feel, landing, pause / reset, deeper canyons) is built, checked in
+the exe (headless, muted, `--only fix24` twice, `--only all`, Deck-setting perf) and
+published as 0.2.4 (`game-204`, Latest); a starter-200 install updates to it from
+GitHub. Not yet played by Dan.** Quicker turning with Flight assist Full / Light
+(default) / Off and Stick sensitivity; air brakes (450 km/h to hover speed in 2.5 s)
+with a stop-point ring and a SLOW DOWN cue near pilots; hover descent 30 m/s high up,
+3 m/s at touchdown; pause anywhere (Start / Esc / a tap of View / HOTAS 9 or 10,
+auto-pause on focus loss) with Reset position; deeper (to about 600 m), tighter
+canyons with landing pads. Numbers in `TODO.md` (Fix 2.4 delivery).
 **Fix 2.3 (getting home) is built, checked in the exe (headless, muted, three runs
 of `--only home`) and published as 0.2.3 (`game-203`, Latest); a starter-200
 install updates to it from GitHub. Not yet played by Dan.** It adds the way home

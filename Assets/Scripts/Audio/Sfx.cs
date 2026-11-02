@@ -6,7 +6,7 @@ namespace HostileHorizon
     // they come from where they happen (VR rule 4): the explosion, a knock on the hull, the airlock, a warning beep, fire.
     public static class Sfx
     {
-        static AudioClip boom, knock, hiss, beep, fire, thunk, warn;
+        static AudioClip boom, knock, hiss, beep, fire, thunk, warn, brake;
         static int rate => AudioSettings.outputSampleRate;
 
         public static AudioClip Boom => boom ? boom : boom = Make("boom", 4.5f, (t, n, s) =>
@@ -43,6 +43,14 @@ namespace HostileHorizon
             float note = t % .3f, f = (int)(t / .3f) % 2 == 0 ? 740f : 520f;
             float env = Mathf.Min(1, note * 60f) * Mathf.Clamp01((.26f - note) * 40f);
             return env * (Mathf.Sin(t * 2 * Mathf.PI * f) * .3f + Mathf.Sin(t * 2 * Mathf.PI * f * 2f) * .08f);
+        });
+
+        // Fix 2.4: the air brakes: a rushing roar that falls away over about 3 s as the ship slows.
+        public static AudioClip Brake => brake ? brake : brake = Make("brake", 3.2f, (t, n, s) =>
+        {
+            s.lp += (n - s.lp) * Mathf.Lerp(.25f, .03f, t / 3.2f); s.lp2 += (s.lp - s.lp2) * .2f;
+            float env = Mathf.Min(1, t * 12f) * Mathf.Clamp01(1.15f - t / 3.2f);
+            return (s.lp - s.lp2 * .5f) * env * 1.6f + Mathf.Sin(t * 2 * Mathf.PI * Mathf.Lerp(95f, 45f, t / 3.2f)) * .12f * env;
         });
 
         public static AudioClip Fire => fire ? fire : fire = Make("fire", 3f, (t, n, s) =>

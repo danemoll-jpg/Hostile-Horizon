@@ -23,6 +23,11 @@ namespace HostileHorizon
         public int customSeed = 1984;
         public int frameLimit;                // 0 = vsync (check runs set it off)
         public int campaignCrashLevel = 3;    // Round 2, item 14: CrashLevel for the Campaign (Lasting damage)
+        public int flightAssist = 1;          // Fix 2.4: 0 Full (0.2.3's), 1 Light, 2 Off
+        public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
+        public int hotasPauseButton = 9;      // Fix 2.4: the HOTAS button that opens the pause menu (button 10 always does too)
+
+        public static readonly string[] AssistNames = { "Full", "Light", "Off" };
 
         public static readonly string[] ThrottleAxes = { "Auto", "slider", "z", "rz", "rx", "ry", "dial" };
 

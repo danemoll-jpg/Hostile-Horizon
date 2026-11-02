@@ -42,6 +42,21 @@ namespace HostileHorizon
         public float returnNowWarning = 8;            // RETURN NOW shows when the energy left is within this many % of what's needed
         public float beamReach = 600;                 // m, level distance at which the mothership's tow beam can catch the ship
         public float pilotFuelMin = 3, pilotFuelMax = 15;   // % energy a boarding pilot brings (random each time, not seeded)
+        // Fix 2.4: flying feel (all modes). Rates in degrees per second at full stick, times Settings > Stick sensitivity.
+        // Flight assist (Settings): Full = 0.2.3's bank turn and wing levelling, Light (default) = lighter, Off = none.
+        public float pitchRate = 95, rollRate = 170, yawRate = 55;
+        public float bankTurnFull = 38, levelRateFull = 22;     // bank turn: degrees per second of heading at 90 degrees of bank
+        public float bankTurnLight = 26, levelRateLight = 8;    // wing levelling: degrees per second back to level, stick centred
+        public float stickCurve = .35f;                         // 0 straight .. 1 cubic: small stick moves stay fine, full stick is full
+        // Fix 2.4: landing. Air brakes (X from flight): top speed to a hover in about 3 s. Hover descent faster high up.
+        public float airBrake = 42;                             // m/s2 while faster than the hover speed
+        public float hoverVerticalAccel = 15;                   // m/s2 to reach the climb / sink rate asked for
+        public float hoverSinkHigh = 30, hoverSinkHighAbove = 150;   // m/s full down, at or above this height over the ground (m)
+        public float hoverSinkMid = 14, hoverSinkMidAbove = 60;
+        public float hoverSinkLow = 3, hoverSinkLowBelow = 8;        // a safe touchdown speed below this height
+        public float stopMarkerRange = 2500;                    // m: the stop-point marker shows with a waiting pilot this close
+        public float brakeCueLead = 150;                        // m: "SLOW DOWN - PRESS X" from this far before the stop point reaches the pilot
+        public float resetHeight = 60;                          // m: Reset position hovers this high over the nearest landing pad
 
         static Tuning t;
         public static Tuning T

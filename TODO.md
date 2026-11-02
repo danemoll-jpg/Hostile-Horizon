@@ -168,88 +168,13 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 2.4: flying feel, landing, pause / reset, deeper canyons
+Current Objective — Round 3 (Aliens): to be written by the planning chat
 ---------------------------------------------------------------------------
 
-Fix 2.3 (getting home) is done and published as 0.2.3 (status under "Previous
-deliveries"). Round 3 (Aliens) comes after this fix.
-
-Dan (2026-11-02, playing 0.2.3, gamepad / Steam Deck; HOTAS still untried):
-- "I just feel it is too clunky to fly right now."
-- "I hit X and I don't understand why it isn't landing but then I go flying by
-  the pilot I am trying to reach." (Cause, as the planning chat reads the code:
-  X starts a brake at `hoverBrake` 12 m/s², so from 300+ km/h it takes about
-  10 s and most of a kilometre to stop, with nothing showing that it's braking
-  or where it will stop.)
-- "There has to be some sort of menu so I can pause and quit." (A pause menu
-  exists on Start / Esc, but Dan didn't find it, and it can't open during the
-  automatic parts: docking, tow, recall, mid-air rescue.)
-- "There needs to be a reset button in case you get up too far in the air or
-  something. This happened to me when I had to do work and couldn't pause."
-- "Valleys should be deep and more compact, not lots of open space."
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Pause anywhere, and easy to find.**
-   - Start / Esc pauses in every state of play, including docking, tow, recall,
-     the mid-air rescue and launch (time stops; resume continues them).
-   - **View / Back (the Deck's ⧉ button) also opens the pause menu**, and on the
-     HOTAS one button Dan picks (default: a base button; see the axis display).
-   - **Auto-pause when the game loses focus** (alt-tab, the Steam overlay, the
-     Deck's Steam / ... buttons) in players' builds. Test runs keep their
-     run-in-background behaviour.
-   - Show "☰ / Esc: Pause" small in a corner of the HUD for the first minute of
-     each flight.
-   - Pause menu (Campaign and Free Flight): Resume, **Reset position** (item 2),
-     Recall (Campaign), Settings, Quit to title (Campaign: saves), Quit game.
-2. **Reset position.** From the pause menu: puts the ship back in a steady
-   hover about 60 m above open, landable ground near where it was (Free Flight:
-   or back at the start), engines on, same cabin, same energy, no charge. For
-   "got too high / lost / stuck". Not available while a pilot is running to the
-   ship or at the airlock.
-3. **Landing that does what you expect.**
-   - Much harder braking when X is pressed: from top speed to a hover in about
-     3 s (air brakes; tuning file), with a brake sound and a "BRAKING" /
-     "HOVER" state on the displays.
-   - A **stop-point marker**: while flying near a pilot, show on the ground
-     where you'd come to a hover if you pressed X now, so you can time it.
-   - Radar cue when a pilot is close: "Slow down — press X" at the distance
-     where the brake would stop you near them.
-   - In hover: descend faster high up (e.g. 30 m/s above 150 m over the
-     ground), slowing down near the ground, so setting down from altitude
-     doesn't take ages. A height-over-ground readout in big type in hover.
-   - Make the hover → settled → landed steps obvious on the displays (gear
-     down, "TOUCHDOWN", "LANDED — engines off (A) so the pilot comes").
-4. **Less clunky flying (Dan's main complaint; first pass).** The ship should
-   feel quick and direct on a gamepad and the Deck:
-   - faster, more direct pitch and roll response (less lag and smoothing),
-     yaw that actually helps in tight canyons;
-   - the wing-levelling and bank-turn assists made lighter, with a
-     **Flight assist** setting: Full / Light (new default) / Off;
-   - **Stick sensitivity** setting (and a response curve so small moves stay
-     fine).
-   Code reports the before / after numbers (response times, turn rates).
-   This will need Dan's play to tune: keep values in the tuning file.
-5. **Deeper, more compact canyons.** Narrower canyons with taller, steeper
-   walls (about twice as deep as now, roughly 300-700 m), packed closer
-   together with more branching, and much less open basin and flat plain. Keep
-   small flat landing spots at every pilot's site (and a few others), since you
-   now land in narrow places. Same seed still = same world (the worlds change
-   once with this fix; existing saved planets regenerate, which is fine at this
-   stage). Keep 60+ fps on Dan's PC and the Deck setting's frame rate.
-6. **Check (muted, no focus, as the testing rules say):** pause works in
-   flight and during docking / tow / recall; View/Back opens it; focus loss
-   pauses a players' build (simulate); Reset position from high up and from a
-   canyon; braking from top speed stops within the target and the stop-point
-   marker matches where it stops (within 50 m); hover descent from 1000 m time;
-   flight response numbers before / after; pictures from the cockpit flying a
-   new canyon low, and a height map of the new terrain next to the old one.
-7. **Publish as 0.2.4**, update `TODO.md` (per-item status) and `CLAUDE.md`
-   (controls, new settings, tuning), commit and push.
-
-**For Dan to check:** does flying still feel clunky (and if so, what exactly:
-too slow to turn, too twitchy, drifts, levels itself)? Try Flight assist Light
-and Off. Can you land next to a pilot first try using the stop-point marker?
-Pause with ☰ and ⧉; Reset position. Do the canyons feel deep and tight enough?
+Fix 2.4 (flying feel, landing, pause / reset, deeper canyons) is done and
+published as 0.2.4 (status under "Previous deliveries"; its specification is in
+`TODO-ARCHIVE.md`). Next: Round 3 (Aliens), once Dan has played 0.2.4 and the
+planning chat has written it here.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -277,6 +202,71 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 2.4 — flying feel, landing, pause / reset, deeper canyons (2026-11-02). Published: 0.2.4
+(`game-204`, Latest).** Exe built 2026-11-02 17:20 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.4/`
+(`run4/` = the published build, `run3/`, `all/`, `perf_deck/`, `before_023/` = 0.2.3's full check, `launcher/`,
+`heightmap_old_vs_new.jpg`). Every check headless (`-batchmode`, no window) and muted: measured output 0.000 RMS
+at start and end of every run; no step played sound; no window opened. New check: `python Tools/run_check.py <dir> --only fix24`.
+
+0. **Commit first — done.** "Fix 2.4 planning" (3ef81de).
+1. **Pause anywhere, easy to find — done.** Start / Esc / HOTAS 9 (Settings > Controls and HOTAS > HOTAS pause
+   button, 1-16) / 10, and a tap of View (held 1 s it stays the recall), in flight and during launch, docking,
+   recall lift, mid-air beam and tow (time stops; resume carries on). Auto-pause on focus loss in players' builds
+   (check runs keep running). "≡ / Esc: Pause" on the HUD and cockpit display for the first minute (☰ isn't in the
+   game's font; ≡ is). Pause menu: Resume, Reset position, Recall (Campaign) / Restart (Free Flight), Settings,
+   quit. Check: paused during launch, docking, recall lift and tow: ship and mothership moved 0.00 m in 1.5 s, each
+   resumed and finished; View tap pauses (Free Flight and landed in the Campaign), a 2 s hold recalls without
+   pausing; simulated focus loss paused (`run4`, `c01`, `c07`-`c09`).
+2. **Reset position — done.** Hover 60 m over the nearest landing pad, engines on, same cabin / energy, free;
+   greyed out while a pilot runs / knocks / boards and during the automatic parts. Check: from 1802 m up -> 60 m
+   over a pad, 0 m from its centre; from 35 m in a canyon -> a pad about 340 m away; refused while the pilot ran (`f04`).
+3. **Landing that does what you expect — done.** X from flight = air brakes (`airBrake` 42 m/s²), brake sound,
+   BRAKING / HOVER (GND in big type, sink rate) / TOUCHDOWN / LANDED — engines off (A) so the pilot comes, on the
+   HUD and the cockpit's centre display; an amber ring + post on the ground where the ship would stop (shown with a
+   waiting pilot within 2.5 km); "SLOW DOWN — PRESS X" on the radar (cockpit + HUD) and the advice line when
+   braking now stops you near the pilot. Hover sink 30 m/s above 150 m, 14 at 60 m, 3 m/s below 8 m.
+   **Before / after:** brake from 450 km/h: hover speed in 8.8 s -> **2.5 s**, stopped in 10.4 s / 651 m ->
+   **4.1 s / 196 m**; predicted stop point 0.2-1.0 m from where it stopped (target 50 m). Descent from 1000 m:
+   72 s and still 14 m/s at the ground (a hard landing) -> **43 s, touching down at 3.0 m/s** (safe 3.5).
+   At a pilot: cue at 224 m (262 km/h), ring 0.1 m from the prediction, stopped 0.6 m from the ring, then set
+   down 4 m from the pad centre; states seen: BRAKING -> HOVER -> TOUCHDOWN -> LANDED — engines off (A)… (`c02`-`c06`).
+4. **Less clunky flying (first pass) — done; needs Dan's play.** Rates pitch 70 -> 95, roll 130 -> 170, yaw 32
+   -> 55 °/s; Settings > Flight assist Full (0.2.3's bank turn 38 / levelling 22 °/s) / **Light** (default, 26 / 8)
+   / Off; Settings > Stick sensitivity 50-150 % (100); stick curve .35 (small moves finer, full stick unchanged).
+   The HOTAS rows moved to Settings > Controls and HOTAS (a page holds 12 rows). Measured (Ghost, high up, virtual pad,
+   0.2.3 -> Light): roll to 60° 0.46 -> **0.35 s**; 90° turn banking and pulling 1.28 -> **1.08 s** (Full 1.02,
+   Off 1.25); yaw on LB/RB 32 -> **55 °/s**; nose up 30° 0.43 -> **0.32 s**; 90° turn on a held 60° bank alone
+   3.06 -> 4.33 s (Full 3.02, Off never: the assist is lighter by design); wings level from 45° 1.8 -> 5.0 s (Off
+   never). No input smoothing existed or was added.
+5. **Deeper, more compact canyons — done.** Three canyon systems at closer spacing (more branching), floors
+   median about 50 m wide (was about 220 m), walls in five ledges; heights over 12 km -6..584 m (0.2.3: -8..341 m);
+   open floor 16 % of the land (was 26 %, measured on a prototype). Landing pads: one per 520 m cell where it falls on
+   a canyon floor (306 of 400 cells), a 45 m flat clearing; every pilot's site is on one (0 m from a pad centre),
+   the start and Reset too. Same seed = same world (determinism check identical); saved planets regenerate.
+   Frame rate flying low (1080p, 1660 Ti): 835 fps, 1 % low 212, worst frame 44 ms (0.2.3: 751 / 185 / 28);
+   Steam Deck setting at 1280 x 800: 843 fps, 1 % low 178 (`perf_deck`). Pictures `f05`-`f07`,
+   `heightmap_old_vs_new.jpg` (same seed and scale).
+6. **Check — done** (above; `run4` is the published build, `run3` gave the same numbers). The full regression
+   check (`all/`) passes with the new menu paths. Found on the way: the check's own timings must use the ship's
+   capped time step (a slow frame on a busy PC skewed run 2's flight numbers); its pre-existing typed-seed line
+   ("expected 1987") reads the same in 0.2.3 (the batch-mode keyboard digit isn't delivered; not a game bug).
+   Not re-run this fix: `--only campaign` / `home` (Fix 2.3 features unchanged; the fix24 check covers the landing,
+   boarding, docking, recall and tow on the new terrain).
+7. **Publish — done.** 0.2.4 = build 204, tag `game-204`, Latest. Check: the `starter-200` ZIP extracted to
+   `Builds/StarterCheck`, `--auto-check` against GitHub: "Updating to game 0.2.4", installed `versions/204`,
+   started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed. Clean-up: disk use 2.1 GB -> 1.8 GB (incl. the 0.2 GB starter test install).
+
+**New tuning (`CampaignTuning.json`):** pitchRate 95, rollRate 170, yawRate 55, bankTurnFull 38, levelRateFull 22,
+bankTurnLight 26, levelRateLight 8, stickCurve .35, airBrake 42, hoverVerticalAccel 15, hoverSinkHigh 30 (above 150 m),
+hoverSinkMid 14 (above 60 m), hoverSinkLow 3 (below 8 m), stopMarkerRange 2500, brakeCueLead 150, resetHeight 60.
+**New settings:** Flight assist (Light), Stick sensitivity (100 %), HOTAS pause button (9).
+
+**For Dan to check:** does flying still feel clunky, and if so what exactly (too slow to turn, too twitchy, drifts,
+levels itself)? Try Flight assist Light, then Off and Full, and Stick sensitivity. Can you land next to a pilot first
+try with the ring (brake when SLOW DOWN shows)? Pause with ☰ and a tap of ⧉; Reset position. Do the canyons feel deep
+and tight enough (now perhaps too tight at speed)? HOTAS: which base button should pause?
+
 
 **Fix 2.3 — getting home (2026-11-02). Published: 0.2.3 (`game-203`, Latest).**
 Exe built 2026-11-02 14:27 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.3/`
@@ -381,137 +371,6 @@ it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
 Screen and Resolution show? On the PC (0.2.2): full screen at 1920 x 1080
 stretched over the 4K screen; is the frame rate back to normal, and is it sharp
 enough?
-
-**Round 2 — Campaign core (2026-11-02). Published: 0.2.0 (`build-200`, Latest)
-and the starter package (`starter-200`).** Exe `Builds/HostileHorizon/HostileHorizon.exe`
-(built 2026-11-02 07:33, `BUILD_INFO.txt`). Checked in the built exe from the
-title through the game's own input actions (virtual gamepad), 1920x1080, GTX
-1660 Ti: `Data/screenshots/round2/` (`exe_check_campaign.txt`,
-`exe_check_free_flight.txt`, pictures). HOTAS: not checked (code can't hold it).
-**Test rules (Dan, mid-round, now in CLAUDE.md Process):** the first checks were
-audible and windowed; one window took focus (the first mute test, about 15 s).
-Since then every check runs with `Tools/run_check.py`: `-batchmode` (no window,
-the view drawn off-screen for screenshots) and `-mute` (master volume 0 before
-the first scene, the listener's final mix zeroed): measured output 0.000 RMS in
-every run (the game itself produced about 0.08 RMS). No step played sound.
-
-0. **Commit first — done.** "Round 2 planning docs" committed and pushed first.
-1. **Crash = explosion, wreck stays — done.** `Effects/Explosion.cs`: fireball,
-   sparks, a light flash in the world (no screen strobe), 18 debris pieces that
-   bounce and rest, black smoke, then flames, a smoke column, firelight and
-   crackle on the charred wreck; boom sound. The view eases out of the cockpit and
-   circles the wreck live; the menu comes up over it. Round 1's fade is removed.
-   Check: Free Flight Instant crash and Campaign crash (396 km/h), both "page over
-   the live scene, camera continuous" (`35`-`38`, `12_ship_lost_4`).
-2. **Save file — done.** `Core/Career.cs`, `career.json` beside `settings.json`
-   (LocalLow, inside the launcher's save backup). Saved on dock, death, quit to
-   title, closing the game. Campaign menu: Continue / New career (confirm page if a
-   career exists) / Crash level. Check: quit to title + Continue gave the same
-   credits, stats, planet and ship.
-3. **Home system + planets — done.** `Core/Names.cs`: a new career names its home
-   system (e.g. "Vera"); today's planet is named from the seed of the day:
-   20261102 = **Bryshra-IV** (twice the same), 20261103 = Zanir-IV. Planets keep
-   rescued / lost pilots; cleared when none wait (bonus paid once).
-4. **Downed pilots — done.** `Campaign/PlanetSites.cs`, `DownedPilot.cs`: seeded
-   flat landing patches on canyon floors (bumps under 2 m over 32 m), pilot 30 m
-   off, their wreck + blinking beacon beyond; 3 on the first planet, +1 per
-   planet cleared, wider spread per tier. Check: same spots twice; today 2.2-2.9 km out.
-5. **Radar — done.** `UI/Radar.cs`: far (>3 km) rim blip to 30°, mid to 10° /
-   0.5 km, within 1 km the exact spot; on the cockpit's right display and the HUD,
-   with a list; the mothership shows when you can dock. Check: "PILOT 3 020° 2.0
-   km" -> "029° 460 m" -> "004° 50 m".
-6. **Helicopter landing — done.** Land button (X / G / HOTAS 4): brake to a hover,
-   stick moves and turns on the spot, throttle climbs / sinks, gear legs come down,
-   settles if slow and flat; too fast / too steep / gear up = a hit at the crash
-   level. Check: 3 landings at 2.4-2.5 m/s, 4 m from the spot, no hits. Fixed on
-   the way: turning in hover shrank with frame rate.
-7. **The pickup — done.** Landed + engines off (A / K / HOTAS 5): the pilot runs,
-   knocks three times (sound at the hull) every 7 s; airlock (B / O / HOTAS 6)
-   opens the door and they board. Engines started with a pilot within 25 m kill
-   them. Check: knock 4 s after engines off, boarded, cabin 1; engines on at 21 m:
-   pilot dead, lost on the planet, -400 cr.
-8. **Energy + tow — done.** Drain in flight (more with throttle) and hover, none
-   with engines off; warning + beep under 15 %; at 0 a slow powerless descent that
-   eases to a safe touchdown; landed with none: the tow page; the mothership comes
-   over, a beam lifts the ship into the bay, live. Check (energy set to 0.5 % over
-   a landing spot, logged as a check shortcut): landed 2.5 m/s, tow live (top 45
-   m/s), -1500 cr fee.
-9. **Mothership + live docking — done.** `Tools/Blender/mothership.py` (2.7k
-   triangles, open-stern bay, floor doors, cradle, regeneration pod),
-   `Campaign/Mothership.cs` (keeps station over you at 1500 m). Launch: doors open,
-   the cradle lets go, the ship drops and its engines catch it. Docking (above 1000
-   m with pilots aboard, or none left, or under 25 % energy): it flies itself round,
-   under the bay and up into the cradle; you can look round (118° checked). Check:
-   launch top 73 m/s, docking top 125 m/s, no frame jump.
-10. **Credits — done.** Pilot pay, clear bonus, fuel charged at the dock (free fill
-    to 35 % if you can't pay), repair in the hangar, tow fee; credits never go
-    below 0. Check: 3000 -> 3322 (+500 pilot, -178 fuel for 30 %).
-11. **Tuning file — done.** `Assets/Resources/Tuning/CampaignTuning.json` (see
-    "Tuning (starting values)" below).
-12. **Hangar — done.** A menu page over the live bay, seen from the cockpit
-    (world-space-ready panel): credits, ship, hull, energy, today's planet and its
-    pilots, career stats, last flight; Launch / Repair / Refuel / Recover your own
-    ship (when flying the loaner) / Back to title.
-13. **Death + regeneration — done.** Pilots aboard lost, death counted, ship
-    wrecked; "Wake up": the view rises from the wreck and flies in through the open
-    stern to the pod (live; top speed 221 m/s, no frame jump, moving with the
-    carrier); Pay recovery (3000 cr) or Take the loaner
-    (yellow, free): the ship rises in on the tow beam while you watch, then you
-    step into the cockpit. Check: 1 pilot lost with the ship; loaner; recovery from
-    the hangar (credits topped up by the check to afford it, logged): 3500 -> 500.
-14. **Campaign crash level — done.** Campaign menu option, default Lasting damage
-    (`settings.json` `campaignCrashLevel`).
-15. **Publish — done.** 0.2.0 = build 200, Latest:
-    https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/build-200 .
-    **Starter (download this):**
-    https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/download/starter-200/HostileHorizon-Starter.zip
-    (42 MB; launcher + the Round 1 game 0.1.0, so its first start must update).
-    Check: that ZIP downloaded from GitHub into an empty folder, its launcher run
-    against the real catalog: "Updating to game 0.2.0", downloaded 38 MiB,
-    "Game activated 0.2.0", started `versions/200`, ready handshake, exit 0
-    (`50_fresh_install_updating_from_github.jpg`, `fresh_install_*`). The releases
-    repo was empty, so GitHub refused to tag: Code added a README as its first commit.
-16. **End of round — done.** TODO / CLAUDE updated, disk cleaned (repo folder 1.92 GB -> 1.42 GB: check output removed after copying the evidence),
-    committed and pushed.
-
-Frame rate (1080p High, 1660 Ti, measured while the PC was otherwise idle,
-windowed run 06:12): Free Flight low 439 fps (1 % low 214); Campaign with beacons +
-mothership 373 fps (1 % low 157); hangar 435 fps. Final headless runs (07:35-07:50,
-while another session's Chastain Rush check ran): Free Flight 416 fps (1 % low 57),
-Campaign 159 fps with hitches up to 0.8 s, hangar 531 fps; Steam Deck setting at
-1280x800: 1113 fps (1 % low 314). The typed-seed step can't type in a headless run
-(no keyboard without a window); it passed windowed (1987).
-
-**Tuning (starting values, Code's call):** starting credits 3000; pilot pay 500;
-clear bonus 1000; fuel 6 cr per %; free fill to 35 %; repair 12 cr per %; tow
-1500; recovery 1500 + 25 % of ship value (6000) = 3000; exhaust kill 25 m,
-penalty 400; cabin 6; pilots 3 + 1 per tier (max 10), 900-3000 m out (+500 m per
-tier), 700 m apart; pickup range 160 m; run 5.5 m/s; energy drain flight 0.10 +
-0.22 x throttle %/s, hover 0.35 %/s (about 6 min of flight); warning 15 %; hover
-18 m/s, climb / sink 14 m/s, turn 50°/s, brake 12 m/s²; safe touchdown 3.5 m/s,
-slope 14°; mothership 1500 m, docking above 1000 m.
-
-Decisions made: docking also starts with no pilots aboard if none are left or
-energy is under 25 % (else you could be stuck up there); the regeneration pod is in
-the bay, so every move to it is a real camera flight; quitting mid-flight puts the
-ship back in the hangar with its energy and hull, and pilots in the cabin go back
-to wait on the planet; the out-of-energy page has only "Call the tow" (no free way
-out); the starter ZIP carries the Round 1 game (0.1.0) so its first start must
-update from GitHub; landing mode also works in Free Flight. New: Steam poster
-(`make_cover.py`). Known: one native Unity crash (access violation in the engine,
-no game code on the stack, D3D12) while a check started a new career; 9 other
-runs passed that point; not reproduced. Placeholder art and code-made sounds.
-
-**For Dan to check (Round 2):**
-- Steam Deck: install from the starter ZIP (steps in its README); the first start
-  should update to 0.2.0 by itself.
-- Landing like a helicopter: is it fair in tight canyons? Hover sink 14 m/s: too slow from 1500 m?
-- Finding pilots with the radar; the pickup (knock, airlock — the pilot at the
-  door is hidden by the hull from the cockpit; the knock is the cue).
-- Docking and launch live: do they feel real? The trip to the regeneration pod.
-- Credits for fuel, repairs, tow, recovery; the crash explosion; the planet name.
-- HOTAS: buttons 4 / 5 / 6 are guesses for landing mode / engines / airlock.
-- Continue after quitting keeps everything.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

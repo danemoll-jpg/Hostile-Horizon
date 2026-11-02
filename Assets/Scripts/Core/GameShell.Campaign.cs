@@ -168,8 +168,8 @@ namespace HostileHorizon
                 yield return null;
             }
             Ship.ReleaseToFlight(Ship.Speed, .45f);
-            Mother.Holding = false; Phase = ""; Now = State.Flying;
-            Flash("Find the beacons on the radar. Landing mode: X / G / HOTAS 4", 6f);
+            Mother.Holding = false; Phase = ""; Now = State.Flying; flightStartedAt = Time.time;
+            Flash($"Find the beacons on the radar. Brake / landing mode: {Controls.LandKeys}", 6f);
         }
 
         // ---- flying the planet
@@ -192,7 +192,7 @@ namespace HostileHorizon
             if (Ship.InputEnabled && Controls.RecallHeld && calling == 0)
             {
                 if (recallHold >= 0) recallHold += dt;
-                if (recallHold >= t.recallHoldSeconds) { recallHold = -1; Recall(); }
+                if (recallHold >= t.recallHoldSeconds) { recallHold = -1; recallFiredThisHold = true; Recall(); }
                 else if (recallHold >= 0) Flash($"Keep holding to recall the mothership ({t.recallFee} cr)", .4f);
             }
             else if (!Controls.RecallHeld) recallHold = 0;
@@ -206,6 +206,7 @@ namespace HostileHorizon
             Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
             HomeWarnings(dt);
             Displays.Cabin = cabin.Count;
+            StopMarker(); BrakeCue();
             Displays.Place = $"{Planet.name} · {CrashLevels.Names[(int)Ship.Level]}";
             Displays.Prompt = Time.time < flashUntil ? flash : Advice();
 
@@ -230,11 +231,56 @@ namespace HostileHorizon
             Displays.HomeWarning = HomeState == 2 ? "CAN'T REACH THE MOTHERSHIP: recall or land" : HomeState == 1 ? "RETURN NOW" : "";
         }
 
+        // Fix 2.4: the nearest pilot still waiting, and how far (level distance).
+        DownedPilot NearestWaiting(out float dist)
+        {
+            DownedPilot best = null; dist = float.MaxValue;
+            foreach (var p in Pilots) if (p.OnFoot) { float d = Flat(p.Position - Ship.transform.position).magnitude; if (d < dist) { dist = d; best = p; } }
+            return best;
+        }
+
+        // Fix 2.4: a ring on the ground (and a post) where the ship would stop if X went on now, while flying near a waiting pilot and
+        // while braking. A world object: seen from the cockpit, the same in VR.
+        LineRenderer stopRing, stopPost;
+        void StopMarker()
+        {
+            NearestWaiting(out float near);
+            bool on = InCampaign && Now == State.Flying && !Ship.Kinematic && near < Tuning.T.stopMarkerRange &&
+                      (Ship.Braking || Ship.Mode == FlightMode.Flight && Flat(Ship.Velocity).magnitude > Tuning.T.hoverMaxSpeed + 5f);
+            if (on && !stopRing)
+            {
+                var m = new Material(Shader.Find("HostileHorizon/Glow")); m.SetColor("_Color", new Color(1f, .75f, .2f) * 2f);
+                LineRenderer Line(string name, int n, float w) { var l = new GameObject(name).AddComponent<LineRenderer>(); l.sharedMaterial = m; l.positionCount = n; l.widthMultiplier = w; l.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; l.receiveShadows = false; return l; }
+                stopRing = Line("Stop point ring", 33, 1.2f); stopRing.loop = true; stopPost = Line("Stop point post", 2, .8f);
+            }
+            if (!stopRing) return;
+            stopRing.gameObject.SetActive(on); stopPost.gameObject.SetActive(on);
+            if (!on) return;
+            var c = Ship.StopPoint; var f = Terrain.Field;
+            for (int i = 0; i < 33; i++) { float a = i * Mathf.PI * 2 / 32f; float x = c.x + Mathf.Cos(a) * 14f, z = c.z + Mathf.Sin(a) * 14f; stopRing.SetPosition(i, new Vector3(x, f.SurfaceHeight(x, z) + .8f, z)); }
+            stopPost.SetPosition(0, c); stopPost.SetPosition(1, c + Vector3.up * 50f);
+        }
+        public Vector3 StopMarkerAt => stopRing && stopRing.gameObject.activeSelf ? stopPost.GetPosition(0) : Vector3.zero;
+
+        // Fix 2.4: on the radar (cockpit and HUD) and the advice line: SLOW DOWN - PRESS X when braking now would stop the ship near the
+        // nearest pilot ahead (from brakeCueLead m before the stop point reaches them).
+        void BrakeCue()
+        {
+            Displays.Cue = ""; Displays.PilotNear = false;
+            var p = NearestWaiting(out float d);
+            if (p == null) return;
+            Displays.PilotNear = d < Tuning.T.pickupRange;
+            if (Ship.Mode != FlightMode.Flight || Ship.Kinematic) return;
+            Vector3 v = Flat(Ship.Velocity), to = Flat(p.Position - Ship.transform.position);
+            if (v.magnitude < Tuning.T.hoverMaxSpeed + 5f) return;
+            float along = Vector3.Dot(to, v.normalized), side = Vector3.Cross(v.normalized, to).magnitude, stop = Flat(Ship.StopPoint - Ship.transform.position).magnitude;
+            float early = along - stop;   // how much short of the pilot the ship would stop
+            if (side < 150f && early > -40f && early < Tuning.T.brakeCueLead) Displays.Cue = "SLOW DOWN — PRESS X";
+        }
+
         void Recall()
         {
-            foreach (var p in Pilots)
-                if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding)
-                { Flash("Not now: a pilot is coming to the ship", 3f); return; }
+            if (PilotComing) { Flash("Not now: a pilot is coming to the ship", 3f); return; }
             calling = 2;
             Flash($"Recall: the mothership is coming ({Tuning.T.recallFee} cr at the dock)", 5f);
         }
@@ -271,14 +317,16 @@ namespace HostileHorizon
             {
                 if (cabin.Count >= t.cabinSize) return "Cabin full: take off and dock with the mothership";
                 foreach (var p in Pilots) if (p.OnFoot && Vector3.Distance(p.Position, Ship.transform.position) < t.pickupRange)
-                        return Ship.EnginesOn ? "Engines off (A / K / HOTAS 5) so the pilot can come to you" : "Waiting for the pilot";
+                        return Ship.EnginesOn ? $"Engines off ({Controls.EngineKeys}) so the pilot can come to you" : "Waiting for the pilot";
                 return Ship.EnginesOn ? "Landed. Climb (throttle up) to take off" : "Engines off. Throttle up or A / K to start them";
             }
             if (cabin.Count >= t.cabinSize) return $"Cabin full: climb to dock (↑ {climb:0} m)";
             if (Waiting == 0) return $"Everyone found: climb to dock (↑ {climb:0} m)";
-            if (Ship.Mode == FlightMode.Hover) return "Landing mode: stick moves and turns, throttle up / down, set down gently";
+            if (Displays.Cue != "") return "Slow down now: press X to stop near the pilot (the ring shows where)";
+            if (Ship.Braking) return "Braking: the ring on the ground shows where you will stop";
+            if (Ship.Mode == FlightMode.Hover) return "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently";
             float nearest = float.MaxValue; foreach (var p in Pilots) if (p.OnFoot) nearest = Mathf.Min(nearest, Vector3.Distance(p.Position, Ship.transform.position));
-            if (nearest < 900f) return "Pilot close by: landing mode (X / G / HOTAS 4) to set down";
+            if (nearest < 900f) return $"Pilot close by: brake when the ring reaches them ({Controls.LandKeys})";
             if (cabin.Count > 0) return $"{cabin.Count} aboard: more pilots, or climb to dock (↑ {climb:0} m)";
             if (CanDock) return $"Climb to dock (↑ {climb:0} m)";
             if (Ship.Energy < t.energyWarning) return $"Energy low: recall the mothership any time ({Controls.RecallKeys}, {t.recallFee} cr)";
@@ -312,7 +360,7 @@ namespace HostileHorizon
 
         IEnumerator Dock(bool towLift)
         {
-            Now = State.Auto; Phase = towLift ? "tow-lift" : "dock-approach"; Mother.Holding = true;
+            if (Now != State.Paused) Now = State.Auto; else pausedFrom = State.Auto; Phase = towLift ? "tow-lift" : "dock-approach"; Mother.Holding = true;
             Ship.MakeKinematic(false);
             Vector3 pos = Ship.transform.position, vel = Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;   // caught as it moves (zero when landed)
             Displays.Prompt = !towLift ? "Docking: autopilot" : recallLift ? "Recall: the mothership is lifting you" : "Tow: the mothership is lifting you";
@@ -619,8 +667,12 @@ namespace HostileHorizon
                   .Add(Action("Back to title (saves)", ToTitle));
 
             campaignPause = new MenuPanel.Page { Title = "PAUSED", Back = Resume };
-            campaignPause.Body = () => $"{Planet?.name} · {CrashLevels.Names[(int)Ship.Level]}\nQuitting now saves; pilots in your cabin go back to wait on the planet.";
+            campaignPause.Body = () => $"{Planet?.name} · {CrashLevels.Names[(int)Ship.Level]}\nQuitting now saves; pilots in your cabin go back to wait on the planet.\n\n" +
+                "<b>Reset position</b>: hover over the nearest landing pad (free).\n<b>Recall</b>: the mothership comes and lifts you home (also: hold View / H / HOTAS 7).";
             campaignPause.Add(Action("Resume", Resume))
+                         .Add(Action("Reset position", ResetPosition, () => !CanReset))
+                         .Add(new MenuPanel.Row { Label = () => $"Recall the mothership  <size=24>({Tuning.T.recallFee} cr)</size>", Submit = () => { Resume(); Recall(); },
+                                                  Disabled = () => PausedFrom != State.Flying || calling != 0 || Ship.Crashed })
                          .Add(Action("Settings", () => { settingsReturn = campaignPause; Menu.Show(settings); }))
                          .Add(Action("Save and return to title", ToTitle))
                          .Add(Action("Quit game (saves)", () => { SaveCareer(); Quit(); }));

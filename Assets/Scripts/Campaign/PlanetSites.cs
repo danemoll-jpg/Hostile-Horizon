@@ -6,6 +6,8 @@ namespace HostileHorizon
     // Round 2, item 4: where a planet's downed pilots are, from its seed alone (the same seed always gives the same places).
     // Each site: a patch of fairly flat canyon floor to land on, the pilot standing at its edge, their crashed ship beyond.
     // Distance from the planet's start (where the mothership arrives) grows with the planet's tier; sites are kept apart.
+    // Fix 2.4: the canyons are narrow now, so sites are the terrain's flat landing pads (CanyonField.PadAt); bare canyon floor only
+    // as a last resort.
     public struct PilotSite { public Vector3 landing, pilot, wreck; public float wreckHeading; }
 
     public static class PlanetSites
@@ -17,20 +19,26 @@ namespace HostileHorizon
             float rMin = t.pilotRangeMin + tier * t.pilotRangePerTier * .5f, rMax = t.pilotRangeMax + tier * t.pilotRangePerTier;
             var sites = new List<PilotSite>();
             // strict first, then looser (flatness, floor, spacing) if the planet is short of good spots
-            float[] flat = { 1.6f, 2.6f, 4f }, floor = { .02f, .05f, .1f }, gap = { 1f, .7f, .45f };
+            float[] flat = { 1.6f, 2.6f, 4f }, floor = { .02f, .05f, .1f }, gap = { 1f, .7f, .45f };   // pass 0, 1: pads; pass 2: any floor
             for (int pass = 0; pass < 3 && sites.Count < count; pass++)
                 for (int attempt = 0; attempt < 3000 && sites.Count < count; attempt++)
                 {
                     float a = rng.Value * Mathf.PI * 2, r = Mathf.Lerp(rMin, rMax, Mathf.Sqrt(rng.Value));
                     float x = start.x + Mathf.Cos(a) * r, z = start.z + Mathf.Sin(a) * r;
+                    if (pass < 2)
+                    {
+                        var pad = f.PadAt(Mathf.FloorToInt(x / CanyonField.PadCell), Mathf.FloorToInt(z / CanyonField.PadCell));
+                        if (!pad.ok) continue;
+                        x = pad.x; z = pad.z;
+                    }
                     if (f.CanyonT(x, z) > floor[pass]) continue;
                     if (Bumpiness(f, x, z, 16f) > flat[pass]) continue;
                     bool near = false; foreach (var s in sites) if (new Vector2(s.landing.x - x, s.landing.z - z).magnitude < t.pilotSpacing * gap[pass]) { near = true; break; }
                     if (near) continue;
-                    // the pilot 30 m off the landing patch, the wreck 18 m beyond: the way that stays lowest
+                    // the pilot 30 m off the landing patch, the wreck 10 m beyond (still on the pad): the way that stays lowest
                     float bestDir = 0, bestH = float.MaxValue;
-                    for (int k = 0; k < 8; k++) { float d = k * 45f + rng.Value * 20f; var p = Off(x, z, d, 48f); float h = f.Height(p.x, p.y) + Bumpiness(f, p.x, p.y, 6f) * 4f; if (h < bestH) { bestH = h; bestDir = d; } }
-                    var pp = Off(x, z, bestDir, 30f); var wp = Off(x, z, bestDir, 48f);
+                    for (int k = 0; k < 8; k++) { float d = k * 45f + rng.Value * 20f; var p = Off(x, z, d, 40f); float h = f.Height(p.x, p.y) + Bumpiness(f, p.x, p.y, 6f) * 4f; if (h < bestH) { bestH = h; bestDir = d; } }
+                    var pp = Off(x, z, bestDir, 30f); var wp = Off(x, z, bestDir, 40f);
                     sites.Add(new PilotSite
                     {
                         landing = new Vector3(x, f.SurfaceHeight(x, z), z),

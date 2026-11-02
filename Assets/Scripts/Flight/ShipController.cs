@@ -17,10 +17,27 @@ namespace HostileHorizon
     // Energy (Campaign only): drains with flight (more at high throttle) and in hover; nothing with the engines off. At 0 the
     // engines die: the ship can only come down (a slow powerless sink) and can't take off again.
     // Ground contact is tested against the drawn ground (CanyonField.SurfaceHeight); no physics engine.
+    // Fix 2.4: quicker, more direct turning (tuning pitchRate / rollRate / yawRate times Settings > Stick sensitivity), the bank turn and
+    // wing levelling set by Settings > Flight assist (Full = 0.2.3's, Light, Off); X from flight is an air brake (tuning airBrake: top
+    // speed to a hover in about 3 s), and the point where the ship would stop is predicted (StopPoint); hover sinks faster high up and
+    // slows to a safe touchdown speed near the ground; Reset position (ResetTo) puts the ship in a steady hover.
     public sealed class ShipController : MonoBehaviour
     {
         public const float MinSpeed = 30f, MaxSpeed = 125f;
-        const float PitchRate = 70f, RollRate = 130f, YawRate = 32f, BankTurn = 38f, LevelRate = 22f, Accel = 22f, ThrottleRate = .45f;
+        const float Accel = 22f, ThrottleRate = .45f;
+        public struct Feel { public float pitch, roll, yaw, bankTurn, level; }
+        public static readonly Feel Feel023 = new Feel { pitch = 70, roll = 130, yaw = 32, bankTurn = 38, level = 22 };   // 0.2.3's handling (checks compare)
+        public Feel? FeelOverride;                           // checks only: fly with another feel
+        public Feel CurrentFeel
+        {
+            get
+            {
+                if (FeelOverride.HasValue) return FeelOverride.Value;
+                var t = Tuning.T; int a = GameSettings.S.flightAssist; float k = Mathf.Clamp(GameSettings.S.sensitivity, 50, 150) / 100f;
+                return new Feel { pitch = t.pitchRate * k, roll = t.rollRate * k, yaw = t.yawRate * k,
+                                  bankTurn = a == 0 ? t.bankTurnFull : a == 1 ? t.bankTurnLight : 0, level = a == 0 ? t.levelRateFull : a == 1 ? t.levelRateLight : 0 };
+            }
+        }
         public const float GearDrop = 1.8f;   // gear feet below the ship's origin when down
 
         public static readonly Vector3[] Feet = { new Vector3(0, -GearDrop, 3.0f), new Vector3(-2.3f, -GearDrop, -2.6f), new Vector3(2.3f, -GearDrop, -2.6f) };
@@ -44,7 +61,9 @@ namespace HostileHorizon
         public float Lift { get; private set; }             // hover: the vertical command, -1..1
         public string Notice { get; private set; } = "";   // a short line for the displays ("Climb higher first")
         public event Action<float> OnHit;                    // impact speed
-        public event Action OnCrash, OnLanded, OnEnginesStarted, OnEnginesStopped, OnOutOfEnergy;
+        public event Action OnCrash, OnLanded, OnEnginesStarted, OnEnginesStopped, OnOutOfEnergy, OnBrake;
+        public bool Braking { get; private set; }            // Fix 2.4: hover entered faster than the hover speed: the air brakes are on
+        public float LandedAt { get; private set; } = -99;   // Time.time of the last touchdown (TOUCHDOWN on the displays)
         public bool InputEnabled = true;
         public bool Kinematic;                               // docking, launch, tow: moved by SetPose, not by the pilot
         public int IgnoreButtonsUntil;                       // frame: a press that closed a menu doesn't also act here
@@ -62,7 +81,7 @@ namespace HostileHorizon
             transform.SetPositionAndRotation(pos, rot);
             Level = level; Throttle = throttle; Speed = Mathf.Lerp(MinSpeed, MaxSpeed, Throttle); Velocity = transform.forward * Speed;
             Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0;
-            Kinematic = false; Notice = "";
+            Kinematic = false; Notice = ""; Braking = false;
             lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
             gameObject.SetActive(true);
         }
@@ -139,6 +158,7 @@ namespace HostileHorizon
         void ToggleMode()
         {
             if (Mode == FlightMode.Flight) { EnterHover(); return; }
+            Braking = false;
             if (OutOfEnergy) { Say("No energy: the ship can only come down"); return; }
             if (Landed || AboveGround < 6f) { Say("Climb higher first, then switch to flight"); return; }
             Mode = FlightMode.Flight;
@@ -152,6 +172,39 @@ namespace HostileHorizon
         {
             Mode = FlightMode.Hover; Velocity = transform.forward * Speed; hoverHeading = transform.eulerAngles.y;
             hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
+            if (new Vector3(Velocity.x, 0, Velocity.z).magnitude > Tuning.T.hoverMaxSpeed + 5f) { Braking = true; OnBrake?.Invoke(); }
+        }
+
+        // Fix 2.4: where the ship would come to a hover if the air brakes went on now (stick centred): the horizontal speed falls at
+        // airBrake down to the hover speed, then at hoverBrake. Ground height under that point.
+        public Vector3 StopPoint
+        {
+            get
+            {
+                var t = Tuning.T; Vector3 h = new Vector3(Velocity.x, 0, Velocity.z); float v = h.magnitude, v1 = Mathf.Min(v, t.hoverMaxSpeed + 1f);
+                float d = (v * v - v1 * v1) / (2f * t.airBrake) + v1 * v1 / (2f * t.hoverBrake);
+                var p = transform.position + (v > .01f ? h / v * d : Vector3.zero);
+                p.y = Field != null ? Field.SurfaceHeight(p.x, p.z) : 0;
+                return p;
+            }
+        }
+
+        // Fix 2.4: Reset position: a steady hover here, engines on (if there is energy), same cabin and energy.
+        public void ResetTo(Vector3 pos, float heading)
+        {
+            transform.SetPositionAndRotation(pos, Quaternion.Euler(0, heading, 0));
+            Mode = FlightMode.Hover; Velocity = Vector3.zero; Speed = 0; Landed = false; Kinematic = false; Braking = false; Gear = 1; Lift = 0;
+            hoverHeading = heading; hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
+            EnginesOn = !OutOfEnergy; Notice = ""; IgnoreButtonsUntil = Time.frameCount + 2;
+        }
+
+        // Fix 2.4: hover sink rate at full down: fast high up, slowing to a safe touchdown speed near the ground.
+        public static float SinkRate(float agl)
+        {
+            var t = Tuning.T;
+            if (agl >= t.hoverSinkHighAbove) return t.hoverSinkHigh;
+            if (agl >= t.hoverSinkMidAbove) return Mathf.Lerp(t.hoverSinkMid, t.hoverSinkHigh, Mathf.InverseLerp(t.hoverSinkMidAbove, t.hoverSinkHighAbove, agl));
+            return Mathf.Lerp(t.hoverSinkLow, t.hoverSinkMid, Mathf.InverseLerp(t.hoverSinkLowBelow, t.hoverSinkMidAbove, agl));
         }
 
         public void StartEngines()
@@ -166,13 +219,14 @@ namespace HostileHorizon
         void FlyUpdate(float pitch, float roll, float yaw, float dt)
         {
             Gear = Mathf.MoveTowards(Gear, 0, dt * .8f);
+            var feel = CurrentFeel; float BankTurn = feel.bankTurn, LevelRate = feel.level;
             // turn: stick and twist in the ship's own axes, then the bank turn and the wing levelling about the world's up
-            var rot = transform.rotation * Quaternion.Euler(-pitch * PitchRate * dt, yaw * YawRate * dt, -roll * RollRate * dt);
+            var rot = transform.rotation * Quaternion.Euler(-pitch * feel.pitch * dt, yaw * feel.yaw * dt, -roll * feel.roll * dt);
             Vector3 fwd = rot * Vector3.forward, right = rot * Vector3.right;
             float bank = Mathf.Asin(Mathf.Clamp(-right.y, -1, 1)) * Mathf.Rad2Deg;               // + = right wing down
             float level = Mathf.Clamp01(1 - Mathf.Abs(fwd.y) * 1.4f);                              // none when diving / climbing steeply
             rot = Quaternion.AngleAxis(Mathf.Sin(bank * Mathf.Deg2Rad) * BankTurn * level * dt, Vector3.up) * rot;
-            if (Mathf.Abs(roll) < .05f && Mathf.Abs(bank) < 80f)
+            if (LevelRate > 0 && Mathf.Abs(roll) < .05f && Mathf.Abs(bank) < 80f)
                 rot = Quaternion.AngleAxis(Mathf.Clamp(bank, -LevelRate * dt, LevelRate * dt) * level, fwd) * rot;
             transform.rotation = rot;
 
@@ -205,11 +259,13 @@ namespace HostileHorizon
             float maxH = power ? t.hoverMaxSpeed : t.hoverMaxSpeed * .5f;
             Vector3 targetH = flatFwd * (-pitch * maxH);
             Vector3 h = new Vector3(Velocity.x, 0, Velocity.z);
-            h = Vector3.MoveTowards(h, targetH, t.hoverBrake * dt);
+            // the air brakes while faster than the hover speed (Fix 2.4), then the hover's own gentler brake
+            if (Braking && h.magnitude <= t.hoverMaxSpeed + 1f) Braking = false;
+            h = Vector3.MoveTowards(h, targetH, (Braking ? t.airBrake : t.hoverBrake) * dt);
             float vy = Velocity.y;
             // powerless: a steady sink that eases to a safe touchdown speed close to the ground (ground effect)
-            float targetV = power ? Lift * t.hoverClimbRate : -Mathf.Lerp(t.safeTouchdownSpeed * .7f, t.powerlessSinkRate, Mathf.InverseLerp(8f, 50f, AboveGround));
-            vy = Mathf.MoveTowards(vy, targetV, 10f * dt);
+            float targetV = power ? (Lift >= 0 ? Lift * t.hoverClimbRate : Lift * SinkRate(AboveGround)) : -Mathf.Lerp(t.safeTouchdownSpeed * .7f, t.powerlessSinkRate, Mathf.InverseLerp(8f, 50f, AboveGround));
+            vy = Mathf.MoveTowards(vy, targetV, (Braking ? t.airBrake : t.hoverVerticalAccel) * dt);
             Velocity = new Vector3(h.x, vy, h.z);
             Speed = Velocity.magnitude;
             transform.position += Velocity * dt;
@@ -247,7 +303,7 @@ namespace HostileHorizon
                 return;
             }
             // settled: on the ground, nose kept, the body lying along the ground
-            Landed = true; Velocity = Vector3.zero; Speed = 0;
+            Landed = true; Velocity = Vector3.zero; Speed = 0; Braking = false; LandedAt = Time.time;
             var fwd = Vector3.ProjectOnPlane(transform.forward, n).normalized;
             transform.rotation = Quaternion.LookRotation(fwd, n);
             float lowest = float.MaxValue;
