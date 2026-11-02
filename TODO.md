@@ -168,11 +168,88 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 3 (Aliens): to be written by the planning chat
+Current Objective — Fix 2.4: flying feel, landing, pause / reset, deeper canyons
 ---------------------------------------------------------------------------
 
 Fix 2.3 (getting home) is done and published as 0.2.3 (status under "Previous
-deliveries"). Round 3 is queued below; the planning chat writes it here.
+deliveries"). Round 3 (Aliens) comes after this fix.
+
+Dan (2026-11-02, playing 0.2.3, gamepad / Steam Deck; HOTAS still untried):
+- "I just feel it is too clunky to fly right now."
+- "I hit X and I don't understand why it isn't landing but then I go flying by
+  the pilot I am trying to reach." (Cause, as the planning chat reads the code:
+  X starts a brake at `hoverBrake` 12 m/s², so from 300+ km/h it takes about
+  10 s and most of a kilometre to stop, with nothing showing that it's braking
+  or where it will stop.)
+- "There has to be some sort of menu so I can pause and quit." (A pause menu
+  exists on Start / Esc, but Dan didn't find it, and it can't open during the
+  automatic parts: docking, tow, recall, mid-air rescue.)
+- "There needs to be a reset button in case you get up too far in the air or
+  something. This happened to me when I had to do work and couldn't pause."
+- "Valleys should be deep and more compact, not lots of open space."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Pause anywhere, and easy to find.**
+   - Start / Esc pauses in every state of play, including docking, tow, recall,
+     the mid-air rescue and launch (time stops; resume continues them).
+   - **View / Back (the Deck's ⧉ button) also opens the pause menu**, and on the
+     HOTAS one button Dan picks (default: a base button; see the axis display).
+   - **Auto-pause when the game loses focus** (alt-tab, the Steam overlay, the
+     Deck's Steam / ... buttons) in players' builds. Test runs keep their
+     run-in-background behaviour.
+   - Show "☰ / Esc: Pause" small in a corner of the HUD for the first minute of
+     each flight.
+   - Pause menu (Campaign and Free Flight): Resume, **Reset position** (item 2),
+     Recall (Campaign), Settings, Quit to title (Campaign: saves), Quit game.
+2. **Reset position.** From the pause menu: puts the ship back in a steady
+   hover about 60 m above open, landable ground near where it was (Free Flight:
+   or back at the start), engines on, same cabin, same energy, no charge. For
+   "got too high / lost / stuck". Not available while a pilot is running to the
+   ship or at the airlock.
+3. **Landing that does what you expect.**
+   - Much harder braking when X is pressed: from top speed to a hover in about
+     3 s (air brakes; tuning file), with a brake sound and a "BRAKING" /
+     "HOVER" state on the displays.
+   - A **stop-point marker**: while flying near a pilot, show on the ground
+     where you'd come to a hover if you pressed X now, so you can time it.
+   - Radar cue when a pilot is close: "Slow down — press X" at the distance
+     where the brake would stop you near them.
+   - In hover: descend faster high up (e.g. 30 m/s above 150 m over the
+     ground), slowing down near the ground, so setting down from altitude
+     doesn't take ages. A height-over-ground readout in big type in hover.
+   - Make the hover → settled → landed steps obvious on the displays (gear
+     down, "TOUCHDOWN", "LANDED — engines off (A) so the pilot comes").
+4. **Less clunky flying (Dan's main complaint; first pass).** The ship should
+   feel quick and direct on a gamepad and the Deck:
+   - faster, more direct pitch and roll response (less lag and smoothing),
+     yaw that actually helps in tight canyons;
+   - the wing-levelling and bank-turn assists made lighter, with a
+     **Flight assist** setting: Full / Light (new default) / Off;
+   - **Stick sensitivity** setting (and a response curve so small moves stay
+     fine).
+   Code reports the before / after numbers (response times, turn rates).
+   This will need Dan's play to tune: keep values in the tuning file.
+5. **Deeper, more compact canyons.** Narrower canyons with taller, steeper
+   walls (about twice as deep as now, roughly 300-700 m), packed closer
+   together with more branching, and much less open basin and flat plain. Keep
+   small flat landing spots at every pilot's site (and a few others), since you
+   now land in narrow places. Same seed still = same world (the worlds change
+   once with this fix; existing saved planets regenerate, which is fine at this
+   stage). Keep 60+ fps on Dan's PC and the Deck setting's frame rate.
+6. **Check (muted, no focus, as the testing rules say):** pause works in
+   flight and during docking / tow / recall; View/Back opens it; focus loss
+   pauses a players' build (simulate); Reset position from high up and from a
+   canyon; braking from top speed stops within the target and the stop-point
+   marker matches where it stops (within 50 m); hover descent from 1000 m time;
+   flight response numbers before / after; pictures from the cockpit flying a
+   new canyon low, and a height map of the new terrain next to the old one.
+7. **Publish as 0.2.4**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (controls, new settings, tuning), commit and push.
+
+**For Dan to check:** does flying still feel clunky (and if so, what exactly:
+too slow to turn, too twitchy, drifts, levels itself)? Try Flight assist Light
+and Off. Can you land next to a pilot first try using the stop-point marker?
+Pause with ☰ and ⧉; Reset position. Do the canyons feel deep and tight enough?
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
