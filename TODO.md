@@ -168,13 +168,95 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 3 (Aliens): to be written by the planning chat
+Current Objective — Fix 2.5: tight control, seeing the ground, the pickup, launch warning, faster lift
 ---------------------------------------------------------------------------
 
-Fix 2.4 (flying feel, landing, pause / reset, deeper canyons) is done and
-published as 0.2.4 (status under "Previous deliveries"; its specification is in
-`TODO-ARCHIVE.md`). Next: Round 3 (Aliens), once Dan has played 0.2.4 and the
-planning chat has written it here.
+Fix 2.4 is done and published as 0.2.4 (status under "Previous deliveries").
+Round 3 (Aliens) comes after this fix.
+
+Dan (2026-11-02, playing 0.2.4, gamepad / Steam Deck; HOTAS still untried):
+- "It is too loose, I feel I don't really have control over it. It easily gets
+  turned in directions I don't want."
+- "When landing for a pilot, it is hard to get a good angle, there should be
+  either a monitor or some way I can see what's going on (glass floorboards)."
+- "Landed, the pilot came towards me, he didn't even knock and I didn't see a
+  button for airlock."
+- "The game should warn you if you are leaving the mothership and have not a
+  lot of fuel."
+- "When the mothership lifts you it should be much quicker."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Tight, predictable control (Dan's main complaint).** Fix 2.4 made the ship
+   faster and the assists lighter; Dan now finds it loose and it turns where he
+   doesn't want. Goal: the ship goes exactly where the stick points and nowhere
+   else.
+   a. **Find every source of rotation or drift the player didn't ask for, first,
+      with data:** log, per frame, the stick input and each contribution to the
+      ship's rotation and velocity (stick, assist bank-turn, assist levelling,
+      collisions / wall bounces, ground effect, anything else). Fly the check's
+      route with the stick centred and with simple inputs, and list what moved
+      the ship without input and by how much. Report it.
+   b. **Remove or tame those sources:** stick centred = the ship holds its
+      attitude (no slow turning from the bank-turn assist on Light, no
+      roll-over); the flight path follows the nose closely (little or no side
+      slide / momentum carrying it the old way); rotation stops when the stick
+      is released (no overshoot or wobble); wall bounces push the ship away
+      from the wall, never spin it.
+   c. **Calmer default rates and finer centre:** bring the default pitch / roll
+      rates back down (about midway between 0.2.3 and 0.2.4), a larger centre
+      deadzone on gamepad / Deck sticks (Deck sticks drift), and a stronger
+      stick curve so small corrections are small. Keep Stick sensitivity and
+      Flight assist settings (Light default).
+   d. Report before / after numbers, including the "uncommanded movement" list
+      from (a).
+2. **See the ground when landing.**
+   - A **belly camera** feed on a cockpit display that switches on by itself in
+     hover (and can be called up any time): looking straight down with the
+     stop-point / landing ring, the pad, the pilot and a height readout. Also a
+     picture-in-picture on the flat-screen HUD while hovering.
+   - **Glass floor panels** in the cockpit at the pilot's feet (and the lower
+     canopy) so you can look down and see the ground, in flat-screen cockpit view
+     (look down with the look control) and later in VR.
+   - A **landing view** added to the camera cycle: high over the ship looking
+     down at it, for flat-screen players.
+3. **The pickup must be obvious and must work.**
+   - **Find out why the pilot didn't knock** in Dan's run: reproduce on the new
+     0.2.4 terrain (narrow pads, pilot path from the wreck to the door, the
+     ship's landed position and heading relative to the pad). Fix the cause
+     and report what it was. A pilot who can't reach the door must say so
+     (Advice line) instead of silently stopping.
+   - On-screen and in the cockpit, always: **"PILOT AT AIRLOCK — press B to
+     open"** (the real binding for the device in use: gamepad / Deck, keyboard,
+     HOTAS) the moment the pilot is at the door, plus a lit AIRLOCK button on the
+     cockpit panel. While they run: "PILOT COMING — keep engines off".
+   - The knock: a visible "KNOCK KNOCK KNOCK" on the displays as well as the
+     sound; and the pilot visible on the belly camera / an airlock camera on the
+     display when at the door (he's hidden by the hull from the cockpit).
+   - Make sure players' builds are NOT muted (the test `-mute` flag only applies
+     to test runs): confirm the knock sound plays in a players' build by logging
+     its AudioSource playing (no unmuted run needed); if a real sound check is
+     needed, follow the testing rule (brief, report it).
+4. **Low-fuel warning when launching.** In the hangar, if energy is low (below
+   a tuning value, starting 50 %), Launch asks first: "Energy 22 %. Refuel
+   first? (cost N credits)" with **Refuel and launch** (default) / Launch
+   anyway. Also a "Refuel" reminder on the hangar screen whenever energy is
+   under 100 %.
+5. **Much quicker mothership lift.** The tow, the recall lift and the mid-air
+   beam rescue: about 3x faster than now, with the lift itself taking at most
+   about 10 s from the ground into the bay. Still live and continuous (VR rule
+   5), no jump. Shorten the docking approach the same way if it takes more
+   than about 15 s. Tuning values in the file.
+6. **Check (muted, no focus, as the testing rules say):** the uncommanded-
+   movement list before / after; stick-centred hold test; a full pickup on
+   at least three different pads of the new terrain (pilot knocks, prompt
+   shows, airlock, boards), with cockpit pictures of the prompt and the belly
+   camera; the launch warning; lift and docking times before / after.
+7. **Publish as 0.2.5**, update `TODO.md` (per-item status) and `CLAUDE.md`,
+   commit and push.
+
+**For Dan to check:** does the ship go where you point it now? Land with the
+belly camera / glass floor; does the pilot knock and is the airlock prompt
+clear? Launch with low fuel; the lift speed. HOTAS when you get a chance.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
