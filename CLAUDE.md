@@ -186,7 +186,9 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `local/round2/build.ps1 -Name <log>`; **start every check with**
   `python Tools/run_check.py <dir> [--only all|perf|campaign|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
-  the output level; `screen` (Fix 2.1) = the full-screen size path for a simulated
+  the output level; `fullscreen` (Fix 2.1) = a real
+  start with the default screen setting applied: it opens a visible, focused full-screen
+  window, so only with Dan's OK and started by hand, not by run_check.py; `screen` (Fix 2.1) = the full-screen size path for a simulated
   1280 x 800 Deck and this display, then menus / HUD measured inside the view; run
   it with `--size 1280x800`).
 - **Ship model:** `F:\blender\blender.exe --background --factory-startup --python Tools/Blender/ship.py`
@@ -232,9 +234,9 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 **Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
 muted: the Deck's 1280 x 800 asks for a 1280 x 800 borderless full screen, menus
 and HUD all inside the view) and published as 0.2.1 (`game-201`, Latest); a
-starter-200 install updates to it from GitHub. Not yet seen by Dan on the Deck;
-a real full-screen start on his PC (display 3840 x 2160) not run (needs a
-visible window).** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
+starter-200 install updates to it from GitHub. A real start on Dan's PC (with his
+OK) fills his 3840 x 2160 display but runs at 13.6 fps there: default resolution
+on big displays for Dan to decide. Not yet seen by Dan on the Deck.** Round 2 (Campaign core; see `TODO.md`) is published as 0.2.0
 (`build-200`) with the starter package (`starter-200`); not yet played by Dan.
 Round 1 (Free Flight) was played
 by Dan on PC ("ran well"); HOTAS and Steam Deck still for him to check. The

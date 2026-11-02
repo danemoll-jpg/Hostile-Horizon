@@ -1,0 +1,10 @@
+window: a normal window (not a headless check); sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 296960 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 13:17; 3840x2160; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+real start: window 3840 x 2160 FullScreenWindow; display 3840 x 2160; desktop 3840 x 2160 -> fills the screen
+screenshot f1_title.png
+inside the view (3840 x 2160), title: 19 elements; nothing cut off
+screenshot f2_cockpit.png
+inside the view (3840 x 2160), cockpit HUD: 7 elements; nothing cut off
+cockpit, flying low, 3840 x 2160 full screen: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.066 RMS, peak 0.331, zeroed before the speakers; 2435072 samples); master volume 0.00
+fps cockpit, flying low, 3840 x 2160 full screen: average 13.6, 1% low 10.4, worst frame 102 ms over 204 frames; mean height over ground 35 m; terrain chunks 569, waiting 2
+end: window: a normal window (not a headless check); sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.066 RMS, peak 0.331, zeroed before the speakers; 2437120 samples); master volume 0.00

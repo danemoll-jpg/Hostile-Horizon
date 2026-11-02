@@ -32,6 +32,7 @@ namespace HostileHorizon
         static void Init()
         {
             Fullscreen = true; width = height = 0;
+            if (CheckRun.Active && CheckRun.Only == "fullscreen") { Apply(); return; }   // the visible full-screen check (Dan's OK): defaults, nothing read or saved
             if (TestRunning) return;
             try { if (File.Exists(FilePath())) { var s = new Saved(); JsonUtility.FromJsonOverwrite(File.ReadAllText(FilePath()), s); Fullscreen = s.fullscreen; width = s.width; height = s.height; } }
             catch (Exception e) { Debug.LogWarning("[Screen] display.json unreadable: " + e.Message); }

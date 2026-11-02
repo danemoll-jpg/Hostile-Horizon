@@ -218,15 +218,24 @@ muted: measured output 0.000 RMS; no step played sound; no window opened.
 2. **Settings > Display — done.** New "Display" row under Axis display: Screen
    (Full screen / Windowed) and Resolution (the display's own first, then its
    sizes from 1280 wide, largest first). Check: `s3_display.jpg`.
-3. **Check — done for the Deck, PC window not run.** New `-exeCheckOnly screen`
+3. **Check — done (Deck simulated headless; PC in a real window, Dan's OK).** New `-exeCheckOnly screen`
    (`python Tools/run_check.py <dir> --only screen --size 1280x800 --extra
    "-steamDeck 1"`): the size code path for a 1280 x 800 desktop asks for 1280 x
    800 FullScreenWindow (fills the screen); title, settings, display, cockpit,
    chase, pause played at 1280 x 800: every image and text glyph measured inside
    the view, "nothing cut off" on all six (`s1`-`s6`, `exe_check_screen.txt`).
    Dan's PC: the same path for his display (3840 x 2160) asks for 3840 x 2160
-   FullScreenWindow. A real full-screen start on his PC was **not run**: it needs
-   a visible, focused window (Dan's rule: ask first). For Dan to check.
+   FullScreenWindow. **Real start on Dan's PC (visible, focused window, run once
+   with his OK, about 30 s, muted: output 0.000 RMS):** new `-exeCheckOnly
+   fullscreen` (applies the default setting, reads / saves no `display.json`):
+   "window 3840 x 2160 FullScreenWindow; display 3840 x 2160 -> fills the
+   screen", title and cockpit HUD nothing cut off (`f1_title.jpg`,
+   `f2_cockpit.jpg`, `exe_check_pc_fullscreen.txt`). **But only 13.6 fps (1 %
+   low 10.4) at 3840 x 2160** in the cockpit, at Below Normal priority; the
+   performance target is 60 fps at 1080p. Not changed: Dan decides (e.g. a
+   1920 x 1080 default on displays bigger than that, or a render scale). Player
+   behaviour unchanged by the check mode, so not republished; the local exe
+   (built 13:17) has the extra check mode.
 4. **Publish — done.** 0.2.1 = build 201, tag `game-201`, Latest:
    https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/game-201 .
    Check: the `starter-200` ZIP extracted to an empty folder, its launcher run
@@ -241,9 +250,9 @@ muted: measured output 0.000 RMS; no step played sound; no window opened.
 
 **For Dan to check:** start the game on the Deck from the same Steam shortcut:
 it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
-Screen and Resolution show? On the PC: the game now always opens full screen at
-your display's own size (3840 x 2160 reported); Settings > Display > Resolution
-can pick 1920 x 1080 if the frame rate drops.
+Screen and Resolution show? On the PC: the game now opens full screen at 3840 x
+2160 and measured 13.6 fps there; Settings > Display > Resolution > 1920 x 1080
+until a default is decided.
 
 **Round 2 — Campaign core (2026-11-02). Published: 0.2.0 (`build-200`, Latest)
 and the starter package (`starter-200`).** Exe `Builds/HostileHorizon/HostileHorizon.exe`

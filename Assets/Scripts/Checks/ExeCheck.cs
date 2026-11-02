@@ -36,7 +36,7 @@ namespace HostileHorizon
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;   // and its virtual pad keeps working
             pad = InputSystem.AddDevice<Gamepad>("CheckPad");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : All();
             while (true)
             {
                 object cur;
@@ -157,6 +157,22 @@ namespace HostileHorizon
             yield return Shot("s5_chase"); UiInside("chase HUD");
             yield return Press(GamepadButton.Start); yield return WaitFor(() => G.Now == GameShell.State.Paused, 3f);
             yield return Shot("s6_pause"); UiInside("pause");
+        }
+
+        // Fix 2.1, only with Dan's OK (a visible, focused window): a real start with the default screen setting applied (muted as every check).
+        // Says what window Unity actually made against the display, then pictures and fps from the real screen.
+        IEnumerator FullscreenCheck()
+        {
+            yield return WaitFor(() => G.Now == GameShell.State.Title && G.Menu.Current != null, 60f);
+            yield return new WaitForSecondsRealtime(2f);
+            int dw = Display.main.systemWidth, dh = Display.main.systemHeight;
+            bool fills = Screen.width == dw && Screen.height == dh && Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+            Log($"real start: window {Screen.width} x {Screen.height} {Screen.fullScreenMode}; display {dw} x {dh}; desktop {Screen.currentResolution.width} x {Screen.currentResolution.height} -> {(fills ? "fills the screen" : "DOES NOT FILL THE SCREEN")}");
+            yield return Shot("f1_title"); UiInside("title");
+            yield return StartFromTitle(1);
+            yield return Fly(3f);
+            yield return Shot("f2_cockpit"); UiInside("cockpit HUD");
+            yield return MeasureFps($"cockpit, flying low, {Screen.width} x {Screen.height} full screen");
         }
 
         // Every visible image and every drawn glyph of the screen canvases, in view pixels: how far anything sticks out of the view.
