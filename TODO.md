@@ -168,13 +168,61 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 3: Aliens (to be written by the planning chat)
+Current Objective — Fix 2.3: getting home (warnings, rescue in the air, recall, pilot fuel)
 ---------------------------------------------------------------------------
 
-Fix 2.1 (full screen on the Steam Deck) is built, checked in the exe (headless,
-muted) and published as 0.2.1 (status below, under "Previous deliveries"; its
-specification, as the planning chat wrote it, is in `TODO-ARCHIVE.md`). Round 3
-(Aliens) is next; the planning chat writes it here. Nothing to build until then.
+Fixes 2.1 / 2.2 (full screen) are done and published (status under "Previous
+deliveries"). Round 3 (Aliens) comes after this fix.
+
+Dan (2026-11-02, playing 0.2.x): he had one pilot aboard and was running out of
+energy. He didn't understand how to get home; he flew toward the mothership but
+ran dry before docking started. "There should be warnings." Root cause: docking
+only starts above 1000 m, the climb costs energy, nothing says how far up that
+is or whether the energy left is enough, and at 0 energy in the air the only way
+out is sink, land, pay the tow.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **A clear way home on the displays.** On the cockpit display and the HUD,
+   always while flying in the Campaign: the mothership's direction and a
+   "DOCK ↑ <metres>" readout (height still to climb to the docking height),
+   and the Advice line says plainly "Climb to dock" when docking is allowed.
+   A sky marker on the mothership so it can be seen and flown toward.
+2. **Energy-to-get-home warnings.** Work out the energy needed to climb from
+   here to the docking height (plus a small margin). When the energy left gets
+   near it: a "RETURN NOW" warning (display, HUD, a distinct warning sound,
+   not the 15 % beep). When it's below it: "CAN'T REACH THE MOTHERSHIP: recall
+   or land" (see 3 and 4). The 15 % warning stays.
+3. **Rescue in the air.** At 0 energy while flying (not landed) in the
+   Campaign: the mothership comes to you and its tow beam catches the ship in
+   mid-air, live (no fade, VR rule 5), then the normal docking ending. Pilots
+   aboard are delivered and paid. Same tow fee as now (tuning file).
+4. **Recall button.** Call the mothership to you any time in the Campaign, in
+   the air or landed, for a recall fee (tuning file; less than the tow fee,
+   starting value Code's call). It comes over and lifts you up on the beam,
+   live, then the normal docking ending (pilots delivered and paid). Bound on
+   HOTAS / gamepad / keyboard; listed on the Advice line when energy is low.
+   Not while a pilot is running to the ship or at the airlock.
+5. **Pilots bring fuel (Dan's idea).** Each downed pilot's wreck still has a
+   little fuel: when they board, they bring a random amount of energy, rolled
+   fresh each time a pilot boards — NOT from the planet's seed (Dan: "random
+   amounts so you never know how much you get"; this is the one deliberate
+   exception to "the seed decides everything"). Starting range 3-15 % (tuning
+   file). Energy goes up with a short message: "Pilot 2 aboard (1 / 6),
+   brought 8 % energy". Energy never goes above 100 %.
+6. **Check (muted, no focus, as the testing rules say):** (a) climb with one
+   pilot: the DOCK readout counts down and docking starts at the height;
+   (b) energy set low over the canyon floor: RETURN NOW, then CAN'T REACH
+   appear at the right points; (c) run dry in the air: caught by the beam, docks,
+   pilot paid, tow fee charged; (d) recall from the air and from landed: fee
+   charged, docks; (e) a pilot boards: energy goes up by their amount, and the
+   amount differs between two runs of the same planet. Pictures of (a)-(c) from the
+   cockpit.
+7. **Publish as 0.2.3**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (new tuning values, the recall control), commit and push.
+
+**For Dan to check:** with a pilot aboard and low energy, is it clear how to get
+home, and do the warnings come early enough? Run dry in the air: does the beam
+catch you? Try the recall. Does pilot fuel help enough?
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
