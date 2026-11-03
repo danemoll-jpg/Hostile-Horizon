@@ -257,7 +257,8 @@ muted: measured output 0.000 RMS at start and end of every run; no step played s
    is placed 1.5 km out (getting about isn't measured); its steering got firmer for the new deadzone. Not re-run: `all` / `campaign` /
    `home` / `fix24` (their steering was updated for Light; the fix25 run covers launch, landing, pickup, docking, recall, tow, mid-air).
 7. **Publish — done.** 0.2.5 = build 205, tag `game-205`, Latest. The `starter-200` ZIP in `Builds/StarterCheck`, `--auto-check`
-   against GitHub: "Updating to game 0.2.5", installed `versions/205`, started, exit 0 (`launcher/`).
+   against GitHub: "Updating to game 0.2.5", installed `versions/205`, started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed.
+   Clean-up: disk use 2.1 GB -> 1.8 GB (intermediate check runs and the 0.2 GB starter test install removed).
 
 **For Dan to check:** does the ship go where you point it (Light: bank and pull to turn)? Is 82/150/44 and the bigger pad deadzone
 right, or too sluggish? Land with the belly camera / glass floor (look down with the right stick). Does the pilot knock and is the
