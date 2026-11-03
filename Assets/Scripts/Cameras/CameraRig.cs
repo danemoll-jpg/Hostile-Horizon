@@ -10,8 +10,8 @@ namespace HostileHorizon
     // with a short lag and never roll.
     public sealed class CameraRig : MonoBehaviour
     {
-        public enum Mode { Cockpit, Chase, CloseChase, Canyon }
-        public static readonly string[] ModeNames = { "Cockpit", "Chase", "Close chase", "Canyon" };
+        public enum Mode { Cockpit, Chase, CloseChase, Canyon, Landing }
+        public static readonly string[] ModeNames = { "Cockpit", "Chase", "Close chase", "Canyon", "Landing" };
 
         public Camera Head { get; private set; }
         public Mode Current = Mode.Cockpit;
@@ -36,7 +36,7 @@ namespace HostileHorizon
             return rig;
         }
 
-        public void Cycle() { Current = (Mode)(((int)Current + 1) % 4); snapped = false; }
+        public void Cycle() { Current = (Mode)(((int)Current + 1) % 5); snapped = false; }
         public void Snap() => snapped = false;
         public void WatchWreck(Vector3 at) { Watch = at; watchAngle = (Ship ? Ship.Heading : 0) + 160f; }
 
@@ -74,6 +74,14 @@ namespace HostileHorizon
             }
             Vector3 fwd = ship.forward, flat = Vector3.ProjectOnPlane(fwd, Vector3.up);
             if (flat.sqrMagnitude < .01f) flat = ship.up * -Mathf.Sign(fwd.y); flat.Normalize();
+            if (Current == Mode.Landing)
+            {
+                // Fix 2.5: high over the ship looking down at it (a little behind, so the nose shows which way it faces); never rolls
+                var over = ship.position + Quaternion.AngleAxis(look.x, Vector3.up) * (-flat * 12f) + Vector3.up * (42f + look.y * .3f);
+                smoothPos = snapped ? Vector3.Lerp(smoothPos, over, 1 - Mathf.Exp(-6f * dt)) : over; snapped = true;
+                transform.SetPositionAndRotation(smoothPos, Quaternion.LookRotation(ship.position + flat * 4f - smoothPos, flat));
+                return;
+            }
             float dist = Current == Mode.Chase ? 30f : Current == Mode.CloseChase ? 15f : 24f;
             float up = Current == Mode.Chase ? 8f : Current == Mode.CloseChase ? 3.5f : -7f;
             Vector3 offset = Quaternion.AngleAxis(look.x, Vector3.up) * (-flat * dist) + Vector3.up * (up + look.y * .2f);

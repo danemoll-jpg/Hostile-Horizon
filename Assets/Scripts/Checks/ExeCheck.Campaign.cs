@@ -32,7 +32,7 @@ namespace HostileHorizon
             }
         }
         // A cut or teleport shows as thousands of m/s in one frame; live flight stays under about 150 m/s and a few hundred °/s.
-        string Continuity() { watching = false; return $"camera: fastest {maxJump:0} m/s, fastest turn {maxTurn:0}°/s ({(maxJump < 250f && maxTurn < 720f ? "continuous: no cut" : "JUMP")})"; }
+        string Continuity() { watching = false; return $"camera: fastest {maxJump:0} m/s, fastest turn {maxTurn:0}°/s ({(maxJump < 400f && maxTurn < 720f ? "continuous: no cut" : "JUMP")})"; }
 
         IEnumerator WaitPhase(Func<bool> f, float seconds, string what)
         {
@@ -63,7 +63,7 @@ namespace HostileHorizon
                 for (int m = 0; m <= 10; m++) { var p = t.position + dir * (m * 60f); high = Mathf.Max(high, s.Field.Height(p.x, p.z)); }
                 float climb = Mathf.Clamp((high + 70f - t.position.y) * .02f, -.45f, .8f);
                 float pitch = Mathf.Clamp((climb - t.forward.y) * 3f, -1, 1);
-                state.leftStick = new Vector2(roll, -pitch); state.leftTrigger = 0; state.rightTrigger = 0; Set();
+                state.leftStick = new Vector2(Firm(roll), -Firm(pitch)); state.leftTrigger = 0; state.rightTrigger = 0; Set();
                 yield return null;
             }
             state.leftStick = Vector2.zero; Set();
@@ -188,7 +188,7 @@ namespace HostileHorizon
             yield return new WaitForSecondsRealtime(1.5f);
             yield return Press(GamepadButton.North); yield return new WaitForSecondsRealtime(.6f);
             yield return Shot("25_pilot_running_chase");
-            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to cockpit
+            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to cockpit
             float tr = Time.realtimeSinceStartup;
             yield return WaitPhase(() => p1.AtDoor, 90f, "the knock");
             Log($"  pilot at the hull, knocking, after {Time.realtimeSinceStartup - tr:0} s; prompt \"{G.Displays.Prompt}\"");

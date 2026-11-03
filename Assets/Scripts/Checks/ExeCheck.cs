@@ -35,8 +35,12 @@ namespace HostileHorizon
             Log(TestRun.WindowReport() + "; " + TestRun.Report());
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;   // and its virtual pad keeps working
             pad = InputSystem.AddDevice<Gamepad>("CheckPad");
+            // Fix 2.5: the scripted pilot flies its transit legs on Flight assist Full (it banks and lets the assist turn; on Light a
+            // banked ship only turns while pulled); the measurements set the assist they test
+            GameSettings.S.flightAssist = 0;
+            Log("check pilot: Flight assist Full for getting about (measurements set their own)");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : All();
             while (true)
             {
                 object cur;
@@ -72,6 +76,11 @@ namespace HostileHorizon
         }
         IEnumerator WaitFor(Func<bool> f, float seconds) { float end = Time.realtimeSinceStartup + seconds; while (!f() && Time.realtimeSinceStartup < end) yield return null; }
 
+        // Fix 2.5: on Light a banked ship only turns while the stick pulls: pull more the steeper the bank
+        // Fix 2.5: a player's firm stick: a small correction still gets past the pad's and the game's centre deadzones
+        static float Firm(float v) => Mathf.Abs(v) < .02f ? 0 : Mathf.Sign(v) * Mathf.Min(1, .27f + Mathf.Abs(v) * .73f);
+        static float Pull(Transform t) { float b = Mathf.Abs(Mathf.Asin(Mathf.Clamp(-t.right.y, -1, 1)) * Mathf.Rad2Deg); return t.up.y < .2f || Mathf.Abs(t.forward.y) > .45f ? 0 : Mathf.Clamp01((b - 8f) / 30f) * .6f; }
+
         // Steer like a player would: stick toward the lowest way ahead, holding about 35 m over the ground ahead.
         void Autopilot()
         {
@@ -88,7 +97,7 @@ namespace HostileHorizon
             float pitch = Mathf.Clamp((climb - t.forward.y) * 3f, -1, 1);
             float bank = Mathf.Asin(Mathf.Clamp(-t.right.y, -1, 1)) * Mathf.Rad2Deg;
             float roll = Mathf.Clamp((Mathf.Clamp(bestTurn * 1.2f, -55, 55) - bank) * .04f, -1, 1);
-            state.leftStick = new Vector2(roll, -pitch);   // the pad's stick: up = nose down
+            state.leftStick = new Vector2(Firm(roll), -Firm(pitch));   // the pad's stick: up = nose down
             state.leftTrigger = 0; state.rightTrigger = 0; Set();
         }
 
@@ -263,14 +272,14 @@ namespace HostileHorizon
             yield return Fly(5f);
             yield return Shot("03_cockpit");
             yield return MeasureFps("cockpit, flying low (1080p target 60)");
-            foreach (var v in new[] { "04_chase", "05_close_chase", "06_canyon" })
+            foreach (var v in new[] { "04_chase", "05_close_chase", "06_canyon", "06b_landing_view" })
             {
                 yield return Press(GamepadButton.North);
                 yield return Fly(2.5f);
                 yield return Shot(v);
             }
             yield return Press(GamepadButton.North);
-            Log($"view after four presses of Y: {CameraRig.ModeNames[(int)G.Rig.Current]} (expected Cockpit)");
+            Log($"view after five presses of Y: {CameraRig.ModeNames[(int)G.Rig.Current]} (expected Cockpit)");
             yield return MeasureFps("cockpit again");
             // look with the right stick (the hat on a HOTAS)
             state.rightStick = new Vector2(1, .2f); Set();

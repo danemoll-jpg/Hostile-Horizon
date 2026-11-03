@@ -530,3 +530,152 @@ Dan (2026-11-02, playing 0.2.3, gamepad / Steam Deck; HOTAS still untried):
 too slow to turn, too twitchy, drifts, levels itself)? Try Flight assist Light
 and Off. Can you land next to a pilot first try using the stop-point marker?
 Pause with ☰ and ⧉; Reset position. Do the canyons feel deep and tight enough?
+
+---------------------------------------------------------------------------
+Current Objective — Fix 2.5: tight control, seeing the ground, the pickup, launch warning, faster lift
+---------------------------------------------------------------------------
+
+Fix 2.4 is done and published as 0.2.4 (status under "Previous deliveries").
+Round 3 (Aliens) comes after this fix.
+
+Dan (2026-11-02, playing 0.2.4, gamepad / Steam Deck; HOTAS still untried):
+- "It is too loose, I feel I don't really have control over it. It easily gets
+  turned in directions I don't want."
+- "When landing for a pilot, it is hard to get a good angle, there should be
+  either a monitor or some way I can see what's going on (glass floorboards)."
+- "Landed, the pilot came towards me, he didn't even knock and I didn't see a
+  button for airlock."
+- "The game should warn you if you are leaving the mothership and have not a
+  lot of fuel."
+- "When the mothership lifts you it should be much quicker."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Tight, predictable control (Dan's main complaint).** Fix 2.4 made the ship
+   faster and the assists lighter; Dan now finds it loose and it turns where he
+   doesn't want. Goal: the ship goes exactly where the stick points and nowhere
+   else.
+   a. **Find every source of rotation or drift the player didn't ask for, first,
+      with data:** log, per frame, the stick input and each contribution to the
+      ship's rotation and velocity (stick, assist bank-turn, assist levelling,
+      collisions / wall bounces, ground effect, anything else). Fly the check's
+      route with the stick centred and with simple inputs, and list what moved
+      the ship without input and by how much. Report it.
+   b. **Remove or tame those sources:** stick centred = the ship holds its
+      attitude (no slow turning from the bank-turn assist on Light, no
+      roll-over); the flight path follows the nose closely (little or no side
+      slide / momentum carrying it the old way); rotation stops when the stick
+      is released (no overshoot or wobble); wall bounces push the ship away
+      from the wall, never spin it.
+   c. **Calmer default rates and finer centre:** bring the default pitch / roll
+      rates back down (about midway between 0.2.3 and 0.2.4), a larger centre
+      deadzone on gamepad / Deck sticks (Deck sticks drift), and a stronger
+      stick curve so small corrections are small. Keep Stick sensitivity and
+      Flight assist settings (Light default).
+   d. Report before / after numbers, including the "uncommanded movement" list
+      from (a).
+2. **See the ground when landing.**
+   - A **belly camera** feed on a cockpit display that switches on by itself in
+     hover (and can be called up any time): looking straight down with the
+     stop-point / landing ring, the pad, the pilot and a height readout. Also a
+     picture-in-picture on the flat-screen HUD while hovering.
+   - **Glass floor panels** in the cockpit at the pilot's feet (and the lower
+     canopy) so you can look down and see the ground, in flat-screen cockpit view
+     (look down with the look control) and later in VR.
+   - A **landing view** added to the camera cycle: high over the ship looking
+     down at it, for flat-screen players.
+3. **The pickup must be obvious and must work.**
+   - **Find out why the pilot didn't knock** in Dan's run: reproduce on the new
+     0.2.4 terrain (narrow pads, pilot path from the wreck to the door, the
+     ship's landed position and heading relative to the pad). Fix the cause
+     and report what it was. A pilot who can't reach the door must say so
+     (Advice line) instead of silently stopping.
+   - On-screen and in the cockpit, always: **"PILOT AT AIRLOCK — press B to
+     open"** (the real binding for the device in use: gamepad / Deck, keyboard,
+     HOTAS) the moment the pilot is at the door, plus a lit AIRLOCK button on the
+     cockpit panel. While they run: "PILOT COMING — keep engines off".
+   - The knock: a visible "KNOCK KNOCK KNOCK" on the displays as well as the
+     sound; and the pilot visible on the belly camera / an airlock camera on the
+     display when at the door (he's hidden by the hull from the cockpit).
+   - Make sure players' builds are NOT muted (the test `-mute` flag only applies
+     to test runs): confirm the knock sound plays in a players' build by logging
+     its AudioSource playing (no unmuted run needed); if a real sound check is
+     needed, follow the testing rule (brief, report it).
+4. **Low-fuel warning when launching.** In the hangar, if energy is low (below
+   a tuning value, starting 50 %), Launch asks first: "Energy 22 %. Refuel
+   first? (cost N credits)" with **Refuel and launch** (default) / Launch
+   anyway. Also a "Refuel" reminder on the hangar screen whenever energy is
+   under 100 %.
+5. **Much quicker mothership lift.** The tow, the recall lift and the mid-air
+   beam rescue: about 3x faster than now, with the lift itself taking at most
+   about 10 s from the ground into the bay. Still live and continuous (VR rule
+   5), no jump. Shorten the docking approach the same way if it takes more
+   than about 15 s. Tuning values in the file.
+6. **Check (muted, no focus, as the testing rules say):** the uncommanded-
+   movement list before / after; stick-centred hold test; a full pickup on
+   at least three different pads of the new terrain (pilot knocks, prompt
+   shows, airlock, boards), with cockpit pictures of the prompt and the belly
+   camera; the launch warning; lift and docking times before / after.
+7. **Publish as 0.2.5**, update `TODO.md` (per-item status) and `CLAUDE.md`,
+   commit and push.
+
+**For Dan to check:** does the ship go where you point it now? Land with the
+belly camera / glass floor; does the pilot knock and is the airlock prompt
+clear? Launch with low fuel; the lift speed. HOTAS when you get a chance.
+
+**Fix 2.1 — full screen on the Steam Deck (2026-11-02). Published: 0.2.1
+(`game-201`), then 0.2.2 (`game-202`, Latest) with Dan's 1080 default.** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
+`Data/screenshots/fix2.1/`. Every check headless (`-batchmode`, no window) and
+muted: measured output 0.000 RMS; no step played sound; no window opened.
+
+0. **Commit first — done.** "Fix 2.1 planning" (d4bfb66).
+1. **ScreenSetting ported — done.** `Core/ScreenSetting.cs` (Chastain Rush's):
+   before the first scene the game asks for a borderless full-screen window at
+   `Display.main.systemWidth/Height`, overriding the size Unity remembers; choice
+   saved in `display.json` beside `settings.json`. Test runs (`-mute`,
+   `-exeCheck`, `-racerTestSave`) never apply or save it. Check: "check run
+   applied nothing: Screen 1280 x 800 Windowed" (its `-screen-*` size stood).
+2. **Settings > Display — done.** New "Display" row under Axis display: Screen
+   (Full screen / Windowed) and Resolution (the display's own first, then its
+   sizes from 1280 wide, largest first). Check: `s3_display.jpg`.
+3. **Check — done (Deck simulated headless; PC in a real window, Dan's OK).** New `-exeCheckOnly screen`
+   (`python Tools/run_check.py <dir> --only screen --size 1280x800 --extra
+   "-steamDeck 1"`): the size code path for a 1280 x 800 desktop asks for 1280 x
+   800 FullScreenWindow (fills the screen); title, settings, display, cockpit,
+   chase, pause played at 1280 x 800: every image and text glyph measured inside
+   the view, "nothing cut off" on all six (`s1`-`s6`, `exe_check_screen.txt`).
+   Dan's PC: the same path for his display (3840 x 2160) asks for 3840 x 2160
+   FullScreenWindow. **Real start on Dan's PC (visible, focused window, run once
+   with his OK, about 30 s, muted: output 0.000 RMS):** new `-exeCheckOnly
+   fullscreen` (applies the default setting, reads / saves no `display.json`):
+   "window 3840 x 2160 FullScreenWindow; display 3840 x 2160 -> fills the
+   screen", title and cockpit HUD nothing cut off (`f1_title.jpg`,
+   `f2_cockpit.jpg`, `exe_check_pc_fullscreen.txt`). **But only 13.6 fps (1 %
+   low 10.4) at 3840 x 2160** in the cockpit, at Below Normal priority; the
+   performance target is 60 fps at 1080p. **Dan decided: "Default to 1920 x
+   1080" -> 0.2.2:** the default full-screen size is the display's own, at most
+   1080 tall, same shape (`ScreenSetting.DefaultSize`): 4K -> 1920 x 1080
+   stretched to fill, Deck 1280 x 800 unchanged; Resolution offers "Default
+   (1920 x 1080)" first and the display's own 3840 x 2160 among the rest.
+   Check (headless, muted, exe built 13:42): Deck 1280 x 800 -> 1280 x 800,
+   simulated 4K and this PC -> 1920 x 1080 FullScreenWindow; six screens at 1280
+   x 800 nothing cut off (`exe_check_screen_v022.txt`, `v022_s3_display.jpg`).
+   Not re-run in a visible window (one OK, used once).
+4. **Publish — done.** 0.2.1 = build 201, tag `game-201`, Latest:
+   https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/game-201 .
+   Check: the `starter-200` ZIP extracted to an empty folder, its launcher run
+   with `--auto-check` against the real GitHub catalog (hidden, game in batch
+   mode): "Updating to game 0.2.1", "Game activated 0.2.1", started
+   `versions/201`, ready handshake, exit 0 (`launcher/`). Found on the way: the
+   first try, from a 144-character folder, failed with "Cannot create extracted
+   file" (Windows' 260-character path limit inside Unity's data folders) and
+   started the old version; from a short folder it worked. Not changed (launcher
+   code, not this fix); keep installs in short paths. 0.2.2 = build 202, tag
+   `game-202`, Latest; the same starter check updated to 0.2.2 and started
+   `versions/202` (`launcher-202/`).
+5. **TODO.md / CLAUDE.md — done.** Committed and pushed. Clean-up: disk use 1.7 GB -> 1.5 GB.
+
+**For Dan to check:** start the game on the Deck from the same Steam shortcut:
+it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
+Screen and Resolution show? On the PC (0.2.2): full screen at 1920 x 1080
+stretched over the 4K screen; is the frame rate back to normal, and is it sharp
+enough?

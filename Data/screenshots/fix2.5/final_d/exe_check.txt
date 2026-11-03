@@ -1,0 +1,219 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 102400 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-02 20:29; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: pitch 82 / roll 150 / yaw 44 °/s; bank turn Full 38 Light 26; levelling Full 22 Light 8; stick curve 0.6; settings deadzone 8%, assist Full
+uncommanded movement, Flight assist Light (default) (rates 82 / 150 / 44 °/s, bank turn 26, levelling 0, deadzone 8%, stick curve 0.6):
+    [767 fps] Flying/ Flight alt 2600 gnd 2157 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [681 fps] Flying/ Flight alt 2600 gnd 2092 spd 87 hdg 0 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [847 fps] Flying/ Flight alt 2600 gnd 2572 spd 87 hdg 0 energy 100
+    [903 fps] Flying/ Flight alt 2600 gnd 2190 spd 87 hdg 0 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [655 fps] Flying/ Flight alt 2600 gnd 2160 spd 87 hdg 0 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +0.0°, pitch +0.0°, bank +45.1° [stick 33.0°]; stick centred 5.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [562 fps] Flying/ Flight alt 2737 gnd 2561 spd 87 hdg 0 energy 100
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +36.1°, bank +0.0° [stick 33.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [76 fps] Flying/ Flight alt 2600 gnd 2156 spd 87 hdg 0 energy 100
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +2.5° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [663 fps] Flying/ Flight alt 2600 gnd 2125 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [579 fps] Flying/ Flight alt 2600 gnd 2191 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [693 fps] Flying/ Flight alt 2600 gnd 2148 spd 87 hdg 0 energy 100
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +0.0°, pitch +0.0°, bank +79.2° [stick 71.7°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.0°, pitch +0.0°, bank +0.0° [stick 25.0°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+uncommanded movement, Flight assist Full (rates 82 / 150 / 44 °/s, bank turn 38, levelling 22, deadzone 8%, stick curve 0.6):
+    [731 fps] Flying/ Flight alt 2600 gnd 2095 spd 87 hdg 0 energy 100
+    [692 fps] Flying/ Flight alt 2600 gnd 2598 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [558 fps] Flying/ Flight alt 2600 gnd 2126 spd 87 hdg 3 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +3.4°, pitch +0.0°, bank -15.0°, total 15.4° [bank turn (assist) 3.4°, wing levelling (assist) 15.0°]
+    [564 fps] Flying/ Flight alt 2600 gnd 2118 spd 87 hdg 13 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +13.3°, pitch +0.1°, bank -30.0°, total 32.7° [bank turn (assist) 13.3°, wing levelling (assist) 30.0°]
+    [291 fps] Flying/ Flight alt 2601 gnd 2175 spd 87 hdg 50 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +48.9°, pitch +0.4°, bank -59.4°, total 75.6° [bank turn (assist) 48.9°, wing levelling (assist) 59.4°]
+    [276 fps] Flying/ Flight alt 2600 gnd 2111 spd 87 hdg 36 energy 100
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +5.2°, pitch +0.0°, bank +48.6° [stick 47.8°, bank turn (assist) 5.2°]; stick centred 5.0 s -> heading +33.8°, pitch +0.2°, bank -48.6°, total 58.7° [bank turn (assist) 33.8°, wing levelling (assist) 48.7°]
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +34.3°, bank +0.0° [stick 27.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [227 fps] Flying/ Flight alt 2600 gnd 2591 spd 87 hdg 0 energy 100
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [wing levelling (assist) 2.5°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [519 fps] Flying/ Flight alt 2600 gnd 2526 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [468 fps] Flying/ Flight alt 2600 gnd 2589 spd 87 hdg 0 energy 100
+    [564 fps] Flying/ Flight alt 2600 gnd 2163 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +10.8°, pitch +0.0°, bank +75.0° [stick 55.3°, bank turn (assist) 10.8°]; stick centred 3.0 s -> heading +72.3°, pitch +0.3°, bank -65.8°, total 94.7° [bank turn (assist) 72.3°, wing levelling (assist) 65.8°]
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.0°, pitch +0.0°, bank +0.0° [stick 20.5°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+uncommanded movement, Flight assist Off (rates 82 / 150 / 44 °/s, bank turn 0, levelling 0, deadzone 8%, stick curve 0.6):
+    [501 fps] Flying/ Flight alt 2600 gnd 2596 spd 87 hdg 0 energy 100
+    [414 fps] Flying/ Flight alt 2600 gnd 2442 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [167 fps] Flying/ Flight alt 2600 gnd 2598 spd 87 hdg 0 energy 100
+    [282 fps] Flying/ Flight alt 2600 gnd 2589 spd 87 hdg 0 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [752 fps] Flying/ Flight alt 2600 gnd 2102 spd 87 hdg 0 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [684 fps] Flying/ Flight alt 2600 gnd 2120 spd 87 hdg 0 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +0.0°, pitch +0.0°, bank +45.0° [stick 27.5°]; stick centred 5.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [402 fps] Flying/ Flight alt 2610 gnd 2193 spd 87 hdg 0 energy 100
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +33.0°, bank +0.0° [stick 25.4°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [346 fps] Flying/ Flight alt 2600 gnd 2196 spd 87 hdg 0 energy 100
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +2.5° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [704 fps] Flying/ Flight alt 2600 gnd 2126 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [662 fps] Flying/ Flight alt 2600 gnd 2065 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [564 fps] Flying/ Flight alt 2600 gnd 2455 spd 87 hdg 0 energy 100
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +0.0°, pitch +0.0°, bank +75.5° [stick 64.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.1°, pitch +0.0°, bank +0.0° [stick 5.0°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+hover (landing mode), high up:
+    [740 fps] Flying/ Hover alt 2600 gnd 2133 spd 0 hdg 100 energy 100
+  turn full stick right 2 s, then release: input (1.00, 0.00) 2.0 s -> heading +100.0°, pitch +0.0°, bank +4.9° [hover body easing 0.1°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank -4.9°, total 4.9° [nothing]
+  forward full stick 2 s, then release: input (0.00, 1.00) 2.0 s -> heading +0.0°, pitch -6.3°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +6.2°, bank +0.0°, total 6.2° [nothing]
+  hover drift after the forward push: horizontal speed now 0.0 m/s
+  air brake from a 20° climb, 30° bank: stick centred 4.0 s -> heading +0.5°, pitch -18.4°, bank -25.9°, total 32.9° [hover body easing 19.3°]
+    [442 fps] Paused/ Hover alt 2611 gnd 2176 spd 0 hdg 0 energy 100
+wall hit at 15° into the wall (Bounce), stick centred: hit after 0.8 s, 1 hits; heading -29.5° (the wall's line is -15° from the start heading); turned by: stick 0.0°, bank turn (assist) 0.1°, wing levelling (assist) 3.1°, wall bounce 31.4°, hover body easing 0.0°; now 46 m off the wall
+wall hit at 35° into the wall (Bounce), stick centred: hit after 0.9 s, 1 hits; heading -34.4° (the wall's line is -35° from the start heading); turned by: stick 0.0°, bank turn (assist) 0.3°, wing levelling (assist) 4.2°, wall bounce 36.5°, hover body easing 0.0°; now 20 m off the wall
+    [1094 fps] Auto/launch Hover alt 1471 gnd 1471 spd 27 hdg 240 energy 100
+pickup 1: pilot 3, 2241 m away
+    [724 fps] Flying/ Flight alt 1228 gnd 805 spd 73 hdg 297 energy 99
+    [458 fps] Flying/ Flight alt 905 gnd 905 spd 73 hdg 28 energy 97
+    [464 fps] Flying/ Flight alt 593 gnd 129 spd 73 hdg 37 energy 95
+  cue "SLOW DOWN — PRESS X" at 101 m from the pilot
+    [375 fps] Flying/ Hover alt 586 gnd 437 spd 45 hdg 38 energy 93
+  stopped 44 m from the pilot, 40 m from the pad's centre, 586 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p1_hover_belly_cam.png
+  view: Landing
+screenshot p1_landing_view.png
+    [231 fps] Flying/ Hover alt 417 gnd 417 spd 30 hdg 38 energy 89
+    [238 fps] Flying/ Hover alt 120 gnd 120 spd 25 hdg 38 energy 86
+    [254 fps] Flying/ Hover alt 15 gnd 16 spd 2 hdg 38 energy 82
+  set straight down: landed True (Landed), ground slope 0°, heading 38; pilot Waiting, to the door 46.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0
+    [290 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 79
+screenshot p1_glass_floor_look_down.png
+screenshot p1_debug_no_glass.png
+screenshot p1_debug_no_ship.png
+  ship renderers: Body__dash(Universal Render Pipeline/Lit) Body__engine(Universal Render Pipeline/Lit) Body__glass(HostileHorizon/Glass) Body__glow(HostileHorizon/Glow) Body__hull(Universal Render Pipeline/Lit) Body__interior(Universal Render Pipeline/Lit) Body__lamp(HostileHorizon/Glow) Body__metal(Universal Render Pipeline/Lit) Body__panel(Universal Render Pipeline/Lit) Body__seat(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cube(Universal Render Pipeline/Lit) Cube(Universal Render Pipeline/Lit) 
+screenshot p1_lower_canopy_look_left.png
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 46.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0
+    0 s: pilot Running, to the door 46.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0; advice "PILOT COMING — keep engines off"
+    4 s: pilot Running, to the door 25.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +12 z +19, knocks 0; advice "PILOT COMING — keep engines off"
+    [339 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+    8 s: pilot Running, to the door 7.1 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -2 z +5, knocks 0; advice "PILOT COMING — keep engines off"
+  pilot ran 9.1 s to the door (Knocking)
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 4.9 m, 128° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p1_at_door_cockpit.png
+screenshot p1_at_door_landing_view.png
+    [316 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+    [276 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+landed, the airlock camera on: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.114 RMS, peak 2.383, zeroed before the speakers; 43438080 samples); master volume 0.00
+fps landed, the airlock camera on: average 284.3, 1% low 66.5, worst frame 243 ms over 4265 frames; mean height over ground 2 m; terrain chunks 580, waiting 0
+  knock shown on the displays: True
+screenshot p1_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 3 aboard (1 / 6), brought 14 % energy"
+    [255 fps] Flying/ Hover alt 47 gnd 47 spd 14 hdg 38 energy 90
+pickup 2: pilot 1, 1541 m away
+    [344 fps] Flying/ Flight alt 565 gnd 511 spd 87 hdg 303 energy 88
+  cue "SLOW DOWN — PRESS X" at 170 m from the pilot
+    [276 fps] Flying/ Hover alt 537 gnd 401 spd 40 hdg 303 energy 85
+  stopped 70 m from the pilot, 40 m from the pad's centre, 538 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p2_hover_belly_cam.png
+    [162 fps] Flying/ Hover alt 363 gnd 364 spd 30 hdg 303 energy 82
+    [223 fps] Flying/ Hover alt 84 gnd 85 spd 18 hdg 303 energy 79
+    [278 fps] Flying/ Hover alt 12 gnd 13 spd 2 hdg 303 energy 75
+  set straight down: landed True (Landed), ground slope 0°, heading 303; pilot Waiting, to the door 71.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 71.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0
+    0 s: pilot Running, to the door 71.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0; advice "PILOT COMING — keep engines off"
+    [299 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 303 energy 73
+    4 s: pilot Running, to the door 49.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +3 z +47, knocks 0; advice "PILOT COMING — keep engines off"
+    8 s: pilot Running, to the door 27.4 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -1 z +26, knocks 0; advice "PILOT COMING — keep engines off"
+    12 s: pilot Running, to the door 5.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -2 z +4, knocks 0; advice "PILOT COMING — keep engines off"
+    [392 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 303 energy 73
+  pilot ran 12.8 s to the door (Knocking)
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 4.9 m, 128° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p2_at_door_cockpit.png
+  knock shown on the displays: True
+screenshot p2_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 1 aboard (2 / 6), brought 7 % energy"
+    [321 fps] Flying/ Hover alt 79 gnd 80 spd 14 hdg 303 energy 78
+pickup 3: pilot 2, 1578 m away
+    [422 fps] Flying/ Flight alt 628 gnd 78 spd 87 hdg 162 energy 75
+  cue "SLOW DOWN — PRESS X" at 156 m from the pilot
+    [220 fps] Flying/ Hover alt 590 gnd 592 spd 4 hdg 162 energy 73
+  stopped 61 m from the pilot, 40 m from the pad's centre, 592 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p3_hover_belly_cam.png
+    [180 fps] Flying/ Hover alt 338 gnd 340 spd 30 hdg 162 energy 69
+    [178 fps] Flying/ Hover alt 69 gnd 70 spd 16 hdg 162 energy 66
+    [175 fps] Flying/ Hover alt 10 gnd 12 spd 2 hdg 162 energy 63
+  set straight down: landed True (Landed), ground slope 0°, heading 162; pilot Waiting, to the door 61.4 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +55, knocks 0
+  (unreachable for a moment) advice "Pilot 2 can't reach you here (61 m away, 0 m down): land on their pad (green ring)"
+screenshot p3_cant_reach_advice.png
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 61.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +55, knocks 0
+    0 s: pilot Running, to the door 61.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +55, knocks 0; advice "PILOT COMING — keep engines off"
+    [73 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 162 energy 60
+    4 s: pilot Running, to the door 39.3 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -17 z +35, knocks 0; advice "PILOT COMING — keep engines off"
+    8 s: pilot Running, to the door 17.1 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -9 z +14, knocks 0; advice "PILOT COMING — keep engines off"
+    [125 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 162 energy 60
+  pilot ran 11.0 s to the door (Knocking)
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 5.2 m, 127° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p3_at_door_cockpit.png
+  knock shown on the displays: True
+screenshot p3_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 2 aboard (3 / 6), brought 13 % energy"
+    [270 fps] Flying/ Hover alt 76 gnd 78 spd 14 hdg 162 energy 71
+cabin 3
+    [287 fps] Flying/ Hover alt 200 gnd 201 spd 14 hdg 162 energy 68
+    [229 fps] Flying/ Hover alt 334 gnd 335 spd 14 hdg 162 energy 64
+    [332 fps] Flying/ Hover alt 469 gnd 471 spd 14 hdg 162 energy 61
+    [225 fps] Flying/ Hover alt 601 gnd 603 spd 14 hdg 162 energy 58
+    [233 fps] Flying/ Hover alt 739 gnd 740 spd 14 hdg 162 energy 54
+    [193 fps] Flying/ Hover alt 872 gnd 873 spd 14 hdg 162 energy 51
+    [252 fps] Auto/dock-approach Flight alt 1019 gnd 1021 spd 44 hdg 118 energy 48
+    [345 fps] Auto/dock-final Flight alt 1745 gnd 1231 spd 71 hdg 158 energy 48
+    [85 fps] Auto/dock-final Flight alt 1550 gnd 1023 spd 105 hdg 284 energy 48
+    [72 fps] Auto/dock-rise Flight alt 1498 gnd 998 spd 6 hdg 239 energy 48
+docking (climbed to the docking height): 19.5 s from the autopilot taking over to the cradle; Delivered 3 pilots: +1500 cr
+screenshot h01_hangar_refuel_reminder.png
+hangar at 22 %: "<color=#FFC873>Energy 22 %: Refuel below (468 cr) before you launch.</color> | Energy used 52%. Refuelled 52%: -314 cr"
+Launch at 22 %: page "LOW ENERGY", body "Energy 22 %. Refuel first? (cost 468 credits)  You have 5186 cr.", rows Refuel and launch / Launch anyway / Back to the hangar, selected Refuel and launch
+screenshot h02_low_energy_question.png
+    [184 fps] Auto/launch Hover alt 1422 gnd 958 spd 73 hdg 240 energy 100
+Refuel and launch: energy 100 %, credits 5186 -> 4718, state Flying
+reset position from for the lift test: before pos (84, 1410, -2127), gnd 1260 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (121, 61, -2368), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [179 fps] Flying/ Hover alt 18 gnd 17 spd 2 hdg 240 energy 97
+    [35 fps] Flying/ Hover alt 14 gnd 13 spd 1 hdg 240 energy 96
+    [280 fps] Flying/ Hover alt 6 gnd 5 spd 1 hdg 240 energy 93
+    [425 fps] Auto/tow-lift Flight alt 133 gnd 132 spd 162 hdg 240 energy 90
+lift (new) recall from the ground (3 m up, the mothership 207 m away level): it came in 1.0 s, lift from the ground into the cradle 10.0 s; camera: fastest 320 m/s, fastest turn 0°/s (continuous: no cut)
+    [706 fps] Auto/launch Hover alt 1487 gnd 1370 spd 17 hdg 240 energy 100
+    [429 fps] Flying/ Hover alt 1329 gnd 1261 spd 30 hdg 240 energy 98
+    [310 fps] Flying/ Hover alt 1034 gnd 966 spd 30 hdg 240 energy 95
+    [276 fps] Flying/ Hover alt 743 gnd 676 spd 30 hdg 240 energy 91
+    [214 fps] Flying/ Hover alt 489 gnd 422 spd 30 hdg 240 energy 88
+    [361 fps] Auto/tow-lift Flight alt 1447 gnd 1441 spd 68 hdg 240 energy 0
+lift (new) mid-air catch (ran dry 320 m over the ground, the mothership 283 m away): caught after 0.2 s at 316 m over the ground, lift into the cradle 9.1 s; camera: fastest 316 m/s, fastest turn 0°/s (continuous: no cut)
+reset position from for the tow test: before pos (-796, 1410, -2832), gnd 937 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (-705, 62, -2814), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [784 fps] Flying/ Hover alt 62 gnd 60 spd 1 hdg 240 energy 100
+    [296 fps] Flying/ Hover alt 16 gnd 15 spd 2 hdg 240 energy 97
+    [336 fps] Flying/ Hover alt 8 gnd 6 spd 1 hdg 240 energy 93
+    [488 fps] Auto/tow-wait Hover landed alt 3 gnd 2 spd 0 hdg 240 energy 0
+    [1413 fps] Auto/tow-lift Flight alt 846 gnd 845 spd 317 hdg 240 energy 0
+lift (new) tow from the ground (the mothership 252 m away): it came in 6.4 s, lift into the cradle 10.1 s; camera: fastest 320 m/s, fastest turn 0°/s (continuous: no cut)
+    [883 fps] Auto/launch Hover alt 1451 gnd 1176 spd 48 hdg 240 energy 100
+reset position from for the lift test: before pos (-926, 1410, -2942), gnd 929 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (-705, 62, -2814), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying

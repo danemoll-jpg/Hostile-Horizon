@@ -21,6 +21,15 @@ namespace HostileHorizon
         public string Home = "", HomeWarning = "";   // Fix 2.3, set by GameShell.Campaign while flying
         public string Cue = "";                      // Fix 2.4: SLOW DOWN - PRESS X, on the radar
         public bool PilotNear, PauseHint;            // Fix 2.4: a waiting pilot within pickup range; the first minute of a flight
+        // Fix 2.5: the pickup, always on the HUD and in the cockpit: PILOT AT AIRLOCK — press B / PILOT COMING (set by the Campaign),
+        // the lit AIRLOCK button over the centre display, KNOCK KNOCK KNOCK with each knock, and the belly / airlock camera feed
+        public string PickupLine = "";
+        public bool AirlockLit;
+        public BellyCam Belly;
+        float knockUntil;
+        public void Knock() => knockUntil = Time.time + 1.4f;
+        public bool Knocking => Time.time < knockUntil;
+        RawImage centreFeed, screenFeed; Text centreFeedText, screenFeedText, airlockText; Image airlockLamp, screenFeedBack;
         public readonly List<RadarContact> Contacts = new List<RadarContact>();
         Text left, centre, right, rightList, screenLeft, screenRight, screenList, warning, prompt, stateLine, hint;
         RadarScope cockpitRadar, screenRadar; Image listBack;
@@ -32,7 +41,15 @@ namespace HostileHorizon
             var d = new GameObject("Flight displays").AddComponent<FlightDisplays>();
             d.Ship = ship; d.Rig = rig;
             // cockpit: three screens on the dash, each turned to face the pilot's eye
-            d.centre = Screen(shipModel, "Centre display", ShipLayout.DashCentre + new Vector3(0, .17f, -.34f), new Vector2(420, 250), 26, out _);
+            d.centre = Screen(shipModel, "Centre display", ShipLayout.DashCentre + new Vector3(0, .17f, -.34f), new Vector2(420, 250), 26, out var cc);
+            // Fix 2.5: the belly camera fills the centre display when it is on, with the height and the pickup line over it
+            d.centreFeed = UiKit.Rect(cc.transform, "Belly feed", Vector2.zero, Vector2.one, new Vector2(4, 4), new Vector2(-4, -6)).gameObject.AddComponent<RawImage>(); d.centreFeed.raycastTarget = false;
+            d.centreFeedText = UiKit.Label(cc.transform, "Belly feed text", 21, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), Vector2.zero, Vector2.one, new Vector2(12, 8), new Vector2(-10, -10));
+            d.centreFeedText.GetComponent<Shadow>().effectDistance = new Vector2(1.5f, -1.5f);
+            // Fix 2.5: the AIRLOCK lamp: a strip across the top of the centre display, lit and blinking amber when a pilot is at the door
+            d.airlockLamp = UiKit.Panel(cc.transform, "Airlock lamp", new Color(1f, .62f, .2f), new Vector2(0, 1), new Vector2(1, 1), new Vector2(4, -50), new Vector2(-4, -6));
+            d.airlockText = UiKit.Label(cc.transform, "Airlock label", 28, TextAnchor.MiddleCenter, new Color(.1f, .05f, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(4, -50), new Vector2(-4, -6));
+            d.airlockText.GetComponent<Shadow>().enabled = false;
             d.left = Screen(shipModel, "Left display", ShipLayout.DashCentre + new Vector3(-.33f, .14f, -.31f), new Vector2(400, 250), 26, out _);
             d.right = Screen(shipModel, "Right display", ShipLayout.DashCentre + new Vector3(.33f, .14f, -.31f), new Vector2(400, 250), 24, out var rc);
             d.cockpitRadar = new RadarScope(rc.transform, new Vector2(112, 132), 210, Vector2.zero);
@@ -53,6 +70,10 @@ namespace HostileHorizon
             d.hint = UiKit.Label(t, "Pause hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(30, 20), new Vector2(500, 60));
             d.listBack = UiKit.Panel(t, "List back", new Color(0, 0, 0, .35f), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-470, 352), new Vector2(-24, 520));
             d.screenList = UiKit.Label(t, "List", 22, TextAnchor.LowerRight, UiKit.Ink, new Vector2(1, 0), new Vector2(1, 0), new Vector2(-460, 360), new Vector2(-40, 512));
+            // Fix 2.5: the belly camera as a picture-in-picture on the left, between the readouts and the cockpit's left display
+            d.screenFeedBack = UiKit.Panel(t, "Belly back", new Color(0, 0, 0, .6f), new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(20, -250), new Vector2(474, 30));
+            d.screenFeed = UiKit.Rect(t, "Belly feed", new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(24, -246), new Vector2(470, 19)).gameObject.AddComponent<RawImage>(); d.screenFeed.raycastTarget = false;
+            d.screenFeedText = UiKit.Label(t, "Belly feed text", 22, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(34, -240), new Vector2(466, 14));
             return d;
         }
 
@@ -81,9 +102,10 @@ namespace HostileHorizon
                 if (Ship.Braking) return $"BRAKING  {Ship.Speed * 3.6f:0} km/h";
                 if (Ship.Landed)
                 {
+                    if (Campaign && PickupLine != "") return PickupLine;
                     if (Time.time - Ship.LandedAt < 2.5f) return "TOUCHDOWN";
                     if (!Ship.EnginesOn) return "LANDED — engines off";
-                    return Campaign && PilotNear ? $"LANDED — engines off ({Controls.EngineKeys.Split(' ')[0]}) so the pilot comes" : "LANDED";
+                    return Campaign && PilotNear ? $"LANDED — engines off ({Controls.EngineKey}) so the pilot comes" : "LANDED";
                 }
                 if (Ship.Mode == FlightMode.Hover) return $"HOVER   GND <b>{Ship.AboveGround:0}</b> m   {Ship.Velocity.y:+0;-0;0} m/s";
                 return "";
@@ -110,13 +132,35 @@ namespace HostileHorizon
             string cabin = Campaign ? $"CABIN {Cabin}/{CabinSize}" : "";
             string notice = Ship.Notice;
             string say = notice != "" && !Ship.Kinematic ? notice : Prompt;   // autopilot / beam: what is happening now
+            if (Ship.Kinematic && Campaign && say != "" && say != "Docked in the mothership")
+                say += Time.timeScale > 1.5f ? $"  ·  ×{Time.timeScale:0} (holding {Controls.FastForwardKey})" : $"  ·  hold {Controls.FastForwardKey} to speed up";
             bool homeOn = Campaign && !Ship.Kinematic && !Ship.Crashed;
             string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
 
+            if (Knocking) st = "KNOCK KNOCK KNOCK";
             centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : "") +
                 $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
                 (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "");
             stateLine.text = st; hint.text = PauseHint ? "≡ / Esc: Pause" : "";
+            // Fix 2.5: the AIRLOCK button, the knock, the belly / airlock camera
+            bool lit = Campaign && AirlockLit, blink = Time.time % .8f < .55f;
+            airlockLamp.enabled = airlockText.enabled = lit;
+            airlockLamp.color = blink ? new Color(1f, .62f, .2f) : new Color(.6f, .34f, .1f);
+            airlockText.text = $"<b>AIRLOCK — press {Controls.AirlockKey}</b>";
+            string knock = Knocking ? "KNOCK KNOCK KNOCK" : "";
+            bool feed = Belly && Belly.On;
+            centreFeed.enabled = centreFeedText.enabled = feed; centre.enabled = !feed;
+            screenFeed.enabled = screenFeedText.enabled = screenFeedBack.enabled = feed;
+            if (feed)
+            {
+                centreFeed.texture = screenFeed.texture = Belly.Feed;
+                var hv = new Vector2(Ship.Velocity.x, Ship.Velocity.z).magnitude;
+                string top = $"{Belly.Title}   GND <b>{agl:0}</b> m   {Ship.Velocity.y:+0;-0;0} m/s   {hv * 3.6f:0} km/h";
+                string line = knock != "" ? $"<color=#FFB040><b>{knock}</b></color>" : PickupLine != "" ? $"<color=#FFC873><b>{PickupLine}</b></color>" : (st != "" && !st.StartsWith("HOVER") ? st : "");
+                string bottom = $"<size=17>▲ nose   ({Controls.BellyKey}: camera on / off)</size>";
+                centreFeedText.text = top + "\n" + line + "\n\n\n\n" + bottom;
+                screenFeedText.text = top + "\n" + line + "\n\n\n\n\n" + bottom;
+            }
             string cue = Cue != "" && Campaign && !Ship.Kinematic && Ship.Mode == FlightMode.Flight ? $"<color=#FF9A40><b>{Cue}</b></color>\n" : "";
             // the way home first: the lower lines of this display sit below the flat screen's view
             string shortWarn = HomeState(homeWarn);
@@ -125,7 +169,7 @@ namespace HostileHorizon
             if (Campaign)
             {
                 right.text = "";
-                rightList.text = (cue != "" ? "<size=19><color=#FF9A40><b>SLOW DOWN — PRESS X</b></color></size>\n" : "") + RadarScope.List(Ship.transform, Contacts, 5).Replace("PILOT ", "P").Replace("MOTHERSHIP", "MS") + $"\n<size=16>{Place}</size>";
+                rightList.text = (cue != "" ? $"<size=19><color=#FF9A40><b>SLOW DOWN — PRESS {Controls.LandKey}</b></color></size>\n" : "") + RadarScope.List(Ship.transform, Contacts, 5).Replace("PILOT ", "P").Replace("MOTHERSHIP", "MS") + $"\n<size=16>{Place}</size>";
                 cockpitRadar.Draw(Ship.transform, Contacts); screenRadar.Draw(Ship.transform, Contacts);
             }
             else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
@@ -137,7 +181,7 @@ namespace HostileHorizon
             screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 6) : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
-            warning.text = Ship.Crashed ? "" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
+            warning.text = Ship.Crashed ? "" : Campaign && Knocking ? "KNOCK  KNOCK  KNOCK" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
                 : Ship.OutOfEnergy && !Ship.Landed && !Ship.Kinematic ? "OUT OF ENERGY" : low ? "TERRAIN" : homeWarn != "" ? (Time.time % 1f < .7f ? homeWarn : "")
                 : energyLow && !Ship.Kinematic && Time.time % 1f < .6f ? "ENERGY LOW" : "";
         }

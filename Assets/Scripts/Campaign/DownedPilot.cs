@@ -16,12 +16,19 @@ namespace HostileHorizon
         public Vector3 LandingSpot { get; private set; }
         public State Now { get; private set; }
         public Vector3 Beacon => beacon.position;
-        public event Action<DownedPilot> OnBoarded;
+        public event Action<DownedPilot> OnBoarded, OnKnock;
 
         CanyonField field;
         Transform body, legL, legR, armL, armR, beacon; Light beaconLight; Material beaconMat;
         float clock, knockTimer, boardT; Vector3 boardFrom;
         int knocksLeft; float knockGap;
+        // Fix 2.5: whether they can get to the ship: level distance to the door within the pickup range and the height between within
+        // pilotMaxClimb (they don't climb canyon walls). The Campaign says so when they can't.
+        public float LevelToDoor { get; private set; } = 9999;
+        public float ClimbToDoor { get; private set; }
+        public bool CanReach { get; private set; }
+        public int Knocks { get; private set; }               // Fix 2.5: knocks played (checks log them and their sound)
+        public AudioSource LastKnock { get; private set; }
 
         public static DownedPilot Create(int index, PilotSite site, CanyonField f, Material lit)
         {
@@ -98,12 +105,13 @@ namespace HostileHorizon
             var st = ship.transform;
             Vector3 door = st.TransformPoint(DoorOutside); door.y = field.SurfaceHeight(door.x, door.z);
             bool ready = ship.gameObject.activeInHierarchy && ship.Landed && !ship.EnginesOn && !ship.Crashed;
-            float toDoor = Vector3.Distance(body.position, door);
+            Vector3 dd = door - body.position; float toDoor = new Vector2(dd.x, dd.z).magnitude;
+            LevelToDoor = toDoor; ClimbToDoor = dd.y; CanReach = toDoor < t.pickupRange && Mathf.Abs(dd.y) < t.pilotMaxClimb;
             Pose(0, 0);
             switch (Now)
             {
                 case State.Waiting:
-                    if (ready && cabinFree && toDoor < t.pickupRange) { Now = State.Running; break; }
+                    if (ready && cabinFree && CanReach) { Now = State.Running; break; }
                     if (ship.gameObject.activeInHierarchy && Vector3.Distance(body.position, st.position) < 500f)
                     {
                         FaceTowards(st.position);
@@ -112,8 +120,11 @@ namespace HostileHorizon
                     break;
                 case State.Running:
                     if (!ready) { Now = State.Waiting; break; }
-                    FaceTowards(door);
-                    var step = Vector3.MoveTowards(body.position, door, t.pilotRunSpeed * dt);
+                    // Fix 2.5: at a steady run over the ground (0.2.4 moved them along the straight 3D line, slowing to a crawl up a slope),
+                    // and round the hull to the door on the left (0.2.4 walked them through the ship)
+                    var goal = PathTarget(st, door); goal.y = body.position.y;
+                    FaceTowards(goal);
+                    var step = Vector3.MoveTowards(body.position, goal, t.pilotRunSpeed * dt);
                     step.y = field.SurfaceHeight(step.x, step.z); body.position = step;
                     float s = Mathf.Sin(clock * 11f);
                     Pose(s * .8f, -s * .7f);
@@ -124,7 +135,7 @@ namespace HostileHorizon
                     FaceTowards(st.TransformPoint(DoorInside));
                     knockTimer -= dt;
                     if (knockTimer <= 0) { knocksLeft = 3; knockGap = 0; knockTimer = 7f; }
-                    if (knocksLeft > 0) { knockGap -= dt; if (knockGap <= 0) { Sfx.Play(Sfx.Knock, st.TransformPoint(new Vector3(-1.75f, .3f, -1.4f)), 1f, 3f); knocksLeft--; knockGap = .34f; } }
+                    if (knocksLeft > 0) { knockGap -= dt; if (knockGap <= 0) { LastKnock = Sfx.Play(Sfx.Knock, st.TransformPoint(new Vector3(-1.75f, .3f, -1.4f)), 1f, 6f); Knocks++; knocksLeft--; knockGap = .34f; if (knocksLeft == 2) OnKnock?.Invoke(this); } }
                     Pose(0, knocksLeft > 0 ? 1.5f + Mathf.Max(0, Mathf.Sin(clock * 18f)) * .4f : 0);
                     break;
                 case State.Boarding:
@@ -134,6 +145,16 @@ namespace HostileHorizon
                     if (boardT >= 1) { Now = State.Aboard; body.gameObject.SetActive(false); OnBoarded?.Invoke(this); }
                     break;
             }
+        }
+
+        // The next point on the way to the door (ship space: the door is on the left, x -2.6): a pilot right of the hull first walks
+        // out past the nose or the tail, then round the corner to the left side, then to the door.
+        Vector3 PathTarget(Transform st, Vector3 door)
+        {
+            var l = st.InverseTransformPoint(body.position);
+            if (l.x > -2.2f && l.x < 7.5f && Mathf.Abs(l.z) < 9.5f) return st.TransformPoint(new Vector3(l.x, 0, l.z > DoorOutside.z ? 9.6f : -9.6f));
+            if (l.x > -2.2f) return st.TransformPoint(new Vector3(-4f, 0, l.z > 0 ? 9.6f : -9.6f));
+            return door;
         }
 
         void Pose(float legs, float rightArm)

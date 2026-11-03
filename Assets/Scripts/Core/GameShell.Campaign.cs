@@ -37,9 +37,11 @@ namespace HostileHorizon
         public int HomeState { get; private set; }                                     // 0 fine, 1 RETURN NOW, 2 CAN'T REACH
         public int Calling => calling;
         public float LastPilotFuel { get; private set; }
+        public float LiftStarted { get; private set; }   // Fix 2.5: the checks time the lift and docking (Time.time)
+        public float LiftEnded { get; private set; }
         // Energy (%) to climb from here to the docking height in flight mode at full throttle, plus the margin.
         public float EnergyHome { get { var t = Tuning.T; return Mathf.Max(0, t.dockingHeight - Ship.Altitude) / t.homeClimbRate * (t.energyDrainFlightBase + t.energyDrainFlightThrottle) + t.homeMargin; } }
-        MenuPanel.Page campaignPage, confirmNew, hangar, dead, regen, outOfEnergy, campaignPause;
+        MenuPanel.Page campaignPage, confirmNew, hangar, dead, regen, outOfEnergy, campaignPause, lowEnergy;
 
         int Waiting { get { int n = 0; foreach (var p in Pilots) if (p.OnFoot) n++; return n; } }
         bool CanDock => cabin.Count > 0 || Waiting == 0 || Ship.Energy < Tuning.T.dockAnyTimeBelowEnergy || Ship.Energy < EnergyHome + Tuning.T.returnNowWarning;
@@ -88,6 +90,7 @@ namespace HostileHorizon
                 if (Planet.pilots[i] != (int)PilotFate.Waiting) continue;
                 var p = DownedPilot.Create(i, sites[i], Terrain.Field, litTemplate);
                 p.OnBoarded += PilotBoarded;
+                p.OnKnock += _ => Displays.Knock();   // Fix 2.5: KNOCK KNOCK KNOCK on the displays as well as the sound
                 Pilots.Add(p);
             }
         }
@@ -105,7 +108,9 @@ namespace HostileHorizon
             if (Mother) Mother.gameObject.SetActive(false);
             Beam(false);
             InCampaign = false; Phase = ""; calling = 0;
-            if (Displays) Displays.Campaign = false;
+            if (Displays) { Displays.Campaign = false; Displays.PickupLine = ""; Displays.AirlockLit = false; }
+            if (Belly) Belly.AirlockView = false;
+            if (padRing) padRing.gameObject.SetActive(false);
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; }
         }
 
@@ -206,9 +211,9 @@ namespace HostileHorizon
             Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
             HomeWarnings(dt);
             Displays.Cabin = cabin.Count;
-            StopMarker(); BrakeCue();
+            StopMarker(); BrakeCue(); PickupState();
             Displays.Place = $"{Planet.name} · {CrashLevels.Names[(int)Ship.Level]}";
-            Displays.Prompt = Time.time < flashUntil ? flash : Advice();
+            Displays.Prompt = Time.time < flashUntil && Displays.PickupLine == "" ? flash : Advice();
 
             if (Ship.Energy < t.energyWarning && Ship.EnginesOn) { beepTimer -= dt; if (beepTimer <= 0) { beepTimer = 4f; Sfx.Play(Sfx.Beep, Ship.transform.TransformPoint(ShipLayout.DashCentre), .5f, 2f); } }
 
@@ -241,12 +246,26 @@ namespace HostileHorizon
 
         // Fix 2.4: a ring on the ground (and a post) where the ship would stop if X went on now, while flying near a waiting pilot and
         // while braking. A world object: seen from the cockpit, the same in VR.
-        LineRenderer stopRing, stopPost;
+        // Fix 2.5: also in hover (where the ship would come to rest: the belly camera shows it), and a green ring round the waiting
+        // pilot's landing pad within 900 m.
+        LineRenderer stopRing, stopPost, padRing;
         void StopMarker()
         {
-            NearestWaiting(out float near);
+            var nearest = NearestWaiting(out float near);
             bool on = InCampaign && Now == State.Flying && !Ship.Kinematic && near < Tuning.T.stopMarkerRange &&
-                      (Ship.Braking || Ship.Mode == FlightMode.Flight && Flat(Ship.Velocity).magnitude > Tuning.T.hoverMaxSpeed + 5f);
+                      (Ship.Braking || Ship.Mode == FlightMode.Flight && Flat(Ship.Velocity).magnitude > Tuning.T.hoverMaxSpeed + 5f || Ship.Mode == FlightMode.Hover && !Ship.Landed);
+            bool pad = InCampaign && nearest != null && nearest.Now == DownedPilot.State.Waiting && near < 900f && !Ship.Kinematic;
+            if (pad && !padRing)
+            {
+                var pm = new Material(Shader.Find("HostileHorizon/Glow")); pm.SetColor("_Color", new Color(.3f, 1f, .5f) * 1.6f);
+                padRing = new GameObject("Pad ring").AddComponent<LineRenderer>(); padRing.sharedMaterial = pm; padRing.positionCount = 41; padRing.loop = true; padRing.widthMultiplier = .9f;
+                padRing.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; padRing.receiveShadows = false;
+            }
+            if (padRing)
+            {
+                padRing.gameObject.SetActive(pad);
+                if (pad) { var c0 = nearest.LandingSpot; var fl = Terrain.Field; for (int i = 0; i < 41; i++) { float a = i * Mathf.PI * 2 / 40f; float x = c0.x + Mathf.Cos(a) * 20f, z = c0.z + Mathf.Sin(a) * 20f; padRing.SetPosition(i, new Vector3(x, fl.SurfaceHeight(x, z) + .6f, z)); } }
+            }
             if (on && !stopRing)
             {
                 var m = new Material(Shader.Find("HostileHorizon/Glow")); m.SetColor("_Color", new Color(1f, .75f, .2f) * 2f);
@@ -271,11 +290,11 @@ namespace HostileHorizon
             if (p == null) return;
             Displays.PilotNear = d < Tuning.T.pickupRange;
             if (Ship.Mode != FlightMode.Flight || Ship.Kinematic) return;
-            Vector3 v = Flat(Ship.Velocity), to = Flat(p.Position - Ship.transform.position);
+            Vector3 v = Flat(Ship.Velocity), to = Flat(p.LandingSpot - Ship.transform.position);   // Fix 2.5: the pad, not the pilot
             if (v.magnitude < Tuning.T.hoverMaxSpeed + 5f) return;
             float along = Vector3.Dot(to, v.normalized), side = Vector3.Cross(v.normalized, to).magnitude, stop = Flat(Ship.StopPoint - Ship.transform.position).magnitude;
             float early = along - stop;   // how much short of the pilot the ship would stop
-            if (side < 150f && early > -40f && early < Tuning.T.brakeCueLead) Displays.Cue = "SLOW DOWN — PRESS X";
+            if (side < 150f && early > -40f && early < Tuning.T.brakeCueLead) Displays.Cue = $"SLOW DOWN — PRESS {Controls.LandKey}";
         }
 
         void Recall()
@@ -301,12 +320,23 @@ namespace HostileHorizon
             yield return Dock(true);
         }
 
+        // Fix 2.5: the pickup, always shown while it is on: PILOT AT AIRLOCK — press B to open (the button for the device in use) and
+        // the lit AIRLOCK button; PILOT COMING — keep engines off while they run; the airlock camera while they come and wait.
+        void PickupState()
+        {
+            bool atDoor = false, coming = false;
+            foreach (var p in Pilots) { if (p.AtDoor) atDoor = true; if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Boarding) coming = true; }
+            Displays.PickupLine = atDoor ? $"PILOT AT AIRLOCK — press {Controls.AirlockKey} to open" : coming ? "PILOT COMING — keep engines off" : "";
+            Displays.AirlockLit = atDoor;
+            Belly.AirlockView = Ship.Landed && (atDoor || coming);
+        }
+
         // What to do next, on the centre display and the HUD.
         string Advice()
         {
             var t = Tuning.T;
-            foreach (var p in Pilots) if (p.AtDoor) return "Pilot at the airlock: open it (B / O / HOTAS 6)";
-            foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running) return "Pilot running to the ship: keep the engines off";
+            foreach (var p in Pilots) if (p.AtDoor) return $"PILOT AT AIRLOCK — press {Controls.AirlockKey} to open";
+            foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running) return "PILOT COMING — keep engines off";
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Boarding) return "Pilot coming aboard";
             float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude);
             if (calling == 2) return "Recall: the mothership is coming. Its beam will lift you";
@@ -316,17 +346,20 @@ namespace HostileHorizon
             if (Ship.Landed)
             {
                 if (cabin.Count >= t.cabinSize) return "Cabin full: take off and dock with the mothership";
-                foreach (var p in Pilots) if (p.OnFoot && Vector3.Distance(p.Position, Ship.transform.position) < t.pickupRange)
-                        return Ship.EnginesOn ? $"Engines off ({Controls.EngineKeys}) so the pilot can come to you" : "Waiting for the pilot";
+                foreach (var p in Pilots) if (p.OnFoot && p.CanReach)
+                        return Ship.EnginesOn ? $"Engines off ({Controls.EngineKey}) so the pilot can come to you" : "Waiting for the pilot";
+                // Fix 2.5: a pilot near but unable to get to the ship says so
+                foreach (var p in Pilots) if (p.OnFoot && p.LevelToDoor < 700f)
+                        return $"Pilot {p.Index + 1} can't reach you here ({p.LevelToDoor:0} m away, {Mathf.Abs(p.ClimbToDoor):0} m {(p.ClimbToDoor > 0 ? "up" : "down")}): land on their pad (green ring)";
                 return Ship.EnginesOn ? "Landed. Climb (throttle up) to take off" : "Engines off. Throttle up or A / K to start them";
             }
             if (cabin.Count >= t.cabinSize) return $"Cabin full: climb to dock (↑ {climb:0} m)";
             if (Waiting == 0) return $"Everyone found: climb to dock (↑ {climb:0} m)";
-            if (Displays.Cue != "") return "Slow down now: press X to stop near the pilot (the ring shows where)";
+            if (Displays.Cue != "") return $"Slow down now: press {Controls.LandKey} to stop at the pilot's pad (the ring shows where)";
             if (Ship.Braking) return "Braking: the ring on the ground shows where you will stop";
             if (Ship.Mode == FlightMode.Hover) return "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently";
             float nearest = float.MaxValue; foreach (var p in Pilots) if (p.OnFoot) nearest = Mathf.Min(nearest, Vector3.Distance(p.Position, Ship.transform.position));
-            if (nearest < 900f) return $"Pilot close by: brake when the ring reaches them ({Controls.LandKeys})";
+            if (nearest < 900f) return $"Pilot close by: brake ({Controls.LandKey}) when the amber ring reaches their pad (green ring)";
             if (cabin.Count > 0) return $"{cabin.Count} aboard: more pilots, or climb to dock (↑ {climb:0} m)";
             if (CanDock) return $"Climb to dock (↑ {climb:0} m)";
             if (Ship.Energy < t.energyWarning) return $"Energy low: recall the mothership any time ({Controls.RecallKeys}, {t.recallFee} cr)";
@@ -363,6 +396,7 @@ namespace HostileHorizon
             if (Now != State.Paused) Now = State.Auto; else pausedFrom = State.Auto; Phase = towLift ? "tow-lift" : "dock-approach"; Mother.Holding = true;
             Ship.MakeKinematic(false);
             Vector3 pos = Ship.transform.position, vel = Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;   // caught as it moves (zero when landed)
+            var tu = Tuning.T; LiftStarted = Time.time;
             Displays.Prompt = !towLift ? "Docking: autopilot" : recallLift ? "Recall: the mothership is lifting you" : "Tow: the mothership is lifting you";
             if (!towLift)
             {
@@ -370,10 +404,10 @@ namespace HostileHorizon
                 while (true)
                 {
                     float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
-                    Vector3 a = Mother.BelowBay(60f) - Mother.DockRotation * Vector3.forward * 350f;
+                    Vector3 a = Mother.BelowBay(tu.bayRiseFrom) - Mother.DockRotation * Vector3.forward * 350f;
                     Vector3 to = a - pos; if (to.magnitude < 80f) break;
                     Vector3 before = Flat(vel);
-                    vel = Vector3.MoveTowards(vel, to.normalized * 90f, 15f * dt);
+                    vel = Vector3.MoveTowards(vel, to.normalized * tu.dockApproachSpeed, tu.dockApproachAccel * dt);
                     pos += vel * dt;
                     float turn = Vector3.SignedAngle(before, Flat(vel), Vector3.up) / dt;
                     bank = Mathf.Lerp(bank, Mathf.Clamp(-turn * 2f, -45, 45), 1 - Mathf.Exp(-3f * dt));
@@ -387,16 +421,18 @@ namespace HostileHorizon
             while (true)
             {
                 float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
-                Vector3 e = Mother.BelowBay(60f), to = e - pos; float d = to.magnitude;
+                Vector3 e = Mother.BelowBay(tu.bayRiseFrom), to = e - pos; float d = to.magnitude;
                 if (d < .3f || d < 1.5f && vel.magnitude < 1.5f) break;
-                float cap = Mathf.Min(towLift ? 45f : 70f, Mathf.Sqrt(2f * (towLift ? 2.5f : 4f) * d));
-                vel = Vector3.MoveTowards(vel, to / d * cap, (towLift ? (vel.magnitude > cap + 2f ? 12f : 4f) : 12f) * dt);
-                if (towLift && vel.y < 0) vel.y = Mathf.MoveTowards(vel.y, 0, 10f * dt);   // the beam stops a fall first
+                // Fix 2.5: about 3x quicker (tuning beamLift / dockFinal); the speed comes from the distance left, so it brakes in time
+                float top = towLift ? tu.beamLiftSpeed : tu.dockFinalSpeed, acc = towLift ? tu.beamLiftAccel : tu.dockFinalAccel;
+                float cap = Mathf.Min(top, Mathf.Sqrt(2f * acc * .8f * d));
+                vel = Vector3.MoveTowards(vel, to / d * cap, acc * dt);
+                if (towLift && vel.y < 0) vel.y = Mathf.MoveTowards(vel.y, 0, Mathf.Max(10f, acc * .5f) * dt);   // the beam stops a fall first
                 pos += vel * dt;
                 if (towLift) pos.y = Mathf.Max(pos.y, Ship.Field.SurfaceHeight(pos.x, pos.z) + 1.5f);   // and never drags it through the rock
                 Quaternion want = Mother.DockRotation;
                 if (!towLift && vel.sqrMagnitude > 4f) want = Quaternion.Slerp(Quaternion.LookRotation(vel), Mother.DockRotation, Mathf.InverseLerp(30f, 6f, vel.magnitude));
-                rot = Quaternion.Slerp(rot, want, 1 - Mathf.Exp(-(towLift ? .8f : 2.5f) * dt));
+                rot = Quaternion.Slerp(rot, want, 1 - Mathf.Exp(-(towLift ? 1.5f : 2.5f) * dt));
                 if (d < 450f) Mother.SetDoors(1);
                 Ship.SetPose(pos, rot, dt, d < 400f);
                 yield return null;
@@ -417,14 +453,16 @@ namespace HostileHorizon
                 float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
                 Vector3 dock = Mother.DockPosition; float d = (dock - pos).magnitude;
                 if (d < .01f) break;
-                pos = Vector3.MoveTowards(pos, dock, (Mathf.Min(7f, Mathf.Sqrt(2f * 1.2f * d)) + .1f) * dt);
+                if (Mother.DoorsOpen < .9f && d > 10f) { Ship.SetPose(pos, rot, dt, true); yield return null; continue; }   // the doors first
+                var tu = Tuning.T;
+                pos = Vector3.MoveTowards(pos, dock, (Mathf.Min(tu.bayRiseSpeed, Mathf.Sqrt(2f * tu.bayRiseBrake * d)) + .1f) * dt);
                 rot = Quaternion.Slerp(rot, Mother.DockRotation, 1 - Mathf.Exp(-2f * dt));
                 Ship.SetPose(pos, rot, dt, true);
                 yield return null;
             }
             Ship.SetPose(Mother.DockPosition, Mother.DockRotation, Time.deltaTime, true);
             Sfx.Play(Sfx.Thunk, Ship.transform.position + Vector3.up * 1.5f, 1f, 8f);
-            Mother.SetDoors(0);
+            Mother.SetDoors(0); LiftEnded = Time.time;
         }
 
         // At the dock: pilots paid, planet bonus, tow fee, fuel used charged (repair is the hangar's Repair button).
@@ -465,7 +503,7 @@ namespace HostileHorizon
             while (!Mother.MoveOver(Ship.transform.position, Time.deltaTime)) { Displays.Prompt = "Tow: the mothership is coming"; yield return null; }
             Mother.Holding = true; Mother.SetDoors(1);
             Beam(true); recallLift = false;
-            float t = 0; while (t < 1.5f) { t += Time.deltaTime; yield return null; }
+            float t = 0; while (t < Tuning.T.towBeamDelay) { t += Time.deltaTime; yield return null; }
             yield return Dock(true);
         }
 
@@ -660,11 +698,23 @@ namespace HostileHorizon
 
             hangar = new MenuPanel.Page { Title = "HANGAR", Subtitle = "Rescue carrier, high over the planet" };
             hangar.Body = HangarText;
-            hangar.Add(Action("Launch", () => Run(Launch()), () => Career.C.Current.energy < 1f))
+            hangar.Add(Action("Launch", TryLaunch, () => Career.C.Current.energy < 1f))
                   .Add(new MenuPanel.Row { Label = () => $"Repair hull  <size=24>({Career.C.RepairCost} cr)</size>", Submit = () => { debrief = Career.C.Repair(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.damage <= 0 || Career.C.credits <= 0 })
                   .Add(new MenuPanel.Row { Label = () => $"Refuel  <size=24>({Career.C.RefuelCost} cr)</size>", Submit = () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.energy >= 99.9f })
                   .Add(new MenuPanel.Row { Label = () => $"Recover your own ship  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, false)), Visible = () => Career.C != null && Career.C.flyingLoaner && Career.C.ship.wrecked, Disabled = () => Career.C.credits < Career.C.RecoveryFee })
                   .Add(Action("Back to title (saves)", ToTitle));
+
+            // Fix 2.5: launching with little energy asks first (Refuel and launch is the default)
+            lowEnergy = new MenuPanel.Page { Title = "LOW ENERGY", Back = () => Menu.Show(hangar) };
+            lowEnergy.Body = () =>
+            {
+                var c = Career.C; int cost = c.RefuelCost;
+                return $"Energy {c.Current.energy:0} %. Refuel first? (cost {cost} credits)\n\nYou have {c.credits} cr." +
+                       (c.credits < cost ? $" That fills as far as it goes (the corps tops up to {Tuning.T.freeMinimumFill:0} % free)." : "");
+            };
+            lowEnergy.Add(Action("Refuel and launch", () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); Run(Launch()); }))
+                     .Add(Action("Launch anyway", () => Run(Launch())))
+                     .Add(Action("Back to the hangar", () => Menu.Show(hangar)));
 
             campaignPause = new MenuPanel.Page { Title = "PAUSED", Back = Resume };
             campaignPause.Body = () => $"{Planet?.name} · {CrashLevels.Names[(int)Ship.Level]}\nQuitting now saves; pilots in your cabin go back to wait on the planet.\n\n" +
@@ -690,6 +740,12 @@ namespace HostileHorizon
             outOfEnergy.Add(Action("Call the mothership tow", () => Run(Tow())));
         }
 
+        void TryLaunch()
+        {
+            if (Career.C.Current.energy < Tuning.T.launchEnergyWarning) { lowEnergy.Selected = 0; Menu.Show(lowEnergy); }
+            else Run(Launch());
+        }
+
         string HangarText()
         {
             var c = Career.C; if (c == null || Planet == null) return "";
@@ -697,6 +753,7 @@ namespace HostileHorizon
             return $"<b>{c.credits} cr</b>   ·   the {c.systemName} system\n\n" +
                 $"<b>Ship</b>: {(c.flyingLoaner ? "the corps loaner (basic)" : "your own")}   hull {100 - s.damage:0}%   energy {s.energy:0}%\n" +
                 (c.flyingLoaner && c.ship.wrecked ? $"Your own ship is a wreck: recovery {c.RecoveryFee} cr.\n" : "") +
+                (s.energy < 99.9f ? $"<color=#FFC873>Energy {s.energy:0} %: Refuel below ({c.RefuelCost} cr) before you launch.</color>\n" : "") +
                 $"\n<b>Today's planet: {Planet.name}</b>  (seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
                 $"\n<b>Career</b>\n  {st.pilotsRescued} pilots rescued · {st.pilotsLost} lost · {st.creditsEarned} cr earned\n  {st.deaths} deaths · {st.planetsCleared} planets cleared · {st.sorties} sorties\n" +
                 (debrief != "" ? $"\n<b>Last</b>\n{debrief}" : "");

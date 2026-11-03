@@ -20,7 +20,7 @@ Shader "HostileHorizon/Glass"
             V vert(A i) { V o; o.w = TransformObjectToWorld(i.p.xyz); o.n = TransformObjectToWorldNormal(i.n); o.c = TransformWorldToHClip(o.w); return o; }
             half4 frag(V i) : SV_Target
             {
-                float f = pow(1.0 - saturate(dot(normalize(i.n), normalize(_WorldSpaceCameraPos - i.w))), 3.0);
+                float f = pow(1.0 - saturate(abs(dot(normalize(i.n), normalize(_WorldSpaceCameraPos - i.w)))), 3.0);   // Fix 2.5: abs: a face whose normal points away no longer goes white
                 return half4(lerp(_Color.rgb, _Sheen.rgb, f), saturate(_Color.a + f * _Sheen.a));
             }
             ENDHLSL

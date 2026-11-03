@@ -168,95 +168,11 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 2.5: tight control, seeing the ground, the pickup, launch warning, faster lift
+Current Objective — Round 3 (Aliens): to be written by the planning chat
 ---------------------------------------------------------------------------
 
-Fix 2.4 is done and published as 0.2.4 (status under "Previous deliveries").
-Round 3 (Aliens) comes after this fix.
-
-Dan (2026-11-02, playing 0.2.4, gamepad / Steam Deck; HOTAS still untried):
-- "It is too loose, I feel I don't really have control over it. It easily gets
-  turned in directions I don't want."
-- "When landing for a pilot, it is hard to get a good angle, there should be
-  either a monitor or some way I can see what's going on (glass floorboards)."
-- "Landed, the pilot came towards me, he didn't even knock and I didn't see a
-  button for airlock."
-- "The game should warn you if you are leaving the mothership and have not a
-  lot of fuel."
-- "When the mothership lifts you it should be much quicker."
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Tight, predictable control (Dan's main complaint).** Fix 2.4 made the ship
-   faster and the assists lighter; Dan now finds it loose and it turns where he
-   doesn't want. Goal: the ship goes exactly where the stick points and nowhere
-   else.
-   a. **Find every source of rotation or drift the player didn't ask for, first,
-      with data:** log, per frame, the stick input and each contribution to the
-      ship's rotation and velocity (stick, assist bank-turn, assist levelling,
-      collisions / wall bounces, ground effect, anything else). Fly the check's
-      route with the stick centred and with simple inputs, and list what moved
-      the ship without input and by how much. Report it.
-   b. **Remove or tame those sources:** stick centred = the ship holds its
-      attitude (no slow turning from the bank-turn assist on Light, no
-      roll-over); the flight path follows the nose closely (little or no side
-      slide / momentum carrying it the old way); rotation stops when the stick
-      is released (no overshoot or wobble); wall bounces push the ship away
-      from the wall, never spin it.
-   c. **Calmer default rates and finer centre:** bring the default pitch / roll
-      rates back down (about midway between 0.2.3 and 0.2.4), a larger centre
-      deadzone on gamepad / Deck sticks (Deck sticks drift), and a stronger
-      stick curve so small corrections are small. Keep Stick sensitivity and
-      Flight assist settings (Light default).
-   d. Report before / after numbers, including the "uncommanded movement" list
-      from (a).
-2. **See the ground when landing.**
-   - A **belly camera** feed on a cockpit display that switches on by itself in
-     hover (and can be called up any time): looking straight down with the
-     stop-point / landing ring, the pad, the pilot and a height readout. Also a
-     picture-in-picture on the flat-screen HUD while hovering.
-   - **Glass floor panels** in the cockpit at the pilot's feet (and the lower
-     canopy) so you can look down and see the ground, in flat-screen cockpit view
-     (look down with the look control) and later in VR.
-   - A **landing view** added to the camera cycle: high over the ship looking
-     down at it, for flat-screen players.
-3. **The pickup must be obvious and must work.**
-   - **Find out why the pilot didn't knock** in Dan's run: reproduce on the new
-     0.2.4 terrain (narrow pads, pilot path from the wreck to the door, the
-     ship's landed position and heading relative to the pad). Fix the cause
-     and report what it was. A pilot who can't reach the door must say so
-     (Advice line) instead of silently stopping.
-   - On-screen and in the cockpit, always: **"PILOT AT AIRLOCK — press B to
-     open"** (the real binding for the device in use: gamepad / Deck, keyboard,
-     HOTAS) the moment the pilot is at the door, plus a lit AIRLOCK button on the
-     cockpit panel. While they run: "PILOT COMING — keep engines off".
-   - The knock: a visible "KNOCK KNOCK KNOCK" on the displays as well as the
-     sound; and the pilot visible on the belly camera / an airlock camera on the
-     display when at the door (he's hidden by the hull from the cockpit).
-   - Make sure players' builds are NOT muted (the test `-mute` flag only applies
-     to test runs): confirm the knock sound plays in a players' build by logging
-     its AudioSource playing (no unmuted run needed); if a real sound check is
-     needed, follow the testing rule (brief, report it).
-4. **Low-fuel warning when launching.** In the hangar, if energy is low (below
-   a tuning value, starting 50 %), Launch asks first: "Energy 22 %. Refuel
-   first? (cost N credits)" with **Refuel and launch** (default) / Launch
-   anyway. Also a "Refuel" reminder on the hangar screen whenever energy is
-   under 100 %.
-5. **Much quicker mothership lift.** The tow, the recall lift and the mid-air
-   beam rescue: about 3x faster than now, with the lift itself taking at most
-   about 10 s from the ground into the bay. Still live and continuous (VR rule
-   5), no jump. Shorten the docking approach the same way if it takes more
-   than about 15 s. Tuning values in the file.
-6. **Check (muted, no focus, as the testing rules say):** the uncommanded-
-   movement list before / after; stick-centred hold test; a full pickup on
-   at least three different pads of the new terrain (pilot knocks, prompt
-   shows, airlock, boards), with cockpit pictures of the prompt and the belly
-   camera; the launch warning; lift and docking times before / after.
-7. **Publish as 0.2.5**, update `TODO.md` (per-item status) and `CLAUDE.md`,
-   commit and push.
-
-**For Dan to check:** does the ship go where you point it now? Land with the
-belly camera / glass floor; does the pilot knock and is the airlock prompt
-clear? Launch with low fuel; the lift speed. HOTAS when you get a chance.
+Fix 2.5 is done and published as 0.2.5 (status under "Previous deliveries"). Next: Round 3 (Aliens),
+to be written into this file by the planning chat.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -284,6 +200,69 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 2.5 — tight control, seeing the ground, the pickup, launch warning, faster lift (2026-11-02). Published: 0.2.5
+(`game-205`, Latest).** Exe built 2026-11-02 20:46 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.5/`: `before/` (0.2.4's
+flight code with the new measuring, `--only fix25`), `final_d/` (the 20:29 build: everything below), `fastforward/` (20:46, the published
+build: hold-A fast-forward), `final_c/` (lift times with 0.2.4's numbers), `launcher/`. Every run headless (`-batchmode`, no window) and
+muted: measured output 0.000 RMS at start and end of every run; no step played sound; no window opened. New check: `--only fix25`.
+
+0. **Commit first — done.** "Fix 2.5 planning" (9daeafb).
+1. **Tight, predictable control — done; needs Dan's play.** Measured first (`ShipController.Moved`: rotation by source; Light, stick
+   centred). **What moved the ship without input (0.2.4):** (1) the bank-turn assist: a bank left alone kept turning the ship: 15° bank
+   +6° heading in 10 s, 30° +25°, 60° **+93°**; a 0.3 s roll then release **+66° in 5 s**; (2) past 80° of bank the wing levelling
+   switched off, so the bank turn ran on forever: full roll with 20 % pitch leak **+77° in 3 s**; (3) wing levelling itself (8 °/s,
+   uncommanded roll); (4) wall hits mirrored the flight path off the rock ×1.35: a 15° hit turned the nose **43.5°**, 35° → 51°;
+   (5) hover: the body eased after the stick, so it kept turning **22.5°** after release; (6) braking into hover from a banked climb
+   eases the body level (33° over 4 s: kept, it is the landing mode's level attitude). Not sources: level flight 0.0°, stick drift up
+   to 12 % (eaten by the pad's own 12.5 % deadzone + the game's 8 %), no side slide in flight (the path is always the nose).
+   **Fixes:** Light = the bank turn only while you pull, no levelling (stick centred holds the attitude); hover heading follows the stick
+   at once (only the lean eases); a wall hit pushes the ship away and turns the nose only to run along the rock; rates 95/170/55 →
+   **82/150/44 °/s** (midway to 0.2.3's 70/130/32), stick curve .35 → **.6**, pad / Deck sticks +12 % centre deadzone (`gamepadDeadzone`).
+   Full and Off kept. **After (Light):** every stick-centred case **0.0°** (15/30/60° bank, roll release, diagonal leak); hover after
+   release **0.0°**; 25 % roll for 1 s 9.2° → 2.5° of bank; wall hits: nose 31° at a 15° hit, 36.5° at 35° (= the rock's own line),
+   pushed 20-46 m clear. On Light you now bank **and pull** to turn (Full turns by itself as before).
+2. **See the ground when landing — done.** Belly camera (`Cameras/BellyCam.cs`, drawn by hand each frame): on by itself in landing
+   mode, D-pad down / V / HOTAS 8 toggles it; fills the cockpit's centre display with height, sink rate and speed over it, and a
+   picture-in-picture on the HUD (`p1-3_hover_belly_cam`); landed with a pilot coming it is the **airlock camera** under the left wing
+   (`p1_at_door_cockpit`: the pilot at the door). The amber stop ring also shows in hover, a green ring marks the waiting pilot's pad.
+   Glass floor at the feet and glass in the lower canopy (`ship.py`): first try showed grey — the fuselage's top skin runs across the
+   cockpit at the sill, so the window is cut through the whole hull (`p1_glass_floor_look_down`: nose gear and ground below; the ground
+   is dark there, in the ship's own shadow). Landing view = 5th in the camera cycle (`p1_landing_view`, `p1_at_door_landing_view`).
+   Frame rate landed with the airlock camera on: 284-368 fps (1660 Ti, 1080p).
+3. **The pickup — done.** **Cause, measured as a player lands:** the SLOW DOWN cue and ring stopped the ship **151 m short** of the
+   pilot; in the 0.2.4 canyons that is on the canyon wall: the ship hovered **530 m above** the pilot, "too steep to land (14°)", and
+   with Lasting damage the tries to set down there destroyed it. The pickup range was a 3-D 160 m, so a pilot on the floor below never
+   came, with no message why. In range, the pilot ran a straight 3-D line (crawling up slopes) **through the hull** to the door on the
+   left rear, where the cockpit can't see it; the knock was a 0.22 s, mostly **190 Hz** thud (small speakers like the Deck's hardly
+   play it) and the only prompt was the advice line, replaced for 4 s by any passing message. Dan's exact run wasn't reproduced; these are
+   what the check found. **Fixes:** cue and ring aim at the pilot's pad (`brakeCueLead` 150 → 40); a pilot comes within 160 m level and
+   30 m of height (`pilotMaxClimb`), else the advice says "Pilot 2 can't reach you here (61 m away, 0 m down): land on their pad (green
+   ring)" (`p3_cant_reach_advice`); they run over the ground round the nose or tail to the door; "PILOT AT AIRLOCK — press B to open"
+   (the button of the device in use) / "PILOT COMING — keep engines off" on the HUD and in the cockpit, beating passing messages; a lit
+   amber AIRLOCK strip on the centre display; KNOCK KNOCK KNOCK on the HUD and displays with each knock (`p1_knock_knock`); a brighter,
+   louder knock. **After:** three pads, cue → stopped 40-41 m from the pad centre, set straight down (slope 0-9°), pilots ran 9.1 /
+   12.8 / 11.0 s, knocked, B, aboard. Knock source logged playing at full level at the cockpit (4.3 m); players' builds aren't muted
+   (`TestRun.Muted` only with `-mute` / `-exeCheck` / `-racerTestSave`).
+4. **Low-fuel warning — done.** Launch below 50 % (`launchEnergyWarning`): "Energy 22 %. Refuel first? (cost 468 credits)" with
+   **Refuel and launch** (default) / Launch anyway / Back; it refuelled to 100 % (-468 cr) and launched (`h02`); the hangar shows a
+   refuel line under 100 % (`h01`).
+5. **Much quicker lift — done (docking above target; Dan's fast-forward added).** Lift from the ground into the cradle: recall
+   **54.4 → 10.0 s**, mid-air catch 46.6 → **9.1 s**, tow ~60 s (0.2.4 log) → **10.1 s**; the mothership comes 3x faster (tow: 6.4 s).
+   Live and continuous (camera never turned or jumped; top 320 m/s). Docking ~40-50 s (0.2.4 log) → 22.0 s (attempt 1) → **19.5 s**
+   (attempt 2): still over 15 s, tuning stopped there. **Dan (chat): "cant we just do a fast dock? Maybe button to skip"** → hold A /
+   Space / HOTAS trigger in any automatic part: it plays live at 4x (`fastForward`), prompt "hold A to speed up"; launch 6 s → 2.1 s
+   real, recall lift 10.1 → 2.5 s real, back to normal speed in flight (`fastforward/`). Tuning values in the file.
+6. **Check — done** (`--only fix25`, list above). The check's own pilot flies its transit legs on Flight assist Full and between pilots
+   is placed 1.5 km out (getting about isn't measured); its steering got firmer for the new deadzone. Not re-run: `all` / `campaign` /
+   `home` / `fix24` (their steering was updated for Light; the fix25 run covers launch, landing, pickup, docking, recall, tow, mid-air).
+7. **Publish — done.** 0.2.5 = build 205, tag `game-205`, Latest. The `starter-200` ZIP in `Builds/StarterCheck`, `--auto-check`
+   against GitHub: "Updating to game 0.2.5", installed `versions/205`, started, exit 0 (`launcher/`).
+
+**For Dan to check:** does the ship go where you point it (Light: bank and pull to turn)? Is 82/150/44 and the bigger pad deadzone
+right, or too sluggish? Land with the belly camera / glass floor (look down with the right stick). Does the pilot knock and is the
+airlock prompt clear; can you hear the knock on the Deck? Launch with low fuel; the lift; hold A during docking. HOTAS when you can
+(button 8 = belly camera).
 
 **Fix 2.4 — flying feel, landing, pause / reset, deeper canyons (2026-11-02). Published: 0.2.4
 (`game-204`, Latest).** Exe built 2026-11-02 17:20 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.4/`
@@ -395,64 +374,6 @@ homeMargin 3, returnNowWarning 8, beamReach 600, pilotFuelMin 3, pilotFuelMax 15
 the warnings come early enough (30 m/s is a cautious climb)? Run dry in the air: does the
 beam catch you? Try the recall (hold View on the Deck / H / HOTAS 7: is button 7 a good
 one on your HOTAS?). Is the sky marker big enough? Does pilot fuel help enough?
-
-**Fix 2.1 — full screen on the Steam Deck (2026-11-02). Published: 0.2.1
-(`game-201`), then 0.2.2 (`game-202`, Latest) with Dan's 1080 default.** Exe built 2026-11-02 13:08 (`BUILD_INFO.txt`). Evidence
-`Data/screenshots/fix2.1/`. Every check headless (`-batchmode`, no window) and
-muted: measured output 0.000 RMS; no step played sound; no window opened.
-
-0. **Commit first — done.** "Fix 2.1 planning" (d4bfb66).
-1. **ScreenSetting ported — done.** `Core/ScreenSetting.cs` (Chastain Rush's):
-   before the first scene the game asks for a borderless full-screen window at
-   `Display.main.systemWidth/Height`, overriding the size Unity remembers; choice
-   saved in `display.json` beside `settings.json`. Test runs (`-mute`,
-   `-exeCheck`, `-racerTestSave`) never apply or save it. Check: "check run
-   applied nothing: Screen 1280 x 800 Windowed" (its `-screen-*` size stood).
-2. **Settings > Display — done.** New "Display" row under Axis display: Screen
-   (Full screen / Windowed) and Resolution (the display's own first, then its
-   sizes from 1280 wide, largest first). Check: `s3_display.jpg`.
-3. **Check — done (Deck simulated headless; PC in a real window, Dan's OK).** New `-exeCheckOnly screen`
-   (`python Tools/run_check.py <dir> --only screen --size 1280x800 --extra
-   "-steamDeck 1"`): the size code path for a 1280 x 800 desktop asks for 1280 x
-   800 FullScreenWindow (fills the screen); title, settings, display, cockpit,
-   chase, pause played at 1280 x 800: every image and text glyph measured inside
-   the view, "nothing cut off" on all six (`s1`-`s6`, `exe_check_screen.txt`).
-   Dan's PC: the same path for his display (3840 x 2160) asks for 3840 x 2160
-   FullScreenWindow. **Real start on Dan's PC (visible, focused window, run once
-   with his OK, about 30 s, muted: output 0.000 RMS):** new `-exeCheckOnly
-   fullscreen` (applies the default setting, reads / saves no `display.json`):
-   "window 3840 x 2160 FullScreenWindow; display 3840 x 2160 -> fills the
-   screen", title and cockpit HUD nothing cut off (`f1_title.jpg`,
-   `f2_cockpit.jpg`, `exe_check_pc_fullscreen.txt`). **But only 13.6 fps (1 %
-   low 10.4) at 3840 x 2160** in the cockpit, at Below Normal priority; the
-   performance target is 60 fps at 1080p. **Dan decided: "Default to 1920 x
-   1080" -> 0.2.2:** the default full-screen size is the display's own, at most
-   1080 tall, same shape (`ScreenSetting.DefaultSize`): 4K -> 1920 x 1080
-   stretched to fill, Deck 1280 x 800 unchanged; Resolution offers "Default
-   (1920 x 1080)" first and the display's own 3840 x 2160 among the rest.
-   Check (headless, muted, exe built 13:42): Deck 1280 x 800 -> 1280 x 800,
-   simulated 4K and this PC -> 1920 x 1080 FullScreenWindow; six screens at 1280
-   x 800 nothing cut off (`exe_check_screen_v022.txt`, `v022_s3_display.jpg`).
-   Not re-run in a visible window (one OK, used once).
-4. **Publish — done.** 0.2.1 = build 201, tag `game-201`, Latest:
-   https://github.com/danemoll-jpg/Hostile-Horizon-releases/releases/tag/game-201 .
-   Check: the `starter-200` ZIP extracted to an empty folder, its launcher run
-   with `--auto-check` against the real GitHub catalog (hidden, game in batch
-   mode): "Updating to game 0.2.1", "Game activated 0.2.1", started
-   `versions/201`, ready handshake, exit 0 (`launcher/`). Found on the way: the
-   first try, from a 144-character folder, failed with "Cannot create extracted
-   file" (Windows' 260-character path limit inside Unity's data folders) and
-   started the old version; from a short folder it worked. Not changed (launcher
-   code, not this fix); keep installs in short paths. 0.2.2 = build 202, tag
-   `game-202`, Latest; the same starter check updated to 0.2.2 and started
-   `versions/202` (`launcher-202/`).
-5. **TODO.md / CLAUDE.md — done.** Committed and pushed. Clean-up: disk use 1.7 GB -> 1.5 GB.
-
-**For Dan to check:** start the game on the Deck from the same Steam shortcut:
-it updates to 0.2.1 and fills the screen. If not: what do Settings > Display
-Screen and Resolution show? On the PC (0.2.2): full screen at 1920 x 1080
-stretched over the 4K screen; is the frame rate back to normal, and is it sharp
-enough?
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

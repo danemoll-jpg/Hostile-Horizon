@@ -177,6 +177,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `stickCurve` .35, `airBrake` 42 m/s², `hoverVerticalAccel` 15, `hoverSinkHigh` 30 (above
   `hoverSinkHighAbove` 150 m), `hoverSinkMid` 14 (`hoverSinkMidAbove` 60 m), `hoverSinkLow` 3
   (below `hoverSinkLowBelow` 8 m), `stopMarkerRange` 2500, `brakeCueLead` 150, `resetHeight` 60.
+  Fix 2.5 changes / adds: `pitchRate` 82, `rollRate` 150, `yawRate` 44, `stickCurve` .6,
+  `gamepadDeadzone` .12 (pad / Deck sticks, on top of the Input System's own 12.5 %),
+  `brakeCueLead` 40 (to the pilot's pad), `pilotMaxClimb` 30 m, `launchEnergyWarning` 50 %,
+  lift / docking speeds `motherComeSpeed/Accel` 420 / 36, `beamLiftSpeed/Accel` 320 / 100,
+  `dockApproachSpeed/Accel` 200 / 45, `dockFinalSpeed/Accel` 150 / 45, `bayRiseFrom` 25 m,
+  `bayRiseSpeed` 25, `bayRiseBrake` 12, `towBeamDelay` .5 s, `fastForward` 4.
   Fix 2.3 adds: `recallFee` 900, `recallHoldSeconds` 1,
   `homeClimbRate` 30 (m/s assumed for the climb to dock), `homeMargin` 3 %,
   `returnNowWarning` 8 %, `beamReach` 600 m, `pilotFuelMin` / `pilotFuelMax` 3 / 15 %.
@@ -203,10 +209,32 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (`ShipController.StopPoint`), and "SLOW DOWN — PRESS X" on the radar when braking
   now stops you near the pilot. Hover descent: 30 m/s full down above 150 m, 14 at
   60 m, 3 m/s (a safe touchdown) below 8 m.
-- **Flight feel (Fix 2.4):** Settings > **Flight assist** Full (0.2.3's bank turn 38
-  and levelling 22 °/s) / **Light** (default: 26 / 8) / Off; **Stick sensitivity**
-  50-150 % (100); a response curve on the sticks (tuning `stickCurve`). Rates pitch 95 /
-  roll 170 / yaw 55 °/s (0.2.3: 70 / 130 / 32). Settings has at most 12 rows: the HOTAS
+  Fix 2.5: the cue and the amber ring aim at the waiting pilot's pad (green ring within
+  900 m), the amber ring also shows in hover. **Belly camera** (`Cameras/BellyCam.cs`):
+  on by itself in landing mode, D-pad down / V / HOTAS 8 toggles it; on the cockpit's
+  centre display and as a HUD picture-in-picture; landed with a pilot coming it is the
+  airlock camera. **Glass floor** at the feet and glass in the lower canopy (front of the
+  side consoles) in `ship.py`. **Landing view** (5th in the camera cycle): high over the ship.
+- **Pickup (Fix 2.5):** a pilot comes when landed with engines off within `pickupRange`
+  160 m level and `pilotMaxClimb` 30 m of height (else the advice line says they can't
+  reach you); they run over the ground round the hull to the door (left side). At the
+  door: "PILOT AT AIRLOCK — press B to open" (the button for the device last used:
+  `Controls.LastDevice`, `AirlockKey`), the lit AIRLOCK button over the centre display,
+  KNOCK KNOCK KNOCK on the displays with each knock (a brighter knock sound).
+- **Fast-forward (Fix 2.5, Dan's ask):** hold A / Space / HOTAS trigger (the UI Submit action)
+  during an automatic part (launch, docking, tow, recall, the beam): it plays live at
+  `fastForward` x (no cut, VR rule 5); flight is always back at normal speed. Lift from the
+  ground into the bay about 10 s (0.2.4: 54 s), docking 19.5 s (0.2.4: 40-50 s), ~5 s with A held.
+- **Launch warning (Fix 2.5):** Launch below `launchEnergyWarning` asks "Refuel and
+  launch" (default) / "Launch anyway"; the hangar shows a refuel line below 100 %.
+- **Flight feel (Fix 2.4, Fix 2.5):** Settings > **Flight assist** Full (0.2.3's bank turn 38
+  and levelling 22 °/s) / **Light** (default; Fix 2.5: stick centred = the ship holds its
+  attitude: the bank turn (26) only while pulling, no levelling) / Off; **Stick sensitivity**
+  50-150 % (100); a response curve on the sticks (tuning `stickCurve`). Rates pitch 82 /
+  roll 150 / yaw 44 °/s (0.2.3: 70 / 130 / 32; 0.2.4: 95 / 170 / 55). Fix 2.5: hover heading
+  follows the stick at once (only the lean eases); a wall hit pushes the ship away and turns
+  the nose only to run along the rock (0.2.4 mirrored it off, a spin). `ShipController.Moved`
+  sums the rotation by source for the checks. Settings has at most 12 rows: the HOTAS
   rows moved to Settings > Controls and HOTAS (with the Axis display).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
@@ -227,6 +255,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (Start, View tap, simulated focus loss, during launch / docking / recall / tow),
   Reset position, the stop ring / cue / landing states at a pilot, new-canyon pictures
   and fps, the height map (white = 750 m).
+  `-exeCheckOnly fix25` (Fix 2.5, `Checks/ExeCheck.Fix25.cs`, about 25 min): the
+  uncommanded-movement list (simple stick inputs per Flight assist, hover, wall hits, what
+  turned the ship by source), three pickups played as a player (brake at the cue, set
+  straight down, engines off, the pilot's run, the knock, B), belly / airlock camera,
+  glass floor and landing view pictures, the launch warning, lift and docking times (new
+  and with 0.2.4's numbers).
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
   fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
   catch, the recall from the air and the ground. A
@@ -234,7 +268,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -281,6 +315,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 2.5 (tight control, belly camera / glass floor / landing view, the pickup fixed,
+launch warning, quicker lift, hold-A fast-forward) is built, checked in the exe (headless,
+muted, `--only fix25`) and published as 0.2.5 (`game-205`, Latest); a starter-200 install
+updates to it from GitHub. Not yet played by Dan.** Numbers and the uncommanded-movement /
+pickup findings in `TODO.md` (Fix 2.5 delivery). On Light the ship now holds its attitude with
+the stick centred: bank and pull to turn.
 **Fix 2.4 (flying feel, landing, pause / reset, deeper canyons) is built, checked in
 the exe (headless, muted, `--only fix24` twice, `--only all`, Deck-setting perf) and
 published as 0.2.4 (`game-204`, Latest); a starter-200 install updates to it from

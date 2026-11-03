@@ -1,0 +1,150 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 38912 samples); master volume 0.00
+Hostile Horizon exe check 2026-11-02 18:43; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: pitch 95 / roll 170 / yaw 55 °/s; bank turn Full 38 Light 26; levelling Full 22 Light 8; stick curve 0.35; settings deadzone 8%, assist Light
+uncommanded movement, Flight assist Light (default) (rates 95 / 170 / 55 °/s, bank turn 26, levelling 8, deadzone 8%, stick curve 0.35):
+    [674 fps] Flying/ Flight alt 2600 gnd 2158 spd 87 hdg 0 energy 100
+    [908 fps] Flying/ Flight alt 2600 gnd 2460 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1184 fps] Flying/ Flight alt 2600 gnd 2599 spd 87 hdg 6 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +6.3°, pitch +0.0°, bank -15.0°, total 16.3° [bank turn (assist) 6.3°, wing levelling (assist) 15.0°]
+    [1295 fps] Flying/ Flight alt 2600 gnd 2553 spd 87 hdg 25 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +25.0°, pitch +0.0°, bank -30.0°, total 38.8° [bank turn (assist) 25.0°, wing levelling (assist) 30.0°]
+    [1590 fps] Flying/ Flight alt 2600 gnd 2500 spd 87 hdg 93 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +93.1°, pitch +0.0°, bank -60.0°, total 106.9° [bank turn (assist) 93.1°, wing levelling (assist) 60.0°]
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +3.3°, pitch +0.0°, bank +51.0° [stick 21.6°, bank turn (assist) 3.3°]; stick centred 5.0 s -> heading +65.6°, pitch +0.0°, bank -40.0°, total 75.7° [bank turn (assist) 65.6°, wing levelling (assist) 40.0°]
+    [1378 fps] Flying/ Flight alt 2763 gnd 2701 spd 87 hdg 0 energy 100
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +38.0°, bank +0.0° [stick 4.4°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +2.1°, pitch +0.0°, bank +9.2° [stick 1.0°, bank turn (assist) 2.1°]; stick centred 3.0 s -> heading +2.4°, pitch +0.0°, bank -9.2°, total 9.5° [bank turn (assist) 2.4°, wing levelling (assist) 9.2°]
+    [1352 fps] Flying/ Flight alt 2600 gnd 2138 spd 87 hdg 0 energy 100
+    [762 fps] Flying/ Flight alt 2600 gnd 2085 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1346 fps] Flying/ Flight alt 2600 gnd 2546 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +8.4°, pitch +0.3°, bank +85.5° [stick 47.4°, bank turn (assist) 8.1°]; stick centred 3.0 s -> heading +77.2°, pitch +0.0°, bank +0.0°, total 77.2° [bank turn (assist) 77.2°]
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +55.0°, pitch +0.0°, bank +0.0° [stick 9.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+uncommanded movement, Flight assist Full (rates 95 / 170 / 55 °/s, bank turn 38, levelling 22, deadzone 8%, stick curve 0.35):
+    [1345 fps] Flying/ Flight alt 2600 gnd 2527 spd 87 hdg 0 energy 100
+    [1395 fps] Flying/ Flight alt 2600 gnd 2598 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1605 fps] Flying/ Flight alt 2600 gnd 2166 spd 87 hdg 3 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +3.4°, pitch +0.0°, bank -15.0°, total 15.3° [bank turn (assist) 3.4°, wing levelling (assist) 15.0°]
+    [1514 fps] Flying/ Flight alt 2600 gnd 2173 spd 87 hdg 13 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +13.3°, pitch +0.0°, bank -30.0°, total 32.7° [bank turn (assist) 13.3°, wing levelling (assist) 30.0°]
+    [1117 fps] Flying/ Flight alt 2601 gnd 2092 spd 87 hdg 50 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +49.6°, pitch +0.2°, bank -60.0°, total 76.4° [bank turn (assist) 49.6°, wing levelling (assist) 60.0°]
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +4.8°, pitch +0.0°, bank +51.0° [stick 39.7°, bank turn (assist) 4.8°]; stick centred 5.0 s -> heading +36.8°, pitch +0.1°, bank -51.0°, total 62.2° [bank turn (assist) 36.8°, wing levelling (assist) 51.0°]
+    [1233 fps] Flying/ Flight alt 2643 gnd 2110 spd 87 hdg 0 energy 100
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +38.1°, bank +0.0° [stick 22.3°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1385 fps] Flying/ Flight alt 2600 gnd 2102 spd 87 hdg 4 energy 100
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +3.1°, pitch +0.0°, bank +9.2° [stick 0.4°, bank turn (assist) 3.1°]; stick centred 3.0 s -> heading +1.3°, pitch +0.0°, bank -9.2°, total 9.3° [bank turn (assist) 1.3°, wing levelling (assist) 9.2°]
+    [1181 fps] Flying/ Flight alt 2600 gnd 2390 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1215 fps] Flying/ Flight alt 2600 gnd 2162 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +12.0°, pitch +0.3°, bank +85.1° [stick 30.4°, bank turn (assist) 11.7°]; stick centred 3.0 s -> heading +112.8°, pitch +0.0°, bank +0.0°, total 112.8° [bank turn (assist) 112.8°]
+    [518 fps] Flying/ Flight alt 2600 gnd 2109 spd 87 hdg 50 energy 100
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +55.5°, pitch +0.0°, bank +0.0° [stick 39.9°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+uncommanded movement, Flight assist Off (rates 95 / 170 / 55 °/s, bank turn 0, levelling 0, deadzone 8%, stick curve 0.35):
+    [450 fps] Flying/ Flight alt 2600 gnd 2600 spd 87 hdg 0 energy 100
+  level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [939 fps] Flying/ Flight alt 2600 gnd 2113 spd 87 hdg 0 energy 100
+    [1018 fps] Flying/ Flight alt 2600 gnd 2600 spd 87 hdg 0 energy 100
+  banked 15°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1130 fps] Flying/ Flight alt 2600 gnd 2115 spd 87 hdg 0 energy 100
+  banked 30°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1020 fps] Flying/ Flight alt 2600 gnd 2599 spd 87 hdg 0 energy 100
+  banked 60°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +0.0°, pitch +0.0°, bank +58.3° [stick 53.4°]; stick centred 5.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +38.0°, bank +0.0° [stick 9.5°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1184 fps] Flying/ Flight alt 2600 gnd 2088 spd 87 hdg 0 energy 100
+  small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +9.2° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1102 fps] Flying/ Flight alt 2600 gnd 2126 spd 87 hdg 0 energy 100
+  stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [1320 fps] Flying/ Flight alt 2600 gnd 2102 spd 87 hdg 0 energy 100
+    [494 fps] Flying/ Flight alt 2600 gnd 2070 spd 87 hdg 0 energy 100
+  stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+  full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +0.3°, pitch +0.3°, bank +89.2° [stick 80.5°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+    [748 fps] Flying/ Flight alt 2600 gnd 2059 spd 87 hdg 55 energy 100
+  yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +55.3°, pitch +0.0°, bank +0.0° [stick 16.1°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+hover (landing mode), high up:
+  turn full stick right 2 s, then release: input (1.00, 0.00) 2.0 s -> heading +77.5°, pitch +0.0°, bank +4.9° [hover body easing 17.8°]; stick centred 3.0 s -> heading +22.5°, pitch +0.0°, bank -4.9°, total 23.0° [hover body easing 3.7°]
+    [934 fps] Flying/ Hover alt 2600 gnd 2075 spd 9 hdg 100 energy 100
+  forward full stick 2 s, then release: input (0.00, 1.00) 2.0 s -> heading +0.0°, pitch -6.3°, bank +0.0° [hover body easing 0.7°]; stick centred 3.0 s -> heading +0.0°, pitch +6.3°, bank +0.0°, total 6.3° [hover body easing 0.2°]
+  hover drift after the forward push: horizontal speed now 0.0 m/s
+  air brake from a 20° climb, 30° bank: stick centred 4.0 s -> heading +0.4°, pitch -18.7°, bank -26.3°, total 33.4° [hover body easing 24.1°]
+wall hit at 15° into the wall (Bounce), stick centred: hit after 0.8 s, 1 hits; heading -42.1° (the wall's line is -15° from the start heading); turned by: stick 0.0°, bank turn (assist) 0.9°, wing levelling (assist) 5.8°, wall bounce 43.5°, hover body easing 0.0°; now 61 m off the wall
+    [1035 fps] Flying/ Flight alt 19 gnd 12 spd 66 hdg 255 energy 100
+wall hit at 35° into the wall (Bounce), stick centred: hit after 0.9 s, 1 hits; heading -50.3° (the wall's line is -35° from the start heading); turned by: stick 0.0°, bank turn (assist) 1.8°, wing levelling (assist) 6.8°, wall bounce 51.0°, hover body easing 0.0°; now 41 m off the wall
+pickup 1: pilot 3, 2241 m away
+    [1111 fps] Flying/ Flight alt 1421 gnd 1274 spd 73 hdg 239 energy 100
+    [377 fps] Flying/ Flight alt 1163 gnd 1152 spd 73 hdg 312 energy 98
+    [169 fps] Flying/ Flight alt 1004 gnd 1006 spd 73 hdg 360 energy 97
+    [433 fps] Flying/ Flight alt 727 gnd 266 spd 73 hdg 46 energy 95
+    [360 fps] Flying/ Flight alt 597 gnd 594 spd 73 hdg 46 energy 93
+  cue "SLOW DOWN — PRESS X" at 224 m from the pilot
+  stopped 151 m from the pilot, 157 m from the pad's centre, 68 m up
+    [475 fps] Flying/ Hover alt 556 gnd 24 spd 5 hdg 46 energy 90
+    [494 fps] Flying/ Hover alt 536 gnd 5 spd 2 hdg 46 energy 87
+    [551 fps] Flying/ Hover alt 534 gnd 3 spd 1 hdg 46 energy 83
+  set straight down: landed False (Too steep to land (14°)), ground slope 14°, heading 43; pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0
+  not landed: moving over the pad as a player would
+  landed False; pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0
+  engines off: True; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"; state line ""
+    0 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [467 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    4 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    8 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    12 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [225 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    16 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    20 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [610 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    24 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    28 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    32 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [801 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    36 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    40 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [761 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    45 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    49 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    53 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [803 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    57 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    61 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [753 fps] Crashed/dead Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    65 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    69 s: pilot Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+  the pilot did not come: Waiting, to the door 151.4 m level / +531.8 m up / 552.9 m (pickup range 160), knocks 0. Moving closer, as a player would.
+    [965 fps] Auto/regen-trip Hover alt 532 gnd 2 spd 0 hdg 43 energy 82
+    0 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [688 fps] Auto/recovery Hover alt 995 gnd 940 spd 55 hdg 240 energy 82
+    4 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    8 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [576 fps] Auto/recovery Hover alt 1360 gnd 1304 spd 29 hdg 240 energy 82
+    12 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    16 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    20 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [890 fps] Auto/recovery Hover alt 1498 gnd 1442 spd 3 hdg 240 energy 82
+    24 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    28 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    [864 fps] Docked/docked Hover alt 1500 gnd 1444 spd 0 hdg 240 energy 82
+    32 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    36 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    40 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    [679 fps] Docked/docked Hover alt 1500 gnd 1444 spd 0 hdg 240 energy 82
+    44 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    48 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    [712 fps] Docked/docked Hover alt 1500 gnd 1444 spd 0 hdg 240 energy 82
+    52 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    56 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    60 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    [637 fps] Docked/docked Hover alt 1500 gnd 1444 spd 0 hdg 240 energy 82
+    64 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+    68 s: pilot Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0; advice "Docked in the mothership"
+  NO KNOCK: Waiting, to the door 60.6 m level / +73.5 m up / 95.2 m (pickup range 160), knocks 0
+cabin 0
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.102 RMS, peak 1.910, zeroed before the speakers; 52658176 samples); master volume 0.00

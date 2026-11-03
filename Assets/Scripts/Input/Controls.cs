@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -23,7 +23,9 @@ namespace HostileHorizon
             var f = Asset.FindActionMap("Flight"); var u = Asset.FindActionMap("UI");
             pitch = f["Pitch"]; roll = f["Roll"]; yaw = f["Yaw"]; throttleAxis = f["ThrottleAxis"]; throttleChange = f["ThrottleChange"];
             look = f["Look"]; mouseLook = f["MouseLook"]; mouseHold = f["MouseLookHold"]; camera = f["Camera"]; menu = f["Menu"];
-            land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"];
+            land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"]; bellyCam = f["BellyCam"];
+            // Fix 2.5: the device last used, so prompts name the right button
+            f.actionTriggered += c => Note(c.control?.device); u.actionTriggered += c => Note(c.control?.device);
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
             ApplySettings();
             Asset.Enable();
@@ -44,13 +46,31 @@ namespace HostileHorizon
             if (pb >= 0) menu.ApplyBindingOverride(pb, "<Joystick>/button" + Mathf.Clamp(GameSettings.S.hotasPauseButton, 1, 16));
         }
 
+        public enum Device { Gamepad, Keyboard, Hotas }
+        public static Device LastDevice { get; private set; } = Device.Gamepad;
+        static void Note(InputDevice d)
+        {
+            if (d is Gamepad) LastDevice = Device.Gamepad;
+            else if (d is Joystick) LastDevice = Device.Hotas;
+            else if (d is Keyboard || d is Mouse) LastDevice = Device.Keyboard;
+        }
+        // The button's name for the device in use: "B" on a pad / the Deck, "O" on the keyboard, "HOTAS 6".
+        public static string Key(string pad, string key, string hotas) => LastDevice == Device.Keyboard ? key : LastDevice == Device.Hotas ? hotas : pad;
+        public static string AirlockKey => Key("B", "O", "HOTAS 6");
+        public static string EngineKey => Key("A", "K", "HOTAS 5");
+        public static string LandKey => Key("X", "G", "HOTAS 4");
+        public static string BellyKey => Key("D-pad down", "V", "HOTAS 8");
+        public static bool BellyCamPressed => bellyCam.WasPressedThisFrame();
+
         static float Dead(float v, float dz) { float a = Mathf.Abs(v); return a <= dz ? 0 : Mathf.Sign(v) * (a - dz) / (1 - dz); }
         static float DZ => GameSettings.S.deadzone / 100f;
 
         // Fix 2.4: a response curve (tuning stickCurve): small moves stay fine, full stick is still full.
         static float Curve(float v) { float k = Mathf.Clamp01(Tuning.T.stickCurve); return v * (1 - k) + v * v * v * k; }
-        public static float Pitch => Curve(Dead(pitch.ReadValue<float>(), DZ)) * (GameSettings.S.invertPitch ? -1 : 1);
-        public static float Roll => Curve(Dead(roll.ReadValue<float>(), DZ));
+        // Fix 2.5: gamepad / Deck sticks get at least tuning gamepadDeadzone (Deck sticks drift); HOTAS keeps the Settings deadzone
+        static float DZFor(InputAction a) => a.activeControl?.device is Gamepad ? Mathf.Max(DZ, Tuning.T.gamepadDeadzone) : DZ;
+        public static float Pitch => Curve(Dead(pitch.ReadValue<float>(), DZFor(pitch))) * (GameSettings.S.invertPitch ? -1 : 1);
+        public static float Roll => Curve(Dead(roll.ReadValue<float>(), DZFor(roll)));
         public static float Yaw => Curve(Dead(yaw.ReadValue<float>(), Mathf.Max(DZ, .12f)));   // twist grips are loose: a little more
         public static float ThrottleChange => throttleChange.ReadValue<float>();
         public static Vector2 Look => look.ReadValue<Vector2>();
@@ -70,6 +90,9 @@ namespace HostileHorizon
         public const string LandKeys = "X / G / HOTAS 4", EngineKeys = "A / K / HOTAS 5";
         public static Vector2 Navigate => navigate.ReadValue<Vector2>();
         public static bool SubmitPressed => submit.WasPressedThisFrame();
+        // Fix 2.5: held during the automatic parts (launch, docking, tow, recall, the beam): they play live, 4x faster
+        public static bool FastForwardHeld => submit.IsPressed();
+        public static string FastForwardKey => Key("A", "Space", "HOTAS trigger");
         public static bool CancelPressed => cancel.WasPressedThisFrame();
 
         // The throttle lever as 0..1, or -1 when no lever is bound. Its range is learnt: a lever that ever reads below zero is -1..1,

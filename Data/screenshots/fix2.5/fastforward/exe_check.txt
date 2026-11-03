@@ -1,0 +1,45 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 49152 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-02 20:46; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: pitch 82 / roll 150 / yaw 44 °/s; bank turn Full 38 Light 26; levelling Full 22 Light 8; stick curve 0.6; settings deadzone 8%, assist Full
+fast-forward: launch holding A took 2.1 s real (6 s of game time at normal speed); time scale in flight after: 1
+    [755 fps] Flying/ Hover alt 1480 gnd 1481 spd 14 hdg 240 energy 98
+    [329 fps] Flying/ Hover alt 1620 gnd 1621 spd 14 hdg 240 energy 94
+    [279 fps] Flying/ Hover alt 1760 gnd 1761 spd 14 hdg 240 energy 91
+    [287 fps] Flying/ Hover alt 1900 gnd 1901 spd 14 hdg 240 energy 87
+    [280 fps] Flying/ Hover alt 2040 gnd 2041 spd 14 hdg 240 energy 84
+    [358 fps] Flying/ Hover alt 2180 gnd 2181 spd 14 hdg 240 energy 80
+    [357 fps] Flying/ Hover alt 2320 gnd 2321 spd 14 hdg 240 energy 77
+    [238 fps] Flying/ Hover alt 2454 gnd 2455 spd 14 hdg 240 energy 74
+    [173 fps] Flying/ Hover alt 2576 gnd 2576 spd 14 hdg 240 energy 71
+    [265 fps] Flying/ Hover alt 2716 gnd 2716 spd 14 hdg 240 energy 67
+    [266 fps] Flying/ Hover alt 2855 gnd 2856 spd 14 hdg 240 energy 64
+    [248 fps] Flying/ Hover alt 2993 gnd 2993 spd 14 hdg 240 energy 60
+    [300 fps] Flying/ Hover alt 3133 gnd 3133 spd 14 hdg 240 energy 57
+    [204 fps] Flying/ Hover alt 3250 gnd 3250 spd 14 hdg 240 energy 54
+    [261 fps] Flying/ Hover alt 3384 gnd 3385 spd 14 hdg 240 energy 50
+    [335 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 47
+    [298 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 43
+    [349 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 40
+  TIMED OUT waiting for docking after 30 s (state Flying, phase )
+  holding A while docking: time scale 1, prompt "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+screenshot ff1_docking_fast_forward.png
+    [337 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 36
+    [294 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 33
+    [296 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 29
+    [312 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 26
+    [276 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 23
+    [283 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 19
+    [304 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 16
+    [243 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 13
+    [306 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 9
+    [276 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 6
+    [313 fps] Flying/ Hover alt 3465 gnd 3466 spd 0 hdg 240 energy 2
+    [169 fps] Auto/tow-lift Flight alt 1745 gnd 1293 spd 209 hdg 240 energy 0
+fast-forward: docking holding A took 116.0 s real (13.2 s of game time); time scale after: 1; camera: fastest 320 m/s, fastest turn 0°/s (continuous: no cut)
+reset position from for the recall: before pos (-652, 1410, -269), gnd 905 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (-882, 64, -109), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [618 fps] Flying/ Hover alt 50 gnd 45 spd 9 hdg 240 energy 99
+    [267 fps] Flying/ Hover alt 15 gnd 11 spd 1 hdg 240 energy 96
+    [179 fps] Flying/ Hover alt 9 gnd 5 spd 1 hdg 240 energy 93
+fast-forward: recall lift from the ground holding A took 2.5 s real (10.1 s of game time); camera: fastest 320 m/s, fastest turn 0°/s (continuous: no cut)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.074 RMS, peak 0.867, zeroed before the speakers; 32638976 samples); master volume 0.00

@@ -17,11 +17,12 @@ namespace HostileHorizon
             return crack * .6f + s.lp2 * 9f * Mathf.Exp(-t * .9f) * Mathf.Min(1, t * 60f);
         });
 
-        public static AudioClip Knock => knock ? knock : knock = Make("knock", .22f, (t, n, s) =>
+        // Fix 2.5: brighter (0.2.4's was mostly 190 Hz, which small speakers such as the Steam Deck's hardly play) and louder
+        public static AudioClip Knock => knock ? knock : knock = Make("knock", .25f, (t, n, s) =>
         {
-            // a knuckle on a metal hull: a damped low ring and a click
-            float env = Mathf.Exp(-t * 38f);
-            return env * (Mathf.Sin(t * 2 * Mathf.PI * 190f) * .7f + Mathf.Sin(t * 2 * Mathf.PI * 523f) * .25f) + Mathf.Exp(-t * 400f) * n * .5f;
+            // a knuckle on a metal hull: a hard click, a ringing mid tone and a little of the low body
+            float env = Mathf.Exp(-t * 30f);
+            return env * (Mathf.Sin(t * 2 * Mathf.PI * 430f) * .45f + Mathf.Sin(t * 2 * Mathf.PI * 1160f) * .3f + Mathf.Sin(t * 2 * Mathf.PI * 190f) * .25f) + Mathf.Exp(-t * 300f) * n * .8f;
         });
 
         public static AudioClip Hiss => hiss ? hiss : hiss = Make("airlock", 1.6f, (t, n, s) =>

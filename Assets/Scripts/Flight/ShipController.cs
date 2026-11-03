@@ -25,7 +25,7 @@ namespace HostileHorizon
     {
         public const float MinSpeed = 30f, MaxSpeed = 125f;
         const float Accel = 22f, ThrottleRate = .45f;
-        public struct Feel { public float pitch, roll, yaw, bankTurn, level; }
+        public struct Feel { public float pitch, roll, yaw, bankTurn, level; public bool pullOnly; }
         public static readonly Feel Feel023 = new Feel { pitch = 70, roll = 130, yaw = 32, bankTurn = 38, level = 22 };   // 0.2.3's handling (checks compare)
         public Feel? FeelOverride;                           // checks only: fly with another feel
         public Feel CurrentFeel
@@ -35,7 +35,7 @@ namespace HostileHorizon
                 if (FeelOverride.HasValue) return FeelOverride.Value;
                 var t = Tuning.T; int a = GameSettings.S.flightAssist; float k = Mathf.Clamp(GameSettings.S.sensitivity, 50, 150) / 100f;
                 return new Feel { pitch = t.pitchRate * k, roll = t.rollRate * k, yaw = t.yawRate * k,
-                                  bankTurn = a == 0 ? t.bankTurnFull : a == 1 ? t.bankTurnLight : 0, level = a == 0 ? t.levelRateFull : a == 1 ? t.levelRateLight : 0 };
+                                  bankTurn = a == 0 ? t.bankTurnFull : a == 1 ? t.bankTurnLight : 0, level = a == 0 ? t.levelRateFull : 0, pullOnly = a == 1 };   // Fix 2.5: Light has no wing levelling (levelRateLight unused)
             }
         }
         public const float GearDrop = 1.8f;   // gear feet below the ship's origin when down
@@ -67,6 +67,13 @@ namespace HostileHorizon
         public bool InputEnabled = true;
         public bool Kinematic;                               // docking, launch, tow: moved by SetPose, not by the pilot
         public int IgnoreButtonsUntil;                       // frame: a press that closed a menu doesn't also act here
+        // Fix 2.5: what turned the ship, in degrees, by source (stick, bank turn, wing levelling, wall bounce, hover body easing), summed
+        // since the last ResetMoves; the checks list what moved the ship without input.
+        public static readonly string[] MoveNames = { "stick", "bank turn (assist)", "wing levelling (assist)", "wall bounce", "hover body easing" };
+        public readonly float[] Moved = new float[5];
+        public void ResetMoves() { for (int i = 0; i < Moved.Length; i++) Moved[i] = 0; }
+        Vector3 knock;                                       // Fix 2.5: a wall hit's push away from the wall (flight mode), dying out
+        Quaternion hoverTilt = Quaternion.identity;          // Fix 2.5: hover body lean (pitch / roll); its heading follows the stick at once
         float lastLever = -1, sinceHit = 99, noticeUntil, hoverLever = -1, hoverHeading; bool leverInHover;
 
         public float Altitude => transform.position.y;
@@ -81,7 +88,7 @@ namespace HostileHorizon
             transform.SetPositionAndRotation(pos, rot);
             Level = level; Throttle = throttle; Speed = Mathf.Lerp(MinSpeed, MaxSpeed, Throttle); Velocity = transform.forward * Speed;
             Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0;
-            Kinematic = false; Notice = ""; Braking = false;
+            Kinematic = false; Notice = ""; Braking = false; knock = Vector3.zero;
             lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
             gameObject.SetActive(true);
         }
@@ -95,7 +102,7 @@ namespace HostileHorizon
             Gear = Mathf.MoveTowards(Gear, gearDown ? 1 : 0, Time.deltaTime * .8f);
         }
 
-        public void MakeKinematic(bool hoverLook) { Kinematic = true; Landed = false; Mode = hoverLook ? FlightMode.Hover : FlightMode.Flight; hoverHeading = transform.eulerAngles.y; }
+        public void MakeKinematic(bool hoverLook) { Kinematic = true; Landed = false; Mode = hoverLook ? FlightMode.Hover : FlightMode.Flight; TiltFromBody(); knock = Vector3.zero; }
 
         // Hand control back to the pilot in flight mode at a speed (end of the launch).
         public void ReleaseToFlight(float speed, float throttle)
@@ -168,9 +175,11 @@ namespace HostileHorizon
             var e = transform.eulerAngles; transform.rotation = Quaternion.Euler(0, e.y, 0);
         }
 
+        void TiltFromBody() { var f = Vector3.ProjectOnPlane(transform.forward, Vector3.up); hoverHeading = f.sqrMagnitude > .001f ? Quaternion.LookRotation(f).eulerAngles.y : transform.eulerAngles.y; hoverTilt = Quaternion.Inverse(Quaternion.Euler(0, hoverHeading, 0)) * transform.rotation; }
+
         void EnterHover()
         {
-            Mode = FlightMode.Hover; Velocity = transform.forward * Speed; hoverHeading = transform.eulerAngles.y;
+            Mode = FlightMode.Hover; Velocity = transform.forward * Speed; TiltFromBody(); knock = Vector3.zero;
             hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
             if (new Vector3(Velocity.x, 0, Velocity.z).magnitude > Tuning.T.hoverMaxSpeed + 5f) { Braking = true; OnBrake?.Invoke(); }
         }
@@ -194,7 +203,7 @@ namespace HostileHorizon
         {
             transform.SetPositionAndRotation(pos, Quaternion.Euler(0, heading, 0));
             Mode = FlightMode.Hover; Velocity = Vector3.zero; Speed = 0; Landed = false; Kinematic = false; Braking = false; Gear = 1; Lift = 0;
-            hoverHeading = heading; hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
+            hoverHeading = heading; hoverTilt = Quaternion.identity; knock = Vector3.zero; hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
             EnginesOn = !OutOfEnergy; Notice = ""; IgnoreButtonsUntil = Time.frameCount + 2;
         }
 
@@ -222,16 +231,20 @@ namespace HostileHorizon
             var feel = CurrentFeel; float BankTurn = feel.bankTurn, LevelRate = feel.level;
             // turn: stick and twist in the ship's own axes, then the bank turn and the wing levelling about the world's up
             var rot = transform.rotation * Quaternion.Euler(-pitch * feel.pitch * dt, yaw * feel.yaw * dt, -roll * feel.roll * dt);
+            Moved[0] += Quaternion.Angle(transform.rotation, rot);
             Vector3 fwd = rot * Vector3.forward, right = rot * Vector3.right;
             float bank = Mathf.Asin(Mathf.Clamp(-right.y, -1, 1)) * Mathf.Rad2Deg;               // + = right wing down
             float level = Mathf.Clamp01(1 - Mathf.Abs(fwd.y) * 1.4f);                              // none when diving / climbing steeply
-            rot = Quaternion.AngleAxis(Mathf.Sin(bank * Mathf.Deg2Rad) * BankTurn * level * dt, Vector3.up) * rot;
+            // Fix 2.5: on Light the bank turn only helps while the stick pulls (stick centred: the ship holds its attitude)
+            float bt = Mathf.Sin(bank * Mathf.Deg2Rad) * BankTurn * level * dt * (feel.pullOnly ? Mathf.Clamp01(pitch) : 1f);
+            rot = Quaternion.AngleAxis(bt, Vector3.up) * rot; Moved[1] += Mathf.Abs(bt);
             if (LevelRate > 0 && Mathf.Abs(roll) < .05f && Mathf.Abs(bank) < 80f)
-                rot = Quaternion.AngleAxis(Mathf.Clamp(bank, -LevelRate * dt, LevelRate * dt) * level, fwd) * rot;
+            { float lv = Mathf.Clamp(bank, -LevelRate * dt, LevelRate * dt) * level; rot = Quaternion.AngleAxis(lv, fwd) * rot; Moved[2] += Mathf.Abs(lv); }
             transform.rotation = rot;
 
             Speed = Mathf.MoveTowards(Speed, Mathf.Lerp(MinSpeed, MaxSpeed, Throttle), Accel * dt);
-            Velocity = transform.forward * Speed;
+            knock *= Mathf.Exp(-3f * dt);
+            Velocity = transform.forward * Speed + knock;
             transform.position += Velocity * dt;
         }
 
@@ -272,8 +285,13 @@ namespace HostileHorizon
 
             // body attitude: level, leaning a little into the motion (eases out of whatever attitude flight mode left it in)
             float fwdSpeed = Vector3.Dot(h, flatFwd), sideTurn = turn;
-            var want = Quaternion.Euler(Mathf.Clamp(fwdSpeed / t.hoverMaxSpeed * 7f, -10, 10) * (h.magnitude > t.hoverMaxSpeed * 1.2f ? .3f : 1f), heading, -sideTurn * 5f);
-            transform.rotation = Quaternion.Slerp(transform.rotation, want, 1 - Mathf.Exp(-2.2f * dt));
+            // Fix 2.5: the heading is the stick's at once (0.2.4 eased the whole body after it, so it kept turning ~20° after release);
+            // only the lean eases (and the flight attitude the hover started in)
+            var wantTilt = Quaternion.Euler(Mathf.Clamp(fwdSpeed / t.hoverMaxSpeed * 7f, -10, 10) * (h.magnitude > t.hoverMaxSpeed * 1.2f ? .3f : 1f), 0, -sideTurn * 5f);
+            var before = transform.rotation;
+            hoverTilt = Quaternion.Slerp(hoverTilt, wantTilt, 1 - Mathf.Exp(-2.2f * dt));
+            transform.rotation = Quaternion.Euler(0, heading, 0) * hoverTilt;
+            Moved[4] += Mathf.Max(0, Quaternion.Angle(before, transform.rotation) - Mathf.Abs(turn * t.hoverTurnRate * dt));
             TouchDown(dt);
         }
 
@@ -305,7 +323,7 @@ namespace HostileHorizon
             // settled: on the ground, nose kept, the body lying along the ground
             Landed = true; Velocity = Vector3.zero; Speed = 0; Braking = false; LandedAt = Time.time;
             var fwd = Vector3.ProjectOnPlane(transform.forward, n).normalized;
-            transform.rotation = Quaternion.LookRotation(fwd, n);
+            transform.rotation = Quaternion.LookRotation(fwd, n); TiltFromBody();
             float lowest = float.MaxValue;
             foreach (var f in Feet) { var p = transform.TransformPoint(f); lowest = Mathf.Min(lowest, p.y - Field.SurfaceHeight(p.x, p.z)); }
             transform.position -= Vector3.up * lowest;
@@ -334,9 +352,14 @@ namespace HostileHorizon
                 if (Crashed) return;
                 Vector3 bounced = v + n * into * 1.35f;
                 if (Mode == FlightMode.Hover) { Velocity = bounced * .6f; continue; }
-                if (bounced.sqrMagnitude < .01f) bounced = Vector3.ProjectOnPlane(transform.forward, n) + n * .3f;
-                transform.rotation = Quaternion.FromToRotation(transform.forward, bounced.normalized) * transform.rotation;
-                Speed = Mathf.Max(MinSpeed, Speed * .85f); Velocity = transform.forward * Speed;
+                // Fix 2.5: no bounce-back of the nose (0.2.4 mirrored the flight path off the rock, 1.35x, which spun the ship): the nose
+                // turns only as far as running along the rock, and a push carries the ship away from it
+                Vector3 along = Vector3.ProjectOnPlane(transform.forward, n);
+                if (along.sqrMagnitude < .04f) along = Vector3.ProjectOnPlane(transform.forward, n) + n * .2f;
+                var turnAway = Quaternion.FromToRotation(transform.forward, along.normalized); Moved[3] += Quaternion.Angle(Quaternion.identity, turnAway);
+                transform.rotation = turnAway * transform.rotation;
+                knock = n * (into * .5f + 4f);
+                Speed = Mathf.Max(MinSpeed, Speed * .85f); Velocity = transform.forward * Speed + knock;
             }
         }
 

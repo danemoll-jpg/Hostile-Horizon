@@ -1,0 +1,168 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 55296 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-02 20:14; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: pitch 82 / roll 150 / yaw 44 °/s; bank turn Full 38 Light 26; levelling Full 22 Light 8; stick curve 0.6; settings deadzone 8%, assist Full
+pickup 1: pilot 3, 2241 m away
+    [1543 fps] Flying/ Flight alt 1420 gnd 1280 spd 73 hdg 240 energy 100
+    [548 fps] Flying/ Flight alt 1102 gnd 642 spd 73 hdg 340 energy 98
+    [580 fps] Flying/ Flight alt 779 gnd 777 spd 73 hdg 34 energy 96
+    [488 fps] Flying/ Flight alt 600 gnd 481 spd 73 hdg 37 energy 94
+  cue "SLOW DOWN — PRESS X" at 101 m from the pilot
+  stopped 44 m from the pilot, 40 m from the pad's centre, 586 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p1_hover_belly_cam.png
+  view: Landing
+screenshot p1_landing_view.png
+    [324 fps] Flying/ Hover alt 585 gnd 586 spd 3 hdg 38 energy 92
+    [276 fps] Flying/ Hover alt 310 gnd 311 spd 30 hdg 38 energy 88
+    [273 fps] Flying/ Hover alt 55 gnd 55 spd 13 hdg 38 energy 85
+    [288 fps] Flying/ Hover alt 8 gnd 9 spd 2 hdg 38 energy 81
+  set straight down: landed True (Landed), ground slope 0°, heading 38; pilot Waiting, to the door 46.7 m level / door +0.1 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0
+screenshot p1_glass_floor_look_down.png
+screenshot p1_debug_no_glass.png
+screenshot p1_debug_no_ship.png
+  ship renderers: Body__dash(Universal Render Pipeline/Lit) Body__engine(Universal Render Pipeline/Lit) Body__glass(HostileHorizon/Glass) Body__glow(HostileHorizon/Glow) Body__hull(Universal Render Pipeline/Lit) Body__interior(Universal Render Pipeline/Lit) Body__lamp(HostileHorizon/Glow) Body__metal(Universal Render Pipeline/Lit) Body__panel(Universal Render Pipeline/Lit) Body__seat(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cylinder(Universal Render Pipeline/Lit) Cube(Universal Render Pipeline/Lit) Cube(Universal Render Pipeline/Lit) 
+screenshot p1_lower_canopy_look_left.png
+    [341 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 46.6 m level / door +0.1 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0
+    0 s: pilot Running, to the door 46.6 m level / door +0.1 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +32 z +30, knocks 0; advice "PILOT COMING — keep engines off"
+    4 s: pilot Running, to the door 25.6 m level / door +0.1 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +13 z +19, knocks 0; advice "PILOT COMING — keep engines off"
+    8 s: pilot Running, to the door 7.2 m level / door +0.1 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -2 z +6, knocks 0; advice "PILOT COMING — keep engines off"
+  pilot ran 9.1 s to the door (Knocking)
+    [424 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 5.0 m, 128° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p1_at_door_cockpit.png
+screenshot p1_at_door_landing_view.png
+    [370 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+landed, the airlock camera on: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.076 RMS, peak 0.410, zeroed before the speakers; 11296768 samples); master volume 0.00
+fps landed, the airlock camera on: average 368.0, 1% low 105.5, worst frame 22 ms over 5520 frames; mean height over ground 2 m; terrain chunks 580, waiting 0
+    [364 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 38 energy 78
+  knock shown on the displays: True
+screenshot p1_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 3 aboard (1 / 6), brought 3 % energy"
+pickup 2: pilot 1, 1541 m away
+    [418 fps] Flying/ Flight alt 607 gnd 148 spd 87 hdg 303 energy 78
+    [420 fps] Flying/ Flight alt 562 gnd 560 spd 87 hdg 303 energy 76
+  cue "SLOW DOWN — PRESS X" at 170 m from the pilot
+  stopped 70 m from the pilot, 40 m from the pad's centre, 538 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p2_hover_belly_cam.png
+    [282 fps] Flying/ Hover alt 511 gnd 512 spd 28 hdg 303 energy 73
+    [232 fps] Flying/ Hover alt 211 gnd 212 spd 30 hdg 303 energy 70
+    [286 fps] Flying/ Hover alt 24 gnd 24 spd 5 hdg 303 energy 66
+    [306 fps] Flying/ Hover alt 3 gnd 4 spd 2 hdg 303 energy 63
+  set straight down: landed True (Landed), ground slope 0°, heading 303; pilot Waiting, to the door 71.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 71.4 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0
+    0 s: pilot Running, to the door 71.4 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +7 z +69, knocks 0; advice "PILOT COMING — keep engines off"
+    4 s: pilot Running, to the door 49.4 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x +3 z +48, knocks 0; advice "PILOT COMING — keep engines off"
+    [416 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 303 energy 62
+    8 s: pilot Running, to the door 27.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -1 z +26, knocks 0; advice "PILOT COMING — keep engines off"
+    12 s: pilot Running, to the door 5.6 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -2 z +4, knocks 0; advice "PILOT COMING — keep engines off"
+  pilot ran 12.8 s to the door (Knocking)
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 4.9 m, 128° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p2_at_door_cockpit.png
+  knock shown on the displays: True
+screenshot p2_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 1 aboard (2 / 6), brought 13 % energy"
+    [420 fps] Flying/ Hover alt 16 gnd 17 spd 14 hdg 303 energy 74
+pickup 3: pilot 2, 1572 m away
+    [487 fps] Flying/ Flight alt 642 gnd 125 spd 87 hdg 162 energy 71
+    [467 fps] Flying/ Flight alt 578 gnd 101 spd 87 hdg 162 energy 69
+  cue "SLOW DOWN — PRESS X" at 157 m from the pilot
+  stopped 61 m from the pilot, 40 m from the pad's centre, 592 m up
+  belly camera in hover: on True (BELLY CAM), stop ring shown True
+screenshot p3_hover_belly_cam.png
+    [283 fps] Flying/ Hover alt 439 gnd 440 spd 30 hdg 162 energy 66
+    [280 fps] Flying/ Hover alt 139 gnd 140 spd 28 hdg 162 energy 62
+    [302 fps] Flying/ Hover alt 16 gnd 17 spd 3 hdg 162 energy 59
+  set straight down: landed True (Landed), ground slope 0°, heading 162; pilot Waiting, to the door 61.6 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +56, knocks 0
+  (unreachable for a moment) advice "Pilot 2 can't reach you here (62 m away, 0 m down): land on their pad (green ring)"
+    [311 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 162 energy 55
+screenshot p3_cant_reach_advice.png
+  engines off: True; advice "PILOT COMING — keep engines off"; state line "PILOT COMING — keep engines off"; pilot Running, to the door 61.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +55, knocks 0
+    0 s: pilot Running, to the door 61.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -26 z +55, knocks 0; advice "PILOT COMING — keep engines off"
+    4 s: pilot Running, to the door 39.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -17 z +35, knocks 0; advice "PILOT COMING — keep engines off"
+    8 s: pilot Running, to the door 17.5 m level / door +0.0 m above the pilot (pickup range 160 m level, climb 30 m; can reach True), pilot at ship x -9 z +15, knocks 0; advice "PILOT COMING — keep engines off"
+    [474 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 162 energy 55
+  pilot ran 11.0 s to the door (Knocking)
+  KNOCKING: 3 knocks played; last knock source playing True, volume 1, 4.3 m from the listener, min distance 6 -> heard at 1.00 of full (before the master volume); player build muted? this check run is (test flag); advice "PILOT AT AIRLOCK — press B to open"; state line "PILOT AT AIRLOCK — press B to open"
+  can the pilot be seen from the cockpit? eye to pilot 5.2 m, 127° off the nose
+  displays: airlock button lit True, camera AIRLOCK CAM on True, pickup line "PILOT AT AIRLOCK — press B to open"
+screenshot p3_at_door_cockpit.png
+  knock shown on the displays: True
+screenshot p3_knock_knock.png
+  airlock (B): pilot Aboard; message "Pilot 2 aboard (3 / 6), brought 5 % energy"
+    [397 fps] Flying/ Hover alt 73 gnd 74 spd 14 hdg 162 energy 58
+cabin 3
+    [448 fps] Flying/ Hover alt 200 gnd 202 spd 14 hdg 162 energy 55
+    [428 fps] Flying/ Hover alt 340 gnd 342 spd 14 hdg 162 energy 51
+    [425 fps] Flying/ Hover alt 480 gnd 482 spd 14 hdg 162 energy 48
+    [410 fps] Flying/ Hover alt 620 gnd 622 spd 14 hdg 162 energy 44
+    [388 fps] Flying/ Hover alt 760 gnd 762 spd 14 hdg 162 energy 41
+    [381 fps] Flying/ Hover alt 900 gnd 902 spd 14 hdg 162 energy 37
+    [624 fps] Auto/dock-approach Flight alt 1122 gnd 1124 spd 96 hdg 113 energy 35
+    [1094 fps] Auto/dock-final Flight alt 1731 gnd 1218 spd 60 hdg 252 energy 35
+docking (climbed to the docking height): 22.0 s from the autopilot taking over to the cradle; Delivered 3 pilots: +1500 cr
+screenshot h01_hangar_refuel_reminder.png
+hangar at 22 %: "<color=#FFC873>Energy 22 %: Refuel below (468 cr) before you launch.</color> | Energy used 65%. Refuelled 65%: -392 cr"
+Launch at 22 %: page "LOW ENERGY", body "Energy 22 %. Refuel first? (cost 468 credits)  You have 5108 cr.", rows Refuel and launch / Launch anyway / Back to the hangar, selected Refuel and launch
+screenshot h02_low_energy_question.png
+    [1139 fps] Auto/launch Hover alt 1499 gnd 1001 spd 3 hdg 240 energy 100
+Refuel and launch: energy 100 %, credits 5108 -> 4640, state Flying
+reset position from for the lift test: before pos (95, 1410, -2112), gnd 1066 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (121, 61, -2368), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [897 fps] Flying/ Hover alt 34 gnd 33 spd 7 hdg 240 energy 99
+    [425 fps] Flying/ Hover alt 10 gnd 9 spd 1 hdg 240 energy 95
+    [414 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 240 energy 92
+    [781 fps] Auto/tow-lift Flight alt 1010 gnd 1008 spd 229 hdg 240 energy 90
+lift (new) recall from the ground (3 m up, the mothership 176 m away level): it came in 1.0 s, lift from the ground into the cradle 12.3 s; camera: fastest 250 m/s, fastest turn 0°/s (JUMP)
+    [1097 fps] Auto/launch Hover alt 1458 gnd 1112 spd 41 hdg 240 energy 100
+    [547 fps] Flying/ Hover alt 1264 gnd 1264 spd 30 hdg 240 energy 97
+    [402 fps] Flying/ Hover alt 964 gnd 963 spd 30 hdg 240 energy 94
+    [429 fps] Flying/ Hover alt 664 gnd 663 spd 30 hdg 240 energy 90
+    [414 fps] Flying/ Hover alt 364 gnd 363 spd 30 hdg 240 energy 87
+    [530 fps] Auto/tow-lift Flight alt 1464 gnd 1464 spd 35 hdg 240 energy 0
+lift (new) mid-air catch (ran dry 320 m over the ground, the mothership 285 m away): caught after 0.2 s at 316 m over the ground, lift into the cradle 11.3 s; camera: fastest 250 m/s, fastest turn 0°/s (JUMP)
+    [319 fps] Auto/launch Hover alt 1437 gnd 1393 spd 64 hdg 240 energy 100
+reset position from for the tow test: before pos (-792, 1407, -2814), gnd 925 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (-705, 62, -2814), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [158 fps] Flying/ Hover alt 22 gnd 20 spd 2 hdg 240 energy 98
+    [292 fps] Flying/ Hover alt 9 gnd 7 spd 1 hdg 240 energy 94
+    [316 fps] Flying/ Hover alt 4 gnd 2 spd 1 hdg 240 energy 91
+    [1082 fps] Auto/tow-lift Flight alt 182 gnd 181 spd 158 hdg 240 energy 0
+lift (new) tow from the ground (the mothership 236 m away): it came in 6.2 s, lift into the cradle 12.1 s; camera: fastest 250 m/s, fastest turn 0°/s (JUMP)
+    [673 fps] Auto/launch Hover alt 1500 gnd 1498 spd 1 hdg 240 energy 100
+reset position from for the lift test: before pos (-929, 1409, -2944), gnd 927 m, Flight, speed 72.8 m/s, engines on, energy 99.8% -> after pos (-705, 62, -2814), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.8%; 0 m from the nearest pad's centre; state Flying
+    [623 fps] Flying/ Hover alt 37 gnd 35 spd 7 hdg 240 energy 99
+    [317 fps] Flying/ Hover alt 11 gnd 9 spd 1 hdg 240 energy 95
+    [300 fps] Flying/ Hover alt 5 gnd 4 spd 1 hdg 240 energy 92
+    [423 fps] Auto/tow-lift Flight alt 56 gnd 55 spd 21 hdg 240 energy 90
+    [831 fps] Auto/tow-lift Flight alt 483 gnd 21 spd 45 hdg 240 energy 90
+    [624 fps] Auto/tow-lift Flight alt 923 gnd 464 spd 45 hdg 240 energy 90
+    [649 fps] Auto/tow-lift Flight alt 1320 gnd 834 spd 28 hdg 240 energy 90
+    [587 fps] Auto/dock-rise Flight alt 1453 gnd 960 spd 7 hdg 240 energy 90
+lift (0.2.4's numbers) recall from the ground (3 m up, the mothership 288 m away level): it came in 1.0 s, lift from the ground into the cradle 54.4 s; camera: fastest 145 m/s, fastest turn 0°/s (continuous: no cut)
+    [697 fps] Auto/launch Hover alt 1497 gnd 1004 spd 8 hdg 240 energy 90
+    [466 fps] Flying/ Hover alt 1350 gnd 1141 spd 30 hdg 240 energy 89
+    [230 fps] Flying/ Hover alt 1063 gnd 853 spd 30 hdg 240 energy 85
+    [270 fps] Flying/ Hover alt 766 gnd 557 spd 30 hdg 240 energy 82
+    [395 fps] Auto/tow-lift Flight alt 497 gnd 312 spd 2 hdg 240 energy 0
+    [575 fps] Auto/tow-lift Flight alt 691 gnd 615 spd 40 hdg 240 energy 0
+    [479 fps] Auto/tow-lift Flight alt 1125 gnd 631 spd 45 hdg 240 energy 0
+    [345 fps] Auto/tow-lift Flight alt 1413 gnd 934 spd 14 hdg 240 energy 0
+    [338 fps] Auto/dock-rise Flight alt 1485 gnd 1009 spd 6 hdg 240 energy 0
+lift (0.2.4's numbers) mid-air catch (ran dry 320 m over the ground, the mothership 239 m away): caught after 0.1 s at 316 m over the ground, lift into the cradle 46.6 s; camera: fastest 45 m/s, fastest turn 0°/s (continuous: no cut)
+    [597 fps] Docked/docked Hover alt 1500 gnd 1024 spd 0 hdg 240 energy 35
+    [371 fps] Docked/docked Hover alt 1500 gnd 1024 spd 0 hdg 240 energy 35
+    [628 fps] Docked/docked Hover alt 1500 gnd 1024 spd 0 hdg 240 energy 35
+    [651 fps] Docked/docked Hover alt 1500 gnd 1024 spd 0 hdg 240 energy 35
+  TIMED OUT waiting for flight after launch after 40 s (state Docked, phase docked)
+    [623 fps] Auto/launch Hover alt 1500 gnd 1024 spd 0 hdg 240 energy 35
+reset position from for the tow test: before pos (-1415, 1500, -3224), gnd 1024 m, Hover, speed 0.0 m/s, engines off, energy 35.0% -> after pos (-1415, 1496, -3224), gnd 1020 m, Hover, speed 8.5 m/s, engines off, energy 35.0%; 226 m from the nearest pad's centre; state Auto
+    [467 fps] Auto/tow-lift Flight alt 1400 gnd 933 spd 65 hdg 240 energy 0
+    [524 fps] Auto/tow-lift Flight alt 1406 gnd 1227 spd 26 hdg 240 energy 0
+    [558 fps] Auto/tow-lift Flight alt 1417 gnd 1418 spd 15 hdg 240 energy 0
+  TIMED OUT waiting for out of energy on the ground after 30 s (state Auto, phase tow-lift)
+    [515 fps] Auto/tow-lift Flight alt 1428 gnd 966 spd 45 hdg 240 energy 0

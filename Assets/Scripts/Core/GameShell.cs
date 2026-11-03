@@ -31,6 +31,8 @@ namespace HostileHorizon
 
         ShipAudio shipAudio;
         public ShipExtras Extras { get; private set; }
+        public BellyCam Belly { get; private set; }
+        public bool FastForwarding { get; private set; }
         public Explosion Blast { get; private set; }
         Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
@@ -53,6 +55,7 @@ namespace HostileHorizon
             Rig.Ship = Ship;
             Displays = FlightDisplays.Create(Ship, Ship.transform, Rig);   // ship space (the model under it is turned 180 degrees)
             Displays.SetVisible(false);
+            Belly = BellyCam.Create(Ship); Displays.Belly = Belly;   // Fix 2.5: the belly / airlock camera
             shipAudio = ShipAudio.Create(Ship);
             Ship.OnHit += i => { shipAudio.Thud(i); Displays.NoteHit(); };
             Ship.OnCrash += OnCrash;
@@ -174,6 +177,12 @@ namespace HostileHorizon
                     if (Now == State.Auto && (Controls.MenuPressed || Controls.ViewPressed)) Pause();
                     break;
             }
+            // Fix 2.5: hold A / Space / HOTAS trigger to fast-forward an automatic part (it still plays live: VR rule 5, no cut)
+            bool ff = Now == State.Auto && !Menu.Visible && Ship && Ship.Kinematic && Controls.FastForwardHeld;
+            if (Now == State.Auto) Time.timeScale = ff ? Tuning.T.fastForward : 1;
+            else if (Now != State.Paused && Time.timeScale > 1) Time.timeScale = 1;   // flight resumes at normal speed
+            FastForwarding = ff;
+            if (Belly) Belly.Allowed = Now == State.Flying || Now == State.Paused && pausedFrom == State.Flying;
         }
 
         // ---- flow
@@ -347,7 +356,7 @@ namespace HostileHorizon
                 .Add(Option("Volume", () => GameSettings.S.volume + "%", d => { GameSettings.S.volume = Mathf.Clamp(GameSettings.S.volume + d * 10, 0, 100); Saved(); }))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
-                "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): a gentler bank turn and wing levelling. Off: none; bank and pull to turn.\n" +
+                "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
                 "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n\n" +
                 "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
 
@@ -360,10 +369,10 @@ namespace HostileHorizon
                 .Add(Action("Back", () => Menu.Show(settings)));
             controls.Body = () =>
                 "<b>Controls</b>\n" +
-                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall.\n" +
-                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up).\n\n" +
+                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera.\n" +
+                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera.\n" +
+                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera.\n" +
+                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up). The belly camera\n  comes on by itself; look down (look control) through the glass floor.\n\n" +
                 "Pause button: watch Axis display's \"buttons held\" to find a button's number.";
 
             axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(controls),

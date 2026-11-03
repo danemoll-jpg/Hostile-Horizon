@@ -93,12 +93,15 @@ namespace HostileHorizon
             transform.position += velocity * dt;
         }
 
-        // Fly to a point over something (the tow), quicker than station keeping.
+        // Fly to a point over something (the tow, the recall), quicker than station keeping. Fix 2.5: about 3x quicker, and it
+        // brakes in time (speed from the distance left) so it never overshoots.
         public bool MoveOver(Vector3 point, float dt)
         {
-            Vector3 to = point - transform.position; to.y = Tuning.T.mothershipAltitude - transform.position.y;
-            Vector3 want = Vector3.ClampMagnitude(to * .25f, 140f);
-            velocity = Vector3.MoveTowards(velocity, want, 12f * dt);
+            var t = Tuning.T;
+            Vector3 to = point - transform.position; to.y = t.mothershipAltitude - transform.position.y;
+            float d = to.magnitude;
+            Vector3 want = d > .01f ? to / d * Mathf.Min(t.motherComeSpeed, Mathf.Sqrt(2f * t.motherComeAccel * .8f * d), d * 2f) : Vector3.zero;
+            velocity = Vector3.MoveTowards(velocity, want, t.motherComeAccel * dt);
             transform.position += velocity * dt;
             return new Vector2(to.x, to.z).magnitude < 3f && velocity.magnitude < 3f;
         }

@@ -28,6 +28,7 @@ namespace HostileHorizon
         public float pilotRangeMin = 900, pilotRangeMax = 3000, pilotRangePerTier = 500, pilotSpacing = 700;
         public float pickupRange = 160;               // a pilot runs to a ship landed (engines off) this close
         public float pilotRunSpeed = 5.5f;
+        public float pilotMaxClimb = 30;              // Fix 2.5: m of height between pilot and door they can manage (no canyon walls)
         public float energyDrainFlightBase = .10f, energyDrainFlightThrottle = .22f, energyDrainHover = .35f;
         public float energyWarning = 15;
         public float hoverMaxSpeed = 18, hoverClimbRate = 14, hoverTurnRate = 50, hoverBrake = 12;
@@ -44,10 +45,11 @@ namespace HostileHorizon
         public float pilotFuelMin = 3, pilotFuelMax = 15;   // % energy a boarding pilot brings (random each time, not seeded)
         // Fix 2.4: flying feel (all modes). Rates in degrees per second at full stick, times Settings > Stick sensitivity.
         // Flight assist (Settings): Full = 0.2.3's bank turn and wing levelling, Light (default) = lighter, Off = none.
-        public float pitchRate = 95, rollRate = 170, yawRate = 55;
+        public float pitchRate = 82, rollRate = 150, yawRate = 44;   // Fix 2.5: midway between 0.2.3 (70 / 130 / 32) and 0.2.4 (95 / 170 / 55)
         public float bankTurnFull = 38, levelRateFull = 22;     // bank turn: degrees per second of heading at 90 degrees of bank
         public float bankTurnLight = 26, levelRateLight = 8;    // wing levelling: degrees per second back to level, stick centred
-        public float stickCurve = .35f;                         // 0 straight .. 1 cubic: small stick moves stay fine, full stick is full
+                                                                 // Fix 2.5: on Light the bank turn only while pulling, and no levelling
+        public float stickCurve = .6f;   // Fix 2.5: .6 (0.2.4: .35)                         // 0 straight .. 1 cubic: small stick moves stay fine, full stick is full
         // Fix 2.4: landing. Air brakes (X from flight): top speed to a hover in about 3 s. Hover descent faster high up.
         public float airBrake = 42;                             // m/s2 while faster than the hover speed
         public float hoverVerticalAccel = 15;                   // m/s2 to reach the climb / sink rate asked for
@@ -55,8 +57,21 @@ namespace HostileHorizon
         public float hoverSinkMid = 14, hoverSinkMidAbove = 60;
         public float hoverSinkLow = 3, hoverSinkLowBelow = 8;        // a safe touchdown speed below this height
         public float stopMarkerRange = 2500;                    // m: the stop-point marker shows with a waiting pilot this close
-        public float brakeCueLead = 150;                        // m: "SLOW DOWN - PRESS X" from this far before the stop point reaches the pilot
+        public float brakeCueLead = 40;                         // m: "SLOW DOWN - PRESS X" from this far before the stop point reaches the pilot's pad
+                                                                 // Fix 2.5: 40 m and the pad (0.2.4: 150 m before the pilot: on the canyon wall)
         public float resetHeight = 60;                          // m: Reset position hovers this high over the nearest landing pad
+        // Fix 2.5: the beam lift (tow, recall, mid-air catch) and docking, about 3x quicker than 0.2.4 (whose numbers are in brackets).
+        public float motherComeSpeed = 420, motherComeAccel = 36;   // the mothership coming to you (140, 12)
+        public float beamLiftSpeed = 320, beamLiftAccel = 100;       // the beam lift to under the bay (45, 4; braking 2.5)
+        public float dockApproachSpeed = 200, dockApproachAccel = 45;   // docking: round to behind the bay (90, 15)
+        public float dockFinalSpeed = 150, dockFinalAccel = 45;     // docking: to under the bay (70, 12; braking 4)
+        public float bayRiseFrom = 25, bayRiseSpeed = 25, bayRiseBrake = 12;   // the last rise into the bay (from 60 m, 7 m/s, braking 1.2)
+        public float towBeamDelay = .5f;                            // s between the beam catching and the lift (1.5)
+        public float fastForward = 4;                               // Fix 2.5: hold A / Space / HOTAS trigger: the automatic parts play this much faster (live, no cut)
+        // Fix 2.5: the launch warning: Launch asks first below this energy (%)
+        public float launchEnergyWarning = 50;
+        // Fix 2.5: gamepad / Steam Deck sticks: at least this centre deadzone (Deck sticks drift); the Settings deadzone if larger
+        public float gamepadDeadzone = .12f;
 
         static Tuning t;
         public static Tuning T

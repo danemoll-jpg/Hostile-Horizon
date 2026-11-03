@@ -141,7 +141,7 @@ namespace HostileHorizon
             StopCoroutine(look); state.rightStick = Vector2.zero; Set();
             yield return Press(GamepadButton.North); yield return new WaitForSecondsRealtime(1.2f);   // chase view: the beam from outside
             yield return Shot("h05b_beam_lift_chase");
-            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to cockpit
+            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to cockpit
             yield return WaitPhase(() => G.Phase == "docked", 150f, "docked after the beam");
             Log($"  docked: {Continuity()}; credits {cr0} -> {Career.C.credits}; debrief: {G.Debrief.Replace("\n", " | ")}");
 

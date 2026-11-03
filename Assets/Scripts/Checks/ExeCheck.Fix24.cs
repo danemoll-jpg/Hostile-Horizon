@@ -63,7 +63,7 @@ namespace HostileHorizon
             yield return Hold(() => Vector2.zero, () => Mathf.Abs(BankOf(s.transform)) < 5f, 10f, r => level = r);
             Log($"flight {name}: rates pitch {f.pitch:0} / roll {f.roll:0} / yaw {f.yaw:0} °/s, bank turn {f.bankTurn:0}, levelling {f.level:0} °/s -> " +
                 $"roll to 60° {T(roll60)}; 90° turn, 60° bank held, no pull {T(turnRoll)}; 90° turn, bank and pull {T(turnPull)}; yaw (RB) {yawRate:0} °/s; nose up 30° {T(pitch30)}; wings level from 45° {T(level)}");
-            s.FeelOverride = null; GameSettings.S.flightAssist = 1;
+            s.FeelOverride = null; GameSettings.S.flightAssist = 0;
         }
 
         // From top speed, high up: X, then until stopped. Predicted stop point (at the press) against where it stopped.
@@ -191,7 +191,7 @@ namespace HostileHorizon
             yield return MeasureFps("cockpit, flying low in the new canyons");
             yield return Press(GamepadButton.North); yield return Fly(2.5f); yield return Shot("f06_canyon_chase");
             yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Fly(2.5f); yield return Shot("f07_canyon_low_view");
-            yield return Press(GamepadButton.North);
+            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // Fix 2.5: the Landing view, then the cockpit
             yield return PauseToTitle();
 
             // ---- Campaign
@@ -215,7 +215,7 @@ namespace HostileHorizon
                 float high = 0; var dir = to.normalized;
                 for (int m = 0; m <= 10; m++) { var p = t.position + dir * (m * 60f); high = Mathf.Max(high, s.Field.Height(p.x, p.z)); }
                 float climb = Mathf.Clamp((high + 70f - t.position.y) * .02f, -.45f, .8f), pitch = Mathf.Clamp((climb - t.forward.y) * 3f, -1, 1);
-                state.leftStick = new Vector2(roll, -pitch); state.rightTrigger = to.magnitude > 2500f ? 1 : 0; Set();
+                state.leftStick = new Vector2(Firm(roll), -Firm(pitch)); state.rightTrigger = to.magnitude > 2500f ? 1 : 0; Set();
                 if (to.magnitude < 120f) break;
                 if (!ringSeen && G.StopMarkerAt != Vector3.zero) { ringSeen = true; Log($"  stop ring shown at {to.magnitude:0} m from the pilot"); }
                 yield return null;
@@ -233,7 +233,7 @@ namespace HostileHorizon
             yield return new WaitForSecondsRealtime(.8f);
             yield return Shot("c03_braking");
             yield return Press(GamepadButton.North); yield return new WaitForSecondsRealtime(.4f); yield return Shot("c03b_braking_chase_ring");
-            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to the cockpit
+            yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North); yield return Press(GamepadButton.North);   // back to the cockpit
             yield return WaitFor(() => new Vector2(sp.Velocity.x, sp.Velocity.z).magnitude < .3f, 20f);
             float off = new Vector2(sp.transform.position.x - predicted.x, sp.transform.position.z - predicted.z).magnitude;
             Log($"  braked: stopped {off:0.0} m from the ring's point ({(off <= 50f ? "within 50 m" : "MORE THAN 50 m")}), {new Vector2(pilot.Position.x - sp.transform.position.x, pilot.Position.z - sp.transform.position.z).magnitude:0} m from the pilot, {sp.AboveGround:0} m over the ground");
