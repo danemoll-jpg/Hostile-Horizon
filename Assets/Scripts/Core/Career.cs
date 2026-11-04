@@ -28,7 +28,8 @@ namespace HostileHorizon
         public int[] alien, quirk;    // Round 3: AlienType per pilot (0 = a real pilot), and the tell shown (Aliens.Assign, from the seed)
         public bool cleared, bonusPaid;
         public int visits;
-        public string biome = "canyons";   // Fix 3.2: a placeholder until the biome round (every planet is canyons for now)
+        public string biome = "canyons";   // Round 4 (A1): Biomes.Keys; from the seed (a career's first planet: always canyons)
+        public bool biomeSet;              // Round 4: false in a save from before Round 4 (its biome is worked out on the next visit)
         public string lastVisit;           // Fix 3.2: for the planet list's order (most recent first)
         public bool OfTheDay => seed == Seeds.OfTheDay;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
@@ -95,11 +96,13 @@ namespace HostileHorizon
             foreach (var p in planets) if (p.seed == seed)
                 {
                     if (p.alien == null || p.alien.Length != p.pilots.Length) Aliens.Assign(p, planets.IndexOf(p) == 0);   // a planet saved before Round 3
+                    if (!p.biomeSet) { p.biome = Biomes.Keys[(int)(planets.IndexOf(p) == 0 ? Biome.Canyons : Biomes.ForSeed(p.seed))]; p.biomeSet = true; }   // Round 4
                     return p;
                 }
             var t = Tuning.T; int tier = stats.planetsCleared;
             int n = Mathf.Min(t.pilotsMax, t.pilotsFirstPlanet + tier * t.pilotsPerTier);
-            var ps = new PlanetState { seed = seed, name = Names.Planet(seed), tier = tier, pilots = new int[n] };
+            var ps = new PlanetState { seed = seed, name = Names.Planet(seed), tier = tier, pilots = new int[n], biomeSet = true,
+                                       biome = Biomes.Keys[(int)(planets.Count == 0 ? Biome.Canyons : Biomes.ForSeed(seed))] };   // Round 4: a career's first planet is Canyons
             Aliens.Assign(ps, planets.Count == 0);   // Round 3: a new career's first planet has no aliens
             planets.Add(ps);
             return ps;

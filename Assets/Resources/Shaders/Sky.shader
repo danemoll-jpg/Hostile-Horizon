@@ -9,6 +9,7 @@ Shader "HostileHorizon/Sky"
         _PlanetDir ("Planet direction", Vector) = (-0.55, 0.42, 0.72, 0)
         _PlanetA ("Planet colour A", Color) = (0.72, 0.62, 0.52, 1)
         _PlanetB ("Planet colour B", Color) = (0.42, 0.30, 0.30, 1)
+        _Overcast ("Overcast (Round 4: smoke, snow)", Float) = 0
     }
     SubShader
     {
@@ -21,7 +22,7 @@ Shader "HostileHorizon/Sky"
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "HHCommon.hlsl"
-            float4 _Zenith, _SunColor, _PlanetDir, _PlanetA, _PlanetB;
+            float4 _Zenith, _SunColor, _PlanetDir, _PlanetA, _PlanetB; float _Overcast;
             struct A { float4 positionOS : POSITION; };
             struct V { float4 positionCS : SV_POSITION; float3 dir : TEXCOORD0; };
             V vert(A i) { V o; o.positionCS = TransformObjectToHClip(i.positionOS.xyz); o.dir = i.positionOS.xyz; return o; }
@@ -50,14 +51,15 @@ Shader "HostileHorizon/Sky"
                     float3 p = pc * lit + _Zenith.rgb * 0.25;
                     float edge = smoothstep(1.0, 0.96, r2);
                     float haze = 1.0 - smoothstep(0.0, 0.35, v.y);
-                    col = lerp(col, lerp(p, col, haze * 0.75), edge);
+                    col = lerp(col, lerp(p, col, haze * 0.75), edge * (1 - _Overcast * 0.8));
                 }
                 float rim = smoothstep(1.12, 1.0, r2) * smoothstep(0.9, 1.0, r2) * step(0, dot(v, pd));
                 col += rim * 0.12 * _PlanetA.rgb;
 
                 // sun: disc, glow, and a faint ring of haze
                 float s = dot(v, sun);
-                col += _SunColor.rgb * (smoothstep(0.99955, 0.99975, s) * 6.0 + pow(saturate(s), 900.0) * 1.5 + pow(saturate(s), 40.0) * 0.18);
+                col += (1 - _Overcast * 0.8) * _SunColor.rgb * (smoothstep(0.99955, 0.99975, s) * 6.0 + pow(saturate(s), 900.0) * 1.5 + pow(saturate(s), 40.0) * 0.18);
+                col = lerp(col, HHHazeColor(v), _Overcast * 0.6 * (1 - up * 0.5));
                 return half4(col, 1);
             }
             ENDHLSL

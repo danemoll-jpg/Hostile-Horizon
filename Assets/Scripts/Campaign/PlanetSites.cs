@@ -31,14 +31,16 @@ namespace HostileHorizon
                         if (!pad.ok) continue;
                         x = pad.x; z = pad.z;
                     }
-                    if (f.CanyonT(x, z) > floor[pass]) continue;
+                    if (pass == 2 && f.CanyonT(x, z) > floor[pass]) continue;   // (a pad is checked already: Round 4's rooftops aren't canyon floor)
                     if (Bumpiness(f, x, z, 16f) > flat[pass]) continue;
                     bool near = false; foreach (var s in sites) if (new Vector2(s.landing.x - x, s.landing.z - z).magnitude < t.pilotSpacing * gap[pass]) { near = true; break; }
                     if (near) continue;
                     // the pilot 30 m off the landing patch, the wreck 10 m beyond (still on the pad): the way that stays lowest
+                    // Round 4: closer on a rooftop (its flat area is smaller): 55 % and 80 % of the pad's size
+                    float po = Mathf.Min(30f, f.PadSize * .55f), wo = Mathf.Min(40f, f.PadSize * .8f);
                     float bestDir = 0, bestH = float.MaxValue;
-                    for (int k = 0; k < 8; k++) { float d = k * 45f + rng.Value * 20f; var p = Off(x, z, d, 40f); float h = f.Height(p.x, p.y) + Bumpiness(f, p.x, p.y, 6f) * 4f; if (h < bestH) { bestH = h; bestDir = d; } }
-                    var pp = Off(x, z, bestDir, 30f); var wp = Off(x, z, bestDir, 40f);
+                    for (int k = 0; k < 8; k++) { float d = k * 45f + rng.Value * 20f; var p = Off(x, z, d, wo); float h = f.Height(p.x, p.y) + Bumpiness(f, p.x, p.y, 6f) * 4f; if (h < bestH) { bestH = h; bestDir = d; } }
+                    var pp = Off(x, z, bestDir, po); var wp = Off(x, z, bestDir, wo);
                     sites.Add(new PilotSite
                     {
                         landing = new Vector3(x, f.SurfaceHeight(x, z), z),

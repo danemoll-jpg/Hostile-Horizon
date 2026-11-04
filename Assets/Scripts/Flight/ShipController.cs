@@ -335,16 +335,19 @@ namespace HostileHorizon
         {
             for (int iter = 0; iter < 3; iter++)
             {
-                float deepest = 0; Vector3 n = Vector3.up;
+                float deepest = 0, solid = 0; Vector3 n = Vector3.up, sn = Vector3.up;
                 foreach (var c in ShipLayout.Contacts)
                 {
                     var p = transform.TransformPoint(c);
                     float h = Field.SurfaceHeight(p.x, p.z, out var nn);
                     if (h - p.y > deepest) { deepest = h - p.y; n = nn; }
+                    // Round 4: tree trunks, sky bridges, snow bridges (CanyonField.SolidPush: from the seed, not from what is drawn)
+                    if (Field.SolidPush(p, out var pn, out var pd) && pd > solid) { solid = pd; sn = pn; }
                 }
-                if (deepest <= 0) return;
+                if (deepest <= 0 && solid <= 0) return;
                 // out along the ground's normal, then the flight path bounced off it
-                transform.position += n * (deepest * Mathf.Max(n.y, .2f) + .25f);
+                if (solid > deepest * Mathf.Max(n.y, .2f)) { n = sn; transform.position += n * (solid + .25f); }
+                else transform.position += n * (deepest * Mathf.Max(n.y, .2f) + .25f);
                 if (iter > 0) continue;
                 Vector3 v = Velocity; float into = -Vector3.Dot(v, n);
                 if (into <= 0) continue;

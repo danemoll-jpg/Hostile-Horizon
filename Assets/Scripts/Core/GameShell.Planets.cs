@@ -28,7 +28,8 @@ namespace HostileHorizon
             var p = Career.C.planets.Find(x => x.seed == seed);
             string name = p?.name ?? Names.Planet(seed), here = Planet != null && Planet.seed == seed ? "  ◄ here" : "";
             string what = p == null ? "new" : p.cleared ? "cleared" : $"{p.Count(PilotFate.Waiting)} waiting";
-            return $"{name}  <size=24>{(seed == Seeds.OfTheDay ? "★ of the day · " : "")}{what}{here}</size>";
+            string biome = Biomes.Name(p != null ? Biomes.FromKey(p.biome) : Career.C.planets.Count == 0 ? Biome.Canyons : Biomes.ForSeed(seed));   // Round 4
+            return $"{name}  <size=24>{biome} · {(seed == Seeds.OfTheDay ? "★ of the day · " : "")}{what}{here}</size>";
         }
 
         void BuildPlanetsPage()
@@ -64,12 +65,12 @@ namespace HostileHorizon
             var t = Tuning.T; int sel = planetsPage.Selected;
             string head = $"The {c.systemName} system: {c.planets.Count} planet{(c.planets.Count == 1 ? "" : "s")} visited, {c.stats.planetsCleared} cleared.\n\n";
             if (sel == 0)
-                return head + $"<b>New planet</b>\nThe mothership jumps to a planet the corps hasn't searched yet: next is <b>{Names.Planet(Career.MadePlanetSeed(c.systemSeed, c.planetsMade))}</b>." +
+                return head + $"<b>New planet</b>\nThe mothership jumps to a planet the corps hasn't searched yet: next is <b>{Names.Planet(Career.MadePlanetSeed(c.systemSeed, c.planetsMade))}</b> ({Biomes.Name(Biomes.ForSeed(Career.MadePlanetSeed(c.systemSeed, c.planetsMade)))})." +
                        $"\nMore pilots down (and more aliens) as your career clears planets.\nPilots left on other planets wait there for you.";
             if (sel < 1 || sel > PlanetSlots) return head;
             int seed = SlotSeed(sel - 1); if (seed == 0) return head;
             var p = c.planets.Find(x => x.seed == seed); bool day = seed == Seeds.OfTheDay;
-            string s = head + $"<b>{p?.name ?? Names.Planet(seed)}</b>   ({p?.biome ?? "canyons"}, seed {seed})\n";
+            string s = head + $"<b>{p?.name ?? Names.Planet(seed)}</b>   ({Biomes.Name(p != null ? Biomes.FromKey(p.biome) : Biomes.ForSeed(seed))}, seed {seed})\n";
             if (day) s += $"<color=#FFC873>Planet of the day: pilots pay +{t.dayBonus * 100:0} % ({Mathf.RoundToInt(t.pilotPay * (1 + t.dayBonus))} cr each). A new one every day.</color>\n";
             if (p == null) return s + "\nNot visited yet.";
             s += $"\nPilots: {p.Count(PilotFate.Rescued)} rescued · {p.Count(PilotFate.Lost)} lost · {p.Count(PilotFate.Waiting)} still waiting" +

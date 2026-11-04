@@ -13,8 +13,95 @@ namespace HostileHorizon
     {
         public static Light Sun { get; private set; }
         public static Material RockMaterial { get; private set; }
-        public static readonly Color Haze = new Color(.80f, .56f, .45f), SunHaze = new Color(1f, .78f, .58f);
-        static readonly Vector3 SunDirection = Quaternion.Euler(24f, 230f, 0) * Vector3.back;   // towards the sun
+        public static Material SkyMaterial { get; private set; }
+        public static Texture DetailTex { get; private set; }
+        public static Color Haze = new Color(.80f, .56f, .45f), SunHaze = new Color(1f, .78f, .58f);
+        static Vector3 SunDirection = Quaternion.Euler(24f, 230f, 0) * Vector3.back;   // towards the sun
+        public static Biome Shown { get; private set; } = (Biome)(-1);
+        static float fogDensity = 1f / 2300f;     // Round 4: per biome
+        public static float Weather = 0;           // Round 4: 0 clear .. 1 a full blizzard (ice): thicker, whiter haze
+
+        // Round 4, item A5: each biome's sky, sun, haze, light and ground. Palettes are generated (no third-party art).
+        public struct Look
+        {
+            public Color haze, sunHaze, sun, zenith, planetA, planetB, ambient, ambientSky, dust, rockSky, rockGround, deep;
+            public float sunPitch, sunYaw, sunIntensity, overcast, fog, mode, flatFrom, flatTo; public Vector3 planetDir; public Color[] strata;
+        }
+
+        public static Look LookFor(Biome b)
+        {
+            switch (b)
+            {
+                case Biome.Forest:
+                    return new Look { haze = new Color(.52f, .58f, .40f), sunHaze = new Color(1f, .88f, .58f), sun = new Color(1f, .9f, .66f), sunIntensity = 1.5f, sunPitch = 38f, sunYaw = 205f,
+                        zenith = new Color(.26f, .46f, .52f), planetA = new Color(.62f, .70f, .62f), planetB = new Color(.30f, .40f, .38f), planetDir = new Vector3(.6f, .35f, .7f), overcast = .1f,
+                        ambient = new Color(.22f, .26f, .18f), ambientSky = new Color(.40f, .48f, .32f), rockSky = new Color(.42f, .50f, .34f), rockGround = new Color(.18f, .16f, .09f),
+                        dust = new Color(.24f, .30f, .12f), deep = Color.white, fog = 1f / 1500f, mode = 1, flatFrom = .55f, flatTo = .8f,
+                        strata = new[] { new Color(.26f, .22f, .16f), new Color(.34f, .30f, .20f), new Color(.22f, .25f, .16f), new Color(.40f, .34f, .24f), new Color(.18f, .17f, .13f) } };
+                case Biome.City:
+                    return new Look { haze = new Color(.50f, .45f, .42f), sunHaze = new Color(.92f, .62f, .40f), sun = new Color(1f, .72f, .50f), sunIntensity = 1.35f, sunPitch = 16f, sunYaw = 250f,
+                        zenith = new Color(.22f, .21f, .24f), planetA = new Color(.55f, .45f, .40f), planetB = new Color(.30f, .24f, .24f), planetDir = new Vector3(-.5f, .3f, .8f), overcast = .45f,
+                        ambient = new Color(.26f, .26f, .28f), ambientSky = new Color(.38f, .38f, .42f), rockSky = new Color(.50f, .50f, .55f), rockGround = new Color(.26f, .23f, .21f),
+                        dust = new Color(.16f, .15f, .15f), deep = new Color(.75f, .74f, .78f), fog = 1f / 1700f, mode = 2, flatFrom = .8f, flatTo = .95f,
+                        strata = new[] { new Color(.28f, .27f, .26f), new Color(.34f, .32f, .30f), new Color(.24f, .24f, .25f), new Color(.30f, .28f, .25f) } };
+                case Biome.Ice:
+                    return new Look { haze = new Color(.70f, .78f, .86f), sunHaze = new Color(1f, .96f, .88f), sun = new Color(1f, .97f, .92f), sunIntensity = 1.55f, sunPitch = 18f, sunYaw = 160f,
+                        zenith = new Color(.22f, .36f, .58f), planetA = new Color(.80f, .82f, .90f), planetB = new Color(.48f, .55f, .70f), planetDir = new Vector3(-.4f, .45f, -.75f), overcast = 0,
+                        ambient = new Color(.34f, .38f, .46f), ambientSky = new Color(.48f, .56f, .70f), rockSky = new Color(.56f, .64f, .80f), rockGround = new Color(.40f, .46f, .58f),
+                        dust = new Color(.90f, .93f, .98f), deep = new Color(.62f, .74f, .96f), fog = 1f / 2600f, mode = 3, flatFrom = .62f, flatTo = .82f,
+                        strata = new[] { new Color(.62f, .76f, .90f), new Color(.80f, .88f, .96f), new Color(.42f, .60f, .84f), new Color(.92f, .95f, .99f), new Color(.52f, .70f, .90f) } };
+                default:
+                    return new Look { haze = new Color(.80f, .56f, .45f), sunHaze = new Color(1f, .78f, .58f), sun = new Color(1f, .87f, .72f), sunIntensity = 1.7f, sunPitch = 24f, sunYaw = 230f,
+                        zenith = new Color(.17f, .38f, .48f), planetA = new Color(.72f, .62f, .52f), planetB = new Color(.42f, .30f, .30f), planetDir = new Vector3(-.55f, .42f, .72f), overcast = 0,
+                        ambient = new Color(.30f, .30f, .34f), ambientSky = new Color(.25f, .32f, .40f), rockSky = new Color(.56f, .64f, .72f), rockGround = new Color(.46f, .34f, .30f),
+                        dust = new Color(.62f, .48f, .44f), deep = Color.white, fog = 1f / 2300f, mode = 0, flatFrom = .74f, flatTo = .9f,
+                        strata = new[] { new Color(.55f, .28f, .18f), new Color(.72f, .52f, .34f), new Color(.80f, .69f, .56f), new Color(.46f, .33f, .36f), new Color(.36f, .19f, .14f), new Color(.70f, .43f, .32f), new Color(.60f, .47f, .40f) } };
+            }
+        }
+
+        public static void ApplyBiome(Biome b, BiomeProps props = null)
+        {
+            var L = LookFor(b);
+            if (Shown != b)
+            {
+                Shown = b;
+                if (RockMaterial) RockMaterial.SetTexture("_Strata", StrataTexture(L.strata, 1984 + (int)b));
+            }
+            Haze = L.haze; SunHaze = L.sunHaze; fogDensity = L.fog;
+            SunDirection = Quaternion.Euler(L.sunPitch, L.sunYaw, 0) * Vector3.back;
+            if (Sun) { Sun.color = L.sun; Sun.intensity = L.sunIntensity; Sun.transform.rotation = Quaternion.LookRotation(-SunDirection); }
+            if (SkyMaterial)
+            {
+                SkyMaterial.SetColor("_Zenith", L.zenith); SkyMaterial.SetColor("_PlanetA", L.planetA); SkyMaterial.SetColor("_PlanetB", L.planetB);
+                SkyMaterial.SetVector("_PlanetDir", L.planetDir.normalized); SkyMaterial.SetFloat("_Overcast", L.overcast);
+            }
+            var sh = new SphericalHarmonicsL2(); sh.AddAmbientLight(L.ambient); sh.AddDirectionalLight(Vector3.up, L.ambientSky * .8f, 1f);
+            RenderSettings.ambientProbe = sh;
+            if (RockMaterial)
+            {
+                RockMaterial.SetColor("_Dust", L.dust); RockMaterial.SetColor("_AmbientSky", L.rockSky); RockMaterial.SetColor("_AmbientGround", L.rockGround);
+                RockMaterial.SetFloat("_Mode", L.mode); RockMaterial.SetVector("_Flat", new Vector4(L.flatFrom, L.flatTo, 0, 0)); RockMaterial.SetColor("_Deep", L.deep);
+            }
+            if (props) props.SetColours(Color.white, Color.white, L.ambientSky, L.rockGround);
+            Weather = 0;
+            ApplyHaze();
+        }
+
+        // the haze colours and density, with the weather mixed in (a blizzard: white and thick)
+        public static void ApplyHaze()
+        {
+            var white = new Color(.86f, .90f, .95f);
+            var haze = Color.Lerp(Haze, white, Weather * .8f); var sunHaze = Color.Lerp(SunHaze, white, Weather * .8f);
+            RenderSettings.fogColor = haze;
+            Shader.SetGlobalColor("_HHFogColor", haze.linear);
+            Shader.SetGlobalColor("_HHSunHaze", sunHaze.linear);
+            Shader.SetGlobalVector("_HHSunDir", SunDirection.normalized);
+            var q = Current();
+            float density = fogDensity * (1f + Weather * 9f);
+            float end = Mathf.Lerp(q.view, Mathf.Min(q.view, 450f), Weather);
+            Shader.SetGlobalVector("_HHFog", new Vector4(density, 40f, 90f, end));
+            RenderSettings.fogStartDistance = end * Mathf.Lerp(.2f, .02f, Weather); RenderSettings.fogEndDistance = end;
+        }
 
         public static void Create()
         {
@@ -26,7 +113,7 @@ namespace HostileHorizon
             RenderSettings.sun = Sun;
 
             var sky = new Material(Shader.Find("HostileHorizon/Sky"));
-            RenderSettings.skybox = sky;
+            RenderSettings.skybox = sky; SkyMaterial = sky;
             var sh = new SphericalHarmonicsL2();
             sh.AddAmbientLight(new Color(.30f, .30f, .34f));
             sh.AddDirectionalLight(Vector3.up, new Color(.25f, .32f, .40f), 1f);
@@ -38,8 +125,9 @@ namespace HostileHorizon
             Shader.SetGlobalVector("_HHSunDir", SunDirection.normalized);
 
             RockMaterial = new Material(Shader.Find("HostileHorizon/Rock")) { name = "Rock" };
-            RockMaterial.SetTexture("_Detail", DetailTexture());
-            RockMaterial.SetTexture("_Strata", StrataTexture());
+            DetailTex = DetailTexture();
+            RockMaterial.SetTexture("_Detail", DetailTex);
+            RockMaterial.SetTexture("_Strata", StrataTexture(LookFor(Biome.Canyons).strata, 1984));
         }
 
         public struct Quality { public float view, shadow; public int cascades, msaa, shadowLods; }
@@ -63,20 +151,14 @@ namespace HostileHorizon
             }
             if (terrain) { terrain.ViewDistance = q.view; terrain.ShadowLods = q.shadowLods; }
             if (cam) cam.farClipPlane = q.view + 400f;
-            Shader.SetGlobalVector("_HHFog", new Vector4(1f / 2300f, 40f, 90f, q.view));
-            RenderSettings.fogStartDistance = q.view * .2f; RenderSettings.fogEndDistance = q.view;
+            ApplyHaze();
         }
 
         // ---- generated textures (no third-party art)
 
-        static Texture2D StrataTexture()
+        static Texture2D StrataTexture(Color[] palette, int seed)
         {
-            Color[] palette =
-            {
-                new Color(.55f, .28f, .18f), new Color(.72f, .52f, .34f), new Color(.80f, .69f, .56f), new Color(.46f, .33f, .36f),
-                new Color(.36f, .19f, .14f), new Color(.70f, .43f, .32f), new Color(.60f, .47f, .40f),
-            };
-            const int N = 256; var r = new System.Random(1984); var raw = new Color[N];
+            const int N = 256; var r = new System.Random(seed); var raw = new Color[N];
             for (int i = 0; i < N;)
             {
                 var c = palette[r.Next(palette.Length)] * (float)(0.9 + r.NextDouble() * 0.2); int w = 3 + r.Next(18);
