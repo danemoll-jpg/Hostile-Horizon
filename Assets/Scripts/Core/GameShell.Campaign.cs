@@ -111,6 +111,8 @@ namespace HostileHorizon
             if (Displays) { Displays.Campaign = false; Displays.PickupLine = ""; Displays.AirlockLit = false; }
             if (Belly) Belly.AirlockView = false;
             if (padRing) padRing.gameObject.SetActive(false);
+            if (Route) Route.Clear(); routePick = -1;
+            if (Displays) { Displays.Route = ""; Displays.RoutePath = null; }
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; }
         }
 
@@ -204,12 +206,13 @@ namespace HostileHorizon
 
             // the radar: beacons still waiting, and the mothership (always: the way home)
             var con = Displays.Contacts; con.Clear();
-            foreach (var p in Pilots) if (p.OnFoot) con.Add(new RadarContact { position = p.Beacon, number = p.Index + 1 });
+            foreach (var p in Pilots) if (p.OnFoot && !p.HiddenFromRadar) con.Add(new RadarContact { position = p.Beacon, number = p.Index + 1 });
             con.Add(new RadarContact { position = Mother.transform.position, mothership = true });
             Vector3 toMother = Flat(Mother.transform.position - Ship.transform.position);
             float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude), brg = (Mathf.Atan2(toMother.x, toMother.z) * Mathf.Rad2Deg + 360f) % 360f;
             Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
             HomeWarnings(dt);
+            RouteTick();
             Displays.Cabin = cabin.Count;
             StopMarker(); BrakeCue(); PickupState();
             Displays.Place = $"{Planet.name} · {CrashLevels.Names[(int)Ship.Level]}";
@@ -236,6 +239,40 @@ namespace HostileHorizon
             Displays.HomeWarning = HomeState == 2 ? "CAN'T REACH THE MOTHERSHIP: recall or land" : HomeState == 1 ? "RETURN NOW" : "";
         }
 
+        // Fix 2.6: the route trail's target. Auto (default): the nearest pilot on foot; the mothership once the cabin is full or no
+        // pilot is left. The RouteTarget button (D-pad right / T / HOTAS 11) steps through the pilots by distance, then the
+        // mothership, then back to auto.
+        public RouteTrail Route { get; private set; }
+        int routePick = -1;   // -1 auto, -2 the mothership, else a pilot's index
+        public string RouteTargetName { get; private set; } = "";
+        public DownedPilot RoutePilot { get; private set; }
+
+        void RouteTick()
+        {
+            var t = Tuning.T;
+            var foot = new List<DownedPilot>(); foreach (var p in Pilots) if (p.OnFoot && !p.HiddenFromRadar) foot.Add(p);
+            foot.Sort((a, b) => Flat(a.LandingSpot - Ship.transform.position).sqrMagnitude.CompareTo(Flat(b.LandingSpot - Ship.transform.position).sqrMagnitude));
+            if (routePick >= 0 && !foot.Exists(p => p.Index == routePick)) routePick = -1;
+            if (Ship.InputEnabled && Controls.RouteTargetPressed)
+            {
+                // auto -> pilots by distance (skipping the one auto shows) -> mothership -> auto
+                int at = routePick == -1 ? 0 : routePick == -2 ? foot.Count + 1 : foot.FindIndex(p => p.Index == routePick) + 1;
+                int next = at + 1; if (routePick == -1 && foot.Count > 0) next = 2;   // auto already shows the nearest
+                routePick = next <= foot.Count ? foot[next - 1].Index : next == foot.Count + 1 ? -2 : -1;
+                if (routePick == -1) Flash("Route: auto (nearest pilot)", 2.5f);
+            }
+            bool full = cabin.Count >= t.cabinSize;
+            RoutePilot = routePick >= 0 ? foot.Find(p => p.Index == routePick) : routePick == -1 && !full && foot.Count > 0 ? foot[0] : null;
+            bool toMother = RoutePilot == null;
+            Vector3 goal = toMother ? Mother.transform.position : RoutePilot.LandingSpot;
+            bool on = GameSettings.S.routeTrail && Now == State.Flying && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed;
+            Route.Tick(on, Terrain.Field, Ship.transform, goal, toMother, t.dockingHeight);
+            float d = Flat(goal - Ship.transform.position).magnitude;
+            RouteTargetName = toMother ? "MOTHERSHIP" : $"PILOT {RoutePilot.Index + 1}";
+            Displays.Route = GameSettings.S.routeTrail ? $"ROUTE → {RouteTargetName} · {RadarScope.Distance(d)}{(routePick == -1 ? "" : " (picked)")}   [{Controls.RouteTargetKey}]" : "";
+            Displays.RoutePath = on ? Route.Path : null;
+        }
+
         // Fix 2.4: the nearest pilot still waiting, and how far (level distance).
         DownedPilot NearestWaiting(out float dist)
         {
@@ -254,6 +291,7 @@ namespace HostileHorizon
             var nearest = NearestWaiting(out float near);
             bool on = InCampaign && Now == State.Flying && !Ship.Kinematic && near < Tuning.T.stopMarkerRange &&
                       (Ship.Braking || Ship.Mode == FlightMode.Flight && Flat(Ship.Velocity).magnitude > Tuning.T.hoverMaxSpeed + 5f || Ship.Mode == FlightMode.Hover && !Ship.Landed);
+            if (RoutePilot != null) { nearest = RoutePilot; near = Flat(RoutePilot.Position - Ship.transform.position).magnitude; }   // Fix 2.6: the route's pilot
             bool pad = InCampaign && nearest != null && nearest.Now == DownedPilot.State.Waiting && near < 900f && !Ship.Kinematic;
             if (pad && !padRing)
             {

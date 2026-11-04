@@ -1,0 +1,56 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 108544 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 01:45; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+Campaign crash level for this check: Bounce (hits are counted)
+    [643 fps] Auto/launch Hover alt 1425 gnd 1423 spd 73 hdg 285 energy 100
+radar contact pilot 1: 2.2 km  (NEAREST)
+radar contact pilot 2: 2.7 km
+radar contact pilot 3: 2.9 km
+radar contact mothership: 290 m
+radar range at the rim 3000 m; list: MOTHERSHIP  105°  290 m | <b>PILOT 1  000°  2.2 km  ◄ NEAREST</b> | PILOT 2  180°  2.7 km | PILOT 3  030°  2.9 km | 
+screenshot a1_radar_cockpit.png
+route target: PILOT 1 (auto = nearest pilot on foot: pilot 1, 2281 m); planned in 51 ms; display "ROUTE → PILOT 1 · 2.3 km   [D-pad right]"
+route: 132 points, 3065 m long (straight line 2318 m), 11 bends over 20° (443° of turning), highest canyon openness on it 0.35 (0 floor, 1 rim), lowest clearance over the ground 27 m at 3062 m
+screenshot a2_trail_after_launch.png
+reset position from to fly the trail low: before pos (-129, 1401, -56), gnd 1231 m, Flight, speed 72.8 m/s, engines on, energy 99.7% -> after pos (164, 57, -134), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.7%; 0 m from the nearest pad's centre; state Flying
+route from low down (target PILOT 1, 2380 m): 140 points, 3246 m long (straight line 2394 m), 12 bends over 20° (623° of turning), highest canyon openness on it 0.33 (0 floor, 1 rim), lowest clearance over the ground 26 m at 3244 m
+  HIT 1: 39 m over the ground, 165 km/h, bank 29°, off the route 62 m, path 242 m over the ground there, hull 100 %
+  HIT 2: 150 m over the ground, 164 km/h, bank 42°, off the route 27 m, path 236 m over the ground there, hull 100 %
+    [190 fps] Flying/ Flight alt 220 gnd 194 spd 54 hdg 303 energy 99
+  HIT 3: 127 m over the ground, 164 km/h, bank 48°, off the route 67 m, path 290 m over the ground there, hull 100 %
+  HIT 4: 88 m over the ground, 164 km/h, bank 62°, off the route 90 m, path 382 m over the ground there, hull 100 %
+    [167 fps] Flying/ Flight alt 426 gnd 428 spd 54 hdg 300 energy 97
+    [123 fps] Flying/ Flight alt 430 gnd 425 spd 54 hdg 308 energy 96
+  following: 30 % of the way, 1744 m from the pad, 476 m over the ground, 7 chevrons shown, off the route 13 m; chevrons in view 4 / 7: 52 m at (0.64, 0.04) off, 137 m at (0.60, 0.69), 224 m at (0.64, 0.73), 307 m at (0.74, 0.52), 395 m at (0.80, 0.34), 469 m at (0.86, 0.17) off, 492 m at (0.94, 0.21) off
+screenshot a3_trail_cockpit_1.png
+    [209 fps] Flying/ Flight alt 489 gnd 491 spd 54 hdg 11 energy 94
+    [229 fps] Flying/ Flight alt 421 gnd 423 spd 54 hdg 69 energy 93
+  following: 55 % of the way, 1214 m from the pad, 367 m over the ground, 7 chevrons shown, off the route 8 m; chevrons in view 4 / 7: 77 m at (0.20, 0.45), 177 m at (0.24, 0.46), 264 m at (0.32, 0.31), 332 m at (0.45, 0.26) off, 415 m at (0.44, 0.06) off, 491 m at (0.46, 0.25) off, 542 m at (0.45, 0.44)
+screenshot a4_trail_cockpit_2.png
+    [82 fps] Flying/ Flight alt 357 gnd 356 spd 54 hdg 351 energy 92
+    [55 fps] Flying/ Flight alt 374 gnd 244 spd 54 hdg 55 energy 91
+    [20 fps] Flying/ Flight alt 359 gnd 361 spd 54 hdg 338 energy 91
+  following: 80 % of the way, 684 m from the pad, 325 m over the ground, 6 chevrons shown, off the route 5 m; chevrons in view 3 / 6: 107 m at (0.47, 0.44), 185 m at (0.51, 0.86), 265 m at (0.52, 1.01) off, 347 m at (0.54, 1.05) off, 422 m at (0.59, 1.08) off, 501 m at (0.63, 0.99)
+screenshot a5_trail_cockpit_3.png
+    [24 fps] Flying/ Flight alt 317 gnd 316 spd 54 hdg 309 energy 90
+    [57 fps] Flying/ Flight alt 434 gnd 434 spd 54 hdg 322 energy 89
+  followed the trail: ended 260 m from pilot 1's pad, wall / ground hits 4, hull 100 %, lowest 38 m over the ground, furthest off the route 148 m, re-plans 23 (last: timer, 8 ms)
+route at the end: 18 points, 390 m long (straight line 367 m), 2 bends over 20° (51° of turning), highest canyon openness on it 0.04 (0 floor, 1 rim), lowest clearance over the ground 243 m at 385 m; chevrons shown 3; pad ring for the route's pilot
+screenshot a6_trail_end_at_pad.png
+re-plan after leaving the route: 396 m off -> re-plans 24 -> 25 ("left the route (367 m off)"), now 1 m off, 50 ms
+screenshot a7_replanned.png
+route target 0: PILOT 1; "ROUTE → PILOT 1 · 360 m   [D-pad right]"
+route target 1: PILOT 3; "ROUTE → PILOT 3 · 1.2 km (picked)   [D-pad right]"
+route target 2: PILOT 2; "ROUTE → PILOT 2 · 5.0 km (picked)   [D-pad right]"
+route target 3: MOTHERSHIP; "ROUTE → MOTHERSHIP · 430 m (picked)   [D-pad right]"
+route target 4: PILOT 1; "ROUTE → PILOT 1 · 330 m   [D-pad right]"
+route target 5: PILOT 3; "ROUTE → PILOT 3 · 1.2 km (picked)   [D-pad right]"
+    [59 fps] Flying/ Flight alt 495 gnd 494 spd 68 hdg 3 energy 88
+    [48 fps] Flying/ Flight alt 342 gnd 89 spd 68 hdg 270 energy 87
+Campaign, trail on, flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.078 RMS, peak 2.748, zeroed before the speakers; 13099008 samples); master volume 0.00
+fps Campaign, trail on, flying low: average 41.9, 1% low 2.4, worst frame 737 ms over 627 frames; mean height over ground 237 m; terrain chunks 584, waiting 0
+trail during the fps run: chevrons shown 7, re-plans 35, last plan 2380 ms
+    [62 fps] Flying/ Flight alt 95 gnd 93 spd 68 hdg 270 energy 85
+Campaign, trail OFF (to compare), flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.079 RMS, peak 2.748, zeroed before the speakers; 14542848 samples); master volume 0.00
+fps Campaign, trail OFF (to compare), flying low: average 90.8, 1% low 9.0, worst frame 793 ms over 1309 frames; mean height over ground 74 m; terrain chunks 581, waiting 1
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.079 RMS, peak 2.748, zeroed before the speakers; 14542848 samples); master volume 0.00

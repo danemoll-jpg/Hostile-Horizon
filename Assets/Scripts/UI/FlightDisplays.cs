@@ -26,6 +26,9 @@ namespace HostileHorizon
         public string PickupLine = "";
         public bool AirlockLit;
         public BellyCam Belly;
+        // Fix 2.6: the route trail's target line ("ROUTE → PILOT 2 · 1.4 km") and its path, drawn on the radar
+        public string Route = "";
+        public List<Vector3> RoutePath;
         float knockUntil;
         public void Knock() => knockUntil = Time.time + 1.4f;
         public bool Knocking => Time.time < knockUntil;
@@ -52,7 +55,7 @@ namespace HostileHorizon
             d.airlockText.GetComponent<Shadow>().enabled = false;
             d.left = Screen(shipModel, "Left display", ShipLayout.DashCentre + new Vector3(-.33f, .14f, -.31f), new Vector2(400, 250), 26, out _);
             d.right = Screen(shipModel, "Right display", ShipLayout.DashCentre + new Vector3(.33f, .14f, -.31f), new Vector2(400, 250), 24, out var rc);
-            d.cockpitRadar = new RadarScope(rc.transform, new Vector2(112, 132), 210, Vector2.zero);
+            d.cockpitRadar = new RadarScope(rc.transform, new Vector2(112, 132), 210, Vector2.zero, 15);
             d.rightList = UiKit.Label(rc.transform, "List", 17, TextAnchor.UpperLeft, new Color(.55f, 1f, .85f), Vector2.zero, Vector2.one, new Vector2(226, 40), new Vector2(-6, -14));
             d.rightList.GetComponent<Shadow>().enabled = false;
             // flat screen
@@ -64,7 +67,7 @@ namespace HostileHorizon
             d.screenRight = UiKit.Label(t, "Right", 24, TextAnchor.UpperRight, UiKit.Ink, new Vector2(1, 1), new Vector2(1, 1), new Vector2(-460, -150), new Vector2(-40, -36));
             d.warning = UiKit.Label(t, "Warning", 40, TextAnchor.MiddleCenter, new Color(1f, .35f, .25f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(-500, 140), new Vector2(500, 220));
             d.prompt = UiKit.Label(t, "Prompt", 30, TextAnchor.UpperCenter, new Color(1f, .8f, .45f), new Vector2(.5f, 1), new Vector2(.5f, 1), new Vector2(-480, -150), new Vector2(480, -36));   // top centre: clear of the cockpit displays
-            d.screenRadar = new RadarScope(t, new Vector2(-190, 190), 300, new Vector2(1, 0));
+            d.screenRadar = new RadarScope(t, new Vector2(-190, 190), 300, new Vector2(1, 0), 19);
             // Fix 2.4: the landing state (BRAKING, HOVER with the height in big type, TOUCHDOWN, LANDED ...) and the pause hint
             d.stateLine = UiKit.Label(t, "State", 46, TextAnchor.MiddleCenter, new Color(.6f, 1f, .85f), new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(-620, 250), new Vector2(620, 330));
             d.hint = UiKit.Label(t, "Pause hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(30, 20), new Vector2(500, 60));
@@ -92,6 +95,7 @@ namespace HostileHorizon
 
         public void SetVisible(bool on) => overlay.gameObject.SetActive(on);   // the cockpit displays stay live (they are part of the ship)
         public bool Visible => overlay.gameObject.activeSelf;
+        public float RadarRange => cockpitRadar.Range;   // Fix 2.6: metres at the radar's rim (checks)
 
         // Fix 2.4: what the ship is doing in the landing steps, big on the HUD and on the cockpit's centre display.
         public string StateText
@@ -169,8 +173,9 @@ namespace HostileHorizon
             if (Campaign)
             {
                 right.text = "";
-                rightList.text = (cue != "" ? $"<size=19><color=#FF9A40><b>SLOW DOWN — PRESS {Controls.LandKey}</b></color></size>\n" : "") + RadarScope.List(Ship.transform, Contacts, 5).Replace("PILOT ", "P").Replace("MOTHERSHIP", "MS") + $"\n<size=16>{Place}</size>";
-                cockpitRadar.Draw(Ship.transform, Contacts); screenRadar.Draw(Ship.transform, Contacts);
+                rightList.text = (cue != "" ? $"<size=19><color=#FF9A40><b>SLOW DOWN — PRESS {Controls.LandKey}</b></color></size>\n" : "") + "\n" +   // Fix 2.6: the blips carry their distances; beside the scope: the route and the planet
+                    (Route != "" ? $"<size=18><color=#7DFFB0>{Route.Replace(" · ", "\n").Replace("   [", "\n<size=15>[").Replace("]", "]</size>")}</color></size>\n\n" : "") + $"<size=16>{Place}</size>";
+                cockpitRadar.Draw(Ship.transform, Contacts, RoutePath); screenRadar.Draw(Ship.transform, Contacts, RoutePath);
             }
             else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
             cockpitRadar.Show(Campaign); screenRadar.Show(Campaign); listBack.enabled = Campaign;
@@ -178,7 +183,7 @@ namespace HostileHorizon
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
                 (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") : "");
             screenRight.text = Campaign ? $"{Place}\nView: {CameraRig.ModeNames[(int)Rig.Current]}" : $"Seed {seed}   ·   {level}\nView: {CameraRig.ModeNames[(int)Rig.Current]}";
-            screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 6) : "";
+            screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 5) + (Route != "" ? $"<color=#7DFFB0>{Route}</color>" : "") : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
             warning.text = Ship.Crashed ? "" : Campaign && Knocking ? "KNOCK  KNOCK  KNOCK" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")

@@ -26,6 +26,7 @@ namespace HostileHorizon
         public int flightAssist = 1;          // Fix 2.4: 0 Full (0.2.3's), 1 Light, 2 Off
         public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
         public int hotasPauseButton = 9;      // Fix 2.4: the HOTAS button that opens the pause menu (button 10 always does too)
+        public bool routeTrail = true;        // Fix 2.6: the route trail to the next pilot / the mothership
 
         public static readonly string[] AssistNames = { "Full", "Light", "Off" };
 

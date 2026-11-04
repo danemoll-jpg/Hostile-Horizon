@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, routeTarget, cabinCam, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -24,6 +24,7 @@ namespace HostileHorizon
             pitch = f["Pitch"]; roll = f["Roll"]; yaw = f["Yaw"]; throttleAxis = f["ThrottleAxis"]; throttleChange = f["ThrottleChange"];
             look = f["Look"]; mouseLook = f["MouseLook"]; mouseHold = f["MouseLookHold"]; camera = f["Camera"]; menu = f["Menu"];
             land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"]; bellyCam = f["BellyCam"];
+            routeTarget = f["RouteTarget"]; cabinCam = f["CabinCam"];   // Fix 2.6 / Round 3
             // Fix 2.5: the device last used, so prompts name the right button
             f.actionTriggered += c => Note(c.control?.device); u.actionTriggered += c => Note(c.control?.device);
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
@@ -61,6 +62,11 @@ namespace HostileHorizon
         public static string LandKey => Key("X", "G", "HOTAS 4");
         public static string BellyKey => Key("D-pad down", "V", "HOTAS 8");
         public static bool BellyCamPressed => bellyCam.WasPressedThisFrame();
+        // Fix 2.6: cycle the route trail's target (next pilot / mothership). Round 3: the cabin camera on the HUD.
+        public static bool RouteTargetPressed => routeTarget.WasPressedThisFrame();
+        public static string RouteTargetKey => Key("D-pad right", "T", "HOTAS 11");
+        public static bool CabinCamPressed => cabinCam.WasPressedThisFrame();
+        public static string CabinCamKey => Key("D-pad up", "N", "HOTAS 12");
 
         static float Dead(float v, float dz) { float a = Mathf.Abs(v); return a <= dz ? 0 : Mathf.Sign(v) * (a - dz) / (1 - dz); }
         static float DZ => GameSettings.S.deadzone / 100f;

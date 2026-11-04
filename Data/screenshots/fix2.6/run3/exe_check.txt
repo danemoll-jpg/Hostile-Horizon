@@ -1,0 +1,32 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 61440 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 01:21; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+    [1191 fps] Flying/ Flight alt 1422 gnd 1422 spd 73 hdg 285 energy 100
+radar contact pilot 1: 2.2 km  (NEAREST)
+radar contact pilot 2: 2.7 km
+radar contact pilot 3: 2.9 km
+radar contact mothership: 280 m
+radar range at the rim 3000 m; list: MOTHERSHIP  105°  280 m | <b>PILOT 1  000°  2.2 km  ◄ NEAREST</b> | PILOT 2  180°  2.7 km | PILOT 3  030°  2.9 km | 
+screenshot a1_radar_cockpit.png
+screenshot a1b_radar_cockpit_display_close.png
+route target: PILOT 1 (auto = nearest pilot on foot: pilot 1, 2237 m); planned in 28 ms; display "ROUTE → PILOT 1 · 2.2 km   [D-pad right]"
+route: 127 points, 2905 m long (straight line 2243 m), 13 bends over 20° (516° of turning), highest canyon openness on it 1.00 (0 floor, 1 rim), lowest clearance over the ground 34 m at 2902 m
+screenshot a2_trail_after_launch.png
+reset position from to fly the trail low: before pos (-277, 1369, -16), gnd 906 m, Flight, speed 72.8 m/s, engines on, energy 99.2% -> after pos (-295, 62, 357), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 99.2%; 0 m from the nearest pad's centre; state Flying
+route from low down (target PILOT 1, 1889 m): 109 points, 2529 m long (straight line 1888 m), 9 bends over 20° (461° of turning), highest canyon openness on it 0.35 (0 floor, 1 rim), lowest clearance over the ground 33 m at 2525 m
+  followed the trail: ended 1899 m from pilot 1's pad, wall / ground hits 1, hull 0 %, lowest 58 m over the ground, furthest off the route 43 m, re-plans 3 (last: timer, 26 ms)
+route at the end: 109 points, 2529 m long (straight line 1888 m), 9 bends over 20° (461° of turning), highest canyon openness on it 0.35 (0 floor, 1 rim), lowest clearance over the ground 33 m at 2525 m; chevrons shown 7; pad ring for the route's pilot
+screenshot a6_trail_end_at_pad.png
+    [224 fps] Crashed/dead Flight alt 259 gnd 29 spd 68 hdg 55 energy 98
+re-plan after leaving the route: 43 m off -> re-plans 3 -> 3 ("timer"), now 43 m off, 26 ms
+screenshot a7_replanned.png
+route target 0: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+route target 1: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+route target 2: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+route target 3: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+route target 4: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+route target 5: PILOT 1; "ROUTE → PILOT 1 · 1.9 km   [D-pad right]"
+fps Campaign, trail on, flying low: not measured (flight ended)
+trail during the fps run: chevrons shown 7, re-plans 3, last plan 26 ms
+fps Campaign, trail OFF (to compare), flying low: not measured (flight ended)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.075 RMS, peak 2.229, zeroed before the speakers; 2762752 samples); master volume 0.00

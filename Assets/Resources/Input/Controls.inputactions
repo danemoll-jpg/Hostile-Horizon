@@ -148,6 +148,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RouteTarget",
+                    "type": "Button",
+                    "id": "9e2d6277-e707-4462-bef8-4e7921b146f9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CabinCam",
+                    "type": "Button",
+                    "id": "d2dcd09c-0632-425d-83d0-cdbbf3896c75",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -797,6 +815,72 @@
                     "processors": "",
                     "groups": "HOTAS",
                     "action": "BellyCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46bf46ea-bb0f-4573-b9ac-f09442a936f4",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RouteTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b4fe9a7-21b9-4c08-814a-dbadaddcfe81",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "RouteTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e13e523-4582-4e4f-967e-2d560904d216",
+                    "path": "<Joystick>/button11",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "HOTAS",
+                    "action": "RouteTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1128121-0caa-4378-b977-f490ffef1743",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CabinCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4913934-cd37-4020-9b50-66617aa741a1",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "CabinCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af903772-9780-47cb-85dc-b6d1ecf6e04a",
+                    "path": "<Joystick>/button12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "HOTAS",
+                    "action": "CabinCam",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

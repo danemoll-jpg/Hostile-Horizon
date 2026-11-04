@@ -63,6 +63,7 @@ namespace HostileHorizon
             Ship.OnOutOfEnergy += OnOutOfEnergy;   // Fix 2.3: the beam catches a ship that runs dry in the air
             Ship.OnBrake += () => Sfx.Play(Sfx.Brake, Ship.transform.position, .8f, 10f, Ship.transform);   // Fix 2.4: the air brakes
             Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
+            Route = RouteTrail.Create();   // Fix 2.6
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
             BuildPages();
@@ -354,10 +355,12 @@ namespace HostileHorizon
                 .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
                 .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
                 .Add(Option("Volume", () => GameSettings.S.volume + "%", d => { GameSettings.S.volume = Mathf.Clamp(GameSettings.S.volume + d * 10, 0, 100); Saved(); }))
+                .Add(Option("Route trail", () => GameSettings.S.routeTrail ? "On" : "Off", d => { GameSettings.S.routeTrail = !GameSettings.S.routeTrail; Saved(); }))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
                 "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
-                "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n\n" +
+                "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n" +
+                "<b>Route trail</b>: glowing gates along the canyons to the nearest pilot (then the mothership).\n\n" +
                 "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
 
             controls = new MenuPanel.Page { Title = "CONTROLS", Back = () => Menu.Show(settings) };
@@ -369,9 +372,9 @@ namespace HostileHorizon
                 .Add(Action("Back", () => Menu.Show(settings)));
             controls.Body = () =>
                 "<b>Controls</b>\n" +
-                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera.\n" +
+                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera,\n  11 route target, 12 cabin camera.\n" +
+                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera, right route target, up cabin camera.\n" +
+                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera,\n  T route target, N cabin camera.\n" +
                 "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up). The belly camera\n  comes on by itself; look down (look control) through the glass floor.\n\n" +
                 "Pause button: watch Axis display's \"buttons held\" to find a button's number.";
 

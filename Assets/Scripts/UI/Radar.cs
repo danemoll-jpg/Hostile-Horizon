@@ -5,28 +5,38 @@ using UnityEngine.UI;
 
 namespace HostileHorizon
 {
-    // Round 2, item 5: the radar. Bearing and distance to each beacon, more exact the closer you get:
-    //  - over 3 km: a wide faint blip on the scope's rim, bearing to the nearest 30°, "far";
-    //  - 1 - 3 km: a blip on the rim, bearing to the nearest 10°, distance to half a kilometre;
-    //  - within 1 km: the exact spot on the scope (rim = 1 km), distance to 10 m.
-    // Up on the scope is the ship's nose. The mothership shows as a blue blip when you can dock. The same scope is drawn on the
-    // cockpit's right display and on the flat-screen HUD (VR rule 2).
+    // Round 2, item 5: the radar. Up on the scope is the ship's nose. The same scope is drawn on the cockpit's right display and on
+    // the flat-screen HUD (VR rule 2).
+    // Fix 2.6, item 1: a true-distance scope that zooms by itself (1, 2, 3, 6 or 9 km at the rim: the smallest that holds the
+    // nearest pilot), range rings with their distances, every blip labelled with its distance ("1.2 km", "460 m"), the nearest
+    // pilot bigger and brighter with a NEAREST tag, the mothership's blip with its distance too, and the route trail (Fix 2.6, item
+    // 2) drawn as a dotted line. Contacts past the rim sit on it. Far away the bearing stays rough (to 30° past 3 km), as Round 2's
+    // "more detail closer".
     public struct RadarContact { public Vector3 position; public bool mothership; public int number; }
 
     public sealed class RadarScope
     {
         public const float NearRange = 1000f, MidRange = 3000f;
-        static Sprite disc, ring;
-        readonly RectTransform root; readonly List<Image> blips = new List<Image>(); readonly float radius;
+        static readonly float[] Ranges = { 1000, 2000, 3000, 6000, 9000 };
+        static Sprite disc, ring, halo;
+        readonly RectTransform root; readonly float radius, size; readonly int font;
+        readonly List<Image> blips = new List<Image>(), halos = new List<Image>(), dots = new List<Image>();
+        readonly List<Text> labels = new List<Text>();
+        readonly Image[] rings = new Image[3]; readonly Text[] ringLabels = new Text[3];
+        public float Range { get; private set; } = 3000;   // metres at the rim (checks read it)
 
-        public RadarScope(Transform parent, Vector2 centre, float size, Vector2 anchor)
+        public RadarScope(Transform parent, Vector2 centre, float size, Vector2 anchor, int labelFont)
         {
-            MakeSprites();
+            MakeSprites(); this.size = size; font = labelFont;
             root = UiKit.Rect(parent, "Radar", anchor, anchor, centre - Vector2.one * size / 2, centre + Vector2.one * size / 2);
             radius = size / 2 * .9f;
             Img(root, disc, new Color(.02f, .08f, .07f, .85f), Vector2.zero, size);
-            Img(root, ring, new Color(.4f, 1f, .8f, .55f), Vector2.zero, size * .92f);
-            Img(root, ring, new Color(.4f, 1f, .8f, .25f), Vector2.zero, size * .46f);
+            for (int i = 0; i < 3; i++)
+            {
+                rings[i] = Img(root, ring, new Color(.4f, 1f, .8f, i == 2 ? .55f : .22f), Vector2.zero, size);
+                ringLabels[i] = UiKit.Label(root, "Ring label", Mathf.RoundToInt(font * .8f), TextAnchor.LowerLeft, new Color(.5f, 1f, .85f, .75f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, Vector2.zero);
+                ringLabels[i].GetComponent<Shadow>().enabled = false; ringLabels[i].horizontalOverflow = HorizontalWrapMode.Overflow;
+            }
             var h = Img(root, null, new Color(.4f, 1f, .8f, .18f), Vector2.zero, 0); h.rectTransform.sizeDelta = new Vector2(size * .9f, 2);
             var v = Img(root, null, new Color(.4f, 1f, .8f, .18f), Vector2.zero, 0); v.rectTransform.sizeDelta = new Vector2(2, size * .9f);
             var ship = Img(root, null, new Color(1f, .62f, .32f), Vector2.zero, 0); ship.rectTransform.sizeDelta = new Vector2(size * .035f, size * .07f);
@@ -37,6 +47,8 @@ namespace HostileHorizon
             var i = UiKit.Panel(parent, "Mark", c, new Vector2(.5f, .5f), new Vector2(.5f, .5f), at - Vector2.one * size / 2, at + Vector2.one * size / 2);
             i.sprite = s; return i;
         }
+
+        static void Place(Graphic g, Vector2 at, float s) { g.rectTransform.offsetMin = at - Vector2.one * s / 2; g.rectTransform.offsetMax = at + Vector2.one * s / 2; }
 
         static void MakeSprites()
         {
@@ -50,29 +62,101 @@ namespace HostileHorizon
             }
             var d = T(64, r => (1 - r) * 8f); disc = Sprite.Create(d, new Rect(0, 0, 64, 64), Vector2.one * .5f);
             var g = T(256, r => 1 - Mathf.Abs(r - .97f) * 90f); ring = Sprite.Create(g, new Rect(0, 0, 256, 256), Vector2.one * .5f);
+            var o = T(64, r => 1 - Mathf.Abs(r - .85f) * 12f); halo = Sprite.Create(o, new Rect(0, 0, 64, 64), Vector2.one * .5f);
         }
 
         public void Show(bool on) => root.gameObject.SetActive(on);
 
-        public void Draw(Transform ship, List<RadarContact> contacts)
+        public static string Distance(float m) => m >= MidRange ? $"{Mathf.Round(m / 500f) * .5f:0.0} km" : m >= NearRange ? $"{m / 1000f:0.0} km" : $"{Mathf.Round(m / 10f) * 10f:0} m";
+
+        // The nearest pilot (not the mothership), or -1.
+        public static int Nearest(Transform ship, List<RadarContact> contacts)
         {
-            float pulse = .65f + .35f * Mathf.Sin(Time.time * 5f);
+            int best = -1; float bd = float.MaxValue;
             for (int i = 0; i < contacts.Count; i++)
             {
-                if (blips.Count <= i) blips.Add(Img(root, disc, Color.white, Vector2.zero, 0));
-                var c = contacts[i]; var b = blips[i]; b.enabled = true;
-                Vector3 d = c.position - ship.position; d.y = 0;
-                float dist = d.magnitude;
-                float bearing = Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg - ship.eulerAngles.y;
-                float r, size; Color col = c.mothership ? new Color(.45f, .75f, 1f) : new Color(1f, .75f, .3f);
-                if (dist > MidRange) { bearing = Mathf.Round(bearing / 30f) * 30f; r = 1; size = radius * .34f; col.a = .45f * pulse; }
-                else if (dist > NearRange) { bearing = Mathf.Round(bearing / 10f) * 10f; r = 1; size = radius * .2f; col.a = .8f * pulse; }
-                else { r = dist / NearRange; size = radius * .13f; col.a = 1; }
+                if (contacts[i].mothership) continue;
+                var d = contacts[i].position - ship.position; d.y = 0;
+                if (d.sqrMagnitude < bd) { bd = d.sqrMagnitude; best = i; }
+            }
+            return best;
+        }
+
+        public void Draw(Transform ship, List<RadarContact> contacts, List<Vector3> route = null)
+        {
+            float pulse = .65f + .35f * Mathf.Sin(Time.time * 5f);
+            int nearest = Nearest(ship, contacts);
+            // the zoom: the smallest range that holds the nearest pilot (the mothership when no pilot is left)
+            float want = 0;
+            int focus = nearest >= 0 ? nearest : contacts.FindIndex(c => c.mothership);
+            if (focus >= 0) { var d = contacts[focus].position - ship.position; d.y = 0; want = d.magnitude * 1.1f; }
+            Range = Ranges[Ranges.Length - 1]; foreach (var r in Ranges) if (r >= want) { Range = r; break; }
+            float step = Range <= 1000 ? 500 : Range <= 3000 ? 1000 : Range / 3f;   // rings: 0.5 / 1, 1 / 2, 1 / 2 / 3, 2 / 4 / 6, 3 / 6 / 9 km
+            for (int i = 0; i < 3; i++)
+            {
+                float rm = step * (i + 1);
+                bool on = rm <= Range + 1;
+                rings[i].enabled = ringLabels[i].enabled = on;
+                if (!on) continue;
+                rings[i].color = new Color(.4f, 1f, .8f, rm >= Range - 1 ? .55f : .22f);
+                float px = 2f * rm / Range * radius / .97f;   // the ring sprite's line sits at .97 of its half size
+                Place(rings[i], Vector2.zero, px);
+                ringLabels[i].text = rm >= 1000 ? $"{rm / 1000f:0} km" : $"{rm:0} m";
+                var at = new Vector2(.69f, .69f) * (rm / Range * radius);   // on the ring, up and right
+                ringLabels[i].rectTransform.offsetMin = at + new Vector2(2, 1); ringLabels[i].rectTransform.offsetMax = at + new Vector2(80, font);
+            }
+            for (int i = 0; i < contacts.Count; i++)
+            {
+                if (blips.Count <= i)
+                {
+                    halos.Add(Img(root, halo, Color.white, Vector2.zero, 0));
+                    blips.Add(Img(root, disc, Color.white, Vector2.zero, 0));
+                    var l = UiKit.Label(root, "Blip label", font, TextAnchor.MiddleLeft, Color.white, new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, Vector2.zero);
+                    l.horizontalOverflow = HorizontalWrapMode.Overflow; l.GetComponent<Shadow>().effectDistance = new Vector2(1.5f, -1.5f); labels.Add(l);
+                }
+                var c = contacts[i]; var b = blips[i]; b.enabled = true; labels[i].enabled = true;
+                Vector3 dv = c.position - ship.position; dv.y = 0;
+                float dist = dv.magnitude, bearing = Mathf.Atan2(dv.x, dv.z) * Mathf.Rad2Deg - ship.eulerAngles.y;
+                if (dist > MidRange) bearing = Mathf.Round(bearing / 30f) * 30f;
+                bool isNear = i == nearest;
+                float r = Mathf.Min(1, dist / Range), sz = radius * (isNear ? .19f : .13f);
+                Color col = c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
+                col.a = dist > Range ? .55f * pulse : isNear ? 1 : .85f;
                 float a = bearing * Mathf.Deg2Rad;
                 var at = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * r * radius;
-                b.color = col; b.rectTransform.offsetMin = at - Vector2.one * size / 2; b.rectTransform.offsetMax = at + Vector2.one * size / 2;
+                b.color = col; Place(b, at, sz);
+                halos[i].enabled = isNear; if (isNear) { halos[i].color = new Color(1f, 1f, .8f, .5f + .5f * pulse); Place(halos[i], at, sz * 2.1f); }
+                string name = c.mothership ? "MS" : $"P{c.number}";
+                labels[i].text = isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
+                labels[i].color = c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
+                labels[i].fontSize = isNear ? font + 1 : font;
+                // the label centred under the blip (over it in the scope's lower part), so it stays on the scope
+                labels[i].alignment = TextAnchor.MiddleCenter;
+                var o = at + new Vector2(0, at.y < -radius * .55f ? sz * .55f + font * .7f : -(sz * .55f + font * .7f));
+                o.x = Mathf.Clamp(o.x, -radius * .55f, radius * .55f);   // kept over the scope
+                labels[i].rectTransform.offsetMin = o + new Vector2(-110, -font); labels[i].rectTransform.offsetMax = o + new Vector2(110, font);
             }
-            for (int i = contacts.Count; i < blips.Count; i++) blips[i].enabled = false;
+            for (int i = contacts.Count; i < blips.Count; i++) { blips[i].enabled = false; halos[i].enabled = false; labels[i].enabled = false; }
+            // the route: a dot every ~1/24 of the range along it, out to the rim
+            int nd = 0;
+            if (route != null && route.Count > 1)
+            {
+                float spacing = Range / 24f, carry = 0;
+                for (int k = 1; k < route.Count && nd < 60; k++)
+                {
+                    Vector3 p0 = route[k - 1], p1 = route[k]; float seg = Vector2.Distance(new Vector2(p0.x, p0.z), new Vector2(p1.x, p1.z));
+                    for (float s = carry; s < seg && nd < 60; s += spacing)
+                    {
+                        var p = Vector3.Lerp(p0, p1, s / Mathf.Max(seg, .01f)) - ship.position; p.y = 0;
+                        if (p.magnitude > Range) { k = route.Count; break; }
+                        float br = (Mathf.Atan2(p.x, p.z) * Mathf.Rad2Deg - ship.eulerAngles.y) * Mathf.Deg2Rad;
+                        if (dots.Count <= nd) dots.Add(Img(root, disc, new Color(.55f, 1f, .7f, .9f), Vector2.zero, 0));
+                        dots[nd].enabled = true; Place(dots[nd], new Vector2(Mathf.Sin(br), Mathf.Cos(br)) * (p.magnitude / Range * radius), size * .03f); nd++;
+                        carry = s + spacing - seg;
+                    }
+                }
+            }
+            for (int i = nd; i < dots.Count; i++) dots[i].enabled = false;
         }
 
         // The text list beside the scope: the nearest beacons, as exact as the distance allows.
@@ -81,16 +165,17 @@ namespace HostileHorizon
             var sorted = new List<RadarContact>(contacts);
             sorted.Sort((x, y) => (x.position - ship.position).sqrMagnitude.CompareTo((y.position - ship.position).sqrMagnitude));
             var sb = new StringBuilder();
-            int shown = 0;
+            int shown = 0; bool first = true;
             foreach (var c in sorted)
             {
                 if (shown++ >= max) break;
                 Vector3 d = c.position - ship.position; d.y = 0; float dist = d.magnitude;
                 float brg = (Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg + 360f) % 360f;
                 string name = c.mothership ? "MOTHERSHIP" : $"PILOT {c.number}";
-                if (dist > MidRange) sb.AppendLine($"{name}  ~{Mathf.Round(brg / 30f) * 30f % 360:000}°  far");
-                else if (dist > NearRange) sb.AppendLine($"{name}  {Mathf.Round(brg / 10f) * 10f % 360:000}°  {Mathf.Round(dist / 500f) * .5f:0.0} km");
-                else sb.AppendLine($"{name}  {brg:000}°  {Mathf.Round(dist / 10f) * 10f:0} m");
+                string b = dist > MidRange ? $"~{Mathf.Round(brg / 30f) * 30f % 360:000}°" : dist > NearRange ? $"{Mathf.Round(brg / 10f) * 10f % 360:000}°" : $"{brg:000}°";
+                string line = $"{name}  {b}  {Distance(dist)}";
+                if (!c.mothership && first) { line = $"<b>{line}  ◄ NEAREST</b>"; first = false; }
+                sb.AppendLine(line);
             }
             return sb.ToString();
         }

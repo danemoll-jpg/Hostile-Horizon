@@ -167,6 +167,7 @@ namespace HostileHorizon
         public bool AtDoor => Now == State.Knocking;
         public Vector3 Position => body.position;
         public bool OnFoot => Now == State.Waiting || Now == State.Running || Now == State.Knocking;
+        public bool HiddenFromRadar { get; private set; }   // Round 3: the Stalker drops off the radar for a moment
 
         public void Board() { if (Now != State.Knocking) return; Now = State.Boarding; boardT = 0; boardFrom = body.position; }
 
