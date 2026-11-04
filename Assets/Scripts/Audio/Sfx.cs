@@ -46,6 +46,14 @@ namespace HostileHorizon
             return env * (Mathf.Sin(t * 2 * Mathf.PI * f) * .3f + Mathf.Sin(t * 2 * Mathf.PI * f * 2f) * .08f);
         });
 
+        // Round 4: leaves brushing past the hull (the forest's canopy)
+        static AudioClip rustle;
+        public static AudioClip Rustle => rustle ? rustle : rustle = Make("rustle", .8f, (t, n, s) =>
+        {
+            s.lp += (n - s.lp) * .5f; float crackle = s.rng() > .97f ? n : 0;
+            return ((n - s.lp) * .5f + crackle * .6f) * Mathf.Min(1, t * 25f) * Mathf.Exp(-t * 4f);
+        });
+
         // Fix 2.4: the air brakes: a rushing roar that falls away over about 3 s as the ship slows.
         public static AudioClip Brake => brake ? brake : brake = Make("brake", 3.2f, (t, n, s) =>
         {
@@ -88,13 +96,16 @@ namespace HostileHorizon
         // Checks: every sound started (time, name, where), so a muted run can show what would have played.
         public static readonly System.Collections.Generic.List<string> Played = new System.Collections.Generic.List<string>();
 
+        // Round 4 (B4): Settings > Sound > Effects (sounds made here and the scare sounds; music and voices have their own)
+        public static float Effects => Mathf.Clamp01(GameSettings.S.effectsVolume / 100f);
+
         // A one-shot 3D sound at a point (minDistance: full loudness within it).
         public static AudioSource Play(AudioClip clip, Vector3 at, float volume = 1, float minDistance = 5, Transform follow = null)
         {
             var go = new GameObject("Sfx " + clip.name);
             go.transform.position = at; if (follow) go.transform.SetParent(follow, true);
             var a = go.AddComponent<AudioSource>();
-            a.clip = clip; a.volume = volume; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 200; a.rolloffMode = AudioRolloffMode.Logarithmic; a.dopplerLevel = 0;
+            a.clip = clip; a.volume = volume * Effects; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 200; a.rolloffMode = AudioRolloffMode.Logarithmic; a.dopplerLevel = 0;
             a.Play(); Object.Destroy(go, clip.length + .1f);
             if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name}");
             return a;
@@ -104,7 +115,7 @@ namespace HostileHorizon
         {
             var go = new GameObject("Sfx loop " + clip.name); go.transform.SetParent(parent, false);
             var a = go.AddComponent<AudioSource>();
-            a.clip = clip; a.loop = true; a.volume = volume; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 100; a.dopplerLevel = 0;
+            a.clip = clip; a.loop = true; a.volume = volume * Effects; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 100; a.dopplerLevel = 0;
             a.Play(); if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name} (loop)"); return a;
         }
     }

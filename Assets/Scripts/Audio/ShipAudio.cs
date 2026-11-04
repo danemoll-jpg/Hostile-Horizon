@@ -11,7 +11,8 @@ namespace HostileHorizon
     public sealed class ShipAudio : MonoBehaviour
     {
         public ShipController Ship;
-        volatile float throttle, speed01, active; volatile float thud;
+        volatile float throttle, speed01, active; volatile float thud, effects = 1;
+        public volatile float Wind;   // Round 4: wind with the engines off (landed waiting, the scares) and the blizzard
         double phase1, phase2, rate; uint rng = 22222; float lpWind, lpRumble, lpWind2, thudEnv;
 
         public static ShipAudio Create(ShipController ship)
@@ -30,7 +31,7 @@ namespace HostileHorizon
         void Update()
         {
             bool on = Ship && Ship.gameObject.activeInHierarchy && !Ship.Crashed && Ship.EnginesOn && Time.timeScale > 0;
-            active = Mathf.MoveTowards(active, on ? 1 : 0, Time.unscaledDeltaTime * 2f);
+            active = Mathf.MoveTowards(active, on ? 1 : 0, Time.unscaledDeltaTime * 2f); effects = Sfx.Effects;
             // Round 2: silent with the engines off; in hover the engines work against the lift
             if (Ship) { throttle = Ship.Mode == FlightMode.Hover ? .45f + Mathf.Abs(Ship.Lift) * .35f : Ship.Throttle; speed01 = Mathf.InverseLerp(0, ShipController.MaxSpeed, Ship.Speed); }
         }
@@ -41,8 +42,8 @@ namespace HostileHorizon
         {
             float t = throttle, s = speed01, a = active;
             float f1 = 48f + 70f * t, f2 = f1 * 1.505f;
-            float engineVol = a * (.10f + .10f * t), windVol = a * (.02f + .30f * s * s);
-            float windCut = .02f + .10f * s;
+            float fx = effects; float engineVol = fx * a * (.10f + .10f * t), windVol = fx * (a * (.02f + .30f * s * s) + Wind);
+            float windCut = .02f + .10f * Mathf.Max(s, Wind * .5f);
             for (int i = 0; i < data.Length; i += channels)
             {
                 phase1 += f1 / rate; if (phase1 > 1) phase1 -= 1;
@@ -53,7 +54,7 @@ namespace HostileHorizon
                 lpWind += (n - lpWind) * windCut; lpWind2 += (lpWind - lpWind2) * windCut;
                 if (thud > 0) { thudEnv = thud; thud = 0; }
                 thudEnv *= .99965f;
-                float sample = engineVol * (saw1 * .35f + sine2 * .5f + lpRumble * 4f) + windVol * lpWind2 * 6f + thudEnv * thudEnv * lpRumble * 18f;
+                float sample = engineVol * (saw1 * .35f + sine2 * .5f + lpRumble * 4f) + windVol * lpWind2 * 6f + fx * thudEnv * thudEnv * lpRumble * 18f;
                 for (int c = 0; c < channels; c++) data[i + c] = sample;
             }
         }

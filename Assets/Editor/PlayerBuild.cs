@@ -42,6 +42,7 @@ namespace HostileHorizon
             if (Application.isPlaying) throw new InvalidOperationException("Leave Play mode first.");
             MakeScene();
             CharacterImport.MakeMaterials();   // Fix 3.1: the characters' materials as assets (keeps their shader variants)
+            MakePropMaterial();                // Round 4: the instanced trees' material (keeps the instancing variants)
             PlayerSettings.companyName = "Hostile Horizon";
             PlayerSettings.productName = "Hostile Horizon";
             PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;   // borderless, at the desktop resolution
@@ -68,6 +69,7 @@ namespace HostileHorizon
                 options = BuildOptions.None,
             });
             var s = report.summary;
+            string music = s.result == BuildResult.Succeeded ? CopyMusic(root, dir) : "music not copied (build failed)";   // Round 4 (B2)
             string persistent = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", PlayerSettings.companyName, PlayerSettings.productName);
             var lines = new[]
             {
@@ -77,11 +79,49 @@ namespace HostileHorizon
                 $"Unity {Application.unityVersion}; Windows x64; development off",
                 $"Settings and Player.log: {persistent}",
                 "Self-check: HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf] [-steamDeck 1]",
+                music,
             };
             File.WriteAllLines(Path.Combine(dir, "BUILD_INFO.txt"), lines.Concat(report.steps.Select(st => $"  step {st.name}: {st.duration.TotalSeconds:0.0} s")));
             Debug.Log(string.Join("\n", lines));
             if (s.result != BuildResult.Succeeded) throw new Exception("Build failed: " + s.result);
             return report;
+        }
+
+        // Round 4: Resources/Materials/Prop.mat (HostileHorizon/Prop, GPU instancing on), so the build keeps its instancing variants.
+        static void MakePropMaterial()
+        {
+            const string path = "Assets/Resources/Materials/Prop.mat";
+            Directory.CreateDirectory("Assets/Resources/Materials");
+            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (!m) { m = new Material(Shader.Find("HostileHorizon/Prop")); AssetDatabase.CreateAsset(m, path); }
+            m.shader = Shader.Find("HostileHorizon/Prop"); m.enableInstancing = true; EditorUtility.SetDirty(m); AssetDatabase.SaveAssets();
+        }
+
+        // Round 4 (B2), as Chastain Rush ships its music: BundleMusic/ (git-ignored: Dan's Suno tracks, the ElevenLabs loops and
+        // music.json) goes into Music/ beside the exe. The game component leaves Music/ out; the same folder is the launcher's
+        // soundtrack component (Tools/Prepare-ComponentUpdate.py soundtrack --source BundleMusic). Files already there with the same
+        // size and time are kept; anything in Music/ not in BundleMusic/ is removed.
+        static string CopyMusic(string root, string dir)
+        {
+            string from = Path.Combine(root, "BundleMusic"), to = Path.Combine(dir, "Music");
+            if (!Directory.Exists(from)) return "Music: BundleMusic/ missing, no music shipped (the game plays silent)";
+            Directory.CreateDirectory(to);
+            int copied = 0, kept = 0, removed = 0; long bytes = 0;
+            var wanted = new System.Collections.Generic.HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var f in Directory.EnumerateFiles(from, "*", SearchOption.AllDirectories))
+            {
+                string rel = f.Substring(from.Length + 1), dst = Path.Combine(to, rel);
+                if (rel.StartsWith(".")) continue;
+                wanted.Add(Path.GetFullPath(dst));
+                var fi = new FileInfo(f); bytes += fi.Length;
+                var di = new FileInfo(dst);
+                if (di.Exists && di.Length == fi.Length && di.LastWriteTimeUtc == fi.LastWriteTimeUtc) { kept++; continue; }
+                Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                File.Copy(f, dst, true); File.SetLastWriteTimeUtc(dst, fi.LastWriteTimeUtc); copied++;
+            }
+            foreach (var f in Directory.EnumerateFiles(to, "*", SearchOption.AllDirectories).ToList())
+                if (!wanted.Contains(Path.GetFullPath(f))) { File.Delete(f); removed++; }
+            return $"Music: {wanted.Count} files, {bytes / 1048576.0:0} MB from BundleMusic/ in Music/ ({copied} copied, {kept} already there, {removed} removed)";
         }
     }
 }

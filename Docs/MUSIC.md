@@ -10,6 +10,26 @@ All tracks: **Instrumental ON** (no vocals), original music, no artist names
 in prompts. Make 2 versions of each in Suno and keep the better one. Length is
 a guide: the game loops and crossfades them.
 
+## Where the files go (Round 4, B2 / B5)
+
+- **Drop the tracks in `BundleMusic/`** in the repo root (`C:\Users\danmo\Hostile-Horizon\BundleMusic\`), named as in the
+  table below (`title_theme.mp3` ...; mp3, ogg or wav). The folder is git-ignored: the music ships through the launcher's
+  **soundtrack** component, not git.
+- Then run `python Tools/music_loops.py`: it finds each track's loop (tempo, the end of the intro, the start of the ending's
+  fade, a jump a whole number of bars back where the music matches best) and writes `BundleMusic/music.json`. The game plays the
+  intro once, then loops with a 4 s equal-power crossfade (1 s for the tension loop), so the fade-out at the end is never heard.
+  A track missing from `music.json` still loops (the whole file, 4 s crossfade). A missing track is silence.
+- The exe build copies `BundleMusic/` into `Builds/HostileHorizon/Music/`; a release ships the same folder as the soundtrack
+  component (`Tools/Prepare-ComponentUpdate.py soundtrack --source BundleMusic ...`), and the launcher starts the game with it.
+- Volumes: Settings > Sound (Master, Music, Effects, Voices, Subtitles).
+
+**ElevenLabs music API (2026-11-04):** Dan's API key is missing the `music_generation` permission (HTTP 401 "missing the
+permission music_generation"), so `tension_low_energy` and `regeneration` were made as stand-ins with the sound-effects model
+(a 22 s loop and 10 s). For the real music: ElevenLabs > Developers > API keys > edit the key > allow Music, then
+`python Tools/make_music.py --only tension_low_energy,regeneration --force` and `python Tools/music_loops.py` (or make them in
+the ElevenLabs app with the prompts below and drop them in `BundleMusic/`). The stingers are made with the sound-effects API
+into `Assets/Resources/Sounds/sting_*.mp3` (built into the game).
+
 ## How the game uses them (adaptive)
 - The music follows the game state with slow crossfades (3-6 s).
 - **Flight music drops away near a pilot and while landed waiting**: silence

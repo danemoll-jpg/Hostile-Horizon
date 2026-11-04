@@ -27,6 +27,11 @@ namespace HostileHorizon
         public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
         public int hotasPauseButton = 9;      // Fix 2.4: the HOTAS button that opens the pause menu (button 10 always does too)
         public bool routeTrail = true;        // Fix 2.6: the route trail to the next pilot / the mothership
+        public int musicVolume = 70;          // Round 4 (B4): percent of the master volume
+        public int effectsVolume = 100;       // Round 4 (B4)
+        public int voiceVolume = 100;         // Round 4 (B4)
+        public bool subtitles = true;         // Round 4 (C4)
+        public int freeBiome;                 // Round 4 (A1): Free Flight's planet type, 0 = by the seed, else Biome + 1
 
         public static readonly string[] AssistNames = { "Full", "Light", "Off" };
 
