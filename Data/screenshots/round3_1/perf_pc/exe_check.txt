@@ -1,0 +1,29 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 36864 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 07:15; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: share 0.2 + 0.05/tier (max 0.35), tells 0.75, false tells 0, bounty 200, canopy after 25 s, break-in 10 s, Sleeper 40-120 s, pilots win with 2
+aliens for seed 20261104 (tier 1, 6 pilots): 1:Stalker(tell Stalker), 2:pilot, 3:pilot, 4:pilot, 5:pilot, 6:Stalker(tell Stalker); again: identical
+aliens for seed 20261105 (tier 1, 6 pilots): 1:Sleeper(tell Sleeper), 2:Sleeper, 3:pilot, 4:pilot, 5:pilot, 6:pilot; again: identical
+aliens for seed 777 (tier 1, 6 pilots): 1:pilot, 2:Sleeper(tell Sleeper), 3:pilot, 4:pilot, 5:Hollow, 6:pilot; again: identical
+400 planets (6 pilots, tier 1): 800 aliens (33.3 %), tells shown 74 % (target 75), types Mimic 151 Hollow 188 Knocker 158 Stalker 147 Sleeper 156
+menu: CAMPAIGN
+new career, first planet Zanveth-IV: aliens 1:pilot, 2:pilot, 3:pilot
+screenshot j2_field_journal_all_five.png
+    [1671 fps] Auto/launch Hover alt 1468 gnd 1471 spd 30 hdg 285 energy 100
+    [744 fps] Flying/ Hover alt 16 gnd 16 spd 2 hdg 135 energy 98
+    [255 fps] Flying/ Hover alt 6 gnd 6 spd 1 hdg 135 energy 94
+    [292 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [424 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot f_with_landed_cockpit.png
+fps landed, a pilot coming + 4 in the cabin + cabin camera, with the models: average 422.5, 1% low 285.6 over 5070 frames; pilot Knocking
+    [281 fps] Flying/ Hover alt 16 gnd 16 spd 2 hdg 135 energy 98
+    [265 fps] Flying/ Hover alt 6 gnd 6 spd 1 hdg 135 energy 94
+    [292 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [435 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot f_code-made_landed_cockpit.png
+fps landed, a pilot coming + 4 in the cabin + cabin camera, code-made figures (pilots outside; the cabin keeps its models): average 434.0, 1% low 297.6 over 5208 frames; pilot Knocking
+reset position from for the fps run: before pos (-271, 31, 2220), gnd 30 m, Hover, speed 14.0 m/s, engines on, energy 100.0% -> after pos (-271, 61, 2220), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 100.0%; 0 m from the nearest pad's centre; state Flying
+    [311 fps] Flying/ Flight alt 102 gnd 102 spd 73 hdg 148 energy 99
+flying low, 2 aboard (the cabin camera drawing): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.067 RMS, peak 2.380, zeroed before the speakers; 10450944 samples); master volume 0.00
+fps flying low, 2 aboard (the cabin camera drawing): average 310.1, 1% low 200.7, worst frame 6 ms over 4652 frames; mean height over ground 101 m; terrain chunks 586, waiting 0
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.067 RMS, peak 2.380, zeroed before the speakers; 10450944 samples); master volume 0.00

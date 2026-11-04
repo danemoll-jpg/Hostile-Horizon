@@ -278,7 +278,10 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   with the trail on and off. `-exeCheckOnly aliens` (Round 3, `Checks/ExeCheck.Aliens.cs`, about 35 min): same seed = same aliens,
   first planet clean, each outside type with its tell shown / hidden (airlock-camera pictures), engines kills (bounty, journal), a real
   pilot killed, canopy climb + thrown off + break-in, the horror sequence (pictures at its beats, camera continuity, looking round),
-  the Sleeper three ways, the Field Journal, the sounds that would have played.
+  the Sleeper three ways, the Field Journal, the sounds that would have played. `-exeCheckOnly fix31` (Fix 3.1, about 15 min): the aliens
+  check without the "tell hidden" visits, plus a model report (triangles, Mesh LOD levels, clips), close-ups of each creature and both
+  visors (a check-only camera), where the horror creature is at each beat, frame rates with the models and the code-made figures;
+  `fix31h` = the airlock horror only; `fix31perf` = the Field Journal with all five + the frame rates.
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
   fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
   catch, the recall from the air and the ground. A
@@ -286,7 +289,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -304,6 +307,16 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   writes `SourceArt/Blender/Creature.blend` and `Assets/Resources/Models/Creature.fbx` (one group per body segment; the joints are
   mirrored in `Assets/Scripts/Campaign/Creature.cs`, which poses it in code). `ship.py` (Round 3) cuts the cockpit hatch (bulkhead,
   left of the seat); the cabin behind it is built in code (`Campaign/Cabin.cs`).
+- **Characters (Fix 3.1) — Dan's art pipeline (standing):** Code writes image prompts (`Docs/MODELS-NEEDED.md`) -> Dan has the
+  concepts drawn (`SourceArt/Concepts/<name>.png`) -> `python Tools/meshy_generate.py [--only a,b] [--force]` (Meshy image-to-3D; key from
+  `MESHY_API_KEY`, process or Windows user environment, never printed or written) into `SourceArt/Meshy/<name>/` -> `blender --background
+  --factory-startup --python Tools/Blender/meshy_cleanup.py -- <names>` (metres, feet at 0, renders, `<name>_mixamo.fbx`) -> Dan rigs in
+  Mixamo and downloads the listed clips into `SourceArt/Mixamo/<name>/` (rigged model = `idle.fbx` With Skin; shared creature clips in
+  `creature/`, each once) -> `python Tools/import_characters.py` -> `Assets/Resources/Characters/` (models, textures, `Clips/<set>_<clip>.fbx`,
+  `Journal/` pictures). `Assets/Editor/CharacterImport.cs`: Humanoid, loops, Unity Mesh LOD (4 levels), the `.mat` assets (made by
+  PlayerBuild). Runtime `Campaign/CharacterRig.cs` (clips by name: own set, then `creature`, then any). Models: pilot, mimic, hollow,
+  knocker, stalker, sleeper; `pilot_hollow` = the Hollow's dead-visor disguise. Code-made figures are the fallback if a model is missing.
+  Characters always animate (culled animators left the creature undrawn at the eye).
 - **Sounds (Round 3):** `python Tools/make_sounds.py [--only name,name] [--force]` makes the scare sounds with ElevenLabs (key from
   `ELEVENLABS_API_KEY`, never printed) into `Assets/Resources/Sounds/<name>.mp3`; prompts in `Docs/SOUNDS.md`. `Sfx.Clip(name)` loads
   them (a code placeholder if one is missing). Making a sound plays nothing.
@@ -340,13 +353,18 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 3.1 (real character models: the pilot and the five aliens' own creatures from Dan's concept art -> Meshy -> Mixamo,
+animated; the Field Journal shows each type) is built, checked in the exe (headless, muted, `--only fix31`, `fix31perf` at both
+settings) and published as 0.3.1 (`game-301`, Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** The
+tells still work; landed with the cabin full: 423 fps (old figures 434), Deck setting 456. Substitute clips (knock = "Opening", no bite /
+pound / Sleeper lunge) and what Dan should look at are in `TODO.md` (Fix 3.1 delivery). **Next: Round 4 (Enemies + difficulty)**, to be
+written by the planning chat.
 **Fix 2.6 + Round 3 (radar distances, route trail; aliens: five types with tells, canopy break-in, the horror sequence, the
 Sleeper, cabin camera, Field Journal, ElevenLabs sounds) is built, checked in the exe (headless, muted, `--only fix26` and
-`--only aliens`) and published as 0.3.0 (`game-300`, Latest); a starter-200 install updates to it from GitHub. Not yet played
+`--only aliens`) and published as 0.3.0 (`game-300`); a starter-200 install updates to it from GitHub. Not yet played
 or heard by Dan.** Open for Dan: the check's pilot still touched walls following the trail (2 in the last run; tuning limit
 reached), the Mimic's shadow tell can't show on pads in shade, frame rates weren't measurable (other projects' builds loaded
-the PC). Numbers in `TODO.md` (Fix 2.6 + Round 3 delivery). **Next: Round 4 (Enemies + difficulty)**, to be written by the
-planning chat.
+the PC). Numbers in `TODO.md` (Fix 2.6 + Round 3 delivery).
 **Fix 2.5 (tight control, belly camera / glass floor / landing view, the pickup fixed,
 launch warning, quicker lift, hold-A fast-forward) is built, checked in the exe (headless,
 muted, `--only fix25`) and published as 0.2.5 (`game-205`, Latest); a starter-200 install

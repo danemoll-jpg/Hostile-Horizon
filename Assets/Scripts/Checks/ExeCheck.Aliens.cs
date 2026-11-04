@@ -111,6 +111,18 @@ namespace HostileHorizon
         }
 
         // The horror sequence: a picture at each beat, the camera's travel (no cut), and the player looking round during it.
+        string lastWhere = "";
+        // Fix 3.1: where the horror creature is: its face from the eye, its root in ship space, drawn or not
+        string CreatureWhere()
+        {
+            var c = G.HorrorCreature; if (!c) return "no creature";
+            var eye = G.Rig.Head.transform; var face = c.HeadWorld;
+            bool vis = false; Bounds bb = default; bool first = true;
+            if (c.Rig) foreach (var r in c.Rig.Renderers) { vis |= r.isVisible; if (first) { bb = r.bounds; first = false; } else bb.Encapsulate(r.bounds); }
+            return $"creature {c.name}: active {c.gameObject.activeInHierarchy}, face {Vector3.Distance(eye.position, face):0.00} m from the eye ({eye.InverseTransformPoint(face).ToString("0.00")} eye space), root at ship {G.Ship.transform.InverseTransformPoint(c.transform.position).ToString("0.00")}, " +
+                (c.Rig ? $"clip {c.Rig.Current}, bounds {bb.size.ToString("0.0")} at {bb.center.ToString("0.0")} (eye {eye.position.ToString("0.0")}), lod-near {G.Rig.Head.nearClipPlane:0.00}" : "code-made");
+        }
+
         IEnumerator WatchHorror(string tag)
         {
             StartCoroutine(WatchCamera());
@@ -121,6 +133,7 @@ namespace HostileHorizon
                 if (b != "" && seen.Add(b))
                 {
                     Log($"  beat {Time.time - t0:0.0} s: {b}; cabin lights {(G.CabinRoom.LightsOn ? "on" : "off")}, displays dark {G.Displays.Blackout}, input {(G.Ship.InputEnabled ? "on" : "off")}, view {G.Rig.Current}");
+                    Log("    " + CreatureWhere());
                     if (b == "moving in the cabin" || b == "the hatch is hit")
                     {
                         // look back over the left shoulder at the hatch (the right stick, as a player would)
@@ -134,9 +147,11 @@ namespace HostileHorizon
                     else yield return Shot($"{tag}_{seen.Count:00}_{b.Replace(' ', '_')}");
                 }
                 if (b == "in front of you" && looked) { state.rightStick = Vector2.zero; Set(); }
+                if (G.HorrorCreature) lastWhere = CreatureWhere();
                 yield return null;
             }
             state.rightStick = Vector2.zero; Set();
+            Log("    at the end: " + lastWhere);
             Log($"  horror over after {Time.time - t0:0.0} s: state {G.Now}, phase {G.Phase}, killed by {G.KilledBy}; {Continuity()}");
         }
 
@@ -145,7 +160,8 @@ namespace HostileHorizon
             StartCoroutine(Progress());
             yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
             yield return new WaitForSecondsRealtime(1.5f);
-            var tu = Tuning.T;
+            var tu = Tuning.T; bool f31 = CheckRun.Only == "fix31", quick = CheckRun.Only == "fix31h";
+            if (f31) ModelReport();
             Log($"tuning: share {tu.alienShareStart} + {tu.alienSharePerTier}/tier (max {tu.alienShareMax}), tells {tu.tellReliability}, false tells {tu.falseTellChance}, bounty {tu.alienBounty}, canopy after {tu.canopyClimbAfter} s, break-in {tu.breakInAfter} s, Sleeper {tu.sleeperTurnMin}-{tu.sleeperTurnMax} s, pilots win with {tu.sleeperPilotsWin}");
             // ---- the same seed, the same aliens (a planet as a second planet would get it)
             foreach (int seed in new[] { 20261104, 20261105, 777 })
@@ -165,15 +181,32 @@ namespace HostileHorizon
             yield return Nav(GamepadButton.DpadDown, 1); yield return Press(GamepadButton.South);   // New career
             yield return WaitPhase(() => G.Now == GameShell.State.Docked, 60f, "the hangar");
             Log($"new career, first planet {G.Planet.name}: aliens {AlienList(G.Planet)}");
+            if (CheckRun.Only == "fix31perf")
+            {   // the Field Journal with all five met (the check's own save): the pictures' layout
+                for (int t = 1; t <= 5; t++) { Career.C.Meet((AlienType)t); Career.C.Meet((AlienType)t); }
+                G.Menu.Current.Selected = G.Menu.Current.Rows.Count - 1; yield return Press(GamepadButton.South);
+                yield return new WaitForSecondsRealtime(.5f); yield return Shot("j2_field_journal_all_five"); yield return Press(GamepadButton.East);
+                yield return new WaitForSecondsRealtime(.5f);
+            }
             G.Menu.Current.Selected = 0; yield return Press(GamepadButton.South);
             yield return WaitPhase(() => G.Now == GameShell.State.Flying, 40f, "flight after launch");
             GameSettings.S.routeTrail = false;   // not what this check looks at
+            if (CheckRun.Only == "fix31perf")
+            {   // Fix 3.1: frame rates only (with -steamDeck 1 for the Deck setting)
+                yield return LandedFps("with the models");
+                CharacterRig.Disabled = true; yield return LandedFps("code-made figures (pilots outside; the cabin keeps its models)"); CharacterRig.Disabled = false;
+                G.CheckSetup(3, new[] { 0, 0, 0 }, new[] { 0, 0, 0 }); G.CheckBoard(G.Pilots.Find(x => x.Index == 1)); G.CheckBoard(G.Pilots.Find(x => x.Index == 2));
+                yield return ResetVia("for the fps run", 1); yield return SetMode(FlightMode.Flight);
+                yield return MeasureFps($"flying low, 2 aboard (the cabin camera drawing){(SteamDeck.On ? ", Steam Deck setting" : "")}");
+                yield break;
+            }
 
+            if (!quick) {
             // ---- B3 / B4: the four outside types, tell shown and hidden, each killed by the engines; then a real pilot
             foreach (var t in new[] { AlienType.Mimic, AlienType.Hollow, AlienType.Knocker, AlienType.Stalker })
             {
                 yield return Visitor(t, true, $"t{(int)t}_{t.ToString().ToLower()}_tell");
-                yield return Visitor(t, false, $"t{(int)t}_{t.ToString().ToLower()}_hidden");
+                if (!f31) yield return Visitor(t, false, $"t{(int)t}_{t.ToString().ToLower()}_hidden");
             }
             yield return Visitor(AlienType.None, false, "t0_real_pilot");
 
@@ -214,6 +247,7 @@ namespace HostileHorizon
                 yield return DeadToHangar("b");
             }
 
+            }
             // ---- B7: let in through the airlock
             {
                 G.CheckSetup(3, new[] { (int)AlienType.Mimic, 0, 0 }, new[] { (int)AlienType.Mimic, 0, 0 });
@@ -228,6 +262,7 @@ namespace HostileHorizon
                 yield return DeadToHangar("h");
             }
 
+            if (quick) yield break;
             // ---- B8 / B9: the Sleeper
             // (1) three other pilots aboard: it kills one, the other two kill it
             {
@@ -300,6 +335,13 @@ namespace HostileHorizon
             if (G.Menu.Current != null && G.Menu.Current.Title == "LOW ENERGY") yield return Press(GamepadButton.South);
             yield return WaitPhase(() => G.Now == GameShell.State.Flying, 40f, "flight after launch");
             G.CheckSetup(3, new[] { 0, 0, 0 }, new[] { 0, 0, 0 }); G.CheckBoard(G.Pilots.Find(x => x.Index == 1)); G.CheckBoard(G.Pilots.Find(x => x.Index == 2));
+            if (f31)
+            {
+                yield return CloseUps();
+                yield return LandedFps("with the models");
+                CharacterRig.Disabled = true; yield return LandedFps("code-made figures (pilots outside; the cabin keeps its models)"); CharacterRig.Disabled = false;
+                G.CheckSetup(3, new[] { 0, 0, 0 }, new[] { 0, 0, 0 }); G.CheckBoard(G.Pilots.Find(x => x.Index == 1)); G.CheckBoard(G.Pilots.Find(x => x.Index == 2));
+            }
             yield return ResetVia("for the fps run", 1); yield return SetMode(FlightMode.Flight);
             yield return MeasureFps($"flying low, 2 aboard (the cabin camera drawing){(SteamDeck.On ? ", Steam Deck setting" : "")}");
 

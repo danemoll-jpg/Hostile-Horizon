@@ -64,8 +64,11 @@ namespace HostileHorizon
             if (quirk != AlienType.Hollow) visor.SetFloat("_Metallic", .6f);
             Material scorch = M(new Color(.07f, .06f, .055f), .05f), wreckHull = M(new Color(.42f, .43f, .42f), .35f), burnt = M(new Color(.12f, .11f, .1f), .2f);
 
-            // the figure (pivot at the feet)
+            // the figure (pivot at the feet). Fix 3.1: the rigged pilot model (the Hollow's disguise with a dead visor); the code-made
+            // figure below if the model is missing.
             p.body = new GameObject("Pilot").transform; p.body.SetParent(root.transform, false); p.body.position = site.pilot;
+            p.rig = CharacterRig.Create("pilot", p.body, quirk == AlienType.Hollow ? "pilot_hollow" : null);
+            if (p.rig) { p.RigSetup(root.transform, site.pilot, quirk, dark); p.FaceTowards(site.wreck, true); p.body.Rotate(0, 180, 0); p.Wreck(site, f, scorch, wreckHull, burnt, dark); return p; }
             Part(PrimitiveType.Capsule, p.body, new Vector3(0, 1.15f, 0), new Vector3(.46f, .42f, .32f), suit);
             Part(PrimitiveType.Cube, p.body, new Vector3(0, 1.2f, -.21f), new Vector3(.36f, .46f, .18f), dark);
             Part(PrimitiveType.Sphere, p.body, new Vector3(0, 1.72f, 0), Vector3.one * .3f, helmet);
@@ -94,9 +97,43 @@ namespace HostileHorizon
                 S(new Vector3(-.12f, .45f, 0), new Vector3(.1f, .5f, .1f), Vector3.zero); S(new Vector3(.12f, .45f, 0), new Vector3(.1f, .5f, .1f), Vector3.zero);
             }
             if (quirk == AlienType.Knocker) p.KnockPattern = (index % 3) == 0 ? "four knocks" : (index % 3) == 1 ? "the wrong rhythm" : "from the wrong place (the nose)";
+            p.Wreck(site, f, scorch, wreckHull, burnt, dark);
+            p.FaceTowards(site.wreck, true); p.body.Rotate(0, 180, 0);   // standing with their back to the wreck
+            return p;
+        }
 
-            // their crashed ship, nose dug in, a scorched patch round it
-            var w = new GameObject("Wreck").transform; w.SetParent(root.transform, false);
+        // Fix 3.1: the rigged figure's extras. The Mimic: the body casts no shadow; its wrong shadow is the Mimic itself (the creature
+        // model, shadows only, a moment behind and in the same motion). The Knocker's pattern as before.
+        CharacterRig rig, shadowRig;
+        public CharacterRig Rig => rig;
+        public CharacterRig ShadowRig => shadowRig;
+        void RigSetup(Transform root, Vector3 at, AlienType quirk, Material dark)
+        {
+            if (quirk == AlienType.Mimic)
+            {
+                rig.ShadowMode(UnityEngine.Rendering.ShadowCastingMode.Off);
+                shadow = new GameObject("Wrong shadow").transform; shadow.SetParent(root, false); shadow.position = at;
+                shadowRig = CharacterRig.Create("mimic", shadow);
+                if (shadowRig) shadowRig.ShadowMode(UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly);
+                else
+                {
+                    void S(Vector3 p, Vector3 size, Vector3 rot) { Part(PrimitiveType.Capsule, shadow, p, size, dark, rot).GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly; }
+                    S(new Vector3(0, 1.45f, 0), new Vector3(.32f, .75f, .25f), Vector3.zero); S(new Vector3(0, 2.35f, .1f), new Vector3(.22f, .3f, .3f), new Vector3(60, 0, 0));
+                    S(new Vector3(-.36f, 1.2f, .15f), new Vector3(.09f, .8f, .09f), new Vector3(-15, 0, -12)); S(new Vector3(.36f, 1.2f, .15f), new Vector3(.09f, .8f, .09f), new Vector3(-15, 0, 12));
+                }
+            }
+            if (quirk == AlienType.Knocker) KnockPattern = (Index % 3) == 0 ? "four knocks" : (Index % 3) == 1 ? "the wrong rhythm" : "from the wrong place (the nose)";
+        }
+
+        // Fix 3.1: the clip for what the figure is doing (the rigged model only). Run speed matched to the ground speed.
+        void Act(string clip, float speed = 1f, float fadeTime = .25f) { if (rig && rig.Current != clip && !(clip == "idle" && holding > 0)) rig.Play(clip, fadeTime, speed); }
+        float holding;   // s left of a one-off clip (stop, knock, flinch) before the state's own clip takes over again
+
+        // their crashed ship, nose dug in, a scorched patch round it
+        void Wreck(PilotSite site, CanyonField f, Material scorch, Material wreckHull, Material burnt, Material dark)
+        {
+            var p = this;
+            var w = new GameObject("Wreck").transform; w.SetParent(transform, false);
             f.SurfaceHeight(site.wreck.x, site.wreck.z, out var n);
             w.SetPositionAndRotation(site.wreck, Quaternion.FromToRotation(Vector3.up, n) * Quaternion.Euler(0, site.wreckHeading, 0));
             Part(PrimitiveType.Cylinder, w, new Vector3(0, .02f, 0), new Vector3(11, .02f, 11), scorch);
@@ -111,8 +148,6 @@ namespace HostileHorizon
             p.beacon = Part(PrimitiveType.Sphere, w, new Vector3(1.6f, 1.9f, -1.5f), Vector3.one * .32f, p.beaconMat).transform;
             p.beaconLight = new GameObject("Beacon light").AddComponent<Light>(); p.beaconLight.transform.SetParent(p.beacon, false);
             p.beaconLight.type = LightType.Point; p.beaconLight.range = 40; p.beaconLight.color = new Color(1f, .6f, .2f); p.beaconLight.shadows = LightShadows.None;
-            p.FaceTowards(site.wreck, true); p.body.Rotate(0, 180, 0);   // standing with their back to the wreck
-            return p;
         }
 
         static GameObject Part(PrimitiveType t, Transform parent, Vector3 at, Vector3 size, Material m, Vector3 euler = default)
@@ -155,6 +190,7 @@ namespace HostileHorizon
             LevelToDoor = toDoor; ClimbToDoor = dd.y; CanReach = toDoor < t.pickupRange && Mathf.Abs(dd.y) < t.pilotMaxClimb;
             Pose(0, 0);
             HiddenFromRadar = false;
+            holding -= dt;
             switch (Now)
             {
                 case State.Waiting:
@@ -164,18 +200,23 @@ namespace HostileHorizon
                     {
                         FaceTowards(st.position);
                         Pose(0, Mathf.Sin(clock * 9f) * .5f + 2.4f);   // waving the ship down
+                        Act(Index % 2 == 0 ? "wave" : "wave2");
                     }
+                    else Act((clock + Index * 5f) % 16f < 9f ? "idle" : "look_around", 1f, .5f);   // waiting by the wreck, looking round the sky
                     break;
                 case State.Running:
                     if (!ready) { Now = State.Waiting; break; }
                     // Fix 2.5: at a steady run over the ground, and round the hull to the door on the left. Round 3: the Stalker circles first.
                     var goal = stalkDone ? PathTarget(st, door) : StalkTarget(st, dt); goal.y = body.position.y;
-                    FaceTowards(goal);
+                    // Fix 3.1: the Stalker on its circle side-steps, crouched, facing the ship (its creature's own sneak); else the run
+                    bool sneaking = rig && !stalkDone && Circled > 0;
+                    if (sneaking) { FaceTowards(st.position); Act("circle", 1.3f); }
+                    else { FaceTowards(goal); Act("run", t.pilotRunSpeed * (stalkDone ? 1 : .8f) / 5.2f); }
                     var step = Vector3.MoveTowards(body.position, goal, t.pilotRunSpeed * (stalkDone ? 1 : .8f) * dt);
                     step.y = field.SurfaceHeight(step.x, step.z); body.position = step;
                     float s = Mathf.Sin(clock * 11f);
                     Pose(s * .8f, -s * .7f);
-                    if (toDoor < 1.0f && stalkDone) { Now = State.Knocking; knockTimer = .6f; }
+                    if (toDoor < 1.0f && stalkDone) { Now = State.Knocking; knockTimer = .6f; if (rig) { rig.PlayThen("run_stop", "idle"); holding = rig.Length("run_stop"); } }
                     break;
                 case State.Knocking:
                     if (!ship.Landed) { Now = State.Waiting; break; }
@@ -190,25 +231,35 @@ namespace HostileHorizon
                     }
                     else if (knockTimer < 5.5f) FaceTowards(st.TransformPoint(BellyCam.AirlockCamAt));   // looks up into the airlock camera
                     Pose(0, knocksLeft > 0 ? 1.5f + Mathf.Max(0, Mathf.Sin(clock * 18f)) * .4f : 0);
+                    Act("idle");
                     if (IsAlien && Type != AlienType.Sleeper && AtDoorFor > t.canopyClimbAfter) { Hide(); OnClimb?.Invoke(this); }
                     break;
                 case State.Boarding:
+                    Act("climb", 1.6f, .15f);
                     boardT += dt / 1.4f;
                     body.position = Vector3.Lerp(boardFrom, st.TransformPoint(DoorInside), Mathf.SmoothStep(0, 1, boardT));
                     FaceTowards(st.TransformPoint(DoorInside));
                     if (boardT >= 1) { Now = State.Aboard; body.gameObject.SetActive(false); if (shadow) shadow.gameObject.SetActive(false); OnBoarded?.Invoke(this); }
                     break;
             }
-            // the Mimic's wrong shadow: where the body was 0.6 s ago
+            // the Mimic's wrong shadow: where the body was 0.6 s ago (Fix 3.1: the Mimic's own body, in the same motion)
             if (shadow && shadow.gameObject.activeSelf)
             {
+                if (shadowRig && rig && shadowRig.Current != rig.Current) shadowRig.Play(rig.Current, .3f);
                 trail.Enqueue((clock, body.position, body.rotation));
                 while (trail.Count > 1 && trail.Peek().t < clock - .6f) trail.Dequeue();
                 var old = trail.Peek(); shadow.SetPositionAndRotation(old.p, old.r);
             }
         }
 
-        void StartKnocks() { knockNo = 0; knockGap = 0; knocksLeft = Quirk == AlienType.Knocker && Index % 3 == 0 ? 4 : 3; }
+        // Fix 3.1: the knock clip (Mixamo had no knock: Dan's "Opening", a hand to the door) plays once for each set of knocks; the knock
+        // sounds keep their own timing (the Knocker's tell is in the sounds: count, rhythm, place).
+        const float KnockClipFor = 2.5f;   // the start of Dan's "Opening" clip (11 s long): a hand to the door
+        void StartKnocks()
+        {
+            knockNo = 0; knockGap = 0; knocksLeft = Quirk == AlienType.Knocker && Index % 3 == 0 ? 4 : 3;
+            if (rig) { rig.PlayThen("knock", "idle", 1f, KnockClipFor); holding = KnockClipFor; }
+        }
 
         // The corps' code: three knocks 0.34 s apart, on the airlock door. The Knocker: four; or the wrong rhythm (quick-quick ... long);
         // or from the wrong place: the knocks come from the nose while it stands at the door.
@@ -246,6 +297,7 @@ namespace HostileHorizon
 
         void Pose(float legs, float rightArm)
         {
+            if (rig) return;   // Fix 3.1: the rigged model plays clips instead
             legL.localRotation = Quaternion.Euler(legs * 35f, 0, 0); legR.localRotation = Quaternion.Euler(-legs * 35f, 0, 0);
             armL.localRotation = Quaternion.Euler(-legs * 30f, 0, 0);
             armR.localRotation = Quaternion.Euler(rightArm > 1 ? -rightArm * 60f : legs * 30f, 0, 0);
@@ -262,6 +314,12 @@ namespace HostileHorizon
         public void Kill()
         {
             Now = State.Dead;
+            if (rig)
+            {   // Fix 3.1: a flinch from the blast, then the fall; burnt dark
+                rig.PlayThen("hit", "death"); rig.Tint(new Color(.16f, .14f, .12f));
+                if (shadow) shadow.gameObject.SetActive(false);
+                return;
+            }
             body.rotation = body.rotation * Quaternion.Euler(-90, 0, 0); body.position += Vector3.up * .25f;
             foreach (var r in body.GetComponentsInChildren<Renderer>()) { var m = new Material(r.sharedMaterial); m.SetColor("_BaseColor", new Color(.09f, .08f, .07f)); r.sharedMaterial = m; }
             Pose(0, 0);

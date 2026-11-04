@@ -23,6 +23,7 @@ namespace HostileHorizon
         {
             public string Title, Subtitle;
             public Func<string> Body;              // text under the rows (axis display, credits, hints)
+            public Func<List<(Texture pic, string label)>> Pictures;   // Fix 3.1: a row of pictures under the rows (the Field Journal)
             public List<Row> Rows = new List<Row>();
             public Action Back;
             public Func<string> Hint;
@@ -35,6 +36,8 @@ namespace HostileHorizon
         public bool Visible => canvas && canvas.gameObject.activeSelf;
         public Canvas Canvas => canvas;
         Canvas canvas; Text title, subtitle, body, hint; readonly List<Text> rows = new List<Text>(); Image cursor, backdrop;
+        readonly List<RawImage> pics = new List<RawImage>(); readonly List<Text> picLabels = new List<Text>();
+        const int MaxPictures = 5;
         float navTimer; int navDir, shownFrame;
         const int MaxRows = 12;
 
@@ -51,6 +54,13 @@ namespace HostileHorizon
             for (int i = 0; i < MaxRows; i++)
                 m.rows.Add(UiKit.Label(t, "Row" + i, 34, TextAnchor.MiddleLeft, UiKit.Ink, new Vector2(0, 1), new Vector2(0, 1), new Vector2(150, -330 - i * 58), new Vector2(880, -280 - i * 58)));
             m.body = UiKit.Label(t, "Body", 24, TextAnchor.UpperLeft, UiKit.Dim, new Vector2(0, 1), new Vector2(1, 1), new Vector2(960, -1000), new Vector2(-80, -300));
+            for (int i = 0; i < MaxPictures; i++)
+            {
+                var g = new GameObject("Picture" + i, typeof(RectTransform)); g.transform.SetParent(t, false);
+                var ri = g.AddComponent<RawImage>(); var rt = ri.rectTransform; rt.anchorMin = rt.anchorMax = new Vector2(0, 1);
+                rt.offsetMin = new Vector2(150 + i * 145, -580); rt.offsetMax = new Vector2(150 + i * 145 + 126, -412); ri.enabled = false; m.pics.Add(ri);
+                var l = UiKit.Label(t, "PictureLabel" + i, 20, TextAnchor.UpperCenter, UiKit.Accent, new Vector2(0, 1), new Vector2(0, 1), new Vector2(150 + i * 145 - 6, -612), new Vector2(150 + i * 145 + 132, -584)); m.picLabels.Add(l);
+            }
             m.hint = UiKit.Label(t, "Hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(150, 40), new Vector2(1800, 120));
             return m;
         }
@@ -132,6 +142,12 @@ namespace HostileHorizon
                 line++;
             }
             body.text = p.Body?.Invoke() ?? "";
+            var list = p.Pictures?.Invoke();
+            for (int i = 0; i < MaxPictures; i++)
+            {
+                bool on = list != null && i < list.Count && list[i].pic;
+                pics[i].enabled = on; picLabels[i].text = on ? list[i].label : ""; if (on) pics[i].texture = list[i].pic;
+            }
             hint.text = p.Hint?.Invoke() ?? "Up / down: choose     Left / right: change     A / Enter / trigger: select" + (p.Back != null ? "     B / Esc: back" : "");
         }
     }

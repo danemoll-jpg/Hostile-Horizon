@@ -1,0 +1,294 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 38912 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 06:58; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+model pilot: 18735 triangles, Mesh LOD levels 4, height 2.05 m, avatar Humanoid OK, material pilot; clips: idle 8.3s loop, look_around 6.3s loop, wave 3.2s loop, wave2 4.7s loop, run 0.7s loop, run_stop 0.9s, knock 11.0s, climb 4.6s, hit 2.0s, death 2.3s, circle 1.3s loop, sit_idle 4.2s loop
+model mimic: 26051 triangles, Mesh LOD levels 4, height 2.73 m, avatar Humanoid OK, material mimic; clips: idle 8.3s loop, crawl 1.8s loop, attack 2.6s loop, roar 5.4s loop, death 2.3s, climb 4.6s, hit 2.0s, leap 2.4s
+model hollow: 26077 triangles, Mesh LOD levels 4, height 2.34 m, avatar Humanoid OK, material hollow; clips: idle 8.3s loop, crawl 1.8s loop, attack 2.6s loop, roar 5.4s loop, death 2.3s, climb 4.6s, hit 2.0s, stagger 3.0s loop
+model knocker: 29178 triangles, Mesh LOD levels 4, height 2.77 m, avatar Humanoid OK, material knocker; clips: idle 8.3s loop, crawl 1.8s loop, attack 2.6s loop, roar 5.4s loop, death 2.3s, climb 4.6s, hit 2.0s
+model stalker: 26122 triangles, Mesh LOD levels 4, height 2.73 m, avatar Humanoid OK, material stalker; clips: idle 8.3s loop, crouch_walk 1.0s loop, attack 2.6s loop, roar 5.4s loop, death 2.3s, climb 4.6s, hit 2.0s, circle 1.3s loop
+model sleeper: 25900 triangles, Mesh LOD levels 4, height 2.11 m, avatar Humanoid OK, material sleeper; clips: idle 8.3s loop, crawl 1.8s loop, attack 2.6s loop, roar 5.4s loop, death 2.3s, climb 4.6s, hit 2.0s, sit_idle 4.2s loop
+tuning: share 0.2 + 0.05/tier (max 0.35), tells 0.75, false tells 0, bounty 200, canopy after 25 s, break-in 10 s, Sleeper 40-120 s, pilots win with 2
+aliens for seed 20261104 (tier 1, 6 pilots): 1:Stalker(tell Stalker), 2:pilot, 3:pilot, 4:pilot, 5:pilot, 6:Stalker(tell Stalker); again: identical
+aliens for seed 20261105 (tier 1, 6 pilots): 1:Sleeper(tell Sleeper), 2:Sleeper, 3:pilot, 4:pilot, 5:pilot, 6:pilot; again: identical
+aliens for seed 777 (tier 1, 6 pilots): 1:pilot, 2:Sleeper(tell Sleeper), 3:pilot, 4:pilot, 5:Hollow, 6:pilot; again: identical
+400 planets (6 pilots, tier 1): 800 aliens (33.3 %), tells shown 74 % (target 75), types Mimic 151 Hollow 188 Knocker 158 Stalker 147 Sleeper 156
+menu: CAMPAIGN
+new career, first planet Zanveth-IV: aliens 1:pilot, 2:pilot, 3:pilot
+    [1774 fps] Auto/launch Hover alt 1449 gnd 1448 spd 50 hdg 285 energy 100
+--- t1_mimic_tell: pilot 1 is a Mimic, tell SHOWN; knock pattern "three knocks (the corps' code)"
+    [597 fps] Flying/ Hover alt 14 gnd 14 spd 1 hdg 135 energy 97
+    [371 fps] Flying/ Hover alt 6 gnd 5 spd 1 hdg 135 energy 94
+    [415 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot t1_mimic_tell_coming_cockpit.png
+screenshot t1_mimic_tell_coming_landing_view.png
+  ran: yes; at the door True; its shadow body lagged up to 3.3 m behind it (shadow-only renderers; the figure casts none); circled 0° round the ship, off the radar 0.0 s, last seen at ship x -2 z +2 (the waiting spot is x -2.45 z +0.8)
+  knocks: 1@0.00s from ship z +0.8, 2@0.34s from ship z +0.8, 3@0.68s from ship z +0.8; display ""
+  airlock camera on True (AIRLOCK CAM); facing the camera: 0° off
+screenshot t1_mimic_tell_at_door_cockpit.png
+picture t1_mimic_tell_airlock_cam.png (640 x 380, straight from the camera)
+    [449 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot t1_mimic_tell_engines_reveal_landing_view.png
+  engines on: pilot Gone, fate AlienGone; credits 3000 -> 3200 (+200); message "That was no pilot: a Mimic. Bounty +200 cr   ·   Field Journal: new entry — Mimic"; journal 0 -> 1 entries, Mimic met 1: "Something about the way the light falls on it..."
+--- t2_hollow_tell: pilot 1 is a Hollow, tell SHOWN; knock pattern "three knocks (the corps' code)"
+    [377 fps] Flying/ Hover alt 17 gnd 17 spd 2 hdg 135 energy 98
+    [357 fps] Flying/ Hover alt 7 gnd 6 spd 1 hdg 135 energy 94
+    [386 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot t2_hollow_tell_coming_cockpit.png
+screenshot t2_hollow_tell_coming_landing_view.png
+  ran: yes; at the door True; shadow: the figure's own; circled 0° round the ship, off the radar 0.0 s, last seen at ship x -2 z +2 (the waiting spot is x -2.45 z +0.8)
+    [433 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  knocks: 1@0.00s from ship z +0.8, 2@0.34s from ship z +0.8, 3@0.68s from ship z +0.8; display ""
+  airlock camera on True (AIRLOCK CAM); facing the camera: 0° off
+screenshot t2_hollow_tell_at_door_cockpit.png
+picture t2_hollow_tell_airlock_cam.png (640 x 380, straight from the camera)
+screenshot t2_hollow_tell_engines_reveal_landing_view.png
+  engines on: pilot Gone, fate AlienGone; credits 3200 -> 3400 (+200); message "That was no pilot: a Hollow. Bounty +200 cr   ·   Field Journal: new entry — Hollow"; journal 1 -> 2 entries, Hollow met 1: "Look it in the eye."
+--- t3_knocker_tell: pilot 1 is a Knocker, tell SHOWN; knock pattern "four knocks"
+    [408 fps] Flying/ Hover alt 21 gnd 21 spd 2 hdg 135 energy 99
+    [321 fps] Flying/ Hover alt 8 gnd 7 spd 1 hdg 135 energy 95
+    [342 fps] Flying/ Hover alt 3 gnd 2 spd 1 hdg 135 energy 92
+screenshot t3_knocker_tell_coming_cockpit.png
+screenshot t3_knocker_tell_coming_landing_view.png
+  ran: yes; at the door True; shadow: the figure's own; circled 0° round the ship, off the radar 0.0 s, last seen at ship x -2 z +2 (the waiting spot is x -2.45 z +0.8)
+    [411 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  knocks: 1@0.00s from ship z +0.8, 2@0.34s from ship z +0.8, 3@0.68s from ship z +0.8, 4@1.02s from ship z +0.8; display ""
+  airlock camera on True (AIRLOCK CAM); facing the camera: 0° off
+screenshot t3_knocker_tell_at_door_cockpit.png
+picture t3_knocker_tell_airlock_cam.png (640 x 380, straight from the camera)
+screenshot t3_knocker_tell_engines_reveal_landing_view.png
+  engines on: pilot Gone, fate AlienGone; credits 3400 -> 3600 (+200); message "That was no pilot: a Knocker. Bounty +200 cr   ·   Field Journal: new entry — Knocker"; journal 2 -> 3 entries, Knocker met 1: "Listen at the door."
+--- t4_stalker_tell: pilot 1 is a Stalker, tell SHOWN; knock pattern "three knocks (the corps' code)"
+    [432 fps] Flying/ Hover alt 32 gnd 32 spd 7 hdg 135 energy 99
+    [333 fps] Flying/ Hover alt 9 gnd 9 spd 1 hdg 135 energy 96
+    [336 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 135 energy 92
+    [429 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [452 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [492 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot t4_stalker_tell_coming_cockpit.png
+screenshot t4_stalker_tell_coming_landing_view.png
+    [441 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  ran: yes; at the door True; shadow: the figure's own; circled 420° round the ship, off the radar 10.0 s, last seen at ship x -2 z +0 (the waiting spot is x -2.45 z +0.8)
+  knocks: 1@0.00s from ship z +0.8, 2@0.34s from ship z +0.8, 3@0.68s from ship z +0.8; display ""
+  airlock camera on True (AIRLOCK CAM); facing the camera: 0° off
+screenshot t4_stalker_tell_at_door_cockpit.png
+picture t4_stalker_tell_airlock_cam.png (640 x 380, straight from the camera)
+screenshot t4_stalker_tell_engines_reveal_landing_view.png
+  engines on: pilot Gone, fate AlienGone; credits 3600 -> 3800 (+200); message "That was no pilot: a Stalker. Bounty +200 cr   ·   Field Journal: new entry — Stalker"; journal 3 -> 4 entries, Stalker met 1: "It took its time getting to the door."
+    [432 fps] Flying/ Hover alt 22 gnd 21 spd 14 hdg 135 energy 89
+--- t0_real_pilot: pilot 1 is a real pilot, tell hidden; knock pattern "three knocks (the corps' code)"
+    [349 fps] Flying/ Hover alt 13 gnd 12 spd 1 hdg 135 energy 97
+    [350 fps] Flying/ Hover alt 5 gnd 5 spd 1 hdg 135 energy 93
+screenshot t0_real_pilot_coming_cockpit.png
+screenshot t0_real_pilot_coming_landing_view.png
+    [367 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  ran: yes; at the door True; shadow: the figure's own; 
+  knocks: 1@0.00s from ship z +0.8, 2@0.34s from ship z +0.8, 3@0.68s from ship z +0.8; display ""
+  airlock camera on True (AIRLOCK CAM); facing the camera: 0° off
+screenshot t0_real_pilot_at_door_cockpit.png
+picture t0_real_pilot_airlock_cam.png (640 x 380, straight from the camera)
+screenshot t0_real_pilot_engines_reveal_landing_view.png
+    [431 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 90
+  engines on: pilot Dead, fate Lost; credits 3800 -> 3400 (-400); message "Pilot 1 killed by your exhaust. Penalty -400 cr"; no journal change
+--- canopy, then engines: a Knocker left at the airlock
+    [363 fps] Flying/ Hover alt 16 gnd 15 spd 2 hdg 135 energy 97
+    [346 fps] Flying/ Hover alt 6 gnd 6 spd 1 hdg 135 energy 94
+    [371 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [426 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [413 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [415 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  left at the door: it climbed onto the canopy 27.4 s after reaching the door (tuning 25 s + the climb)
+screenshot c1_on_the_canopy_cockpit.png
+  engines on with it on the canopy: canopy alien gone, fate AlienGone, credits +200; "Thrown off and burnt: a Knocker. Bounty +200 cr   ·   Field Journal: Knocker — a clearer note"
+screenshot c2_thrown_off_landing_view.png
+    [501 fps] Flying/ Hover alt 27 gnd 26 spd 14 hdg 135 energy 89
+--- canopy break-in: a Hollow left at the airlock, then left on the canopy
+    [326 fps] Flying/ Hover alt 12 gnd 11 spd 1 hdg 135 energy 97
+    [353 fps] Flying/ Hover alt 5 gnd 4 spd 1 hdg 135 energy 93
+    [361 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [396 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [408 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [454 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot b1_canopy_pressed_to_the_glass.png
+screenshot b2_canopy_looking_up.png
+  broke in 10.0 s after pressing on the glass (tuning 10 s)
+  beat 0.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 2.00 m from the eye ((-0.02, 0.23, 1.98) eye space), root at ship (0.18, -0.49, 4.67), clip attack, bounds (1.0, 2.4, 1.3) at (-268.3, 2.9, 2216.3) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot b_01_lights_die.png
+    [515 fps] Auto/horror Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  beat 1.4 s: the glass cracks; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 1.89 m from the eye ((0.11, 0.26, 1.87) eye space), root at ship (0.18, -0.49, 4.67), clip attack, bounds (1.2, 2.4, 1.5) at (-268.5, 2.9, 2216.4) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot b_02_the_glass_cracks.png
+  beat 3.6 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 2.03 m from the eye ((0.09, 0.19, 2.02) eye space), root at ship (0.18, -0.49, 4.66), clip roar, bounds (1.2, 2.4, 1.0) at (-268.5, 2.9, 2216.5) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot b_03_in_front_of_you.png
+  beat 6.0 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 0.56 m from the eye ((-0.09, -0.01, 0.55) eye space), root at ship (-0.13, -0.39, 3.66), clip attack, bounds (1.0, 2.4, 1.7) at (-269.3, 2.9, 2217.1) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot b_04_lunge.png
+    at the end: creature Creature (Hollow): active True, face 0.15 m from the eye ((0.00, 0.01, 0.15) eye space), root at ship (0.09, -0.69, 2.66), clip attack, bounds (1.4, 2.4, 1.0) at (-269.8, 2.7, 2217.9) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  horror over after 6.5 s: state Crashed, phase dead, killed by Hollow; camera: fastest 0 m/s, fastest turn 0°/s (continuous: no cut)
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: Hollow — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot b_death_page.png
+    [407 fps] Auto/regen-trip Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [440 fps] Auto/regen-trip Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot b_regen_bay.png
+    [1252 fps] Auto/recovery Hover alt 1181 gnd 1112 spd 44 hdg 285 energy 100
+    [1899 fps] Auto/recovery Hover alt 1466 gnd 1397 spd 13 hdg 285 energy 100
+    [2115 fps] Auto/launch Hover alt 1500 gnd 1431 spd 0 hdg 285 energy 100
+--- let in: a Mimic, the airlock opened (B)
+    [1247 fps] Flying/ Hover alt 22 gnd 21 spd 2 hdg 135 energy 99
+    [384 fps] Flying/ Hover alt 8 gnd 7 spd 1 hdg 135 energy 95
+    [393 fps] Flying/ Hover alt 3 gnd 2 spd 1 hdg 135 energy 92
+    [509 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  beat 0.0 s: airlock closes; cabin lights on, displays dark False, input off, view Cockpit
+    no creature
+screenshot h_01_airlock_closes.png
+  beat 2.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    no creature
+screenshot h_02_lights_die.png
+  beat 3.4 s: moving in the cabin; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 3.99 m from the eye ((-1.09, 0.52, -3.80) eye space), root at ship (-1.10, -0.64, -1.60), clip crawl, bounds (1.3, 2.7, 1.5) at (-271.7, 3.0, 2221.6) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  looked round: the view turned 106° (look works during it)
+screenshot h_03_moving_in_the_cabin_looking_back.png
+picture h_03_cabin_cam.png (384 x 216, straight from the camera)
+    [876 fps] Auto/horror Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  beat 9.4 s: the hatch is hit; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.72 m from the eye ((0.05, -0.02, 1.72) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, bounds (2.5, 1.1, 2.6) at (-270.8, 2.6, 2220.4) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  looked round: the view turned 3° (look works during it)
+screenshot h_04_the_hatch_is_hit_looking_back.png
+picture h_04_cabin_cam.png (384 x 216, straight from the camera)
+  beat 13.2 s: the hatch gives way; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.72 m from the eye ((-0.57, 0.52, -1.54) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, bounds (1.5, 2.7, 1.4) at (-270.6, 3.0, 2219.8) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_05_the_hatch_gives_way.png
+  beat 15.0 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.16 m from the eye ((-0.65, 0.94, -0.20) eye space), root at ship (-0.72, -0.20, 2.00), clip roar, bounds (1.3, 2.7, 1.4) at (-269.5, 3.4, 2218.9) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_06_in_front_of_you.png
+  beat 17.4 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 0.58 m from the eye ((-0.12, -0.02, 0.56) eye space), root at ship (-0.16, -0.70, 3.79), clip attack, bounds (1.1, 2.7, 1.9) at (-269.3, 2.7, 2217.0) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_07_lunge.png
+    at the end: creature Creature (Mimic): active True, face 0.14 m from the eye ((0.00, 0.02, 0.14) eye space), root at ship (0.11, -1.05, 2.65), clip attack, bounds (1.6, 2.8, 1.1) at (-269.9, 2.6, 2217.9) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  horror over after 17.8 s: state Crashed, phase dead, killed by Mimic; camera: fastest 0 m/s, fastest turn 165°/s (continuous: no cut)
+    [755 fps] Crashed/dead Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot h_death_page.png
+    [1074 fps] Auto/regen-trip Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot h_regen_bay.png
+    [1286 fps] Auto/recovery Hover alt 1076 gnd 1007 spd 50 hdg 285 energy 100
+    [1670 fps] Auto/recovery Hover alt 1429 gnd 1360 spd 20 hdg 285 energy 100
+    [1800 fps] Auto/recovery Hover alt 1500 gnd 1431 spd 14 hdg 285 energy 100
+--- Sleeper with 3 others aboard (tell shown)
+    [1551 fps] Flying/ Hover alt 34 gnd 34 spd 7 hdg 135 energy 99
+    [256 fps] Flying/ Hover alt 10 gnd 9 spd 1 hdg 135 energy 96
+    [259 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 135 energy 92
+    [350 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+picture s1_sleeper_at_door_airlock_cam.png (640 x 380, straight from the camera)
+  aboard: cabin 4; the Sleeper turns after 89 s of flight (seeded; shortened to 12 s for the check); message "Pilot 1 aboard (4 / 6), brought 11 % energy"
+screenshot s1_cabin_cam_tell_cockpit.png
+picture s1_cabin_cam_tell.png (384 x 216, straight from the camera)
+  cabin camera: HUD picture-in-picture True, feed on True
+    [311 fps] Flying/ Hover alt 50 gnd 50 spd 6 hdg 135 energy 97
+picture s1_cabin_cam_the_kill.png (384 x 216, straight from the camera)
+screenshot s1_the_kill_cockpit.png
+    [345 fps] Flying/ Hover alt 73 gnd 73 spd 0 hdg 135 energy 94
+  after: cabin 2, fates AlienGone Lost Waiting Waiting Waiting Waiting, state Flying/; message "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+picture s1_cabin_cam_after.png (384 x 216, straight from the camera)
+--- Sleeper alone (tell hidden)
+    [370 fps] Flying/ Hover alt 12 gnd 12 spd 1 hdg 135 energy 97
+    [384 fps] Flying/ Hover alt 5 gnd 4 spd 1 hdg 135 energy 93
+    [422 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [366 fps] Flying/ Hover alt 37 gnd 37 spd 0 hdg 135 energy 98
+  beat 0.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active False, face 2.37 m from the eye ((0.00, 0.63, -2.28) eye space), root at ship (0.00, 0.00, 0.00), clip idle, bounds (1.1, 2.1, 1.2) at (-271.4, 38.1, 2219.7) (eye (-269.7, 38.2, 2218.0)), lod-near 0.05
+screenshot s2_01_lights_die.png
+  beat 1.4 s: moving in the cabin; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active True, face 4.04 m from the eye ((-1.10, -0.01, -3.88) eye space), root at ship (-1.10, -0.64, -1.60), clip crawl, bounds (1.1, 2.1, 1.2) at (-271.7, 35.8, 2221.6) (eye (-269.7, 36.6, 2218.0)), lod-near 0.05
+  looked round: the view turned 103° (look works during it)
+screenshot s2_02_moving_in_the_cabin_looking_back.png
+picture s2_02_cabin_cam.png (384 x 216, straight from the camera)
+  beat 7.4 s: the hatch is hit; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active True, face 1.83 m from the eye ((-0.01, -1.77, -0.45) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, bounds (2.0, 1.0, 2.1) at (-270.7, 28.2, 2220.2) (eye (-269.7, 29.4, 2218.0)), lod-near 0.05
+    [409 fps] Auto/horror Flight alt 28 gnd 27 spd 1 hdg 135 energy 97
+  looked round: the view turned 0° (look works during it)
+screenshot s2_03_the_hatch_is_hit_looking_back.png
+picture s2_03_cabin_cam.png (384 x 216, straight from the camera)
+  beat 11.2 s: the hatch gives way; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active True, face 1.70 m from the eye ((-0.53, -0.02, -1.62) eye space), root at ship (-0.62, -0.64, 0.55), clip attack, bounds (1.3, 2.2, 1.3) at (-270.6, 25.9, 2219.8) (eye (-269.7, 26.7, 2218.0)), lod-near 0.05
+screenshot s2_04_the_hatch_gives_way.png
+  beat 13.0 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active True, face 0.83 m from the eye ((-0.68, 0.41, -0.25) eye space), root at ship (-0.71, -0.20, 2.01), clip roar, bounds (1.1, 2.1, 1.2) at (-269.5, 26.3, 2218.8) (eye (-269.7, 26.7, 2218.0)), lod-near 0.05
+screenshot s2_05_in_front_of_you.png
+  beat 15.4 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Sleeper): active True, face 0.55 m from the eye ((-0.09, -0.01, 0.54) eye space), root at ship (-0.09, -0.29, 3.59), clip attack, bounds (1.0, 2.2, 1.6) at (-269.2, 26.1, 2217.1) (eye (-269.7, 26.7, 2218.0)), lod-near 0.05
+screenshot s2_06_lunge.png
+    at the end: creature Creature (Sleeper): active True, face 0.15 m from the eye ((0.00, 0.01, 0.15) eye space), root at ship (0.03, -0.53, 2.63), clip attack, bounds (1.3, 2.2, 1.0) at (-269.7, 26.0, 2217.9) (eye (-269.7, 26.7, 2218.0)), lod-near 0.05
+  horror over after 15.8 s: state Crashed, phase dead, killed by Sleeper; camera: fastest 1 m/s, fastest turn 162°/s (continuous: no cut)
+    [472 fps] Crashed/dead Flight alt 26 gnd 25 spd 0 hdg 135 energy 97
+  death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: Sleeper — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot s2_death_page.png
+    [555 fps] Auto/regen-trip Flight alt 26 gnd 25 spd 0 hdg 135 energy 97
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot s2_regen_bay.png
+    [1015 fps] Auto/recovery Hover alt 1117 gnd 1048 spd 48 hdg 285 energy 100
+    [1661 fps] Auto/recovery Hover alt 1444 gnd 1375 spd 17 hdg 285 energy 100
+    [1822 fps] Auto/launch Hover alt 1500 gnd 1431 spd 0 hdg 285 energy 100
+--- Sleeper docked in time (1 other aboard)
+    [1417 fps] Flying/ Hover alt 29 gnd 28 spd 6 hdg 135 energy 99
+    [305 fps] Flying/ Hover alt 9 gnd 8 spd 1 hdg 135 energy 96
+    [308 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 135 energy 92
+    [384 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [321 fps] Flying/ Hover alt 122 gnd 122 spd 14 hdg 135 energy 95
+    [314 fps] Flying/ Hover alt 262 gnd 262 spd 14 hdg 135 energy 91
+    [320 fps] Flying/ Hover alt 402 gnd 402 spd 14 hdg 135 energy 88
+    [317 fps] Flying/ Hover alt 542 gnd 542 spd 14 hdg 135 energy 84
+    [313 fps] Flying/ Hover alt 682 gnd 682 spd 14 hdg 135 energy 81
+    [304 fps] Flying/ Hover alt 822 gnd 822 spd 14 hdg 135 energy 77
+    [304 fps] Flying/ Hover alt 962 gnd 962 spd 14 hdg 135 energy 74
+    [391 fps] Auto/dock-final Flight alt 1558 gnd 1116 spd 143 hdg 123 energy 73
+    [447 fps] Auto/dock-final Flight alt 1489 gnd 1487 spd 48 hdg 298 energy 73
+screenshot s3_security_in_the_bay.png
+  docked: fates AlienGone Rescued Waiting; debrief "Delivered 1 pilot: +500 cr / Energy used 27%. Refuelled 27%: -162 cr / Security killed a Sleeper in your cabin: it came aboard as pilot 1."
+screenshot s3_hangar_debrief.png
+  Field Journal: "<b>Mimic</b>  <size=22>(met 2 times)</size> /   Watch the ground beside it, not the suit. Light and shadow should agree. /  / <b>Hollow</b>  <size=22>(met 2 times)</size> /   A visor shows the world around it: the sky, your lamps. This one showed nothing at all. /  / <b>Knocker</b>  <size=22>(met 2 times)</size> /   The corps knocks a code. Count, and listen to where it comes from. /  / <b>Stalker</b>  <size=22>(met 1 time)</size> /   It took its time getting to the door. /  / <b>Sleeper</b>  <size=22>(met 3 times)</size> /   After a pickup, listen to the cabin and watch the cabin camera. If something is wrong, dock fast."
+screenshot j1_field_journal.png
+career: 6 aliens killed, 3 deaths, journal 5 entries
+    [959 fps] Auto/launch Hover alt 1499 gnd 1430 spd 3 hdg 285 energy 100
+picture m_1_mimic_idle.png (768 x 1024, straight from the camera)
+picture m_1_mimic_roar_face.png (768 x 1024, straight from the camera)
+  close-up Mimic: model mimic, clip roar
+picture m_2_hollow_idle.png (768 x 1024, straight from the camera)
+    [1071 fps] Flying/ Flight alt 1362 gnd 960 spd 73 hdg 285 energy 99
+picture m_2_hollow_roar_face.png (768 x 1024, straight from the camera)
+  close-up Hollow: model hollow, clip roar
+picture m_3_knocker_idle.png (768 x 1024, straight from the camera)
+picture m_3_knocker_roar_face.png (768 x 1024, straight from the camera)
+  close-up Knocker: model knocker, clip roar
+picture m_4_stalker_idle.png (768 x 1024, straight from the camera)
+picture m_4_stalker_roar_face.png (768 x 1024, straight from the camera)
+  close-up Stalker: model stalker, clip roar
+picture m_5_sleeper_idle.png (768 x 1024, straight from the camera)
+picture m_5_sleeper_roar_face.png (768 x 1024, straight from the camera)
+  close-up Sleeper: model sleeper, clip roar
+picture m_0_visors_hollow_left_real_right.png (768 x 1024, straight from the camera)
+picture m_0_pilots_hollow_left_real_right.png (768 x 1024, straight from the camera)
+  visors: real pilot material pilot, Hollow's disguise pilot_hollow
+    [300 fps] Flying/ Hover alt 33 gnd 33 spd 7 hdg 135 energy 99
+    [262 fps] Flying/ Hover alt 10 gnd 9 spd 1 hdg 135 energy 96
+    [261 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 135 energy 92
+    [358 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot f_with_landed_cockpit.png
+fps landed, a pilot coming + 4 in the cabin + cabin camera, with the models: average 413.2, 1% low 267.5 over 4959 frames; pilot Knocking
+    [351 fps] Flying/ Hover alt 33 gnd 33 spd 7 hdg 135 energy 99
+    [268 fps] Flying/ Hover alt 10 gnd 9 spd 1 hdg 135 energy 96
+    [263 fps] Flying/ Hover alt 4 gnd 3 spd 1 hdg 135 energy 92
+    [370 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+screenshot f_code-made_landed_cockpit.png
+fps landed, a pilot coming + 4 in the cabin + cabin camera, code-made figures (pilots outside; the cabin keeps its models): average 429.5, 1% low 277.3 over 5155 frames; pilot Knocking
+reset position from for the fps run: before pos (-271, 31, 2220), gnd 30 m, Hover, speed 14.0 m/s, engines on, energy 100.0% -> after pos (-271, 61, 2220), gnd 60 m, Hover, speed 0.0 m/s, engines on, energy 100.0%; 0 m from the nearest pad's centre; state Flying
+    [380 fps] Flying/ Flight alt 81 gnd 81 spd 37 hdg 180 energy 100
+    [308 fps] Flying/ Flight alt 92 gnd 91 spd 73 hdg 113 energy 98
+flying low, 2 aboard (the cabin camera drawing): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.062 RMS, peak 1.528, zeroed before the speakers; 91600896 samples); master volume 0.00
+fps flying low, 2 aboard (the cabin camera drawing): average 307.2, 1% low 203.6, worst frame 11 ms over 4608 frames; mean height over ground 101 m; terrain chunks 586, waiting 0
+sounds that would have played (muted run): 3.8 airlock | 6.0 clamp | 48.7 alien_shriek | 50.3 alien_death | 90.9 alien_shriek | 92.5 alien_death | 133.0 alien_shriek | 134.6 alien_death | 205.5 alien_shriek | 207.1 alien_death | 312.5 canopy_scrape (loop) | 312.5 canopy_breath (loop) | 314.0 glass_tap | 314.7 alien_shriek | 316.3 alien_death | 380.0 canopy_scrape (loop) | 380.0 canopy_breath (loop) | 381.5 glass_tap | 384.7 glass_tap | 387.9 glass_tap | 390.0 lights_die | 391.4 alarm (loop) | 391.4 glass_crack | 393.6 glass_break | 393.6 canopy_breath | 396.0 creature_lunge | 435.1 clamp | 438.3 airlock | 440.5 clamp | 479.5 airlock | 481.7 clamp | 482.9 lights_die | 484.3 alarm (loop) | 484.3 cabin_move (loop) | 490.3 door_hit | 491.8 door_hit | 493.1 door_hit | 494.1 door_break | 495.9 canopy_breath | 498.3 creature_lunge | 537.3 clamp | 540.5 airlock | 542.7 clamp | 580.8 airlock | 582.2 sleeper_click (loop) | 582.2 sleeper_voice (loop) | 594.3 cabin_kill | 597.3 pilots_fight | 600.8 alien_death | 632.9 airlock | 642.3 lights_die | 643.7 alarm (loop) | 643.7 cabin_move (loop) | 649.7 door_hit | 651.2 door_hit | 652.5 door_hit | 653.5 door_break | 655.3 canopy_breath | 657.7 creature_lunge | 696.6 clamp | 699.8 airlock | 701.9 clamp | 740.0 airlock | 741.4 sleeper_click (loop) | 741.4 sleeper_voice (loop) | 833.5 clamp | 834.3 security_shots | 835.0 alien_shriek | 837.9 airlock | 840.0 clamp
+alien events: 48.7 exhaust killed pilot 1: a Mimic (tell shown: True); bounty +200 cr | 48.7 journal: Mimic encounter 1 (killed by the exhaust): "Something about the way the light falls on it..." | 90.9 exhaust killed pilot 1: a Hollow (tell shown: True); bounty +200 cr | 90.9 journal: Hollow encounter 1 (killed by the exhaust): "Look it in the eye." | 133.0 exhaust killed pilot 1: a Knocker (tell shown: True); bounty +200 cr | 133.0 journal: Knocker encounter 1 (killed by the exhaust): "Listen at the door." | 205.5 exhaust killed pilot 1: a Stalker (tell shown: True); bounty +200 cr | 205.5 journal: Stalker encounter 1 (killed by the exhaust): "It took its time getting to the door." | 310.1 pilot 1 (Knocker) left at the airlock 25 s: it climbs onto the canopy | 312.5 on the canopy: pressed against the glass | 314.7 engines on with it on the canopy: thrown off (Knocker); bounty +200 cr | 314.7 journal: Knocker encounter 2 (thrown off the canopy): "The corps knocks a code. Count, and listen to where it comes from." | 377.6 pilot 1 (Hollow) left at the airlock 25 s: it climbs onto the canopy | 380.0 on the canopy: pressed against the glass | 390.0 on the canopy 10.0 s, ignored: it breaks in | 390.0 horror sequence: a Hollow, in through the canopy | 396.5 the Hollow got you | 396.5 journal: Hollow encounter 2 (it killed you): "A visor shows the world around it: the sky, your lamps. This one showed nothing at all." | 480.9 horror sequence: a Mimic, in through the airlock | 498.7 the Mimic got you | 498.7 journal: Mimic encounter 2 (it killed you): "Watch the ground beside it, not the suit. Light and shadow should agree." | 582.2 pilot 1 aboard: a Sleeper (tell shown: True); turns after 89 s of flight | 594.3 the Sleeper (pilot 1) turns after 12 s with 3 other pilots aboard | 600.8 journal: Sleeper encounter 1 (the pilots killed it): "It was so quiet in the cabin. Until it wasn't." | 600.8 the pilots killed the Sleeper (2 left after it killed pilot 2) | 634.3 pilot 1 aboard: a Sleeper (tell shown: False); turns after 89 s of flight | 642.3 the Sleeper (pilot 1) turns after 8 s with 0 other pilots aboard | 642.3 horror sequence: a Sleeper, in through the cabin | 658.1 the Sleeper got you | 658.1 journal: Sleeper encounter 2 (it killed you): "After a pickup, listen to the cabin and watch the cabin camera. If something is wrong, dock fast." | 741.4 pilot 1 aboard: a Sleeper (tell shown: True); turns after 89 s of flight | 833.5 docked with the Sleeper (pilot 1) aboard: security kills it in the bay | 837.6 journal: Sleeper encounter 3 (security killed it): "After a pickup, listen to the cabin and watch the cabin camera. If something is wrong, dock fast."
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.062 RMS, peak 1.528, zeroed before the speakers; 91602944 samples); master volume 0.00

@@ -23,6 +23,7 @@ namespace HostileHorizon
         readonly List<(Material m, Color c)> surfaces = new List<(Material, Color)>();   // darkened with the lamps (the sky's ambient light would still light them)
         Light emergency; float emergencyLevel, emergencyWant;
         readonly List<Transform> figures = new List<Transform>(); readonly List<int> seated = new List<int>();
+        readonly List<CharacterRig> rigs = new List<CharacterRig>(); readonly List<bool> slumped = new List<bool>(); float sleeperLook;   // Fix 3.1
         int sleeperSeat = -1; bool sleeperTell; float clock; int frame;
         Vector3 doorRest; float doorShake; bool doorGone; Vector3 doorVel; Vector3 doorSpin;
         ShipController ship;
@@ -58,7 +59,7 @@ namespace HostileHorizon
             c.emergency = new GameObject("Emergency lamp").AddComponent<Light>(); c.emergency.transform.SetParent(c.transform, false); c.emergency.transform.localPosition = new Vector3(0, 1.3f, 1.6f);
             c.emergency.type = LightType.Point; c.emergency.range = 3.5f; c.emergency.intensity = 0; c.emergency.color = new Color(1f, .12f, .08f); c.emergency.shadows = LightShadows.None;
             // the passengers (shown for the pilots aboard)
-            for (int i = 0; i < Seats.Length; i++) c.figures.Add(Figure(c.transform, Seats[i], lit, i));
+            for (int i = 0; i < Seats.Length; i++) { c.figures.Add(Figure(c.transform, Seats[i], lit, i, out var rig)); c.rigs.Add(rig); c.slumped.Add(false); }
             // the cabin camera
             var cg = new GameObject("Cabin camera"); cg.transform.SetParent(c.transform, false); cg.transform.localPosition = CamAt; cg.transform.localRotation = Quaternion.LookRotation(CamLook - CamAt, Vector3.up);
             c.Feed = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32) { name = "Cabin camera feed" }; c.Feed.Create();
@@ -68,9 +69,21 @@ namespace HostileHorizon
             return c;
         }
 
-        // A seated pilot in the corps' orange suit, facing across the cabin.
-        static Transform Figure(Transform parent, Vector3 seat, Material lit, int i)
+        // A seated pilot in the corps' orange suit, facing across the cabin. Fix 3.1: the rigged pilot in its seated idle (RigSeat: the
+        // model's feet on the floor, hips over the bench); the code-made figure if the model is missing.
+        public static Vector3 RigSeat = new Vector3(0, -.12f, .02f);
+        static Transform Figure(Transform parent, Vector3 seat, Material lit, int i, out CharacterRig rig)
         {
+            rig = null;
+            if (CharacterRig.Has("pilot"))
+            {
+                var r = new GameObject("Passenger").transform; r.SetParent(parent, false); r.localPosition = seat; r.localRotation = Quaternion.Euler(0, seat.x < 0 ? 90 : -90, 0);
+                rig = CharacterRig.Create("pilot", r); rig.transform.localPosition = RigSeat;
+                rig.Play("sit_idle", 0, .8f + .07f * i);
+                rig.ShadowMode(UnityEngine.Rendering.ShadowCastingMode.Off);
+                r.gameObject.SetActive(false);
+                return r;
+            }
             Material M(Color col, float smooth = .3f) { var m = new Material(lit); m.SetColor("_BaseColor", col); m.SetFloat("_Smoothness", smooth); return m; }
             var suit = M(new Color(.85f, .38f, .1f)); var helmet = M(new Color(.88f, .88f, .85f), .6f); var visor = M(new Color(.05f, .06f, .08f), .95f);
             var root = new GameObject("Passenger").transform; root.SetParent(parent, false); root.localPosition = seat; root.localRotation = Quaternion.Euler(0, seat.x < 0 ? 90 : -90, 0);
@@ -95,19 +108,39 @@ namespace HostileHorizon
         // Who sits where: one figure per pilot aboard; sleeper = the cabin index of the Sleeper (or -1), tell = it shows its tell.
         public void Seat(List<int> cabin, int sleeper, bool tell)
         {
-            seated.Clear(); seated.AddRange(cabin); sleeperSeat = -1; sleeperTell = tell;
+            seated.Clear(); seated.AddRange(cabin); sleeperSeat = -1; sleeperTell = tell; sleeperLook = 0;
             for (int i = 0; i < figures.Count; i++)
             {
                 bool on = i < cabin.Count; figures[i].gameObject.SetActive(on);
                 if (on && cabin[i] == sleeper) sleeperSeat = i;
-                figures[i].localRotation = Quaternion.Euler(0, Seats[i].x < 0 ? 90 : -90, 0);
-                figures[i].Find("Head").localRotation = Quaternion.identity;
+                figures[i].localRotation = Quaternion.Euler(0, Seats[i].x < 0 ? 90 : -90, 0); slumped[i] = false;
+                if (!rigs[i]) figures[i].Find("Head").localRotation = Quaternion.identity;
+                else if (on) rigs[i].Play("sit_idle", 0, .8f + .07f * i);
             }
         }
         public int SeatOf(int pilotIndex) => seated.IndexOf(pilotIndex);
         public Vector3 SeatPoint(int seat) => seat >= 0 && seat < Seats.Length ? Seats[seat] : Inside;
         public void HideSeat(int seat) { if (seat >= 0 && seat < figures.Count) figures[seat].gameObject.SetActive(false); }
-        public void SlumpSeat(int seat) { if (seat >= 0 && seat < figures.Count) { figures[seat].localRotation *= Quaternion.Euler(0, 0, 70); figures[seat].Find("Head").localRotation = Quaternion.Euler(60, 0, 0); } }
+        public void SlumpSeat(int seat) { if (seat >= 0 && seat < figures.Count) { figures[seat].localRotation *= Quaternion.Euler(0, 0, 70); slumped[seat] = true; if (!rigs[seat]) figures[seat].Find("Head").localRotation = Quaternion.Euler(60, 0, 0); else rigs[seat].Speed(0); } }
+
+        // Fix 3.1: the rigged passengers' heads, on top of their animation: a small sway with the ship; the Sleeper showing its tell
+        // turns its head to the cabin camera, too far and tipped over, slowly (as the code-made figure did); a slumped pilot's head hangs.
+        void RigHead(int i, float dt)
+        {
+            var head = rigs[i].Head; var fig = figures[i];
+            if (slumped[i]) { head.rotation = Quaternion.AngleAxis(60, fig.right) * head.rotation; return; }
+            if (i == sleeperSeat && sleeperTell)
+            {
+                sleeperLook = Mathf.MoveTowards(sleeperLook, 1, dt * .25f);
+                var to = Cam.transform.position - head.position; to = Vector3.ProjectOnPlane(to, fig.up);
+                float yaw = Vector3.SignedAngle(fig.forward, to, fig.up);
+                var look = Quaternion.AngleAxis(yaw, fig.up); var tip = Quaternion.AngleAxis(-78f - Mathf.Sin(clock * .3f) * 6f, look * fig.forward);
+                head.rotation = Quaternion.Slerp(Quaternion.identity, tip * look, sleeperLook) * head.rotation;
+                return;
+            }
+            head.rotation = Quaternion.AngleAxis(Mathf.Sin(clock * .7f + i * 2) * 10f, fig.up) * Quaternion.AngleAxis(Mathf.Sin(clock * 1.1f + i) * 4f, fig.right) * head.rotation;
+        }
+        public CharacterRig PassengerRig(int seat) => seat >= 0 && seat < rigs.Count ? rigs[seat] : null;   // checks
 
         public void HitDoor() { doorShake = 1f; }
         public void BreakDoor() { doorGone = true; doorVel = new Vector3(.2f, 1.2f, 3.2f); doorSpin = new Vector3(-180f, 40f, 30f); }
@@ -122,6 +155,7 @@ namespace HostileHorizon
             for (int i = 0; i < figures.Count; i++)
             {
                 if (!figures[i].gameObject.activeSelf) continue;
+                if (rigs[i]) { RigHead(i, dt); continue; }
                 var head = figures[i].Find("Head");
                 if (i == sleeperSeat && sleeperTell)
                 {

@@ -167,13 +167,18 @@ crawls). Mixamo's names change now and then: if a search finds nothing, take the
 | `death.fbx` | Dying (falls backwards) | killed by the engine exhaust; killed by the Sleeper |
 | `flinch.fbx` | Hit Reaction (or Flinching) | flinching from the exhaust / the engines starting |
 
-### Each creature — `SourceArt/Mixamo/<mimic|hollow|knocker|stalker|sleeper>/`
+### Each creature's rigged model — `SourceArt/Mixamo/<mimic|hollow|knocker|stalker|sleeper>/idle.fbx`
 
-The same ten for all five creatures:
+One download per creature, **With Skin**: Mutant Breathing Idle (or Zombie Idle), saved as `idle.fbx` in its own folder.
+
+### The creature animations, once — `SourceArt/Mixamo/creature/`
+
+(Dan, 2026-11-04: Mixamo gives every auto-rigged model the same skeleton, and Unity's Humanoid retargeting plays any clip
+on any model, so these are downloaded **once, Without Skin**, from any one rigged creature — the Hollow is the most
+standard body. Code adjusts in the game where a clip fits a body badly.)
 
 | File | Mixamo search | For |
 |---|---|---|
-| `idle.fbx` (**With Skin**) | Mutant Breathing Idle (or Zombie Idle) | standing, breathing, twitching after the reveal |
 | `roar.fbx` | Mutant Roaring (or Zombie Scream) | the reveal moment (the disguise drops) |
 | `walk.fbx` | Mutant Walking (or Zombie Walk), In Place | creepy approach to the ship |
 | `run.fbx` | Mutant Run (or Zombie Running), In Place | lurching run at the ship |
@@ -184,12 +189,13 @@ The same ten for all five creatures:
 | `hit.fbx` | Zombie Reaction Hit (or Hit Reaction) | thrown off the canopy, hit by the exhaust |
 | `death.fbx` | Mutant Dying | burnt by the exhaust, killed by the pilots / security |
 
-Plus the extras for its type, in the same folder:
+Plus the extras for each type, **Without Skin**, also once each (from that type's model if you can, so they fit its body),
+in that type's own folder (`SourceArt/Mixamo/<type>/`):
 
 | Model | File | Mixamo search | For |
 |---|---|---|---|
 | Mimic | `leap.fbx` | Mutant Jumping (or Jump Attack) | its long-limbed leap onto the canopy |
-| Hollow | `stagger.fbx` | Zombie Stumbling (or Drunk Walk), In Place | its slow dead-thing approach |
+| Hollow | `stagger.fbx` (optional) | Injured Walk (or Drunk Walking), In Place; if neither: skip, the game slows the shared walk | its slow dead-thing approach |
 | Knocker | `pound.fbx` | Zombie Punching (fallback: Punching Bag) | pounding the hull and the canopy with the club-hands |
 | Stalker | `crouch_walk.fbx` | Crouched Walking (or Sneak Walk), In Place | the low hunting approach |
 | Stalker | `circle.fbx` | Crouched Sneaking Left (In Place) | circling the ship before it comes to the door |
@@ -197,5 +203,5 @@ Plus the extras for its type, in the same folder:
 | Sleeper | `sit_twitch.fbx` | Sitting Disbelief (or any sitting twitch / head shake) | the cabin-camera glimpse that something is wrong |
 | Sleeper | `lunge.fbx` | Mutant Jump Attack (or Sit To Stand, fast) | the sudden turn: up off the seat and at the next pilot / the hatch |
 
-That is 10 for the pilot and 10-12 per creature (about 63 downloads). When they're all saved, tell Code: it checks the
+That is 10 for the pilot, 5 rigged creatures, 9 shared creature clips and 8 extras (32 downloads). When they're all saved, tell Code: it checks the
 folders and starts Stage 5.

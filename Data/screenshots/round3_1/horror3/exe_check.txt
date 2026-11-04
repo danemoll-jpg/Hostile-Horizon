@@ -1,0 +1,63 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 38912 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 06:55; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: share 0.2 + 0.05/tier (max 0.35), tells 0.75, false tells 0, bounty 200, canopy after 25 s, break-in 10 s, Sleeper 40-120 s, pilots win with 2
+aliens for seed 20261104 (tier 1, 6 pilots): 1:Stalker(tell Stalker), 2:pilot, 3:pilot, 4:pilot, 5:pilot, 6:Stalker(tell Stalker); again: identical
+aliens for seed 20261105 (tier 1, 6 pilots): 1:Sleeper(tell Sleeper), 2:Sleeper, 3:pilot, 4:pilot, 5:pilot, 6:pilot; again: identical
+aliens for seed 777 (tier 1, 6 pilots): 1:pilot, 2:Sleeper(tell Sleeper), 3:pilot, 4:pilot, 5:Hollow, 6:pilot; again: identical
+400 planets (6 pilots, tier 1): 800 aliens (33.3 %), tells shown 74 % (target 75), types Mimic 151 Hollow 188 Knocker 158 Stalker 147 Sleeper 156
+menu: CAMPAIGN
+new career, first planet Zanveth-IV: aliens 1:pilot, 2:pilot, 3:pilot
+    [2010 fps] Auto/launch Hover alt 1449 gnd 1444 spd 51 hdg 285 energy 100
+--- let in: a Mimic, the airlock opened (B)
+    [637 fps] Flying/ Hover alt 14 gnd 13 spd 1 hdg 135 energy 97
+    [386 fps] Flying/ Hover alt 6 gnd 5 spd 1 hdg 135 energy 94
+    [427 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  beat 0.0 s: airlock closes; cabin lights on, displays dark False, input off, view Cockpit
+    no creature
+screenshot h_01_airlock_closes.png
+  beat 2.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    no creature
+screenshot h_02_lights_die.png
+  beat 3.4 s: moving in the cabin; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 3.99 m from the eye ((-1.09, 0.52, -3.80) eye space), root at ship (-1.10, -0.64, -1.60), clip crawl, drawn False, bounds (1.3, 2.7, 1.5) at (-271.7, 3.0, 2221.6) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+    [811 fps] Auto/horror Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  looked round: the view turned 108° (look works during it)
+screenshot h_03_moving_in_the_cabin_looking_back.png
+picture h_03_cabin_cam.png (384 x 216, straight from the camera)
+  beat 9.4 s: the hatch is hit; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.72 m from the eye ((0.05, -0.03, 1.72) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, drawn True, bounds (2.5, 1.1, 2.6) at (-270.8, 2.6, 2220.4) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  looked round: the view turned 3° (look works during it)
+screenshot h_04_the_hatch_is_hit_looking_back.png
+picture h_04_cabin_cam.png (384 x 216, straight from the camera)
+  beat 13.2 s: the hatch gives way; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.72 m from the eye ((-0.57, 0.52, -1.54) eye space), root at ship (-0.62, -0.64, 0.55), clip attack, drawn False, bounds (1.5, 2.7, 1.4) at (-270.6, 3.0, 2219.8) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_05_the_hatch_gives_way.png
+    [563 fps] Auto/horror Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  beat 15.0 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 1.11 m from the eye ((-0.66, 0.88, -0.16) eye space), root at ship (-0.72, -0.20, 2.00), clip roar, drawn False, bounds (1.3, 2.7, 1.5) at (-269.4, 3.4, 2218.9) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_06_in_front_of_you.png
+  beat 17.4 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Mimic): active True, face 0.49 m from the eye ((-0.01, 0.02, 0.49) eye space), root at ship (0.04, -1.13, 3.06), clip attack, drawn False, bounds (1.2, 2.7, 1.1) at (-269.4, 2.5, 2217.6) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+screenshot h_07_lunge.png
+picture h_side_check_camera.png (960 x 720, straight from the camera)
+picture h_eye_check_camera.png (960 x 720, straight from the camera)
+    side view: mimic enabled True layer 0 in head mask True active True mesh mimic mat mimic; head camera mask -1, near 0.05, target Check view
+screenshot h_v1_always_animate.png
+screenshot h_v2_update_offscreen.png
+    forceMeshLod set 0
+screenshot h_v3_mesh_lod_0.png
+screenshot h_v4_no_occlusion.png
+    head camera: depth tex None, layerCull 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, lodBias 2, camera Head pos (-269.71, 3.50, 2218.02)
+    at the end: creature Creature (Mimic): active True, face 0.59 m from the eye ((-0.10, 0.26, 0.53) eye space), root at ship (-0.02, -0.79, 3.26), clip attack, drawn False, bounds (1.1, 2.8, 1.5) at (-269.3, 2.8, 2217.3) (eye (-269.7, 3.5, 2218.0)), lod-near 0.05
+  horror over after 18.3 s: state Crashed, phase dead, killed by Mimic; camera: fastest 0 m/s, fastest turn 164°/s (continuous: no cut)
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: new entry — Mimic /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot h_death_page.png
+    [681 fps] Auto/regen-trip Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+    [812 fps] Auto/regen-trip Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot h_regen_bay.png
+    [1443 fps] Auto/recovery Hover alt 1188 gnd 836 spd 43 hdg 285 energy 100
+    [1867 fps] Auto/recovery Hover alt 1468 gnd 1116 spd 13 hdg 285 energy 100
+    [2025 fps] Auto/launch Hover alt 1500 gnd 1148 spd 0 hdg 285 energy 100
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.044 RMS, peak 0.382, zeroed before the speakers; 11182080 samples); master volume 0.00

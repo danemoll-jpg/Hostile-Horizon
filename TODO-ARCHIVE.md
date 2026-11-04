@@ -878,3 +878,151 @@ clean up, commit and push.
 **For Dan to check:** radar distances and the route trail; then the aliens:
 can you learn the tells by playing, do they still fool you sometimes, is the
 canopy and the horror sequence scary, does the Sleeper's cabin fight work?
+
+=== Fix 2.4 delivery (moved from TODO.md "Previous deliveries" at the end of Fix 3.1) ===
+
+**Fix 2.4 — flying feel, landing, pause / reset, deeper canyons (2026-11-02). Published: 0.2.4
+(`game-204`, Latest).** Exe built 2026-11-02 17:20 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.4/`
+(`run4/` = the published build, `run3/`, `all/`, `perf_deck/`, `before_023/` = 0.2.3's full check, `launcher/`,
+`heightmap_old_vs_new.jpg`). Every check headless (`-batchmode`, no window) and muted: measured output 0.000 RMS
+at start and end of every run; no step played sound; no window opened. New check: `python Tools/run_check.py <dir> --only fix24`.
+
+0. **Commit first — done.** "Fix 2.4 planning" (3ef81de).
+1. **Pause anywhere, easy to find — done.** Start / Esc / HOTAS 9 (Settings > Controls and HOTAS > HOTAS pause
+   button, 1-16) / 10, and a tap of View (held 1 s it stays the recall), in flight and during launch, docking,
+   recall lift, mid-air beam and tow (time stops; resume carries on). Auto-pause on focus loss in players' builds
+   (check runs keep running). "≡ / Esc: Pause" on the HUD and cockpit display for the first minute (☰ isn't in the
+   game's font; ≡ is). Pause menu: Resume, Reset position, Recall (Campaign) / Restart (Free Flight), Settings,
+   quit. Check: paused during launch, docking, recall lift and tow: ship and mothership moved 0.00 m in 1.5 s, each
+   resumed and finished; View tap pauses (Free Flight and landed in the Campaign), a 2 s hold recalls without
+   pausing; simulated focus loss paused (`run4`, `c01`, `c07`-`c09`).
+2. **Reset position — done.** Hover 60 m over the nearest landing pad, engines on, same cabin / energy, free;
+   greyed out while a pilot runs / knocks / boards and during the automatic parts. Check: from 1802 m up -> 60 m
+   over a pad, 0 m from its centre; from 35 m in a canyon -> a pad about 340 m away; refused while the pilot ran (`f04`).
+3. **Landing that does what you expect — done.** X from flight = air brakes (`airBrake` 42 m/s²), brake sound,
+   BRAKING / HOVER (GND in big type, sink rate) / TOUCHDOWN / LANDED — engines off (A) so the pilot comes, on the
+   HUD and the cockpit's centre display; an amber ring + post on the ground where the ship would stop (shown with a
+   waiting pilot within 2.5 km); "SLOW DOWN — PRESS X" on the radar (cockpit + HUD) and the advice line when
+   braking now stops you near the pilot. Hover sink 30 m/s above 150 m, 14 at 60 m, 3 m/s below 8 m.
+   **Before / after:** brake from 450 km/h: hover speed in 8.8 s -> **2.5 s**, stopped in 10.4 s / 651 m ->
+   **4.1 s / 196 m**; predicted stop point 0.2-1.0 m from where it stopped (target 50 m). Descent from 1000 m:
+   72 s and still 14 m/s at the ground (a hard landing) -> **43 s, touching down at 3.0 m/s** (safe 3.5).
+   At a pilot: cue at 224 m (262 km/h), ring 0.1 m from the prediction, stopped 0.6 m from the ring, then set
+   down 4 m from the pad centre; states seen: BRAKING -> HOVER -> TOUCHDOWN -> LANDED — engines off (A)… (`c02`-`c06`).
+4. **Less clunky flying (first pass) — done; needs Dan's play.** Rates pitch 70 -> 95, roll 130 -> 170, yaw 32
+   -> 55 °/s; Settings > Flight assist Full (0.2.3's bank turn 38 / levelling 22 °/s) / **Light** (default, 26 / 8)
+   / Off; Settings > Stick sensitivity 50-150 % (100); stick curve .35 (small moves finer, full stick unchanged).
+   The HOTAS rows moved to Settings > Controls and HOTAS (a page holds 12 rows). Measured (Ghost, high up, virtual pad,
+   0.2.3 -> Light): roll to 60° 0.46 -> **0.35 s**; 90° turn banking and pulling 1.28 -> **1.08 s** (Full 1.02,
+   Off 1.25); yaw on LB/RB 32 -> **55 °/s**; nose up 30° 0.43 -> **0.32 s**; 90° turn on a held 60° bank alone
+   3.06 -> 4.33 s (Full 3.02, Off never: the assist is lighter by design); wings level from 45° 1.8 -> 5.0 s (Off
+   never). No input smoothing existed or was added.
+5. **Deeper, more compact canyons — done.** Three canyon systems at closer spacing (more branching), floors
+   median about 50 m wide (was about 220 m), walls in five ledges; heights over 12 km -6..584 m (0.2.3: -8..341 m);
+   open floor 16 % of the land (was 26 %, measured on a prototype). Landing pads: one per 520 m cell where it falls on
+   a canyon floor (306 of 400 cells), a 45 m flat clearing; every pilot's site is on one (0 m from a pad centre),
+   the start and Reset too. Same seed = same world (determinism check identical); saved planets regenerate.
+   Frame rate flying low (1080p, 1660 Ti): 835 fps, 1 % low 212, worst frame 44 ms (0.2.3: 751 / 185 / 28);
+   Steam Deck setting at 1280 x 800: 843 fps, 1 % low 178 (`perf_deck`). Pictures `f05`-`f07`,
+   `heightmap_old_vs_new.jpg` (same seed and scale).
+6. **Check — done** (above; `run4` is the published build, `run3` gave the same numbers). The full regression
+   check (`all/`) passes with the new menu paths. Found on the way: the check's own timings must use the ship's
+   capped time step (a slow frame on a busy PC skewed run 2's flight numbers); its pre-existing typed-seed line
+   ("expected 1987") reads the same in 0.2.3 (the batch-mode keyboard digit isn't delivered; not a game bug).
+   Not re-run this fix: `--only campaign` / `home` (Fix 2.3 features unchanged; the fix24 check covers the landing,
+   boarding, docking, recall and tow on the new terrain).
+7. **Publish — done.** 0.2.4 = build 204, tag `game-204`, Latest. Check: the `starter-200` ZIP extracted to
+   `Builds/StarterCheck`, `--auto-check` against GitHub: "Updating to game 0.2.4", installed `versions/204`,
+   started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed. Clean-up: disk use 2.1 GB -> 1.8 GB (incl. the 0.2 GB starter test install).
+
+**New tuning (`CampaignTuning.json`):** pitchRate 95, rollRate 170, yawRate 55, bankTurnFull 38, levelRateFull 22,
+bankTurnLight 26, levelRateLight 8, stickCurve .35, airBrake 42, hoverVerticalAccel 15, hoverSinkHigh 30 (above 150 m),
+hoverSinkMid 14 (above 60 m), hoverSinkLow 3 (below 8 m), stopMarkerRange 2500, brakeCueLead 150, resetHeight 60.
+**New settings:** Flight assist (Light), Stick sensitivity (100 %), HOTAS pause button (9).
+
+**For Dan to check:** does flying still feel clunky, and if so what exactly (too slow to turn, too twitchy, drifts,
+levels itself)? Try Flight assist Light, then Off and Full, and Stick sensitivity. Can you land next to a pilot first
+try with the ring (brake when SLOW DOWN shows)? Pause with ☰ and a tap of ⧉; Reset position. Do the canyons feel deep
+and tight enough (now perhaps too tight at speed)? HOTAS: which base button should pause?
+
+=== Fix 3.1 specification (as the planning chat wrote it, moved from TODO.md at the end of Fix 3.1) ===
+
+---------------------------------------------------------------------------
+Current Objective — Fix 3.1: real character models (concept art -> Meshy -> Mixamo)
+---------------------------------------------------------------------------
+
+Fix 2.6 + Round 3 are delivered as 0.3.0 (status under "Previous deliveries").
+Round 4 (Enemies + difficulty) comes after this fix. Still open for Dan from
+0.3.0: the route corridor width / height, and a second sign for the Mimic's
+tell in shade.
+
+Dan (2026-11-04): the code-made pilot and creature models won't be good
+enough; use real models and animation. **Dan's art pipeline (DECIDED, his
+standing way of working):** Code writes the image prompts -> Dan has the
+concept images drawn -> Code generates the 3D models from them with the Meshy
+API (Dan's key) -> Dan uploads them to Mixamo and picks the animations Code
+lists -> Code imports and wires them up. This round runs in **stages with
+stops for Dan**; Code must stop and say what it needs at each STOP.
+
+**Models this fix:** (1) the **pilot** (rescue-corps flight suit, helmet with a
+reflective visor — the Hollow's tell needs the reflection; it is also every
+alien's disguise); (2) **five alien reveal forms**, one per type (Mimic,
+Hollow, Knocker, Stalker, Sleeper), each with its own silhouette so the types
+feel different and the Field Journal can show them. All original designs,
+nothing from the 1984 game. Horrible, 2-2.5 m, wrong-jointed but built on a
+humanoid skeleton so Mixamo can rig them.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Stage 1 — prompts (Code).** Write `Docs/MODELS-NEEDED.md`: for each model
+   a ready-to-paste image prompt for the concept art (full body, **A-pose or
+   T-pose, front view, plain light background, no cropping, no props**, so
+   Meshy and Mixamo work), a short design note (what makes it scary, which
+   tell or behaviour it must support), the file name Dan should save it as
+   (`SourceArt/Concepts/<name>.png`), and the Mixamo animation list for stage 4
+   (item 4). **STOP: tell Dan the prompts are ready.**
+2. **Stage 2 — concept art (Dan).** Dan generates the images and saves them in
+   `SourceArt/Concepts/`. Code checks each one is usable (full body, clean
+   pose) and says if one needs redoing.
+3. **Stage 3 — Meshy (Code).** Image-to-3D with the Meshy API.
+   - Key: read from the environment variable `MESHY_API_KEY`; if it isn't
+     set, ask Dan to set it. **Never write the key into the repo, a log, a
+     report or the chat.**
+   - Ask for textured (PBR) output in A/T-pose, FBX (or GLB converted in
+     Blender), with triangle budgets: pilot about 15-20k, creatures about
+     20-30k; make LODs (about 50 % and 20 %) in Blender for the Deck and VR.
+   - Save to `SourceArt/Meshy/<name>/`. Clean up in Blender where needed
+     (scale to metres, origin at the feet, facing +Z, symmetric pose).
+   - Render a front / side / three-quarter picture of each and look at them.
+   - **STOP: show Dan the renders and the files to upload to Mixamo** (the
+     exact FBX paths). Redo any Dan rejects (new seed / adjusted prompt).
+4. **Stage 4 — Mixamo (Dan).** Dan uploads each FBX, auto-rigs it, and
+   downloads the listed animations (FBX for Unity, 30 fps; the first "with
+   skin", the rest "without skin"; "In Place" ticked for locomotion) into
+   `SourceArt/Mixamo/<name>/`. Code's list per model should name real Mixamo
+   searches and say what each is for, at least:
+   - **Pilot:** idle (waiting by the wreck, looking around), wave / signal,
+     run, slowing to stop, knock on a door (or a punch / tap to adapt), climb
+     up / step in, sitting idle (cabin), death / fall, flinch.
+   - **Each creature:** idle (breathing, twitching), creepy walk, run /
+     lurch, crawl, climb (for the canopy), attack / bite, scream / roar, death,
+     plus anything its type needs (Stalker: circling / crouch walk; Knocker:
+     pounding; Sleeper: a sitting idle and a sudden lunge).
+   **STOP until Dan has downloaded them.**
+5. **Stage 5 — into the game (Code).** Import as Humanoid; Animator
+   controllers per model; replace the placeholder pilot and creature everywhere
+   (pickup, canopy, break-in, horror sequence, cabin, Sleeper fight, security
+   kill, Field Journal pictures) with each type's own creature. The alien tells
+   must still work (the Mimic's shadow, the Hollow's dead visor, the Stalker's
+   path, the Knocker's knock timing on the new knock animation). The disguise
+   (pilot) -> reveal (creature) change happens live. LODs on; frame rate on
+   Dan's PC and the Deck setting. Keep the code-made models as the fallback if
+   a model file is missing.
+6. **Check (muted, no focus):** cockpit and landing-view pictures that Code looks
+   at and describes: a pilot running and knocking; each creature's reveal, on
+   the canopy and in the horror sequence; the Sleeper in the cabin camera; the
+   journal pictures; frame rate before / after.
+7. **Publish as 0.3.1**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (the art pipeline and folders), commit and push.
+
+**For Dan to check:** do the pilots look and move right; are the creatures
+scary up close; can you still spot the tells?

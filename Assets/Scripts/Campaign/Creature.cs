@@ -30,9 +30,22 @@ namespace HostileHorizon
         float clock, nextTwitch; Vector3 twitch; System.Random rng;
         Renderer[] rs;
 
-        public static Creature Create(Material lit, int seed = 1)
+        // Fix 3.1: each type's own creature (Dan's art pipeline, CharacterRig), its poses played as animations: Stand idle, Crawl crawl
+        // (the Stalker: its crouched walk), Canopy attack (clawing at the glass), Lunge roar, Thrash roar, Dead death; Act plays any
+        // other clip at a beat (climb, leap, attack, hit). No jaw bone: Jaw does nothing on these. The code-made creature below if the
+        // type's model is missing.
+        CharacterRig rig;
+        public CharacterRig Rig => rig;
+        public AlienType Type { get; private set; }
+
+        public static Creature Create(Material lit, int seed = 1, AlienType type = AlienType.None)
         {
-            var root = new GameObject("Creature"); var c = root.AddComponent<Creature>(); c.rng = new System.Random(seed);
+            var root = new GameObject("Creature"); var c = root.AddComponent<Creature>(); c.rng = new System.Random(seed); c.Type = type;
+            if (type != AlienType.None && (c.rig = CharacterRig.Create(CharacterRig.ModelFor(type), root.transform)))
+            {
+                root.name = "Creature (" + Aliens.Names[(int)type] + ")";
+                c.rs = c.rig.Renderers; root.SetActive(false); return c;
+            }
             var model = Instantiate(Resources.Load<GameObject>("Models/Creature"), root.transform); model.name = "Model";
             model.transform.localRotation = Quaternion.Euler(0, 180, 0);   // Blender FBX files import facing back
             c.body = new GameObject("Body").transform; c.body.SetParent(root.transform, false);
@@ -62,15 +75,23 @@ namespace HostileHorizon
 
         public void Show(bool on) => gameObject.SetActive(on);
         public void Shadows(bool on) { foreach (var r in rs) r.shadowCastingMode = on ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off; }
-        public Transform Joint(string name) => j[name];
-        public Vector3 HeadWorld => j["Head"].position + j["Head"].rotation * new Vector3(0, .05f, .14f);   // the face
+        public Transform Joint(string name) => rig ? null : j[name];
+        public Vector3 HeadWorld => rig ? rig.Head.position + transform.forward * .14f : j["Head"].position + j["Head"].rotation * new Vector3(0, .05f, .14f);   // the face
 
         void Set(string n, float x, float y = 0, float z = 0) => want[n] = new Vector3(x, y, z);
+
+        public void Act(string clip, float speed = 1f) { if (rig) rig.Play(clip, .2f, speed, true); }
 
         // Joint angles (degrees about the creature's own axes; +x bends a part forward / down).
         public void SetPose(Pose p, bool instant = false)
         {
             Current = p;
+            if (rig)
+            {
+                string clip = p == Pose.Stand ? "idle" : p == Pose.Crawl ? (Type == AlienType.Stalker ? "crouch_walk" : "crawl") : p == Pose.Canopy ? "attack" : p == Pose.Dead ? "death" : "roar";
+                rig.Play(clip, instant ? 0 : .25f);
+                return;
+            }
             foreach (var k in new List<string>(want.Keys)) want[k] = Vector3.zero;
             bodyWant = Vector3.zero;
             switch (p)
@@ -108,7 +129,7 @@ namespace HostileHorizon
 
         void Update()
         {
-            float dt = Time.deltaTime; if (dt <= 0) return;
+            float dt = Time.deltaTime; if (dt <= 0 || rig) return;
             clock += dt;
             // jerks: the head (and while thrashing, the arms) snap to a new angle at random moments, then ease back
             if (clock > nextTwitch)

@@ -41,6 +41,7 @@ namespace HostileHorizon
         {
             if (Application.isPlaying) throw new InvalidOperationException("Leave Play mode first.");
             MakeScene();
+            CharacterImport.MakeMaterials();   // Fix 3.1: the characters' materials as assets (keeps their shader variants)
             PlayerSettings.companyName = "Hostile Horizon";
             PlayerSettings.productName = "Hostile Horizon";
             PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;   // borderless, at the desktop resolution

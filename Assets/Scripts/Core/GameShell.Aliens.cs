@@ -20,6 +20,7 @@ namespace HostileHorizon
     {
         public Cabin CabinRoom { get; private set; }
         Creature horrorCreature; readonly List<Creature> corpses = new List<Creature>();
+        public Creature HorrorCreature => horrorCreature;   // checks
         readonly List<AudioSource> horrorLoops = new List<AudioSource>();
         Coroutine canopyCo, sleeperCo, driftCo;
         public DownedPilot CanopyAlien { get; private set; }
@@ -42,7 +43,7 @@ namespace HostileHorizon
             Displays.CabinRoom = CabinRoom;
         }
 
-        Creature NewCreature(bool onShip = true) { var c = Creature.Create(litTemplate, Random.Range(1, 99999)); if (onShip) c.transform.SetParent(Ship.transform, false); return c; }   // in or on the ship: carried with it
+        Creature NewCreature(AlienType type, bool onShip = true) { var c = Creature.Create(litTemplate, Random.Range(1, 99999), type); if (onShip) c.transform.SetParent(Ship.transform, false); return c; }   // in or on the ship: carried with it
 
         // Leaving the planet or a new sortie: no creature, no loops, the cabin as it was.
         void ClearAliens()
@@ -84,14 +85,14 @@ namespace HostileHorizon
             p.Hide(); AlienGone(p); c.stats.aliensKilled++; c.Earn(t.alienBounty);
             AlienEvent($"exhaust killed pilot {p.Index + 1}: a {p.Type} (tell shown: {p.Quirk != AlienType.None}); bounty +{t.alienBounty} cr");
             Met(p.Type, "killed by the exhaust");
-            StartCoroutine(Dies(at, face, Vector3.zero));
+            StartCoroutine(Dies(p.Type, at, face, Vector3.zero));
             Flash($"That was no pilot: a {Aliens.Names[(int)p.Type]}. Bounty +{t.alienBounty} cr" + (journalNote != "" ? $"   ·   {journalNote}" : ""), 8f);
         }
 
         // The creature shows itself where it died: it rears up thrashing, shrieks, and falls (a throw from the canopy flies first).
-        IEnumerator Dies(Vector3 at, Quaternion face, Vector3 throwVel, Creature c = null)
+        IEnumerator Dies(AlienType type, Vector3 at, Quaternion face, Vector3 throwVel, Creature c = null)
         {
-            if (!c) { c = NewCreature(false); c.transform.SetPositionAndRotation(at, face); }
+            if (!c) { c = NewCreature(type, false); c.transform.SetPositionAndRotation(at, face); }
             c.transform.SetParent(null, true);
             corpses.Add(c); c.Show(true); c.SetPose(Creature.Pose.Thrash); c.Jaw = 1; c.Speed = 12;
             Sfx.Play(Sfx.Clip("alien_shriek"), at + Vector3.up * 1.8f, 1f, 8f);
@@ -124,7 +125,8 @@ namespace HostileHorizon
         IEnumerator Canopy(DownedPilot p)
         {
             CanopyAlien = p; CanopyClock = 0; HorrorBeat = "climbing";
-            var c = horrorCreature = NewCreature(); c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 8;
+            var c = horrorCreature = NewCreature(p.Type); c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 8;
+            c.Act(p.Type == AlienType.Mimic ? "leap" : "climb", 1.4f);   // Fix 3.1: up the hull (the Mimic leaps)
             var st = Ship.transform;
             // up the hull, live (2.4 s)
             float t = 0;
@@ -177,7 +179,7 @@ namespace HostileHorizon
             AlienEvent($"engines on with it on the canopy: thrown off ({p.Type}); bounty +{t.alienBounty} cr");
             Met(p.Type, "thrown off the canopy");
             var v = Ship.transform.TransformDirection(new Vector3(-6f, 7f, 4f));
-            StartCoroutine(Dies(c.transform.position, c.transform.rotation, v, c));
+            StartCoroutine(Dies(p.Type, c.transform.position, c.transform.rotation, v, c));
             Flash($"Thrown off and burnt: a {Aliens.Names[(int)p.Type]}. Bounty +{t.alienBounty} cr" + (journalNote != "" ? $"   ·   {journalNote}" : ""), 8f);
         }
 
@@ -209,7 +211,7 @@ namespace HostileHorizon
             {
                 // something moving in the cabin behind you
                 HorrorBeat = "moving in the cabin";
-                if (!c) { c = horrorCreature = NewCreature(); }
+                if (!c) { c = horrorCreature = NewCreature(type); }
                 c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 6;
                 var move = LoopAt("cabin_move", Cabin.Inside, 1f, 2.5f);
                 Vector3[] round = { new Vector3(-1.1f, -.64f, -1.6f), new Vector3(.3f, -.64f, -3.0f), new Vector3(.9f, -.64f, -1.0f), new Vector3(-.2f, -.64f, -.2f), new Vector3(-.625f, -.64f, .55f) };
@@ -226,7 +228,7 @@ namespace HostileHorizon
                 c.transform.SetPositionAndRotation(st.TransformPoint(new Vector3(-.625f, -.64f, .55f)), st.rotation);
                 foreach (float gap in new[] { 1.5f, 1.25f, 1.0f })
                 {
-                    HorrorBeat = "the hatch is hit"; CabinRoom.HitDoor(); PlayAt("door_hit", Cabin.HatchCentre, 1f, 3f);
+                    HorrorBeat = "the hatch is hit"; c.Act("attack"); CabinRoom.HitDoor(); PlayAt("door_hit", Cabin.HatchCentre, 1f, 3f);
                     yield return Wait(gap);
                 }
                 HorrorBeat = "the hatch gives way"; CabinRoom.BreakDoor(); PlayAt("door_break", Cabin.HatchCentre, 1f, 3f);
@@ -261,7 +263,7 @@ namespace HostileHorizon
                 c.Jaw = Mathf.Clamp01((tt - 1f) / 1.2f);
                 yield return null;
             }
-            HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); c.Jaw = 1; c.Speed = 14;
+            HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); c.Jaw = 1; c.Speed = 14; c.Act("attack", 1.5f);
             tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; PlaceFace(c, head.position + head.forward * .16f, head.position, head.up, 12f); yield return null; }
             HorrorBeat = "dead";
             AlienEvent($"the {type} got you");
@@ -309,7 +311,7 @@ namespace HostileHorizon
             var others = cabin.FindAll(i => i != me);
             AlienEvent($"the Sleeper (pilot {me + 1}) turns after {SleeperClock:0} s with {others.Count} other pilot{(others.Count == 1 ? "" : "s")} aboard");
             foreach (var a in horrorLoops) if (a) Destroy(a.gameObject); horrorLoops.Clear();
-            var c = horrorCreature = NewCreature();
+            var c = horrorCreature = NewCreature(AlienType.Sleeper);
             if (others.Count == 0) { Run(Horror(AlienType.Sleeper, 2)); yield break; }
             // it kills one of them: heard, and glimpsed on the cabin camera, never shown in full (the lights go)
             int victim = others[new SeedRng(Planet.seed ^ me, 41).Next(others.Count)];
@@ -318,7 +320,7 @@ namespace HostileHorizon
             CabinRoom.HideSeat(sSeat);
             var at = CabinRoom.SeatPoint(vSeat);
             c.Show(true); c.SetPose(Creature.Pose.Lunge, true); c.transform.SetPositionAndRotation(Ship.transform.TransformPoint(new Vector3(at.x * .3f, -.64f, at.z)), Ship.transform.rotation * Quaternion.LookRotation(new Vector3(at.x, 0, 0)));
-            c.Jaw = 1;
+            c.Jaw = 1; c.Act("attack");
             PlayAt("cabin_kill", at, 1f, 2f); CabinRoom.Lights(false); CabinRoom.SlumpSeat(vSeat);
             Flash("Screams from the cabin!", 4f);
             float tt = 0; while (tt < 3f) { tt += Time.deltaTime; yield return null; }
@@ -327,7 +329,7 @@ namespace HostileHorizon
             if (left >= t.sleeperPilotsWin)
             {
                 HorrorBeat = "cabin: the pilots fight it";
-                PlayAt("pilots_fight", Cabin.Inside, 1f, 2f); c.SetPose(Creature.Pose.Thrash);
+                PlayAt("pilots_fight", Cabin.Inside, 1f, 2f); c.SetPose(Creature.Pose.Thrash); c.Act("hit");
                 tt = 0; while (tt < 3.5f) { tt += Time.deltaTime; yield return null; }
                 PlayAt("alien_death", Cabin.Inside, 1f, 2f); c.SetPose(Creature.Pose.Dead); c.transform.position = Ship.transform.TransformPoint(new Vector3(0, -.2f, -1.6f));
                 corpses.Add(c); horrorCreature = null;
@@ -390,6 +392,13 @@ namespace HostileHorizon
                 var sb = new StringBuilder();
                 foreach (var e in c.journal) sb.AppendLine($"<b>{Aliens.Names[e.type]}</b>  <size=22>(met {e.encounters} time{(e.encounters == 1 ? "" : "s")})</size>\n  {Aliens.Hint((AlienType)e.type, e.encounters)}\n");
                 return sb.ToString().TrimEnd();
+            };
+            // Fix 3.1: a picture of each type met (its creature: Resources/Characters/Journal, from the Blender renders)
+            journalPage.Pictures = () =>
+            {
+                var list = new List<(Texture, string)>(); var c = Career.C; if (c == null) return list;
+                foreach (var e in c.journal) { var tex = Resources.Load<Texture2D>("Characters/Journal/" + CharacterRig.ModelFor((AlienType)e.type)); if (tex) list.Add((tex, Aliens.Names[e.type])); }
+                return list;
             };
             journalPage.Add(Action("Back", () => Menu.Show(journalReturn ?? hangar)));
             journalPage.Back = () => Menu.Show(journalReturn ?? hangar);
