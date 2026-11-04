@@ -40,7 +40,7 @@ namespace HostileHorizon
             GameSettings.S.flightAssist = 0;
             Log("check pilot: Flight assist Full for getting about (measurements set their own)");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only.StartsWith("round4") ? Round4() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only == "music" ? MusicCheck() : CheckRun.Only.StartsWith("round4") ? Round4() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
             while (true)
             {
                 object cur;

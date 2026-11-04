@@ -25,7 +25,8 @@ a guide: the game loops and crossfades them.
 
 **ElevenLabs music API (2026-11-04):** Dan's API key is missing the `music_generation` permission (HTTP 401 "missing the
 permission music_generation"), so `tension_low_energy` and `regeneration` were made as stand-ins with the sound-effects model
-(a 22 s loop and 10 s). For the real music: ElevenLabs > Developers > API keys > edit the key > allow Music, then
+(a 22 s loop and 10 s). **Fix 4.1:** the key still refused after Dan updated it, so Dan made both himself (120 s and 30 s);
+they are in `BundleMusic/` now. For the real music: ElevenLabs > Developers > API keys > edit the key > allow Music, then
 `python Tools/make_music.py --only tension_low_energy,regeneration --force` and `python Tools/music_loops.py` (or make them in
 the ElevenLabs app with the prompts below and drop them in `BundleMusic/`). The stingers are made with the sound-effects API
 into `Assets/Resources/Sounds/sting_*.mp3` (built into the game).

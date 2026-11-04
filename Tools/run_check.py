@@ -1,8 +1,8 @@
-"""Hostile Horizon: start an exe check the way Dan's test rules require (CLAUDE.md, Process: "Testing on Dan's PC").
+﻿"""Hostile Horizon: start an exe check the way Dan's test rules require (CLAUDE.md, Process: "Testing on Dan's PC").
 Muted (-mute; the game also mutes any -exeCheck run itself) and with no window at all (-batchmode: nothing pops up or takes focus;
 the game draws its view off-screen for the screenshots, Core/TestRun.cs), Below Normal priority. Waits, then prints
 <dir>/exe_check.txt.
-Usage: python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|mute|screen] [--minutes N] [--extra "-steamDeck 1"] [--size 1920x1080]"""
+Usage: python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|mute|screen] [--minutes N] [--extra "-steamDeck 1"] [--size 1920x1080]"""
 import argparse, pathlib, shutil, subprocess, sys
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 

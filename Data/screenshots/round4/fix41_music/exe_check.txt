@@ -1,0 +1,21 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 55296 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 16:41; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+music folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music
+tension layer: "tension_low_energy", file 120.6 s, at 4.0 s; under "flight_canyons" gain 0.55
+tension layer moved to 104.0 s (its loop end is 107.3 s, crossfade 1 s, back to 65.7 s)
+after 6 s: at 68.4 s; crossfade seen yes; still playing "tension_low_energy" (back in the loop: OK)
+regeneration cue: playing "regeneration", file 30.2 s, gain 1.00
+after it: playing "(silence)" (a one-shot: silence until the state changes); wait 5 s
+5 s later: "(silence)" (did not loop: OK)
+--- music log
+  0.0 music "(silence)" gain 0.00
+  0.0 music "title_theme" gain 0.25
+  0.9 music "title_theme" gain 0.50
+  1.9 music "title_theme" gain 0.75
+  2.2 music "flight_canyons" gain 0.00 +tension
+  2.7 music "flight_canyons" gain 0.25 +tension
+  3.7 music "flight_canyons" gain 0.50 +tension
+  12.2 music "regeneration" gain 1.00
+  42.4 music "(silence)" gain 0.00
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 4569088 samples); master volume 0.00

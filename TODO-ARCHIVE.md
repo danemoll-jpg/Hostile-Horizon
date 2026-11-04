@@ -1344,3 +1344,43 @@ falseTellChance 0, alienBounty 200, canopyClimbAfter 25, breakInAfter 10, sleepe
 **For Dan to check:** radar distances and the route trail (is it followable at speed? wider / higher?); the aliens: can you learn the
 tells by playing, do they still fool you, is the canopy and the horror sequence scary, does the Sleeper's cabin fight work? **Listen to
 the sounds** (never played on your PC by me). Frame rate on your PC and the Deck (not measurable this round).
+
+=== Previous delivery moved from TODO.md at Fix 4.1 ===
+
+**Fix 3.1 — real character models (2026-11-04). Published: 0.3.1 (`game-301`, Latest).** Exe built 2026-11-04 07:15
+(`BUILD_INFO.txt`). Evidence `Data/screenshots/round3_1/`: `final/` (`--only fix31`, the 06:58 build: every alien scene + close-ups),
+`perf_pc/` + `perf_deck/` (`--only fix31perf`, the published 07:15 build, which differs from 06:58 only in the journal layout and check
+code), `horror3/` (the culling bug found and fixed), `launcher/`. Every run headless (`-batchmode`, no window) and muted: output 0.000 RMS
+at start and end of every run; no step played sound. New checks: `--only fix31` (about 15 min), `fix31h` (the airlock horror only),
+`fix31perf` (journal + frame rates).
+
+0. **Commit first — done.** "Fix 3.1 planning" (f1f2930); each stage committed on its own.
+1. **Stage 1, prompts — done.** `Docs/MODELS-NEEDED.md`: six prompts, design notes, file names, the Mixamo list. The Sleeper's first
+   prompt was refused by Dan's image tool (violence filter): rewritten with the seam closed.
+2. **Stage 2, concept art (Dan) — done.** Six images in `SourceArt/Concepts/`, all usable (full body, A-pose, plain background).
+3. **Stage 3, Meshy — done.** `Tools/meshy_generate.py` (key from `MESHY_API_KEY`, never written anywhere; 30 credits each, 180 in all),
+   `Tools/Blender/meshy_cleanup.py` (metres, feet at 0, front, renders, `<name>_mixamo.fbx`). Pilot 18.7k triangles, creatures 25.9-29.2k.
+   **LODs: not made in Blender** — Unity 6.6's own Mesh LOD on import instead (4 levels, keeps the skinning; reported per model).
+4. **Stage 4, Mixamo (Dan) — done, with substitutes.** Dan: each clip downloaded once (one skeleton for all; Humanoid retargets it).
+   No Mixamo knock: "Opening" (its first 2.5 s per set of knocks); flinch = Zombie Reaction Hit; pilot run / climb / death from the
+   creature set; no bite (attack), no Knocker pound (attack), no Sleeper twitch / lunge (its tell stays the head turn; roar / attack).
+5. **Stage 5, into the game — done.** `Tools/import_characters.py` -> `Assets/Resources/Characters/`; `Assets/Editor/CharacterImport.cs`
+   (Humanoid, loops, Mesh LOD, materials as assets made at build time); `Campaign/CharacterRig.cs` (clips by name, crossfades). Pilots wave
+   as the ship lands, look round, run, stop, knock, climb in, flinch + die; every type its own creature (reveal, canopy climb — the Mimic
+   leaps, canopy, cabin crawl — the Stalker crouch-walks, hatch, lunge, death); seated pilots in the cabin; journal pictures. Tells:
+   Hollow's visor a dead black (pilot visor pixels found in the texture: `pilot_mask_hollow`), real visor a mirror; the Mimic's shadow is
+   the Mimic itself (shadow-only, 3.3 m behind); Stalker 420° round, off radar 10 s, side-steps crouched facing the ship; Knocker's
+   knocks unchanged (3 / 4 at 0.34 s). Code-made figures stay as the fallback (`CharacterRig.Disabled` in checks). The Sleeper's seam
+   can't open (no jaw bone in Mixamo's rig). **Fixed on the way:** Animator culling left the creature undrawn right in front of the eye
+   (the lunge was empty): characters always animate.
+6. **Check — done.** Pictures looked at: pilots at the airlock camera, the Hollow's visor beside a real one, each creature idle + roar up
+   close (`m_*`), the canopy, three lunges (`b_04`, `h_07`, `s2_06`), the cabin camera (Sleeper's tell, the kill), the journal (`j2`).
+   Frame rate landed (pilot coming, 4 in the cabin, cabin camera): models 423 fps / old figures 434 at 1080p; Deck setting 1280 x 800:
+   456 / 444. Flying low: 310 (1080p), 321 (Deck setting). The PC was otherwise idle except Dan's open Chastain Rush editor.
+7. **Publish — done.** 0.3.1 = build 301, tag `game-301`, Latest; the `starter-200` ZIP from GitHub, `--auto-check`: "Updating to game
+   0.3.1", installed `versions/301`, started, ready, exit 0. Clean-up: disk use 3.0 GB -> 2.4 GB (starter test install, the 0.3.0 release
+   folder and debug check runs removed); `SourceArt/` grew by ~0.45 GB (Meshy + Mixamo files; `.blend` and Meshy's raw FBX not in git).
+
+**For Dan to check:** do the pilots look and move right (the knock is "Opening": good enough?); are the creatures scary up close (the
+lunge comes side-on, an arm reaching past); can you still spot the tells (the real visor's reflection is soft; is the difference enough?).
+Field Journal pictures. HOTAS / Deck as always.

@@ -80,6 +80,7 @@ namespace HostileHorizon
                 if (quiet) wind = .22f;
                 tension = InCampaign && st == State.Flying && !quiet && (Ship.Energy < Tuning.T.energyWarning || HomeState > 0);
             }
+            if (CheckRun.Active && Music.CheckWant != null) { want = Music.CheckWant; tension = Music.CheckTension; }   // the music check
             Music.Want = want; Music.Tension = tension;
             if (shipAudio) shipAudio.Wind = Ship.gameObject.activeInHierarchy ? Mathf.Max(wind, Weather.Blizzard * .5f) : 0;
         }

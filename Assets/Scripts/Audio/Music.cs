@@ -25,6 +25,14 @@ namespace HostileHorizon
         public string Playing => main.track;
         public float PlayingVolume => main.gain;
         public int LoadedTracks => clips.Count;
+        // checks only (Fix 4.1): set the state directly, and look at / move the tension layer's play position
+        public string CheckWant; public bool CheckTension;
+        public string TensionTrack => tension.track;
+        public float TensionTime => tension.clip ? tension.src[tension.cur].time : -1;
+        public float TensionLength => tension.clip ? tension.clip.length : 0;
+        public bool TensionCrossfading => tension.fade >= 0;
+        public float MainLength => main.clip ? main.clip.length : 0;
+        public void CheckSeekTension(float t) { if (tension.clip) tension.src[tension.cur].time = t; }
 
         sealed class Loop { public float start, end, xfade; }
         sealed class Deck
