@@ -168,7 +168,7 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — none: Round 4 (Enemies + difficulty) is next, to be written by the planning chat
+Current Objective — Fix 3.2: always another planet to fly
 ---------------------------------------------------------------------------
 
 Fix 3.1 (real character models) is delivered as 0.3.1 (status under "Previous deliveries"; its specification is in
@@ -176,6 +176,48 @@ Fix 3.1 (real character models) is delivered as 0.3.1 (status under "Previous de
 concept images drawn -> Code makes the 3D models with the Meshy API (Dan's key) -> Dan rigs them in Mixamo and downloads the
 animations Code lists -> Code imports and wires them up; in stages with a STOP for Dan at each. How-to: `Docs/MODELS-NEEDED.md`.
 Still open for Dan from 0.3.0: the route corridor width / height, and a second sign for the Mimic's tell in shade.
+
+
+Round 4 (Enemies + difficulty) comes after this fix.
+
+Dan (2026-11-04): "There should be something to do once you clear all the
+pilots from a planet. Shouldn't have to wait another day before there are any
+more pilots."
+
+**Decided (planning chat default, Dan to confirm by playing):** the home system
+has as many planets as you want. The seed of the day stays the **featured
+"planet of the day"**; clearing a planet unlocks a jump to a **new planet** at
+once. A simple planet list now; the full star map stays in Round 5.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **New planets on demand.** From the hangar: **Jump to a new planet**. It
+   generates the next planet of the career's home system from the career's
+   seed and a planet counter (so a career's planets are always the same
+   ones, in order), with its own generated name. Tier (more pilots, wider
+   spread, more aliens) rises with planets cleared, as now. Available as soon
+   as the current planet is cleared; also available before that (leaving
+   pilots behind for later). Free (no credits) for now; tuning value exists.
+2. **The planet list (simple star map).** Hangar page **Planets**: today's
+   planet (marked "Planet of the day"), every planet the career has visited
+   with its name, biome placeholder ("canyons" for now), pilots rescued / lost
+   / still waiting, cleared or not; and "New planet". Pick one and launch
+   there. Saved with the career.
+3. **Planet of the day bonus.** Pilots rescued on today's planet pay more
+   (tuning, starting +50 %), shown in the hangar, so the daily planet stays
+   special. A new day = a new planet of the day; the old one stays in the list.
+4. **When a planet is cleared:** the docking ending / hangar says so plainly
+   ("Vessra-IV cleared! +1000 credits") and offers Jump to a new planet as the
+   default next action.
+5. **Check (muted, no focus):** clear the first planet -> jump -> new planet
+   with a different name and pilots; the same career gives the same second
+   planet twice; leave a planet with pilots waiting, come back from the list,
+   they are still there; the planet-of-the-day bonus is paid; saves survive a
+   quit and Continue.
+6. **Publish as 0.3.2**, update `TODO.md` (per-item status) and `CLAUDE.md`,
+   commit and push.
+
+**For Dan to check:** after clearing a planet, is jumping to a new one obvious
+and quick? Is the planet list clear?
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -196,7 +238,8 @@ Next Steps — queued rounds (Do Not Start Yet)
   performance plan (instancing / LOD for trees and buildings) for the Deck and
   later VR.
 - **Round 5 — Modern progression:** the upgrade shop (credits), mission
-  objectives, the star map (return to older planets, typed seed), recovering
+  objectives, the full star map (builds on Fix 3.2's planet list; typed seed;
+  maybe new distress calls appearing on visited planets over time), recovering
   your own wreck yourself, insurance, best run per planet.
 - **Round 6 — Look, sound and first release:** art pass (ship model, cockpit,
   pilots and aliens from Blender), Suno soundtrack, ElevenLabs sound pass,
