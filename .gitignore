@@ -23,3 +23,6 @@ local/
 SourceArt/Meshy/*/model.fbx
 *.blend1
 SourceArt/Meshy/*/*.blend
+
+# Round 4: Suno soundtrack ships through the launcher soundtrack component, not git
+BundleMusic/

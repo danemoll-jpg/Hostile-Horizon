@@ -168,7 +168,7 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 4 (Enemies + difficulty): to be written by the planning chat
+Current Objective — Round 4: planet biomes, music and voices
 ---------------------------------------------------------------------------
 
 Fix 3.2 (always another planet to fly) is delivered as 0.3.2 (status under "Previous deliveries"; its specification is in
@@ -179,37 +179,144 @@ Still open for Dan from 0.3.0: the route corridor width / height, and a second s
 **Planets (Fix 3.2, planning chat default, Dan to confirm by playing):** the home system has as many planets as you want; the seed
 of the day stays the featured "planet of the day" (pilots +50 %); Jump to a new planet from the hangar (free), a Planets list.
 
+
+Dan (2026-11-04): "Not sure if we put planet variety in yet... let's do this.
+Also we need some music. ... Do we need any voices for anything? Like some
+communications? I think this could be interesting." Enemies + difficulty move
+to Round 5 (the later rounds shift by one). One publish at the end: **0.4.0**.
+Commit after each part.
+
+**Part A — Planet biomes**
+
+A1. **Biome per planet.** Each planet is one biome, chosen by its seed (same
+    planet = same biome); a new career's first planet is always Canyons. The
+    Planets list, the hangar and the planet's name screen show the biome. This
+    round builds four: **Canyons** (as now), **Giant Forest**, **Dead City**,
+    **Ice**. Same rules in all: landing pads, pilots, aliens, radar, route
+    trail, recall / tow, crash levels, Free Flight (Free Flight gets a biome
+    picker).
+A2. **Giant Forest.** Huge alien trees (trunks 5-15 m wide, 60-150 m tall)
+    over rolling ground and valleys; you fly under, between and over the canopy.
+    Clearings are the landing pads (pilots crashed through the canopy). Dim,
+    green-gold light under the canopy, shafts of light, mist, drifting spores.
+    Tree trunks are solid (crash levels apply); leaves / canopy can be flown
+    through with a brush effect, not a crash.
+A3. **Dead City.** A ruined alien city: streets and avenues are the canyons
+    between towers 80-500 m tall; broken skyscrapers, sky bridges, collapsed
+    blocks, plazas and **rooftops as landing pads** (some pilots are on roofs).
+    Dark, smoky, flickering dead lights, rain or ash. Buildings are made in code
+    / Blender scripts (hard surface is fine for scripts); varied but seeded.
+A4. **Ice.** Glaciers, deep blue crevasses as the canyons, ice cliffs, snow
+    plains between them, ice caves you can fly through; weather: drifting snow,
+    occasional blizzard that cuts visibility (the radar and route trail matter
+    more). Ice / snow materials that look cold and real.
+A5. **Look and weather per biome:** its own sky, sun, fog / haze colour, light,
+    particles and terrain materials; the pilot wrecks and pads fit the biome.
+A6. **Performance plan:** GPU instancing, LODs and distance culling for trees
+    and buildings; the Steam Deck setting thins them (fewer trees / simpler
+    buildings / shorter view). Keep 60 fps on Dan's PC and the Deck setting's
+    frame rate (report per biome); keep VR headroom in mind.
+A7. **Art:** buildings, ice and rocks by script; trees by script if they look
+    good, otherwise use Dan's art pipeline (Meshy; STOP for Dan only if
+    needed). Any CC0 textures noted in the credits.
+A8. Later biomes stay queued: volcanic, crystal / fungal, ocean islands.
+
+**Part B — Music** (design and Suno prompts: `Docs/MUSIC.md`, written by the
+planning chat; Dan makes the Suno tracks)
+
+B1. **Adaptive music system:** plays the track for the game state (title,
+    hangar, planet list, flight per biome, low-energy tension, regeneration)
+    with slow crossfades; flight music fades out near a pilot and while landed
+    waiting (silence + wind for the scares); ducks under voice messages; the
+    horror sequence has no music (sound only). Any missing track is silent.
+B2. **Where the files go:** `BundleMusic/` (git-ignored, as in Chastain Rush),
+    copied into the build, shipped as the launcher's **soundtrack** component
+    (as Chastain Rush does). Tell Dan exactly where to drop them.
+B3. **ElevenLabs music and stingers:** make the two music loops
+    (`tension_low_energy`, `regeneration`; moved from Suno, Dan 2026-11-04) with
+    the ElevenLabs music API and the short cues, all listed in `Docs/MUSIC.md`
+    (`ELEVENLABS_API_KEY`), wired to their moments. If the plan doesn't allow
+    music through the API, tell Dan.
+B4. **Settings:** Music / Effects / Voices volume sliders (Master stays).
+B5. **Dan's Suno tracks are in** (2026-11-04, put there by the planning chat):
+    `BundleMusic/title_theme.mp3` (2:25), `hangar.mp3` (3:19),
+    `planet_select.mp3` (3:20), `flight_canyons.mp3` (2:43), `flight_forest.mp3`
+    (3:43), `flight_city.mp3` (3:39), `flight_ice.mp3` (3:23). Loop them with a
+    clean crossfade at the loop point. Add `BundleMusic/` to `.gitignore`
+    (as in Chastain Rush; it isn't ignored yet): the music ships through the
+    launcher's soundtrack component, not git. If any track is missing later, build and check the system with
+    placeholders; Dan drops the tracks in later and a soundtrack update ships.
+
+**Part C — Voices and communications** (ElevenLabs text-to-speech, made by
+Code with the API; all lines written by Code, original, short, natural)
+
+C1. **Voices:** (1) **Control** — the mothership's flight controller (one calm,
+    dry, experienced voice): launch, planet-of-the-day callouts, pilots found,
+    "climb to dock", docking clearance, tow / recall, planet cleared, a new
+    planet briefing, regeneration ("Welcome back. Again."). (2) **The ship's
+    computer** — short synthetic warnings: energy low, RETURN NOW, can't reach
+    the mothership, terrain / pull up, hull damage, landing gear, airlock open,
+    pilot aboard, cabin full, intruder alert. (3) **Downed pilots** — a pool of
+    at least 8 different voices (men and women, different ages and accents):
+    mayday calls on the radio when you come in range ("Mayday, mayday, this is
+    Corps pilot <name>, I'm down near...", seeded name), "I see you! Coming to
+    you" when you land, a voice through the hull at the door ("It's me, open
+    up!"), thanks when aboard, nervous cabin chatter, screams for the Sleeper.
+C2. **The aliens use the voices too.** An alien disguised as a pilot also
+    radios and talks at the door, so a voice proves nothing. **Suggested
+    second sign for the Mimic in shade (answers 0.3.0's open question):** the
+    Mimic's voice is subtly wrong some of the time (a word repeats, a breath in
+    the wrong place, the callsign of a pilot already lost). Same tell rules
+    (only some of the time). Other types keep their tells; no type gets a
+    voice tell that's always on.
+C3. **Radio sound:** comms through a radio filter (band-limited, light
+    crackle) with a click in / out; the computer is clean and close; the door
+    voice is muffled through the hull. Lines don't overlap (a queue with
+    priorities: warnings first).
+C4. **Subtitles** (Settings: On by default) at the bottom of the HUD and on a
+    cockpit display (VR rule 2).
+C5. **Files:** `Docs/VOICES.md` lists every line, voice and file; a script
+    makes them (`--only`, `--force` as `make_sounds.py`); the key is never
+    printed or written.
+
+**Check (muted, no focus, per the testing rules):** each biome: a cockpit
+picture flying low, a landing at a pilot (forest clearing, a rooftop, an ice
+pad), the route trail, frame rate on PC and the Deck setting; the same seed
+gives the same biome; the music system switches by state (log the track and
+volumes; muted run); stingers fire; voice lines play in order with
+subtitles (logged AudioSource events, no audible run); an alien's radio call
+and door voice; the Mimic's voice sign appears only some of the time.
+
+**End of the round:** publish **0.4.0**, update `TODO.md` (per-item status for
+A1-A8, B1-B5, C1-C5: done / not done / deferred and why) and `CLAUDE.md`, clean
+up, commit and push. Tell Dan where to put the Suno files.
+
+**For Dan to check:** do the forest, city and ice feel different and good to
+fly? Rooftop and clearing landings. The voices: does Control sound right, do the
+pilots sound different from each other, is the radio chatter fun or too much?
+Drop in the Suno tracks: does the music fit each place?
+
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 4 — Enemies + difficulty:** turrets on ridges, saucers, enemy fire,
+- **Round 5 — Enemies + difficulty:** turrets on ridges, saucers, enemy fire,
   shields and hull, damage; Campaign difficulty presets + custom options.
-- **Planet biomes (Dan, 2026-11-03) — placement OPEN (default: right after
-  Round 4).** Each planet is one biome, chosen by its seed; the planet's name
-  and the star map show it. Dan's ideas: **huge forests** (giant trees, you fly
-  through and over the canopy, clearings to land in) and **large cities with
-  skyscrapers** (ruined alien cities: the canyons are streets between towers).
-  Planning chat's suggestions for Dan to pick from: ice (glacier crevasses,
-  blizzards), volcanic (lava rivers, ash, glowing vents), alien fungal / crystal
-  forest, ocean archipelago (sea stacks and arches), and the current desert
-  canyons. Each biome changes the shapes, materials, sky, weather and where
-  pilots can land; same rules everywhere (pads, route trail, radar). Needs a
-  performance plan (instancing / LOD for trees and buildings) for the Deck and
-  later VR.
-- **Round 5 — Modern progression:** the upgrade shop (credits), mission
+- **More biomes (after Round 4):** volcanic, crystal / fungal forest, ocean
+  islands, each with its own Suno flight track.
+- **Round 6 — Modern progression:** the upgrade shop (credits), mission
   objectives, the full star map (builds on Fix 3.2's planet list; typed seed;
   maybe new distress calls appearing on visited planets over time), recovering
   your own wreck yourself, insurance, best run per planet.
-- **Round 6 — Look, sound and first release:** art pass (ship model, cockpit,
-  pilots and aliens from Blender), Suno soundtrack, ElevenLabs sound pass,
-  Steam Deck tuning, credits.
-- **Round 7+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
+- **Round 7 — Look and sound polish:** art pass (ship model, cockpit,
+  mothership; pilots and aliens are done), sound pass, Steam Deck tuning,
+  credits.
+- **Round 8+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
   head-tracked cockpit, world-space menus, comfort options (all OFF by
   default: no snap turn, no fades, no vignette; Dan wants realism), VR performance
   pass. Native Quest decided afterwards.
 - **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
-  After Round 5 unless Dan moves it.
+  After Round 6 unless Dan moves it.
 
 ---------------------------------------------------------------------------
 Previous deliveries
