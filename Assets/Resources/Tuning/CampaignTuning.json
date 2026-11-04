@@ -2,6 +2,8 @@
     "startingCredits": 3000,
     "pilotPay": 500,
     "clearBonus": 1000,
+    "dayBonus": 0.5,
+    "jumpCost": 0,
     "fuelPricePerPercent": 6,
     "freeMinimumFill": 35,
     "repairPricePerPercent": 12,

@@ -306,7 +306,7 @@ namespace HostileHorizon
                 Career.C.credits = Career.C.RecoveryFee + 500;
             }
             {
-                G.Menu.Current.Selected = 3; G.Menu.Show(G.Menu.Current, true);
+                G.Menu.Current.Selected = Row("Recover"); G.Menu.Show(G.Menu.Current, true);
                 int cr3 = Career.C.credits;
                 yield return Press(GamepadButton.South);                     // Recover your own ship
                 yield return WaitPhase(() => G.Phase == "recovery", 5f, "the swap");

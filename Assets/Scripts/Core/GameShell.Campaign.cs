@@ -41,7 +41,8 @@ namespace HostileHorizon
         public float LiftEnded { get; private set; }
         // Energy (%) to climb from here to the docking height in flight mode at full throttle, plus the margin.
         public float EnergyHome { get { var t = Tuning.T; return Mathf.Max(0, t.dockingHeight - Ship.Altitude) / t.homeClimbRate * (t.energyDrainFlightBase + t.energyDrainFlightThrottle) + t.homeMargin; } }
-        MenuPanel.Page campaignPage, confirmNew, hangar, dead, regen, outOfEnergy, campaignPause, lowEnergy;
+        MenuPanel.Page campaignPage, confirmNew, hangar, dead, regen, outOfEnergy, campaignPause, lowEnergy, jumping, planetsPage;
+        MenuPanel.Row jumpRow;
 
         int Waiting { get { int n = 0; foreach (var p in Pilots) if (p.OnFoot) n++; return n; } }
         bool CanDock => cabin.Count > 0 || Waiting == 0 || Ship.Energy < Tuning.T.dockAnyTimeBelowEnergy || Ship.Energy < EnergyHome + Tuning.T.returnNowWarning;
@@ -58,14 +59,7 @@ namespace HostileHorizon
             Now = State.Loading; Time.timeScale = 1; Menu.SetBackdrop(.6f); Menu.Show(loading);
             ClearCampaignWorld(); ClearCrash();
             var c = fresh || !Career.Exists ? Career.New() : Career.Load() ?? Career.New();
-            int seed = Seeds.OfTheDay;
-            SetWorld(seed);
-            Planet = c.Planet(seed); Planet.visits++;
-            Terrain.Field.FindStart(out var start, out var heading);
-            Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
-            SpawnPilots();
-            c.Save();
-            Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
+            Arrive(c, c.ArrivalSeed());   // Fix 3.2: a new day's planet of the day first, else where you left off
             Ship.UsesEnergy = true;
             Ship.Spawn(Mother.DockPosition, Mother.DockRotation, CampaignLevel, .3f, c.Current.damage);
             Ship.Energy = c.Current.energy; Ship.MakeKinematic(true); Ship.SetPose(Mother.DockPosition, Mother.DockRotation, 0, true);
@@ -76,6 +70,46 @@ namespace HostileHorizon
             while (!Terrain.ReadyNear(1500f) && Time.realtimeSinceStartup < end) yield return null;
             InCampaign = true; Displays.Campaign = true; Displays.CabinSize = Tuning.T.cabinSize; cabin.Clear();
             debrief = fresh ? $"New career. Welcome to the {c.systemName} system rescue corps.\nStarting credits {c.credits} cr." : "";
+            ShowHangar();
+        }
+
+        // The mothership over a planet of the career (Fix 3.2: any of them, not only today's): the world, its pilots, saved.
+        void Arrive(Career c, int seed)
+        {
+            SetWorld(seed);
+            Planet = c.Planet(seed); Planet.visits++; Planet.lastVisit = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); c.currentSeed = seed;
+            Terrain.Field.FindStart(out var start, out var heading);
+            Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
+            SpawnPilots();
+            c.Save();
+            Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
+        }
+
+        // Fix 3.2: the jump to another planet, from the hangar. The bay doors stay shut: you stay in the cockpit in the bay (no cut,
+        // no fade) while the mothership arrives over the other planet; pilots waiting on the one you leave stay there for later.
+        public void JumpTo(int seed) => Run(Jump(seed));
+        public void JumpToNew() { var c = Career.C; if (c.credits < Tuning.T.jumpCost) return; JumpTo(c.NextPlanetSeed()); }
+
+        IEnumerator Jump(int seed)
+        {
+            var c = Career.C; string from = Planet?.name;
+            bool made = !c.planets.Exists(p => p.seed == seed);
+            int paid = c.Spend(Tuning.T.jumpCost);
+            Now = State.Loading; Phase = "jump"; Time.timeScale = 1;
+            jumping.Body = () => $"Leaving {from}.\n\nJumping to <b>{Names.Planet(seed)}</b>…";
+            Menu.SetBackdrop(.15f); Menu.Show(jumping);
+            foreach (var p in Pilots) if (p) Destroy(p.gameObject);
+            Pilots.Clear(); cabin.Clear(); ClearAliens(); Reseat();
+            if (padRing) padRing.gameObject.SetActive(false);
+            if (Route) Route.Clear(); routePick = -1;
+            if (Displays) { Displays.Route = ""; Displays.RoutePath = null; Displays.Contacts.Clear(); }
+            Arrive(c, seed);
+            Ship.SetPose(Mother.DockPosition, Mother.DockRotation, 0, true); Rig.Snap();
+            Terrain.SetFocus(Mother.transform.position);
+            float end = Time.realtimeSinceStartup + 12f;
+            while (!Terrain.ReadyNear(1500f) && Time.realtimeSinceStartup < end) yield return null;
+            Sfx.Play(Sfx.Thunk, Ship.transform.position + Vector3.up * 1.5f, .7f, 8f);
+            debrief = $"Jumped from {from} to {Planet.name}{(made ? " (a new planet)" : "")}{(paid > 0 ? $": -{paid} cr" : "")}.\n{Planet.pilots.Length} pilots down here: {Planet.Count(PilotFate.Waiting)} waiting.";
             ShowHangar();
         }
 
@@ -136,7 +170,7 @@ namespace HostileHorizon
         {
             if (Planet.Count(PilotFate.Waiting) > 0 || Planet.bonusPaid) return;
             var c = Career.C; Planet.bonusPaid = Planet.cleared = true; c.stats.planetsCleared++; c.Earn(Tuning.T.clearBonus);
-            sb.AppendLine($"{Planet.name} cleared: bonus +{Tuning.T.clearBonus} cr");
+            sb.AppendLine($"<b>{Planet.name} cleared! +{Tuning.T.clearBonus} credits</b>");
         }
 
         void ShowHangar()
@@ -146,7 +180,9 @@ namespace HostileHorizon
             Now = State.Docked; Phase = "docked"; Time.timeScale = 1;
             Mother.Holding = true; Ship.MakeKinematic(true);
             Displays.Cabin = cabin.Count; Displays.Prompt = "Docked in the mothership"; Displays.Contacts.Clear();
-            Displays.SetVisible(false); Menu.SetBackdrop(.15f); Menu.Show(hangar);
+            Displays.SetVisible(false); Menu.SetBackdrop(.15f);
+            // Fix 3.2: on a cleared planet the jump to a new one is the default next action
+            if (Planet.cleared) { hangar.Selected = hangar.Rows.IndexOf(jumpRow); Menu.Show(hangar, true); } else Menu.Show(hangar);
         }
 
         void HoldDocked() { if (Phase == "docked") HoldShip(); }
@@ -525,9 +561,10 @@ namespace HostileHorizon
             var c = Career.C; var t = Tuning.T; var sb = new StringBuilder();
             if (cabin.Count > 0)
             {
-                int pay = cabin.Count * t.pilotPay; c.Earn(pay); c.stats.pilotsRescued += cabin.Count;
+                int pay = cabin.Count * t.pilotPay, extra = Planet.OfTheDay ? Mathf.RoundToInt(pay * t.dayBonus) : 0;   // Fix 3.2: the planet of the day pays more
+                c.Earn(pay + extra); c.stats.pilotsRescued += cabin.Count;
                 foreach (int i in cabin) Planet.pilots[i] = (int)PilotFate.Rescued;
-                sb.AppendLine($"Delivered {cabin.Count} pilot{(cabin.Count > 1 ? "s" : "")}: +{pay} cr");
+                sb.AppendLine($"Delivered {cabin.Count} pilot{(cabin.Count > 1 ? "s" : "")}: +{pay + extra} cr" + (extra > 0 ? $" (planet of the day +{t.dayBonus * 100:0} %: {extra} cr of it)" : ""));
                 cabin.Clear();
             }
             CheckCleared(sb);
@@ -757,12 +794,17 @@ namespace HostileHorizon
 
             hangar = new MenuPanel.Page { Title = "HANGAR", Subtitle = "Rescue carrier, high over the planet" };
             hangar.Body = HangarText;
+            jumpRow = new MenuPanel.Row { Label = () => "Jump to a new planet" + (Tuning.T.jumpCost > 0 ? $"  <size=24>({Tuning.T.jumpCost} cr)</size>" : "  <size=24>(free)</size>"), Submit = JumpToNew, Disabled = () => Career.C.credits < Tuning.T.jumpCost };
             hangar.Add(Action("Launch", TryLaunch, () => Career.C.Current.energy < 1f))
+                  .Add(jumpRow)                                            // Fix 3.2
+                  .Add(Action("Planets", ShowPlanets))                     // Fix 3.2: the planet list
                   .Add(new MenuPanel.Row { Label = () => $"Repair hull  <size=24>({Career.C.RepairCost} cr)</size>", Submit = () => { debrief = Career.C.Repair(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.damage <= 0 || Career.C.credits <= 0 })
                   .Add(new MenuPanel.Row { Label = () => $"Refuel  <size=24>({Career.C.RefuelCost} cr)</size>", Submit = () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.energy >= 99.9f })
                   .Add(new MenuPanel.Row { Label = () => $"Recover your own ship  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, false)), Visible = () => Career.C != null && Career.C.flyingLoaner && Career.C.ship.wrecked, Disabled = () => Career.C.credits < Career.C.RecoveryFee })
-                  .Add(Action("Back to title (saves)", ToTitle))
-                  .Add(Action("Field Journal", () => ShowJournal(hangar)));   // Round 3
+                  .Add(Action("Field Journal", () => ShowJournal(hangar)))   // Round 3
+                  .Add(Action("Back to title (saves)", ToTitle));
+            jumping = new MenuPanel.Page { Title = "JUMP", Subtitle = "The bay doors are shut; the mothership is under way", Hint = () => "" };
+            BuildPlanetsPage();
 
             // Fix 2.5: launching with little energy asks first (Refuel and launch is the default)
             lowEnergy = new MenuPanel.Page { Title = "LOW ENERGY", Back = () => Menu.Show(hangar) };
@@ -816,7 +858,10 @@ namespace HostileHorizon
                 $"<b>Ship</b>: {(c.flyingLoaner ? "the corps loaner (basic)" : "your own")}   hull {100 - s.damage:0}%   energy {s.energy:0}%\n" +
                 (c.flyingLoaner && c.ship.wrecked ? $"Your own ship is a wreck: recovery {c.RecoveryFee} cr.\n" : "") +
                 (s.energy < 99.9f ? $"<color=#FFC873>Energy {s.energy:0} %: Refuel below ({c.RefuelCost} cr) before you launch.</color>\n" : "") +
-                $"\n<b>Today's planet: {Planet.name}</b>  (seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
+                $"\n<b>{(Planet.OfTheDay ? "Planet of the day" : "Planet")}: {Planet.name}</b>  ({Planet.biome}, seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
+                (Planet.OfTheDay ? $"  <color=#FFC873>Planet of the day: pilots pay +{Tuning.T.dayBonus * 100:0} % ({Mathf.RoundToInt(Tuning.T.pilotPay * (1 + Tuning.T.dayBonus))} cr each)</color>\n"
+                                 : $"  Today's planet, {Names.Planet(Seeds.OfTheDay)}, pays +{Tuning.T.dayBonus * 100:0} % a pilot (Planets)\n") +
+                (Planet.cleared ? "  <color=#9CFFB0><b>Cleared! Jump to a new planet (selected).</b></color>\n" : "") +
                 $"\n<b>Career</b>\n  {st.pilotsRescued} pilots rescued · {st.pilotsLost} lost · {st.creditsEarned} cr earned\n  {st.deaths} deaths · {st.planetsCleared} planets cleared · {st.sorties} sorties\n" +
                 (debrief != "" ? $"\n<b>Last</b>\n{debrief}" : "");
         }

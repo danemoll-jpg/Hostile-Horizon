@@ -248,6 +248,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   the airlock camera looks at them from ahead of the wing (42°). Round 3 tuning: `alienShareStart` .20, `alienSharePerTier` .05,
   `alienShareMax` .35, `tellReliability` .75, `falseTellChance` 0, `alienBounty` 200, `canopyClimbAfter` 25, `breakInAfter` 10,
   `sleeperTurnMin/Max` 40 / 120, `sleeperPilotsWin` 2. Career save adds `journal`, `stats.aliensKilled`, planets' `alien` / `quirk`.
+- **Planets (Fix 3.2):** the home system has as many planets as you want. Hangar: **Jump to a new planet** (free, tuning `jumpCost` 0;
+  the next one from the career's seed + `planetsMade`, `Career.NextPlanetSeed`, seeds 1 - 19 999 999, never a date) and **Planets** (today's
+  "planet of the day" first, then every planet visited, newest first; pick one and the mothership jumps there, doors shut, no cut).
+  Pilots on today's planet pay +`dayBonus` 50 %. A cleared planet makes the jump the hangar's default row. Continue arrives at a new
+  day's planet of the day (once), else where you left off (`currentSeed`). Code: `Core/GameShell.Planets.cs`, `GameShell.Campaign`
+  (`Arrive`, `Jump`), `Core/Career.cs`. Hangar rows: Launch, Jump, Planets, Repair, Refuel, Recover, Field Journal, Back to title
+  (checks pick rows by label: `ExeCheck.Row`).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -282,6 +289,8 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   check without the "tell hidden" visits, plus a model report (triangles, Mesh LOD levels, clips), close-ups of each creature and both
   visors (a check-only camera), where the horror creature is at each beat, frame rates with the models and the code-made figures;
   `fix31h` = the airlock horror only; `fix31perf` = the Field Journal with all five + the frame rates.
+  `-exeCheckOnly fix32` (Fix 3.2, `Checks/ExeCheck.Fix32.cs`, about 5 min): clear today's planet, the day bonus, jump, a pilot on the
+  new planet, the Planets list, back and forth (waiting pilots kept), quit + Continue, the same system seed's second planet twice.
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
   fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
   catch, the recall from the air and the ground. A
@@ -289,7 +298,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -353,12 +362,15 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 3.2 (always another planet to fly: Jump to a new planet from the hangar, the Planets list, planet of the day +50 %, a cleared
+planet offers the jump first) is built, checked in the exe (headless, muted, `--only fix32`) and published as 0.3.2 (`game-302`,
+Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** Details in `TODO.md` (Fix 3.2 delivery).
+**Next: Round 4 (Enemies + difficulty)**, to be written by the planning chat.
 **Fix 3.1 (real character models: the pilot and the five aliens' own creatures from Dan's concept art -> Meshy -> Mixamo,
 animated; the Field Journal shows each type) is built, checked in the exe (headless, muted, `--only fix31`, `fix31perf` at both
 settings) and published as 0.3.1 (`game-301`, Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** The
 tells still work; landed with the cabin full: 423 fps (old figures 434), Deck setting 456. Substitute clips (knock = "Opening", no bite /
-pound / Sleeper lunge) and what Dan should look at are in `TODO.md` (Fix 3.1 delivery). **Next: Round 4 (Enemies + difficulty)**, to be
-written by the planning chat.
+pound / Sleeper lunge) and what Dan should look at are in `TODO.md` (Fix 3.1 delivery).
 **Fix 2.6 + Round 3 (radar distances, route trail; aliens: five types with tells, canopy break-in, the horror sequence, the
 Sleeper, cabin camera, Field Journal, ElevenLabs sounds) is built, checked in the exe (headless, muted, `--only fix26` and
 `--only aliens`) and published as 0.3.0 (`game-300`); a starter-200 install updates to it from GitHub. Not yet played

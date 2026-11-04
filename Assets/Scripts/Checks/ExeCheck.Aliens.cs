@@ -184,7 +184,7 @@ namespace HostileHorizon
             if (CheckRun.Only == "fix31perf")
             {   // the Field Journal with all five met (the check's own save): the pictures' layout
                 for (int t = 1; t <= 5; t++) { Career.C.Meet((AlienType)t); Career.C.Meet((AlienType)t); }
-                G.Menu.Current.Selected = G.Menu.Current.Rows.Count - 1; yield return Press(GamepadButton.South);
+                G.Menu.Current.Selected = Row("Field Journal"); yield return Press(GamepadButton.South);
                 yield return new WaitForSecondsRealtime(.5f); yield return Shot("j2_field_journal_all_five"); yield return Press(GamepadButton.East);
                 yield return new WaitForSecondsRealtime(.5f);
             }
@@ -323,7 +323,7 @@ namespace HostileHorizon
                 yield return WaitPhase(() => G.Now == GameShell.State.Docked && G.Phase == "docked", 60f, "the hangar");
                 Log($"  docked: fates {Fates()}; debrief \"{G.Debrief.Replace("\n", " / ")}\"");
                 yield return Shot("s3_hangar_debrief");
-                G.Menu.Current.Selected = G.Menu.Current.Rows.Count - 1; yield return Press(GamepadButton.South);   // Field Journal
+                G.Menu.Current.Selected = Row("Field Journal"); yield return Press(GamepadButton.South);   // Field Journal
                 Log($"  Field Journal: \"{G.Menu.Current?.Body?.Invoke().Replace("\n", " / ")}\"");
                 yield return Shot("j1_field_journal");
                 yield return Press(GamepadButton.East);

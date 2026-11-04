@@ -28,6 +28,9 @@ namespace HostileHorizon
         public int[] alien, quirk;    // Round 3: AlienType per pilot (0 = a real pilot), and the tell shown (Aliens.Assign, from the seed)
         public bool cleared, bonusPaid;
         public int visits;
+        public string biome = "canyons";   // Fix 3.2: a placeholder until the biome round (every planet is canyons for now)
+        public string lastVisit;           // Fix 3.2: for the planet list's order (most recent first)
+        public bool OfTheDay => seed == Seeds.OfTheDay;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
     }
 
@@ -52,6 +55,8 @@ namespace HostileHorizon
         public CareerStats stats = new CareerStats();
         public List<JournalEntry> journal = new List<JournalEntry>();   // Round 3: the Field Journal
         public string started, lastSaved;
+        public int currentSeed;      // Fix 3.2: the planet the mothership is over (0 = none yet: today's)
+        public int planetsMade;      // Fix 3.2: how many new planets this career has generated (the next one's number)
 
         public static Career C { get; private set; }
         public ShipState Current => flyingLoaner ? loaner : ship;
@@ -60,9 +65,11 @@ namespace HostileHorizon
         public static string FilePath => Path.Combine(Folder, "career.json");
         public static bool Exists => File.Exists(FilePath);
 
+        public static int CheckSystemSeed;   // Fix 3.2, checks only: a new career with this system seed (0 = random)
+
         public static Career New()
         {
-            int seed = Seeds.NewRandom();
+            int seed = CheckSystemSeed != 0 ? CheckSystemSeed : Seeds.NewRandom();
             C = new Career { systemSeed = seed, systemName = Names.StarSystem(seed), credits = Tuning.T.startingCredits, started = DateTime.Now.ToString("yyyy-MM-dd HH:mm") };
             C.Save();
             return C;
@@ -96,6 +103,30 @@ namespace HostileHorizon
             Aliens.Assign(ps, planets.Count == 0);   // Round 3: a new career's first planet has no aliens
             planets.Add(ps);
             return ps;
+        }
+
+        // Fix 3.2: the planet a Continue arrives at. A new day's planet of the day comes first (once); otherwise where you left off.
+        public int ArrivalSeed()
+        {
+            int today = Seeds.OfTheDay;
+            if (!planets.Exists(p => p.seed == today)) return today;
+            return currentSeed != 0 && planets.Exists(p => p.seed == currentSeed) ? currentSeed : today;
+        }
+
+        // Fix 3.2: the next new planet of the home system, from the career's seed and its counter alone, so a career's planets are
+        // always the same ones in the same order. Seeds 1 - 19 999 999: never a date (the planets of the day are 2026xxxx).
+        public static int MadePlanetSeed(int systemSeed, int n)
+        {
+            var r = new SeedRng(systemSeed, 1000 + n);
+            return 1 + (int)(r.Next() % 19999999u);
+        }
+        public int NextPlanetSeed()
+        {
+            while (true)
+            {
+                int seed = MadePlanetSeed(systemSeed, planetsMade++);
+                if (!planets.Exists(p => p.seed == seed)) return seed;   // (only an earlier made planet can share it: still the same order)
+            }
         }
 
         // Round 3, item B10: the Field Journal. A meeting that revealed the type (it killed you, you killed it, the pilots or security

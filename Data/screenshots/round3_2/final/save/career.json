@@ -1,0 +1,91 @@
+{
+    "version": 1,
+    "systemSeed": 4242,
+    "systemName": "Veeth",
+    "credits": 3000,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261104,
+            "name": "Zanveth-IV",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "lastVisit": "2026-11-04 11:19:43"
+        },
+        {
+            "seed": 19184502,
+            "name": "Vekir-VI",
+            "tier": 1,
+            "pilots": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                1,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                1,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "lastVisit": "2026-11-04 11:19:43"
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 0,
+        "pilotsLost": 0,
+        "creditsEarned": 0,
+        "creditsSpent": 0,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 0,
+        "tows": 0,
+        "recalls": 0,
+        "aliensKilled": 0
+    },
+    "journal": [],
+    "started": "2026-11-04 11:19",
+    "lastSaved": "2026-11-04 11:19:43",
+    "currentSeed": 19184502,
+    "planetsMade": 1
+}

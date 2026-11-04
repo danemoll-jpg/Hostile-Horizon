@@ -168,56 +168,16 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 3.2: always another planet to fly
+Current Objective — Round 4 (Enemies + difficulty): to be written by the planning chat
 ---------------------------------------------------------------------------
 
-Fix 3.1 (real character models) is delivered as 0.3.1 (status under "Previous deliveries"; its specification is in
+Fix 3.2 (always another planet to fly) is delivered as 0.3.2 (status under "Previous deliveries"; its specification is in
 `TODO-ARCHIVE.md`). **Dan's art pipeline (DECIDED, his standing way of working):** Code writes the image prompts -> Dan has the
 concept images drawn -> Code makes the 3D models with the Meshy API (Dan's key) -> Dan rigs them in Mixamo and downloads the
 animations Code lists -> Code imports and wires them up; in stages with a STOP for Dan at each. How-to: `Docs/MODELS-NEEDED.md`.
 Still open for Dan from 0.3.0: the route corridor width / height, and a second sign for the Mimic's tell in shade.
-
-
-Round 4 (Enemies + difficulty) comes after this fix.
-
-Dan (2026-11-04): "There should be something to do once you clear all the
-pilots from a planet. Shouldn't have to wait another day before there are any
-more pilots."
-
-**Decided (planning chat default, Dan to confirm by playing):** the home system
-has as many planets as you want. The seed of the day stays the **featured
-"planet of the day"**; clearing a planet unlocks a jump to a **new planet** at
-once. A simple planet list now; the full star map stays in Round 5.
-
-0. **Commit first** (the repo as it is, with this text).
-1. **New planets on demand.** From the hangar: **Jump to a new planet**. It
-   generates the next planet of the career's home system from the career's
-   seed and a planet counter (so a career's planets are always the same
-   ones, in order), with its own generated name. Tier (more pilots, wider
-   spread, more aliens) rises with planets cleared, as now. Available as soon
-   as the current planet is cleared; also available before that (leaving
-   pilots behind for later). Free (no credits) for now; tuning value exists.
-2. **The planet list (simple star map).** Hangar page **Planets**: today's
-   planet (marked "Planet of the day"), every planet the career has visited
-   with its name, biome placeholder ("canyons" for now), pilots rescued / lost
-   / still waiting, cleared or not; and "New planet". Pick one and launch
-   there. Saved with the career.
-3. **Planet of the day bonus.** Pilots rescued on today's planet pay more
-   (tuning, starting +50 %), shown in the hangar, so the daily planet stays
-   special. A new day = a new planet of the day; the old one stays in the list.
-4. **When a planet is cleared:** the docking ending / hangar says so plainly
-   ("Vessra-IV cleared! +1000 credits") and offers Jump to a new planet as the
-   default next action.
-5. **Check (muted, no focus):** clear the first planet -> jump -> new planet
-   with a different name and pilots; the same career gives the same second
-   planet twice; leave a planet with pilots waiting, come back from the list,
-   they are still there; the planet-of-the-day bonus is paid; saves survive a
-   quit and Continue.
-6. **Publish as 0.3.2**, update `TODO.md` (per-item status) and `CLAUDE.md`,
-   commit and push.
-
-**For Dan to check:** after clearing a planet, is jumping to a new one obvious
-and quick? Is the planet list clear?
+**Planets (Fix 3.2, planning chat default, Dan to confirm by playing):** the home system has as many planets as you want; the seed
+of the day stays the featured "planet of the day" (pilots +50 %); Jump to a new planet from the hangar (free), a Planets list.
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -254,6 +214,38 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 3.2 — always another planet to fly (2026-11-04). Published: 0.3.2 (`game-302`, Latest).** Exe built 2026-11-04 11:15
+(`BUILD_INFO.txt`). Evidence `Data/screenshots/round3_2/final/` (`--only fix32`: `exe_check.txt` + pictures a0-a5), headless, muted
+(output level 0.000 RMS from the first frame to the end), no window.
+0. **Commit first — done** (`77aae7f` "Fix 3.2 planning").
+1. **New planets on demand — done.** Hangar row 2 **Jump to a new planet (free)**: the next planet of the home system from the
+   career's seed + a counter (`Career.NextPlanetSeed`, seeds 1 - 19 999 999 so never a date), own name, tier = planets cleared, as
+   before. Works cleared or not (pilots left behind stay). The jump plays in the bay with the doors shut (no cut, no fade: about
+   0.4 s while the new canyons load; doors opened 0.00). Tuning `jumpCost` 0. Check: Zanveth-IV (today) -> Vekir-VI (tier 1, 4 pilots,
+   one Mimic), a different name and pilots (a3).
+2. **Planet list — done.** Hangar **Planets**: New planet (names the next one), today's planet first (★ of the day, even before its
+   first visit), then every planet visited, newest first (9 a page, "More planets…"), each with waiting / cleared and "◄ here"; the
+   selected one in full on the right (biome "canyons", rescued / lost / waiting, visits). Pick one: the mothership jumps there; Launch
+   from the hangar. Saved with the career (`currentSeed`, `planetsMade`, each planet's `biome`, `lastVisit`). Check (a4): the list,
+   back to today's planet, back to Vekir-VI: its 3 waiting pilots still there (fates the same).
+3. **Planet-of-the-day bonus — done.** Tuning `dayBonus` .5: 750 cr a pilot on today's planet; the hangar says so (and, elsewhere,
+   which planet is today's). Check: 3 pilots on Zanveth-IV paid +2250 (750 of it the bonus); 1 on Vekir-VI paid 500. Continue: a new
+   day's planet of the day comes first (once), otherwise you arrive where you left off.
+4. **Cleared — done.** The debrief says "**Zanveth-IV cleared! +1000 credits**", the hangar "Cleared! Jump to a new planet
+   (selected)" and the jump row is the default (a1), on every return to a cleared planet too.
+5. **Check — done** (`Checks/ExeCheck.Fix32.cs`, `--only fix32`, about 5 min): one pilot per sortie picked up as a player does (the
+   run, the knock, B; the check puts the ship 40 m over the pad and climbs straight up in landing mode), two more on today's planet
+   put aboard by the check (logged shortcuts). Same system seed in a second career -> the same second planet (seed, name, tier,
+   pilots, aliens, first pad: identical); quit + Continue: same planet, credits and fates. The first run's scripted climb flew into a
+   canyon wall (check pilot, not the game); it also showed a hidden list row could be pressed by script: guarded.
+   Older checks now pick hangar rows by label (the hangar has 2 new rows; Field Journal before Back to title).
+6. **Publish — done.** 0.3.2 = build 302, tag `game-302`, Latest; the `starter-200` ZIP from GitHub, `--auto-check`: "Updating to game
+   0.3.2", installed `versions/302`, started, ready, exit 0 (the game muted by the launcher's test-save flag). Clean-up: repo 3.3 GB ->
+   2.9 GB (starter test install, the 0.3.1 release folder, the failed first check run removed).
+
+**For Dan to check:** after clearing a planet, is jumping to a new one obvious and quick? Is the planet list clear? Is +50 % on the
+planet of the day enough to make it special?
 
 **Fix 3.1 — real character models (2026-11-04). Published: 0.3.1 (`game-301`, Latest).** Exe built 2026-11-04 07:15
 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round3_1/`: `final/` (`--only fix31`, the 06:58 build: every alien scene + close-ups),
@@ -357,70 +349,6 @@ falseTellChance 0, alienBounty 200, canopyClimbAfter 25, breakInAfter 10, sleepe
 **For Dan to check:** radar distances and the route trail (is it followable at speed? wider / higher?); the aliens: can you learn the
 tells by playing, do they still fool you, is the canopy and the horror sequence scary, does the Sleeper's cabin fight work? **Listen to
 the sounds** (never played on your PC by me). Frame rate on your PC and the Deck (not measurable this round).
-
-**Fix 2.5 — tight control, seeing the ground, the pickup, launch warning, faster lift (2026-11-02). Published: 0.2.5
-(`game-205`, Latest).** Exe built 2026-11-02 20:46 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.5/`: `before/` (0.2.4's
-flight code with the new measuring, `--only fix25`), `final_d/` (the 20:29 build: everything below), `fastforward/` (20:46, the published
-build: hold-A fast-forward), `final_c/` (lift times with 0.2.4's numbers), `launcher/`. Every run headless (`-batchmode`, no window) and
-muted: measured output 0.000 RMS at start and end of every run; no step played sound; no window opened. New check: `--only fix25`.
-
-0. **Commit first — done.** "Fix 2.5 planning" (9daeafb).
-1. **Tight, predictable control — done; needs Dan's play.** Measured first (`ShipController.Moved`: rotation by source; Light, stick
-   centred). **What moved the ship without input (0.2.4):** (1) the bank-turn assist: a bank left alone kept turning the ship: 15° bank
-   +6° heading in 10 s, 30° +25°, 60° **+93°**; a 0.3 s roll then release **+66° in 5 s**; (2) past 80° of bank the wing levelling
-   switched off, so the bank turn ran on forever: full roll with 20 % pitch leak **+77° in 3 s**; (3) wing levelling itself (8 °/s,
-   uncommanded roll); (4) wall hits mirrored the flight path off the rock ×1.35: a 15° hit turned the nose **43.5°**, 35° → 51°;
-   (5) hover: the body eased after the stick, so it kept turning **22.5°** after release; (6) braking into hover from a banked climb
-   eases the body level (33° over 4 s: kept, it is the landing mode's level attitude). Not sources: level flight 0.0°, stick drift up
-   to 12 % (eaten by the pad's own 12.5 % deadzone + the game's 8 %), no side slide in flight (the path is always the nose).
-   **Fixes:** Light = the bank turn only while you pull, no levelling (stick centred holds the attitude); hover heading follows the stick
-   at once (only the lean eases); a wall hit pushes the ship away and turns the nose only to run along the rock; rates 95/170/55 →
-   **82/150/44 °/s** (midway to 0.2.3's 70/130/32), stick curve .35 → **.6**, pad / Deck sticks +12 % centre deadzone (`gamepadDeadzone`).
-   Full and Off kept. **After (Light):** every stick-centred case **0.0°** (15/30/60° bank, roll release, diagonal leak); hover after
-   release **0.0°**; 25 % roll for 1 s 9.2° → 2.5° of bank; wall hits: nose 31° at a 15° hit, 36.5° at 35° (= the rock's own line),
-   pushed 20-46 m clear. On Light you now bank **and pull** to turn (Full turns by itself as before).
-2. **See the ground when landing — done.** Belly camera (`Cameras/BellyCam.cs`, drawn by hand each frame): on by itself in landing
-   mode, D-pad down / V / HOTAS 8 toggles it; fills the cockpit's centre display with height, sink rate and speed over it, and a
-   picture-in-picture on the HUD (`p1-3_hover_belly_cam`); landed with a pilot coming it is the **airlock camera** under the left wing
-   (`p1_at_door_cockpit`: the pilot at the door). The amber stop ring also shows in hover, a green ring marks the waiting pilot's pad.
-   Glass floor at the feet and glass in the lower canopy (`ship.py`): first try showed grey — the fuselage's top skin runs across the
-   cockpit at the sill, so the window is cut through the whole hull (`p1_glass_floor_look_down`: nose gear and ground below; the ground
-   is dark there, in the ship's own shadow). Landing view = 5th in the camera cycle (`p1_landing_view`, `p1_at_door_landing_view`).
-   Frame rate landed with the airlock camera on: 284-368 fps (1660 Ti, 1080p).
-3. **The pickup — done.** **Cause, measured as a player lands:** the SLOW DOWN cue and ring stopped the ship **151 m short** of the
-   pilot; in the 0.2.4 canyons that is on the canyon wall: the ship hovered **530 m above** the pilot, "too steep to land (14°)", and
-   with Lasting damage the tries to set down there destroyed it. The pickup range was a 3-D 160 m, so a pilot on the floor below never
-   came, with no message why. In range, the pilot ran a straight 3-D line (crawling up slopes) **through the hull** to the door on the
-   left rear, where the cockpit can't see it; the knock was a 0.22 s, mostly **190 Hz** thud (small speakers like the Deck's hardly
-   play it) and the only prompt was the advice line, replaced for 4 s by any passing message. Dan's exact run wasn't reproduced; these are
-   what the check found. **Fixes:** cue and ring aim at the pilot's pad (`brakeCueLead` 150 → 40); a pilot comes within 160 m level and
-   30 m of height (`pilotMaxClimb`), else the advice says "Pilot 2 can't reach you here (61 m away, 0 m down): land on their pad (green
-   ring)" (`p3_cant_reach_advice`); they run over the ground round the nose or tail to the door; "PILOT AT AIRLOCK — press B to open"
-   (the button of the device in use) / "PILOT COMING — keep engines off" on the HUD and in the cockpit, beating passing messages; a lit
-   amber AIRLOCK strip on the centre display; KNOCK KNOCK KNOCK on the HUD and displays with each knock (`p1_knock_knock`); a brighter,
-   louder knock. **After:** three pads, cue → stopped 40-41 m from the pad centre, set straight down (slope 0-9°), pilots ran 9.1 /
-   12.8 / 11.0 s, knocked, B, aboard. Knock source logged playing at full level at the cockpit (4.3 m); players' builds aren't muted
-   (`TestRun.Muted` only with `-mute` / `-exeCheck` / `-racerTestSave`).
-4. **Low-fuel warning — done.** Launch below 50 % (`launchEnergyWarning`): "Energy 22 %. Refuel first? (cost 468 credits)" with
-   **Refuel and launch** (default) / Launch anyway / Back; it refuelled to 100 % (-468 cr) and launched (`h02`); the hangar shows a
-   refuel line under 100 % (`h01`).
-5. **Much quicker lift — done (docking above target; Dan's fast-forward added).** Lift from the ground into the cradle: recall
-   **54.4 → 10.0 s**, mid-air catch 46.6 → **9.1 s**, tow ~60 s (0.2.4 log) → **10.1 s**; the mothership comes 3x faster (tow: 6.4 s).
-   Live and continuous (camera never turned or jumped; top 320 m/s). Docking ~40-50 s (0.2.4 log) → 22.0 s (attempt 1) → **19.5 s**
-   (attempt 2): still over 15 s, tuning stopped there. **Dan (chat): "cant we just do a fast dock? Maybe button to skip"** → hold A /
-   Space / HOTAS trigger in any automatic part: it plays live at 4x (`fastForward`), prompt "hold A to speed up"; launch 6 s → 2.1 s
-   real, recall lift 10.1 → 2.5 s real, back to normal speed in flight (`fastforward/`). Tuning values in the file.
-6. **Check — done** (`--only fix25`, list above). The check's own pilot flies its transit legs on Flight assist Full and between pilots
-   is placed 1.5 km out (getting about isn't measured); its steering got firmer for the new deadzone. Not re-run: `all` / `campaign` /
-   `home` / `fix24` (their steering was updated for Light; the fix25 run covers launch, landing, pickup, docking, recall, tow, mid-air).
-7. **Publish — done.** 0.2.5 = build 205, tag `game-205`, Latest. The `starter-200` ZIP in `Builds/StarterCheck`, `--auto-check`
-   against GitHub: "Updating to game 0.2.5", installed `versions/205`, started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed.
-   Clean-up: disk use 2.1 GB -> 1.8 GB (intermediate check runs and the 0.2 GB starter test install removed).
-
-**For Dan to check:** does the ship go where you point it (Light: bank and pull to turn)? Is 82/150/44 and the bigger pad deadzone
-right, or too sluggish? Land with the belly camera / glass floor (look down with the right stick). Does the pilot knock and is the
-airlock prompt clear; can you hear the knock on the Deck? Launch with low fuel; the lift; hold A during docking. HOTAS when you can
-(button 8 = belly camera).
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

@@ -1,0 +1,103 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.679700 ms
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 40960 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-04 11:15; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] tuning: pilot pay 500, planet of the day +50 %, clear bonus 1000, jump cost 0; today 20261104
+[ExeCheck] made planets of system 4242: 0: Vekir-VI (19184502), 1: Quomia-IV (3586017), 2: Halxis-VI (5716376), 3: Brydron-V (10393525); again: identical
+[ExeCheck] new career, the Veeth system; planet 1: Zanveth-IV (seed 20261104, tier 0, 3 pilots, aliens 1:pilot, 2:pilot, 3:pilot, first pad (-271, 1, 2220)); rows Launch / Jump to a new planet  <size=24>(free)</size> / Planets / Repair hull  <size=24>(0 cr)</size> / Refuel  <size=24>(0 cr)</size> / Recover your own ship  <size=24>(3000 cr)</size> / Field Journal / Back to title (saves)
+[ExeCheck] screenshot a0_hangar_new_career.png
+[ExeCheck]     [1538 fps] Auto/launch Hover alt 1433 gnd 1406 spd 68 hdg 285 energy 100
+[ExeCheck]     [411 fps] Flying/ Hover alt 13 gnd 12 spd 1 hdg 135 energy 97
+[ExeCheck]     [320 fps] Flying/ Hover alt 5 gnd 5 spd 1 hdg 135 energy 93
+[ExeCheck]     [392 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 135 energy 91
+[ExeCheck]   today's planet: pilot 1 picked up at the airlock (cabin 0)
+[ExeCheck]   today's planet: check shortcut: pilot 2 put aboard
+[ExeCheck]   today's planet: check shortcut: pilot 3 put aboard
+[ExeCheck]     [354 fps] Flying/ Hover alt 94 gnd 93 spd 14 hdg 135 energy 98
+[ExeCheck]     [292 fps] Flying/ Hover alt 234 gnd 233 spd 14 hdg 135 energy 95
+[ExeCheck]     [297 fps] Flying/ Hover alt 374 gnd 373 spd 14 hdg 135 energy 91
+[ExeCheck]     [281 fps] Flying/ Hover alt 511 gnd 510 spd 14 hdg 135 energy 88
+[ExeCheck]     [294 fps] Flying/ Hover alt 651 gnd 650 spd 14 hdg 135 energy 84
+[ExeCheck]     [289 fps] Flying/ Hover alt 791 gnd 790 spd 14 hdg 135 energy 81
+[ExeCheck]     [286 fps] Flying/ Hover alt 929 gnd 929 spd 14 hdg 135 energy 77
+[ExeCheck]   today's planet: climbed in landing mode to 1000 m (Auto/dock-approach)
+[ExeCheck]     [306 fps] Auto/dock-approach Flight alt 1307 gnd 1308 spd 200 hdg 122 energy 75
+[ExeCheck]     [341 fps] Auto/dock-final Flight alt 1592 gnd 1097 spd 141 hdg 298 energy 75
+[ExeCheck]   today's planet: docked; credits 3000 -> 6102; debrief "Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it) | <b>Zanveth-IV cleared! +1000 credits</b> | Energy used 25%. Refuelled 25%: -148 cr"
+[ExeCheck]   planet Zanveth-IV: cleared True, fates Rescued Rescued Rescued; hangar default row "Jump to a new planet  <size=24>(free)</size>"
+[ExeCheck]   hangar: "<b>6102 cr</b>   ·   the Veeth system |  | <b>Ship</b>: your own   hull 100%   energy 100% |  | <b>Planet of the day: Zanveth-IV</b>  (canyons, seed 20261104) |   pilots: 3 rescued · 0 lost · 0 waiting   CLEARED |   <color=#FFC873>Planet of the day: pilots pay +50 % (750 cr each)</color> |   <color=#9CFFB0><b>Cleared! Jump to a new planet (selected).</b></color> |  | <b>Career</b> |   3 pilots rescued · 0 lost · 3250 cr earned |   0 deaths · 1 planets cleared · 1 sorties |  | <b>Last</b> | Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it) | <b>Zanveth-IV cleared! +1000 credits</b> | Energy used 25%. Refuelled 25%: -148 cr"
+[ExeCheck] screenshot a1_hangar_cleared_jump_default.png
+[ExeCheck] screenshot a2_jumping.png
+[ExeCheck] jump: 0.4 s, bay doors opened at most 0.00 (shut = 0); planet 2: Vekir-VI (seed 19184502, tier 1, 4 pilots, aliens 1:pilot, 2:pilot, 3:Mimic(tell Mimic), 4:pilot, first pad (-1167, 1, -1729)); different from planet 1: yes
+[ExeCheck]   debrief "Jumped from Zanveth-IV to Vekir-VI (a new planet). | 4 pilots down here: 4 waiting."
+[ExeCheck] screenshot a3_new_planet_hangar.png
+[ExeCheck]     [640 fps] Auto/launch Hover alt 1500 gnd 1499 spd 0 hdg 330 energy 100
+[ExeCheck]     [971 fps] Flying/ Hover alt 23 gnd 22 spd 5 hdg 86 energy 99
+[ExeCheck]     [326 fps] Flying/ Hover alt 8 gnd 8 spd 1 hdg 86 energy 95
+[ExeCheck]     [340 fps] Flying/ Hover alt 3 gnd 2 spd 1 hdg 86 energy 92
+[ExeCheck]   planet 2: pilot 1 picked up at the airlock (cabin 0)
+[ExeCheck]     [392 fps] Flying/ Hover alt 17 gnd 16 spd 14 hdg 86 energy 91
+[ExeCheck]     [289 fps] Flying/ Hover alt 157 gnd 156 spd 14 hdg 86 energy 93
+[ExeCheck]     [287 fps] Flying/ Hover alt 297 gnd 296 spd 14 hdg 86 energy 90
+[ExeCheck]     [284 fps] Flying/ Hover alt 436 gnd 435 spd 14 hdg 86 energy 86
+[ExeCheck]     [279 fps] Flying/ Hover alt 576 gnd 575 spd 14 hdg 86 energy 83
+[ExeCheck]     [282 fps] Flying/ Hover alt 716 gnd 715 spd 14 hdg 86 energy 79
+[ExeCheck]     [265 fps] Flying/ Hover alt 852 gnd 851 spd 14 hdg 86 energy 76
+[ExeCheck]     [269 fps] Flying/ Hover alt 992 gnd 991 spd 14 hdg 86 energy 72
+[ExeCheck]   planet 2: climbed in landing mode to 1000 m (Auto/dock-approach)
+[ExeCheck]     [389 fps] Auto/dock-final Flight alt 1724 gnd 1262 spd 47 hdg 72 energy 72
+[ExeCheck]     [408 fps] Auto/dock-rise Flight alt 1499 gnd 1496 spd 6 hdg 329 energy 72
+[ExeCheck]   planet 2: docked; credits 6102 -> 6434; debrief "Delivered 1 pilot: +500 cr | Energy used 28%. Refuelled 28%: -168 cr"
+[ExeCheck]   planet 2 fates Rescued Waiting Waiting Waiting
+[ExeCheck] Planets page: rows New planet / Zanveth-IV  <size=24>★ of the day · cleared</size> / Vekir-VI  <size=24>3 waiting  ◄ here</size> / Back
+[ExeCheck]   body (New planet selected): "The Veeth system: 2 planets visited, 1 cleared. |  | <b>New planet</b> | The mothership jumps to a planet the corps hasn't searched yet: next is <b>Quomia-IV</b>. | More pilots down (and more aliens) as your career clears planets. | Pilots left on other planets wait there for you."
+[ExeCheck]   body (row 1): "The Veeth system: 2 planets visited, 1 cleared. |  | <b>Zanveth-IV</b>   (canyons, seed 20261104) | <color=#FFC873>Planet of the day: pilots pay +50 % (750 cr each). A new one every day.</color> |  | Pilots: 3 rescued · 0 lost · 0 still waiting | <color=#9CFFB0>Cleared</color> | Visits 1, last 2026-11-04 11:15"
+[ExeCheck] screenshot a4_planets_list.png
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+[ExeCheck] back on Zanveth-IV: fates Rescued Rescued Rescued, cleared True, pilots on the ground 0; default row "Jump to a new planet  <size=24>(free)</size>"
+[ExeCheck]   list row 2: Vekir-VI  <size=24>3 waiting</size>
+[ExeCheck] back on Vekir-VI: fates Rescued Waiting Waiting Waiting (before Rescued Waiting Waiting Waiting: same), waiting pilots on the ground 3
+[ExeCheck] screenshot a5_back_on_planet2.png
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[ExeCheck] quit and Continue: before [6434 cr, planet Vekir-VI, fates Rescued Waiting Waiting Waiting, 2 planets, made 1] after [6434 cr, planet Vekir-VI, fates Rescued Waiting Waiting Waiting, 2 planets, made 1] (same); save 11:19:42
+[ExeCheck]   check shortcut: planets cleared set to 1, as in the first career when it jumped (the same tier)
+[ExeCheck] second new career, same system seed: planet 2: Vekir-VI (seed 19184502, tier 1, 4 pilots, aliens 1:pilot, 2:pilot, 3:Mimic(tell Mimic), 4:pilot, first pad (-1167, 1, -1729)); first time: Vekir-VI (seed 19184502, tier 1, 4 pilots, aliens 1:pilot, 2:pilot, 3:Mimic(tell Mimic), 4:pilot, first pad (-1167, 1, -1729)); identical
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.093 RMS, peak 0.990, zeroed before the speakers; 26392576 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

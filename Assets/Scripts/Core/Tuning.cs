@@ -12,6 +12,8 @@ namespace HostileHorizon
         public int startingCredits = 3000;
         public int pilotPay = 500;                    // per pilot delivered to the mothership
         public int clearBonus = 1000;                 // once per planet, when no pilots are left to rescue
+        public float dayBonus = .5f;                  // Fix 3.2: pilots rescued on the planet of the day pay this much more (+50 %)
+        public int jumpCost = 0;                      // Fix 3.2: the jump to a new planet (free for now)
         public float fuelPricePerPercent = 6;         // refuelling at the mothership
         public float freeMinimumFill = 35;            // the corps fills up to this for free if you can't pay
         public float repairPricePerPercent = 12;      // hull repair
