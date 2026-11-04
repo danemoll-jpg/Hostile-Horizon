@@ -12,6 +12,7 @@ OUT = ROOT / 'Builds/LauncherLocal'
 def main():
     if OUT.exists(): shutil.rmtree(OUT)
     work = OUT / 'release'; music = OUT / 'music'; music.mkdir(parents=True); (music / 'placeholder.txt').write_text('No soundtrack yet.')
+    if (ROOT / 'BundleMusic').is_dir(): shutil.rmtree(music); shutil.copytree(ROOT / 'BundleMusic', music)   # Round 4: the soundtrack (Dan's tracks)
     subprocess.run([sys.executable, str(ROOT / 'Tools/Prepare-LauncherRelease.py'), '--game', str(ROOT / 'Builds/HostileHorizon'), '--bundle-music', str(music),
                     '--out', str(work), '--version', '0.1.0', '--build', '1', '--music-build', '1', '--notes', 'Local build'], check=True)
     home = OUT / 'HostileHorizon'

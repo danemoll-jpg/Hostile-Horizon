@@ -1146,3 +1146,201 @@ once. A simple planet list now; the full star map stays in Round 5.
 
 **For Dan to check:** after clearing a planet, is jumping to a new one obvious
 and quick? Is the planet list clear?
+
+=== Round 4 specification (as the planning chat wrote it, moved from TODO.md at the end of Round 4) ===
+
+---------------------------------------------------------------------------
+Current Objective — Round 4: planet biomes, music and voices
+---------------------------------------------------------------------------
+
+Fix 3.2 (always another planet to fly) is delivered as 0.3.2 (status under "Previous deliveries"; its specification is in
+`TODO-ARCHIVE.md`). **Dan's art pipeline (DECIDED, his standing way of working):** Code writes the image prompts -> Dan has the
+concept images drawn -> Code makes the 3D models with the Meshy API (Dan's key) -> Dan rigs them in Mixamo and downloads the
+animations Code lists -> Code imports and wires them up; in stages with a STOP for Dan at each. How-to: `Docs/MODELS-NEEDED.md`.
+Still open for Dan from 0.3.0: the route corridor width / height, and a second sign for the Mimic's tell in shade.
+**Planets (Fix 3.2, planning chat default, Dan to confirm by playing):** the home system has as many planets as you want; the seed
+of the day stays the featured "planet of the day" (pilots +50 %); Jump to a new planet from the hangar (free), a Planets list.
+
+
+Dan (2026-11-04): "Not sure if we put planet variety in yet... let's do this.
+Also we need some music. ... Do we need any voices for anything? Like some
+communications? I think this could be interesting." Enemies + difficulty move
+to Round 5 (the later rounds shift by one). One publish at the end: **0.4.0**.
+Commit after each part.
+
+**Part A — Planet biomes**
+
+A1. **Biome per planet.** Each planet is one biome, chosen by its seed (same
+    planet = same biome); a new career's first planet is always Canyons. The
+    Planets list, the hangar and the planet's name screen show the biome. This
+    round builds four: **Canyons** (as now), **Giant Forest**, **Dead City**,
+    **Ice**. Same rules in all: landing pads, pilots, aliens, radar, route
+    trail, recall / tow, crash levels, Free Flight (Free Flight gets a biome
+    picker).
+A2. **Giant Forest.** Huge alien trees (trunks 5-15 m wide, 60-150 m tall)
+    over rolling ground and valleys; you fly under, between and over the canopy.
+    Clearings are the landing pads (pilots crashed through the canopy). Dim,
+    green-gold light under the canopy, shafts of light, mist, drifting spores.
+    Tree trunks are solid (crash levels apply); leaves / canopy can be flown
+    through with a brush effect, not a crash.
+A3. **Dead City.** A ruined alien city: streets and avenues are the canyons
+    between towers 80-500 m tall; broken skyscrapers, sky bridges, collapsed
+    blocks, plazas and **rooftops as landing pads** (some pilots are on roofs).
+    Dark, smoky, flickering dead lights, rain or ash. Buildings are made in code
+    / Blender scripts (hard surface is fine for scripts); varied but seeded.
+A4. **Ice.** Glaciers, deep blue crevasses as the canyons, ice cliffs, snow
+    plains between them, ice caves you can fly through; weather: drifting snow,
+    occasional blizzard that cuts visibility (the radar and route trail matter
+    more). Ice / snow materials that look cold and real.
+A5. **Look and weather per biome:** its own sky, sun, fog / haze colour, light,
+    particles and terrain materials; the pilot wrecks and pads fit the biome.
+A6. **Performance plan:** GPU instancing, LODs and distance culling for trees
+    and buildings; the Steam Deck setting thins them (fewer trees / simpler
+    buildings / shorter view). Keep 60 fps on Dan's PC and the Deck setting's
+    frame rate (report per biome); keep VR headroom in mind.
+A7. **Art:** buildings, ice and rocks by script; trees by script if they look
+    good, otherwise use Dan's art pipeline (Meshy; STOP for Dan only if
+    needed). Any CC0 textures noted in the credits.
+A8. Later biomes stay queued: volcanic, crystal / fungal, ocean islands.
+
+**Part B — Music** (design and Suno prompts: `Docs/MUSIC.md`, written by the
+planning chat; Dan makes the Suno tracks)
+
+B1. **Adaptive music system:** plays the track for the game state (title,
+    hangar, planet list, flight per biome, low-energy tension, regeneration)
+    with slow crossfades; flight music fades out near a pilot and while landed
+    waiting (silence + wind for the scares); ducks under voice messages; the
+    horror sequence has no music (sound only). Any missing track is silent.
+B2. **Where the files go:** `BundleMusic/` (git-ignored, as in Chastain Rush),
+    copied into the build, shipped as the launcher's **soundtrack** component
+    (as Chastain Rush does). Tell Dan exactly where to drop them.
+B3. **ElevenLabs music and stingers:** make the two music loops
+    (`tension_low_energy`, `regeneration`; moved from Suno, Dan 2026-11-04) with
+    the ElevenLabs music API and the short cues, all listed in `Docs/MUSIC.md`
+    (`ELEVENLABS_API_KEY`), wired to their moments. If the plan doesn't allow
+    music through the API, tell Dan.
+B4. **Settings:** Music / Effects / Voices volume sliders (Master stays).
+B5. **Dan's Suno tracks are in** (2026-11-04, put there by the planning chat):
+    `BundleMusic/title_theme.mp3` (2:25), `hangar.mp3` (3:19),
+    `planet_select.mp3` (3:20), `flight_canyons.mp3` (2:43), `flight_forest.mp3`
+    (3:43), `flight_city.mp3` (3:39), `flight_ice.mp3` (3:23). Loop them with a
+    clean crossfade at the loop point. Add `BundleMusic/` to `.gitignore`
+    (as in Chastain Rush; it isn't ignored yet): the music ships through the
+    launcher's soundtrack component, not git. If any track is missing later, build and check the system with
+    placeholders; Dan drops the tracks in later and a soundtrack update ships.
+
+**Part C — Voices and communications** (ElevenLabs text-to-speech, made by
+Code with the API; all lines written by Code, original, short, natural)
+
+C1. **Voices:** (1) **Control** — the mothership's flight controller (one calm,
+    dry, experienced voice): launch, planet-of-the-day callouts, pilots found,
+    "climb to dock", docking clearance, tow / recall, planet cleared, a new
+    planet briefing, regeneration ("Welcome back. Again."). (2) **The ship's
+    computer** — short synthetic warnings: energy low, RETURN NOW, can't reach
+    the mothership, terrain / pull up, hull damage, landing gear, airlock open,
+    pilot aboard, cabin full, intruder alert. (3) **Downed pilots** — a pool of
+    at least 8 different voices (men and women, different ages and accents):
+    mayday calls on the radio when you come in range ("Mayday, mayday, this is
+    Corps pilot <name>, I'm down near...", seeded name), "I see you! Coming to
+    you" when you land, a voice through the hull at the door ("It's me, open
+    up!"), thanks when aboard, nervous cabin chatter, screams for the Sleeper.
+C2. **The aliens use the voices too.** An alien disguised as a pilot also
+    radios and talks at the door, so a voice proves nothing. **Suggested
+    second sign for the Mimic in shade (answers 0.3.0's open question):** the
+    Mimic's voice is subtly wrong some of the time (a word repeats, a breath in
+    the wrong place, the callsign of a pilot already lost). Same tell rules
+    (only some of the time). Other types keep their tells; no type gets a
+    voice tell that's always on.
+C3. **Radio sound:** comms through a radio filter (band-limited, light
+    crackle) with a click in / out; the computer is clean and close; the door
+    voice is muffled through the hull. Lines don't overlap (a queue with
+    priorities: warnings first).
+C4. **Subtitles** (Settings: On by default) at the bottom of the HUD and on a
+    cockpit display (VR rule 2).
+C5. **Files:** `Docs/VOICES.md` lists every line, voice and file; a script
+    makes them (`--only`, `--force` as `make_sounds.py`); the key is never
+    printed or written.
+
+**Check (muted, no focus, per the testing rules):** each biome: a cockpit
+picture flying low, a landing at a pilot (forest clearing, a rooftop, an ice
+pad), the route trail, frame rate on PC and the Deck setting; the same seed
+gives the same biome; the music system switches by state (log the track and
+volumes; muted run); stingers fire; voice lines play in order with
+subtitles (logged AudioSource events, no audible run); an alien's radio call
+and door voice; the Mimic's voice sign appears only some of the time.
+
+**End of the round:** publish **0.4.0**, update `TODO.md` (per-item status for
+A1-A8, B1-B5, C1-C5: done / not done / deferred and why) and `CLAUDE.md`, clean
+up, commit and push. Tell Dan where to put the Suno files.
+
+**For Dan to check:** do the forest, city and ice feel different and good to
+fly? Rooftop and clearing landings. The voices: does Control sound right, do the
+pilots sound different from each other, is the radio chatter fun or too much?
+Drop in the Suno tracks: does the music fit each place?
+
+=== Previous delivery moved from TODO.md at the end of Round 4 ===
+
+**Fix 2.6 + Round 3 — radar distances and route trail; aliens (2026-11-04). Published: 0.3.0 (`game-300`).**
+Exe built 2026-11-04 03:19 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.6/final/` and `Data/screenshots/round3/final/` (the
+published build; `exe_check.txt` + pictures), `round3/launcher/`; earlier runs' logs in `fix2.6/run1-7`, `round3/run3`. Every run headless
+(`-batchmode`, no window) and muted: measured output 0.000 RMS at start and end of every run; no step played sound; no window opened.
+New checks: `--only fix26`, `--only aliens`. **Frame rates this round are not usable:** other projects' Unity builds (Chastain Rush, a
+football game) ran on the PC the whole time (CPU 80-100 %); before they started the Campaign with the trail measured 227 fps (1 % low 74).
+
+0. **Commit first — done.** "Fix 2.6 + Round 3 planning" (280a997). Part A committed on its own (2ddb323).
+1. **Radar distances — done.** True-distance scope that zooms by itself (1 / 2 / 3 / 6 / 9 km at the rim: the smallest holding the
+   nearest pilot), range rings with labels, every blip labelled ("P2 2.7 km", "MS 290 m"), the nearest pilot bigger with a halo and
+   "NEAREST 2.2 km", the same on the cockpit display and the HUD (`a1_radar_cockpit`). Bearing still rough past 3 km (Round 2's rule).
+2. **Route trail — done; following it without a touch: not reached (tuning limit).** A* over a 30 m grid on canyon openness, off the main
+   thread (3-90 ms; up to 2.4 s with the PC loaded); chevrons 20 m wide every 100 m, bright to 300 m, fading out by 700 m, ending over the
+   pad (green ring); the route on the radar as dots; height 35 m over the floor, raised where the canyon is narrower than ~70 m, gliding
+   down from the ship (≤25°) and climbing early before ridges (≤30°). Re-plan: at once on a new target or 150 m off (387 m off → re-planned
+   in 9 ms), every 4 s while drifting 60 m off. Target cycling D-pad right / T / HOTAS 11 (auto → pilots by distance → mothership → auto).
+   Settings > Route trail (On). Check from Reset position at the start pad: route 3.2 km through 12 bends, never under 26 m over the
+   ground; the check's pilot (160 km/h) followed it to 260 m from the pad with **2 wall touches** (runs: 2, -, 15, 11, 3, 4, 2), each when it
+   strayed 13-63 m off the line; chevrons in the cockpit view at the three pictures 4 / 6, 0 / 6 (behind a rise), 6 / 7 (`a3-a5`). **Dan decides:** wider corridor / higher line?
+3. **Check — done** (`fix26/final`), frame rate: see above.
+B1. **Which pilots are aliens — done.** `Aliens.Assign` from the planet's seed (same seed = same list, checked on 3 seeds); none on a new
+   career's first planet (checked); then max(1, round(share × pilots)), share 20 % + 5 % a tier (max 35 %); every type; 400 sample planets:
+   33 % aliens at 6 pilots, tells shown 74 %, types 147-188 each. Planets saved before 0.3.0 get theirs on the next visit.
+B2. **Models — done (placeholder art).** Aliens wear the pilot suit; the creature (`Tools/Blender/creature.py`, 2.2 m, 8000 triangles: reversed
+   knees, arms past the knees, four-claw hands, ribs, an eyeless long skull with milky eye clusters, a jaw that splits) posed in code
+   (`Campaign/Creature.cs`: crawl, canopy, lunge, thrash, dead; jerky head, breathing). Close up: `b_04_lunge`, `b1_canopy_pressed_to_the_glass`.
+B3. **Tells — done.** Mimic: the figure casts no shadow, a taller long-armed shadow follows 3.3 m behind; Hollow: matte black visor, no
+   glint (real visors: blue sheen + glint; `t2_hollow_tell_airlock_cam` vs `t2_hollow_hidden_airlock_cam`); Knocker: four knocks (or the
+   wrong rhythm / from the nose, by pilot); Stalker: circles 420° at 18 m, off the radar 10 s, comes in from behind. Shown 75 % (seeded),
+   false tells 0 %. **Fixed on the way:** pilots waited under the left wing (since 0.2.5): head and visor hidden from the airlock camera:
+   they now wait ahead of the wing; the airlock camera moved and narrowed (42°) so the figure fills it; between knocks they look into it.
+   **Mimic: not seen in any check picture**: the check's pad lies in the canyon wall's shade (no shadows at all there,
+   `t1_mimic_tell_coming_landing_view`); the tell only shows on sunlit ground. **Dan decides:** add a second sign (e.g. its own lamp-cast shadow)?
+B4. **At the door — done.** Engines: an alien shrieks, rears up as the creature and dies; +200 cr bounty; journal; a real pilot: -400 (as before).
+B5. **Ignored → canopy → break-in — done.** Climbed 27.3 s after reaching the door (25 + the 2.4 s climb, live), pressed on the glass
+   straight ahead (scrape, breath, taps); broke in 10.0 s later; engines while it is up there: thrown off, burnt, +200 cr.
+B6. **Real pilots — done.** Never climb; keep knocking every 7 s, the Advice line keeps saying so.
+B7. **Horror sequence — done.** Airlock shuts (0.8 s), lights die and every cockpit display goes dark (2.0), alarm, something moving in the
+   cabin (3.4-9.4), three blows on the hatch behind the left shoulder, it gives way (13.2), it comes round the seat to your face, the jaw
+   opens, lunge (17.4), death: "Killed by the thing you let aboard: a Mimic", the ship lost with it, regeneration bay, loaner / recovery.
+   Canopy break-in: crack, glass gone, lunge (6.5 s). Live: camera never moved by the game (fastest 0-1 m/s), look works (turned 102-111°
+   back to the hatch), no fade, no strobe (a slow red pulse), view left as the player had it.
+B8. **Sleeper — done.** Seeded turn 40-120 s of flight (this one 89 s; the check shortened it). 3 others aboard: it killed one, the two
+   left killed it (cabin 4 → 2); alone: it came for the cockpit (death in flight: the ship drifts to a hover); docked first: security in
+   the bay, "Security killed a Sleeper in your cabin", the other pilot paid. Tell (75 %): wet clicking and a looping voice in the cabin, its
+   head turned too far toward the cabin camera.
+B9. **Cabin camera — done.** A cabin behind the cockpit (benches, lamps, passengers; the hatch cut in `ship.py`), its camera on a small
+   cockpit display (left of the dash) and on the HUD with D-pad up / N / HOTAS 12; dark when the lights die.
+B10. **Field Journal — done.** Hangar and pause menu (last row); entry + vague hint at the first reveal, clearer at the second (all five
+   checked: `j1_field_journal`); saved in `career.json` (`journal`, `aliensKilled`).
+B11. **Sounds — done with ElevenLabs** (key from `ELEVENLABS_API_KEY`): 18 sounds in `Assets/Resources/Sounds/`, prompts in `Docs/SOUNDS.md`,
+   `python Tools/make_sounds.py [--only x --force]`; code placeholder if a file is missing. **Not heard by anyone yet** (muted rule):
+   the check logs each one started (`sounds that would have played`).
+B12. **Check — done** (`--only aliens`, about 35 min, every item above). Not re-run this round: `all` / `campaign` / `home` / `fix24` / `fix25`.
+Publish: 0.3.0 = build 300, tag `game-300`, Latest; the `starter-200` ZIP from GitHub, `--auto-check`: "Updating to game 0.3.0",
+installed `versions/300`, started, exit 0. Clean-up: disk use 2.1 GB -> 1.6 GB (starter test install, 0.2.1-0.2.5 release folders and check runs removed).
+
+**New tuning (`CampaignTuning.json`):** alienShareStart .20, alienSharePerTier .05, alienShareMax .35, tellReliability .75,
+falseTellChance 0, alienBounty 200, canopyClimbAfter 25, breakInAfter 10, sleeperTurnMin 40, sleeperTurnMax 120, sleeperPilotsWin 2.
+**New settings / controls:** Settings > Route trail (On); RouteTarget D-pad right / T / HOTAS 11; CabinCam D-pad up / N / HOTAS 12.
+
+**For Dan to check:** radar distances and the route trail (is it followable at speed? wider / higher?); the aliens: can you learn the
+tells by playing, do they still fool you, is the canopy and the horror sequence scary, does the Sleeper's cabin fight work? **Listen to
+the sounds** (never played on your PC by me). Frame rate on your PC and the Deck (not measurable this round).

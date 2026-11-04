@@ -255,6 +255,30 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   day's planet of the day (once), else where you left off (`currentSeed`). Code: `Core/GameShell.Planets.cs`, `GameShell.Campaign`
   (`Arrive`, `Jump`), `Core/Career.cs`. Hangar rows: Launch, Jump, Planets, Repair, Refuel, Recover, Field Journal, Back to title
   (checks pick rows by label: `ExeCheck.Row`).
+- **Biomes (Round 4):** every planet is one biome from its seed (`Biomes.ForSeed`; a career's first planet is Canyons; saved as
+  `PlanetState.biome`): **Canyons**, **Giant Forest**, **Dead City**, **Ice** — all in `Terrain/CanyonField.cs` (one height function per
+  biome; `CanyonT` = openness for the route trail). Forest trees one per 64 m cell (`TreeAt`), city street grid in the height field
+  (rooftop pads: `Pad.roof`, `PadSize` 26 m), ice crevasses; solid props (trunks, sky bridges, snow bridges) collide from the seed
+  (`SolidPush`, used by `ShipController.Collide`), the forest crown is soft (`InCanopy`: leaves + rustle). Drawn by `Terrain/BiomeProps.cs`
+  (GPU instancing, `Resources/Materials/Prop.mat` made by PlayerBuild, 2 LODs; Deck: trees to 60 % of the view, detailed to 420 m).
+  Look per biome: `WorldLook.LookFor / ApplyBiome` (+ `Rock.shader` `_Mode`, `Sky.shader` `_Overcast`, `Prop.shader`, `Shaft.shader`);
+  air and blizzards: `Effects/BiomeWeather.cs`. Free Flight: **Planet type** row (By seed / one biome; `GameSettings.freeBiome`); its rows
+  are Seed, Seed number, Planet type, Crash level, Start flight, Back. Later biomes queued: volcanic, crystal / fungal, ocean islands.
+- **Music (Round 4):** `Audio/Music.cs` (state -> track, 4 s crossfades, tension layer, silence near pilots and in the scares, ducks
+  under voices, stingers). Files: **`BundleMusic/`** (git-ignored; Dan's Suno tracks `title_theme hangar planet_select flight_canyons
+  flight_forest flight_city flight_ice`, + `tension_low_energy regeneration` from ElevenLabs) -> `python Tools/music_loops.py` writes the
+  loop points `BundleMusic/music.json` -> the build copies the folder to `Builds/HostileHorizon/Music/`; releases ship it as the launcher's
+  **soundtrack** component (`Prepare-ComponentUpdate.py soundtrack --source BundleMusic`); the game reads `-racerManagedMusic` first.
+  `python Tools/make_music.py [--only] [--force]`: the two music loops (ElevenLabs music API; **Dan's key lacks `music_generation`**,
+  so they are sound-effects stand-ins until he allows it) and the stingers `Resources/Sounds/sting_*`. Docs/MUSIC.md.
+  A soundtrack update: `Prepare-ComponentUpdate.py soundtrack --source BundleMusic --previous-catalog <latest release's catalog>
+  --previous-manifest Builds/LauncherRelease-S400/assets/soundtrack-manifest.json --out Builds/LauncherRelease-S<build> ...` (tag
+  `soundtrack-<build>`), published before the game update, whose `--previous-catalog` is then the soundtrack release's catalog.
+- **Voices (Round 4):** `Audio/Voices.cs` (queue with priorities, radio filter + clicks + crackle, door voice through the hull, cabin,
+  subtitles), lines `Assets/Resources/Voices/<id>.mp3` + `lines.json` from `python Tools/make_voices.py [--only id|prefix_] [--force]`
+  (ElevenLabs TTS, key never printed); Docs/VOICES.md lists every line. Control = Daniel, computer = River, 12 pilot voices (callsign =
+  voice). Wired in `Core/GameShell.Audio.cs` (also the music state and the biome world). Mimic voice sign: `GameShell.MimicVoiceSign`.
+  Settings > **Sound**: Master, Music, Effects, Voices, Subtitles (On).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -289,6 +313,9 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   check without the "tell hidden" visits, plus a model report (triangles, Mesh LOD levels, clips), close-ups of each creature and both
   visors (a check-only camera), where the horror creature is at each beat, frame rates with the models and the code-made figures;
   `fix31h` = the airlock horror only; `fix31perf` = the Field Journal with all five + the frame rates.
+  `-exeCheckOnly round4` (Round 4, `Checks/ExeCheck.Round4.cs`, about 12 min): biomes from the seed, each biome in Free Flight
+  (pictures, fps, a trunk / bridge hit, the canopy, a blizzard), the Campaign in Forest / City (a Mimic first, then a rooftop) / Ice
+  (trail, landing, pickup, docking), the music / voice / stinger logs; `round4perf` = the Free Flight part only.
   `-exeCheckOnly fix32` (Fix 3.2, `Checks/ExeCheck.Fix32.cs`, about 5 min): clear today's planet, the day bonus, jump, a pilot on the
   new planet, the Planets list, back and forth (waiting pilots kept), quit + Continue, the same system seed's second planet twice.
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
@@ -298,7 +325,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -362,10 +389,15 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 4 (planet biomes: Canyons, Giant Forest, Dead City, Ice; adaptive music with Dan's 7 Suno tracks as the launcher's soundtrack
+component; voices: Control, the computer, 12 pilots, the aliens using them, radio sound, subtitles) is built, checked in the exe
+(headless, muted, `--only round4`, `round4perf` with and without the Deck setting) and published as 0.4.0 (`game-400` Latest +
+`soundtrack-400`); a starter-200 install updates to both from GitHub. Not yet played or heard by Dan.** Open: the ElevenLabs key has no
+Music permission (two loops are stand-ins), short hitches in forest / city in one run. Numbers and per-item status in `TODO.md`
+(Round 4 delivery). **Next: Round 5 (Enemies + difficulty)**, to be written by the planning chat.
 **Fix 3.2 (always another planet to fly: Jump to a new planet from the hangar, the Planets list, planet of the day +50 %, a cleared
 planet offers the jump first) is built, checked in the exe (headless, muted, `--only fix32`) and published as 0.3.2 (`game-302`,
 Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** Details in `TODO.md` (Fix 3.2 delivery).
-**Next: Round 4 (Enemies + difficulty)**, to be written by the planning chat.
 **Fix 3.1 (real character models: the pilot and the five aliens' own creatures from Dan's concept art -> Meshy -> Mixamo,
 animated; the Field Journal shows each type) is built, checked in the exe (headless, muted, `--only fix31`, `fix31perf` at both
 settings) and published as 0.3.1 (`game-301`, Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** The
