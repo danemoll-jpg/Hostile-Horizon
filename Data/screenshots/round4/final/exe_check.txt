@@ -1,0 +1,330 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 53248 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 14:14; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+title: Today's planet: Zanveth-IV (Dead City), seed 20261104; music "title_theme" want "title_theme" gain 0.70; music folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music
+screenshot a_title.png
+biomes over seeds 1-2000: Canyons 502, Giant Forest 506, Dead City 488, Ice 504; today (20261104): City; again: City
+  Canyons (seed 777): same seed, same ground: identical; heights -5 .. 569 m; pads in 11 x 11 pad cells: 99; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 0
+  Giant Forest (seed 777): same seed, same ground: identical; heights -3 .. 112 m; pads in 11 x 11 pad cells: 101; trees in 40 x 40 tree cells: 711; bridges in 12 x 12 prop cells: 0
+  Dead City (seed 777): same seed, same ground: identical; heights 1 .. 367 m; pads in 11 x 11 pad cells: 117 (81 on roofs); trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 2
+  Ice (seed 777): same seed, same ground: identical; heights -3 .. 260 m; pads in 11 x 11 pad cells: 91; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 2
+the Mimic's voice sign over 400 planets (pilot 1 a Mimic): on 300 times (75 %; tell reliability 75 %): only some of the time
+--- Canyons (Free Flight, seed of the day 20261104, Bounce)
+  world: biome Canyons; music "flight_canyons" want "flight_canyons" gain 0.49; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_canyons_1_start_cockpit.png
+    [769 fps] Flying/ Flight alt 80 gnd 45 spd 59 hdg 106 energy 100
+    [929 fps] Flying/ Flight alt 75 gnd 76 spd 59 hdg 92 energy 100
+Canyons flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.075 RMS, peak 1.616, zeroed before the speakers; 2002944 samples); master volume 0.00
+fps Canyons flying low: average 861.7, 1% low 289.4, worst frame 120 ms over 12926 frames; mean height over ground 48 m; terrain chunks 578, waiting 0
+  hits while flying low: 1; trees drawn 0 (0 near)
+screenshot b_canyons_2_low_cockpit.png
+screenshot b_canyons_3_chase.png
+--- Giant Forest (Free Flight, seed of the day 20261104, Bounce)
+  world: biome Forest; music "flight_forest" want "flight_forest" gain 0.49; weather particles on; props: 3631 trees drawn (194 near, detailed)
+screenshot b_forest_1_start_cockpit.png
+    [491 fps] Flying/ Flight alt 37 gnd 36 spd 59 hdg 93 energy 100
+    [469 fps] Flying/ Flight alt 36 gnd 36 spd 59 hdg 108 energy 100
+Giant Forest flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.076 RMS, peak 1.616, zeroed before the speakers; 3989504 samples); master volume 0.00
+fps Giant Forest flying low: average 489.3, 1% low 119.6, worst frame 263 ms over 7342 frames; mean height over ground 36 m; terrain chunks 578, waiting 0
+  hits while flying low: 0; trees drawn 3810 (120 near)
+screenshot b_forest_2_low_cockpit.png
+screenshot b_forest_3_chase.png
+  a tree: trunk 5 m wide, 98 m tall, crown 51 x 43 m at 80 m
+  flown at the trunk: hits 1 (impact 58.5 m/s), crashed False; after: 8.9 m from the trunk's axis (radius there 2.4 m)
+screenshot b_forest_4_trunk_hit.png
+  flown through a crown: deepest 0.75 (1 = its middle), rustles 5, crashed False, hits from leaves none
+screenshot b_forest_5_through_crown.png
+    [567 fps] Paused/ Flight alt 79 gnd 78 spd 59 hdg 0 energy 100
+--- Dead City (Free Flight, seed of the day 20261104, Bounce)
+  world: biome City; music "flight_city" want "flight_city" gain 0.50; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_city_1_start_cockpit.png
+    [611 fps] Flying/ Flight alt 110 gnd 40 spd 59 hdg 161 energy 100
+Dead City flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.077 RMS, peak 1.616, zeroed before the speakers; 6531072 samples); master volume 0.00
+fps Dead City flying low: average 591.7, 1% low 156.7, worst frame 317 ms over 8876 frames; mean height over ground 52 m; terrain chunks 581, waiting 0
+  hits while flying low: 0; trees drawn 0 (0 near)
+screenshot b_city_2_low_cockpit.png
+screenshot b_city_3_chase.png
+  sky bridges within ~3.5 km: 10
+  nearest: 48 m long across, 10 m wide, 7 m thick, bottom 89 m over the ground under it
+    [539 fps] Flying/ Flight alt 102 gnd 92 spd 59 hdg 90 energy 100
+screenshot b_city_4_at_sky_bridge.png
+  flown into a sky bridge: hits 1, crashed False
+--- Ice (Free Flight, seed of the day 20261104, Bounce)
+  world: biome Ice; music "flight_ice" want "flight_ice" gain 0.48; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_ice_1_start_cockpit.png
+    [630 fps] Flying/ Flight alt 136 gnd 84 spd 59 hdg 117 energy 100
+    [496 fps] Flying/ Flight alt 200 gnd 115 spd 59 hdg 93 energy 100
+Ice flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.078 RMS, peak 1.616, zeroed before the speakers; 8951808 samples); master volume 0.00
+fps Ice flying low: average 497.4, 1% low 143.4, worst frame 123 ms over 7462 frames; mean height over ground 69 m; terrain chunks 578, waiting 0
+  hits while flying low: 0; trees drawn 0 (0 near)
+screenshot b_ice_2_low_cockpit.png
+screenshot b_ice_3_chase.png
+  snow bridges (ice caves) within ~3.5 km: 8
+  nearest: 150 m long across, 90 m wide, 63 m thick, bottom 110 m over the ground under it
+screenshot b_ice_5_under_snow_bridge.png
+    [491 fps] Flying/ Flight alt 189 gnd 18 spd 59 hdg 289 energy 100
+  flown under the snow bridge (ice cave): hits 1, crashed False
+  blizzard: weather 1.00 after 9 s (haze end 450 m); the computer: 99.9 voice cpu_whiteout [Computer, p3, 2.3 s] COMPUTER: Visibility low. Instruments only.
+screenshot b_ice_4_blizzard.png
+    [512 fps] Title/ Flight alt 191 gnd 124 spd 59 hdg 27 energy 100
+new career: first planet Zanveth-IV, biome "canyons" (must be canyons; today's seed would give City); music "hangar" want "hangar" gain 0.48; Control: 109.9 voice ctl_brief_canyons [Radio, p2, 8.6 s] CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+screenshot c_new_career_hangar.png
+Planets list: New planet / Zanveth-IV  <size=24>Canyons · ★ of the day · 3 waiting  ◄ here</size> / Back; music "planet_select" want "planet_select" gain 1.00
+screenshot c_planets_list.png
+    [787 fps] Docked/docked Hover alt 1500 gnd 1503 spd 0 hdg 285 energy 100
+back in the hangar: music "hangar" want "hangar" gain 1.00
+--- Campaign: Giant Forest: the check jumps to seed 104 (as the Planets list would)
+  arrived: Veshos-VI, biome "forest" (from the seed: Forest); hangar: "<b>Planet: Veshos-VI</b>  (Giant Forest, seed 104)"; music "planet_select" want "planet_select" gain 0.17
+screenshot c_forest_0_hangar.png
+    [576 fps] Auto/launch Hover alt 1436 gnd 1435 spd 65 hdg 225 energy 100
+  launched: music "flight_forest" want "flight_forest" gain 1.00; voices so far: ctl_brief_forest [
+  route trail: target PILOT 1; 87 points, 2042 m long (straight line 1603 m), 6 bends over 20° (250° of turning), highest canyon openness on it 0.13 (0 floor, 1 rim), lowest clearance over the ground 465 m at 2039 m
+screenshot c_forest_1_after_launch_trail.png
+  pilot 1: pad at (-873, 0, 1667) (a forest clearing, +0 m vs 60 m east)
+    [235 fps] Flying/ Hover alt 14 gnd 14 spd 2 hdg 309 energy 97
+    [163 fps] Flying/ Hover alt 6 gnd 6 spd 1 hdg 309 energy 94
+    [177 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 309 energy 91
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot c_forest_3_landed_at_pilot.png
+screenshot c_forest_4_pilot_at_door_subtitle.png
+  pilot 1 aboard; the lines since landing: cpu_gear_down [Computer, p3, 1.3 s] COMPUTER: Landing gear down. | ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home. | p0_mayday_forest [Radio, p1, 6.3 s] PILOT HALE: Mayday, mayday, Hale here. I came down through the trees. I'm in a clearing, I think. Please hurry. | p8_mayday [Radio, p1, 7.5 s] PILOT GRANGE: Mayday, mayday, this is Corps pilot Grange. I'm down, beacon's on. Is anyone up there? | cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off. | p0_see_2 [Radio, p1, 2.1 s] PILOT HALE: That's you! Hold on, I'm on my way! | p0_door_1 [Door, p1, 1.3 s] PILOT HALE: It's me! Open up! | cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open. | cpu_pilot_aboard [Computer, p3, 1.1 s] COMPUTER: Pilot aboard.
+    [173 fps] Flying/ Hover alt 6 gnd 6 spd 11 hdg 309 energy 98
+    [164 fps] Flying/ Hover alt 145 gnd 145 spd 14 hdg 309 energy 94
+    [155 fps] Flying/ Hover alt 284 gnd 285 spd 14 hdg 309 energy 91
+    [111 fps] Flying/ Hover alt 421 gnd 421 spd 14 hdg 309 energy 87
+    [134 fps] Flying/ Hover alt 542 gnd 542 spd 14 hdg 309 energy 84
+    [142 fps] Flying/ Hover alt 674 gnd 674 spd 14 hdg 309 energy 81
+    [162 fps] Flying/ Hover alt 810 gnd 811 spd 14 hdg 309 energy 78
+    [128 fps] Flying/ Hover alt 929 gnd 930 spd 14 hdg 309 energy 75
+    [233 fps] Auto/dock-approach Flight alt 1408 gnd 1406 spd 200 hdg 353 energy 73
+    [278 fps] Auto/dock-final Flight alt 1525 gnd 1528 spd 78 hdg 183 energy 73
+  docked: music "hangar" want "hangar" gain 0.51; debrief "Delivered 1 pilot: +500 cr | Energy used 27%. Refuelled 27%: -163 cr"
+  music changes this sortie: 122.3 sting sting_launch | 122.4 music "flight_forest" gain 0.00 ducked | 122.8 music "flight_forest" gain 0.25 ducked | 123.8 music "flight_forest" gain 0.50 ducked | 124.8 music "flight_forest" gain 0.75 ducked | 125.8 music "flight_forest" gain 1.00 ducked | 131.7 music "(silence)" gain 0.00 ducked | 166.0 sting sting_pilot_aboard | 167.8 music "flight_forest" gain 0.00 ducked | 168.2 music "flight_forest" gain 0.25 ducked | 169.2 music "flight_forest" gain 0.50 ducked | 170.2 music "flight_forest" gain 0.75 ducked | 171.2 music "flight_forest" gain 1.00 ducked | 260.9 sting sting_docked | 261.0 music "hangar" gain 0.00 | 261.4 music "hangar" gain 0.25 ducked | 262.4 music "hangar" gain 0.50 ducked
+--- Campaign: Dead City: the check jumps to seed 111 (as the Planets list would)
+  arrived: Zanshix-IX, biome "city" (from the seed: City); hangar: "<b>Planet: Zanshix-IX</b>  (Dead City, seed 111)"; music "planet_select" want "planet_select" gain 0.02
+screenshot c_city_0_hangar.png
+    [384 fps] Auto/launch Hover alt 1487 gnd 1482 spd 17 hdg 75 energy 100
+  launched: music "flight_city" want "flight_city" gain 1.00; voices so far: ctl_jump [Radio, p | ctl_brief_city [Ra
+  route trail: target PILOT 2; 48 points, 1168 m long (straight line 1119 m), 1 bends over 20° (99° of turning), highest canyon openness on it 1.00 (0 floor, 1 rim), lowest clearance over the ground 629 m at 1163 m
+screenshot c_city_1_after_launch_trail.png
+  pilot 1 is a Mimic; its voice sign this time: ON (shadow tell shown)
+    [498 fps] Flying/ Hover alt 235 gnd 20 spd 2 hdg 301 energy 99
+    [241 fps] Flying/ Hover alt 223 gnd 8 spd 1 hdg 301 energy 95
+    [203 fps] Flying/ Hover alt 219 gnd 4 spd 1 hdg 301 energy 93
+screenshot c_city_2_mimic_at_door.png
+  the Mimic's lines: ctl_jump [Radio, p2, 3.0 s] CONTROL: Jump drive spooling. Hold on to something. | ctl_brief_city [Radio, p2, 7.4 s] CONTROL: There's a dead city down there. Nobody's home. Except our pilots, in the streets and on the roofs. | ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home. | p11_mayday_wrong [Radio, p1, 6.7 s] PILOT LUND: Mayday, mayday, this is... this is Corps pilot Lund. I'm down, I'm down. Beacon's on. Is anyone... up there? | p4_mayday [Radio, p1, 5.2 s] PILOT MARLOW: Mayday, mayday, this is Corps pilot Marlow. I'm down, beacon's on. Is anyone up there? | p10_mayday_city [Radio, p1, 6.8 s] PILOT BRANNOCK: This is Corps pilot Brannock, I'm down in the city. It's so quiet here. Please, somebody. | cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off. | p11_see_1 [Radio, p1, 1.8 s] PILOT LUND: I see you! I see you! I'm coming! | p11_door_wrong [Door, p1, 2.8 s] PILOT LUND: It's me. It's me. Open... open up.
+    [282 fps] Flying/ Hover landed alt 217 gnd 2 spd 0 hdg 301 energy 91
+  engines started on it: fate AlienGone; Control: 307.5 voice ctl_alien_killed [Radio, p2, 2.4 s] CONTROL: That was no pilot. Good call.
+  pilot 2: pad at (1072, 245, -32) (a ROOFTOP, +240 m vs 60 m east)
+    [252 fps] Flying/ Hover alt 264 gnd 20 spd 2 hdg 310 energy 98
+    [292 fps] Flying/ Hover alt 252 gnd 7 spd 1 hdg 310 energy 95
+    [343 fps] Flying/ Hover alt 247 gnd 2 spd 1 hdg 310 energy 91
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot c_city_3_landed_at_pilot.png
+screenshot c_city_4_pilot_at_door_subtitle.png
+  pilot 2 aboard; the lines since landing: cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off. | p4_see_2 [Radio, p1, 2.7 s] PILOT MARLOW: That's you! Hold on, I'm on my way! | p4_door_1 [Door, p1, 1.5 s] PILOT MARLOW: It's me! Open up! | cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open.
+    [328 fps] Flying/ Hover alt 259 gnd 14 spd 14 hdg 310 energy 94
+    [276 fps] Flying/ Hover alt 399 gnd 154 spd 14 hdg 310 energy 90
+    [220 fps] Flying/ Hover alt 539 gnd 294 spd 14 hdg 310 energy 87
+    [270 fps] Flying/ Hover alt 679 gnd 434 spd 14 hdg 310 energy 83
+    [267 fps] Flying/ Hover alt 819 gnd 574 spd 14 hdg 310 energy 80
+    [260 fps] Flying/ Hover alt 959 gnd 714 spd 14 hdg 310 energy 76
+    [302 fps] Auto/dock-final Flight alt 1569 gnd 1506 spd 141 hdg 285 energy 75
+    [298 fps] Auto/dock-final Flight alt 1486 gnd 1481 spd 42 hdg 95 energy 75
+  docked: music "hangar" want "hangar" gain 0.50; debrief "Delivered 1 pilot: +500 cr | Energy used 25%. Refuelled 25%: -150 cr"
+  music changes this sortie: 263.2 sting sting_launch | 263.2 music "flight_city" gain 0.00 ducked | 263.8 music "flight_city" gain 0.25 ducked | 264.7 music "flight_city" gain 0.50 ducked | 265.7 music "flight_city" gain 0.75 ducked | 266.7 music "flight_city" gain 1.00 ducked | 272.5 music "(silence)" gain 0.00 ducked | 304.6 sting sting_alien_reveal | 308.7 music "flight_city" gain 0.00 ducked | 309.1 music "flight_city" gain 0.25 ducked | 310.1 music "flight_city" gain 0.50 ducked | 311.0 music "(silence)" gain 0.00 | 342.5 sting sting_pilot_aboard | 344.2 music "flight_city" gain 0.00 ducked | 344.7 music "flight_city" gain 0.25 ducked | 345.7 music "flight_city" gain 0.50 ducked | 346.7 music "flight_city" gain 0.75 ducked | 347.7 music "flight_city" gain 1.00 ducked | 418.4 sting sting_docked | 418.4 music "hangar" gain 0.00 | 418.9 music "hangar" gain 0.25 ducked | 419.9 music "hangar" gain 0.50 ducked
+--- Campaign: Ice: the check jumps to seed 101 (as the Planets list would)
+  arrived: Torkon-VIII, biome "ice" (from the seed: Ice); hangar: "<b>Planet: Torkon-VIII</b>  (Ice, seed 101)"; music "planet_select" want "planet_select" gain 0.05
+screenshot c_ice_0_hangar.png
+    [588 fps] Auto/launch Hover alt 1473 gnd 1475 spd 25 hdg 30 energy 100
+  launched: music "flight_ice" want "flight_ice" gain 1.00; voices so far: ctl_jump [Radio, p | ctl_brief_ice [Rad
+  route trail: target PILOT 2; 136 points, 3167 m long (straight line 1823 m), 14 bends over 20° (757° of turning), highest canyon openness on it 0.98 (0 floor, 1 rim), lowest clearance over the ground 27 m at 3163 m
+screenshot c_ice_1_after_launch_trail.png
+  pilot 1: pad at (-2429, 2, 396) (an ice pad, -77 m vs 60 m east)
+    [314 fps] Flying/ Hover alt 20 gnd 18 spd 2 hdg 318 energy 98
+    [225 fps] Flying/ Hover alt 9 gnd 7 spd 1 hdg 318 energy 95
+    [186 fps] Flying/ Hover landed alt 4 gnd 2 spd 0 hdg 318 energy 91
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot c_ice_3_landed_at_pilot.png
+screenshot c_ice_4_pilot_at_door_subtitle.png
+  pilot 1 aboard; the lines since landing: ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home. | p9_mayday [Radio, p1, 4.3 s] PILOT QUILL: Mayday, mayday, this is Corps pilot Quill. I'm down, beacon's on. Is anyone up there? | p1_mayday_ice [Radio, p1, 5.1 s] PILOT KADE: Mayday, this is Kade. I'm down on the ice. It's cold. It's so cold. Come get me. | p2_mayday_ice [Radio, p1, 5.5 s] PILOT PENROSE: Mayday, this is Penrose. I'm down on the ice. It's cold. It's so cold. Come get me. | cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off. | p1_see_1 [Radio, p1, 2.1 s] PILOT KADE: I see you! I see you! I'm coming! | p1_door_1 [Door, p1, 1.5 s] PILOT KADE: It's me! Open up! | cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open.
+    [267 fps] Flying/ Hover alt 6 gnd 4 spd 8 hdg 318 energy 95
+    [208 fps] Flying/ Hover alt 145 gnd 143 spd 14 hdg 318 energy 91
+    [246 fps] Flying/ Hover alt 285 gnd 283 spd 14 hdg 318 energy 88
+    [246 fps] Flying/ Hover alt 425 gnd 423 spd 14 hdg 318 energy 84
+    [225 fps] Flying/ Hover alt 564 gnd 562 spd 14 hdg 318 energy 81
+    [243 fps] Flying/ Hover alt 704 gnd 702 spd 14 hdg 318 energy 77
+    [249 fps] Flying/ Hover alt 844 gnd 842 spd 14 hdg 318 energy 74
+    [248 fps] Flying/ Hover alt 984 gnd 982 spd 14 hdg 318 energy 70
+    [316 fps] Auto/dock-final Flight alt 1794 gnd 1623 spd 53 hdg 340 energy 70
+    [335 fps] Docked/docked Hover alt 1500 gnd 1257 spd 0 hdg 30 energy 100
+  docked: music "hangar" want "hangar" gain 0.50; debrief "Delivered 1 pilot: +500 cr | Energy used 30%. Refuelled 30%: -180 cr"
+  music changes this sortie: 420.8 sting sting_launch | 420.8 music "flight_ice" gain 0.00 ducked | 421.3 music "flight_ice" gain 0.25 ducked | 422.3 music "flight_ice" gain 0.50 ducked | 423.3 music "flight_ice" gain 0.75 ducked | 424.3 music "flight_ice" gain 1.00 ducked | 430.1 music "(silence)" gain 0.00 ducked | 463.4 sting sting_pilot_aboard | 465.0 music "flight_ice" gain 0.00 ducked | 465.5 music "flight_ice" gain 0.25 ducked | 466.5 music "flight_ice" gain 0.50 ducked | 467.5 music "flight_ice" gain 0.75 ducked | 468.5 music "flight_ice" gain 1.00 ducked | 555.1 sting sting_docked | 555.1 music "hangar" gain 0.00 | 555.6 music "hangar" gain 0.25 ducked | 556.6 music "hangar" gain 0.50 ducked
+--- music (every change, muted run)
+  0.0 music "(silence)" gain 0.00
+  0.0 music "title_theme" gain 0.25
+  0.9 music "title_theme" gain 0.50
+  1.9 music "title_theme" gain 0.75
+  2.8 music "title_theme" gain 1.00
+  3.1 music "flight_canyons" gain 0.00
+  3.6 music "flight_canyons" gain 0.25
+  4.6 music "flight_canyons" gain 0.50
+  5.6 music "flight_canyons" gain 0.75
+  6.6 music "flight_canyons" gain 1.00
+  22.9 music "flight_city" gain 0.00
+  22.9 music "title_theme" gain 0.00
+  23.5 music "title_theme" gain 0.25
+  23.7 music "flight_forest" gain 0.00
+  24.2 music "flight_forest" gain 0.25
+  25.2 music "flight_forest" gain 0.50
+  26.2 music "flight_forest" gain 0.75
+  27.2 music "flight_forest" gain 1.00
+  49.7 music "flight_city" gain 0.00
+  49.8 music "title_theme" gain 0.00
+  50.1 music "flight_city" gain 0.00
+  50.6 music "flight_city" gain 0.25
+  51.6 music "flight_city" gain 0.50
+  52.6 music "flight_city" gain 0.75
+  53.6 music "flight_city" gain 1.00
+  74.8 music "title_theme" gain 0.00
+  75.3 music "title_theme" gain 0.25
+  75.4 music "flight_ice" gain 0.00
+  75.9 music "flight_ice" gain 0.25
+  76.9 music "flight_ice" gain 0.50
+  77.9 music "flight_ice" gain 0.75
+  78.9 music "flight_ice" gain 1.00
+  109.2 music "flight_city" gain 0.00
+  109.3 music "title_theme" gain 0.00
+  109.8 music "title_theme" gain 0.25
+  110.2 music "hangar" gain 0.00 ducked
+  110.7 music "hangar" gain 0.25 ducked
+  111.7 music "hangar" gain 0.50 ducked
+  112.2 music "planet_select" gain 0.00 ducked
+  112.7 music "planet_select" gain 0.25 ducked
+  113.7 music "planet_select" gain 0.50 ducked
+  114.7 music "planet_select" gain 0.75 ducked
+  115.7 music "planet_select" gain 1.00 ducked
+  116.9 music "hangar" gain 0.00 ducked
+  117.4 music "hangar" gain 0.25 ducked
+  118.4 music "hangar" gain 0.50 ducked
+  119.4 music "hangar" gain 0.75
+  120.4 music "hangar" gain 1.00
+  121.4 sting sting_jump
+  121.5 music "planet_select" gain 0.00
+  121.9 music "planet_select" gain 0.25 ducked
+  122.3 music "hangar" gain 0.00 ducked
+  122.3 sting sting_launch
+  122.4 music "flight_forest" gain 0.00 ducked
+  122.8 music "flight_forest" gain 0.25 ducked
+  123.8 music "flight_forest" gain 0.50 ducked
+  124.8 music "flight_forest" gain 0.75 ducked
+  125.8 music "flight_forest" gain 1.00 ducked
+  131.7 music "(silence)" gain 0.00 ducked
+  166.0 sting sting_pilot_aboard
+  167.8 music "flight_forest" gain 0.00 ducked
+  168.2 music "flight_forest" gain 0.25 ducked
+  169.2 music "flight_forest" gain 0.50 ducked
+  170.2 music "flight_forest" gain 0.75 ducked
+  171.2 music "flight_forest" gain 1.00 ducked
+  260.9 sting sting_docked
+  261.0 music "hangar" gain 0.00
+  261.4 music "hangar" gain 0.25 ducked
+  262.4 music "hangar" gain 0.50 ducked
+  263.0 sting sting_jump
+  263.0 music "planet_select" gain 0.00 ducked
+  263.2 music "hangar" gain 0.00 ducked
+  263.2 sting sting_launch
+  263.2 music "flight_city" gain 0.00 ducked
+  263.8 music "flight_city" gain 0.25 ducked
+  264.7 music "flight_city" gain 0.50 ducked
+  265.7 music "flight_city" gain 0.75 ducked
+  266.7 music "flight_city" gain 1.00 ducked
+  272.5 music "(silence)" gain 0.00 ducked
+  304.6 sting sting_alien_reveal
+  308.7 music "flight_city" gain 0.00 ducked
+  309.1 music "flight_city" gain 0.25 ducked
+  310.1 music "flight_city" gain 0.50 ducked
+  311.0 music "(silence)" gain 0.00
+  342.5 sting sting_pilot_aboard
+  344.2 music "flight_city" gain 0.00 ducked
+  344.7 music "flight_city" gain 0.25 ducked
+  345.7 music "flight_city" gain 0.50 ducked
+  346.7 music "flight_city" gain 0.75 ducked
+  347.7 music "flight_city" gain 1.00 ducked
+  418.4 sting sting_docked
+  418.4 music "hangar" gain 0.00
+  418.9 music "hangar" gain 0.25 ducked
+  419.9 music "hangar" gain 0.50 ducked
+  420.4 sting sting_jump
+  420.4 music "planet_select" gain 0.00 ducked
+  420.7 music "hangar" gain 0.00 ducked
+  420.8 sting sting_launch
+  420.8 music "flight_ice" gain 0.00 ducked
+  421.3 music "flight_ice" gain 0.25 ducked
+  422.3 music "flight_ice" gain 0.50 ducked
+  423.3 music "flight_ice" gain 0.75 ducked
+  424.3 music "flight_ice" gain 1.00 ducked
+  430.1 music "(silence)" gain 0.00 ducked
+  463.4 sting sting_pilot_aboard
+  465.0 music "flight_ice" gain 0.00 ducked
+  465.5 music "flight_ice" gain 0.25 ducked
+  466.5 music "flight_ice" gain 0.50 ducked
+  467.5 music "flight_ice" gain 0.75 ducked
+  468.5 music "flight_ice" gain 1.00 ducked
+  555.1 sting sting_docked
+  555.1 music "hangar" gain 0.00
+  555.6 music "hangar" gain 0.25 ducked
+  556.6 music "hangar" gain 0.50 ducked
+--- voices (every line started, in order)
+  99.9 voice cpu_whiteout [Computer, p3, 2.3 s] COMPUTER: Visibility low. Instruments only.
+  109.9 voice ctl_brief_canyons [Radio, p2, 8.6 s] CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+  121.5 voice ctl_jump [Radio, p2, 3.0 s] CONTROL: Jump drive spooling. Hold on to something.
+  124.9 voice ctl_brief_forest [Radio, p2, 8.4 s] CONTROL: Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings.
+  133.8 voice cpu_gear_down [Computer, p3, 1.3 s] COMPUTER: Landing gear down.
+  135.4 voice ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home.
+  138.2 voice p0_mayday_forest [Radio, p1, 6.3 s] PILOT HALE: Mayday, mayday, Hale here. I came down through the trees. I'm in a clearing, I think. Please hurry.
+  145.0 voice p8_mayday [Radio, p1, 7.5 s] PILOT GRANGE: Mayday, mayday, this is Corps pilot Grange. I'm down, beacon's on. Is anyone up there?
+  158.6 voice cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off.
+  159.7 voice p0_see_2 [Radio, p1, 2.1 s] PILOT HALE: That's you! Hold on, I'm on my way!
+  164.4 voice p0_door_1 [Door, p1, 1.3 s] PILOT HALE: It's me! Open up!
+  166.0 voice cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open.
+  167.5 voice cpu_pilot_aboard [Computer, p3, 1.1 s] COMPUTER: Pilot aboard.
+  168.9 voice p0_thanks_1 [Cabin, p1, 3.5 s] PILOT HALE: Oh, thank you. Thank you. I thought nobody was coming.
+  211.6 voice p0_chat_2 [Cabin, p0, 2.6 s] PILOT HALE: I'm never going back down there. Never.
+  242.1 voice ctl_dock_1 [Radio, p2, 3.0 s] CONTROL: I have you. Hold steady, bringing you in.
+  261.0 voice ctl_docked_2 [Radio, p2, 2.8 s] CONTROL: You're in. Get them to the infirmary.
+  264.3 voice ctl_jump [Radio, p2, 3.0 s] CONTROL: Jump drive spooling. Hold on to something.
+  267.7 voice ctl_brief_city [Radio, p2, 7.4 s] CONTROL: There's a dead city down there. Nobody's home. Except our pilots, in the streets and on the roofs.
+  275.6 voice ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home.
+  278.5 voice p11_mayday_wrong [Radio, p1, 6.7 s] PILOT LUND: Mayday, mayday, this is... this is Corps pilot Lund. I'm down, I'm down. Beacon's on. Is anyone... up there?
+  285.4 voice p4_mayday [Radio, p1, 5.2 s] PILOT MARLOW: Mayday, mayday, this is Corps pilot Marlow. I'm down, beacon's on. Is anyone up there?
+  289.7 voice p10_mayday_city [Radio, p1, 6.8 s] PILOT BRANNOCK: This is Corps pilot Brannock, I'm down in the city. It's so quiet here. Please, somebody.
+  300.0 voice cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off.
+  301.5 voice p11_see_1 [Radio, p1, 1.8 s] PILOT LUND: I see you! I see you! I'm coming!
+  304.4 voice p11_door_wrong [Door, p1, 2.8 s] PILOT LUND: It's me. It's me. Open... open up.
+  307.5 voice ctl_alien_killed [Radio, p2, 2.4 s] CONTROL: That was no pilot. Good call.
+  336.4 voice cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off.
+  337.9 voice p4_see_2 [Radio, p1, 2.7 s] PILOT MARLOW: That's you! Hold on, I'm on my way!
+  341.0 voice p4_door_1 [Door, p1, 1.5 s] PILOT MARLOW: It's me! Open up!
+  342.8 voice cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open.
+  344.2 voice cpu_pilot_aboard [Computer, p3, 1.1 s] COMPUTER: Pilot aboard.
+  345.7 voice p4_thanks_2 [Cabin, p1, 3.1 s] PILOT MARLOW: You're a sight for sore eyes. Thanks for the lift.
+  398.4 voice ctl_dock_2 [Radio, p2, 2.8 s] CONTROL: Docking clearance granted. Easy does it.
+  418.4 voice ctl_docked_1 [Radio, p2, 2.0 s] CONTROL: Clamps on. Welcome home.
+  420.9 voice ctl_jump [Radio, p2, 3.0 s] CONTROL: Jump drive spooling. Hold on to something.
+  424.3 voice ctl_brief_ice [Radio, p2, 9.1 s] CONTROL: Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar.
+  433.9 voice ctl_found_2 [Radio, p2, 2.4 s] CONTROL: Another beacon. Bring them home.
+  436.8 voice p9_mayday [Radio, p1, 4.3 s] PILOT QUILL: Mayday, mayday, this is Corps pilot Quill. I'm down, beacon's on. Is anyone up there?
+  441.6 voice p1_mayday_ice [Radio, p1, 5.1 s] PILOT KADE: Mayday, this is Kade. I'm down on the ice. It's cold. It's so cold. Come get me.
+  447.1 voice p2_mayday_ice [Radio, p1, 5.5 s] PILOT PENROSE: Mayday, this is Penrose. I'm down on the ice. It's cold. It's so cold. Come get me.
+  456.0 voice cpu_engines_off [Computer, p3, 1.1 s] COMPUTER: Engines off.
+  457.5 voice p1_see_1 [Radio, p1, 2.1 s] PILOT KADE: I see you! I see you! I'm coming!
+  461.8 voice p1_door_1 [Door, p1, 1.5 s] PILOT KADE: It's me! Open up!
+  463.6 voice cpu_airlock_open [Computer, p3, 1.1 s] COMPUTER: Airlock open.
+  465.0 voice cpu_pilot_aboard [Computer, p3, 1.1 s] COMPUTER: Pilot aboard.
+  466.5 voice p1_thanks_2 [Cabin, p1, 3.2 s] PILOT KADE: You're a sight for sore eyes. Thanks for the lift.
+  536.6 voice ctl_dock_1 [Radio, p2, 3.0 s] CONTROL: I have you. Hold steady, bringing you in.
+  555.1 voice ctl_docked_1 [Radio, p2, 2.0 s] CONTROL: Clamps on. Welcome home.
+--- stingers: 121.4 sting_jump (sting) | 122.3 sting_launch (sting) | 166.0 sting_pilot_aboard (sting) | 260.9 sting_docked (sting) | 263.0 sting_jump (sting) | 263.2 sting_launch (sting) | 304.6 sting_alien_reveal (sting) | 342.5 sting_pilot_aboard (sting) | 418.4 sting_docked (sting) | 420.4 sting_jump (sting) | 420.8 sting_launch (sting) | 463.4 sting_pilot_aboard (sting) | 555.1 sting_docked (sting)
+music: 7 tracks loaded from C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.101 RMS, peak 1.616, zeroed before the speakers; 53944320 samples); master volume 0.00

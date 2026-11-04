@@ -86,6 +86,7 @@ namespace HostileHorizon
             AlienEvent($"exhaust killed pilot {p.Index + 1}: a {p.Type} (tell shown: {p.Quirk != AlienType.None}); bounty +{t.alienBounty} cr");
             Met(p.Type, "killed by the exhaust");
             StartCoroutine(Dies(p.Type, at, face, Vector3.zero));
+            Voice.Say("ctl_alien_killed", VoiceKind.Radio, 2, maxAge: 12f);   // Round 4
             Flash($"That was no pilot: a {Aliens.Names[(int)p.Type]}. Bounty +{t.alienBounty} cr" + (journalNote != "" ? $"   ·   {journalNote}" : ""), 8f);
         }
 
@@ -96,6 +97,7 @@ namespace HostileHorizon
             c.transform.SetParent(null, true);
             corpses.Add(c); c.Show(true); c.SetPose(Creature.Pose.Thrash); c.Jaw = 1; c.Speed = 12;
             Sfx.Play(Sfx.Clip("alien_shriek"), at + Vector3.up * 1.8f, 1f, 8f);
+            Music.Sting("sting_alien_reveal");   // Round 4
             var f = Terrain.Field; Vector3 p = at, v = throwVel; float tt = 0;
             while (tt < 1.6f || v.sqrMagnitude > 0)
             {
@@ -188,6 +190,7 @@ namespace HostileHorizon
         IEnumerator Horror(AlienType type, int entry, DownedPilot p = null)
         {
             Now = State.Auto; Phase = "horror"; KilledBy = type; Ship.InputEnabled = false; calling = 0;
+            Voice.StopAll(); Voice.Say("cpu_intruder", VoiceKind.Computer, 3);   // Round 4: no music, the computer's alarm
             Displays.SetVisible(false); Menu.Hide();
             if (p != null) AlienGone(p);
             AlienEvent($"horror sequence: a {type}, in through {(entry == 0 ? "the airlock" : entry == 1 ? "the canopy" : "the cabin")}");
@@ -312,6 +315,7 @@ namespace HostileHorizon
             AlienEvent($"the Sleeper (pilot {me + 1}) turns after {SleeperClock:0} s with {others.Count} other pilot{(others.Count == 1 ? "" : "s")} aboard");
             foreach (var a in horrorLoops) if (a) Destroy(a.gameObject); horrorLoops.Clear();
             var c = horrorCreature = NewCreature(AlienType.Sleeper);
+            Voice.StopAll(); Voice.Say("cpu_intruder", VoiceKind.Computer, 3);   // Round 4
             if (others.Count == 0) { Run(Horror(AlienType.Sleeper, 2)); yield break; }
             // it kills one of them: heard, and glimpsed on the cabin camera, never shown in full (the lights go)
             int victim = others[new SeedRng(Planet.seed ^ me, 41).Next(others.Count)];
@@ -321,6 +325,7 @@ namespace HostileHorizon
             var at = CabinRoom.SeatPoint(vSeat);
             c.Show(true); c.SetPose(Creature.Pose.Lunge, true); c.transform.SetPositionAndRotation(Ship.transform.TransformPoint(new Vector3(at.x * .3f, -.64f, at.z)), Ship.transform.rotation * Quaternion.LookRotation(new Vector3(at.x, 0, 0)));
             c.Jaw = 1; c.Act("attack");
+            SayScream(victim);   // Round 4: the victim screams (through the bulkhead)
             PlayAt("cabin_kill", at, 1f, 2f); CabinRoom.Lights(false); CabinRoom.SlumpSeat(vSeat);
             Flash("Screams from the cabin!", 4f);
             float tt = 0; while (tt < 3f) { tt += Time.deltaTime; yield return null; }
@@ -361,6 +366,7 @@ namespace HostileHorizon
             Displays.Prompt = "Security: something in your cabin";
             float t = 0; while (t < .8f) { t += Time.deltaTime; yield return null; }
             PlayAt("security_shots", Cabin.Inside, 1f, 3f);
+            Voice.Say("ctl_security", VoiceKind.Radio, 2, maxAge: 15f);   // Round 4
             t = 0; while (t < .7f) { t += Time.deltaTime; yield return null; }
             PlayAt("alien_shriek", Cabin.Inside + new Vector3(0, .4f, -.5f), 1f, 3f);
             t = 0; while (t < 2.6f) { t += Time.deltaTime; yield return null; }

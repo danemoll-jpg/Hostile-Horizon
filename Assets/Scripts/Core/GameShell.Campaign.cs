@@ -76,8 +76,10 @@ namespace HostileHorizon
         // The mothership over a planet of the career (Fix 3.2: any of them, not only today's): the world, its pilots, saved.
         void Arrive(Career c, int seed)
         {
-            SetWorld(seed);
-            Planet = c.Planet(seed); Planet.visits++; Planet.lastVisit = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); c.currentSeed = seed;
+            bool isNew = !c.planets.Exists(p => p.seed == seed);
+            Planet = c.Planet(seed); Planet.visits++;
+            SetWorld(seed, Biomes.FromKey(Planet.biome));   // Round 4: the planet's biome
+            SayArrived(isNew); Planet.lastVisit = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); c.currentSeed = seed;
             Terrain.Field.FindStart(out var start, out var heading);
             Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
             SpawnPilots();
@@ -96,7 +98,9 @@ namespace HostileHorizon
             bool made = !c.planets.Exists(p => p.seed == seed);
             int paid = c.Spend(Tuning.T.jumpCost);
             Now = State.Loading; Phase = "jump"; Time.timeScale = 1;
-            jumping.Body = () => $"Leaving {from}.\n\nJumping to <b>{Names.Planet(seed)}</b>…";
+            var toBiome = made ? (c.planets.Count == 0 ? Biome.Canyons : Biomes.ForSeed(seed)) : Biomes.FromKey(c.planets.Find(p => p.seed == seed).biome);
+            jumping.Body = () => $"Leaving {from}.\n\nJumping to <b>{Names.Planet(seed)}</b>  ({Biomes.Name(toBiome)})…";
+            Music.Sting("sting_jump"); Voice.Say("ctl_jump", VoiceKind.Radio, 2);
             Menu.SetBackdrop(.15f); Menu.Show(jumping);
             foreach (var p in Pilots) if (p) Destroy(p.gameObject);
             Pilots.Clear(); cabin.Clear(); ClearAliens(); Reseat();
@@ -170,6 +174,7 @@ namespace HostileHorizon
         {
             if (Planet.Count(PilotFate.Waiting) > 0 || Planet.bonusPaid) return;
             var c = Career.C; Planet.bonusPaid = Planet.cleared = true; c.stats.planetsCleared++; c.Earn(Tuning.T.clearBonus);
+            SayCleared();
             sb.AppendLine($"<b>{Planet.name} cleared! +{Tuning.T.clearBonus} credits</b>");
         }
 
@@ -195,6 +200,7 @@ namespace HostileHorizon
             Ship.SetEnergyAndDamage(c.Current.energy, c.Current.damage);
             cabin.Clear(); dockArmed = false; debrief = ""; calling = 0; recallHold = 0; HomeState = 0;
             ClearAliens(); Reseat(); securityLine = ""; journalNote = "";
+            SayLaunch();   // Round 4: the launch cue and Control
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
             while (Mother.DoorsOpen < .98f) { HoldShip(); yield return null; }
@@ -235,7 +241,7 @@ namespace HostileHorizon
             if (Ship.InputEnabled && Time.frameCount > Ship.IgnoreButtonsUntil && Controls.AirlockPressed)
             {
                 if (!Ship.Landed) Flash("The airlock only opens on the ground", 2.5f);
-                else { Extras.OpenAirlock(4f); foreach (var p in Pilots) if (p.AtDoor && cabin.Count < t.cabinSize) p.Board(); }
+                else { Extras.OpenAirlock(4f); Voice.Say("cpu_airlock_open", VoiceKind.Computer, 3, maxAge: 2f); foreach (var p in Pilots) if (p.AtDoor && cabin.Count < t.cabinSize) p.Board(); }
             }
 
             // the recall: held for a moment so a stray press costs nothing
@@ -258,7 +264,7 @@ namespace HostileHorizon
             RouteTick();
             Displays.Cabin = cabin.Count;
             StopMarker(); BrakeCue(); PickupState();
-            Displays.Place = $"{Planet.name} · {CrashLevels.Names[(int)Ship.Level]}";
+            Displays.Place = $"{Planet.name} ({Biomes.Name(Planet.biome)}) · {CrashLevels.Names[(int)Ship.Level]}";
             Displays.Prompt = Time.time < flashUntil && Displays.PickupLine == "" ? flash : Advice();
 
             if (Ship.Energy < t.energyWarning && Ship.EnginesOn) { beepTimer -= dt; if (beepTimer <= 0) { beepTimer = 4f; Sfx.Play(Sfx.Beep, Ship.transform.TransformPoint(ShipLayout.DashCentre), .5f, 2f); } }
@@ -384,6 +390,7 @@ namespace HostileHorizon
             if (CanopyAlien != null) return;
             calling = 2;
             Flash($"Recall: the mothership is coming ({Tuning.T.recallFee} cr at the dock)", 5f);
+            Voice.Say("ctl_recall", VoiceKind.Radio, 2);
         }
 
         // Out of energy in the air: the mothership comes and its beam catches the ship before it reaches the ground (if it can).
@@ -392,6 +399,7 @@ namespace HostileHorizon
             if (!InCampaign || Now != State.Flying || Ship.Landed || calling != 0) return;
             calling = 1;
             Flash("Out of energy: the mothership is coming, its tow beam will catch you", 6f);
+            Voice.Say("ctl_tow", VoiceKind.Radio, 2);
         }
 
         IEnumerator BeamLift(bool recall)
@@ -460,6 +468,7 @@ namespace HostileHorizon
             LastPilotFuel = Mathf.Round(t.pilotFuelMin + (float)fuelRoll.NextDouble() * (t.pilotFuelMax - t.pilotFuelMin));
             Ship.Energy = Mathf.Min(100, Ship.Energy + LastPilotFuel);
             Flash($"Pilot {p.Index + 1} aboard ({cabin.Count} / {t.cabinSize}), brought {LastPilotFuel:0} % energy", 4f);
+            SayBoarded(p);
         }
 
         // Engines started near pilots on foot: the exhaust kills those within its range.
@@ -475,6 +484,7 @@ namespace HostileHorizon
                 p.Kill(); Planet.pilots[p.Index] = (int)PilotFate.Lost; c.stats.pilotsLost++;
                 int paid = c.Spend(t.exhaustKillPenalty);
                 Flash($"Pilot {p.Index + 1} killed by your exhaust. Penalty -{paid} cr", 6f);
+                Voice.Say("ctl_pilot_killed", VoiceKind.Radio, 2);
             }
         }
 
@@ -486,6 +496,7 @@ namespace HostileHorizon
             Ship.MakeKinematic(false);
             Vector3 pos = Ship.transform.position, vel = Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;   // caught as it moves (zero when landed)
             var tu = Tuning.T; LiftStarted = Time.time;
+            if (!towLift) SayDockApproach();
             Displays.Prompt = !towLift ? "Docking: autopilot" : recallLift ? "Recall: the mothership is lifting you" : "Tow: the mothership is lifting you";
             if (!towLift)
             {
@@ -583,6 +594,7 @@ namespace HostileHorizon
             if (securityLine != "") { sb.AppendLine(securityLine); securityLine = ""; }
             c.Save();
             debrief = sb.ToString().TrimEnd();
+            if (!towLift) SayDocked();
         }
 
         // ---- out of energy: the tow
@@ -591,6 +603,7 @@ namespace HostileHorizon
         {
             Now = State.Auto; Phase = "tow-wait"; Menu.Hide(); Displays.SetVisible(true);
             Displays.Prompt = "Tow: the mothership is coming";
+            Voice.Say("ctl_tow", VoiceKind.Radio, 2);
             Mother.Holding = false;
             while (!Mother.MoveOver(Ship.transform.position, Time.deltaTime)) { Displays.Prompt = "Tow: the mothership is coming"; yield return null; }
             Mother.Holding = true; Mother.SetDoors(1);
@@ -644,6 +657,7 @@ namespace HostileHorizon
         void Died(AlienType killer = AlienType.None)
         {
             var c = Career.C; Phase = "dead"; calling = 0;
+            Voice.StopAll(); Music.Sting("sting_death"); Voice.Say("ctl_lost_contact", VoiceKind.Radio, 2, maxAge: 30f);
             if (CanopyAlien != null) { CanopyAlien = null; if (canopyCo != null) { StopCoroutine(canopyCo); canopyCo = null; } }
             journalNote = "";
             if (killer != AlienType.None) Met(killer, "it killed you");
@@ -706,6 +720,7 @@ namespace HostileHorizon
             }
             Phase = "regen"; Now = State.Docked;
             Menu.SetBackdrop(.1f); Menu.Show(regen);
+            Voice.Say("ctl_regen_" + (1 + Career.C.stats.deaths % 3), VoiceKind.Radio, 2, maxAge: 20f);
         }
 
         static Vector3 CatmullRom(Vector3 a, Vector3 b, Vector3 c, Vector3 d, float t)
@@ -858,7 +873,7 @@ namespace HostileHorizon
                 $"<b>Ship</b>: {(c.flyingLoaner ? "the corps loaner (basic)" : "your own")}   hull {100 - s.damage:0}%   energy {s.energy:0}%\n" +
                 (c.flyingLoaner && c.ship.wrecked ? $"Your own ship is a wreck: recovery {c.RecoveryFee} cr.\n" : "") +
                 (s.energy < 99.9f ? $"<color=#FFC873>Energy {s.energy:0} %: Refuel below ({c.RefuelCost} cr) before you launch.</color>\n" : "") +
-                $"\n<b>{(Planet.OfTheDay ? "Planet of the day" : "Planet")}: {Planet.name}</b>  ({Planet.biome}, seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
+                $"\n<b>{(Planet.OfTheDay ? "Planet of the day" : "Planet")}: {Planet.name}</b>  ({Biomes.Name(Planet.biome)}, seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
                 (Planet.OfTheDay ? $"  <color=#FFC873>Planet of the day: pilots pay +{Tuning.T.dayBonus * 100:0} % ({Mathf.RoundToInt(Tuning.T.pilotPay * (1 + Tuning.T.dayBonus))} cr each)</color>\n"
                                  : $"  Today's planet, {Names.Planet(Seeds.OfTheDay)}, pays +{Tuning.T.dayBonus * 100:0} % a pilot (Planets)\n") +
                 (Planet.cleared ? "  <color=#9CFFB0><b>Cleared! Jump to a new planet (selected).</b></color>\n" : "") +

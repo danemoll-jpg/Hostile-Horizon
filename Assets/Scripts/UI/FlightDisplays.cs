@@ -28,6 +28,8 @@ namespace HostileHorizon
         public BellyCam Belly;
         // Fix 2.6: the route trail's target line ("ROUTE → PILOT 2 · 1.4 km") and its path, drawn on the radar
         public string Route = "";
+        public string Subtitle = "";                 // Round 4 (C4): what is being said (Voices), on the HUD and the centre display
+        Text subtitle;
         public List<Vector3> RoutePath;
         float knockUntil; int knockCount;
         // Round 3: one KNOCK a knock, as they come (the code is three; a Knocker may give four)
@@ -78,6 +80,7 @@ namespace HostileHorizon
             d.screenRadar = new RadarScope(t, new Vector2(-190, 190), 300, new Vector2(1, 0), 19);
             // Fix 2.4: the landing state (BRAKING, HOVER with the height in big type, TOUCHDOWN, LANDED ...) and the pause hint
             d.stateLine = UiKit.Label(t, "State", 46, TextAnchor.MiddleCenter, new Color(.6f, 1f, .85f), new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(-620, 250), new Vector2(620, 330));
+            d.subtitle = UiKit.Label(t, "Subtitle", 28, TextAnchor.UpperCenter, new Color(.92f, .96f, 1f), new Vector2(.5f, 1), new Vector2(.5f, 1), new Vector2(-640, -250), new Vector2(640, -150));   // under the prompt, clear of the cockpit displays
             d.hint = UiKit.Label(t, "Pause hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(30, 20), new Vector2(500, 60));
             d.listBack = UiKit.Panel(t, "List back", new Color(0, 0, 0, .35f), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-470, 352), new Vector2(-24, 520));
             d.screenList = UiKit.Label(t, "List", 22, TextAnchor.LowerRight, UiKit.Ink, new Vector2(1, 0), new Vector2(1, 0), new Vector2(-460, 360), new Vector2(-40, 512));
@@ -160,7 +163,8 @@ namespace HostileHorizon
             if (Knocking) st = KnockText;
             centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : "") +
                 $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
-                (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "");
+                (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "") + (Subtitle != "" ? $"\n<size=17><color=#DDEEFF>{Subtitle}</color></size>" : "");
+            subtitle.text = Subtitle;
             stateLine.text = st; hint.text = PauseHint ? "≡ / Esc: Pause" : "";
             // Fix 2.5: the AIRLOCK button, the knock, the belly / airlock camera
             bool lit = Campaign && AirlockLit, blink = Time.time % .8f < .55f;
@@ -178,7 +182,7 @@ namespace HostileHorizon
                 string top = $"{Belly.Title}   GND <b>{agl:0}</b> m   {Ship.Velocity.y:+0;-0;0} m/s   {hv * 3.6f:0} km/h";
                 string line = knock != "" ? $"<color=#FFB040><b>{knock}</b></color>" : PickupLine != "" ? $"<color=#FFC873><b>{PickupLine}</b></color>" : (st != "" && !st.StartsWith("HOVER") ? st : "");
                 string bottom = $"<size=17>▲ nose   ({Controls.BellyKey}: camera on / off)</size>";
-                centreFeedText.text = top + "\n" + line + "\n\n\n\n" + bottom;
+                centreFeedText.text = top + "\n" + line + "\n\n\n" + (Subtitle != "" ? $"<size=16><color=#DDEEFF>{Subtitle}</color></size>" : "") + "\n" + bottom;
                 screenFeedText.text = top + "\n" + line + "\n\n\n\n\n" + bottom;
             }
             string cue = Cue != "" && Campaign && !Ship.Kinematic && Ship.Mode == FlightMode.Flight ? $"<color=#FF9A40><b>{Cue}</b></color>\n" : "";

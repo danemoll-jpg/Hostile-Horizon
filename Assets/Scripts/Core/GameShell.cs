@@ -37,7 +37,7 @@ namespace HostileHorizon
         Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
         MenuPanel.Page title, freeFlight, settings, axes, display, credits, pause, crashed, loading;
-        MenuPanel.Page settingsReturn, controls;
+        MenuPanel.Page settingsReturn, controls, sound;
         State pausedFrom; bool hudWasOn, viewDown, recallFiredThisHold; float flightStartedAt = -99;
         bool editingSeed; int seedCursor;
 
@@ -64,6 +64,7 @@ namespace HostileHorizon
             Ship.OnBrake += () => Sfx.Play(Sfx.Brake, Ship.transform.position, .8f, 10f, Ship.transform);   // Fix 2.4: the air brakes
             Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
             Route = RouteTrail.Create();   // Fix 2.6
+            CreateWorldExtras();           // Round 4: biome props, weather, music, voices
             CreateAliens();                // Round 3: the cabin, its camera
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
@@ -132,7 +133,7 @@ namespace HostileHorizon
         // ---- world for the title: the seed of the day, seen from its start, slowly panning (not flight: no comfort issue)
         IEnumerator ShowTitleWorld()
         {
-            SetWorld(Seeds.OfTheDay);
+            SetWorld(Seeds.OfTheDay, Biomes.ForSeed(Seeds.OfTheDay));   // Round 4: today's planet in its biome
             Terrain.Field.FindStart(out titlePos, out titleHeading);
             titlePos += Quaternion.Euler(0, titleHeading, 0) * new Vector3(0, -10, -40);
             LeaveCampaign(); ClearCrash();
@@ -143,11 +144,8 @@ namespace HostileHorizon
             while (!Terrain.ReadyNear(1200f) && Time.realtimeSinceStartup < end) yield return null;
         }
 
-        void SetWorld(int seed)
-        {
-            if (Terrain.Field != null && Terrain.Field.SeedNumber == seed) return;
-            Terrain.SetField(new CanyonField(seed));
-        }
+        // Round 4: Free Flight's planet type (by the seed, or one picked on the Free Flight page)
+        public static Biome FreeBiome(int seed) => GameSettings.S.freeBiome > 0 ? (Biome)Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, 3) : Biomes.ForSeed(seed);
 
         void Update()
         {
@@ -185,6 +183,7 @@ namespace HostileHorizon
             else if (Now != State.Paused && Time.timeScale > 1) Time.timeScale = 1;   // flight resumes at normal speed
             FastForwarding = ff;
             if (Belly) Belly.Allowed = Now == State.Flying || Now == State.Paused && pausedFrom == State.Flying;
+            if (Props) WorldTick();   // Round 4
         }
 
         // ---- flow
@@ -202,7 +201,7 @@ namespace HostileHorizon
             Now = State.Loading; Time.timeScale = 1; Menu.SetBackdrop(.6f); Menu.Show(loading);
             FlightSeed = seed; FlightLevel = level;
             LeaveCampaign(); ClearCrash();
-            SetWorld(seed);
+            SetWorld(seed, FreeBiome(seed));
             Terrain.Field.FindStart(out var pos, out var heading);
             Terrain.SetFocus(pos);
             float end = Time.realtimeSinceStartup + 10f;
@@ -312,14 +311,14 @@ namespace HostileHorizon
             loading = new MenuPanel.Page { Title = "HOSTILE HORIZON", Subtitle = "Charting the canyons…", Hint = () => "" };
 
             title = new MenuPanel.Page { Title = "HOSTILE HORIZON", Subtitle = "Rescue flights over a world that wants you dead",
-                Body = () => $"Today's canyons: seed {Seeds.OfTheDay}" };
+                Body = () => $"Today's planet: {Names.Planet(Seeds.OfTheDay)} ({Biomes.Name(Biomes.ForSeed(Seeds.OfTheDay))}), seed {Seeds.OfTheDay}" };
             title.Add(Action("Free Flight", () => Menu.Show(freeFlight)))
                  .Add(Action("Campaign", () => Menu.Show(campaignPage)))
                  .Add(Action("Settings", () => { settingsReturn = title; Menu.Show(settings); }))
                  .Add(Action("Credits", () => Menu.Show(credits)))
                  .Add(Action("Quit", Quit));
 
-            freeFlight = new MenuPanel.Page { Title = "FREE FLIGHT", Subtitle = "No pilots, no enemies. Just the canyons.", Back = () => { editingSeed = false; Menu.Show(title); } };
+            freeFlight = new MenuPanel.Page { Title = "FREE FLIGHT", Subtitle = "No pilots, no enemies. Just the planet.", Back = () => { editingSeed = false; Menu.Show(title); } };
             freeFlight.Add(Option("Seed", () => Seeds.ModeNames[GameSettings.S.seedMode], d =>
                 {
                     GameSettings.S.seedMode = Wrap(GameSettings.S.seedMode + d, 3);
@@ -332,12 +331,14 @@ namespace HostileHorizon
                     Value = () => editingSeed ? SeedEditText() : ChosenSeed.ToString(),
                     Submit = () => { if (GameSettings.S.seedMode == 2) { editingSeed = true; seedCursor = 7; } else if (GameSettings.S.seedMode == 1) RandomSeed = Seeds.NewRandom(); },
                 })
+                .Add(Option("Planet type", () => GameSettings.S.freeBiome == 0 ? $"By seed ({Biomes.Name(Biomes.ForSeed(ChosenSeed))})" : Biomes.Names[Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, 3)],
+                    d => { GameSettings.S.freeBiome = Wrap(GameSettings.S.freeBiome + d, 5); GameSettings.Save(); }))   // Round 4 (A1)
                 .Add(Option("Crash level", () => CrashLevels.Names[GameSettings.S.crashLevel], d => { GameSettings.S.crashLevel = Wrap(GameSettings.S.crashLevel + d, 5); GameSettings.Save(); }))
                 .Add(Action("Start flight", () => StartFlight(ChosenSeed, (CrashLevel)GameSettings.S.crashLevel)))
                 .Add(Action("Back", () => Menu.Show(title)));
             freeFlight.Body = () => editingSeed
                 ? "Type the seed number with the keyboard (Backspace deletes),\nor change the marked digit with up / down and move with left / right.\nA / Enter / trigger: done."
-                : $"<b>{CrashLevels.Names[GameSettings.S.crashLevel]}</b>\n{CrashLevels.Explain[GameSettings.S.crashLevel]}\n\nThe same seed always makes the same canyons.\nSeed of the day changes at midnight.";
+                : $"<b>{CrashLevels.Names[GameSettings.S.crashLevel]}</b>\n{CrashLevels.Explain[GameSettings.S.crashLevel]}\n\nThe same seed always makes the same planet.\nSeed of the day changes at midnight.";
             freeFlight.CaptureInput = SeedEditInput;
             if (Keyboard.current != null) Keyboard.current.onTextInput += ch =>
             {
@@ -356,7 +357,7 @@ namespace HostileHorizon
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
                 .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
                 .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
-                .Add(Option("Volume", () => GameSettings.S.volume + "%", d => { GameSettings.S.volume = Mathf.Clamp(GameSettings.S.volume + d * 10, 0, 100); Saved(); }))
+                .Add(Action("Sound", () => Menu.Show(sound)))   // Round 4 (B4, C4): the volumes and subtitles
                 .Add(Option("Route trail", () => GameSettings.S.routeTrail ? "On" : "Off", d => { GameSettings.S.routeTrail = !GameSettings.S.routeTrail; Saved(); }))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
@@ -364,6 +365,17 @@ namespace HostileHorizon
                 "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n" +
                 "<b>Route trail</b>: glowing gates along the canyons to the nearest pilot (then the mothership).\n\n" +
                 "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
+
+            // Round 4 (B4, C4): Master stays; Music, Effects and Voices on their own; subtitles for the voices
+            sound = new MenuPanel.Page { Title = "SOUND", Back = () => Menu.Show(settings), Body = () =>
+                "<b>Master</b>: everything.  <b>Music</b>: the soundtrack and the short music cues.\n<b>Effects</b>: the ship, the world, the scares.  <b>Voices</b>: Control, the ship's computer, the pilots.\n<b>Subtitles</b>: what is said, at the bottom of the screen and on the cockpit's centre display." };
+            System.Func<int, string> Pct = v => v + "%"; System.Func<int, int, int> Step = (v, d) => Mathf.Clamp(v + d * 10, 0, 100);
+            sound.Add(Option("Master volume", () => Pct(GameSettings.S.volume), d => { GameSettings.S.volume = Step(GameSettings.S.volume, d); Saved(); }))
+                 .Add(Option("Music", () => Pct(GameSettings.S.musicVolume), d => { GameSettings.S.musicVolume = Step(GameSettings.S.musicVolume, d); Saved(); }))
+                 .Add(Option("Effects", () => Pct(GameSettings.S.effectsVolume), d => { GameSettings.S.effectsVolume = Step(GameSettings.S.effectsVolume, d); Saved(); }))
+                 .Add(Option("Voices", () => Pct(GameSettings.S.voiceVolume), d => { GameSettings.S.voiceVolume = Step(GameSettings.S.voiceVolume, d); Saved(); }))
+                 .Add(Option("Subtitles", () => GameSettings.S.subtitles ? "On" : "Off", d => { GameSettings.S.subtitles = !GameSettings.S.subtitles; Saved(); }))
+                 .Add(Action("Back", () => Menu.Show(settings)));
 
             controls = new MenuPanel.Page { Title = "CONTROLS", Back = () => Menu.Show(settings) };
             controls.Add(Option("HOTAS throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.ThrottleAxisPath.Replace("<Joystick>/", "")})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
@@ -393,14 +405,14 @@ namespace HostileHorizon
 
             credits = new MenuPanel.Page { Title = "CREDITS", Back = () => Menu.Show(title), Body = () =>
                 "<b>Hostile Horizon</b>\nA game by Dan, built with Claude.\nInspired by the rescue flight games of the 1980s; all names, art, sound and text are new.\n\n" +
-                "<b>Made with</b>\nUnity 6 (URP, Input System) · Blender · Suno · ElevenLabs\n\n" +
+                "<b>Made with</b>\nUnity 6 (URP, Input System) · Blender · Meshy · Mixamo\nMusic: Suno (Dan's tracks) · ElevenLabs (short music cues, sounds and voices)\n\n" +
                 "<b>Launcher third-party code</b>\nJSON for Modern C++ © Niels Lohmann (MIT licence)\nminiz © Rich Geldreich, RAD Game Tools, Valve (MIT licence)\nLicence texts ship beside the launcher (Launcher-Licenses).\n\n" +
-                "Textures and sounds in this build are generated by the game itself." };
+                "Textures, trees, buildings and ice in this build are generated by the game itself (no third-party textures)." };
             credits.Add(Action("Back", () => Menu.Show(title)));
 
             pause = new MenuPanel.Page { Title = "PAUSED", Back = Resume };
             pause.Subtitle = "";
-            pause.Body = () => $"Seed {FlightSeed}  ·  {CrashLevels.Names[(int)FlightLevel]}";
+            pause.Body = () => $"Seed {FlightSeed}  ·  {Biomes.Name(WorldBiome)}  ·  {CrashLevels.Names[(int)FlightLevel]}";
             pause.Add(Action("Resume", Resume))
                  .Add(Action("Reset position", ResetPosition, () => !CanReset))
                  .Add(Action("Restart (same seed)", () => StartFlight(FlightSeed, FlightLevel)))

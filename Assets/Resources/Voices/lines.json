@@ -1,0 +1,1244 @@
+{
+ "schema": 1,
+ "pilots": [
+  "Hale",
+  "Kade",
+  "Penrose",
+  "Vasquez",
+  "Marlow",
+  "Ashby",
+  "Tate",
+  "Okafor",
+  "Grange",
+  "Quill",
+  "Brannock",
+  "Lund"
+ ],
+ "lines": [
+  {
+   "id": "ctl_launch_1",
+   "speaker": "Control",
+   "text": "Bay doors open. You're clear to drop."
+  },
+  {
+   "id": "ctl_launch_2",
+   "speaker": "Control",
+   "text": "Clamps released. Go and find our people."
+  },
+  {
+   "id": "ctl_day",
+   "speaker": "Control",
+   "text": "This one's the planet of the day. The corps pays half again for anyone you bring home from here."
+  },
+  {
+   "id": "ctl_brief_canyons",
+   "speaker": "Control",
+   "text": "New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls."
+  },
+  {
+   "id": "ctl_brief_forest",
+   "speaker": "Control",
+   "text": "Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings."
+  },
+  {
+   "id": "ctl_brief_city",
+   "speaker": "Control",
+   "text": "There's a dead city down there. Nobody's home. Except our pilots, in the streets and on the roofs."
+  },
+  {
+   "id": "ctl_brief_ice",
+   "speaker": "Control",
+   "text": "Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar."
+  },
+  {
+   "id": "ctl_found_1",
+   "speaker": "Control",
+   "text": "Beacon on your scope. That's one of ours."
+  },
+  {
+   "id": "ctl_found_2",
+   "speaker": "Control",
+   "text": "Another beacon. Bring them home."
+  },
+  {
+   "id": "ctl_full",
+   "speaker": "Control",
+   "text": "Cabin's full. Climb to dock height and we'll take it from there."
+  },
+  {
+   "id": "ctl_everyone",
+   "speaker": "Control",
+   "text": "That's everyone down there. Climb up and come home."
+  },
+  {
+   "id": "ctl_dock_1",
+   "speaker": "Control",
+   "text": "I have you. Hold steady, bringing you in."
+  },
+  {
+   "id": "ctl_dock_2",
+   "speaker": "Control",
+   "text": "Docking clearance granted. Easy does it."
+  },
+  {
+   "id": "ctl_docked_1",
+   "speaker": "Control",
+   "text": "Clamps on. Welcome home."
+  },
+  {
+   "id": "ctl_docked_2",
+   "speaker": "Control",
+   "text": "You're in. Get them to the infirmary."
+  },
+  {
+   "id": "ctl_tow",
+   "speaker": "Control",
+   "text": "You're out of power. Tow beam's on its way. That's going on your bill."
+  },
+  {
+   "id": "ctl_recall",
+   "speaker": "Control",
+   "text": "Recall received. We're coming to get you. It isn't free."
+  },
+  {
+   "id": "ctl_cleared",
+   "speaker": "Control",
+   "text": "That's the last of them. Planet's clear. Good work down there."
+  },
+  {
+   "id": "ctl_jump",
+   "speaker": "Control",
+   "text": "Jump drive spooling. Hold on to something."
+  },
+  {
+   "id": "ctl_regen_1",
+   "speaker": "Control",
+   "text": "Welcome back. Again."
+  },
+  {
+   "id": "ctl_regen_2",
+   "speaker": "Control",
+   "text": "Welcome back. Try to keep this body in one piece."
+  },
+  {
+   "id": "ctl_regen_3",
+   "speaker": "Control",
+   "text": "You're awake. Good. Take a minute. Then get back out there."
+  },
+  {
+   "id": "ctl_engines_off",
+   "speaker": "Control",
+   "text": "Cut your engines. They won't come near a hot ship."
+  },
+  {
+   "id": "ctl_low_energy",
+   "speaker": "Control",
+   "text": "Watch your energy. I can't tow everyone."
+  },
+  {
+   "id": "ctl_alien_killed",
+   "speaker": "Control",
+   "text": "That was no pilot. Good call."
+  },
+  {
+   "id": "ctl_pilot_killed",
+   "speaker": "Control",
+   "text": "You just burned one of ours. That comes out of your pay."
+  },
+  {
+   "id": "ctl_security",
+   "speaker": "Control",
+   "text": "Security's dealt with your passenger. Don't ask."
+  },
+  {
+   "id": "ctl_lost_contact",
+   "speaker": "Control",
+   "text": "I've lost your signal. Regeneration bay, stand by."
+  },
+  {
+   "id": "cpu_energy_low",
+   "speaker": "Computer",
+   "text": "Energy low."
+  },
+  {
+   "id": "cpu_return_now",
+   "speaker": "Computer",
+   "text": "Return now."
+  },
+  {
+   "id": "cpu_cant_reach",
+   "speaker": "Computer",
+   "text": "Mothership out of reach."
+  },
+  {
+   "id": "cpu_pull_up",
+   "speaker": "Computer",
+   "text": "Pull up."
+  },
+  {
+   "id": "cpu_hull_damage",
+   "speaker": "Computer",
+   "text": "Hull damage."
+  },
+  {
+   "id": "cpu_hull_critical",
+   "speaker": "Computer",
+   "text": "Hull critical."
+  },
+  {
+   "id": "cpu_gear_down",
+   "speaker": "Computer",
+   "text": "Landing gear down."
+  },
+  {
+   "id": "cpu_airlock_open",
+   "speaker": "Computer",
+   "text": "Airlock open."
+  },
+  {
+   "id": "cpu_pilot_aboard",
+   "speaker": "Computer",
+   "text": "Pilot aboard."
+  },
+  {
+   "id": "cpu_cabin_full",
+   "speaker": "Computer",
+   "text": "Cabin full."
+  },
+  {
+   "id": "cpu_intruder",
+   "speaker": "Computer",
+   "text": "Intruder alert. Intruder alert."
+  },
+  {
+   "id": "cpu_engines_off",
+   "speaker": "Computer",
+   "text": "Engines off."
+  },
+  {
+   "id": "cpu_whiteout",
+   "speaker": "Computer",
+   "text": "Visibility low. Instruments only."
+  },
+  {
+   "id": "p0_mayday",
+   "speaker": "Hale",
+   "text": "Mayday, mayday, this is Corps pilot Hale. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p0_mayday_canyons",
+   "speaker": "Hale",
+   "text": "Mayday, this is Hale. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p0_mayday_forest",
+   "speaker": "Hale",
+   "text": "Mayday, mayday, Hale here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p0_mayday_city",
+   "speaker": "Hale",
+   "text": "This is Corps pilot Hale, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p0_mayday_ice",
+   "speaker": "Hale",
+   "text": "Mayday, this is Hale. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p0_mayday_wrong",
+   "speaker": "Hale",
+   "text": "Mayday, mayday, this is... this is Corps pilot Hale. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p0_see_1",
+   "speaker": "Hale",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p0_see_2",
+   "speaker": "Hale",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p0_door_1",
+   "speaker": "Hale",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p0_door_2",
+   "speaker": "Hale",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p0_door_wrong",
+   "speaker": "Hale",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p0_thanks_1",
+   "speaker": "Hale",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p0_thanks_2",
+   "speaker": "Hale",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p0_chat_1",
+   "speaker": "Hale",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p0_chat_2",
+   "speaker": "Hale",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p0_chat_3",
+   "speaker": "Hale",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p0_scream",
+   "speaker": "Hale",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p1_mayday",
+   "speaker": "Kade",
+   "text": "Mayday, mayday, this is Corps pilot Kade. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p1_mayday_canyons",
+   "speaker": "Kade",
+   "text": "Mayday, this is Kade. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p1_mayday_forest",
+   "speaker": "Kade",
+   "text": "Mayday, mayday, Kade here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p1_mayday_city",
+   "speaker": "Kade",
+   "text": "This is Corps pilot Kade, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p1_mayday_ice",
+   "speaker": "Kade",
+   "text": "Mayday, this is Kade. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p1_mayday_wrong",
+   "speaker": "Kade",
+   "text": "Mayday, mayday, this is... this is Corps pilot Kade. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p1_see_1",
+   "speaker": "Kade",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p1_see_2",
+   "speaker": "Kade",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p1_door_1",
+   "speaker": "Kade",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p1_door_2",
+   "speaker": "Kade",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p1_door_wrong",
+   "speaker": "Kade",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p1_thanks_1",
+   "speaker": "Kade",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p1_thanks_2",
+   "speaker": "Kade",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p1_chat_1",
+   "speaker": "Kade",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p1_chat_2",
+   "speaker": "Kade",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p1_chat_3",
+   "speaker": "Kade",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p1_scream",
+   "speaker": "Kade",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p2_mayday",
+   "speaker": "Penrose",
+   "text": "Mayday, mayday, this is Corps pilot Penrose. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p2_mayday_canyons",
+   "speaker": "Penrose",
+   "text": "Mayday, this is Penrose. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p2_mayday_forest",
+   "speaker": "Penrose",
+   "text": "Mayday, mayday, Penrose here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p2_mayday_city",
+   "speaker": "Penrose",
+   "text": "This is Corps pilot Penrose, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p2_mayday_ice",
+   "speaker": "Penrose",
+   "text": "Mayday, this is Penrose. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p2_mayday_wrong",
+   "speaker": "Penrose",
+   "text": "Mayday, mayday, this is... this is Corps pilot Penrose. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p2_see_1",
+   "speaker": "Penrose",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p2_see_2",
+   "speaker": "Penrose",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p2_door_1",
+   "speaker": "Penrose",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p2_door_2",
+   "speaker": "Penrose",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p2_door_wrong",
+   "speaker": "Penrose",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p2_thanks_1",
+   "speaker": "Penrose",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p2_thanks_2",
+   "speaker": "Penrose",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p2_chat_1",
+   "speaker": "Penrose",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p2_chat_2",
+   "speaker": "Penrose",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p2_chat_3",
+   "speaker": "Penrose",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p2_scream",
+   "speaker": "Penrose",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p3_mayday",
+   "speaker": "Vasquez",
+   "text": "Mayday, mayday, this is Corps pilot Vasquez. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p3_mayday_canyons",
+   "speaker": "Vasquez",
+   "text": "Mayday, this is Vasquez. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p3_mayday_forest",
+   "speaker": "Vasquez",
+   "text": "Mayday, mayday, Vasquez here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p3_mayday_city",
+   "speaker": "Vasquez",
+   "text": "This is Corps pilot Vasquez, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p3_mayday_ice",
+   "speaker": "Vasquez",
+   "text": "Mayday, this is Vasquez. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p3_mayday_wrong",
+   "speaker": "Vasquez",
+   "text": "Mayday, mayday, this is... this is Corps pilot Vasquez. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p3_see_1",
+   "speaker": "Vasquez",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p3_see_2",
+   "speaker": "Vasquez",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p3_door_1",
+   "speaker": "Vasquez",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p3_door_2",
+   "speaker": "Vasquez",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p3_door_wrong",
+   "speaker": "Vasquez",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p3_thanks_1",
+   "speaker": "Vasquez",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p3_thanks_2",
+   "speaker": "Vasquez",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p3_chat_1",
+   "speaker": "Vasquez",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p3_chat_2",
+   "speaker": "Vasquez",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p3_chat_3",
+   "speaker": "Vasquez",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p3_scream",
+   "speaker": "Vasquez",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p4_mayday",
+   "speaker": "Marlow",
+   "text": "Mayday, mayday, this is Corps pilot Marlow. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p4_mayday_canyons",
+   "speaker": "Marlow",
+   "text": "Mayday, this is Marlow. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p4_mayday_forest",
+   "speaker": "Marlow",
+   "text": "Mayday, mayday, Marlow here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p4_mayday_city",
+   "speaker": "Marlow",
+   "text": "This is Corps pilot Marlow, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p4_mayday_ice",
+   "speaker": "Marlow",
+   "text": "Mayday, this is Marlow. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p4_mayday_wrong",
+   "speaker": "Marlow",
+   "text": "Mayday, mayday, this is... this is Corps pilot Marlow. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p4_see_1",
+   "speaker": "Marlow",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p4_see_2",
+   "speaker": "Marlow",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p4_door_1",
+   "speaker": "Marlow",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p4_door_2",
+   "speaker": "Marlow",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p4_door_wrong",
+   "speaker": "Marlow",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p4_thanks_1",
+   "speaker": "Marlow",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p4_thanks_2",
+   "speaker": "Marlow",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p4_chat_1",
+   "speaker": "Marlow",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p4_chat_2",
+   "speaker": "Marlow",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p4_chat_3",
+   "speaker": "Marlow",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p4_scream",
+   "speaker": "Marlow",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p5_mayday",
+   "speaker": "Ashby",
+   "text": "Mayday, mayday, this is Corps pilot Ashby. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p5_mayday_canyons",
+   "speaker": "Ashby",
+   "text": "Mayday, this is Ashby. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p5_mayday_forest",
+   "speaker": "Ashby",
+   "text": "Mayday, mayday, Ashby here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p5_mayday_city",
+   "speaker": "Ashby",
+   "text": "This is Corps pilot Ashby, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p5_mayday_ice",
+   "speaker": "Ashby",
+   "text": "Mayday, this is Ashby. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p5_mayday_wrong",
+   "speaker": "Ashby",
+   "text": "Mayday, mayday, this is... this is Corps pilot Ashby. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p5_see_1",
+   "speaker": "Ashby",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p5_see_2",
+   "speaker": "Ashby",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p5_door_1",
+   "speaker": "Ashby",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p5_door_2",
+   "speaker": "Ashby",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p5_door_wrong",
+   "speaker": "Ashby",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p5_thanks_1",
+   "speaker": "Ashby",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p5_thanks_2",
+   "speaker": "Ashby",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p5_chat_1",
+   "speaker": "Ashby",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p5_chat_2",
+   "speaker": "Ashby",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p5_chat_3",
+   "speaker": "Ashby",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p5_scream",
+   "speaker": "Ashby",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p6_mayday",
+   "speaker": "Tate",
+   "text": "Mayday, mayday, this is Corps pilot Tate. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p6_mayday_canyons",
+   "speaker": "Tate",
+   "text": "Mayday, this is Tate. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p6_mayday_forest",
+   "speaker": "Tate",
+   "text": "Mayday, mayday, Tate here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p6_mayday_city",
+   "speaker": "Tate",
+   "text": "This is Corps pilot Tate, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p6_mayday_ice",
+   "speaker": "Tate",
+   "text": "Mayday, this is Tate. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p6_mayday_wrong",
+   "speaker": "Tate",
+   "text": "Mayday, mayday, this is... this is Corps pilot Tate. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p6_see_1",
+   "speaker": "Tate",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p6_see_2",
+   "speaker": "Tate",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p6_door_1",
+   "speaker": "Tate",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p6_door_2",
+   "speaker": "Tate",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p6_door_wrong",
+   "speaker": "Tate",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p6_thanks_1",
+   "speaker": "Tate",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p6_thanks_2",
+   "speaker": "Tate",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p6_chat_1",
+   "speaker": "Tate",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p6_chat_2",
+   "speaker": "Tate",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p6_chat_3",
+   "speaker": "Tate",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p6_scream",
+   "speaker": "Tate",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p7_mayday",
+   "speaker": "Okafor",
+   "text": "Mayday, mayday, this is Corps pilot Okafor. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p7_mayday_canyons",
+   "speaker": "Okafor",
+   "text": "Mayday, this is Okafor. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p7_mayday_forest",
+   "speaker": "Okafor",
+   "text": "Mayday, mayday, Okafor here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p7_mayday_city",
+   "speaker": "Okafor",
+   "text": "This is Corps pilot Okafor, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p7_mayday_ice",
+   "speaker": "Okafor",
+   "text": "Mayday, this is Okafor. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p7_mayday_wrong",
+   "speaker": "Okafor",
+   "text": "Mayday, mayday, this is... this is Corps pilot Okafor. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p7_see_1",
+   "speaker": "Okafor",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p7_see_2",
+   "speaker": "Okafor",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p7_door_1",
+   "speaker": "Okafor",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p7_door_2",
+   "speaker": "Okafor",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p7_door_wrong",
+   "speaker": "Okafor",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p7_thanks_1",
+   "speaker": "Okafor",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p7_thanks_2",
+   "speaker": "Okafor",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p7_chat_1",
+   "speaker": "Okafor",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p7_chat_2",
+   "speaker": "Okafor",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p7_chat_3",
+   "speaker": "Okafor",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p7_scream",
+   "speaker": "Okafor",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p8_mayday",
+   "speaker": "Grange",
+   "text": "Mayday, mayday, this is Corps pilot Grange. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p8_mayday_canyons",
+   "speaker": "Grange",
+   "text": "Mayday, this is Grange. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p8_mayday_forest",
+   "speaker": "Grange",
+   "text": "Mayday, mayday, Grange here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p8_mayday_city",
+   "speaker": "Grange",
+   "text": "This is Corps pilot Grange, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p8_mayday_ice",
+   "speaker": "Grange",
+   "text": "Mayday, this is Grange. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p8_mayday_wrong",
+   "speaker": "Grange",
+   "text": "Mayday, mayday, this is... this is Corps pilot Grange. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p8_see_1",
+   "speaker": "Grange",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p8_see_2",
+   "speaker": "Grange",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p8_door_1",
+   "speaker": "Grange",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p8_door_2",
+   "speaker": "Grange",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p8_door_wrong",
+   "speaker": "Grange",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p8_thanks_1",
+   "speaker": "Grange",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p8_thanks_2",
+   "speaker": "Grange",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p8_chat_1",
+   "speaker": "Grange",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p8_chat_2",
+   "speaker": "Grange",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p8_chat_3",
+   "speaker": "Grange",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p8_scream",
+   "speaker": "Grange",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p9_mayday",
+   "speaker": "Quill",
+   "text": "Mayday, mayday, this is Corps pilot Quill. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p9_mayday_canyons",
+   "speaker": "Quill",
+   "text": "Mayday, this is Quill. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p9_mayday_forest",
+   "speaker": "Quill",
+   "text": "Mayday, mayday, Quill here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p9_mayday_city",
+   "speaker": "Quill",
+   "text": "This is Corps pilot Quill, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p9_mayday_ice",
+   "speaker": "Quill",
+   "text": "Mayday, this is Quill. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p9_mayday_wrong",
+   "speaker": "Quill",
+   "text": "Mayday, mayday, this is... this is Corps pilot Quill. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p9_see_1",
+   "speaker": "Quill",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p9_see_2",
+   "speaker": "Quill",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p9_door_1",
+   "speaker": "Quill",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p9_door_2",
+   "speaker": "Quill",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p9_door_wrong",
+   "speaker": "Quill",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p9_thanks_1",
+   "speaker": "Quill",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p9_thanks_2",
+   "speaker": "Quill",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p9_chat_1",
+   "speaker": "Quill",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p9_chat_2",
+   "speaker": "Quill",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p9_chat_3",
+   "speaker": "Quill",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p9_scream",
+   "speaker": "Quill",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p10_mayday",
+   "speaker": "Brannock",
+   "text": "Mayday, mayday, this is Corps pilot Brannock. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p10_mayday_canyons",
+   "speaker": "Brannock",
+   "text": "Mayday, this is Brannock. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p10_mayday_forest",
+   "speaker": "Brannock",
+   "text": "Mayday, mayday, Brannock here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p10_mayday_city",
+   "speaker": "Brannock",
+   "text": "This is Corps pilot Brannock, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p10_mayday_ice",
+   "speaker": "Brannock",
+   "text": "Mayday, this is Brannock. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p10_mayday_wrong",
+   "speaker": "Brannock",
+   "text": "Mayday, mayday, this is... this is Corps pilot Brannock. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p10_see_1",
+   "speaker": "Brannock",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p10_see_2",
+   "speaker": "Brannock",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p10_door_1",
+   "speaker": "Brannock",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p10_door_2",
+   "speaker": "Brannock",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p10_door_wrong",
+   "speaker": "Brannock",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p10_thanks_1",
+   "speaker": "Brannock",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p10_thanks_2",
+   "speaker": "Brannock",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p10_chat_1",
+   "speaker": "Brannock",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p10_chat_2",
+   "speaker": "Brannock",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p10_chat_3",
+   "speaker": "Brannock",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p10_scream",
+   "speaker": "Brannock",
+   "text": "No! No, get away from me! Get it off!"
+  },
+  {
+   "id": "p11_mayday",
+   "speaker": "Lund",
+   "text": "Mayday, mayday, this is Corps pilot Lund. I'm down, beacon's on. Is anyone up there?"
+  },
+  {
+   "id": "p11_mayday_canyons",
+   "speaker": "Lund",
+   "text": "Mayday, this is Lund. I'm down on a canyon floor. Ship's gone. Please, come and get me."
+  },
+  {
+   "id": "p11_mayday_forest",
+   "speaker": "Lund",
+   "text": "Mayday, mayday, Lund here. I came down through the trees. I'm in a clearing, I think. Please hurry."
+  },
+  {
+   "id": "p11_mayday_city",
+   "speaker": "Lund",
+   "text": "This is Corps pilot Lund, I'm down in the city. It's so quiet here. Please, somebody."
+  },
+  {
+   "id": "p11_mayday_ice",
+   "speaker": "Lund",
+   "text": "Mayday, this is Lund. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p11_mayday_wrong",
+   "speaker": "Lund",
+   "text": "Mayday, mayday, this is... this is Corps pilot Lund. I'm down, I'm down. Beacon's on. Is anyone... up there?"
+  },
+  {
+   "id": "p11_see_1",
+   "speaker": "Lund",
+   "text": "I see you! I see you! I'm coming!"
+  },
+  {
+   "id": "p11_see_2",
+   "speaker": "Lund",
+   "text": "That's you! Hold on, I'm on my way!"
+  },
+  {
+   "id": "p11_door_1",
+   "speaker": "Lund",
+   "text": "It's me! Open up!"
+  },
+  {
+   "id": "p11_door_2",
+   "speaker": "Lund",
+   "text": "Open the hatch! Please, open it!"
+  },
+  {
+   "id": "p11_door_wrong",
+   "speaker": "Lund",
+   "text": "It's me. It's me. Open... open up."
+  },
+  {
+   "id": "p11_thanks_1",
+   "speaker": "Lund",
+   "text": "Oh, thank you. Thank you. I thought nobody was coming."
+  },
+  {
+   "id": "p11_thanks_2",
+   "speaker": "Lund",
+   "text": "You're a sight for sore eyes. Thanks for the lift."
+  },
+  {
+   "id": "p11_chat_1",
+   "speaker": "Lund",
+   "text": "How long till we dock?"
+  },
+  {
+   "id": "p11_chat_2",
+   "speaker": "Lund",
+   "text": "I'm never going back down there. Never."
+  },
+  {
+   "id": "p11_chat_3",
+   "speaker": "Lund",
+   "text": "Does anyone else hear that?"
+  },
+  {
+   "id": "p11_scream",
+   "speaker": "Lund",
+   "text": "No! No, get away from me! Get it off!"
+  }
+ ]
+}

@@ -40,7 +40,7 @@ namespace HostileHorizon
             GameSettings.S.flightAssist = 0;
             Log("check pilot: Flight assist Full for getting about (measurements set their own)");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
+            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only.StartsWith("round4") ? Round4() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
             while (true)
             {
                 object cur;
@@ -113,7 +113,7 @@ namespace HostileHorizon
             yield return WaitFor(() => G.Now == GameShell.State.Title && G.Menu.Current != null, 30f);
             yield return Press(GamepadButton.South);                       // Free Flight
             int diff = (crashLevel - GameSettings.S.crashLevel + 5) % 5;
-            yield return Nav(GamepadButton.DpadDown, 2);                   // Crash level
+            yield return Nav(GamepadButton.DpadDown, 3);                   // Crash level (Round 4: after Planet type)
             yield return Nav(GamepadButton.DpadRight, diff);
             yield return Nav(GamepadButton.DpadDown, 1);                   // Start flight
             yield return Press(GamepadButton.South);
