@@ -29,9 +29,17 @@ namespace HostileHorizon
         // Fix 2.6: the route trail's target line ("ROUTE → PILOT 2 · 1.4 km") and its path, drawn on the radar
         public string Route = "";
         public List<Vector3> RoutePath;
-        float knockUntil;
-        public void Knock() => knockUntil = Time.time + 1.4f;
+        float knockUntil; int knockCount;
+        // Round 3: one KNOCK a knock, as they come (the code is three; a Knocker may give four)
+        public void Knock(int n) { knockUntil = Time.time + 1.4f; knockCount = n; }
         public bool Knocking => Time.time < knockUntil;
+        public string KnockText => Knocking ? string.Join(" ", System.Linq.Enumerable.Repeat("KNOCK", Mathf.Max(1, knockCount))) : "";
+        // Round 3: the horror sequence's darkness (every cockpit display dies), and the cabin camera: a small cockpit display and, on
+        // request (the CabinCam button), a picture-in-picture on the HUD
+        public bool Blackout, CabinPip;
+        public Cabin CabinRoom;
+        RawImage cabinFeed, cabinPip; Text cabinText, cabinPipText; Image cabinPipBack; Canvas cabinCanvas;
+        readonly List<Image> darks = new List<Image>();
         RawImage centreFeed, screenFeed; Text centreFeedText, screenFeedText, airlockText; Image airlockLamp, screenFeedBack;
         public readonly List<RadarContact> Contacts = new List<RadarContact>();
         Text left, centre, right, rightList, screenLeft, screenRight, screenList, warning, prompt, stateLine, hint;
@@ -77,6 +85,14 @@ namespace HostileHorizon
             d.screenFeedBack = UiKit.Panel(t, "Belly back", new Color(0, 0, 0, .6f), new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(20, -250), new Vector2(474, 30));
             d.screenFeed = UiKit.Rect(t, "Belly feed", new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(24, -246), new Vector2(470, 19)).gameObject.AddComponent<RawImage>(); d.screenFeed.raycastTarget = false;
             d.screenFeedText = UiKit.Label(t, "Belly feed text", 22, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(34, -240), new Vector2(466, 14));
+            // Round 3: the cabin camera, a small display high on the left of the canopy frame, and its HUD picture-in-picture (right)
+            var ct = Screen(shipModel, "Cabin display", ShipLayout.Eye + new Vector3(-.62f, -.18f, .55f), new Vector2(300, 190), 18, out d.cabinCanvas);
+            d.cabinFeed = UiKit.Rect(d.cabinCanvas.transform, "Cabin feed", Vector2.zero, Vector2.one, new Vector2(4, 4), new Vector2(-4, -24)).gameObject.AddComponent<RawImage>(); d.cabinFeed.raycastTarget = false;
+            d.cabinText = ct; ct.alignment = TextAnchor.UpperLeft; ct.rectTransform.offsetMin = new Vector2(8, 4); ct.rectTransform.offsetMax = new Vector2(-6, -2); ct.transform.SetAsLastSibling();
+            d.cabinPipBack = UiKit.Panel(t, "Cabin back", new Color(0, 0, 0, .6f), new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-474, 0), new Vector2(-20, 262));
+            d.cabinPip = UiKit.Rect(t, "Cabin feed", new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-470, 4), new Vector2(-24, 255)).gameObject.AddComponent<RawImage>(); d.cabinPip.raycastTarget = false;
+            d.cabinPipText = UiKit.Label(t, "Cabin feed text", 20, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-462, 4), new Vector2(-30, 252));
+            foreach (var c in shipModel.GetComponentsInChildren<Canvas>(true)) if (c.renderMode == RenderMode.WorldSpace && c != d.cabinCanvas) { var dk = UiKit.Panel(c.transform, "Dark", new Color(0, 0, 0, .985f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero); dk.enabled = false; d.darks.Add(dk); }
             return d;
         }
 
@@ -141,7 +157,7 @@ namespace HostileHorizon
             bool homeOn = Campaign && !Ship.Kinematic && !Ship.Crashed;
             string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
 
-            if (Knocking) st = "KNOCK KNOCK KNOCK";
+            if (Knocking) st = KnockText;
             centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : "") +
                 $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
                 (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "");
@@ -151,7 +167,7 @@ namespace HostileHorizon
             airlockLamp.enabled = airlockText.enabled = lit;
             airlockLamp.color = blink ? new Color(1f, .62f, .2f) : new Color(.6f, .34f, .1f);
             airlockText.text = $"<b>AIRLOCK — press {Controls.AirlockKey}</b>";
-            string knock = Knocking ? "KNOCK KNOCK KNOCK" : "";
+            string knock = KnockText;
             bool feed = Belly && Belly.On;
             centreFeed.enabled = centreFeedText.enabled = feed; centre.enabled = !feed;
             screenFeed.enabled = screenFeedText.enabled = screenFeedBack.enabled = feed;
@@ -179,6 +195,20 @@ namespace HostileHorizon
             }
             else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
             cockpitRadar.Show(Campaign); screenRadar.Show(Campaign); listBack.enabled = Campaign;
+            // Round 3: the cabin camera
+            bool cab = Campaign && CabinRoom && !Ship.Crashed;
+            cabinCanvas.gameObject.SetActive(cab);
+            if (cab)
+            {
+                bool live = CabinRoom.FeedOn;
+                cabinFeed.texture = cabinPip.texture = CabinRoom.Feed; cabinFeed.enabled = live;
+                cabinText.text = $"<size=16>CABIN CAM · {Cabin} aboard{(live ? "" : " · empty")}</size>";
+                cabinPip.enabled = cabinPipBack.enabled = cabinPipText.enabled = CabinPip && live;
+                cabinPipText.text = $"CABIN CAM   {Cabin} aboard   <size=16>({Controls.CabinCamKey}: off)</size>";
+            }
+            else cabinPip.enabled = cabinPipBack.enabled = cabinPipText.enabled = false;
+            // Round 3: the lights die (the horror sequence): every cockpit display goes dark but the cabin camera's
+            foreach (var dk in darks) dk.enabled = Blackout;
 
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
                 (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") : "");
@@ -186,7 +216,7 @@ namespace HostileHorizon
             screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 5) + (Route != "" ? $"<color=#7DFFB0>{Route}</color>" : "") : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
-            warning.text = Ship.Crashed ? "" : Campaign && Knocking ? "KNOCK  KNOCK  KNOCK" : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
+            warning.text = Ship.Crashed ? "" : Campaign && Knocking ? KnockText.Replace(" ", "  ") : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
                 : Ship.OutOfEnergy && !Ship.Landed && !Ship.Kinematic ? "OUT OF ENERGY" : low ? "TERRAIN" : homeWarn != "" ? (Time.time % 1f < .7f ? homeWarn : "")
                 : energyLow && !Ship.Kinematic && Time.time % 1f < .6f ? "ENERGY LOW" : "";
         }

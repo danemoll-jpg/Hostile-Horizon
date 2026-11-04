@@ -72,6 +72,15 @@ namespace HostileHorizon
         public float launchEnergyWarning = 50;
         // Fix 2.5: gamepad / Steam Deck sticks: at least this centre deadzone (Deck sticks drift); the Settings deadzone if larger
         public float gamepadDeadzone = .12f;
+        // Round 3: aliens ("Normal" values; difficulty presets come in Round 4)
+        public float alienShareStart = .20f, alienSharePerTier = .05f, alienShareMax = .35f;   // share of a planet's pilots (none on a career's first planet)
+        public float tellReliability = .75f;          // chance (per alien, from the seed) that it shows its tell
+        public float falseTellChance = 0;             // chance a real pilot shows a tell-like quirk (off on Normal)
+        public int alienBounty = 200;                 // credits for killing an alien with the exhaust
+        public float canopyClimbAfter = 25;           // s an alien waits at a closed airlock before it climbs onto the canopy
+        public float breakInAfter = 10;               // s on the canopy before it breaks in
+        public float sleeperTurnMin = 40, sleeperTurnMax = 120;   // s of flight after boarding before the Sleeper turns (seeded)
+        public int sleeperPilotsWin = 2;              // pilots left after its first kill that are enough to kill it
 
         static Tuning t;
         public static Tuning T

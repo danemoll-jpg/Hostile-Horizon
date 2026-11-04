@@ -168,157 +168,11 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 2.6 + Round 3 (one round, Dan 2026-11-03: "let's fold in round 3")
+Current Objective — none (Fix 2.6 + Round 3 delivered as 0.3.0, below)
 ---------------------------------------------------------------------------
 
-Fix 2.5 is done and published as 0.2.5 (status under "Previous deliveries").
-This round does Part A (Fix 2.6: radar distances + route trail) and then
-Part B (Round 3: Aliens), and publishes both together as **0.3.0**. Part A's
-items keep their numbers; Part B's are B1-B12.
-
-**Part A — Fix 2.6: pilot distances on the radar + a route trail**
-
-Dan (2026-11-03): "I want to put distance markers for the pilots on the minimap
-so it is more obvious who is closer and by how much. I would also love a trail
-marker to show you the route."
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Distances on the radar / minimap.** Every pilot's blip carries its
-   distance as a label right next to it (e.g. "1.2 km", "460 m"), on the
-   cockpit display and the HUD. The **nearest** pilot's blip is highlighted
-   (brighter / larger, a "NEAREST" tag), so who is closer and by how much is
-   obvious at a glance. Range rings with distance labels on the radar (e.g.
-   1 / 2 / 3 km, scaling with the radar's zoom). The mothership keeps its blip
-   and gets a distance too.
-2. **Route trail.** A trail showing the way to the current target: by default
-   the nearest waiting pilot; once the cabin is full or no pilots are left, the
-   mothership (climb point). Optionally the player can cycle the target
-   (a button: next pilot / mothership).
-   - The route follows the canyons, not a straight line through walls:
-     path-find over the terrain (e.g. along canyon floors / below the rims at a
-     flyable height, on a coarse grid) from the ship to the target's landing
-     pad, re-planned every few seconds or when the ship leaves the route.
-   - Shown in the world as a line of glowing markers (floating gates / chevrons
-     every ~100 m, fading out a few hundred metres ahead) so it can be followed
-     at speed, visible in the cockpit view (VR rule 4: in the 3D world), plus the
-     route drawn on the radar.
-   - It ends at the pilot's pad with the landing ring (Fix 2.4).
-   - Settings: Route trail On (default) / Off.
-3. **Check (muted, no focus, per the testing rules):** pictures of the radar
-   with labels and the nearest highlight; the trail from the start to the
-   nearest pilot through at least one canyon bend (cockpit pictures at three
-   points) and that following it reaches the pad without hitting a wall (fly it
-   with the check's pilot); re-plan after leaving the route; target cycling;
-   frame rate with the trail on (PC and Deck setting).
-4. (Publishing happens once, at the end of Part B.) Commit Part A on its own
-   before starting Part B.
-
-**Part B — Round 3: Aliens** (design: "Aliens" and the Sleeper at the top of
-this file; read them first). Goal: some "pilots" are aliens; each type has its
-own tell that the game never explains; sometimes they fool you; letting one in
-is terrifying and kills you (death, regeneration, recovery as in Round 2).
-Make it scary as hell, with no strobe flashes.
-
-B1. **Which pilots are aliens.** Decided by the planet's seed (same planet =
-    same aliens; pilot fuel stays the one random exception). The first planet
-    of a new career has none, so the player learns the rescue first. After
-    that, a share of the pilots are aliens (starting 20 %, rising with the
-    planet tier to about 35 %; tuning file), and every type can appear.
-    Difficulty presets come in Round 4: use "Normal" values now, all in the
-    tuning file.
-B2. **Disguise and reveal models.** An alien looks like a pilot (same model and
-    suit) until it reveals itself. A Blender-scripted creature model (thin,
-    wrong-jointed, wet, about 2.2 m tall; original design, nothing from the
-    1984 game) for the reveal, the canopy and the cabin. Simple animation is
-    enough this round (Round 6 is the art pass), but it must read as horrible
-    up close in the cockpit view.
-B3. **The four outside types and their tells** (each tell is in the 3D world,
-    VR rule 4):
-    1. **Mimic:** its shadow is wrong (lags its body, or the wrong shape).
-    2. **Hollow:** its visor reflects nothing (no landing lights, no sky).
-    3. **Knocker:** knocks wrong (four knocks, the wrong rhythm, or from the
-       wrong place on the hull) instead of the pilots' three-knock code.
-    4. **Stalker:** doesn't come straight to the airlock: circles the ship,
-       drops off the radar for a moment, or comes from behind.
-    **Tell reliability:** a type shows its tell only some of the time (Normal
-    75 %, decided per alien by the seed). **False tells** (a real pilot with a
-    tell-like quirk): off on Normal (0 %), the setting exists for Round 4.
-    The belly / airlock camera (Fix 2.5) must show enough of the figure at the
-    door to judge tells 1, 2 and 4; tell 3 is heard.
-B4. **What the player can do with something at the door.** Don't open the
-    airlock; **start the engines** (the exhaust kills anything within range,
-    as now; an alien shrieks and reveals as it dies, so the player learns what
-    it was); or take off. Killing a real pilot keeps Round 2's rule (lost,
-    credit penalty). Killing an alien pays a small bounty (tuning file,
-    starting 200 credits) so catching tells is rewarded.
-B5. **Ignored alien breaks in.** An alien left at the door: after a while
-    (tuning, starting 25 s) it climbs onto the canopy, where you see it pressed
-    against the glass (the big scare beat; scraping, breathing, knocking on the
-    glass). If the player still does nothing (starting 10 s more), it breaks in
-    (B7). Starting the engines or taking off while it's on the canopy throws it
-    off and kills it.
-B6. **Real pilots never do this:** a real pilot left waiting keeps knocking
-    and the Advice line keeps saying so. They never climb the canopy.
-B7. **Letting one in: the horror sequence, then death.** Airlock opened to an
-    alien (or a break-in): the airlock closes behind it, the cabin lights die,
-    alarms, sounds moving in the cabin behind the cockpit, the cockpit door is
-    hit and gives way, and the creature comes at the player in the cockpit.
-    Built live in the cockpit with the player still able to look around (VR
-    rule 5: no camera takeover, no fades; darkness, sound and timing do the
-    work; no full-screen strobe). Then the normal death: explosion is not
-    needed here — the ship is lost on the planet with the creature in it,
-    pilots aboard are lost, regeneration bay, recovery fee or loaner. The death
-    menu says what got you ("Hollow").
-B8. **The Sleeper.** Boards like a real pilot and passes every check at the
-    door. After a random time in flight (starting 40-120 s, seeded), it turns:
-    - with other pilots aboard, it kills one (heard, and glimpsed on the cabin
-      camera, item B9, not shown in full). If at least 2 pilots are left
-      (tuning), they kill it: the ship survives, that pilot is lost, a message
-      tells you what happened. If fewer are left, it breaks into the cockpit:
-      the horror sequence (B7) and death;
-    - with no other pilots aboard, it goes straight for the cockpit (B7).
-    **Its tell** (after boarding, only some of the time like the others):
-    cabin sounds that are off (a wet clicking, a pilot's voice that loops) and
-    a wrong-looking passenger on the cabin camera. **The answer:** dock before
-    it turns: the mothership's security kills it in the bay (a short live
-    moment from the cockpit: shots and a shriek in the cabin), the other pilots
-    are delivered and paid, and the Field Journal records it.
-B9. **Cabin camera.** A cockpit display (and HUD picture-in-picture on
-    request) showing the cabin and the pilots aboard, so the Sleeper's tell can
-    be seen. Part of the cockpit, like the belly camera.
-B10. **Field Journal.** Unlocks a type's entry the first time the player meets
-    it in a way that reveals it (it killed you, you killed it, the pilots
-    killed it, security killed it). First entry: its name and a vague hint
-    ("Something about the way the light falls on it..."); after a second
-    encounter: a clearer hint (never a full explanation). In the hangar and the
-    pause menu. Saved with the career.
-B11. **Scare sound.** The sounds this round needs: alien knocks (wrong
-    rhythms), shriek / death, canopy scraping and breathing, glass cracking and
-    breaking, cabin movement, the door being hit and giving way, alarms, the
-    Sleeper's cabin sounds, security in the bay. Use ElevenLabs if Dan's API key
-    is available to Code (ask Dan once for it if not set); otherwise make code
-    placeholders and write `Docs/SOUNDS-NEEDED.md` with one ready-to-paste
-    ElevenLabs prompt and target file name per sound, so Dan can generate them
-    and drop them in. Sound checks follow the testing rule (muted; confirm by
-    logging the AudioSource events; any audible check brief and reported).
-B12. **Check (muted, no focus, per the testing rules):** the same seed gives the
-    same aliens; one run per type with its tell shown (cockpit / belly camera
-    pictures that Code looks at and describes: can a player see it?) and with
-    it hidden; engines kill an alien (reveal, bounty, journal entry) and a real
-    pilot (penalty); canopy climb and break-in timing; the horror sequence
-    (cockpit pictures at its beats, no fade, the player can look round, ends in
-    the regeneration bay); Sleeper: pilots win with 3+ aboard, cockpit death with
-    1, docked in time = security kill; Field Journal first and second entries;
-    the first planet of a new career has no aliens; frame rate.
-
-**End of the round:** publish **0.3.0** (Part A + Part B), update `TODO.md`
-(per-item status for 1-3 and B1-B12: done / not done / deferred and why; the
-new tuning values) and `CLAUDE.md` (Where things stand, controls, tuning),
-clean up, commit and push.
-
-**For Dan to check:** radar distances and the route trail; then the aliens:
-can you learn the tells by playing, do they still fool you sometimes, is the
-canopy and the horror sequence scary, does the Sleeper's cabin fight work?
+Next: **Round 4 (Enemies + difficulty)**, to be written here by the planning chat. Open questions from 0.3.0 for Dan are in
+the delivery's "Dan decides" notes (route corridor, the Mimic's tell in shade).
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -354,6 +208,71 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 2.6 + Round 3 — radar distances and route trail; aliens (2026-11-04). Published: 0.3.0 (`game-300`, Latest).**
+Exe built 2026-11-04 03:19 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.6/final/` and `Data/screenshots/round3/final/` (the
+published build; `exe_check.txt` + pictures), `round3/launcher/`; earlier runs' logs in `fix2.6/run1-7`, `round3/run3`. Every run headless
+(`-batchmode`, no window) and muted: measured output 0.000 RMS at start and end of every run; no step played sound; no window opened.
+New checks: `--only fix26`, `--only aliens`. **Frame rates this round are not usable:** other projects' Unity builds (Chastain Rush, a
+football game) ran on the PC the whole time (CPU 80-100 %); before they started the Campaign with the trail measured 227 fps (1 % low 74).
+
+0. **Commit first — done.** "Fix 2.6 + Round 3 planning" (280a997). Part A committed on its own (2ddb323).
+1. **Radar distances — done.** True-distance scope that zooms by itself (1 / 2 / 3 / 6 / 9 km at the rim: the smallest holding the
+   nearest pilot), range rings with labels, every blip labelled ("P2 2.7 km", "MS 290 m"), the nearest pilot bigger with a halo and
+   "NEAREST 2.2 km", the same on the cockpit display and the HUD (`a1_radar_cockpit`). Bearing still rough past 3 km (Round 2's rule).
+2. **Route trail — done; following it without a touch: not reached (tuning limit).** A* over a 30 m grid on canyon openness, off the main
+   thread (3-90 ms; up to 2.4 s with the PC loaded); chevrons 20 m wide every 100 m, bright to 300 m, fading out by 700 m, ending over the
+   pad (green ring); the route on the radar as dots; height 35 m over the floor, raised where the canyon is narrower than ~70 m, gliding
+   down from the ship (≤25°) and climbing early before ridges (≤30°). Re-plan: at once on a new target or 150 m off (387 m off → re-planned
+   in 9 ms), every 4 s while drifting 60 m off. Target cycling D-pad right / T / HOTAS 11 (auto → pilots by distance → mothership → auto).
+   Settings > Route trail (On). Check from Reset position at the start pad: route 3.2 km through 12 bends, never under 26 m over the
+   ground; the check's pilot (160 km/h) followed it to 260 m from the pad with **2 wall touches** (runs: 2, -, 15, 11, 3, 4, 2), each when it
+   strayed 13-63 m off the line; chevrons in the cockpit view at the three pictures 4 / 6, 0 / 6 (behind a rise), 6 / 7 (`a3-a5`). **Dan decides:** wider corridor / higher line?
+3. **Check — done** (`fix26/final`), frame rate: see above.
+B1. **Which pilots are aliens — done.** `Aliens.Assign` from the planet's seed (same seed = same list, checked on 3 seeds); none on a new
+   career's first planet (checked); then max(1, round(share × pilots)), share 20 % + 5 % a tier (max 35 %); every type; 400 sample planets:
+   33 % aliens at 6 pilots, tells shown 74 %, types 147-188 each. Planets saved before 0.3.0 get theirs on the next visit.
+B2. **Models — done (placeholder art).** Aliens wear the pilot suit; the creature (`Tools/Blender/creature.py`, 2.2 m, 8000 triangles: reversed
+   knees, arms past the knees, four-claw hands, ribs, an eyeless long skull with milky eye clusters, a jaw that splits) posed in code
+   (`Campaign/Creature.cs`: crawl, canopy, lunge, thrash, dead; jerky head, breathing). Close up: `b_04_lunge`, `b1_canopy_pressed_to_the_glass`.
+B3. **Tells — done.** Mimic: the figure casts no shadow, a taller long-armed shadow follows 3.3 m behind; Hollow: matte black visor, no
+   glint (real visors: blue sheen + glint; `t2_hollow_tell_airlock_cam` vs `t2_hollow_hidden_airlock_cam`); Knocker: four knocks (or the
+   wrong rhythm / from the nose, by pilot); Stalker: circles 420° at 18 m, off the radar 10 s, comes in from behind. Shown 75 % (seeded),
+   false tells 0 %. **Fixed on the way:** pilots waited under the left wing (since 0.2.5): head and visor hidden from the airlock camera:
+   they now wait ahead of the wing; the airlock camera moved and narrowed (42°) so the figure fills it; between knocks they look into it.
+   **Mimic: not seen in any check picture**: the check's pad lies in the canyon wall's shade (no shadows at all there,
+   `t1_mimic_tell_coming_landing_view`); the tell only shows on sunlit ground. **Dan decides:** add a second sign (e.g. its own lamp-cast shadow)?
+B4. **At the door — done.** Engines: an alien shrieks, rears up as the creature and dies; +200 cr bounty; journal; a real pilot: -400 (as before).
+B5. **Ignored → canopy → break-in — done.** Climbed 27.3 s after reaching the door (25 + the 2.4 s climb, live), pressed on the glass
+   straight ahead (scrape, breath, taps); broke in 10.0 s later; engines while it is up there: thrown off, burnt, +200 cr.
+B6. **Real pilots — done.** Never climb; keep knocking every 7 s, the Advice line keeps saying so.
+B7. **Horror sequence — done.** Airlock shuts (0.8 s), lights die and every cockpit display goes dark (2.0), alarm, something moving in the
+   cabin (3.4-9.4), three blows on the hatch behind the left shoulder, it gives way (13.2), it comes round the seat to your face, the jaw
+   opens, lunge (17.4), death: "Killed by the thing you let aboard: a Mimic", the ship lost with it, regeneration bay, loaner / recovery.
+   Canopy break-in: crack, glass gone, lunge (6.5 s). Live: camera never moved by the game (fastest 0-1 m/s), look works (turned 102-111°
+   back to the hatch), no fade, no strobe (a slow red pulse), view left as the player had it.
+B8. **Sleeper — done.** Seeded turn 40-120 s of flight (this one 89 s; the check shortened it). 3 others aboard: it killed one, the two
+   left killed it (cabin 4 → 2); alone: it came for the cockpit (death in flight: the ship drifts to a hover); docked first: security in
+   the bay, "Security killed a Sleeper in your cabin", the other pilot paid. Tell (75 %): wet clicking and a looping voice in the cabin, its
+   head turned too far toward the cabin camera.
+B9. **Cabin camera — done.** A cabin behind the cockpit (benches, lamps, passengers; the hatch cut in `ship.py`), its camera on a small
+   cockpit display (left of the dash) and on the HUD with D-pad up / N / HOTAS 12; dark when the lights die.
+B10. **Field Journal — done.** Hangar and pause menu (last row); entry + vague hint at the first reveal, clearer at the second (all five
+   checked: `j1_field_journal`); saved in `career.json` (`journal`, `aliensKilled`).
+B11. **Sounds — done with ElevenLabs** (key from `ELEVENLABS_API_KEY`): 18 sounds in `Assets/Resources/Sounds/`, prompts in `Docs/SOUNDS.md`,
+   `python Tools/make_sounds.py [--only x --force]`; code placeholder if a file is missing. **Not heard by anyone yet** (muted rule):
+   the check logs each one started (`sounds that would have played`).
+B12. **Check — done** (`--only aliens`, about 35 min, every item above). Not re-run this round: `all` / `campaign` / `home` / `fix24` / `fix25`.
+Publish: 0.3.0 = build 300, tag `game-300`, Latest; the `starter-200` ZIP from GitHub, `--auto-check`: "Updating to game 0.3.0",
+installed `versions/300`, started, exit 0. Clean-up: disk use 2.1 GB -> 1.6 GB (starter test install, 0.2.1-0.2.5 release folders and check runs removed).
+
+**New tuning (`CampaignTuning.json`):** alienShareStart .20, alienSharePerTier .05, alienShareMax .35, tellReliability .75,
+falseTellChance 0, alienBounty 200, canopyClimbAfter 25, breakInAfter 10, sleeperTurnMin 40, sleeperTurnMax 120, sleeperPilotsWin 2.
+**New settings / controls:** Settings > Route trail (On); RouteTarget D-pad right / T / HOTAS 11; CabinCam D-pad up / N / HOTAS 12.
+
+**For Dan to check:** radar distances and the route trail (is it followable at speed? wider / higher?); the aliens: can you learn the
+tells by playing, do they still fool you, is the canopy and the horror sequence scary, does the Sleeper's cabin fight work? **Listen to
+the sounds** (never played on your PC by me). Frame rate on your PC and the Deck (not measurable this round).
 
 **Fix 2.5 — tight control, seeing the ground, the pickup, launch warning, faster lift (2026-11-02). Published: 0.2.5
 (`game-205`, Latest).** Exe built 2026-11-02 20:46 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.5/`: `before/` (0.2.4's
@@ -483,52 +402,6 @@ levels itself)? Try Flight assist Light, then Off and Full, and Stick sensitivit
 try with the ring (brake when SLOW DOWN shows)? Pause with ☰ and a tap of ⧉; Reset position. Do the canyons feel deep
 and tight enough (now perhaps too tight at speed)? HOTAS: which base button should pause?
 
-
-**Fix 2.3 — getting home (2026-11-02). Published: 0.2.3 (`game-203`, Latest).**
-Exe built 2026-11-02 14:27 (`BUILD_INFO.txt`). Evidence `Data/screenshots/fix2.3/`
-(`run1`-`run3`: `exe_check.txt` + pictures; `launcher/`). Every check headless
-(`-batchmode`, no window) and muted: measured output 0.000 RMS at start and end;
-no step played sound; no window opened. New check: `python Tools/run_check.py <dir> --only home`.
-
-0. **Commit first — done.** "Fix 2.3 planning" (d36c2d7).
-1. **A clear way home — done.** Cockpit left display (top line: the lower lines sit below the
-   flat view) and HUD: `HOME <bearing>° <km> · DOCK ↑ <m>`; the mothership is always on the
-   radar; Advice says "Climb to dock (↑ 450 m)" whenever docking is allowed; a blinking blue
-   sky marker under the mothership, same size on screen at any distance. Check: the readout
-   counted 953 -> 850 -> 700 -> ... -> 100 -> 0 m, docking started at 1001 m (`h02`, `h03b`).
-2. **Energy-to-get-home warnings — done.** Needed = height to climb / 30 m/s x full-throttle
-   drain + 3 %. RETURN NOW within 8 % of it, CAN'T REACH below it (display, HUD, Advice with
-   the recall keys, a new falling two-tone warning sound, repeated every 10 s / 6 s); 1 % of
-   hysteresis; the 15 % beep stays. Check over the canyon floor (44 m): need 13.2 %, RETURN NOW
-   at 21.2 %, CAN'T REACH at 13.2 % (`h03_return_now`, `h04_cant_reach`). Low energy also
-   lets you dock with no pilots aboard (as below 25 %).
-3. **Rescue in the air — done.** At 0 energy in the air the mothership comes (faster than
-   station keeping) and its beam catches the ship within 600 m level distance, live, then the
-   normal docking. Check: caught at 36-38 m above ground (not landed), docked, pilot paid
-   +500, tow -1500 cr; camera continuous (run 1: fastest 73 m/s; runs 2-3 show a "JUMP" only
-   because the check presses the camera button for the chase picture `h05b`).
-4. **Recall — done.** Hold 1 s: gamepad View, keyboard H, HOTAS button 7 (`Recall` action),
-   fee 900 cr at the dock (tow 1500). A short press only shows "Keep holding…". Check: 0.4 s
-   did nothing; from the air (801 m up) and from the ground both docked, -900 cr each, camera
-   continuous; refused while a pilot runs to the ship ("Not now: a pilot is coming").
-5. **Pilots bring fuel — done.** 3-15 % per boarding, `System.Random` (not the seed), never
-   above 100 %, message "Pilot 3 aboard (1 / 6), brought 9 % energy". Check, same planet and
-   pilots in three runs: pilot 3 9 / 5 / 5 %, pilot 2 5 / 13 / 7 %, pilot 1 13 / 11 / 11 %.
-6. **Checks — done** (above; `-exeCheckOnly home`, `Checks/ExeCheck.Home.cs`). Fixed on the
-   way: the HUD flashed "OUT OF ENERGY" / "ENERGY LOW" during the beam lift (now the lift's
-   own prompt); `run_check.py` crashed printing "↑" to the console (now UTF-8).
-7. **Publish — done.** 0.2.3 = build 203, tag `game-203`, Latest. Check: the `starter-200`
-   ZIP extracted to `Builds/StarterCheck`, `--auto-check` against GitHub: "Updating to game
-   0.2.3", installed `versions/203`, started, exit 0 (`launcher/`). TODO / CLAUDE updated, pushed. Clean-up:
-   disk use 1.9 GB -> 1.6 GB (incl. the 0.2 GB starter test install).
-
-**New tuning (`CampaignTuning.json`):** recallFee 900, recallHoldSeconds 1, homeClimbRate 30,
-homeMargin 3, returnNowWarning 8, beamReach 600, pilotFuelMin 3, pilotFuelMax 15.
-
-**For Dan to check:** with a pilot aboard and low energy, is it clear how to get home, and do
-the warnings come early enough (30 m/s is a cautious climb)? Run dry in the air: does the
-beam catch you? Try the recall (hold View on the Deck / H / HOTAS 7: is button 7 a good
-one on your HOTAS?). Is the sky marker big enough? Does pilot fuel help enough?
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

@@ -77,5 +77,16 @@
     "towBeamDelay": 0.5,
     "fastForward": 4,
     "launchEnergyWarning": 50,
-    "gamepadDeadzone": 0.12
+    "gamepadDeadzone": 0.12,
+    "alienShareStart": 0.2,
+    "alienSharePerTier": 0.05,
+    "alienShareMax": 0.35,
+    "tellReliability": 0.75,
+    "falseTellChance": 0,
+    "alienBounty": 200,
+    "canopyClimbAfter": 25,
+    "breakInAfter": 10,
+    "sleeperTurnMin": 40,
+    "sleeperTurnMax": 120,
+    "sleeperPilotsWin": 2
 }

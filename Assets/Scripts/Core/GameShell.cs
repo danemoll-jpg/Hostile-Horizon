@@ -64,6 +64,7 @@ namespace HostileHorizon
             Ship.OnBrake += () => Sfx.Play(Sfx.Brake, Ship.transform.position, .8f, 10f, Ship.transform);   // Fix 2.4: the air brakes
             Mother = Mothership.Create(litTemplate); Mother.gameObject.SetActive(false);
             Route = RouteTrail.Create();   // Fix 2.6
+            CreateAliens();                // Round 3: the cabin, its camera
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
             BuildPages();
@@ -179,7 +180,7 @@ namespace HostileHorizon
                     break;
             }
             // Fix 2.5: hold A / Space / HOTAS trigger to fast-forward an automatic part (it still plays live: VR rule 5, no cut)
-            bool ff = Now == State.Auto && !Menu.Visible && Ship && Ship.Kinematic && Controls.FastForwardHeld;
+            bool ff = Now == State.Auto && !Menu.Visible && Ship && Ship.Kinematic && Controls.FastForwardHeld && Phase != "horror";   // Round 3: never through the horror
             if (Now == State.Auto) Time.timeScale = ff ? Tuning.T.fastForward : 1;
             else if (Now != State.Paused && Time.timeScale > 1) Time.timeScale = 1;   // flight resumes at normal speed
             FastForwarding = ff;
@@ -248,7 +249,7 @@ namespace HostileHorizon
 
         // Fix 2.4: Reset position: a steady hover over the nearest flat landing pad (else the start), same cabin and energy, no charge.
         // Not while a pilot is running to the ship or at the airlock, nor during the automatic parts.
-        public bool CanReset => pausedFrom == State.Flying && !Ship.Crashed && !PilotComing;
+        public bool CanReset => pausedFrom == State.Flying && !Ship.Crashed && !PilotComing && CanopyAlien == null && !sleeperTurning;
         bool PilotComing { get { foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding) return true; return false; } }
 
         public void ResetPosition()
@@ -288,6 +289,7 @@ namespace HostileHorizon
         {
             if (Blast) Destroy(Blast.gameObject);
             var fire = Ship.transform.Find("Wreck fire"); if (fire) Destroy(fire.gameObject);
+            ClearAliens();   // Round 3: no creature, loop or broken hatch left over
             Extras.SetLook(ShipExtras.Look.Own);
             Rig.Watch = null; Rig.Scripted = false;
         }

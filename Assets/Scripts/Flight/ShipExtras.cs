@@ -47,6 +47,7 @@ namespace HostileHorizon
 
         public void OpenAirlock(float seconds) { openUntil = Time.time + seconds; Sfx.Play(Sfx.Hiss, transform.TransformPoint(new Vector3(-1.8f, .2f, -1.6f)), .9f, 3f); }
         public bool AirlockOpen => doorOpen > .9f;
+        public void CloseAirlock() => openUntil = 0;   // Round 3: it shuts behind what came in
 
         public void SetLook(Look l)
         {

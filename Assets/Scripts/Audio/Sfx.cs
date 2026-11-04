@@ -75,6 +75,19 @@ namespace HostileHorizon
             var c = AudioClip.Create(name, n, 1, rate, false); c.SetData(d, 0); return c;
         }
 
+        // Round 3, item B11: the scare sounds, made with ElevenLabs (Tools/make_sounds.py, Docs/SOUNDS.md) in Resources/Sounds/<name>;
+        // a missing file falls back to a rough sound made here, so the game never goes silent.
+        static readonly System.Collections.Generic.Dictionary<string, AudioClip> clips = new System.Collections.Generic.Dictionary<string, AudioClip>();
+        public static AudioClip Clip(string name)
+        {
+            if (clips.TryGetValue(name, out var c) && c) return c;
+            c = Resources.Load<AudioClip>("Sounds/" + name);
+            if (!c) { Debug.LogWarning($"Sound Sounds/{name} missing: a placeholder plays"); c = Make(name + " (placeholder)", 1.5f, (t, n, s) => { s.lp += (n - s.lp) * .08f; return s.lp * 2.5f * Mathf.Exp(-t * 1.5f) * Mathf.Min(1, t * 30f); }); }
+            clips[name] = c; return c;
+        }
+        // Checks: every sound started (time, name, where), so a muted run can show what would have played.
+        public static readonly System.Collections.Generic.List<string> Played = new System.Collections.Generic.List<string>();
+
         // A one-shot 3D sound at a point (minDistance: full loudness within it).
         public static AudioSource Play(AudioClip clip, Vector3 at, float volume = 1, float minDistance = 5, Transform follow = null)
         {
@@ -83,6 +96,7 @@ namespace HostileHorizon
             var a = go.AddComponent<AudioSource>();
             a.clip = clip; a.volume = volume; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 200; a.rolloffMode = AudioRolloffMode.Logarithmic; a.dopplerLevel = 0;
             a.Play(); Object.Destroy(go, clip.length + .1f);
+            if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name}");
             return a;
         }
 
@@ -91,7 +105,7 @@ namespace HostileHorizon
             var go = new GameObject("Sfx loop " + clip.name); go.transform.SetParent(parent, false);
             var a = go.AddComponent<AudioSource>();
             a.clip = clip; a.loop = true; a.volume = volume; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 100; a.dopplerLevel = 0;
-            a.Play(); return a;
+            a.Play(); if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name} (loop)"); return a;
         }
     }
 }

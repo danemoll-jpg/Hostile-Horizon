@@ -9,7 +9,7 @@ namespace HostileHorizon
     // %USERPROFILE%\AppData\LocalLow\Hostile Horizon\Hostile Horizon\, which the launcher backs up before every update and never
     // touches otherwise). A check run saves into <check dir>/save instead, so it never touches Dan's career.
     // Saved on dock, death, quitting to the title and closing the game.
-    public enum PilotFate { Waiting = 0, Rescued = 1, Lost = 2 }
+    public enum PilotFate { Waiting = 0, Rescued = 1, Lost = 2, AlienGone = 3 }   // Round 3: AlienGone = an alien dealt with (killed, or it took your ship)
 
     [Serializable] public sealed class ShipState
     {
@@ -25,6 +25,7 @@ namespace HostileHorizon
         public string name;
         public int tier;              // planets cleared in the career when first visited
         public int[] pilots;          // PilotFate per pilot
+        public int[] alien, quirk;    // Round 3: AlienType per pilot (0 = a real pilot), and the tell shown (Aliens.Assign, from the seed)
         public bool cleared, bonusPaid;
         public int visits;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
@@ -33,7 +34,10 @@ namespace HostileHorizon
     [Serializable] public sealed class CareerStats
     {
         public int pilotsRescued, pilotsLost, creditsEarned, creditsSpent, deaths, planetsCleared, sorties, tows, recalls;
+        public int aliensKilled;      // Round 3
     }
+
+    [Serializable] public sealed class JournalEntry { public int type; public int encounters; }
 
     [Serializable] public sealed class Career
     {
@@ -46,6 +50,7 @@ namespace HostileHorizon
         public bool flyingLoaner;
         public List<PlanetState> planets = new List<PlanetState>();
         public CareerStats stats = new CareerStats();
+        public List<JournalEntry> journal = new List<JournalEntry>();   // Round 3: the Field Journal
         public string started, lastSaved;
 
         public static Career C { get; private set; }
@@ -80,12 +85,26 @@ namespace HostileHorizon
         // A planet keeps its state between visits; the first visit fixes its pilot count from the career's tier.
         public PlanetState Planet(int seed)
         {
-            foreach (var p in planets) if (p.seed == seed) return p;
+            foreach (var p in planets) if (p.seed == seed)
+                {
+                    if (p.alien == null || p.alien.Length != p.pilots.Length) Aliens.Assign(p, planets.IndexOf(p) == 0);   // a planet saved before Round 3
+                    return p;
+                }
             var t = Tuning.T; int tier = stats.planetsCleared;
             int n = Mathf.Min(t.pilotsMax, t.pilotsFirstPlanet + tier * t.pilotsPerTier);
             var ps = new PlanetState { seed = seed, name = Names.Planet(seed), tier = tier, pilots = new int[n] };
+            Aliens.Assign(ps, planets.Count == 0);   // Round 3: a new career's first planet has no aliens
             planets.Add(ps);
             return ps;
+        }
+
+        // Round 3, item B10: the Field Journal. A meeting that revealed the type (it killed you, you killed it, the pilots or security
+        // killed it) adds an encounter; the first gives the entry and a vague hint, the second a clearer one.
+        public JournalEntry Meet(AlienType type)
+        {
+            var e = journal.Find(j => j.type == (int)type);
+            if (e == null) { e = new JournalEntry { type = (int)type }; journal.Add(e); }
+            e.encounters++; return e;
         }
 
         public int ShipValue => Tuning.T.shipValue;   // + the upgrades' value once the shop exists (Round 5)

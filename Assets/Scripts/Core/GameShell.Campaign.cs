@@ -84,13 +84,14 @@ namespace HostileHorizon
             foreach (var p in Pilots) if (p) Destroy(p.gameObject);
             Pilots.Clear();
             var sites = PlanetSites.Find(Terrain.Field, Planet.pilots.Length, Planet.tier);
-            if (sites.Count < Planet.pilots.Length) System.Array.Resize(ref Planet.pilots, sites.Count);   // a planet short of landable spots has fewer pilots
+            if (sites.Count < Planet.pilots.Length) { System.Array.Resize(ref Planet.pilots, sites.Count); System.Array.Resize(ref Planet.alien, sites.Count); System.Array.Resize(ref Planet.quirk, sites.Count); }   // a planet short of landable spots has fewer pilots
             for (int i = 0; i < Planet.pilots.Length; i++)
             {
                 if (Planet.pilots[i] != (int)PilotFate.Waiting) continue;
-                var p = DownedPilot.Create(i, sites[i], Terrain.Field, litTemplate);
+                var p = DownedPilot.Create(i, sites[i], Terrain.Field, litTemplate, (AlienType)Planet.alien[i], (AlienType)Planet.quirk[i]);   // Round 3: the seed's aliens
                 p.OnBoarded += PilotBoarded;
-                p.OnKnock += _ => Displays.Knock();   // Fix 2.5: KNOCK KNOCK KNOCK on the displays as well as the sound
+                p.OnKnock += (_, n) => Displays.Knock(n);   // Fix 2.5: KNOCK KNOCK KNOCK on the displays as well as the sound (Round 3: one word a knock)
+                p.OnClimb += AlienClimbs;                    // Round 3: an alien left at the airlock climbs onto the canopy
                 Pilots.Add(p);
             }
         }
@@ -114,6 +115,7 @@ namespace HostileHorizon
             if (Route) Route.Clear(); routePick = -1;
             if (Displays) { Displays.Route = ""; Displays.RoutePath = null; }
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; }
+            ClearAliens();
         }
 
         // Saved on quitting mid-flight too: the ship as it is; pilots in the cabin weren't delivered, so they wait on the planet again.
@@ -156,6 +158,7 @@ namespace HostileHorizon
             var c = Career.C; c.stats.sorties++;
             Ship.SetEnergyAndDamage(c.Current.energy, c.Current.damage);
             cabin.Clear(); dockArmed = false; debrief = ""; calling = 0; recallHold = 0; HomeState = 0;
+            ClearAliens(); Reseat(); securityLine = ""; journalNote = "";
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
             while (Mother.DoorsOpen < .98f) { HoldShip(); yield return null; }
@@ -188,6 +191,10 @@ namespace HostileHorizon
             else if (!Mother.Holding) Mother.Follow(Ship.transform.position, Ship.transform.forward, dt);
             bool free = cabin.Count < t.cabinSize;
             foreach (var p in Pilots) if (p.Now != DownedPilot.State.Aboard) p.Tick(Ship, free, dt);
+            if (Now != State.Flying) return;   // Round 3: a boarding alien started the horror sequence
+            SleeperTick(dt);
+            CabinRoom.FeedOn = cabin.Count > 0 || !CabinRoom.LightsOn;
+            if (Ship.InputEnabled && Controls.CabinCamPressed) Displays.CabinPip = !Displays.CabinPip;
 
             if (Ship.InputEnabled && Time.frameCount > Ship.IgnoreButtonsUntil && Controls.AirlockPressed)
             {
@@ -338,6 +345,7 @@ namespace HostileHorizon
         void Recall()
         {
             if (PilotComing) { Flash("Not now: a pilot is coming to the ship", 3f); return; }
+            if (CanopyAlien != null) return;
             calling = 2;
             Flash($"Recall: the mothership is coming ({Tuning.T.recallFee} cr at the dock)", 5f);
         }
@@ -373,6 +381,7 @@ namespace HostileHorizon
         string Advice()
         {
             var t = Tuning.T;
+            if (CanopyAlien != null) return "";   // Round 3: nothing to say
             foreach (var p in Pilots) if (p.AtDoor) return $"PILOT AT AIRLOCK — press {Controls.AirlockKey} to open";
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running) return "PILOT COMING — keep engines off";
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Boarding) return "Pilot coming aboard";
@@ -406,7 +415,11 @@ namespace HostileHorizon
 
         void PilotBoarded(DownedPilot p)
         {
+            // Round 3: a Mimic, Hollow, Knocker or Stalker let in: the horror sequence. The Sleeper passes as a pilot.
+            if (p.IsAlien && p.Type != AlienType.Sleeper) { Run(Horror(p.Type, 0, p)); return; }
             cabin.Add(p.Index);
+            if (p.Type == AlienType.Sleeper) SleeperBoarded(p);
+            Reseat();
             var t = Tuning.T;
             LastPilotFuel = Mathf.Round(t.pilotFuelMin + (float)fuelRoll.NextDouble() * (t.pilotFuelMax - t.pilotFuelMin));
             Ship.Energy = Mathf.Min(100, Ship.Energy + LastPilotFuel);
@@ -418,9 +431,11 @@ namespace HostileHorizon
         {
             if (!InCampaign) return;
             var t = Tuning.T; var c = Career.C;
+            if (CanopyAlien != null) ThrowOffCanopy();   // Round 3: thrown off the canopy, burnt
             foreach (var p in Pilots)
             {
                 if (!p.OnFoot || Vector3.Distance(p.Position, Ship.transform.position) > t.exhaustKillRange) continue;
+                if (p.IsAlien) { ExhaustKillsAlien(p); continue; }   // Round 3: it shrieks and shows what it was
                 p.Kill(); Planet.pilots[p.Index] = (int)PilotFate.Lost; c.stats.pilotsLost++;
                 int paid = c.Spend(t.exhaustKillPenalty);
                 Flash($"Pilot {p.Index + 1} killed by your exhaust. Penalty -{paid} cr", 6f);
@@ -479,6 +494,7 @@ namespace HostileHorizon
             Phase = "dock-rise"; Mother.SetDoors(1);
             yield return RiseIntoBay(pos, rot);
             Beam(false);
+            yield return Security();   // Round 3: the Sleeper, still aboard, met by the mothership's security
             DebriefAtDock(towLift);
             if (Rig.Current != CameraRig.Mode.Cockpit) Rig.Current = CameraRig.Mode.Cockpit;   // the chase views would sit inside the hull
             ShowHangar();
@@ -527,6 +543,7 @@ namespace HostileHorizon
             if (fuel != "") sb.AppendLine($"Energy used {used:0}%. " + fuel);
             Ship.Energy = c.Current.energy;
             if (c.Current.damage > 0) sb.AppendLine($"Hull damage {c.Current.damage:0}%: repair {c.RepairCost} cr (Repair below, or fly as it is)");
+            if (securityLine != "") { sb.AppendLine(securityLine); securityLine = ""; }
             c.Save();
             debrief = sb.ToString().TrimEnd();
         }
@@ -587,17 +604,21 @@ namespace HostileHorizon
 
         // ---- death and regeneration
 
-        void Died()
+        void Died(AlienType killer = AlienType.None)
         {
             var c = Career.C; Phase = "dead"; calling = 0;
-            int lost = cabin.Count;
-            foreach (int i in cabin) Planet.pilots[i] = (int)PilotFate.Lost;
-            c.stats.pilotsLost += lost; c.stats.deaths++; cabin.Clear();
+            if (CanopyAlien != null) { CanopyAlien = null; if (canopyCo != null) { StopCoroutine(canopyCo); canopyCo = null; } }
+            journalNote = "";
+            if (killer != AlienType.None) Met(killer, "it killed you");
+            string got = killer != AlienType.None ? $"Killed by the thing you let aboard: a <b>{Aliens.Names[(int)killer]}</b>.\n" + (journalNote != "" ? journalNote + "\n" : "") + "\n" : "";
+            int lost = 0;
+            foreach (int i in cabin) { if (Planet.alien != null && i < Planet.alien.Length && Planet.alien[i] != 0) Planet.pilots[i] = (int)PilotFate.AlienGone; else { Planet.pilots[i] = (int)PilotFate.Lost; lost++; } }
+            c.stats.pilotsLost += lost; c.stats.deaths++; cabin.Clear(); SleeperIndex = -1;
             if (c.flyingLoaner) { c.flyingLoaner = false; c.loaner = new ShipState(); }   // the loaner is gone; your own ship stays where it is
             else { c.ship.wrecked = true; c.ship.damage = 100; c.ship.energy = Ship.Energy; }
             c.Save();
-            dead.Body = () => (lost > 0 ? $"{lost} pilot{(lost > 1 ? "s" : "")} aboard died with you. " : "") +
-                "Your mind was backed up on the mothership.\n\nThe wreck burns where you hit.";
+            dead.Body = () => got + (lost > 0 ? $"{lost} pilot{(lost > 1 ? "s" : "")} aboard died with you. " : "") +
+                "Your mind was backed up on the mothership.\n\n" + (killer != AlienType.None ? "Your ship is lost down there, with it inside." : "The wreck burns where you hit.");
             Run(ShowDead());
         }
 
@@ -740,7 +761,8 @@ namespace HostileHorizon
                   .Add(new MenuPanel.Row { Label = () => $"Repair hull  <size=24>({Career.C.RepairCost} cr)</size>", Submit = () => { debrief = Career.C.Repair(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.damage <= 0 || Career.C.credits <= 0 })
                   .Add(new MenuPanel.Row { Label = () => $"Refuel  <size=24>({Career.C.RefuelCost} cr)</size>", Submit = () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.energy >= 99.9f })
                   .Add(new MenuPanel.Row { Label = () => $"Recover your own ship  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, false)), Visible = () => Career.C != null && Career.C.flyingLoaner && Career.C.ship.wrecked, Disabled = () => Career.C.credits < Career.C.RecoveryFee })
-                  .Add(Action("Back to title (saves)", ToTitle));
+                  .Add(Action("Back to title (saves)", ToTitle))
+                  .Add(Action("Field Journal", () => ShowJournal(hangar)));   // Round 3
 
             // Fix 2.5: launching with little energy asks first (Refuel and launch is the default)
             lowEnergy = new MenuPanel.Page { Title = "LOW ENERGY", Back = () => Menu.Show(hangar) };
@@ -763,7 +785,8 @@ namespace HostileHorizon
                                                   Disabled = () => PausedFrom != State.Flying || calling != 0 || Ship.Crashed })
                          .Add(Action("Settings", () => { settingsReturn = campaignPause; Menu.Show(settings); }))
                          .Add(Action("Save and return to title", ToTitle))
-                         .Add(Action("Quit game (saves)", () => { SaveCareer(); Quit(); }));
+                         .Add(Action("Quit game (saves)", () => { SaveCareer(); Quit(); }))
+                         .Add(Action("Field Journal", () => ShowJournal(campaignPause)));   // Round 3
 
             dead = new MenuPanel.Page { Title = "SHIP DESTROYED" };
             dead.Add(Action("Wake up", () => Run(RegenTrip())));
@@ -773,6 +796,7 @@ namespace HostileHorizon
             regen.Add(new MenuPanel.Row { Label = () => $"Pay recovery  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, true)), Disabled = () => Career.C.credits < Career.C.RecoveryFee })
                  .Add(Action("Take the loaner (free)", () => Run(Deliver(true, true))));
 
+            BuildJournalPage();
             outOfEnergy = new MenuPanel.Page { Title = "OUT OF ENERGY" };
             outOfEnergy.Body = () => $"The ship is down with no energy left.\nThe mothership can lift it home on its tow beam: {Tuning.T.towFee} cr\n(if you can't pay it all, the corps covers the rest).\n\nPilots aboard stay aboard and are paid at the dock.";
             outOfEnergy.Add(Action("Call the mothership tow", () => Run(Tow())));

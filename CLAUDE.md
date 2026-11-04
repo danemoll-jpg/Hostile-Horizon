@@ -236,6 +236,18 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   the nose only to run along the rock (0.2.4 mirrored it off, a spin). `ShipController.Moved`
   sums the rotation by source for the checks. Settings has at most 12 rows: the HOTAS
   rows moved to Settings > Controls and HOTAS (with the Axis display).
+- **Radar and route trail (Fix 2.6):** the radar zooms by itself (1 / 2 / 3 / 6 / 9 km at the rim), range rings, every blip
+  with its distance, NEAREST on the nearest pilot (`UI/Radar.cs`). Route trail (`Campaign/RouteTrail.cs`): A* on canyon openness
+  (30 m grid, off the main thread), chevrons every 100 m (fade 300-700 m ahead) at 35 m over the floor (raised where the canyon is
+  under ~70 m wide), the route on the radar; target cycling `RouteTarget` (gamepad D-pad right, keyboard T, HOTAS button 11);
+  Settings > Route trail (On).
+- **Aliens (Round 3):** `Campaign/Aliens.cs` (types, seeded assignment, journal hints), `DownedPilot.cs` (tells), `Core/GameShell.Aliens.cs`
+  (exhaust reveal + bounty, canopy climb / break-in, the horror sequence, the Sleeper, security at the dock, Field Journal page),
+  `Campaign/Creature.cs`, `Campaign/Cabin.cs` (cabin, hatch, lamps, passengers, cabin camera: `CabinCam` gamepad D-pad up, keyboard N,
+  HOTAS button 12 toggles the HUD picture-in-picture). Pilots wait at the airlock ahead of the left wing (ship space x -2.45, z +0.8);
+  the airlock camera looks at them from ahead of the wing (42°). Round 3 tuning: `alienShareStart` .20, `alienSharePerTier` .05,
+  `alienShareMax` .35, `tellReliability` .75, `falseTellChance` 0, `alienBounty` 200, `canopyClimbAfter` 25, `breakInAfter` 10,
+  `sleeperTurnMin/Max` 40 / 120, `sleeperPilotsWin` 2. Career save adds `journal`, `stats.aliensKilled`, planets' `alien` / `quirk`.
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -261,6 +273,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   straight down, engines off, the pilot's run, the knock, B), belly / airlock camera,
   glass floor and landing view pictures, the launch warning, lift and docking times (new
   and with 0.2.4's numbers).
+  `-exeCheckOnly fix26` (Fix 2.6, `Checks/ExeCheck.Fix26.cs`, about 8 min): radar labels / zoom, the route trail from launch and from
+  low down (path report, the check's pilot following it, chevrons in view, wall touches), re-plan after leaving it, target cycling, fps
+  with the trail on and off. `-exeCheckOnly aliens` (Round 3, `Checks/ExeCheck.Aliens.cs`, about 35 min): same seed = same aliens,
+  first planet clean, each outside type with its tell shown / hidden (airlock-camera pictures), engines kills (bounty, journal), a real
+  pilot killed, canopy climb + thrown off + break-in, the horror sequence (pictures at its beats, camera continuity, looking round),
+  the Sleeper three ways, the Field Journal, the sounds that would have played.
   `-exeCheckOnly home` (Fix 2.3, `Checks/ExeCheck.Home.cs`, about 9 min): pilot
   fuel, the DOCK readout on the climb, RETURN NOW / CAN'T REACH, the mid-air beam
   catch, the recall from the air and the ground. A
@@ -268,7 +286,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -282,6 +300,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Mothership model (Round 2):** `F:lenderlender.exe --background --factory-startup --python Tools/Blender/mothership.py`
   writes `SourceArt/Blender/Mothership.blend` and `Assets/Resources/Models/Mothership.fbx`
   (bay, doors' opening, regeneration pod mirrored in `Assets/Scripts/Campaign/Mothership.cs`).
+- **Creature model (Round 3):** `F:lenderlender.exe --background --factory-startup --python Tools/Blender/creature.py`
+  writes `SourceArt/Blender/Creature.blend` and `Assets/Resources/Models/Creature.fbx` (one group per body segment; the joints are
+  mirrored in `Assets/Scripts/Campaign/Creature.cs`, which poses it in code). `ship.py` (Round 3) cuts the cockpit hatch (bulkhead,
+  left of the seat); the cabin behind it is built in code (`Campaign/Cabin.cs`).
+- **Sounds (Round 3):** `python Tools/make_sounds.py [--only name,name] [--force]` makes the scare sounds with ElevenLabs (key from
+  `ELEVENLABS_API_KEY`, never printed) into `Assets/Resources/Sounds/<name>.mp3`; prompts in `Docs/SOUNDS.md`. `Sfx.Clip(name)` loads
+  them (a code placeholder if one is missing). Making a sound plays nothing.
 - **Icon and cover:** `python Tools/make_icon.py` (exe icon, launcher .ico);
   `python Tools/make_cover.py <menu-free title screenshot>` (launcher cover
   `SourceArt/Title/HostileHorizonCover.png` and, Round 2, the Steam library poster
@@ -315,6 +340,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 2.6 + Round 3 (radar distances, route trail; aliens: five types with tells, canopy break-in, the horror sequence, the
+Sleeper, cabin camera, Field Journal, ElevenLabs sounds) is built, checked in the exe (headless, muted, `--only fix26` and
+`--only aliens`) and published as 0.3.0 (`game-300`, Latest); a starter-200 install updates to it from GitHub. Not yet played
+or heard by Dan.** Open for Dan: the check's pilot still touched walls following the trail (2 in the last run; tuning limit
+reached), the Mimic's shadow tell can't show on pads in shade, frame rates weren't measurable (other projects' builds loaded
+the PC). Numbers in `TODO.md` (Fix 2.6 + Round 3 delivery). **Next: Round 4 (Enemies + difficulty)**, to be written by the
+planning chat.
 **Fix 2.5 (tight control, belly camera / glass floor / landing view, the pickup fixed,
 launch warning, quicker lift, hold-A fast-forward) is built, checked in the exe (headless,
 muted, `--only fix25`) and published as 0.2.5 (`game-205`, Latest); a starter-200 install
@@ -357,6 +389,5 @@ a live camera flight to the regeneration pod -> recovery or the loaner. Numbers 
 GameShell.Campaign, settings, screen setting, career, tuning, names, seeds,
 TestRun), Terrain, Flight (ShipController, ShipExtras), Campaign (Mothership,
 DownedPilot, PlanetSites), Effects (Explosion), Cameras, Input, UI (incl. Radar),
-Audio (incl. Sfx), Checks. **Next: Round 3 (Aliens)**, to be written into
-`TODO.md` by the planning chat. Design decisions (credits, ongoing campaign,
+Audio (incl. Sfx), Checks. Design decisions (credits, ongoing campaign,
 planets, the five alien types) are at the top of `TODO.md`.
