@@ -168,11 +168,84 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — none (Fix 2.6 + Round 3 delivered as 0.3.0, below)
+Current Objective — Fix 3.1: real character models (concept art -> Meshy -> Mixamo)
 ---------------------------------------------------------------------------
 
-Next: **Round 4 (Enemies + difficulty)**, to be written here by the planning chat. Open questions from 0.3.0 for Dan are in
-the delivery's "Dan decides" notes (route corridor, the Mimic's tell in shade).
+Fix 2.6 + Round 3 are delivered as 0.3.0 (status under "Previous deliveries").
+Round 4 (Enemies + difficulty) comes after this fix. Still open for Dan from
+0.3.0: the route corridor width / height, and a second sign for the Mimic's
+tell in shade.
+
+Dan (2026-11-04): the code-made pilot and creature models won't be good
+enough; use real models and animation. **Dan's art pipeline (DECIDED, his
+standing way of working):** Code writes the image prompts -> Dan has the
+concept images drawn -> Code generates the 3D models from them with the Meshy
+API (Dan's key) -> Dan uploads them to Mixamo and picks the animations Code
+lists -> Code imports and wires them up. This round runs in **stages with
+stops for Dan**; Code must stop and say what it needs at each STOP.
+
+**Models this fix:** (1) the **pilot** (rescue-corps flight suit, helmet with a
+reflective visor — the Hollow's tell needs the reflection; it is also every
+alien's disguise); (2) **five alien reveal forms**, one per type (Mimic,
+Hollow, Knocker, Stalker, Sleeper), each with its own silhouette so the types
+feel different and the Field Journal can show them. All original designs,
+nothing from the 1984 game. Horrible, 2-2.5 m, wrong-jointed but built on a
+humanoid skeleton so Mixamo can rig them.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Stage 1 — prompts (Code).** Write `Docs/MODELS-NEEDED.md`: for each model
+   a ready-to-paste image prompt for the concept art (full body, **A-pose or
+   T-pose, front view, plain light background, no cropping, no props**, so
+   Meshy and Mixamo work), a short design note (what makes it scary, which
+   tell or behaviour it must support), the file name Dan should save it as
+   (`SourceArt/Concepts/<name>.png`), and the Mixamo animation list for stage 4
+   (item 4). **STOP: tell Dan the prompts are ready.**
+2. **Stage 2 — concept art (Dan).** Dan generates the images and saves them in
+   `SourceArt/Concepts/`. Code checks each one is usable (full body, clean
+   pose) and says if one needs redoing.
+3. **Stage 3 — Meshy (Code).** Image-to-3D with the Meshy API.
+   - Key: read from the environment variable `MESHY_API_KEY`; if it isn't
+     set, ask Dan to set it. **Never write the key into the repo, a log, a
+     report or the chat.**
+   - Ask for textured (PBR) output in A/T-pose, FBX (or GLB converted in
+     Blender), with triangle budgets: pilot about 15-20k, creatures about
+     20-30k; make LODs (about 50 % and 20 %) in Blender for the Deck and VR.
+   - Save to `SourceArt/Meshy/<name>/`. Clean up in Blender where needed
+     (scale to metres, origin at the feet, facing +Z, symmetric pose).
+   - Render a front / side / three-quarter picture of each and look at them.
+   - **STOP: show Dan the renders and the files to upload to Mixamo** (the
+     exact FBX paths). Redo any Dan rejects (new seed / adjusted prompt).
+4. **Stage 4 — Mixamo (Dan).** Dan uploads each FBX, auto-rigs it, and
+   downloads the listed animations (FBX for Unity, 30 fps; the first "with
+   skin", the rest "without skin"; "In Place" ticked for locomotion) into
+   `SourceArt/Mixamo/<name>/`. Code's list per model should name real Mixamo
+   searches and say what each is for, at least:
+   - **Pilot:** idle (waiting by the wreck, looking around), wave / signal,
+     run, slowing to stop, knock on a door (or a punch / tap to adapt), climb
+     up / step in, sitting idle (cabin), death / fall, flinch.
+   - **Each creature:** idle (breathing, twitching), creepy walk, run /
+     lurch, crawl, climb (for the canopy), attack / bite, scream / roar, death,
+     plus anything its type needs (Stalker: circling / crouch walk; Knocker:
+     pounding; Sleeper: a sitting idle and a sudden lunge).
+   **STOP until Dan has downloaded them.**
+5. **Stage 5 — into the game (Code).** Import as Humanoid; Animator
+   controllers per model; replace the placeholder pilot and creature everywhere
+   (pickup, canopy, break-in, horror sequence, cabin, Sleeper fight, security
+   kill, Field Journal pictures) with each type's own creature. The alien tells
+   must still work (the Mimic's shadow, the Hollow's dead visor, the Stalker's
+   path, the Knocker's knock timing on the new knock animation). The disguise
+   (pilot) -> reveal (creature) change happens live. LODs on; frame rate on
+   Dan's PC and the Deck setting. Keep the code-made models as the fallback if
+   a model file is missing.
+6. **Check (muted, no focus):** cockpit and landing-view pictures that Code looks
+   at and describes: a pilot running and knocking; each creature's reveal, on
+   the canopy and in the horror sequence; the Sleeper in the cabin camera; the
+   journal pictures; frame rate before / after.
+7. **Publish as 0.3.1**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (the art pipeline and folders), commit and push.
+
+**For Dan to check:** do the pilots look and move right; are the creatures
+scary up close; can you still spot the tells?
 
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
