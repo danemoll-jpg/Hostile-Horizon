@@ -168,7 +168,7 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 5 (to be written by the planning chat)
+Current Objective — Round 5: self-righting (Part A) + enemies and difficulty (Part B)
 ---------------------------------------------------------------------------
 
 Round 4 (planet biomes, music and voices) is delivered as 0.4.0 (status under "Previous deliveries"; its specification is in
@@ -178,12 +178,125 @@ the voices and how much chatter, the music and its loop points with his tracks, 
 Dan's art pipeline (DECIDED, standing): Code writes image prompts -> Dan has the concepts drawn -> Meshy -> Mixamo -> Code wires them
 (`Docs/MODELS-NEEDED.md`). Still open from 0.3.0: the route corridor width / height.
 
+
+Round 4 reviewed by Dan (2026-11-04): "all fine" (biomes, voices, music);
+HOTAS still untried. Dan (2026-11-04): fold Fix 4.2 into Round 5. Part A is
+Fix 4.2 (items 0-5, commit when done); Part B is enemies + difficulty (B1-B12).
+One publish at the end: **0.5.0**.
+
+**Part A — the ship rights itself (was Fix 4.2)**
+
+Dan (2026-11-04): "I want the vehicle to right itself. I get turned around and
+upside down too often when flying."
+
+Background: Fix 2.5 made Light assist do no levelling at all (stick centred
+holds the attitude), to stop the ship turning on its own. That fixed "loose",
+but now nothing ever brings the ship back upright. The answer is righting that
+only happens when the player lets go, so it never fights the stick.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Self-righting when the stick is released** (Light and Full assist; Off
+   keeps none): when pitch and roll input have been centred for a short moment
+   (starting 0.25 s, tuning), the ship smoothly rolls wings-level and eases its
+   nose toward the horizon (or a gentle climb when close to the ground), taking
+   about 1-1.5 s from a bank, about 2 s from fully upside down (always rolling
+   the short way round, never through a dive into the ground). It keeps flying
+   in its current heading (no sudden turn). The moment the stick moves, righting
+   stops and the player has full control (no blend fighting the stick). Full
+   assist rights faster and also does the bank-turn; Light rights but adds no
+   turning of its own.
+2. **A "level out" button** for an instant recovery: one press rights the ship
+   at a faster rate even while the stick is held (gamepad: left-stick click;
+   keyboard: L; HOTAS: a button picked in Settings > Controls and HOTAS).
+3. **Settings:** "Auto-level" On (default) / Off, and the righting speed
+   (Slow / Normal / Fast), separate from Flight assist.
+4. **Hover:** the ship already stays level in hover; make sure switching to
+   landing mode from any attitude (even inverted) rights it first, smoothly.
+5. **Check (muted, no focus):** from a 60° bank, a 120° bank, upside down and
+   nose-down 45°: release the stick, measure time to level and height lost;
+   prove no uncommanded movement while the stick is held (Fix 2.5's list stays
+   clean); a low canyon run with releases between turns doesn't hit the
+   walls. Cockpit pictures before / after a recovery.
+6. Commit Part A on its own (publishing happens at the end of Part B).
+
+**Part B — Enemies and difficulty**
+
+Goal: the planet fights back, as in the original: gun turrets on high ground,
+flying saucers, enemy fire you can dodge, a shield that costs energy, and a gun
+of your own. Difficulty presets decide how hard all of it (and the aliens) is.
+Campaign only (Free Flight stays peaceful).
+
+B1. **Turrets.** Gun emplacements on ridges and rims (Canyons), on rooftops and
+    tower ledges (Dead City), on ice cliffs (Ice), on giant branches / stumps
+    above the canopy (Giant Forest). Placed by the planet's seed. They track
+    the ship when it is in line of sight and in range, fire visible, dodgeable
+    shots (bright bolts with a short lead), and can be destroyed. Flying low in
+    the canyons keeps you out of their sight: that's the point.
+B2. **Saucers.** Flying enemies that patrol and, once they spot you, chase and
+    make firing passes. Fewer of them; dangerous in the open, harder for them
+    in tight canyons (they avoid walls but are less agile than the ship).
+    Can be destroyed.
+B3. **Your gun.** A forward gun (trigger / fire button on all devices; HOTAS
+    trigger, gamepad RB or A as fits the layout — Code proposes a layout that
+    doesn't clash, Dan checks). Each shot costs a little energy. Destroying a
+    turret or saucer pays a bounty (tuning). A simple aiming reticle in the
+    cockpit and HUD (VR rule 2).
+B4. **Shields.** A shield toggle (as in the original): blocks enemy shots while
+    on, drains energy fast while on, shows on the cockpit and HUD. A shield
+    turned on with something at the hull also kills it (the original's answer
+    to the aliens, alongside starting the engines; same rules for real
+    pilots: a pilot at the door dies too).
+B5. **Damage.** Enemy hits damage the hull (repair at the hangar, as now); hull
+    at 0 = death (explosion, regeneration, recovery / loaner, as now). Hits shake
+    the ship and the cockpit (no screen flashes), with sparks and a damage
+    readout.
+B6. **Warnings.** Incoming-fire direction markers on the HUD and cockpit
+    display; "LOCKED ON" / "SAUCER" calls from the ship's computer (new voice
+    lines, ElevenLabs as in Round 4); turrets and saucers on the radar once
+    spotted; Control warns on launch if the planet is "hot".
+B7. **Landing pads under fire.** On Easy / Normal, pilots' pads are out of
+    turret sight lines (a landed ship isn't a sitting duck); on Hard /
+    Nightmare some are covered, so you clear the turret first or risk it.
+    Saucers can find you anywhere (they make waiting for a pilot tense).
+B8. **Difficulty presets** chosen when starting a career and changeable any time
+    from the hangar: **Easy / Normal (default) / Hard / Nightmare / Custom**.
+    Custom options: enemies (Off / Turrets / Turrets + Saucers), enemy
+    aggression (density, accuracy, fire rate), alien share, how often alien
+    tells show (Easy 95 %, Normal 75 %, Hard 60 %, Nightmare 50 %), false tells
+    on real pilots (Easy 0, Normal 0, Hard 10 %, Nightmare 20 %), crash level,
+    pay multiplier (harder pays more). The alien surprise stays on in every
+    setting (decided earlier). All numbers in the tuning file.
+B9. **Ease-in:** a new career's first planet has turrets only and few of them,
+    on every setting except Custom with them off; saucers from the second
+    planet on. Enemy numbers rise with the planet tier.
+B10. **Models and sound.** Turrets, bolts and saucers: hard-surface, made by
+    Blender script (fine for these; the art pipeline only if they look poor —
+    STOP for Dan then). Original designs, nothing from the 1984 game. Weapon,
+    shield, impact and explosion sounds with ElevenLabs.
+B11. **Performance:** keep 60 fps on Dan's PC and the Deck setting's frame
+    rate with enemies active in every biome (pooling for shots and effects).
+B12. **Check (muted, no focus, per the testing rules):** per biome, a turret
+    tracks and fires, the ship dodges / takes hits, the gun destroys it
+    (bounty); a saucer chase and kill; shield blocks shots and drains energy;
+    shield kills an alien at the door; hull to 0 = death flow; pads out of
+    turret sight on Normal; each preset's numbers; the first planet's ease-in;
+    frame rate. Cockpit pictures that Code looks at and describes (can a first-
+    time player see the shots coming and where from?).
+
+**End of the round:** publish **0.5.0**, update `TODO.md` (per-item status for
+Part A 0-6 and B1-B12: done / not done / deferred and why; new tuning values
+and controls) and `CLAUDE.md`, clean up, commit and push.
+
+**For Dan to check:** let go of the stick when you're turned around or upside
+down: does it come back upright quickly and smoothly without fighting you? The
+level-out button. Then the enemies: can you see the shots coming, is flying low
+to stay out of turret sight fun, are saucers too much, how do the presets feel?
+The gun / shield controls on the gamepad, and the HOTAS when you get a chance.
+
 ---------------------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 5 — Enemies + difficulty:** turrets on ridges, saucers, enemy fire,
-  shields and hull, damage; Campaign difficulty presets + custom options.
 - **More biomes (after Round 4):** volcanic, crystal / fungal forest, ocean
   islands, each with its own Suno flight track.
 - **Round 6 — Modern progression:** the upgrade shop (credits), mission
