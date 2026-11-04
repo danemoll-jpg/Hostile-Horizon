@@ -1,0 +1,9 @@
+{
+ "id": "01a1a60d-c36e-7181-a398-19b69c4afa42",
+ "status": "SUCCEEDED",
+ "consumed_credits": 30,
+ "task_error": null,
+ "created_at": 1793787283581,
+ "finished_at": 1793787437006,
+ "polycount": 28000
+}

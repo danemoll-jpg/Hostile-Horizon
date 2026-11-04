@@ -105,12 +105,15 @@ marker goes on the main bend).
 ### 6. Sleeper — `sleeper.png` (1.9 m)
 
 > Full-body concept art of a horrifying alien creature, standing in an A-pose, arms straight and angled 40 degrees away from
-> the body, legs slightly apart, facing the camera, front view. Almost human, 1.9 metres, like a pilot who has been dead for
-> weeks: the remains of a burnt-orange flight suit fused into grey, waxy skin, torn open at the chest. The jaw and chest are
-> split down the middle in one long vertical seam from the chin to the stomach, edged with rows of thin translucent teeth,
-> slightly parted. A bald grey human-like head with milky white eyes, a too-calm expression. Thin, quiet, patient. Plain light
-> grey background, soft even studio lighting, no shadows, whole body in frame from head to feet, no props, no text.
-> Realistic 3D horror game creature style.
+> the body, legs slightly apart, facing the camera, front view. Almost human, 1.9 metres, slim and pale. It wears the faded
+> remains of a burnt-orange flight suit that has grown into its smooth grey waxy skin, as if suit and body are one. A single
+> closed vertical seam runs down the centre of its face and chest from the chin to the stomach, like a long closed zipper of
+> pale ridged skin. A bald grey human-like head with milky white eyes and a too-calm expression. Quiet, patient, eerie. Plain
+> light grey background, soft even studio lighting, no shadows, whole body in frame from head to feet, no props, no text.
+> Realistic 3D game creature style.
+
+(Fix 3.1: the first version was refused by the image tool's violence filter; this one shows the seam closed. The game
+animates it opening. If a prompt is refused, drop "chin to the stomach" here, or "needle teeth" in the Hollow's.)
 
 **Design note:** the Sleeper passes every check at the airlock and rides in the cabin as a pilot, then turns in flight.
 So its reveal form is the **most human** of the five: it was a pilot once, or wore one. The horror is the split seam from
@@ -124,6 +127,20 @@ and coming through the cockpit hatch, so the head and the seam must read well in
 Image-to-3D from each concept with `MESHY_API_KEY` (never written down anywhere): textured PBR, A-pose, triangle budget
 pilot ~15-20k, creatures ~20-30k; LODs at ~50 % and ~20 % in Blender. Saved to `SourceArt/Meshy/<name>/`, scaled to the
 heights above, origin at the feet, facing +Z. **Code then gives Dan the exact FBX paths to upload to Mixamo.**
+
+Done (2026-11-04): `python Tools/meshy_generate.py` (30 credits a model, Meshy "latest", A-pose, PBR, lighting removed) and
+`blender --background --factory-startup --python Tools/Blender/meshy_cleanup.py -- <names>`. Renders: `SourceArt/Meshy/<name>/render_front|side|34.png`
+and the sheets `SourceArt/Meshy/sheet_front|34|side.png`. LODs are made in stage 5 from Mixamo's rigged file (so they keep the
+skin weights). **Upload these to Mixamo:**
+
+| Model | File to upload | Triangles | Height |
+|---|---|---|---|
+| Pilot | `SourceArt/Meshy/pilot/pilot_mixamo.fbx` | 18.7k | 1.8 m |
+| Mimic | `SourceArt/Meshy/mimic/mimic_mixamo.fbx` | 26.1k | 2.5 m |
+| Hollow | `SourceArt/Meshy/hollow/hollow_mixamo.fbx` | 26.1k | 2.1 m |
+| Knocker | `SourceArt/Meshy/knocker/knocker_mixamo.fbx` | 29.2k | 2.2 m |
+| Stalker | `SourceArt/Meshy/stalker/stalker_mixamo.fbx` | 26.1k | 2.3 m |
+| Sleeper | `SourceArt/Meshy/sleeper/sleeper_mixamo.fbx` | 25.9k | 1.9 m |
 
 ## Stage 4 — Mixamo animations (Dan)
 

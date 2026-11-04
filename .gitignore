@@ -18,3 +18,8 @@ Assets/_Recovery/
 Assets/_Recovery.meta
 # Per-machine check output and scratch
 local/
+
+# Fix 3.1: Meshy raw FBX duplicates the GLB; Blender backups
+SourceArt/Meshy/*/model.fbx
+*.blend1
+SourceArt/Meshy/*/*.blend
