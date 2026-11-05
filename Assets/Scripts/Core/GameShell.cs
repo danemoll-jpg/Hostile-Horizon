@@ -350,21 +350,23 @@ namespace HostileHorizon
             // Fix 2.4: Flight assist and Stick sensitivity first; the HOTAS rows moved to Settings > Controls (a page has at most 12 rows)
             settings.Add(Option("Flight assist", () => GameSettings.AssistNames[Mathf.Clamp(GameSettings.S.flightAssist, 0, 2)], d => { GameSettings.S.flightAssist = Wrap(GameSettings.S.flightAssist + d, 3); Saved(); }))
                 .Add(Option("Stick sensitivity", () => GameSettings.S.sensitivity + "%", d => { GameSettings.S.sensitivity = Mathf.Clamp(GameSettings.S.sensitivity + d * 10, 50, 150); Saved(); }))
+                // Round 5 (A3): self-righting, separate from Flight assist (Graphics quality and Steam Deck moved to Display: 12 rows at most)
+                .Add(Option("Auto-level", () => GameSettings.S.autoLevel ? "On" : "Off", d => { GameSettings.S.autoLevel = !GameSettings.S.autoLevel; Saved(); }))
+                .Add(Option("Righting speed", () => GameSettings.RightingNames[Mathf.Clamp(GameSettings.S.rightingSpeed, 0, 2)], d => { GameSettings.S.rightingSpeed = Wrap(GameSettings.S.rightingSpeed + d, 3); Saved(); }))
                 .Add(Option("Invert pitch", () => GameSettings.S.invertPitch ? "On" : "Off", d => { GameSettings.S.invertPitch = !GameSettings.S.invertPitch; Saved(); }))
                 .Add(Option("Stick deadzone", () => GameSettings.S.deadzone + "%", d => { GameSettings.S.deadzone = Mathf.Clamp(GameSettings.S.deadzone + d * 2, 0, 30); Saved(); }))
                 .Add(Action("Controls and HOTAS", () => Menu.Show(controls)))
                 .Add(Action("Display", () => Menu.Show(display)))
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
-                .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
-                .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
                 .Add(Action("Sound", () => Menu.Show(sound)))   // Round 4 (B4, C4): the volumes and subtitles
                 .Add(Option("Route trail", () => GameSettings.S.routeTrail ? "On" : "Off", d => { GameSettings.S.routeTrail = !GameSettings.S.routeTrail; Saved(); }))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
                 "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
                 "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n" +
+                "<b>Auto-level</b>: let go of the stick and the ship rolls upright and eases its nose to the horizon\n  (Full and Light; never while you steer). <b>Righting speed</b>: how quickly. Level-out button: L-stick click / L.\n" +
                 "<b>Route trail</b>: glowing gates along the canyons to the nearest pilot (then the mothership).\n\n" +
-                "Steam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck.";
+                "Display: screen, resolution, graphics quality and the Steam Deck setting.";
 
             // Round 4 (B4, C4): Master stays; Music, Effects and Voices on their own; subtitles for the voices
             sound = new MenuPanel.Page { Title = "SOUND", Back = () => Menu.Show(settings), Body = () =>
@@ -382,13 +384,14 @@ namespace HostileHorizon
                     d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
                 .Add(Option("Invert throttle lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }))
                 .Add(Option("HOTAS pause button", () => "button " + GameSettings.S.hotasPauseButton, d => { GameSettings.S.hotasPauseButton = Mathf.Clamp(GameSettings.S.hotasPauseButton + d, 1, 16); Saved(); }))
+                .Add(Option("HOTAS level-out button", () => "button " + GameSettings.S.hotasLevelButton, d => { GameSettings.S.hotasLevelButton = Mathf.Clamp(GameSettings.S.hotasLevelButton + d, 1, 16); Saved(); }))   // Round 5 (A2)
                 .Add(Action("Axis display", () => Menu.Show(axes)))
                 .Add(Action("Back", () => Menu.Show(settings)));
             controls.Body = () =>
                 "<b>Controls</b>\n" +
-                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera,\n  11 route target, 12 cabin camera.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera, right route target, up cabin camera.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera,\n  T route target, N cabin camera.\n" +
+                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera,\n  11 route target, 12 cabin camera, {GameSettings.S.hotasLevelButton} level out.\n" +
+                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera, right route target, up cabin camera,\n  left-stick click level out.\n" +
+                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera,\n  T route target, N cabin camera, L level out.\n" +
                 "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up). The belly camera\n  comes on by itself; look down (look control) through the glass floor.\n\n" +
                 "Pause button: watch Axis display's \"buttons held\" to find a button's number.";
 
@@ -398,9 +401,11 @@ namespace HostileHorizon
 
             // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
             display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>
-                "Full screen fills the whole screen at the chosen resolution.\nDefault: the display's own resolution, at most 1080 lines tall (1280 x 800 on the Steam Deck).\nAlt+Enter also switches for the moment." };
+                "Full screen fills the whole screen at the chosen resolution.\nDefault: the display's own resolution, at most 1080 lines tall (1280 x 800 on the Steam Deck).\nAlt+Enter also switches for the moment.\n\nSteam Deck: shorter view and lighter shadows for the frame rate.\nAuto turns it on by itself on the Deck." };
             display.Add(Option("Screen", () => ScreenSetting.ScreenLabel, d => ScreenSetting.Set(!ScreenSetting.Fullscreen)))
                    .Add(Option("Resolution", () => ScreenSetting.ResolutionLabel, ScreenSetting.StepResolution))
+                   .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
+                   .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
                    .Add(Action("Back", () => Menu.Show(settings)));
 
             credits = new MenuPanel.Page { Title = "CREDITS", Back = () => Menu.Show(title), Body = () =>

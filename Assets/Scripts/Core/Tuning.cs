@@ -74,6 +74,15 @@ namespace HostileHorizon
         public float launchEnergyWarning = 50;
         // Fix 2.5: gamepad / Steam Deck sticks: at least this centre deadzone (Deck sticks drift); the Settings deadzone if larger
         public float gamepadDeadzone = .12f;
+        // Round 5 (A): self-righting with the stick released (Full / Light, Settings > Auto-level) and the level-out button
+        public float rightDelay = .25f;                 // s of pitch and roll centred before it starts
+        public float rightRollRate = 120, rightPitchRate = 60;   // degrees per second at most (Normal)
+        public float rightGain = 3;                     // per second: the ease-out near level (no overshoot)
+        public float rightSlowFactor = .65f, rightFastFactor = 1.5f;   // Settings > Righting speed Slow / Fast (Normal 1)
+        public float rightFullFactor = 1.3f;            // Flight assist Full rights faster
+        public float rightLevelOutFactor = 2f;          // the level-out button
+        public float rightClimbBelow = 25, rightClimbPitch = 6;   // m over the ground: below it the nose settles in a gentle climb (degrees)
+        public float hoverRightRate = 140;
         // Round 3: aliens ("Normal" values; difficulty presets come in Round 4)
         public float alienShareStart = .20f, alienSharePerTier = .05f, alienShareMax = .35f;   // share of a planet's pilots (none on a career's first planet)
         public float tellReliability = .75f;          // chance (per alien, from the seed) that it shows its tell

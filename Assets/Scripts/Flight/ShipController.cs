@@ -25,7 +25,7 @@ namespace HostileHorizon
     {
         public const float MinSpeed = 30f, MaxSpeed = 125f;
         const float Accel = 22f, ThrottleRate = .45f;
-        public struct Feel { public float pitch, roll, yaw, bankTurn, level; public bool pullOnly; }
+        public struct Feel { public float pitch, roll, yaw, bankTurn, level, right; public bool pullOnly; }   // right: Round 5 self-righting factor (0 = none)
         public static readonly Feel Feel023 = new Feel { pitch = 70, roll = 130, yaw = 32, bankTurn = 38, level = 22 };   // 0.2.3's handling (checks compare)
         public Feel? FeelOverride;                           // checks only: fly with another feel
         public Feel CurrentFeel
@@ -69,8 +69,12 @@ namespace HostileHorizon
         public int IgnoreButtonsUntil;                       // frame: a press that closed a menu doesn't also act here
         // Fix 2.5: what turned the ship, in degrees, by source (stick, bank turn, wing levelling, wall bounce, hover body easing), summed
         // since the last ResetMoves; the checks list what moved the ship without input.
-        public static readonly string[] MoveNames = { "stick", "bank turn (assist)", "wing levelling (assist)", "wall bounce", "hover body easing" };
-        public readonly float[] Moved = new float[5];
+        // Round 5 (A): + self-righting (only with the stick released) and the level-out button
+        public static readonly string[] MoveNames = { "stick", "bank turn (assist)", "wing levelling (assist)", "wall bounce", "hover body easing", "self-righting (stick released)", "level-out button" };
+        public readonly float[] Moved = new float[7];
+        public bool Righting { get; private set; }           // Round 5 (A): righting itself now (for the displays / checks)
+        public bool LevelingOut => levelOut;
+        float releasedFor, rightBlend, rollDir = 1, levelOutUntil; bool levelOut;
         public void ResetMoves() { for (int i = 0; i < Moved.Length; i++) Moved[i] = 0; }
         Vector3 knock;                                       // Fix 2.5: a wall hit's push away from the wall (flight mode), dying out
         Quaternion hoverTilt = Quaternion.identity;          // Fix 2.5: hover body lean (pitch / roll); its heading follows the stick at once
@@ -88,7 +92,7 @@ namespace HostileHorizon
             transform.SetPositionAndRotation(pos, rot);
             Level = level; Throttle = throttle; Speed = Mathf.Lerp(MinSpeed, MaxSpeed, Throttle); Velocity = transform.forward * Speed;
             Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0;
-            Kinematic = false; Notice = ""; Braking = false; knock = Vector3.zero;
+            Kinematic = false; Notice = ""; Braking = false; knock = Vector3.zero; releasedFor = 0; rightBlend = 0; levelOut = false; Righting = false;
             lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
             gameObject.SetActive(true);
         }
@@ -134,6 +138,7 @@ namespace HostileHorizon
                     if (Mode == FlightMode.Hover && Mathf.Abs(lever - hoverLever) > .04f) leverInHover = true;
                 }
             }
+            if (buttons && Controls.LevelOutPressed && Mode == FlightMode.Flight) { levelOut = true; levelOutUntil = Time.time + 4f; }   // Round 5 (A2)
             if (buttons && Controls.LandPressed) ToggleMode();
             if (buttons && Controls.EnginesPressed)
             {
@@ -179,6 +184,7 @@ namespace HostileHorizon
 
         void EnterHover()
         {
+            levelOut = false; Righting = false;
             Mode = FlightMode.Hover; Velocity = transform.forward * Speed; TiltFromBody(); knock = Vector3.zero;
             hoverLever = Controls.HasLever ? Controls.ThrottleLever : -1; leverInHover = false;
             if (new Vector3(Velocity.x, 0, Velocity.z).magnitude > Tuning.T.hoverMaxSpeed + 5f) { Braking = true; OnBrake?.Invoke(); }
@@ -229,6 +235,18 @@ namespace HostileHorizon
         {
             Gear = Mathf.MoveTowards(Gear, 0, dt * .8f);
             var feel = CurrentFeel; float BankTurn = feel.bankTurn, LevelRate = feel.level;
+            // Round 5 (A): self-righting. Only once pitch and roll have been centred for rightDelay (Full / Light, Auto-level on), and
+            // never while the stick moves: the first stick input stops it. The level-out button rights at once, at a faster rate,
+            // and takes pitch / roll from the stick until the ship is level (a press asks for it).
+            var tu = Tuning.T;
+            bool centred = Mathf.Abs(pitch) < 1e-4f && Mathf.Abs(roll) < 1e-4f;   // any stick output past the deadzones is the player steering
+            releasedFor = centred ? releasedFor + dt : 0;
+            if (levelOut && Time.time > levelOutUntil) levelOut = false;
+            float rk = RightingFactor;
+            bool auto = rk > 0 && centred && releasedFor >= tu.rightDelay;
+            if (levelOut) { pitch = 0; roll = 0; rk = Mathf.Max(rk, RightingSpeedFactor) * tu.rightLevelOutFactor; }
+            Righting = auto || levelOut;
+            rightBlend = Righting ? Mathf.MoveTowards(rightBlend, 1, dt / .2f) : 0;   // eases in, never a jolt
             // turn: stick and twist in the ship's own axes, then the bank turn and the wing levelling about the world's up
             var rot = transform.rotation * Quaternion.Euler(-pitch * feel.pitch * dt, yaw * feel.yaw * dt, -roll * feel.roll * dt);
             Moved[0] += Quaternion.Angle(transform.rotation, rot);
@@ -238,7 +256,13 @@ namespace HostileHorizon
             // Fix 2.5: on Light the bank turn only helps while the stick pulls (stick centred: the ship holds its attitude)
             float bt = Mathf.Sin(bank * Mathf.Deg2Rad) * BankTurn * level * dt * (feel.pullOnly ? Mathf.Clamp01(pitch) : 1f);
             rot = Quaternion.AngleAxis(bt, Vector3.up) * rot; Moved[1] += Mathf.Abs(bt);
-            if (LevelRate > 0 && Mathf.Abs(roll) < .05f && Mathf.Abs(bank) < 80f)
+            if (Righting)
+            {
+                float moved = RightStep(ref rot, rk * rightBlend, dt, out bool done);
+                Moved[levelOut ? 6 : 5] += moved;
+                if (levelOut && done) levelOut = false;
+            }
+            else if (LevelRate > 0 && Mathf.Abs(roll) < .05f && Mathf.Abs(bank) < 80f)
             { float lv = Mathf.Clamp(bank, -LevelRate * dt, LevelRate * dt) * level; rot = Quaternion.AngleAxis(lv, fwd) * rot; Moved[2] += Mathf.Abs(lv); }
             transform.rotation = rot;
 
@@ -246,6 +270,56 @@ namespace HostileHorizon
             knock *= Mathf.Exp(-3f * dt);
             Velocity = transform.forward * Speed + knock;
             transform.position += Velocity * dt;
+        }
+
+        // Round 5 (A): how fast the ship rights itself with the stick released: 0 = not at all (Flight assist Off, or Auto-level off)
+        float RightingSpeedFactor { get { var t = Tuning.T; int s = Mathf.Clamp(GameSettings.S.rightingSpeed, 0, 2); return s == 0 ? t.rightSlowFactor : s == 2 ? t.rightFastFactor : 1f; } }
+        float RightingFactor
+        {
+            get
+            {
+                if (FeelOverride.HasValue) return FeelOverride.Value.right;
+                int a = GameSettings.S.flightAssist;
+                if (!GameSettings.S.autoLevel || a == 2) return 0;
+                return RightingSpeedFactor * (a == 0 ? Tuning.T.rightFullFactor : 1f);
+            }
+        }
+
+        // One step of righting: roll about the nose toward wings level (the short way round; from upside down it keeps rolling the way
+        // it started), then the nose toward the horizon about the world's level axis (a gentle climb close to the ground). The flight
+        // path's heading is kept. Returns the degrees turned; done = level.
+        float RightStep(ref Quaternion rot, float k, float dt, out bool done)
+        {
+            var t = Tuning.T; float moved = 0;
+            Vector3 fwd = rot * Vector3.forward, up = rot * Vector3.up;
+            float rollErr = 0;
+            if (Mathf.Abs(fwd.y) < .97f)
+            {
+                var upRef = Vector3.ProjectOnPlane(Vector3.up, fwd).normalized;
+                rollErr = Vector3.SignedAngle(up, upRef, fwd);
+                if (Mathf.Abs(rollErr) > 170f) rollErr = Mathf.Abs(rollErr) * rollDir; else if (Mathf.Abs(rollErr) > 2f) rollDir = Mathf.Sign(rollErr);
+                float st = Ease(rollErr, t.rightRollRate * k, t.rightGain * Mathf.Max(k, .3f), dt);
+                rot = Quaternion.AngleAxis(st, fwd) * rot; moved += Mathf.Abs(st);
+            }
+            fwd = rot * Vector3.forward; up = rot * Vector3.up;
+            var flat = Vector3.ProjectOnPlane(fwd, Vector3.up);
+            if (flat.sqrMagnitude < .003f) flat = fwd.y < 0 ? Vector3.ProjectOnPlane(up, Vector3.up) : -Vector3.ProjectOnPlane(up, Vector3.up);
+            flat.Normalize();
+            float pitchNow = Mathf.Asin(Mathf.Clamp(fwd.y, -1, 1)) * Mathf.Rad2Deg;
+            float target = AboveGround < t.rightClimbBelow ? t.rightClimbPitch : 0;
+            float pErr = target - pitchNow;
+            float ps = Ease(pErr, t.rightPitchRate * k, t.rightGain * Mathf.Max(k, .3f), dt);
+            var axis = Vector3.Cross(Vector3.up, flat);
+            rot = Quaternion.AngleAxis(-ps, axis) * rot; moved += Mathf.Abs(ps);
+            done = Mathf.Abs(rollErr) < 2f && Mathf.Abs(pErr) < 2f;
+            return moved;
+        }
+
+        // toward 0 error: at most maxRate, slowing in proportion near the end (an exponential finish, no overshoot)
+        static float Ease(float err, float maxRate, float gain, float dt)
+        {
+            float rate = Mathf.Min(maxRate, gain * Mathf.Abs(err));
+            return Mathf.Sign(err) * Mathf.Min(Mathf.Abs(err), rate * dt);
         }
 
         void HoverUpdate(float pitch, float roll, float yaw, float change, float dt)
@@ -289,7 +363,10 @@ namespace HostileHorizon
             // only the lean eases (and the flight attitude the hover started in)
             var wantTilt = Quaternion.Euler(Mathf.Clamp(fwdSpeed / t.hoverMaxSpeed * 7f, -10, 10) * (h.magnitude > t.hoverMaxSpeed * 1.2f ? .3f : 1f), 0, -sideTurn * 5f);
             var before = transform.rotation;
-            hoverTilt = Quaternion.Slerp(hoverTilt, wantTilt, 1 - Mathf.Exp(-2.2f * dt));
+            // Round 5 (A4): from any flight attitude (even upside down) the body rights smoothly: the same ease as before for small
+            // leans, but never faster than hoverRightRate (0.4.x swung a full 180 degrees at up to 400 degrees a second)
+            float off = Quaternion.Angle(hoverTilt, wantTilt);
+            hoverTilt = Quaternion.RotateTowards(hoverTilt, wantTilt, Mathf.Min(off * (1 - Mathf.Exp(-2.2f * dt)), t.hoverRightRate * dt));
             transform.rotation = Quaternion.Euler(0, heading, 0) * hoverTilt;
             Moved[4] += Mathf.Max(0, Quaternion.Angle(before, transform.rotation) - Mathf.Abs(turn * t.hoverTurnRate * dt));
             TouchDown(dt);

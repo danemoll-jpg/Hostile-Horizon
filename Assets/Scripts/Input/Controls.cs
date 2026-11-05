@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, routeTarget, cabinCam, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, routeTarget, cabinCam, levelOut, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -25,6 +25,7 @@ namespace HostileHorizon
             look = f["Look"]; mouseLook = f["MouseLook"]; mouseHold = f["MouseLookHold"]; camera = f["Camera"]; menu = f["Menu"];
             land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"]; bellyCam = f["BellyCam"];
             routeTarget = f["RouteTarget"]; cabinCam = f["CabinCam"];   // Fix 2.6 / Round 3
+            levelOut = f["LevelOut"];   // Round 5 (A2)
             // Fix 2.5: the device last used, so prompts name the right button
             f.actionTriggered += c => Note(c.control?.device); u.actionTriggered += c => Note(c.control?.device);
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
@@ -45,6 +46,9 @@ namespace HostileHorizon
             // Fix 2.4: the HOTAS pause button Dan picks (Settings > Controls); button 10 always pauses too
             int pb = menu.bindings.IndexOf(b => b.path == "<Joystick>/button9");
             if (pb >= 0) menu.ApplyBindingOverride(pb, "<Joystick>/button" + Mathf.Clamp(GameSettings.S.hotasPauseButton, 1, 16));
+            // Round 5 (A2): the HOTAS level-out button Dan picks
+            int lb = levelOut.bindings.IndexOf(b => b.path == "<Joystick>/button14");
+            if (lb >= 0) levelOut.ApplyBindingOverride(lb, "<Joystick>/button" + Mathf.Clamp(GameSettings.S.hotasLevelButton, 1, 16));
         }
 
         public enum Device { Gamepad, Keyboard, Hotas }
@@ -66,6 +70,9 @@ namespace HostileHorizon
         public static bool RouteTargetPressed => routeTarget.WasPressedThisFrame();
         public static string RouteTargetKey => Key("D-pad right", "T", "HOTAS 11");
         public static bool CabinCamPressed => cabinCam.WasPressedThisFrame();
+        // Round 5 (A2): level out at once (left-stick click / L / the HOTAS button picked in Settings > Controls and HOTAS)
+        public static bool LevelOutPressed => levelOut.WasPressedThisFrame();
+        public static string LevelOutKey => Key("L-stick click", "L", "HOTAS " + GameSettings.S.hotasLevelButton);
         public static string CabinCamKey => Key("D-pad up", "N", "HOTAS 12");
 
         static float Dead(float v, float dz) { float a = Mathf.Abs(v); return a <= dz ? 0 : Mathf.Sign(v) * (a - dz) / (1 - dz); }

@@ -31,9 +31,13 @@ namespace HostileHorizon
         public int effectsVolume = 100;       // Round 4 (B4)
         public int voiceVolume = 100;         // Round 4 (B4)
         public bool subtitles = true;         // Round 4 (C4)
+        public bool autoLevel = true;         // Round 5 (A3): the ship rights itself with the stick released (Full / Light)
+        public int rightingSpeed = 1;         // Round 5 (A3): 0 Slow, 1 Normal, 2 Fast
+        public int hotasLevelButton = 14;     // Round 5 (A2): the HOTAS level-out button
         public int freeBiome;                 // Round 4 (A1): Free Flight's planet type, 0 = by the seed, else Biome + 1
 
         public static readonly string[] AssistNames = { "Full", "Light", "Off" };
+        public static readonly string[] RightingNames = { "Slow", "Normal", "Fast" };
 
         public static readonly string[] ThrottleAxes = { "Auto", "slider", "z", "rz", "rx", "ry", "dial" };
 

@@ -166,6 +166,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "LevelOut",
+                    "type": "Button",
+                    "id": "2fd11810-5684-4402-bd33-ac4f0387580b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -881,6 +890,39 @@
                     "processors": "",
                     "groups": "HOTAS",
                     "action": "CabinCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4f7c292-bae1-4706-a7d4-3e9a699e5aa7",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LevelOut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8220429-0044-4538-bc23-2b74f5fd2b1d",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "LevelOut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2585c904-550b-49a3-b737-6166906d1d8f",
+                    "path": "<Joystick>/button14",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "HOTAS",
+                    "action": "LevelOut",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
