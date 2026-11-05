@@ -22,7 +22,7 @@ namespace HostileHorizon
         public int seedMode;                  // 0 seed of the day, 1 random, 2 typed in
         public int customSeed = 1984;
         public int frameLimit;                // 0 = vsync (check runs set it off)
-        public int campaignCrashLevel = 3;    // Round 2, item 14: CrashLevel for the Campaign (Lasting damage)
+        public int campaignCrashLevel = 3;    // Round 2, item 14 (unused since Round 5: the crash level is part of the difficulty, DifficultySetting)
         public int flightAssist = 1;          // Fix 2.4: 0 Full (0.2.3's), 1 Light, 2 Off
         public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
         public int hotasPauseButton = 9;      // Fix 2.4: the HOTAS button that opens the pause menu (button 10 always does too)
@@ -34,6 +34,7 @@ namespace HostileHorizon
         public bool autoLevel = true;         // Round 5 (A3): the ship rights itself with the stick released (Full / Light)
         public int rightingSpeed = 1;         // Round 5 (A3): 0 Slow, 1 Normal, 2 Fast
         public int hotasLevelButton = 14;     // Round 5 (A2): the HOTAS level-out button
+        public DifficultySetting difficulty = new DifficultySetting();   // Round 5 (B8): what a new career starts on
         public int freeBiome;                 // Round 4 (A1): Free Flight's planet type, 0 = by the seed, else Biome + 1
 
         public static readonly string[] AssistNames = { "Full", "Light", "Off" };

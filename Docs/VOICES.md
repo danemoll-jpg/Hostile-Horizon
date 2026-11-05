@@ -74,6 +74,8 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `ctl_pilot_killed.mp3` | Control | a real pilot burnt by the exhaust | You just burned one of ours. That comes out of your pay. |
 | `ctl_security.mp3` | Control | security kills a Sleeper in the bay | Security's dealt with your passenger. Don't ask. |
 | `ctl_lost_contact.mp3` | Control | the ship lost | I've lost your signal. Regeneration bay, stand by. |
+| `ctl_hot.mp3` | Control | launch: the planet has turrets | Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you. |
+| `ctl_hot_saucers.mp3` | Control | launch: turrets and saucers | Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving. |
 | `cpu_energy_low.mp3` | Computer | ship's computer | Energy low. |
 | `cpu_return_now.mp3` | Computer | ship's computer | Return now. |
 | `cpu_cant_reach.mp3` | Computer | ship's computer | Mothership out of reach. |
@@ -87,6 +89,11 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `cpu_intruder.mp3` | Computer | ship's computer | Intruder alert. Intruder alert. |
 | `cpu_engines_off.mp3` | Computer | ship's computer | Engines off. |
 | `cpu_whiteout.mp3` | Computer | ship's computer | Visibility low. Instruments only. |
+| `cpu_locked_on.mp3` | Computer | ship's computer | Warning. Locked on. |
+| `cpu_saucer.mp3` | Computer | ship's computer | Saucer. Saucer. |
+| `cpu_shield_up.mp3` | Computer | ship's computer | Shield up. |
+| `cpu_shield_down.mp3` | Computer | ship's computer | Shield down. |
+| `cpu_target_down.mp3` | Computer | ship's computer | Target destroyed. |
 | `p0_mayday.mp3` | Hale | mayday (any biome) | Mayday, mayday, this is Corps pilot Hale. I'm down, beacon's on. Is anyone up there? |
 | `p0_mayday_canyons.mp3` | Hale | mayday (Canyons) | Mayday, this is Hale. I'm down on a canyon floor. Ship's gone. Please, come and get me. |
 | `p0_mayday_forest.mp3` | Hale | mayday (Giant Forest) | Mayday, mayday, Hale here. I came down through the trees. I'm in a clearing, I think. Please hurry. |

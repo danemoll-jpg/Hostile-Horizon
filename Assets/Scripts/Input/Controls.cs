@@ -14,7 +14,7 @@ namespace HostileHorizon
     public static class Controls
     {
         public static InputActionAsset Asset { get; private set; }
-        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, routeTarget, cabinCam, levelOut, navigate, submit, cancel;
+        static InputAction pitch, roll, yaw, throttleAxis, throttleChange, look, mouseLook, mouseHold, camera, menu, land, engines, airlock, recall, view, bellyCam, routeTarget, cabinCam, levelOut, fire, shield, navigate, submit, cancel;
         public static string ThrottleAxisPath { get; private set; } = "";
 
         public static void Init()
@@ -26,6 +26,7 @@ namespace HostileHorizon
             land = f["Land"]; engines = f["Engines"]; airlock = f["Airlock"]; recall = f["Recall"]; view = f["View"]; bellyCam = f["BellyCam"];
             routeTarget = f["RouteTarget"]; cabinCam = f["CabinCam"];   // Fix 2.6 / Round 3
             levelOut = f["LevelOut"];   // Round 5 (A2)
+            fire = f["Fire"]; shield = f["Shield"];   // Round 5 (B3, B4)
             // Fix 2.5: the device last used, so prompts name the right button
             f.actionTriggered += c => Note(c.control?.device); u.actionTriggered += c => Note(c.control?.device);
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
@@ -72,6 +73,11 @@ namespace HostileHorizon
         public static bool CabinCamPressed => cabinCam.WasPressedThisFrame();
         // Round 5 (A2): level out at once (left-stick click / L / the HOTAS button picked in Settings > Controls and HOTAS)
         public static bool LevelOutPressed => levelOut.WasPressedThisFrame();
+        // Round 5 (B3, B4): the gun (held: A / Space / left mouse / HOTAS trigger) and the shield toggle (D-pad left / Z / HOTAS 2)
+        public static bool FireHeld => fire.IsPressed();
+        public static bool ShieldPressed => shield.WasPressedThisFrame();
+        public static string FireKey => Key("A", "Space", "trigger");
+        public static string ShieldKey => Key("D-pad left", "Z", "HOTAS 2");
         public static string LevelOutKey => Key("L-stick click", "L", "HOTAS " + GameSettings.S.hotasLevelButton);
         public static string CabinCamKey => Key("D-pad up", "N", "HOTAS 12");
 

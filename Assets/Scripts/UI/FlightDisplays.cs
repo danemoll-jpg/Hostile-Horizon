@@ -29,6 +29,13 @@ namespace HostileHorizon
         // Fix 2.6: the route trail's target line ("ROUTE → PILOT 2 · 1.4 km") and its path, drawn on the radar
         public string Route = "";
         public string Subtitle = "";                 // Round 4 (C4): what is being said (Voices), on the HUD and the centre display
+        // Round 5 (B4, B5, B6): the shield, LOCKED ON, incoming-fire marks, a hit's damage, the enemies left
+        public bool Shield, LockedOn;
+        public List<(Vector3 from, float until)> Threats;
+        public string FightLine = "";
+        float shotAt = -9, shotDmg;
+        public void NoteShot(float dmg) { shotAt = Time.time; shotDmg = dmg; }
+        readonly List<Text> threatArrows = new List<Text>();
         Text subtitle;
         public List<Vector3> RoutePath;
         float knockUntil; int knockCount;
@@ -143,7 +150,7 @@ namespace HostileHorizon
             float spd = Ship.Speed, alt = Ship.Altitude, agl = Ship.AboveGround, hdg = Ship.Heading, thr = Ship.Throttle * 100, dmg = Ship.Damage;
             var lvl = Ship.Level; string level = CrashLevels.Names[(int)lvl];
             int seed = Ship.Field != null ? Ship.Field.SeedNumber : 0;
-            string hull = lvl == CrashLevel.Regenerating || lvl == CrashLevel.Lasting ? $"HULL {100 - dmg:0}%" : lvl == CrashLevel.Instant ? "HULL one hit" : "HULL no damage";
+            string hull = Campaign || lvl == CrashLevel.Regenerating || lvl == CrashLevel.Lasting ? $"HULL {100 - dmg:0}%" : lvl == CrashLevel.Instant ? "HULL one hit" : "HULL no damage";   // Round 5: in the Campaign enemy fire always counts
             bool hover = Ship.Mode == FlightMode.Hover;
             bool low = agl < 25 && !Ship.Crashed && !hover && !Ship.Kinematic;
             string mode = Ship.Kinematic ? "AUTOPILOT" : Ship.Landed ? "LANDED" : Ship.Braking ? "BRAKING" : hover ? "HOVER" : "FLIGHT";
@@ -161,7 +168,9 @@ namespace HostileHorizon
             string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
 
             if (Knocking) st = KnockText;
-            centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : "") +
+            bool shot = Campaign && Time.time - shotAt < 1.2f, lockBlink = Time.time % .6f < .4f;
+            string fight = !Campaign || Ship.Kinematic || Ship.Crashed ? "" : (shot ? $"<color=#FF5A4A><b>HIT −{shotDmg:0}%</b></color>  " : LockedOn && lockBlink ? "<color=#FF5A4A><b>LOCKED ON</b></color>  " : "") + (Shield ? "<color=#8FD8FF>SHIELD ON</color>" : "");
+            centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : fight != "" ? $"<size=22>{fight}</size>\n" : "") +
                 $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
                 (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "") + (Subtitle != "" ? $"\n<size=17><color=#DDEEFF>{Subtitle}</color></size>" : "");
             subtitle.text = Subtitle;
@@ -189,13 +198,13 @@ namespace HostileHorizon
             // the way home first: the lower lines of this display sit below the flat screen's view
             string shortWarn = HomeState(homeWarn);
             left.text = (Campaign && home != "" ? (shortWarn != "" ? $"<color=#FF6A50>{shortWarn}</color>\n" : "") + $"<size=22>{home.Replace("\n", " · ")}</size>\n" : "") +
-                $"{power}  {(hover ? "" : Bar(thr / 100f, 8))}\n" + (Campaign ? $"ENERGY {energy:0}%  {Bar(energy / 100f, 8)}{(energyLow && shortWarn == "" ? " LOW" : "")}\n{hull}  {cabin}" : hull);
+                $"{power}  {(hover ? "" : Bar(thr / 100f, 8))}\n" + (Campaign ? $"ENERGY {energy:0}%  {Bar(energy / 100f, 8)}{(energyLow && shortWarn == "" ? " LOW" : "")}\n{hull}  {cabin}{(Shield ? "  <color=#8FD8FF>SHIELD</color>" : "")}" : hull);
             if (Campaign)
             {
                 right.text = "";
                 rightList.text = (cue != "" ? $"<size=19><color=#FF9A40><b>SLOW DOWN — PRESS {Controls.LandKey}</b></color></size>\n" : "") + "\n" +   // Fix 2.6: the blips carry their distances; beside the scope: the route and the planet
                     (Route != "" ? $"<size=18><color=#7DFFB0>{Route.Replace(" · ", "\n").Replace("   [", "\n<size=15>[").Replace("]", "]</size>")}</color></size>\n\n" : "") + $"<size=16>{Place}</size>";
-                cockpitRadar.Draw(Ship.transform, Contacts, RoutePath); screenRadar.Draw(Ship.transform, Contacts, RoutePath);
+                cockpitRadar.Draw(Ship.transform, Contacts, RoutePath, Threats); screenRadar.Draw(Ship.transform, Contacts, RoutePath, Threats);
             }
             else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
             cockpitRadar.Show(Campaign); screenRadar.Show(Campaign); listBack.enabled = Campaign;
@@ -215,17 +224,42 @@ namespace HostileHorizon
             foreach (var dk in darks) dk.enabled = Blackout;
 
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
-                (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") : "");
+                (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}{(Shield ? "   <color=#8FD8FF><b>SHIELD ON</b></color>" : "")}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") + (FightLine != "" ? $"\n<color=#FF9A90>{FightLine}</color>" : "") : "");
             screenRight.text = Campaign ? $"{Place}\nView: {CameraRig.ModeNames[(int)Rig.Current]}" : $"Seed {seed}   ·   {level}\nView: {CameraRig.ModeNames[(int)Rig.Current]}";
             screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 5) + (Route != "" ? $"<color=#7DFFB0>{Route}</color>" : "") : "";
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
+            ThreatArrows();
             warning.text = Ship.Crashed ? "" : Campaign && Knocking ? KnockText.Replace(" ", "  ") : flash ? (lvl == CrashLevel.Bounce ? "IMPACT" : lvl == CrashLevel.Ghost ? "" : $"IMPACT  −{Ship.LastImpact * 1.25f:0}%")
+                : shot ? $"HIT  −{shotDmg:0}%" : Campaign && LockedOn && !Ship.Kinematic ? (lockBlink ? "LOCKED ON" : "")
                 : Ship.OutOfEnergy && !Ship.Landed && !Ship.Kinematic ? "OUT OF ENERGY" : low ? "TERRAIN" : homeWarn != "" ? (Time.time % 1f < .7f ? homeWarn : "")
                 : energyLow && !Ship.Kinematic && Time.time % 1f < .6f ? "ENERGY LOW" : "";
         }
 
         public void NoteHit() => lastHitTime = Time.time;
+
+        // Round 5 (B6): incoming fire on the HUD: a red arrow on a ring round the screen's centre, pointing toward the shooter
+        // (straight up = ahead), fading over 2.5 s. The cockpit has the same on the radar's rim.
+        void ThreatArrows()
+        {
+            int n = 0;
+            if (Campaign && Threats != null && !Ship.Crashed && Visible)
+                foreach (var th in Threats)
+                {
+                    if (n >= 8) break;
+                    if (threatArrows.Count <= n)
+                    {
+                        var a = UiKit.Label(overlay.transform, "Threat", 54, TextAnchor.MiddleCenter, new Color(1f, .2f, .15f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(-40, -40), new Vector2(40, 40));
+                        a.text = "▲"; threatArrows.Add(a);
+                    }
+                    var l = Ship.transform.InverseTransformPoint(th.from); float ang = Mathf.Atan2(l.x, l.z);
+                    var t = threatArrows[n++]; t.enabled = true;
+                    var at = new Vector2(Mathf.Sin(ang), Mathf.Cos(ang)) * 330f;
+                    t.rectTransform.anchoredPosition = at; t.rectTransform.localRotation = Quaternion.Euler(0, 0, -ang * Mathf.Rad2Deg);
+                    t.color = new Color(1f, .2f, .15f, Mathf.Clamp01((th.until - Time.time) / 2.5f));
+                }
+            for (int i = n; i < threatArrows.Count; i++) threatArrows[i].enabled = false;
+        }
 
         static string HomeState(string warn) => warn.StartsWith("CAN'T") ? "CAN'T REACH: RECALL OR LAND" : warn;
     }

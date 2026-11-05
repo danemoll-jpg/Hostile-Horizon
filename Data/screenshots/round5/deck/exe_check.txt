@@ -1,0 +1,49 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 73728 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 20:02; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+tuning: turrets first planet 3, base 6 + 2/tier (max 24); range 1100 m, lock 1.2 s, every 1.8 s, bolt 230 m/s, lead 0.9, error 14 m at 1 km, damage 7 %, hp 4; saucers 1 + 0.5/tier (max 6), 95 m/s, turn 55 °/s, burst 3, bolt 260 m/s, damage 5 %, hp 5; gun 6/s, 0.12 %/shot, 700 m/s; shield 2 %/s; bounty turret 150 / saucer 300
+campaign page rows: Continue / New career / Difficulty (new career) = Normal / Difficulty options / Back
+new career: Zanveth-IV (canyons), difficulty Normal, crash level Lasting
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, a career's first planet (ease-in)
+  placed: turrets: 3 (asked 3), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: none on a career's first planet (ease-in)
+  hangar:   <color=#FF8A80>Defences: 3 turrets (fly low: turrets can't see into the canyons)</color>
+screenshot r5_a_hangar_first_planet.png
+    [879 fps] Auto/launch Hover alt 1458 gnd 1461 spd 40 hdg 285 energy 100
+launched: Control said ctl_launch_2 [Radio, p2, 3.0 s] CONTROL: Clamps released. Go and find our people.
+    [346 fps] Flying/ Flight alt 558 gnd 40 spd 87 hdg 178 energy 98
+  fps canyons, enemies active (3 alive, up to 4 bolts in flight): average 179.4, 1% low 34.2, worst frame 951 ms over 2154 frames
+    [181 fps] Flying/ Flight alt 365 gnd 215 spd 87 hdg 117 energy 99
+    [343 fps] Auto/tow-lift Flight alt 1480 gnd 1189 spd 103 hdg 285 energy 99
+    [323 fps] Auto/dock-rise Flight alt 1483 gnd 1483 spd 25 hdg 285 energy 99
+--- Giant Forest: the check jumps to seed 209
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+    [172 fps] Auto/launch Hover alt 1450 gnd 1450 spd 49 hdg 285 energy 100
+    [207 fps] Flying/ Flight alt 114 gnd 36 spd 87 hdg 155 energy 99
+  fps forest, enemies active (7 alive, up to 8 bolts in flight): average 244.6, 1% low 60.2, worst frame 164 ms over 2936 frames
+    [245 fps] Flying/ Flight alt 46 gnd 33 spd 87 hdg 33 energy 99
+    [225 fps] Auto/tow-lift Flight alt 172 gnd 131 spd 145 hdg 295 energy 98
+    [306 fps] Auto/tow-lift Flight alt 1475 gnd 1397 spd 108 hdg 285 energy 98
+    [375 fps] Auto/tow-lift Flight alt 1475 gnd 1467 spd 17 hdg 285 energy 98
+--- Dead City: the check jumps to seed 202
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+    [594 fps] Auto/launch Hover alt 1458 gnd 1369 spd 40 hdg 240 energy 100
+    [350 fps] Flying/ Flight alt 41 gnd 34 spd 87 hdg 181 energy 98
+  fps city, enemies active (7 alive, up to 2 bolts in flight): average 314.0, 1% low 69.1, worst frame 226 ms over 3769 frames
+    [326 fps] Flying/ Flight alt 42 gnd 35 spd 87 hdg 181 energy 99
+    [217 fps] Auto/tow-lift Flight alt 1208 gnd 1202 spd 233 hdg 240 energy 99
+    [306 fps] Auto/tow-lift Flight alt 1475 gnd 1359 spd 67 hdg 240 energy 99
+--- Ice: the check jumps to seed 201
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+    [322 fps] Auto/launch Hover alt 1500 gnd 1503 spd 0 hdg 0 energy 100
+    [662 fps] Flying/ Flight alt 217 gnd 43 spd 87 hdg 155 energy 100
+    [214 fps] Flying/ Flight alt 50 gnd 52 spd 87 hdg 197 energy 98
+  fps ice, enemies active (7 alive, up to 2 bolts in flight): average 208.7, 1% low 29.4, worst frame 425 ms over 2505 frames
+    [231 fps] Auto/tow-lift Flight alt 1304 gnd 1129 spd 169 hdg 360 energy 100
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.141 RMS, peak 1.136, zeroed before the speakers; 19691520 samples); master volume 0.00

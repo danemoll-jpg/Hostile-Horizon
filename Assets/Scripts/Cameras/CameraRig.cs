@@ -40,7 +40,24 @@ namespace HostileHorizon
         public void Snap() => snapped = false;
         public void WatchWreck(Vector3 at) { Watch = at; watchAngle = (Ship ? Ship.Heading : 0) + 160f; }
 
+        // Round 5 (B5): an enemy hit shakes the view a little (it dies away in about half a second)
+        float shake;
+        public void Shake(float amount) => shake = Mathf.Max(shake, amount);
+        public float ShakeNow => shake;
+
         void LateUpdate()
+        {
+            Place();
+            if (shake > 0 && !Scripted && FollowShip && Ship && Time.timeScale > 0)
+            {
+                float k = shake * shake;
+                transform.position += new Vector3(Mathf.PerlinNoise(Time.time * 31f, 1) - .5f, Mathf.PerlinNoise(Time.time * 29f, 7) - .5f, Mathf.PerlinNoise(Time.time * 37f, 13) - .5f) * .18f * k;
+                transform.rotation *= Quaternion.Euler((Mathf.PerlinNoise(Time.time * 23f, 3) - .5f) * 2.4f * k, 0, (Mathf.PerlinNoise(Time.time * 19f, 5) - .5f) * 3f * k);
+                shake = Mathf.Max(0, shake - Time.deltaTime * 2.2f);
+            }
+        }
+
+        void Place()
         {
             if (Scripted || !FollowShip || !Ship) return;
             float dt = Time.unscaledDeltaTime;

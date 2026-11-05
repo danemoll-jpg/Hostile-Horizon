@@ -78,13 +78,13 @@ namespace HostileHorizon
 
         // ---- B4: the exhaust (called from OnEnginesStarted for each alien within range)
 
-        void ExhaustKillsAlien(DownedPilot p)
+        void ExhaustKillsAlien(DownedPilot p, string how = "exhaust")
         {
             var c = Career.C; var t = Tuning.T;
             var at = p.Position; var face = p.Facing;
             p.Hide(); AlienGone(p); c.stats.aliensKilled++; c.Earn(t.alienBounty);
-            AlienEvent($"exhaust killed pilot {p.Index + 1}: a {p.Type} (tell shown: {p.Quirk != AlienType.None}); bounty +{t.alienBounty} cr");
-            Met(p.Type, "killed by the exhaust");
+            AlienEvent($"{how} killed pilot {p.Index + 1}: a {p.Type} (tell shown: {p.Quirk != AlienType.None}); bounty +{t.alienBounty} cr");
+            Met(p.Type, "killed by the " + how);
             StartCoroutine(Dies(p.Type, at, face, Vector3.zero));
             Voice.Say("ctl_alien_killed", VoiceKind.Radio, 2, maxAge: 12f);   // Round 4
             Flash($"That was no pilot: a {Aliens.Names[(int)p.Type]}. Bounty +{t.alienBounty} cr" + (journalNote != "" ? $"   ·   {journalNote}" : ""), 8f);

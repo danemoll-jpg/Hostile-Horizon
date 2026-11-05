@@ -83,6 +83,31 @@ namespace HostileHorizon
         public float rightLevelOutFactor = 2f;          // the level-out button
         public float rightClimbBelow = 25, rightClimbPitch = 6;   // m over the ground: below it the nose settles in a gentle climb (degrees)
         public float hoverRightRate = 140;
+        // Round 5 (B8): difficulty tables (a level index from Difficulty picks the number) and the presets (Easy, Normal, Hard, Nightmare)
+        public float[] aggressionLevels = { .6f, 1f, 1.35f, 1.7f };    // enemy density, accuracy, fire rate, lock time: Low / Normal / High / Brutal
+        public float[] alienShareLevels = { .6f, 1f, 1.25f, 1.5f };    // times the alien share (alienShareStart ... Max)
+        public float[] tellLevels = { .95f, .75f, .60f, .50f };        // chance an alien shows its tell
+        public float[] falseTellLevels = { 0f, .10f, .20f };           // chance a real pilot shows a tell-like quirk
+        public float[] payLevels = { .8f, 1f, 1.25f, 1.5f };           // pilot pay, bonuses and bounties
+        public float[] coveredPadShare = { 0f, 0f, .35f, .6f };        // B7: share of pilots' pads a turret can see, by aggression level
+        public int[] presetAggression = { 0, 1, 2, 3 }, presetAlienShare = { 0, 1, 2, 3 }, presetTells = { 0, 1, 2, 3 }, presetFalseTells = { 0, 0, 1, 2 };
+        public int[] presetCrash = { 2, 3, 3, 3 }, presetPay = { 0, 1, 2, 3 };
+        // Round 5 (B1, B2, B9): enemies (Normal numbers; aggression scales count, fire rate, lock time and accuracy)
+        public int turretsFirstPlanet = 3, turretsBase = 6, turretsPerTier = 2, turretsMax = 24;
+        public float turretSpacing = 450, turretMinFromStart = 900, turretArea = 500;   // m; area: the pilots' farthest range + this
+        public float turretRange = 1100, turretTurnRate = 70, turretLockTime = 1.2f, turretFireInterval = 1.8f;
+        public float turretBoltSpeed = 230, turretLead = .9f, turretAimError = 14;       // lead: share of the full lead (.6 in the first check run: nothing ever hit); error: m at 1 km
+        public float turretDamage = 7, turretHp = 4;
+        public float saucersBase = 1, saucersPerTier = .5f; public int saucersMax = 6;
+        public float saucerSpeed = 95, saucerPatrolSpeed = 45, saucerTurnRate = 55, saucerHeight = 140, saucerClearance = 35;
+        public float saucerDetect = 1400, saucerHearLanded = 3000, saucerFireRange = 700, saucerBurstGap = .25f, saucerCooldown = 3f;
+        public int saucerBurst = 3;
+        public float saucerBoltSpeed = 260, saucerDamage = 5, saucerHp = 5;
+        // B3, B4: your gun and shield
+        public float gunRate = 6, gunEnergy = .12f, gunBoltSpeed = 700, gunRange = 1300;   // shots a second, % energy a shot, m/s, m
+        public float shieldDrain = 2f;                   // % energy a second while on (flight at full throttle uses .32)
+        public int turretBounty = 150, saucerBounty = 300;
+        public float boltHitRadius = 3.5f;               // m round the ship's centre              // degrees per second at most: the body righting when landing mode starts
         // Round 3: aliens ("Normal" values; difficulty presets come in Round 4)
         public float alienShareStart = .20f, alienSharePerTier = .05f, alienShareMax = .35f;   // share of a planet's pilots (none on a career's first planet)
         public float tellReliability = .75f;          // chance (per alien, from the seed) that it shows its tell

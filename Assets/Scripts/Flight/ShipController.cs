@@ -61,6 +61,10 @@ namespace HostileHorizon
         public float Lift { get; private set; }             // hover: the vertical command, -1..1
         public string Notice { get; private set; } = "";   // a short line for the displays ("Climb higher first")
         public event Action<float> OnHit;                    // impact speed
+        // Round 5 (B1, B5): turrets and their stumps collide (Enemies); enemy hits damage the hull in every crash level
+        public delegate bool SolidHook(Vector3 p, out Vector3 normal, out float depth);
+        public static SolidHook ExtraSolid;
+        public float LastShotAt { get; private set; } = -99;
         public event Action OnCrash, OnLanded, OnEnginesStarted, OnEnginesStopped, OnOutOfEnergy, OnBrake;
         public bool Braking { get; private set; }            // Fix 2.4: hover entered faster than the hover speed: the air brakes are on
         public float LandedAt { get; private set; } = -99;   // Time.time of the last touchdown (TOUCHDOWN on the displays)
@@ -143,7 +147,7 @@ namespace HostileHorizon
             if (buttons && Controls.EnginesPressed)
             {
                 if (Landed) { if (EnginesOn) StopEngines(); else StartEngines(); }
-                else Say("Engines can only be switched off on the ground");
+                else if (!Controls.FireHeld) Say("Engines can only be switched off on the ground");   // Round 5: in the air A also fires
             }
 
             if (Mode == FlightMode.Flight) FlyUpdate(pitch, roll, yaw, dt);
@@ -420,6 +424,7 @@ namespace HostileHorizon
                     if (h - p.y > deepest) { deepest = h - p.y; n = nn; }
                     // Round 4: tree trunks, sky bridges, snow bridges (CanyonField.SolidPush: from the seed, not from what is drawn)
                     if (Field.SolidPush(p, out var pn, out var pd) && pd > solid) { solid = pd; sn = pn; }
+                    if (ExtraSolid != null && ExtraSolid(p, out var en, out var ed) && ed > solid) { solid = ed; sn = en; }   // Round 5: turrets
                 }
                 if (deepest <= 0 && solid <= 0) return;
                 // out along the ground's normal, then the flight path bounced off it
@@ -453,6 +458,14 @@ namespace HostileHorizon
                 if (Damage >= 100f) { Crash(); return; }
             }
             OnHit?.Invoke(into);
+        }
+
+        // Round 5 (B5): an enemy bolt: hull damage (repaired at the hangar); 100 % = the ship is lost, as a crash
+        public void TakeDamage(float percent)
+        {
+            if (Crashed) return;
+            Damage = Mathf.Min(100f, Damage + percent); sinceHit = 0; LastShotAt = Time.time;
+            if (Damage >= 100f) { LastImpact = 0; Crash(); }
         }
 
         void Crash()

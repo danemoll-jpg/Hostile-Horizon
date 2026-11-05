@@ -34,7 +34,7 @@ namespace HostileHorizon
             int count = 0;
             if (!firstPlanet && n > 0)
             {
-                float share = Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * p.tier);
+                float share = Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * p.tier) * Difficulty.AlienShare;   // Round 5: difficulty
                 count = Mathf.Clamp(Mathf.RoundToInt(share * n), 1, n);
             }
             var order = new List<int>(); for (int i = 0; i < n; i++) order.Add(i);
@@ -43,8 +43,8 @@ namespace HostileHorizon
             {
                 int i = order[k];
                 int type = k < count ? rng.Next(5) + 1 : 0;
-                bool tell = rng.Value < t.tellReliability;
-                bool falseTell = rng.Value < t.falseTellChance;
+                bool tell = rng.Value < Difficulty.TellReliability;   // Round 5: from the difficulty (Normal = tuning tellReliability .75)
+                bool falseTell = rng.Value < Difficulty.FalseTell;
                 int fake = rng.Next(4) + 1;
                 p.alien[i] = type;
                 p.quirk[i] = type != 0 ? (tell ? type : 0) : falseTell ? fake : 0;

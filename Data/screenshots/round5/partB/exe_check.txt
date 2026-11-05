@@ -1,0 +1,218 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 73728 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 19:49; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: turrets first planet 3, base 6 + 2/tier (max 24); range 1100 m, lock 1.2 s, every 1.8 s, bolt 230 m/s, lead 0.9, error 14 m at 1 km, damage 7 %, hp 4; saucers 1 + 0.5/tier (max 6), 95 m/s, turn 55 °/s, burst 3, bolt 260 m/s, damage 5 %, hp 5; gun 6/s, 0.12 %/shot, 700 m/s; shield 2 %/s; bounty turret 150 / saucer 300
+--- presets
+  Easy: enemies Turrets + Saucers, aggression Low, aliens Fewer, tells 95 %, false tells 0 %, Regenerating damage, pay x0.8; aggression x0.6 (lock 2.00 s, fire every 3.00 s, aim error 23.3 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 5 (asked 5), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 1
+    aliens over 300 planets x 6 pilots (tier 1): 16.7 % aliens, tells shown 97 %, false tells on real pilots 0.0 %; pay x0.8
+  Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; aggression x1 (lock 1.20 s, fire every 1.80 s, aim error 14.0 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 8 (asked 8), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 2
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 74 %, false tells on real pilots 0.0 %; pay x1
+  Hard: enemies Turrets + Saucers, aggression High, aliens More, tells 60 %, false tells 10 %, Lasting damage, pay x1.25; aggression x1.35 (lock 0.89 s, fire every 1.33 s, aim error 10.4 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 11 (asked 11), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 2
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 60 %, false tells on real pilots 8.2 %; pay x1.25
+  Nightmare: enemies Turrets + Saucers, aggression Brutal, aliens Most, tells 50 %, false tells 20 %, Lasting damage, pay x1.5; aggression x1.7 (lock 0.71 s, fire every 1.06 s, aim error 8.2 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 14 (asked 14), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 3
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 49 %, false tells on real pilots 19.7 %; pay x1.5
+campaign page rows: Continue / New career / Difficulty (new career) = Normal / Difficulty options / Back
+new career: Zanveth-IV (canyons), difficulty Normal, crash level Lasting
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, a career's first planet (ease-in)
+  placed: turrets: 3 (asked 3), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: none on a career's first planet (ease-in)
+  hangar:   <color=#FF8A80>Defences: 3 turrets (fly low: turrets can't see into the canyons)</color>
+screenshot r5_a_hangar_first_planet.png
+    [586 fps] Auto/launch Hover alt 1465 gnd 1468 spd 34 hdg 285 energy 100
+launched: Control said ctl_launch_2 [Radio, p2, 3.0 s] CONTROL: Clamps released. Go and find our people.
+    [322 fps] Flying/ Hover alt 17 gnd 16 spd 2 hdg 301 energy 98
+    [227 fps] Flying/ Hover alt 7 gnd 6 spd 1 hdg 301 energy 94
+    [254 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 301 energy 91
+B7 Normal: landed at pilot 1's pad and picked them up: turret shots meanwhile 0; a turret in range sees the pad: False
+  canyons: turret 1 at (-783, 528, 1768) (+12 m vs 80 m east of it); ship placed 650 m off, in its sight, flying across
+    locked on after 1.30 s (lock time 1.20 s); LOCKED ON shown True
+    [248 fps] Flying/ Flight alt 568 gnd 369 spd 78 hdg 195 energy 99
+screenshot r5_canyons_1_incoming.png
+    (picture: nearest enemy bolt 75 m; LOCKED ON on the displays True; threat marks 1)
+    [255 fps] Flying/ Flight alt 579 gnd 139 spd 106 hdg 232 energy 100
+    flying straight 9 s: 5 shots, 0 hits; weaving 9 s: 4 shots, 0 hits; hull 100 % (each hit 7 %)
+    shield (D-pad left): ON
+    [256 fps] Flying/ Flight alt 568 gnd 107 spd 78 hdg 195 energy 96
+screenshot r5_canyons_2_shield_block.png
+    (picture: nearest enemy bolt 28 m; LOCKED ON on the displays True; threat marks 2)
+    shield on: 4 shots at it, 1 blocked, hull 0.0 -> 0.0 % damage; energy 100.0 -> 82.6 % (drain 2 %/s + flight)
+    shield off again: off
+    [248 fps] Flying/ Flight alt 556 gnd 129 spd 49 hdg 200 energy 97
+    gun: 60 shots, 0 hits, NOT destroyed in 10 s (hp 4)
+screenshot r5_canyons_3_turret_destroyed.png
+    bounty: credits 3000 -> 3000 (+0); the prompt "1 aboard: more pilots, or climb to dock (↑ 463 m)"
+    [263 fps] Flying/ Flight alt 536 gnd 37 spd 87 hdg 209 energy 99
+    [233 fps] Flying/ Flight alt 362 gnd 214 spd 87 hdg 123 energy 97
+  fps canyons, enemies active (3 alive, up to 4 bolts in flight): average 233.0, 1% low 76.9, worst frame 42 ms over 2797 frames
+    [73 fps] Auto/dock-rise Flight alt 1490 gnd 1490 spd 18 hdg 285 energy 100
+--- Giant Forest: the check jumps to seed 209
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+    [135 fps] Auto/launch Hover alt 1490 gnd 1490 spd 14 hdg 285 energy 100
+  forest: turret 5 at (-1144, 216, 1728) (on a stump above the canopy, +160 m vs 80 m east of it); ship placed 650 m off, in its sight, flying across
+    locked on after 1.24 s (lock time 1.20 s); LOCKED ON shown True
+    [89 fps] Flying/ Flight alt 256 gnd 243 spd 78 hdg 155 energy 100
+screenshot r5_forest_1_incoming.png
+    (picture: nearest enemy bolt 73 m; LOCKED ON on the displays True; threat marks 6)
+    [26 fps] Flying/ Flight alt 256 gnd 252 spd 78 hdg 155 energy 99
+    [61 fps] Flying/ Flight alt 398 gnd 375 spd 106 hdg 308 energy 99
+    flying straight 9 s: 14 shots, 0 hits; weaving 9 s: 14 shots, 0 hits; hull 100 % (each hit 7 %)
+    shield (D-pad left): ON
+screenshot r5_forest_2_shield_block.png
+    (picture: nearest enemy bolt 91 m; LOCKED ON on the displays True; threat marks 5)
+    [85 fps] Flying/ Flight alt 256 gnd 237 spd 78 hdg 155 energy 82
+    shield on: 11 shots at it, 0 blocked, hull 0.0 -> 0.0 % damage; energy 100.0 -> 82.0 % (drain 2 %/s + flight)
+    shield off again: off
+    gun: 8 shots, 4 hits, destroyed after 1.3 s
+screenshot r5_forest_3_turret_destroyed.png
+    bounty: credits 2848 -> 2998 (+150); the prompt "Turret destroyed. Bounty +150 cr"
+  forest: saucer 7 chasing after 0.3 s (sight True); computer: 
+    [25 fps] Flying/ Flight alt 201 gnd 200 spd 78 hdg 183 energy 100
+    10 s of its passes (the ship banking gently): 5 shots, 1 hits; pass state 0; saucer 447 m away, 571 m over the ground
+    [37 fps] Flying/ Flight alt 201 gnd 200 spd 78 hdg 152 energy 99
+screenshot r5_forest_4_saucer_attack.png
+    (picture: nearest enemy bolt 103 m; LOCKED ON on the displays True; threat marks 1)
+    gun: 6 shots, 5 hits, destroyed after 1.3 s
+screenshot r5_forest_5_saucer_destroyed.png
+    [120 fps] Flying/ Flight alt 33 gnd 32 spd 87 hdg 155 energy 98
+  fps forest, enemies active (5 alive, up to 7 bolts in flight): average 180.3, 1% low 38.4, worst frame 146 ms over 2164 frames
+    [207 fps] Flying/ Flight alt 36 gnd 37 spd 87 hdg 155 energy 99
+    [141 fps] Flying/ Flight alt 72 gnd 40 spd 87 hdg 155 energy 97
+    [82 fps] Auto/tow-lift Flight alt 536 gnd 535 spd 290 hdg 284 energy 97
+    [84 fps] Auto/tow-lift Flight alt 1475 gnd 1396 spd 93 hdg 285 energy 97
+    [82 fps] Auto/dock-rise Flight alt 1498 gnd 1499 spd 19 hdg 285 energy 97
+--- Dead City: the check jumps to seed 202
+    [21 fps] Loading/jump Hover alt 1500 gnd 1411 spd 0 hdg 240 energy 100
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+  city: turret 1 at (-274, 118, -1220) (+0 m vs 80 m east of it); ship placed 650 m off, in its sight, flying across
+    [225 fps] Flying/ Flight alt 171 gnd 70 spd 78 hdg 155 energy 100
+    locked on after 1.23 s (lock time 1.20 s); LOCKED ON shown True
+screenshot r5_city_1_incoming.png
+    (picture: nearest enemy bolt 96 m; LOCKED ON on the displays True; threat marks 3)
+    [196 fps] Flying/ Flight alt 171 gnd 66 spd 78 hdg 155 energy 99
+    [158 fps] Flying/ Flight alt 299 gnd 291 spd 106 hdg 62 energy 98
+    flying straight 9 s: 8 shots, 0 hits; weaving 9 s: 7 shots, 0 hits; hull 95 % (each hit 7 %)
+    shield (D-pad left): ON
+screenshot r5_city_2_shield_block.png
+    (picture: nearest enemy bolt 49 m; LOCKED ON on the displays True; threat marks 3)
+    shield on: 8 shots at it, 3 blocked, hull 5.0 -> 5.0 % damage; energy 100.0 -> 81.2 % (drain 2 %/s + flight)
+    shield off again: off
+    [197 fps] Flying/ Flight alt 156 gnd 61 spd 49 hdg 180 energy 99
+    gun: 8 shots, 4 hits, destroyed after 1.2 s
+screenshot r5_city_3_turret_destroyed.png
+    bounty: credits 2377 -> 2527 (+150); the prompt "Turret destroyed. Bounty +150 cr"
+  city: saucer 7 chasing after 1.9 s (sight True); computer: 154.2 voice cpu_saucer [Computer, p3, 1.5 s] COMPUTER: Saucer. Saucer.
+    [211 fps] Flying/ Flight alt 114 gnd 110 spd 78 hdg 89 energy 98
+    10 s of its passes (the ship banking gently): 4 shots, 0 hits; pass state 0; saucer 495 m away, 535 m over the ground
+screenshot r5_city_4_saucer_attack.png
+    (picture: nearest enemy bolt 127 m; LOCKED ON on the displays True; threat marks 2)
+    gun: 7 shots, 5 hits, destroyed after 1.2 s
+screenshot r5_city_5_saucer_destroyed.png
+    [157 fps] Flying/ Flight alt 168 gnd 32 spd 87 hdg 215 energy 99
+    [181 fps] Flying/ Flight alt 43 gnd 35 spd 87 hdg 178 energy 97
+  fps city, enemies active (5 alive, up to 2 bolts in flight): average 189.7, 1% low 39.8, worst frame 567 ms over 2277 frames
+    [196 fps] Auto/tow-lift Flight alt 187 gnd 183 spd 155 hdg 236 energy 99
+    [177 fps] Auto/tow-lift Flight alt 1475 gnd 1359 spd 113 hdg 240 energy 99
+    [303 fps] Auto/tow-lift Flight alt 1475 gnd 1323 spd 12 hdg 240 energy 99
+--- Ice: the check jumps to seed 201
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+    [156 fps] Auto/launch Hover alt 1473 gnd 1476 spd 26 hdg 0 energy 100
+  ice: turret 4 at (750, 184, 953) (+137 m vs 80 m east of it); ship placed 650 m off, in its sight, flying across
+    locked on after 1.61 s (lock time 1.20 s); LOCKED ON shown True
+    [36 fps] Flying/ Flight alt 245 gnd 70 spd 78 hdg 155 energy 100
+screenshot r5_ice_1_incoming.png
+    (picture: nearest enemy bolt 80 m; LOCKED ON on the displays True; threat marks 2)
+    [20 fps] Flying/ Flight alt 245 gnd 133 spd 78 hdg 155 energy 100
+    [25 fps] Flying/ Flight alt 288 gnd 112 spd 106 hdg 235 energy 99
+    flying straight 9 s: 4 shots, 0 hits; weaving 9 s: 5 shots, 0 hits; hull 95 % (each hit 7 %)
+    shield (D-pad left): ON
+    [24 fps] Flying/ Flight alt 245 gnd 70 spd 78 hdg 155 energy 97
+screenshot r5_ice_2_shield_block.png
+    (picture: nearest enemy bolt 73 m; LOCKED ON on the displays True; threat marks 2)
+    shield on: 4 shots at it, 1 blocked, hull 5.0 -> 5.0 % damage; energy 100.0 -> 81.5 % (drain 2 %/s + flight)
+    shield off again: off
+    gun: 7 shots, 4 hits, destroyed after 1.2 s
+screenshot r5_ice_3_turret_destroyed.png
+    bounty: credits 1918 -> 2068 (+150); the prompt "Turret destroyed. Bounty +150 cr"
+  ice: saucer 7 chasing after 0.3 s (sight True); computer: 154.2 voice cpu_saucer [Computer, p3, 1.5 s] COMPUTER: Saucer. Saucer.
+    [137 fps] Flying/ Flight alt 280 gnd 113 spd 78 hdg 245 energy 100
+    10 s of its passes (the ship banking gently): 3 shots, 0 hits; pass state 0; saucer 494 m away, 677 m over the ground
+    [190 fps] Flying/ Flight alt 280 gnd 107 spd 78 hdg 257 energy 98
+screenshot r5_ice_4_saucer_attack.png
+    (picture: nearest enemy bolt 107 m; LOCKED ON on the displays True; threat marks 3)
+    gun: 7 shots, 5 hits, destroyed after 1.1 s
+screenshot r5_ice_5_saucer_destroyed.png
+    [157 fps] Flying/ Flight alt 202 gnd 204 spd 87 hdg 179 energy 99
+  fps ice, enemies active (5 alive, up to 2 bolts in flight): average 166.0, 1% low 25.3, worst frame 209 ms over 1992 frames
+    [181 fps] Flying/ Flight alt 52 gnd 55 spd 87 hdg 176 energy 100
+    [200 fps] Auto/tow-lift Flight alt 1424 gnd 1249 spd 174 hdg 0 energy 99
+    [143 fps] Auto/dock-rise Flight alt 1479 gnd 1247 spd 23 hdg 0 energy 99
+--- the shield at the airlock
+    [106 fps] Auto/launch Hover alt 1483 gnd 1270 spd 20 hdg 0 energy 100
+    [55 fps] Flying/ Hover alt 24 gnd 26 spd 6 hdg 313 energy 99
+    [35 fps] Flying/ Hover alt 13 gnd 16 spd 2 hdg 313 energy 98
+    [41 fps] Flying/ Hover alt 7 gnd 9 spd 1 hdg 313 energy 96
+    [82 fps] Flying/ Hover alt 3 gnd 5 spd 1 hdg 313 energy 94
+    [23 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 313 energy 93
+    [108 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 313 energy 91
+  a Mimic at the door, shield on: fate AlienGone, credits 1462 -> 1662; prompt "That was no pilot: a Mimic. Bounty +200 cr   ·   Field Journal: new entry — Mimic"
+screenshot r5_shield_burns_alien.png
+    [81 fps] Flying/ Hover alt 14 gnd 16 spd 14 hdg 313 energy 85
+    [16 fps] Flying/ Hover alt 34 gnd 36 spd 0 hdg 313 energy 99
+    [11 fps] Flying/ Hover alt 34 gnd 36 spd 0 hdg 313 energy 99
+    [159 fps] Auto/tow-lift Flight alt 1419 gnd 1251 spd 187 hdg 360 energy 98
+    [97 fps] Auto/tow-lift Flight alt 1475 gnd 1320 spd 50 hdg 0 energy 98
+    [165 fps] Auto/launch Hover alt 1500 gnd 1451 spd 0 hdg 0 energy 100
+    [158 fps] Flying/ Hover alt 32 gnd 34 spd 7 hdg 313 energy 99
+    [119 fps] Flying/ Hover alt 9 gnd 11 spd 1 hdg 313 energy 96
+    [119 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 313 energy 93
+    [110 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 313 energy 91
+  a real pilot at the door, shield on: fate Lost, credits 750 -> 350; prompt "Pilot 1 killed by your shield. Penalty -400 cr"
+    [91 fps] Flying/ Hover alt 18 gnd 20 spd 14 hdg 313 energy 84
+    [192 fps] Auto/dock-rise Flight alt 1486 gnd 1488 spd 19 hdg 360 energy 100
+--- hull to 0
+    [416 fps] Flying/ Flight alt 1421 gnd 1290 spd 73 hdg 0 energy 100
+    [290 fps] Flying/ Flight alt 254 gnd 254 spd 59 hdg 155 energy 98
+    [276 fps] Flying/ Flight alt 254 gnd 83 spd 59 hdg 155 energy 97
+  shot down (killer: a turret); state Crashed, phase dead
+  page SHIP DESTROYED: "Shot down by <b>a turret</b>. |  | Your mind was backed up on the mothership. |  | The wreck burns where you hit."
+screenshot r5_dead_page.png
+    [332 fps] Auto/regen-trip Flight alt 183 gnd 0 spd 0 hdg 155 energy 99
+    [460 fps] Auto/regen-trip Flight alt 183 gnd 0 spd 0 hdg 155 energy 99
+    [482 fps] Auto/recovery Hover alt 1200 gnd 1031 spd 42 hdg 0 energy 100
+    [479 fps] Auto/recovery Hover alt 1472 gnd 1302 spd 12 hdg 0 energy 100
+  back in the hangar: You're flying the corps loaner (basic, no upgrades). Your own ship is still a wreck: recover it here for 3000 cr when you can.
+--- the fight, in order
+  placed: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, not the first planet
+  placed: turrets: 6 (asked 6), 0 placed to cover a pad; pads in a turret's sight 0 of 3
+  placed: saucers: 1
+  338.6 turret 4 locked on
+  359.8 shield on (energy 100.0 %)
+  368.0 shield blocked a bolt from turret 4
+  368.2 shield off (energy 81.5 %)
+  369.8 turret 4 destroyed: bounty +150 cr
+  370.9 saucer 7 chasing
+  384.2 saucer 7 destroyed: bounty +300 cr
+  386.0 turret 6 locked on
+  477.2 shield on (energy 91.3 %)
+  480.3 shield off (energy 85.2 %)
+  562.0 shield on (energy 91.1 %)
+  562.0 shield killed pilot 1 (a real pilot): -400 cr
+  564.9 shield off (energy 84.9 %)
+  588.5 turret 2 locked on
+  591.4 hit by turret 2: -7 % (hull 8 %)
+  593.1 hit by turret 2: -7 % (hull 1 %)
+  612.6 died, shot down by a turret
+  612.6 hit by turret 2: -7 % (hull 0 %)
+--- sounds started (Round 5's): saucer_hum (loop) x11 | lock_warning x14 | turret_fire x141 | shield_hum (loop) x6 | shield_on x6 | voice cpu_shield_up (Computer) x4 | bolt_hit_shield x5 | shield_off x6 | voice cpu_shield_down (Computer) x5 | gun_fire x103 | bolt_hit_metal x27 | enemy_explosion x6 | saucer_fire x18 | bolt_hit_hull x4
+--- voices (Round 5's): ctl_hot [Radio, p2, 6.5 s] CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you. | cpu_locked_on [Computer, p3, 1.4 s] COMPUTER: Warning. Locked on. | cpu_shield_up [Computer, p3, 0.9 s] COMPUTER: Shield up. | cpu_shield_down [Computer, p3, 1.0 s] COMPUTER: Shield down. | ctl_hot_saucers [Radio, p2, 8.0 s] CONTROL: Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving. | cpu_target_down [Computer, p3, 1.3 s] COMPUTER: Target destroyed. | cpu_saucer [Computer, p3, 1.5 s] COMPUTER: Saucer. Saucer.
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.149 RMS, peak 2.531, zeroed before the speakers; 69855232 samples); master volume 0.00

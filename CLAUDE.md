@@ -279,6 +279,30 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (ElevenLabs TTS, key never printed); Docs/VOICES.md lists every line. Control = Daniel, computer = River, 12 pilot voices (callsign =
   voice). Wired in `Core/GameShell.Audio.cs` (also the music state and the biome world). Mimic voice sign: `GameShell.MimicVoiceSign`.
   Settings > **Sound**: Master, Music, Effects, Voices, Subtitles (On).
+- **Self-righting (Round 5 Part A):** Flight assist Full / Light with Settings > **Auto-level** On (default): pitch and roll centred
+  (any stick output past the deadzones counts as steering) for `rightDelay` .25 s, the ship rolls wings-level the short way (from upside
+  down it keeps rolling the way it started) and eases its nose to the horizon (6° climb below 25 m), heading kept; the first stick input
+  stops it. Rates: roll 120 / pitch 60 °/s at most, ease-out 3/s; Settings > **Righting speed** Slow x.65 / Normal / Fast x1.5; Full x1.3.
+  **Level-out button** (gamepad left-stick click, keyboard L, HOTAS button 14 by default: Settings > Controls and HOTAS > "HOTAS level-out
+  button"): x2, overrides pitch / roll until level (also on Flight assist Off). Landing mode rights the body at most `hoverRightRate`
+  140 °/s. `ShipController.RightStep`; `Moved` sources 5 (self-righting) and 6 (level-out). Graphics quality and Steam Deck moved to
+  Settings > Display (12 rows at most). Check `-exeCheckOnly round5a` (`Checks/ExeCheck.Round5A.cs`, about 8 min).
+- **Enemies and difficulty (Round 5 Part B):** Campaign only. `Campaign/Enemies.cs` (placement from the seed + difficulty, turrets, saucers,
+  pooled bolts, `ShipController.ExtraSolid` for turrets / stumps), `Core/GameShell.Enemies.cs` (gun, shield, hits, warnings, bounties, the
+  difficulty page), `Effects/Fx.cs` (pooled sparks / blasts), `Core/Difficulty.cs` (`DifficultySetting` per career: `Career.difficulty`;
+  a new career copies `GameSettings.difficulty`; the crash level is part of it now, `campaignCrashLevel` unused). Models
+  `Tools/Blender/enemies.py` -> `Models/Turret.fbx`, `Models/Saucer.fbx` (parts built round their pivots, turned half a turn on load).
+  Turrets on the high ground (forest: on giant stumps above the canopy), track / lock / fire only with line of sight (`Enemies.Sees`: the
+  ground, and tree crowns in the forest); saucers from a career's second planet on (patrol, chase on sight or when you land / hover within
+  3 km, firing passes, kept above the rock and the forest). On Easy / Normal no turret sees a pilot's pad; Hard / Nightmare cover a share
+  (`coveredPadShare`). Destroyed enemies stay destroyed per planet (`PlanetState.enemiesDown`). **Controls:** gun = held A / Space / left
+  mouse / HOTAS trigger (A still starts / stops the engines on the ground); shield toggle = D-pad left / Z / HOTAS 2; level out = left-stick
+  click / L / HOTAS 14. Difficulty: Campaign page "Difficulty (new career)" + "Difficulty options"; hangar "Difficulty: X". Presets
+  Easy / Normal / Hard / Nightmare / Custom; all numbers in the tuning file (tables `aggressionLevels`, `alienShareLevels`, `tellLevels`,
+  `falseTellLevels`, `payLevels`, `coveredPadShare`, `preset*`; enemy, gun, shield and bounty numbers). Sounds `make_sounds.py`
+  (gun_fire, turret_fire, saucer_fire, bolt_hit_*, shield_*, enemy_explosion, saucer_hum, lock_warning); voices `cpu_locked_on`,
+  `cpu_saucer`, `cpu_shield_up/down`, `cpu_target_down`, `ctl_hot`, `ctl_hot_saucers`. Check `-exeCheckOnly round5` (`Checks/ExeCheck.Round5.cs`,
+  about 20 min; `round5perf` = the per-biome fight frame rates only).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -326,7 +350,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -390,13 +414,20 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 5 (Part A: the ship rights itself when the stick is released, a level-out button, Auto-level / Righting speed settings; Part B:
+turrets, saucers, your gun and shield, hull damage from enemy fire, warnings, difficulty presets Easy / Normal / Hard / Nightmare / Custom)
+is built, checked in the exe (headless, muted, `--only round5a`, `round5`, `round5perf` with the Deck setting, `round5presets`) and
+published as 0.5.0 (`game-500` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet
+played by Dan.** Open for Dan: turrets rarely hit a ship crossing at 650 m (tuning limit reached after two tries: `turretLead` .9,
+`turretAimError` 14, `boltHitRadius` 3.5). Per-item status, numbers and the control layout in `TODO.md` (Round 5 delivery).
+**Next: Round 6 (Modern progression)**, to be written by the planning chat.
 **Fix 4.1 (Dan's own tension and regeneration music replace the stand-ins) is checked in the exe (headless, muted, `--only music`)
 and published as 0.4.1 (`game-401` Latest + `soundtrack-401`); a starter-200 install updates to both from GitHub. Not yet heard by Dan.**
 **Round 4 (planet biomes: Canyons, Giant Forest, Dead City, Ice; adaptive music with Dan's 7 Suno tracks as the launcher's soundtrack
 component; voices: Control, the computer, 12 pilots, the aliens using them, radio sound, subtitles) is built, checked in the exe
 (headless, muted, `--only round4`, `round4perf` with and without the Deck setting) and published as 0.4.0 (`game-400` Latest +
 `soundtrack-400`); a starter-200 install updates to both from GitHub. Not yet played or heard by Dan.** Open: short hitches in forest / city in one run. Numbers and per-item status in `TODO.md`
-(Round 4 delivery). **Next: Round 5 (Enemies + difficulty)**, to be written by the planning chat.
+(Round 4 delivery).
 **Fix 3.2 (always another planet to fly: Jump to a new planet from the hangar, the Planets list, planet of the day +50 %, a cleared
 planet offers the jump first) is built, checked in the exe (headless, muted, `--only fix32`) and published as 0.3.2 (`game-302`,
 Latest); a starter-200 install updates to it from GitHub. Not yet played by Dan.** Details in `TODO.md` (Fix 3.2 delivery).

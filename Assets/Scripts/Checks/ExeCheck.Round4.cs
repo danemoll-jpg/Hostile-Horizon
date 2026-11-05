@@ -215,7 +215,7 @@ namespace HostileHorizon
 
             // ---- 3. the Campaign in each biome
             Career.CheckSystemSeed = 5151;
-            GameSettings.S.campaignCrashLevel = 1;   // Bounce: hits counted, not the end of the run
+            GameSettings.S.difficulty.crashLevel = 1; GameSettings.S.difficulty.enemies = 0;   // Bounce: hits counted, not the end of the run (Round 5: no enemies in this older check)
             yield return ToCampaignMenu();
             yield return Nav(GamepadButton.DpadDown, 1); yield return Press(GamepadButton.South);   // New career
             yield return WaitPhase(() => G.Now == GameShell.State.Docked && G.Phase == "docked", 60f, "the hangar");

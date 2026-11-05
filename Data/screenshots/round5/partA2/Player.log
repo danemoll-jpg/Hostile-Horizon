@@ -1,0 +1,177 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.023 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 3.284800 ms
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 71680 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-04 19:24; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] Round 5 A tuning: delay 0.25 s, roll 120 / pitch 60 °/s at most, ease 3/s, Slow x0.65 / Fast x1.5, Full x1.3, level-out x2, climb 6° below 25 m; settings: Auto-level On, Righting speed Normal
+[Music] loaded flight_city (219 s)
+[ExeCheck] recovery, Flight assist Light (default), Righting speed Normal:
+[ExeCheck]   60° bank (roll +60°, pitch +0°), stick released: level after 1.36 s (righting began after 0.33 s), height lost 0 m, heading +0°, fastest turn 120 °/s; turned by: self-righting (stick released) 57°
+[ExeCheck]   120° bank (roll +120°, pitch +0°), stick released: level after 1.88 s (righting began after 0.37 s), height lost 0 m, heading +0°, fastest turn 123 °/s; turned by: self-righting (stick released) 117°
+[ExeCheck] screenshot r5a_inverted_before.png
+[ExeCheck]   upside down (roll +180°, pitch +0°), stick released: level after 2.32 s (righting began after 0.24 s), height lost 0 m, heading +0°, fastest turn 123 °/s; turned by: self-righting (stick released) 177°
+[ExeCheck] screenshot r5a_inverted_after.png
+[ExeCheck]     [650 fps] Flying/ Flight alt 2552 gnd 2543 spd 87 hdg 0 energy 100
+[ExeCheck]   nose-down 45° (roll +0°, pitch -45°), stick released: level after 1.39 s (righting began after 0.41 s), height lost 49 m, heading +0°, fastest turn 61 °/s; turned by: self-righting (stick released) 42°
+[ExeCheck]   upside down, nose-down 30° (roll +180°, pitch -30°), stick released: level after 2.38 s (righting began after 0.34 s), height lost 31 m, heading +0°, fastest turn 135 °/s; turned by: self-righting (stick released) 207°
+[ExeCheck] recovery, Flight assist Full, Righting speed Normal:
+[ExeCheck]   60° bank (roll +60°, pitch +0°), stick released: level after 1.10 s (righting began after 0.02 s), height lost 0 m, heading +20°, fastest turn 155 °/s; turned by: bank turn (assist) 20°, wing levelling (assist) 5°, self-righting (stick released) 52°
+[ExeCheck]   120° bank (roll +120°, pitch +0°), stick released: level after 1.49 s (righting began after 0.04 s), height lost 0 m, heading +34°, fastest turn 167 °/s; turned by: bank turn (assist) 34°, wing levelling (assist) 5°, self-righting (stick released) 112°
+[ExeCheck]   upside down (roll +180°, pitch +0°), stick released: level after 1.87 s (righting began after 0.34 s), height lost 0 m, heading +32°, fastest turn 163 °/s; turned by: bank turn (assist) 32°, wing levelling (assist) 5°, self-righting (stick released) 172°
+[ExeCheck]   nose-down 45° (roll +0°, pitch -45°), stick released: level after 1.15 s (righting began after 0.31 s), height lost 43 m, heading +0°, fastest turn 79 °/s; turned by: self-righting (stick released) 42°
+[ExeCheck]     [726 fps] Flying/ Flight alt 2573 gnd 2566 spd 87 hdg 27 energy 100
+[ExeCheck]   upside down, nose-down 30° (roll +180°, pitch -30°), stick released: level after 1.90 s (righting began after 0.32 s), height lost 27 m, heading +27°, fastest turn 173 °/s; turned by: bank turn (assist) 27°, wing levelling (assist) 1°, self-righting (stick released) 206°
+[ExeCheck] pictures 300 m over the ground (Light):
+[ExeCheck] screenshot r5a_low_inverted_before.png
+[ExeCheck]   upside down, 300 m up (roll +180°, pitch +0°), stick released: level after 2.32 s (righting began after 0.26 s), height lost 0 m, heading +0°, fastest turn 124 °/s; turned by: self-righting (stick released) 181°
+[ExeCheck] screenshot r5a_low_inverted_after.png
+[ExeCheck] screenshot r5a_low_bank120_before.png
+[ExeCheck]   120° bank, 300 m up (roll +120°, pitch -10°), stick released: level after 1.82 s (righting began after 0.28 s), height lost 9 m, heading +0°, fastest turn 124 °/s; turned by: self-righting (stick released) 127°
+[ExeCheck] screenshot r5a_low_bank120_after.png
+[ExeCheck] Righting speed Slow (Light):
+[ExeCheck]   upside down (roll +180°, pitch +0°), stick released: level after 3.47 s (righting began after 0.42 s), height lost 0 m, heading +0°, fastest turn 79 °/s; turned by: self-righting (stick released) 177°
+[ExeCheck] Righting speed Fast (Light):
+[ExeCheck]   upside down (roll +180°, pitch +0°), stick released: level after 1.70 s (righting began after 0.29 s), height lost 0 m, heading +0°, fastest turn 183 °/s; turned by: self-righting (stick released) 177°
+[ExeCheck] Flight assist Off (no self-righting):
+[ExeCheck]     [706 fps] Flying/ Flight alt 2600 gnd 2521 spd 87 hdg 0 energy 100
+[ExeCheck]     [160 fps] Flying/ Flight alt 2600 gnd 2475 spd 87 hdg 0 energy 100
+[ExeCheck]   60° bank (roll +60°, pitch +0°), stick released: NOT LEVEL after 8.0 s (roll 60°, pitch 0°) (righting began after -1.00 s), height lost 0 m, heading +0°, fastest turn 0 °/s; turned by: nothing
+[ExeCheck] Auto-level Off (Light):
+[ExeCheck]     [112 fps] Flying/ Flight alt 2600 gnd 2596 spd 87 hdg 0 energy 100
+[ExeCheck]     [121 fps] Flying/ Flight alt 2600 gnd 2522 spd 87 hdg 0 energy 100
+[ExeCheck]   60° bank (roll +60°, pitch +0°), stick released: NOT LEVEL after 8.0 s (roll 60°, pitch 0°) (righting began after -1.00 s), height lost 0 m, heading +0°, fastest turn 0 °/s; turned by: nothing
+[ExeCheck] level-out button:
+[ExeCheck]   upside down (roll +180°, pitch +0°), level-out button: level after 1.08 s (righting began after 0.04 s), height lost 0 m, heading +0°, fastest turn 243 °/s; turned by: level-out button 177°
+[ExeCheck]   120° bank (roll +120°, pitch +0°), level-out button, stick held (0.6, 0.4): level after 0.85 s (righting began after 0.04 s), height lost 0 m, heading +0°, fastest turn 241 °/s; turned by: level-out button 117°
+[ExeCheck]   upside down, nose-down 30° (roll +180°, pitch -30°), level-out button, stick held (0.0, 1.0): level after 1.07 s (righting began after 0.02 s), height lost 10 m, heading +0°, fastest turn 268 °/s; turned by: level-out button 207°
+[ExeCheck] uncommanded movement, Flight assist Light (default) (rates 82 / 150 / 44 °/s, bank turn 26, levelling 0, deadzone 8%, stick curve 0.6):
+[ExeCheck]     [224 fps] Flying/ Flight alt 2600 gnd 2520 spd 87 hdg 0 energy 100
+[ExeCheck]     [192 fps] Flying/ Flight alt 2600 gnd 2595 spd 87 hdg 0 energy 100
+[ExeCheck]   level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [180 fps] Flying/ Flight alt 2600 gnd 2525 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 15°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank -15.0°, total 15.0° [self-righting (stick released) 15.0°]
+[ExeCheck]     [301 fps] Flying/ Flight alt 2600 gnd 2592 spd 87 hdg 0 energy 100
+[ExeCheck]     [160 fps] Flying/ Flight alt 2600 gnd 2594 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 30°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank -30.0°, total 30.0° [self-righting (stick released) 30.0°]
+[ExeCheck]     [345 fps] Flying/ Flight alt 2600 gnd 2479 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 60°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank -60.0°, total 60.0° [self-righting (stick released) 60.0°]
+[ExeCheck]   roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +0.0°, pitch +0.0°, bank +45.1° [stick 34.6°]; stick centred 5.0 s -> heading +0.0°, pitch +0.0°, bank -45.1°, total 45.1° [self-righting (stick released) 45.1°]
+[ExeCheck]     [295 fps] Flying/ Flight alt 2644 gnd 2476 spd 87 hdg 0 energy 100
+[ExeCheck]   nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +33.1°, bank +0.0° [stick 21.7°]; stick centred 3.0 s -> heading +0.0°, pitch -33.1°, bank +0.0°, total 33.1° [self-righting (stick released) 33.1°]
+[ExeCheck]   small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [143 fps] Flying/ Flight alt 2600 gnd 2525 spd 87 hdg 0 energy 100
+[ExeCheck]   small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +2.6° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank -2.6°, total 2.6° [self-righting (stick released) 2.6°]
+[ExeCheck]     [80 fps] Flying/ Flight alt 2600 gnd 2594 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [163 fps] Flying/ Flight alt 2600 gnd 2498 spd 87 hdg 0 energy 100
+[ExeCheck]     [61 fps] Flying/ Flight alt 2600 gnd 2595 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [205 fps] Flying/ Flight alt 2600 gnd 2592 spd 87 hdg 0 energy 100
+[ExeCheck]   full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +0.0°, pitch +0.0°, bank +75.1° [stick 71.9°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank -75.1°, total 75.1° [self-righting (stick released) 75.1°]
+[ExeCheck]   yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.0°, pitch +0.0°, bank +0.0° [stick 26.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck] uncommanded movement, Flight assist Full (rates 82 / 150 / 44 °/s, bank turn 38, levelling 22, deadzone 8%, stick curve 0.6):
+[ExeCheck]     [395 fps] Flying/ Flight alt 2600 gnd 2593 spd 87 hdg 0 energy 100
+[ExeCheck]     [380 fps] Flying/ Flight alt 2600 gnd 2593 spd 87 hdg 0 energy 100
+[ExeCheck]   level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [462 fps] Flying/ Flight alt 2600 gnd 2463 spd 87 hdg 4 energy 100
+[ExeCheck]   banked 15°, released: stick centred 10.0 s -> heading +4.3°, pitch +0.0°, bank -14.9°, total 15.5° [bank turn (assist) 4.3°, wing levelling (assist) 5.4°, self-righting (stick released) 9.5°]
+[ExeCheck]     [358 fps] Flying/ Flight alt 2600 gnd 2594 spd 87 hdg 10 energy 100
+[ExeCheck]   banked 30°, released: stick centred 10.0 s -> heading +9.9°, pitch +0.0°, bank -29.9°, total 31.4° [bank turn (assist) 9.9°, wing levelling (assist) 5.4°, self-righting (stick released) 24.5°]
+[ExeCheck]     [481 fps] Flying/ Flight alt 2600 gnd 2595 spd 87 hdg 20 energy 100
+[ExeCheck]   banked 60°, released: stick centred 10.0 s -> heading +19.6°, pitch +0.0°, bank -59.7°, total 62.5° [bank turn (assist) 19.6°, wing levelling (assist) 5.2°, self-righting (stick released) 54.5°]
+[ExeCheck]     [396 fps] Flying/ Flight alt 2600 gnd 2459 spd 87 hdg 20 energy 100
+[ExeCheck]   roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +4.4°, pitch +0.0°, bank +45.2° [stick 37.6°, bank turn (assist) 4.4°]; stick centred 5.0 s -> heading +15.3°, pitch +0.0°, bank -45.1°, total 47.5° [bank turn (assist) 15.3°, wing levelling (assist) 5.5°, self-righting (stick released) 39.7°]
+[ExeCheck]   nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +32.9°, bank +0.0° [stick 13.4°]; stick centred 3.0 s -> heading +0.0°, pitch -32.9°, bank +0.0°, total 32.9° [self-righting (stick released) 32.9°]
+[ExeCheck]   small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [483 fps] Flying/ Flight alt 2600 gnd 2596 spd 87 hdg 0 energy 100
+[ExeCheck]   small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [wing levelling (assist) 2.5°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [448 fps] Flying/ Flight alt 2600 gnd 2594 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [474 fps] Flying/ Flight alt 2600 gnd 2594 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]   full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +11.4°, pitch +0.0°, bank +77.2° [stick 59.6°, bank turn (assist) 11.4°]; stick centred 3.0 s -> heading +25.6°, pitch +0.0°, bank -77.2°, total 80.7° [bank turn (assist) 25.6°, wing levelling (assist) 5.5°, self-righting (stick released) 71.7°]
+[ExeCheck]     [401 fps] Flying/ Flight alt 2600 gnd 2595 spd 87 hdg 44 energy 100
+[ExeCheck]   yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.1°, pitch +0.0°, bank +0.0° [stick 17.2°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck] uncommanded movement, Flight assist Off (rates 82 / 150 / 44 °/s, bank turn 0, levelling 0, deadzone 8%, stick curve 0.6):
+[ExeCheck]     [418 fps] Flying/ Flight alt 2600 gnd 2516 spd 87 hdg 0 energy 100
+[ExeCheck]   level flight: stick centred 15.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [381 fps] Flying/ Flight alt 2600 gnd 2519 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 15°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [440 fps] Flying/ Flight alt 2600 gnd 2503 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 30°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [482 fps] Flying/ Flight alt 2600 gnd 2593 spd 87 hdg 0 energy 100
+[ExeCheck]   banked 60°, released: stick centred 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [588 fps] Flying/ Flight alt 2600 gnd 2584 spd 87 hdg 0 energy 100
+[ExeCheck]   roll right, full stick, then release: input (1.00, 0.00) 0.3 s -> heading +0.0°, pitch +0.0°, bank +45.0° [stick 20.5°]; stick centred 5.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]   nose up, full stick, then release: input (0.00, -1.00) 0.4 s -> heading +0.0°, pitch +32.9°, bank +0.0° [stick 15.0°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [511 fps] Flying/ Flight alt 2600 gnd 2593 spd 87 hdg 0 energy 100
+[ExeCheck]   small correction: 15 % roll: input (0.15, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]   small correction: 25 % roll: input (0.25, 0.00) 1.0 s -> heading +0.0°, pitch +0.0°, bank +2.5° [nothing]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [553 fps] Flying/ Flight alt 2600 gnd 2517 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (Deck-like, 7 % / 5 %): input (0.07, 0.05) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [579 fps] Flying/ Flight alt 2600 gnd 2592 spd 87 hdg 0 energy 100
+[ExeCheck]   stick drift (12 % / 10 %): input (0.12, -0.10) 10.0 s -> heading +0.0°, pitch +0.0°, bank +0.0° [nothing]; stick centred 0.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]   full roll with 20 % pitch leaking in (diagonal): input (1.00, -0.20) 0.5 s -> heading +0.0°, pitch +0.0°, bank +75.0° [stick 61.9°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck]     [517 fps] Flying/ Flight alt 2600 gnd 2435 spd 87 hdg 21 energy 100
+[ExeCheck]   yaw RB: input (0.00, 0.00) + RB 1.0 s -> heading +44.2°, pitch +0.0°, bank +0.0° [stick 12.8°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank +0.0°, total 0.0° [nothing]
+[ExeCheck] landing mode:
+[ExeCheck]   landing mode from upside down: Hover, upright (within 6°) after 2.19 s, fastest body turn 142 °/s (cap 140), heading kept True
+[ExeCheck] hover (landing mode), high up:
+[ExeCheck]     [275 fps] Flying/ Hover alt 2600 gnd 2592 spd 0 hdg 93 energy 100
+[ExeCheck]   turn full stick right 2 s, then release: input (1.00, 0.00) 2.0 s -> heading +100.2°, pitch +0.0°, bank +5.0° [hover body easing 0.3°]; stick centred 3.0 s -> heading +0.0°, pitch +0.0°, bank -5.0°, total 5.0° [hover body easing 0.6°]
+[ExeCheck]     [97 fps] Flying/ Hover alt 2600 gnd 2592 spd 16 hdg 100 energy 100
+[ExeCheck]   forward full stick 2 s, then release: input (0.00, 1.00) 2.0 s -> heading +0.0°, pitch -6.4°, bank +0.0° [hover body easing 0.2°]; stick centred 3.0 s -> heading +0.0°, pitch +6.4°, bank +0.0°, total 6.4° [nothing]
+[ExeCheck]   hover drift after the forward push: horizontal speed now 0.0 m/s
+[ExeCheck]   air brake from a 20° climb, 30° bank: stick centred 4.0 s -> heading +0.6°, pitch -17.9°, bank -25.5°, total 32.3° [hover body easing 30.9°]
+[ExeCheck]     [166 fps] Flying/ Flight alt 43 gnd 37 spd 59 hdg 150 energy 100
+[ExeCheck]     [195 fps] Flying/ Flight alt 85 gnd 81 spd 59 hdg 164 energy 100
+[ExeCheck]     [110 fps] Flying/ Flight alt 144 gnd 140 spd 59 hdg 154 energy 100
+[ExeCheck]     [194 fps] Flying/ Flight alt 80 gnd 75 spd 59 hdg 165 energy 100
+[ExeCheck]     [393 fps] Flying/ Flight alt 145 gnd 40 spd 59 hdg 159 energy 100
+[ExeCheck]   canyon run, Light (default): 50 s, 12 releases of 1.2 s between 2.5 s legs: wall / ground touches 0, lowest 23 m, mean 83 m over the ground; self-righting turned 348° in total
+[ExeCheck]     [111 fps] Title/ Flight alt 122 gnd 117 spd 59 hdg 163 energy 100
+[ExeCheck]     [52 fps] Flying/ Flight alt 41 gnd 36 spd 59 hdg 150 energy 100
+[ExeCheck]     [120 fps] Flying/ Flight alt 117 gnd 113 spd 59 hdg 158 energy 100
+[ExeCheck]     [51 fps] Flying/ Flight alt 104 gnd 37 spd 59 hdg 145 energy 100
+[ExeCheck]     [80 fps] Flying/ Flight alt 43 gnd 38 spd 59 hdg 135 energy 100
+[ExeCheck]     [46 fps] Flying/ Flight alt 116 gnd 69 spd 59 hdg 108 energy 100
+[ExeCheck]   canyon run, Light, baseline: Auto-level Off: 50 s, 12 releases of 1.2 s between 2.5 s legs: wall / ground touches 0, lowest 13 m, mean 60 m over the ground; self-righting turned 0° in total
+[ExeCheck]     [387 fps] Flying/ Flight alt 40 gnd 35 spd 59 hdg 161 energy 100
+[ExeCheck]     [366 fps] Flying/ Flight alt 38 gnd 33 spd 59 hdg 184 energy 100
+[ExeCheck]     [346 fps] Flying/ Flight alt 43 gnd 35 spd 59 hdg 178 energy 100
+[ExeCheck]     [380 fps] Flying/ Flight alt 43 gnd 36 spd 59 hdg 178 energy 100
+[ExeCheck]     [259 fps] Flying/ Flight alt 38 gnd 36 spd 59 hdg 178 energy 100
+[ExeCheck]   canyon run, Full: 50 s, 14 releases of 1.2 s between 2.5 s legs: wall / ground touches 2, lowest 11 m, mean 41 m over the ground; self-righting turned 93° in total
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.113 RMS, peak 1.623, zeroed before the speakers; 51032064 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

@@ -96,7 +96,7 @@ namespace HostileHorizon
             StartCoroutine(Progress());
             yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
             yield return new WaitForSecondsRealtime(1.5f);
-            GameSettings.S.campaignCrashLevel = 1;   // Bounce: a wall hit is counted, not the end of the run
+            GameSettings.S.difficulty.crashLevel = 1; GameSettings.S.difficulty.enemies = 0;   // Bounce: a wall hit is counted, not the end of the run (Round 5: no enemies in this older check)
             Log("Campaign crash level for this check: Bounce (hits are counted)");
             yield return Nav(GamepadButton.DpadDown, 1); yield return Press(GamepadButton.South);   // Campaign
             yield return Nav(GamepadButton.DpadDown, 1); yield return Press(GamepadButton.South);   // New career

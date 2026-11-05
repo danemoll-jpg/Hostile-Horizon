@@ -25,3 +25,15 @@ own file with the same name (mp3 / ogg / wav) into that folder and rebuild.
 | `pilots_fight.mp3` | 4 s | no | the pilots in the cabin fight the Sleeper off | Several men fighting something in a small metal room behind a wall: shouts, heavy blows, a creature screeching, then silence. No music. |
 | `security_shots.mp3` | 3 s | no | mothership security kills the Sleeper in the bay | Short bursts of energy weapon fire inside a metal hangar bay: sharp electric zaps, a creature shriek, echo. No music. |
 | `creature_lunge.mp3` | 2 s | no | the creature comes at the player in the cockpit | A monster roaring right in your face: a sudden lunge, guttural and wet, extremely close. No music. |
+| `gun_fire.mp3` | 0.5 s | no | the ship's gun, one shot | A single short punchy sci-fi energy cannon shot from a small spacecraft, a tight zap with a low thump. Dry, no music. |
+| `turret_fire.mp3` | 1 s | no | a ground turret fires a bolt | A heavy alien energy cannon firing one bolt: a deep charged thump and a crackling electric whoosh. Outdoors, no music. |
+| `saucer_fire.mp3` | 0.6 s | no | a saucer fires a bolt | A flying saucer firing a single plasma shot: a high warbling electric zap. No music. |
+| `bolt_hit_hull.mp3` | 1 s | no | an enemy bolt hits the ship's hull | A plasma bolt slamming into a spaceship's metal hull from inside the cockpit: a loud metallic bang, sizzle and rattle. No music. |
+| `bolt_hit_shield.mp3` | 0.8 s | no | an enemy bolt hits the shield | An energy bolt hitting a force field: a deep resonant electric thrum with a fizzing crackle. No music. |
+| `bolt_hit_metal.mp3` | 0.6 s | no | your bolt hits a turret or saucer | A small energy bolt hitting armoured metal at a distance: a sharp clang with sparks. No music. |
+| `shield_on.mp3` | 1.2 s | no | the shield comes on | A spaceship force field powering up: a rising electric hum that settles into a steady tone. No music. |
+| `shield_off.mp3` | 1 s | no | the shield goes off | A force field powering down: a falling electric hum that fades out. No music. |
+| `shield_hum.mp3` | 4 s | yes | the shield while it is on (loop) | A steady low electric force field hum with a faint shimmer, heard from inside a small cockpit. Seamless, no music. |
+| `enemy_explosion.mp3` | 3 s | no | a turret or saucer blows up | A heavy machine exploding: a big blast, metal debris flying and crashing, a burning roar fading. Outdoors, no music. |
+| `saucer_hum.mp3` | 4 s | yes | a saucer flying (loop) | An alien flying saucer hovering and moving: a pulsing, wavering electronic drone with a low throb. Seamless, no music. |
+| `lock_warning.mp3` | 1.2 s | no | a turret has locked on (cockpit tone) | A spaceship cockpit missile-lock warning: fast urgent electronic beeps, then a steady tone. No music. |

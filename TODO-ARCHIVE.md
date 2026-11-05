@@ -1384,3 +1384,161 @@ at start and end of every run; no step played sound. New checks: `--only fix31` 
 **For Dan to check:** do the pilots look and move right (the knock is "Opening": good enough?); are the creatures scary up close (the
 lunge comes side-on, an arm reaching past); can you still spot the tells (the real visor's reflection is soft; is the difference enough?).
 Field Journal pictures. HOTAS / Deck as always.
+
+=== Previous delivery moved from TODO.md at Round 5 ===
+
+**Fix 3.2 — always another planet to fly (2026-11-04). Published: 0.3.2 (`game-302`, Latest).** Exe built 2026-11-04 11:15
+(`BUILD_INFO.txt`). Evidence `Data/screenshots/round3_2/final/` (`--only fix32`: `exe_check.txt` + pictures a0-a5), headless, muted
+(output level 0.000 RMS from the first frame to the end), no window.
+0. **Commit first — done** (`77aae7f` "Fix 3.2 planning").
+1. **New planets on demand — done.** Hangar row 2 **Jump to a new planet (free)**: the next planet of the home system from the
+   career's seed + a counter (`Career.NextPlanetSeed`, seeds 1 - 19 999 999 so never a date), own name, tier = planets cleared, as
+   before. Works cleared or not (pilots left behind stay). The jump plays in the bay with the doors shut (no cut, no fade: about
+   0.4 s while the new canyons load; doors opened 0.00). Tuning `jumpCost` 0. Check: Zanveth-IV (today) -> Vekir-VI (tier 1, 4 pilots,
+   one Mimic), a different name and pilots (a3).
+2. **Planet list — done.** Hangar **Planets**: New planet (names the next one), today's planet first (★ of the day, even before its
+   first visit), then every planet visited, newest first (9 a page, "More planets…"), each with waiting / cleared and "◄ here"; the
+   selected one in full on the right (biome "canyons", rescued / lost / waiting, visits). Pick one: the mothership jumps there; Launch
+   from the hangar. Saved with the career (`currentSeed`, `planetsMade`, each planet's `biome`, `lastVisit`). Check (a4): the list,
+   back to today's planet, back to Vekir-VI: its 3 waiting pilots still there (fates the same).
+3. **Planet-of-the-day bonus — done.** Tuning `dayBonus` .5: 750 cr a pilot on today's planet; the hangar says so (and, elsewhere,
+   which planet is today's). Check: 3 pilots on Zanveth-IV paid +2250 (750 of it the bonus); 1 on Vekir-VI paid 500. Continue: a new
+   day's planet of the day comes first (once), otherwise you arrive where you left off.
+4. **Cleared — done.** The debrief says "**Zanveth-IV cleared! +1000 credits**", the hangar "Cleared! Jump to a new planet
+   (selected)" and the jump row is the default (a1), on every return to a cleared planet too.
+5. **Check — done** (`Checks/ExeCheck.Fix32.cs`, `--only fix32`, about 5 min): one pilot per sortie picked up as a player does (the
+   run, the knock, B; the check puts the ship 40 m over the pad and climbs straight up in landing mode), two more on today's planet
+   put aboard by the check (logged shortcuts). Same system seed in a second career -> the same second planet (seed, name, tier,
+   pilots, aliens, first pad: identical); quit + Continue: same planet, credits and fates. The first run's scripted climb flew into a
+   canyon wall (check pilot, not the game); it also showed a hidden list row could be pressed by script: guarded.
+   Older checks now pick hangar rows by label (the hangar has 2 new rows; Field Journal before Back to title).
+6. **Publish — done.** 0.3.2 = build 302, tag `game-302`, Latest; the `starter-200` ZIP from GitHub, `--auto-check`: "Updating to game
+   0.3.2", installed `versions/302`, started, ready, exit 0 (the game muted by the launcher's test-save flag). Clean-up: repo 3.3 GB ->
+   2.9 GB (starter test install, the 0.3.1 release folder, the failed first check run removed).
+
+**For Dan to check:** after clearing a planet, is jumping to a new one obvious and quick? Is the planet list clear? Is +50 % on the
+planet of the day enough to make it special?
+
+=== Round 5 specification moved from TODO.md at the end of Round 5 ===
+
+Round 4 (planet biomes, music and voices) is delivered as 0.4.0 (status under "Previous deliveries"; its specification is in
+`TODO-ARCHIVE.md`). **Next: Round 5 (Enemies + difficulty)**, to be written by the planning chat with Dan.
+Open for Dan from Round 4: how the biomes fly and look (Fix 4.1 / 0.4.1: Dan's own tension and regeneration music are in),
+the voices and how much chatter, the music and its loop points with his tracks, any hitch in the forest / city.
+Dan's art pipeline (DECIDED, standing): Code writes image prompts -> Dan has the concepts drawn -> Meshy -> Mixamo -> Code wires them
+(`Docs/MODELS-NEEDED.md`). Still open from 0.3.0: the route corridor width / height.
+
+
+Round 4 reviewed by Dan (2026-11-04): "all fine" (biomes, voices, music);
+HOTAS still untried. Dan (2026-11-04): fold Fix 4.2 into Round 5. Part A is
+Fix 4.2 (items 0-5, commit when done); Part B is enemies + difficulty (B1-B12).
+One publish at the end: **0.5.0**.
+
+**Part A — the ship rights itself (was Fix 4.2)**
+
+Dan (2026-11-04): "I want the vehicle to right itself. I get turned around and
+upside down too often when flying."
+
+Background: Fix 2.5 made Light assist do no levelling at all (stick centred
+holds the attitude), to stop the ship turning on its own. That fixed "loose",
+but now nothing ever brings the ship back upright. The answer is righting that
+only happens when the player lets go, so it never fights the stick.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Self-righting when the stick is released** (Light and Full assist; Off
+   keeps none): when pitch and roll input have been centred for a short moment
+   (starting 0.25 s, tuning), the ship smoothly rolls wings-level and eases its
+   nose toward the horizon (or a gentle climb when close to the ground), taking
+   about 1-1.5 s from a bank, about 2 s from fully upside down (always rolling
+   the short way round, never through a dive into the ground). It keeps flying
+   in its current heading (no sudden turn). The moment the stick moves, righting
+   stops and the player has full control (no blend fighting the stick). Full
+   assist rights faster and also does the bank-turn; Light rights but adds no
+   turning of its own.
+2. **A "level out" button** for an instant recovery: one press rights the ship
+   at a faster rate even while the stick is held (gamepad: left-stick click;
+   keyboard: L; HOTAS: a button picked in Settings > Controls and HOTAS).
+3. **Settings:** "Auto-level" On (default) / Off, and the righting speed
+   (Slow / Normal / Fast), separate from Flight assist.
+4. **Hover:** the ship already stays level in hover; make sure switching to
+   landing mode from any attitude (even inverted) rights it first, smoothly.
+5. **Check (muted, no focus):** from a 60° bank, a 120° bank, upside down and
+   nose-down 45°: release the stick, measure time to level and height lost;
+   prove no uncommanded movement while the stick is held (Fix 2.5's list stays
+   clean); a low canyon run with releases between turns doesn't hit the
+   walls. Cockpit pictures before / after a recovery.
+6. Commit Part A on its own (publishing happens at the end of Part B).
+
+**Part B — Enemies and difficulty**
+
+Goal: the planet fights back, as in the original: gun turrets on high ground,
+flying saucers, enemy fire you can dodge, a shield that costs energy, and a gun
+of your own. Difficulty presets decide how hard all of it (and the aliens) is.
+Campaign only (Free Flight stays peaceful).
+
+B1. **Turrets.** Gun emplacements on ridges and rims (Canyons), on rooftops and
+    tower ledges (Dead City), on ice cliffs (Ice), on giant branches / stumps
+    above the canopy (Giant Forest). Placed by the planet's seed. They track
+    the ship when it is in line of sight and in range, fire visible, dodgeable
+    shots (bright bolts with a short lead), and can be destroyed. Flying low in
+    the canyons keeps you out of their sight: that's the point.
+B2. **Saucers.** Flying enemies that patrol and, once they spot you, chase and
+    make firing passes. Fewer of them; dangerous in the open, harder for them
+    in tight canyons (they avoid walls but are less agile than the ship).
+    Can be destroyed.
+B3. **Your gun.** A forward gun (trigger / fire button on all devices; HOTAS
+    trigger, gamepad RB or A as fits the layout — Code proposes a layout that
+    doesn't clash, Dan checks). Each shot costs a little energy. Destroying a
+    turret or saucer pays a bounty (tuning). A simple aiming reticle in the
+    cockpit and HUD (VR rule 2).
+B4. **Shields.** A shield toggle (as in the original): blocks enemy shots while
+    on, drains energy fast while on, shows on the cockpit and HUD. A shield
+    turned on with something at the hull also kills it (the original's answer
+    to the aliens, alongside starting the engines; same rules for real
+    pilots: a pilot at the door dies too).
+B5. **Damage.** Enemy hits damage the hull (repair at the hangar, as now); hull
+    at 0 = death (explosion, regeneration, recovery / loaner, as now). Hits shake
+    the ship and the cockpit (no screen flashes), with sparks and a damage
+    readout.
+B6. **Warnings.** Incoming-fire direction markers on the HUD and cockpit
+    display; "LOCKED ON" / "SAUCER" calls from the ship's computer (new voice
+    lines, ElevenLabs as in Round 4); turrets and saucers on the radar once
+    spotted; Control warns on launch if the planet is "hot".
+B7. **Landing pads under fire.** On Easy / Normal, pilots' pads are out of
+    turret sight lines (a landed ship isn't a sitting duck); on Hard /
+    Nightmare some are covered, so you clear the turret first or risk it.
+    Saucers can find you anywhere (they make waiting for a pilot tense).
+B8. **Difficulty presets** chosen when starting a career and changeable any time
+    from the hangar: **Easy / Normal (default) / Hard / Nightmare / Custom**.
+    Custom options: enemies (Off / Turrets / Turrets + Saucers), enemy
+    aggression (density, accuracy, fire rate), alien share, how often alien
+    tells show (Easy 95 %, Normal 75 %, Hard 60 %, Nightmare 50 %), false tells
+    on real pilots (Easy 0, Normal 0, Hard 10 %, Nightmare 20 %), crash level,
+    pay multiplier (harder pays more). The alien surprise stays on in every
+    setting (decided earlier). All numbers in the tuning file.
+B9. **Ease-in:** a new career's first planet has turrets only and few of them,
+    on every setting except Custom with them off; saucers from the second
+    planet on. Enemy numbers rise with the planet tier.
+B10. **Models and sound.** Turrets, bolts and saucers: hard-surface, made by
+    Blender script (fine for these; the art pipeline only if they look poor —
+    STOP for Dan then). Original designs, nothing from the 1984 game. Weapon,
+    shield, impact and explosion sounds with ElevenLabs.
+B11. **Performance:** keep 60 fps on Dan's PC and the Deck setting's frame
+    rate with enemies active in every biome (pooling for shots and effects).
+B12. **Check (muted, no focus, per the testing rules):** per biome, a turret
+    tracks and fires, the ship dodges / takes hits, the gun destroys it
+    (bounty); a saucer chase and kill; shield blocks shots and drains energy;
+    shield kills an alien at the door; hull to 0 = death flow; pads out of
+    turret sight on Normal; each preset's numbers; the first planet's ease-in;
+    frame rate. Cockpit pictures that Code looks at and describes (can a first-
+    time player see the shots coming and where from?).
+
+**End of the round:** publish **0.5.0**, update `TODO.md` (per-item status for
+Part A 0-6 and B1-B12: done / not done / deferred and why; new tuning values
+and controls) and `CLAUDE.md`, clean up, commit and push.
+
+**For Dan to check:** let go of the stick when you're turned around or upside
+down: does it come back upright quickly and smoothly without fighting you? The
+level-out button. Then the enemies: can you see the shots coming, is flying low
+to stay out of turret sight fun, are saucers too much, how do the presets feel?
+The gun / shield controls on the gamepad, and the HOTAS when you get a chance.

@@ -63,6 +63,9 @@ CONTROL_LINES = [
     ('pilot_killed', 'a real pilot burnt by the exhaust', 'You just burned one of ours. That comes out of your pay.'),
     ('security', 'security kills a Sleeper in the bay', 'Security\'s dealt with your passenger. Don\'t ask.'),
     ('lost_contact', 'the ship lost', 'I\'ve lost your signal. Regeneration bay, stand by.'),
+    # Round 5 (B6): the planet fights back
+    ('hot', 'launch: the planet has turrets', 'Heads up, this one\'s hot. Gun turrets on the high ground. Keep low and they can\'t see you.'),
+    ('hot_saucers', 'launch: turrets and saucers', 'Heads up, this one\'s hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving.'),
 ]
 
 COMPUTER_LINES = [
@@ -79,6 +82,12 @@ COMPUTER_LINES = [
     ('intruder', 'Intruder alert. Intruder alert.'),
     ('engines_off', 'Engines off.'),
     ('whiteout', 'Visibility low. Instruments only.'),
+    # Round 5 (B4, B6)
+    ('locked_on', 'Warning. Locked on.'),
+    ('saucer', 'Saucer. Saucer.'),
+    ('shield_up', 'Shield up.'),
+    ('shield_down', 'Shield down.'),
+    ('target_down', 'Target destroyed.'),
 ]
 
 # per pilot voice; {n} = their callsign. *_wrong = the Mimic's voice sign (a word repeats, a breath in the wrong place).

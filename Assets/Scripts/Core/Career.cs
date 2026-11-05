@@ -31,6 +31,8 @@ namespace HostileHorizon
         public string biome = "canyons";   // Round 4 (A1): Biomes.Keys; from the seed (a career's first planet: always canyons)
         public bool biomeSet;              // Round 4: false in a save from before Round 4 (its biome is worked out on the next visit)
         public string lastVisit;           // Fix 3.2: for the planet list's order (most recent first)
+        public List<int> enemiesDown = new List<int>();   // Round 5: enemies destroyed here (turret i = i, saucer i = 1000 + i)
+        public string enemiesKey = "";                    // Round 5: the difficulty's enemies they belong to (a change: other enemies)
         public bool OfTheDay => seed == Seeds.OfTheDay;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
     }
@@ -39,6 +41,7 @@ namespace HostileHorizon
     {
         public int pilotsRescued, pilotsLost, creditsEarned, creditsSpent, deaths, planetsCleared, sorties, tows, recalls;
         public int aliensKilled;      // Round 3
+        public int turretsDestroyed, saucersDestroyed;   // Round 5
     }
 
     [Serializable] public sealed class JournalEntry { public int type; public int encounters; }
@@ -58,6 +61,7 @@ namespace HostileHorizon
         public string started, lastSaved;
         public int currentSeed;      // Fix 3.2: the planet the mothership is over (0 = none yet: today's)
         public int planetsMade;      // Fix 3.2: how many new planets this career has generated (the next one's number)
+        public DifficultySetting difficulty = new DifficultySetting();   // Round 5 (B8): a save from before Round 5 is Normal
 
         public static Career C { get; private set; }
         public ShipState Current => flyingLoaner ? loaner : ship;
@@ -71,7 +75,7 @@ namespace HostileHorizon
         public static Career New()
         {
             int seed = CheckSystemSeed != 0 ? CheckSystemSeed : Seeds.NewRandom();
-            C = new Career { systemSeed = seed, systemName = Names.StarSystem(seed), credits = Tuning.T.startingCredits, started = DateTime.Now.ToString("yyyy-MM-dd HH:mm") };
+            C = new Career { systemSeed = seed, systemName = Names.StarSystem(seed), credits = Tuning.T.startingCredits, started = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), difficulty = GameSettings.S.difficulty.Copy() };
             C.Save();
             return C;
         }

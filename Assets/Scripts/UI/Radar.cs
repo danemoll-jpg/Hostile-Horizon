@@ -12,7 +12,7 @@ namespace HostileHorizon
     // pilot bigger and brighter with a NEAREST tag, the mothership's blip with its distance too, and the route trail (Fix 2.6, item
     // 2) drawn as a dotted line. Contacts past the rim sit on it. Far away the bearing stays rough (to 30° past 3 km), as Round 2's
     // "more detail closer".
-    public struct RadarContact { public Vector3 position; public bool mothership; public int number; }
+    public struct RadarContact { public Vector3 position; public bool mothership; public int number; public int enemy; }   // Round 5: enemy 1 turret, 2 saucer (once spotted)
 
     public sealed class RadarScope
     {
@@ -75,15 +75,29 @@ namespace HostileHorizon
             int best = -1; float bd = float.MaxValue;
             for (int i = 0; i < contacts.Count; i++)
             {
-                if (contacts[i].mothership) continue;
+                if (contacts[i].mothership || contacts[i].enemy != 0) continue;
                 var d = contacts[i].position - ship.position; d.y = 0;
                 if (d.sqrMagnitude < bd) { bd = d.sqrMagnitude; best = i; }
             }
             return best;
         }
 
-        public void Draw(Transform ship, List<RadarContact> contacts, List<Vector3> route = null)
+        readonly List<Image> threatMarks = new List<Image>();
+        public void Draw(Transform ship, List<RadarContact> contacts, List<Vector3> route = null, List<(Vector3 from, float until)> threats = null)
         {
+            // Round 5 (B6): incoming fire: a red mark on the rim toward each shooter, fading in 2.5 s
+            int nt = 0;
+            if (threats != null)
+                foreach (var th in threats)
+                {
+                    if (nt >= 8) break;
+                    var dv = th.from - ship.position; float br = (Mathf.Atan2(dv.x, dv.z) * Mathf.Rad2Deg - ship.eulerAngles.y) * Mathf.Deg2Rad;
+                    if (threatMarks.Count <= nt) threatMarks.Add(Img(root, disc, Color.red, Vector2.zero, 0));
+                    var m = threatMarks[nt++]; m.enabled = true; m.transform.SetAsLastSibling();
+                    m.color = new Color(1f, .15f, .1f, Mathf.Clamp01((th.until - Time.time) / 2.5f) * (.6f + .4f * Mathf.Sin(Time.time * 14f)));
+                    Place(m, new Vector2(Mathf.Sin(br), Mathf.Cos(br)) * radius * .97f, size * .16f);
+                }
+            for (int i = nt; i < threatMarks.Count; i++) threatMarks[i].enabled = false;
             float pulse = .65f + .35f * Mathf.Sin(Time.time * 5f);
             int nearest = Nearest(ship, contacts);
             // the zoom: the smallest range that holds the nearest pilot (the mothership when no pilot is left)
@@ -119,16 +133,16 @@ namespace HostileHorizon
                 float dist = dv.magnitude, bearing = Mathf.Atan2(dv.x, dv.z) * Mathf.Rad2Deg - ship.eulerAngles.y;
                 if (dist > MidRange) bearing = Mathf.Round(bearing / 30f) * 30f;
                 bool isNear = i == nearest;
-                float r = Mathf.Min(1, dist / Range), sz = radius * (isNear ? .19f : .13f);
-                Color col = c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
+                float r = Mathf.Min(1, dist / Range), sz = radius * (isNear ? .19f : c.enemy != 0 ? .1f : .13f);
+                Color col = c.enemy != 0 ? new Color(1f, .22f, .2f) : c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
                 col.a = dist > Range ? .55f * pulse : isNear ? 1 : .85f;
                 float a = bearing * Mathf.Deg2Rad;
                 var at = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * r * radius;
                 b.color = col; Place(b, at, sz);
                 halos[i].enabled = isNear; if (isNear) { halos[i].color = new Color(1f, 1f, .8f, .5f + .5f * pulse); Place(halos[i], at, sz * 2.1f); }
                 string name = c.mothership ? "MS" : $"P{c.number}";
-                labels[i].text = isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
-                labels[i].color = c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
+                labels[i].text = c.enemy == 1 ? "" : c.enemy == 2 ? "SAUCER" : isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
+                labels[i].color = c.enemy != 0 ? new Color(1f, .45f, .4f) : c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
                 labels[i].fontSize = isNear ? font + 1 : font;
                 // the label centred under the blip (over it in the scope's lower part), so it stays on the scope
                 labels[i].alignment = TextAnchor.MiddleCenter;
@@ -162,7 +176,7 @@ namespace HostileHorizon
         // The text list beside the scope: the nearest beacons, as exact as the distance allows.
         public static string List(Transform ship, List<RadarContact> contacts, int max)
         {
-            var sorted = new List<RadarContact>(contacts);
+            var sorted = contacts.FindAll(c => c.enemy == 0);   // Round 5: enemies are on the scope, not in this list
             sorted.Sort((x, y) => (x.position - ship.position).sqrMagnitude.CompareTo((y.position - ship.position).sqrMagnitude));
             var sb = new StringBuilder();
             int shown = 0; bool first = true;

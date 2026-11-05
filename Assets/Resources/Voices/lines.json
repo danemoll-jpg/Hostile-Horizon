@@ -156,6 +156,16 @@
    "text": "I've lost your signal. Regeneration bay, stand by."
   },
   {
+   "id": "ctl_hot",
+   "speaker": "Control",
+   "text": "Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you."
+  },
+  {
+   "id": "ctl_hot_saucers",
+   "speaker": "Control",
+   "text": "Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving."
+  },
+  {
    "id": "cpu_energy_low",
    "speaker": "Computer",
    "text": "Energy low."
@@ -219,6 +229,31 @@
    "id": "cpu_whiteout",
    "speaker": "Computer",
    "text": "Visibility low. Instruments only."
+  },
+  {
+   "id": "cpu_locked_on",
+   "speaker": "Computer",
+   "text": "Warning. Locked on."
+  },
+  {
+   "id": "cpu_saucer",
+   "speaker": "Computer",
+   "text": "Saucer. Saucer."
+  },
+  {
+   "id": "cpu_shield_up",
+   "speaker": "Computer",
+   "text": "Shield up."
+  },
+  {
+   "id": "cpu_shield_down",
+   "speaker": "Computer",
+   "text": "Shield down."
+  },
+  {
+   "id": "cpu_target_down",
+   "speaker": "Computer",
+   "text": "Target destroyed."
   },
   {
    "id": "p0_mayday",

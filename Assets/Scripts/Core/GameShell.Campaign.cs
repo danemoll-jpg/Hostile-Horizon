@@ -27,7 +27,7 @@ namespace HostileHorizon
         public int CabinCount => cabin.Count;
         public string Phase { get; private set; } = "";
         public string Debrief => debrief;
-        public CrashLevel CampaignLevel => (CrashLevel)Mathf.Clamp(GameSettings.S.campaignCrashLevel, 0, 4);
+        public CrashLevel CampaignLevel => Difficulty.Crash;   // Round 5: part of the difficulty (Normal = Lasting damage, as before)
         readonly List<int> cabin = new List<int>();
         bool dockArmed;
         string debrief = "", flash = ""; float flashUntil, beepTimer;
@@ -83,6 +83,7 @@ namespace HostileHorizon
             Terrain.Field.FindStart(out var start, out var heading);
             Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
             SpawnPilots();
+            SetupEnemies();   // Round 5: the planet's turrets and saucers
             c.Save();
             Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
         }
@@ -122,6 +123,7 @@ namespace HostileHorizon
             foreach (var p in Pilots) if (p) Destroy(p.gameObject);
             Pilots.Clear();
             var sites = PlanetSites.Find(Terrain.Field, Planet.pilots.Length, Planet.tier);
+            sitePads.Clear(); foreach (var s in sites) sitePads.Add(s.landing);   // Round 5 (B7): every pilot's pad, for the turrets' sight lines
             if (sites.Count < Planet.pilots.Length) { System.Array.Resize(ref Planet.pilots, sites.Count); System.Array.Resize(ref Planet.alien, sites.Count); System.Array.Resize(ref Planet.quirk, sites.Count); }   // a planet short of landable spots has fewer pilots
             for (int i = 0; i < Planet.pilots.Length; i++)
             {
@@ -154,6 +156,7 @@ namespace HostileHorizon
             if (Displays) { Displays.Route = ""; Displays.RoutePath = null; }
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; }
             ClearAliens();
+            if (Foes) { ResetFight(); Foes.Clear(); Foes.Running = false; }   // Round 5
         }
 
         // Saved on quitting mid-flight too: the ship as it is; pilots in the cabin weren't delivered, so they wait on the planet again.
@@ -200,7 +203,9 @@ namespace HostileHorizon
             Ship.SetEnergyAndDamage(c.Current.energy, c.Current.damage);
             cabin.Clear(); dockArmed = false; debrief = ""; calling = 0; recallHold = 0; HomeState = 0;
             ClearAliens(); Reseat(); securityLine = ""; journalNote = "";
+            ResetFight(); Ship.Level = CampaignLevel;   // Round 5
             SayLaunch();   // Round 4: the launch cue and Control
+            SayHot();      // Round 5 (B6): "this planet is hot"
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
             while (Mother.DoorsOpen < .98f) { HoldShip(); yield return null; }
@@ -257,6 +262,7 @@ namespace HostileHorizon
             var con = Displays.Contacts; con.Clear();
             foreach (var p in Pilots) if (p.OnFoot && !p.HiddenFromRadar) con.Add(new RadarContact { position = p.Beacon, number = p.Index + 1 });
             con.Add(new RadarContact { position = Mother.transform.position, mothership = true });
+            foreach (var e in Foes.All) if (!e.Dead && e.Spotted) con.Add(new RadarContact { position = e.Pos, enemy = e.Kind == EnemyKind.Turret ? 1 : 2 });   // Round 5 (B6): once spotted
             Vector3 toMother = Flat(Mother.transform.position - Ship.transform.position);
             float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude), brg = (Mathf.Atan2(toMother.x, toMother.z) * Mathf.Rad2Deg + 360f) % 360f;
             Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
@@ -472,18 +478,21 @@ namespace HostileHorizon
         }
 
         // Engines started near pilots on foot: the exhaust kills those within its range.
-        void OnEnginesStarted()
+        void OnEnginesStarted() { if (InCampaign) HullBurn(false); }
+
+        // Round 5 (B4): the same for the shield turned on: whatever is at the hull burns (an alien, or a real pilot: a penalty)
+        void HullBurn(bool shield)
         {
-            if (!InCampaign) return;
-            var t = Tuning.T; var c = Career.C;
+            var t = Tuning.T; var c = Career.C; string how = shield ? "shield" : "exhaust";
             if (CanopyAlien != null) ThrowOffCanopy();   // Round 3: thrown off the canopy, burnt
             foreach (var p in Pilots)
             {
                 if (!p.OnFoot || Vector3.Distance(p.Position, Ship.transform.position) > t.exhaustKillRange) continue;
-                if (p.IsAlien) { ExhaustKillsAlien(p); continue; }   // Round 3: it shrieks and shows what it was
+                if (p.IsAlien) { ExhaustKillsAlien(p, how); continue; }   // Round 3: it shrieks and shows what it was
                 p.Kill(); Planet.pilots[p.Index] = (int)PilotFate.Lost; c.stats.pilotsLost++;
                 int paid = c.Spend(t.exhaustKillPenalty);
-                Flash($"Pilot {p.Index + 1} killed by your exhaust. Penalty -{paid} cr", 6f);
+                Flash($"Pilot {p.Index + 1} killed by your {how}. Penalty -{paid} cr", 6f);
+                if (shield) FightLog.Add($"{Time.time:0.0} shield killed pilot {p.Index + 1} (a real pilot): -{paid} cr");
                 Voice.Say("ctl_pilot_killed", VoiceKind.Radio, 2);
             }
         }
@@ -493,6 +502,7 @@ namespace HostileHorizon
         IEnumerator Dock(bool towLift)
         {
             if (Now != State.Paused) Now = State.Auto; else pausedFrom = State.Auto; Phase = towLift ? "tow-lift" : "dock-approach"; Mother.Holding = true;
+            SetShield(false);   // Round 5
             Ship.MakeKinematic(false);
             Vector3 pos = Ship.transform.position, vel = Ship.Velocity; Quaternion rot = Ship.transform.rotation; float bank = 0;   // caught as it moves (zero when landed)
             var tu = Tuning.T; LiftStarted = Time.time;
@@ -572,7 +582,7 @@ namespace HostileHorizon
             var c = Career.C; var t = Tuning.T; var sb = new StringBuilder();
             if (cabin.Count > 0)
             {
-                int pay = cabin.Count * t.pilotPay, extra = Planet.OfTheDay ? Mathf.RoundToInt(pay * t.dayBonus) : 0;   // Fix 3.2: the planet of the day pays more
+                int pay = Mathf.RoundToInt(cabin.Count * t.pilotPay * Difficulty.Pay), extra = Planet.OfTheDay ? Mathf.RoundToInt(pay * t.dayBonus) : 0;   // Fix 3.2: the planet of the day pays more
                 c.Earn(pay + extra); c.stats.pilotsRescued += cabin.Count;
                 foreach (int i in cabin) Planet.pilots[i] = (int)PilotFate.Rescued;
                 sb.AppendLine($"Delivered {cabin.Count} pilot{(cabin.Count > 1 ? "s" : "")}: +{pay + extra} cr" + (extra > 0 ? $" (planet of the day +{t.dayBonus * 100:0} %: {extra} cr of it)" : ""));
@@ -657,11 +667,14 @@ namespace HostileHorizon
         void Died(AlienType killer = AlienType.None)
         {
             var c = Career.C; Phase = "dead"; calling = 0;
+            bool shotDown = killer == AlienType.None && Time.time - Ship.LastShotAt < 1f && LastKiller != "";   // Round 5 (B5)
+            SetShield(false);
             Voice.StopAll(); Music.Sting("sting_death"); Voice.Say("ctl_lost_contact", VoiceKind.Radio, 2, maxAge: 30f);
             if (CanopyAlien != null) { CanopyAlien = null; if (canopyCo != null) { StopCoroutine(canopyCo); canopyCo = null; } }
             journalNote = "";
             if (killer != AlienType.None) Met(killer, "it killed you");
-            string got = killer != AlienType.None ? $"Killed by the thing you let aboard: a <b>{Aliens.Names[(int)killer]}</b>.\n" + (journalNote != "" ? journalNote + "\n" : "") + "\n" : "";
+            string got = killer != AlienType.None ? $"Killed by the thing you let aboard: a <b>{Aliens.Names[(int)killer]}</b>.\n" + (journalNote != "" ? journalNote + "\n" : "") + "\n" : shotDown ? $"Shot down by <b>{LastKiller}</b>.\n\n" : "";
+            FightLog.Add($"{Time.time:0.0} died{(shotDown ? ", shot down by " + LastKiller : "")}");
             int lost = 0;
             foreach (int i in cabin) { if (Planet.alien != null && i < Planet.alien.Length && Planet.alien[i] != 0) Planet.pilots[i] = (int)PilotFate.AlienGone; else { Planet.pilots[i] = (int)PilotFate.Lost; lost++; } }
             c.stats.pilotsLost += lost; c.stats.deaths++; cabin.Clear(); SleeperIndex = -1;
@@ -795,11 +808,14 @@ namespace HostileHorizon
                 var c = Career.Exists ? (Career.C ?? Career.Load()) : null;
                 string s = c == null ? "No career yet: start a new one." :
                     $"<b>Your career</b>: the {c.systemName} system\n{c.credits} cr · {c.stats.pilotsRescued} pilots rescued · {c.stats.deaths} deaths · {c.stats.planetsCleared} planets cleared\nLast saved {c.lastSaved}";
-                return s + $"\n\nToday's planet: <b>{Names.Planet(Seeds.OfTheDay)}</b> (seed {Seeds.OfTheDay})\n\n<b>{CrashLevels.Names[(int)CampaignLevel]}</b>\n{CrashLevels.Explain[(int)CampaignLevel]}";
+                var nd = GameSettings.S.difficulty;
+                return s + (c != null ? $"\nDifficulty: {Difficulty.Name(c.difficulty)} (change it in the hangar)" : "") + $"\n\nToday's planet: <b>{Names.Planet(Seeds.OfTheDay)}</b> (seed {Seeds.OfTheDay})\n\n<b>A new career: {Difficulty.Name(nd)}</b>\n<size=24>{Difficulty.Summary(nd)}</size>";
             };
             campaignPage.Add(Action("Continue", () => StartCampaign(false), () => !Career.Exists))
                 .Add(Action("New career", () => { if (Career.Exists) Menu.Show(confirmNew); else StartCampaign(true); }))
-                .Add(Option("Crash level", () => CrashLevels.Names[(int)CampaignLevel], d => { GameSettings.S.campaignCrashLevel = Wrap(GameSettings.S.campaignCrashLevel + d, 5); GameSettings.Save(); }))
+                // Round 5 (B8): the difficulty for a new career (it holds the crash level); the hangar changes a running career's
+                .Add(Option("Difficulty (new career)", () => Difficulty.Name(GameSettings.S.difficulty), d => { var s = GameSettings.S.difficulty; s.ApplyPreset(Wrap(Mathf.Min(s.preset, 3) + (s.preset == 4 && d > 0 ? 0 : d), 4)); GameSettings.Save(); }))
+                .Add(Action("Difficulty options", () => ShowDifficulty(campaignPage)))
                 .Add(Action("Back", () => Menu.Show(title)));
 
             confirmNew = new MenuPanel.Page { Title = "NEW CAREER?", Back = () => Menu.Show(campaignPage) };
@@ -817,6 +833,7 @@ namespace HostileHorizon
                   .Add(new MenuPanel.Row { Label = () => $"Refuel  <size=24>({Career.C.RefuelCost} cr)</size>", Submit = () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.energy >= 99.9f })
                   .Add(new MenuPanel.Row { Label = () => $"Recover your own ship  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, false)), Visible = () => Career.C != null && Career.C.flyingLoaner && Career.C.ship.wrecked, Disabled = () => Career.C.credits < Career.C.RecoveryFee })
                   .Add(Action("Field Journal", () => ShowJournal(hangar)))   // Round 3
+                  .Add(new MenuPanel.Row { Label = () => $"Difficulty: {Difficulty.Name(Career.C.difficulty)}", Submit = () => ShowDifficulty(hangar) })   // Round 5 (B8)
                   .Add(Action("Back to title (saves)", ToTitle));
             jumping = new MenuPanel.Page { Title = "JUMP", Subtitle = "The bay doors are shut; the mothership is under way", Hint = () => "" };
             BuildPlanetsPage();
@@ -877,7 +894,8 @@ namespace HostileHorizon
                 (Planet.OfTheDay ? $"  <color=#FFC873>Planet of the day: pilots pay +{Tuning.T.dayBonus * 100:0} % ({Mathf.RoundToInt(Tuning.T.pilotPay * (1 + Tuning.T.dayBonus))} cr each)</color>\n"
                                  : $"  Today's planet, {Names.Planet(Seeds.OfTheDay)}, pays +{Tuning.T.dayBonus * 100:0} % a pilot (Planets)\n") +
                 (Planet.cleared ? "  <color=#9CFFB0><b>Cleared! Jump to a new planet (selected).</b></color>\n" : "") +
-                $"\n<b>Career</b>\n  {st.pilotsRescued} pilots rescued · {st.pilotsLost} lost · {st.creditsEarned} cr earned\n  {st.deaths} deaths · {st.planetsCleared} planets cleared · {st.sorties} sorties\n" +
+                (Foes.All.Count > 0 ? $"  <color=#FF8A80>Defences: {Alive(EnemyKind.Turret)} turrets{(Foes.All.Exists(e => e.Kind == EnemyKind.Saucer) ? $", {Alive(EnemyKind.Saucer)} saucers" : "")} (fly low: turrets can't see into the canyons)</color>\n" : "  Defences: none\n") +
+                $"\n<b>Career</b> ({Difficulty.Name(c.difficulty)})\n  {st.pilotsRescued} pilots rescued · {st.pilotsLost} lost · {st.creditsEarned} cr earned\n  {st.deaths} deaths · {st.planetsCleared} planets cleared · {st.sorties} sorties · {st.turretsDestroyed + st.saucersDestroyed} enemies destroyed\n" +
                 (debrief != "" ? $"\n<b>Last</b>\n{debrief}" : "");
         }
     }

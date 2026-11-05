@@ -66,6 +66,7 @@ namespace HostileHorizon
             Route = RouteTrail.Create();   // Fix 2.6
             CreateWorldExtras();           // Round 4: biome props, weather, music, voices
             CreateAliens();                // Round 3: the cabin, its camera
+            CreateEnemies();               // Round 5: turrets, saucers, the gun, the shield
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
             BuildPages();
@@ -184,6 +185,7 @@ namespace HostileHorizon
             FastForwarding = ff;
             if (Belly) Belly.Allowed = Now == State.Flying || Now == State.Paused && pausedFrom == State.Flying;
             if (Props) WorldTick();   // Round 4
+            FightFrame();             // Round 5
         }
 
         // ---- flow

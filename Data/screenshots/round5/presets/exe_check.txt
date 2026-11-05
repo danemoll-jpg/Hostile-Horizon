@@ -1,0 +1,18 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 59392 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-04 20:07; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+tuning: turrets first planet 3, base 6 + 2/tier (max 24); range 1100 m, lock 1.2 s, every 1.8 s, bolt 230 m/s, lead 0.9, error 14 m at 1 km, damage 7 %, hp 4; saucers 1 + 0.5/tier (max 6), 95 m/s, turn 55 °/s, burst 3, bolt 260 m/s, damage 5 %, hp 5; gun 6/s, 0.12 %/shot, 700 m/s; shield 2 %/s; bounty turret 150 / saucer 300
+--- presets
+  Easy: enemies Turrets + Saucers, aggression Low, aliens Fewer, tells 95 %, false tells 0 %, Regenerating damage, pay x0.8; aggression x0.6 (lock 2.00 s, fire every 3.00 s, aim error 23.3 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 5 (asked 5), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 1
+    aliens over 300 planets x 6 pilots (tier 1): 16.7 % aliens, tells shown 97 %, false tells on real pilots 0.0 %; pay x0.8
+  Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; aggression x1 (lock 1.20 s, fire every 1.80 s, aim error 14.0 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 8 (asked 8), 0 placed to cover a pad; pads in a turret's sight 0 of 5; saucers: 2
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 74 %, false tells on real pilots 0.0 %; pay x1
+  Hard: enemies Turrets + Saucers, aggression High, aliens More, tells 60 %, false tells 10 %, Lasting damage, pay x1.25; aggression x1.35 (lock 0.89 s, fire every 1.33 s, aim error 10.4 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 11 (asked 11), 2 placed to cover a pad; pads in a turret's sight 2 of 5; saucers: 2
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 60 %, false tells on real pilots 8.2 %; pay x1.25
+  Nightmare: enemies Turrets + Saucers, aggression Brutal, aliens Most, tells 50 %, false tells 20 %, Lasting damage, pay x1.5; aggression x1.7 (lock 0.71 s, fire every 1.06 s, aim error 8.2 m at 1 km)
+    placement (seed 4242, tier 1): turrets: 14 (asked 14), 3 placed to cover a pad; pads in a turret's sight 3 of 5; saucers: 3
+    aliens over 300 planets x 6 pilots (tier 1): 33.3 % aliens, tells shown 49 %, false tells on real pilots 19.7 %; pay x1.5
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 231424 samples); master volume 0.00
