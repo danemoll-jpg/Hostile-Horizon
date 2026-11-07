@@ -1,0 +1,441 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 61440 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 01:52; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+    [1159 fps] Auto/launch Hover alt 1443 gnd 1200 spd 57 hdg 120 energy 100
+--- Part A tuning: strike weights instant 0.4 / take-off 0.35 / slow burn 0.25; instant 1-4 s after the airlock shuts; take-off 2-6 s after lift-off or a turn over 70 °/s; slow burn 8-40 s; canopy leap 50 % at 5-15 s (else the climb at 25 s); herrings flicker 0.12 / thump 0.15 / crackle 0.12
+  600 planets x 6 pilots: instant 40 % (mean 2.5 s), take-off 35 % (4.0 s), slow burn 25 % (24 s); canopy leap 51 %; the same seed again: Instant 2.3 s / Instant 2.3 s
+--- A7 instant: a real pilot boards, then a Knocker (no tell shown) boards the same way at the same pad; the alien strikes Instant
+    [412 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 314 energy 97
+    [319 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 314 energy 94
+    [351 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [360 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  real pilot: cabin 1, state Flying
+    [347 fps] Flying/ Hover alt 34 gnd 35 spd 7 hdg 314 energy 100
+    [304 fps] Flying/ Hover alt 8 gnd 9 spd 1 hdg 314 energy 96
+    [323 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 314 energy 93
+    [387 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+screenshot r6a_instant_1_strike_0.1s.png
+    strike +0.30 s: creature Creature (Knocker): active True, face 0.62 m from the eye ((0.03, -0.09, 0.61) eye space), root at ship (0.02, -1.05, 3.03), clip attack, bounds (2.3, 3.1, 2.5) at (926.4, 0.3, -1973.5) (eye (926.8, 1.4, -1973.5)), lod-near 0.05
+  the alien struck 7.45 s after B was pressed (Instant (its moment) after 2.5 s armed)
+  COMPARISON, B pressed -> 7.40 s: real pilot 16 events, alien 16 events: IDENTICAL
+    real pilot, timed:
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.10 state: airlock = moving
+      04.91 state: airlock = shut
+      05.41 state: prompt = Engines off. Throttle up or A / K to start them
+    alien, timed (to the strike and 2 s past it):
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.41 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.41 sting: sting_pilot_aboard
+      01.41 voice: cpu_pilot_aboard
+      01.41 voice: p9_thanks_2
+      01.41 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.41 state: pickup line = 
+      01.41 state: cabin count = 1
+      04.09 state: airlock = moving
+      04.91 state: airlock = shut
+      05.41 state: prompt = Engines off. Throttle up or A / K to start them
+      07.45 strike: Instant
+      07.45 music: (cut)
+      07.45 voice: (all stopped)
+      07.45 sting: sting_alien_reveal
+      07.45 sound: hatch_burst
+      07.45 sound: creature_lunge
+      07.45 hatch: hit
+      07.45 hatch: breaks
+      07.45 state: controls = taken
+      07.45 state: creature = SHOWN
+  first event the alien adds: at 7.45 s (7.45 s = the strike)
+screenshot r6a_instant_2_strike_0.5s.png
+    strike +0.67 s: creature Creature (Knocker): active True, face 0.17 m from the eye ((-0.14, 0.07, -0.05) eye space), root at ship (0.01, -0.95, 2.87), clip attack, bounds (2.2, 2.8, 2.4) at (926.7, 0.4, -1973.4) (eye (926.8, 1.4, -1973.5)), lod-near 0.05
+screenshot r6a_instant_3_strike_1.0s.png
+    strike +1.19 s: creature Creature (Knocker): active True, face 0.50 m from the eye ((-0.18, 0.20, 0.43) eye space), root at ship (0.02, -0.86, 3.12), clip attack, bounds (2.1, 2.7, 2.2) at (926.3, 0.6, -1973.3) (eye (926.8, 1.4, -1973.5)), lod-near 0.05; beat "at your face", lights off
+    [370 fps] Auto/horror Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: new entry — Knocker /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_instant_death_page.png
+    [614 fps] Auto/regen-trip Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_instant_regen_bay.png
+    [744 fps] Auto/recovery Hover alt 979 gnd 434 spd 55 hdg 120 energy 100
+    [1194 fps] Auto/recovery Hover alt 1387 gnd 842 spd 26 hdg 120 energy 100
+    [1252 fps] Auto/recovery Hover alt 1500 gnd 955 spd 7 hdg 120 energy 100
+    [1314 fps] Auto/launch Hover alt 1427 gnd 1428 spd 73 hdg 120 energy 100
+--- A7 takeoff: a real pilot boards, then a Knocker (no tell shown) boards the same way at the same pad; the alien strikes Takeoff
+    [321 fps] Flying/ Hover alt 10 gnd 11 spd 1 hdg 314 energy 97
+    [314 fps] Flying/ Hover alt 3 gnd 4 spd 1 hdg 314 energy 93
+    [368 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [345 fps] Flying/ Hover alt 23 gnd 24 spd 14 hdg 314 energy 97
+    [275 fps] Flying/ Hover alt 79 gnd 81 spd 4 hdg 314 energy 94
+  real pilot: cabin 1, state Flying
+    [280 fps] Flying/ Hover alt 17 gnd 19 spd 2 hdg 314 energy 98
+    [315 fps] Flying/ Hover alt 5 gnd 7 spd 1 hdg 314 energy 95
+    [318 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [403 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+screenshot r6a_takeoff_1_strike_0.1s.png
+    strike +0.29 s: creature Creature (Knocker): active True, face 0.62 m from the eye ((0.03, -0.11, 0.61) eye space), root at ship (0.01, -1.07, 3.03), clip attack, bounds (2.3, 3.0, 2.5) at (926.4, 46.2, -1973.5) (eye (926.8, 47.3, -1973.5)), lod-near 0.05
+  the alien struck 9.48 s after B was pressed (Takeoff (its moment) after 4.1 s armed)
+  COMPARISON, B pressed -> 9.43 s: real pilot 20 events, alien 20 events: IDENTICAL
+    real pilot, timed:
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.10 state: airlock = moving
+      04.91 state: airlock = shut
+      05.41 state: prompt = Engines off. Throttle up or A / K to start them
+      05.41 state: prompt = Landed. Climb (throttle up) to take off
+      05.43 music: flight_canyons
+      05.43 state: prompt = Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently
+      05.43 state: music wanted = flight_canyons
+    alien, timed (to the strike and 2 s past it):
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.09 state: airlock = moving
+      04.90 state: airlock = shut
+      05.40 state: prompt = Engines off. Throttle up or A / K to start them
+      05.41 state: prompt = Landed. Climb (throttle up) to take off
+      05.42 music: flight_canyons
+      05.42 state: prompt = Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently
+      05.42 state: music wanted = flight_canyons
+      09.48 strike: Takeoff
+      09.48 music: (cut)
+      09.48 voice: (all stopped)
+      09.48 sting: sting_alien_reveal
+      09.48 sound: hatch_burst
+      09.48 sound: creature_lunge
+      09.48 hatch: hit
+      09.48 hatch: breaks
+      09.48 music: (silence)
+      09.48 state: controls = taken
+      09.48 state: music wanted = 
+      09.48 state: creature = SHOWN
+  first event the alien adds: at 9.48 s (9.48 s = the strike)
+screenshot r6a_takeoff_2_strike_0.5s.png
+    strike +0.66 s: creature Creature (Knocker): active True, face 0.27 m from the eye ((-0.12, 0.24, 0.00) eye space), root at ship (0.01, -0.80, 2.87), clip attack, bounds (2.2, 2.7, 2.3) at (926.8, 46.1, -1973.4) (eye (926.8, 46.9, -1973.5)), lod-near 0.05
+screenshot r6a_takeoff_3_strike_1.0s.png
+    strike +1.19 s: creature Creature (Knocker): active True, face 0.61 m from the eye ((-0.18, 0.39, 0.43) eye space), root at ship (0.02, -0.66, 3.12), clip attack, bounds (2.1, 2.7, 2.2) at (926.3, 45.6, -1973.3) (eye (926.8, 46.3, -1973.5)), lod-near 0.05; beat "at your face", lights off
+    [368 fps] Crashed/dead Flight alt 43 gnd 44 spd 1 hdg 314 energy 97
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_takeoff_death_page.png
+    [582 fps] Auto/regen-trip Flight alt 31 gnd 32 spd 1 hdg 314 energy 97
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_takeoff_regen_bay.png
+    [840 fps] Auto/recovery Hover alt 1084 gnd 538 spd 50 hdg 120 energy 100
+    [1223 fps] Auto/recovery Hover alt 1432 gnd 886 spd 20 hdg 120 energy 100
+    [1353 fps] Auto/recovery Hover alt 1500 gnd 955 spd 13 hdg 120 energy 100
+--- slow burn: a Hollow boards, the ship flies on
+    [1124 fps] Flying/ Hover alt 31 gnd 33 spd 7 hdg 314 energy 99
+    [313 fps] Flying/ Hover alt 8 gnd 9 spd 1 hdg 314 energy 96
+    [334 fps] Flying/ Hover alt 2 gnd 3 spd 1 hdg 314 energy 92
+    [409 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [283 fps] Flying/ Hover alt 36 gnd 35 spd 2 hdg 230 energy 94
+    [248 fps] Flying/ Hover alt 36 gnd 35 spd 0 hdg 228 energy 90
+  struck 22.1 s after lift-off (SlowBurn (its moment) after 24.5 s armed)
+  beat 0.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    no creature
+screenshot r6a_slow_01_lights_die.png
+  beat 1.4 s: moving in the cabin; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 3.97 m from the eye ((-1.09, 0.14, -3.81) eye space), root at ship (-1.10, -0.64, -1.60), clip crawl, bounds (1.3, 2.3, 1.1) at (974.8, 35.0, -1966.4) (eye (971.0, 35.7, -1968.3)), lod-near 0.05
+  looked round: the view turned 105° (look works during it)
+screenshot r6a_slow_02_moving_in_the_cabin_looking_back.png
+picture r6a_slow_02_cabin_cam.png (384 x 216, straight from the camera)
+    [389 fps] Auto/horror Flight alt 31 gnd 30 spd 1 hdg 228 energy 89
+  beat 7.4 s: the hatch is hit; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 1.84 m from the eye ((-0.01, -1.80, -0.39) eye space), root at ship (-0.62, -0.64, 0.55), clip attack, bounds (2.3, 1.0, 2.1) at (973.4, 27.5, -1967.3) (eye (971.0, 28.5, -1968.3)), lod-near 0.05
+  looked round: the view turned 0° (look works during it)
+screenshot r6a_slow_03_the_hatch_is_hit_looking_back.png
+picture r6a_slow_03_cabin_cam.png (384 x 216, straight from the camera)
+  beat 11.2 s: the hatch gives way; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 1.68 m from the eye ((-0.57, 0.14, -1.57) eye space), root at ship (-0.62, -0.64, 0.55), clip attack, bounds (1.3, 2.4, 1.4) at (972.9, 26.4, -1967.5) (eye (971.0, 27.1, -1968.3)), lod-near 0.05
+screenshot r6a_slow_04_the_hatch_gives_way.png
+  beat 13.0 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 0.89 m from the eye ((-0.66, 0.56, -0.22) eye space), root at ship (-0.72, -0.20, 2.00), clip roar, bounds (1.2, 2.3, 1.1) at (971.9, 26.9, -1968.5) (eye (971.0, 27.1, -1968.3)), lod-near 0.05
+screenshot r6a_slow_05_in_front_of_you.png
+    [544 fps] Auto/horror Flight alt 26 gnd 25 spd 0 hdg 228 energy 89
+  beat 15.4 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 0.56 m from the eye ((-0.10, -0.01, 0.55) eye space), root at ship (-0.13, -0.39, 3.66), clip attack, bounds (1.7, 2.4, 1.1) at (970.1, 26.5, -1968.6) (eye (971.0, 27.1, -1968.3)), lod-near 0.05
+screenshot r6a_slow_06_lunge.png
+    at the end: creature Creature (Hollow): active True, face 0.15 m from the eye ((0.00, 0.02, 0.15) eye space), root at ship (0.09, -0.68, 2.67), clip attack, bounds (1.0, 2.4, 1.5) at (970.9, 26.4, -1968.1) (eye (971.0, 27.1, -1968.3)), lod-near 0.05
+  horror over after 15.8 s: state Crashed, phase dead, killed by Hollow; camera: fastest 1 m/s, fastest turn 165°/s (continuous: no cut)
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: new entry — Hollow /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_slow_death_page.png
+    [731 fps] Auto/regen-trip Flight alt 26 gnd 25 spd 0 hdg 228 energy 89
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_slow_regen_bay.png
+    [799 fps] Auto/recovery Hover alt 937 gnd 919 spd 55 hdg 120 energy 100
+    [1243 fps] Auto/recovery Hover alt 1366 gnd 1349 spd 28 hdg 120 energy 100
+    [1268 fps] Auto/recovery Hover alt 1500 gnd 1482 spd 15 hdg 120 energy 100
+    [1332 fps] Auto/launch Hover alt 1438 gnd 970 spd 63 hdg 120 energy 100
+--- A3 canopy leap: a Knocker left at the door (seeded: leaps at 7.6 s)
+    [359 fps] Flying/ Hover alt 11 gnd 12 spd 1 hdg 314 energy 97
+    [324 fps] Flying/ Hover alt 3 gnd 5 spd 1 hdg 314 energy 93
+    [349 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+  it leapt 7.6 s after reaching the door
+    [372 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+  on the canopy 7.97 s after the door; sounds: 460.4 canopy_slam, 460.4 canopy_scrape (loop), 460.4 canopy_breath (loop); view shake 0.80
+screenshot r6a_leap_1_slam.png
+screenshot r6a_leap_2_on_the_glass.png
+  engines on: canopy alien gone (thrown off), fate AlienGone
+--- A4 red herrings: seeded rates over 3600 boardings: flicker 12.1 %, thump 15.0 %, crackle 12.1 % (the same for real pilots and aliens)
+    [364 fps] Flying/ Hover alt 20 gnd 22 spd 4 hdg 314 energy 99
+    [295 fps] Flying/ Hover alt 6 gnd 7 spd 1 hdg 314 energy 95
+    [311 fps] Flying/ Hover alt 1 gnd 2 spd 1 hdg 314 energy 92
+    [378 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+  real pilot with all three: 1.41 herring: flicker | 1.41 sound: power_dip | 1.41 cabin lights: off | 1.41 state: cabin lights = off | 1.48 cabin lights: on | 1.48 state: cabin lights = on | 1.60 cabin lights: off | 1.60 state: cabin lights = off | 1.65 cabin lights: on | 1.65 state: cabin lights = on | 1.74 cabin lights: on | 3.04 herring: thump | 3.04 sound: cabin_thump | 5.24 herring: crackle | 5.24 sound: feed_crackle
+  after: cabin 1, lights on, state Flying, no strike (none)
+alien events: 92.6 pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 2.5 s after the airlock shuts | 98.6 strike: the Knocker (pilot 1), Instant (its moment) after 2.5 s armed; landed | 100.5 the Knocker got you (1.9 s after the strike) | 100.5 journal: Knocker encounter 1 (it killed you): "Listen at the door." | 238.9 pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 4.1 s after lift-off (or the first hard turn) | 247.0 strike: the Knocker (pilot 1), Takeoff (its moment) after 4.1 s armed; in flight, 47 m up | 248.9 the Knocker got you (1.9 s after the strike) | 248.9 journal: Knocker encounter 2 (it killed you): "The corps knocks a code. Count, and listen to where it comes from." | 331.1 pilot 1 aboard: a Hollow, boarded as a pilot; it strikes 24 s into the flight (slow burn) | 355.6 strike: the Hollow (pilot 1), SlowBurn (its moment) after 24.5 s armed; in flight, 35 m up | 355.6 horror sequence: a Hollow, in through the cabin (slow burn) | 371.4 the Hollow got you | 371.4 journal: Hollow encounter 1 (it killed you): "Look it in the eye." | 460.1 pilot 1 (Knocker) left at the airlock 8 s: it climbs onto the canopy | 460.1 it leaps onto the canopy | 460.4 on the canopy: pressed against the glass | 462.3 engines on with it on the canopy: thrown off (Knocker); bounty +200 cr | 462.3 journal: Knocker encounter 3 (thrown off the canopy): "The corps knocks a code. Count, and listen to where it comes from."
+    [359 fps] Auto/tow-lift Flight alt 178 gnd 173 spd 192 hdg 111 energy 100
+--- Part B:radar reach turrets 3000 m / saucers 6000 m; brackets to 2500 m; readable sizes: light 0.008 / flash 0.009 / bolt glow 0.006 m per m (accuracy, fire rate, aggression unchanged: lead 0.9, error 14, interval 1.8)
+--- Canyons: the check jumps to seed 205
+    [483 fps] Auto/launch Hover alt 1500 gnd 1497 spd 0 hdg 285 energy 100
+  Canyons: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 6 turrets, 1 saucers
+screenshot r6b_canyons_turret_2km.png
+  canyons_turret_2km: turret 5 1971 m away, at screen 43 % / 49 %; warning light 15.8 m; on the radar yes (spotted False); brackets: TURRET 1 668 m (highlighted); TURRET 5 1974 m; 
+    [976 fps] Flying/ Flight alt 446 gnd 446 spd 35 hdg 218 energy 100
+screenshot r6b_canyons_turret_1km.png
+  canyons_turret_1km: turret 5 960 m away, at screen 43 % / 49 %; warning light 7.7 m; on the radar yes (spotted True); brackets: TURRET 5 962 m (highlighted); 
+screenshot r6b_canyons_turret_fires_900m.png
+  canyons: turret firing at 900 m: flashes 1, nearest bolt 828 m
+screenshot r6b_canyons_saucer_2km.png
+  canyons_saucer_2km: saucer 7 2007 m away, at screen 43 % / 50 %; warning light 16.1 m; on the radar yes (spotted False); brackets: TURRET 3 1884 m; TURRET 4 2153 m; SAUCER 7 2009 m; 
+screenshot r6b_canyons_saucer_1km.png
+  canyons_saucer_1km: saucer 7 1005 m away, at screen 43 % / 50 %; warning light 8.0 m; on the radar yes (spotted True); brackets: TURRET 3 952 m (highlighted); TURRET 4 1870 m; SAUCER 7 1007 m; 
+    [342 fps] Flying/ Flight alt 566 gnd 561 spd 35 hdg 188 energy 99
+    [350 fps] Auto/tow-lift Flight alt 1547 gnd 1471 spd 170 hdg 285 energy 99
+    [396 fps] Auto/tow-lift Flight alt 1475 gnd 1011 spd 53 hdg 285 energy 99
+--- Giant Forest: the check jumps to seed 209
+    [536 fps] Auto/launch Hover alt 1500 gnd 1499 spd 0 hdg 285 energy 100
+  Giant Forest: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 5 turrets, 1 saucers
+screenshot r6b_forest_turret_2km.png
+  forest_turret_2km: turret 5 1968 m away, at screen 43 % / 50 %; warning light 15.7 m; on the radar yes (spotted False); brackets: TURRET 1 2013 m; TURRET 5 1970 m; TURRET 6 1778 m (highlighted); 
+screenshot r6b_forest_turret_1km.png
+  forest_turret_1km: turret 5 986 m away, at screen 43 % / 50 %; warning light 7.9 m; on the radar yes (spotted True); brackets: TURRET 1 1231 m; TURRET 5 989 m; TURRET 6 867 m (highlighted); 
+screenshot r6b_forest_turret_fires_900m.png
+  forest: turret firing at 900 m: flashes 2, nearest bolt 728 m
+    [541 fps] Flying/ Flight alt 231 gnd 138 spd 35 hdg 188 energy 100
+screenshot r6b_forest_saucer_2km.png
+  forest_saucer_2km: saucer 7 2011 m away, at screen 43 % / 50 %; warning light 16.1 m; on the radar yes (spotted False); brackets: TURRET 2 2112 m; TURRET 3 2098 m; SAUCER 7 2013 m (highlighted); 
+screenshot r6b_forest_saucer_1km.png
+  forest_saucer_1km: saucer 7 1013 m away, at screen 43 % / 51 %; warning light 8.1 m; on the radar yes (spotted True); brackets: TURRET 2 1082 m; TURRET 3 1309 m; SAUCER 7 1015 m (highlighted); 
+    [282 fps] Flying/ Flight alt 234 gnd 233 spd 35 hdg 189 energy 99
+    [326 fps] Auto/tow-lift Flight alt 1473 gnd 1473 spd 170 hdg 285 energy 99
+    [382 fps] Auto/tow-lift Flight alt 1475 gnd 1474 spd 56 hdg 285 energy 99
+--- Dead City: the check jumps to seed 202
+    [488 fps] Auto/launch Hover alt 1500 gnd 1411 spd 0 hdg 240 energy 100
+  Dead City: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 5 turrets, 1 saucers
+screenshot r6b_city_turret_2km.png
+  city_turret_2km: turret 1 1966 m away, at screen 43 % / 50 %; warning light 15.7 m; on the radar yes (spotted False); brackets: TURRET 1 1968 m; 
+screenshot r6b_city_turret_1km.png
+  city_turret_1km: turret 1 986 m away, at screen 43 % / 50 %; warning light 7.9 m; on the radar yes (spotted True); brackets: TURRET 1 988 m (highlighted); TURRET 3 1421 m; TURRET 4 2312 m; 
+    [619 fps] Flying/ Flight alt 158 gnd 151 spd 59 hdg 170 energy 100
+screenshot r6b_city_turret_fires_900m.png
+  city: turret firing at 900 m: flashes 1, nearest bolt 819 m
+screenshot r6b_city_saucer_2km.png
+  city_saucer_2km: saucer 7 1958 m away, at screen 43 % / 51 %; warning light 15.7 m; on the radar yes (spotted False); brackets: SAUCER 7 1960 m (highlighted); 
+screenshot r6b_city_saucer_1km.png
+  city_saucer_1km: saucer 7 974 m away, at screen 43 % / 51 %; warning light 7.8 m; on the radar yes (spotted True); brackets: SAUCER 7 977 m (highlighted); 
+    [404 fps] Flying/ Flight alt 203 gnd 196 spd 35 hdg 189 energy 99
+    [377 fps] Auto/tow-lift Flight alt 1292 gnd 1244 spd 240 hdg 240 energy 99
+    [411 fps] Auto/tow-lift Flight alt 1475 gnd 1469 spd 71 hdg 240 energy 99
+    [392 fps] Docked/docked Hover alt 1500 gnd 1493 spd 0 hdg 240 energy 100
+--- Ice: the check jumps to seed 201
+  Ice: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 4 turrets, 1 saucers
+    [654 fps] Flying/ Flight alt 213 gnd 212 spd 35 hdg 188 energy 100
+screenshot r6b_ice_turret_2km.png
+  ice_turret_2km: turret 4 1970 m away, at screen 43 % / 50 %; warning light 15.8 m; on the radar yes (spotted False); brackets: TURRET 4 1972 m; TURRET 6 1782 m (highlighted); 
+screenshot r6b_ice_turret_1km.png
+  ice_turret_1km: turret 4 985 m away, at screen 43 % / 50 %; warning light off (blink); on the radar yes (spotted True); brackets: TURRET 4 987 m (highlighted); 
+screenshot r6b_ice_turret_fires_900m.png
+  ice: turret firing at 900 m: flashes 1, nearest bolt 778 m
+screenshot r6b_ice_saucer_2km.png
+  ice_saucer_2km: saucer 7 2005 m away, at screen 43 % / 50 %; warning light 16.0 m; on the radar yes (spotted False); brackets: SAUCER 7 2007 m; 
+screenshot r6b_ice_saucer_1km.png
+  ice_saucer_1km: saucer 7 1007 m away, at screen 44 % / 50 %; warning light 8.1 m; on the radar yes (spotted True); brackets: SAUCER 7 1010 m (highlighted); 
+    [343 fps] Flying/ Flight alt 292 gnd 290 spd 35 hdg 189 energy 99
+    [344 fps] Auto/tow-lift Flight alt 892 gnd 722 spd 305 hdg 359 energy 99
+    [383 fps] Auto/tow-lift Flight alt 1475 gnd 1290 spd 87 hdg 0 energy 99
+    [444 fps] Auto/dock-rise Flight alt 1495 gnd 1494 spd 11 hdg 0 energy 99
+--- Part C: prices (cr per level): Engine 6500 / 10500 / 16000; Hull 6000 / 9500 / 14500; Shields 6000 / 9500 / 14500; Energy 6500 / 10500 / 16000; Radar 5500 / 8500 / 13000; Cabin 7000 / 12000; Gun 6000 / 9500 / 14500
+  C4 balance (Normal, no bounties, 4 sorties at 40 % energy = 960 cr fuel): start 3000, after planet 1 5020, after planet 2 7540; cheapest first level 5500 cr: affordable after two planets
+  ship value 6000 cr, recovery fee 3000 cr (before any upgrade)
+    [614 fps] Flying/ Flight alt 1003 gnd 821 spd 125 hdg 0 energy 100
+    [399 fps] Flying/ Flight alt 1003 gnd 835 spd 125 hdg 0 energy 97
+    [401 fps] Flying/ Flight alt 1003 gnd 837 spd 125 hdg 0 energy 88
+  no upgrades: top speed 450 km/h, hover climb 13.4 m/s, flight drain 0.319 %/s, shield drain 2.00 %/s, a 10 % hit does 10.0 %, gun 6.0 shots/s, enemies' radar reach 3000 / 6000 m (2 on the radar), cabin 6
+    [307 fps] Flying/ Hover alt 1063 gnd 962 spd 0 hdg 0 energy 100
+    [276 fps] Auto/tow-lift Flight alt 1340 gnd 1320 spd 171 hdg 0 energy 97
+    [408 fps] Auto/tow-lift Flight alt 1475 gnd 1307 spd 98 hdg 0 energy 97
+    [424 fps] Auto/dock-rise Flight alt 1478 gnd 1305 spd 23 hdg 0 energy 97
+  check shortcut: +200 000 cr to buy everything
+screenshot r6c_1_shop_before.png
+  bought Engine level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Engine level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Engine level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Hull level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Hull level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Hull level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Shields level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Shields level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Shields level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Energy level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Energy level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Energy level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Radar level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Radar level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Radar level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Cabin level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Cabin level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Gun level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Gun level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+  bought Gun level 0: -0 cr; "Recall: -0 cr (the corps covered the other 900 cr)
+Energy used 3%. Refuelled 0%: -0 cr
+Hull damage 10%: repair 120 cr (Repair below, or fly as it is)"
+screenshot r6c_2_shop_after.png
+  saved: ship.upgrades = []; loaner: [] (none); ship value 6000 cr, recovery fee 3000 cr
+    [623 fps] Auto/launch Hover alt 1457 gnd 1284 spd 42 hdg 0 energy 97
+    [464 fps] Flying/ Flight alt 1074 gnd 918 spd 125 hdg 0 energy 98
+    [454 fps] Flying/ Flight alt 1074 gnd 914 spd 125 hdg 0 energy 95
+    [420 fps] Flying/ Hover alt 1098 gnd 1062 spd 38 hdg 0 energy 81
+  every upgrade: top speed 450 km/h, hover climb 13.4 m/s, flight drain 0.320 %/s, shield drain 2.00 %/s, a 10 % hit does 10.0 %, gun 6.0 shots/s, enemies' radar reach 3000 / 6000 m (2 on the radar), cabin 6
+  effect: top speed x1.00, climb x1.00, flight drain x1.00, shield drain x1.00, hit x1.00, gun x1.00, radar x1.00, cabin 6 -> 6
+screenshot r6c_3_cockpit_upgraded.png
+picture r6c_4_cabin_10_seats.png (384 x 216, straight from the camera)
+  cabin: 10 aboard of 6; cushions shown 6
+    [243 fps] Flying/ Flight alt 1128 gnd 960 spd 125 hdg 0 energy 98
+    [182 fps] Auto/tow-lift Flight alt 1138 gnd 966 spd 63 hdg 0 energy 95
+    [179 fps] Auto/tow-lift Flight alt 1476 gnd 1314 spd 120 hdg 0 energy 95
+    [184 fps] Auto/tow-lift Flight alt 1475 gnd 1315 spd 23 hdg 0 energy 95
+--- Part D: distress every 3 h of real time, chance 0.35, 1-3 pilots (cap 14 on a planet)
+  check shortcut: every pilot on Quoshae-VI marked rescued
+    [343 fps] Docked/docked Hover alt 1500 gnd 1501 spd 0 hdg 270 energy 100
+    [486 fps] Docked/docked Hover alt 1500 gnd 1501 spd 0 hdg 270 energy 100
+    [482 fps] Docked/docked Hover alt 1500 gnd 1501 spd 0 hdg 270 energy 100
+    [499 fps] Docked/docked Hover alt 1500 gnd 1501 spd 0 hdg 270 energy 100
+  TIMED OUT waiting for the jump after 40 s (state Docked, phase docked)
+    [499 fps] Docked/docked Hover alt 1500 gnd 1496 spd 0 hdg 150 energy 100
+    [497 fps] Docked/docked Hover alt 1500 gnd 1496 spd 0 hdg 150 energy 100
+    [492 fps] Docked/docked Hover alt 1500 gnd 1496 spd 0 hdg 150 energy 100
+    [502 fps] Docked/docked Hover alt 1500 gnd 1496 spd 0 hdg 150 energy 100
+  TIMED OUT waiting for the jump after 40 s (state Docked, phase docked)
+  planets: Tulel-IV (canyons, 2 waiting); Eskshon-V (canyons, 3 waiting); Dravel-V (forest, 3 waiting); Vogix-VI (city, 3 waiting); Quoshae-VI (ice, cleared); Bryeth-VI (forest, 4 waiting); Ilovun-IX (ice, 4 waiting)
+screenshot r6d_1_star_map.png
+  r6d_1_star_map: selected "Jump to a new planet  <size=22>(free)</size>"; body: The Vera system: 7 planets visited, 1 cleared. | <b>Next new planet</b>: <b>Drarrra-VIII</b>  (Dead City, seed 17989930) · not visited | Danger: tier 1 (Normal) · about 8 turrets, 2 saucers (not surveyed) · 4 pilots, aliens possible | 
+screenshot r6d_2_star_map_row3.png
+  r6d_2_star_map_row3: selected "Ilovun-IX  <size=22>Ice · 4 waiting  ◄ here</size>"; body: The Vera system: 7 planets visited, 1 cleared. | <b>Ilovun-IX</b>  (Ice, seed 17020325) · 4 waiting | Danger: tier 1 (Normal) · 8 turrets, 2 saucers left · 4 pilots, aliens possible | Pilots: 0 rescued · 0 lost · 4 waiting · visits 1 | The mothership is over this planet now.
+  jumped from the map to Quoshae-VI (seed 201; visited, cleared True)
+screenshot r6d_3_coordinates_typing.png
+  r6d_3_coordinates_typing: selected "Coordinates  <size=22>(select to type a seed)</size>"; body: The Vera system: 7 planets visited, 1 cleared. | <b>Coordinates</b>: <b>Tulra-VI</b>  (Ice, seed 24) · not visited | Danger: tier 1 (Normal) · about 8 turrets, 2 saucers (not surveyed) · 4 pilots, aliens possible | 
+  typed seed 24
+screenshot r6d_4_coordinates_selected.png
+  r6d_4_coordinates_selected: selected "Go to the coordinates: Tulra-VI  <size=22>(seed 24)</size>"; body: The Vera system: 7 planets visited, 1 cleared. | <b>Coordinates</b>: <b>Tulra-VI</b>  (Ice, seed 24) · not visited | Danger: tier 1 (Normal) · about 8 turrets, 2 saucers (not surveyed) · 4 pilots, aliens possible | 
+  arrived at Tulra-VI (seed 24, ice); on the map now: True
+  Quoshae-VI: cleared True, distress clock 2026-11-07T02:08:25
+  check shortcut: the clock moved on 30 hours
+    [491 fps] Auto/launch Hover alt 1500 gnd 1503 spd 0 hdg 45 energy 100
+    [537 fps] Auto/tow-lift Flight alt 1454 gnd 1455 spd 165 hdg 45 energy 100
+  docked: Quoshae-VI: distress True (1 new pilots, 1 rolls), pilots now 11, cleared False; Control: 978.1 voice ctl_distress [Radio, p2, 7.2 s] CONTROL: New distress calls coming in from a planet you'd cleared. More of ours went down there. It's on the star map.; debrief "Recall: -900 cr | Energy used 0%. Refuelled 0%: -2 cr | Hull damage 10%: repair 120 cr (Repair below, or fly as it is) | <color=#FF8A80>Distress calls from Quoshae-VI: 1 pilot down (star map).</color>"
+screenshot r6d_5_hangar_distress.png
+screenshot r6d_6_star_map_distress.png
+  r6d_6_star_map_distress: selected "<color=#FF8A80>Quoshae-VI</color>  <size=22>Ice · DISTRESS: 1 new</size>"; body: The Vera system: 8 planets visited, 1 cleared · <color=#FF8A80>1 with new distress calls</color>. | <b>Quoshae-VI</b>  (Ice, seed 201) · DISTRESS: 1 new | Danger: tier 0 (Normal) · 6 turrets, 1 saucers left · 11 pilots, aliens possible | Pilots: 10 rescued · 0 lost · 1 waiting · visits 2 | <color=#FF8A80>New distress calls: 1 pilot down since you cleared it.</color>
+  there: 1 pilots waiting on Quoshae-VI; distress mark False
+--- Part E: check shortcut: met the Knocker twice (one killed you), the Hollow and the Stalker once; the Mimic and the Sleeper not met
+screenshot r6e_1_journal_index.png
+    [414 fps] Docked/docked Hover alt 1500 gnd 1503 spd 0 hdg 0 energy 100
+screenshot r6e_2_knocker_default.png
+  Knocker page: model knocker, clip idle; body: <b>Knocker</b>   <size=20>met 5 · killed 2 · killed you 3 · first seen on Tulel-IV (2026-11-07)</size> | Named by the crews for what it does best. It knows the corps knocks at the airlock, and it knocks back. It has the rhythm almost right. Almost. The knocks don't always come from where a pilot would stand. | <color=#FFC873>Behaviour:</color> Comes to the hull quickly and knocks. Left at the door, it does not stay on the ground. | <color=#FFC873>Tell:</color> <i>The corps knocks a code. Count, and listen to where it comes from.</i>
+  right stick 1.2 s: turned 132°
+screenshot r6e_3_knocker_turned.png
+  right trigger 1.5 s: zoom 3.4 -> 1.1 m
+screenshot r6e_4_knocker_zoomed.png
+  animation: "walk" (clip playing: walk)
+  animation: "run" (clip playing: run)
+  animation: "attack" (clip playing: attack)
+screenshot r6e_5_knocker_anim_attack.png
+  animation: "shriek" (clip playing: roar)
+screenshot r6e_5_knocker_anim_shriek.png
+  animation: "climb" (clip playing: climb)
+screenshot r6e_6_unknown_silhouette.png
+  unmet page: UNKNOWN; body: <b>Unknown</b> | The corps has reports of something else down there. Meet it, and live (or don't), and this page fills in.
+screenshot r6e_7_hollow_closeup.png
+  Hollow (met once): body: <b>Hollow</b>   <size=20>met 2 · killed 1 · killed you 1 · first seen on Tulel-IV (2026-11-07)</size> | An empty suit that walks. First logged as a pilot standing by a wreck, visor dark, who never answered a call. Suits recovered afterwards were empty inside, lined with something grey that was not skin. Nothing looks back out of the visor. | <color=#FFC873>Behaviour:</color> Slow and patient. Stands very still at the door and looks up into the airlock camera. | <color=#FFC873>Tell:</color> <i>A visor shows the world around it: the sky, your lamps. This one showed nothing at all.</i>
+    [336 fps] Auto/launch Hover alt 1500 gnd 1503 spd 0 hdg 0 energy 100
+screenshot r6e_8_pause_menu_stalker.png
+  from the pause menu (time stopped: 0): STALKER, clip idle, yaw 50
+  back in flight: Flying
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.111 RMS, peak 1.268, zeroed before the speakers; 96014336 samples); master volume 0.00

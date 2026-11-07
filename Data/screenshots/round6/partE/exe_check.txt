@@ -1,0 +1,29 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 65536 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 02:10; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+--- Part E: check shortcut: met the Knocker twice (one killed you), the Hollow and the Stalker once; the Mimic and the Sleeper not met
+screenshot r6e_1_journal_index.png
+screenshot r6e_2_knocker_default.png
+  Knocker page: model knocker, clip idle; body: <b>Knocker</b>   <size=20>met 2 · killed 1 · killed you 1 · first seen on Tulel-IV (2026-11-07)</size> | Named by the crews for what it does best. It knows the corps knocks at the airlock, and it knocks back. It has the rhythm almost right. Almost. The knocks don't always come from where a pilot would stand. | <color=#FFC873>Behaviour:</color> Comes to the hull quickly and knocks. Left at the door, it does not stay on the ground. | <color=#FFC873>Tell:</color> <i>The corps knocks a code. Count, and listen to where it comes from.</i>
+  right stick 1.2 s: turned 132°
+screenshot r6e_3_knocker_turned.png
+  right trigger 1.5 s: zoom 5.7 -> 2.0 m
+screenshot r6e_4_knocker_zoomed.png
+  animation: "walk" (clip playing: walk)
+  animation: "run" (clip playing: run)
+    [507 fps] Docked/docked Hover alt 1500 gnd 1498 spd 0 hdg 120 energy 100
+  animation: "attack" (clip playing: attack)
+screenshot r6e_5_knocker_anim_attack.png
+  animation: "shriek" (clip playing: roar)
+screenshot r6e_5_knocker_anim_shriek.png
+  animation: "climb" (clip playing: climb)
+screenshot r6e_6_unknown_silhouette.png
+  unmet page: UNKNOWN; body: <b>Unknown</b> | The corps has reports of something else down there. Meet it, and live (or don't), and this page fills in.
+screenshot r6e_7_hollow_closeup.png
+  Hollow (met once): body: <b>Hollow</b>   <size=20>met 1 · killed 1 · killed you 0 · first seen on Tulel-IV (2026-11-07)</size> | An empty suit that walks. First logged as a pilot standing by a wreck, visor dark, who never answered a call. | <color=#FFC873>Behaviour:</color> Slow and patient. Stands very still at the door and looks up into the airlock camera. | <color=#FFC873>Tell:</color> <i>Look it in the eye.</i>  <size=20>(a clearer note after another encounter)</size>
+    [936 fps] Auto/launch Hover alt 1460 gnd 1458 spd 39 hdg 120 energy 100
+screenshot r6e_8_pause_menu_stalker.png
+  from the pause menu (time stopped: 0): STALKER, clip idle, yaw 50
+  back in flight: Flying
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.063 RMS, peak 0.353, zeroed before the speakers; 2402304 samples); master volume 0.00

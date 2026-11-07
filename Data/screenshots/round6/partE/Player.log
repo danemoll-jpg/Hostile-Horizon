@@ -1,0 +1,65 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.016 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.818000 ms
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 65536 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-07 02:10; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[Music] loaded hangar (199 s)
+[ExeCheck] new career: Tulel-IV (canyons), Normal
+[ExeCheck] --- Part E: check shortcut: met the Knocker twice (one killed you), the Hollow and the Stalker once; the Mimic and the Sleeper not met
+[ExeCheck] screenshot r6e_1_journal_index.png
+[ExeCheck] screenshot r6e_2_knocker_default.png
+[ExeCheck]   Knocker page: model knocker, clip idle; body: <b>Knocker</b>   <size=20>met 2 · killed 1 · killed you 1 · first seen on Tulel-IV (2026-11-07)</size> | Named by the crews for what it does best. It knows the corps knocks at the airlock, and it knocks back. It has the rhythm almost right. Almost. The knocks don't always come from where a pilot would stand. | <color=#FFC873>Behaviour:</color> Comes to the hull quickly and knocks. Left at the door, it does not stay on the ground. | <color=#FFC873>Tell:</color> <i>The corps knocks a code. Count, and listen to where it comes from.</i>
+[ExeCheck]   right stick 1.2 s: turned 132°
+[ExeCheck] screenshot r6e_3_knocker_turned.png
+[ExeCheck]   right trigger 1.5 s: zoom 5.7 -> 2.0 m
+[ExeCheck] screenshot r6e_4_knocker_zoomed.png
+[ExeCheck]   animation: "walk" (clip playing: walk)
+[ExeCheck]   animation: "run" (clip playing: run)
+[ExeCheck]     [507 fps] Docked/docked Hover alt 1500 gnd 1498 spd 0 hdg 120 energy 100
+[ExeCheck]   animation: "attack" (clip playing: attack)
+[ExeCheck] screenshot r6e_5_knocker_anim_attack.png
+[ExeCheck]   animation: "shriek" (clip playing: roar)
+[ExeCheck] screenshot r6e_5_knocker_anim_shriek.png
+[ExeCheck]   animation: "climb" (clip playing: climb)
+[ExeCheck] screenshot r6e_6_unknown_silhouette.png
+[ExeCheck]   unmet page: UNKNOWN; body: <b>Unknown</b> | The corps has reports of something else down there. Meet it, and live (or don't), and this page fills in.
+[ExeCheck] screenshot r6e_7_hollow_closeup.png
+[ExeCheck]   Hollow (met once): body: <b>Hollow</b>   <size=20>met 1 · killed 1 · killed you 0 · first seen on Tulel-IV (2026-11-07)</size> | An empty suit that walks. First logged as a pilot standing by a wreck, visor dark, who never answered a call. | <color=#FFC873>Behaviour:</color> Slow and patient. Stands very still at the door and looks up into the airlock camera. | <color=#FFC873>Tell:</color> <i>Look it in the eye.</i>  <size=20>(a clearer note after another encounter)</size>
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]     [936 fps] Auto/launch Hover alt 1460 gnd 1458 spd 39 hdg 120 energy 100
+[ExeCheck] screenshot r6e_8_pause_menu_stalker.png
+[ExeCheck]   from the pause menu (time stopped: 0): STALKER, clip idle, yaw 50
+[ExeCheck]   back in flight: Flying
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.063 RMS, peak 0.353, zeroed before the speakers; 2402304 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed
