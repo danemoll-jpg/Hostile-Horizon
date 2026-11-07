@@ -1,0 +1,74 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 59392 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 01:42; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+--- Part B:radar reach turrets 3000 m / saucers 6000 m; brackets to 2500 m; readable sizes: light 0.005 / flash 0.009 / bolt glow 0.006 m per m (accuracy, fire rate, aggression unchanged: lead 0.9, error 14, interval 1.8)
+--- Canyons: the check jumps to seed 205
+    [1141 fps] Auto/launch Hover alt 1446 gnd 1443 spd 54 hdg 285 energy 100
+  Canyons: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 6 turrets, 1 saucers
+screenshot r6b_canyons_turret_2km.png
+  canyons_turret_2km: turret 5 1981 m away, at screen 43 % / 49 %; warning light 9.9 m; on the radar yes (spotted False); brackets: TURRET 1 676 m (highlighted); TURRET 5 1983 m; 
+screenshot r6b_canyons_turret_1km.png
+  canyons_turret_1km: turret 5 967 m away, at screen 43 % / 49 %; warning light 4.8 m; on the radar yes (spotted True); brackets: TURRET 5 969 m (highlighted); 
+screenshot r6b_canyons_turret_fires_900m.png
+  canyons: turret firing at 900 m: flashes 1, nearest bolt 834 m
+screenshot r6b_canyons_saucer_2km.png
+  canyons_saucer_2km: saucer 7 1997 m away, at screen 43 % / 49 %; warning light 10.0 m; on the radar yes (spotted False); brackets: TURRET 3 2135 m; SAUCER 7 1999 m; 
+screenshot r6b_canyons_saucer_1km.png
+  canyons_saucer_1km: saucer 7 988 m away, at screen 43 % / 50 %; warning light 4.9 m; on the radar yes (spotted True); brackets: TURRET 3 1053 m; TURRET 4 2015 m; SAUCER 7 990 m (highlighted); 
+    [499 fps] Flying/ Flight alt 527 gnd 526 spd 35 hdg 185 energy 100
+    [364 fps] Auto/tow-lift Flight alt 758 gnd 390 spd 217 hdg 282 energy 99
+    [375 fps] Auto/tow-lift Flight alt 1475 gnd 1000 spd 100 hdg 285 energy 99
+    [430 fps] Auto/tow-lift Flight alt 1475 gnd 1477 spd 8 hdg 285 energy 99
+--- Giant Forest: the check jumps to seed 209
+    [722 fps] Auto/launch Hover alt 1445 gnd 1445 spd 55 hdg 285 energy 100
+  Giant Forest: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 5 turrets, 1 saucers
+screenshot r6b_forest_turret_2km.png
+  forest_turret_2km: turret 5 1981 m away, at screen 43 % / 50 %; warning light off (blink); on the radar yes (spotted False); brackets: TURRET 1 2025 m; TURRET 5 1984 m; TURRET 6 1791 m (highlighted); 
+screenshot r6b_forest_turret_1km.png
+  forest_turret_1km: turret 5 976 m away, at screen 43 % / 49 %; warning light 4.9 m; on the radar yes (spotted True); brackets: TURRET 1 1222 m; TURRET 5 978 m; TURRET 6 858 m (highlighted); 
+screenshot r6b_forest_turret_fires_900m.png
+  forest: turret firing at 900 m: flashes 2, nearest bolt 741 m
+screenshot r6b_forest_saucer_2km.png
+  forest_saucer_2km: saucer 7 1970 m away, at screen 43 % / 50 %; warning light 9.8 m; on the radar yes (spotted False); brackets: TURRET 2 2279 m; TURRET 3 2430 m; SAUCER 7 1972 m (highlighted); 
+screenshot r6b_forest_saucer_1km.png
+  forest_saucer_1km: saucer 7 915 m away, at screen 43 % / 51 %; warning light 4.6 m; on the radar yes (spotted True); brackets: TURRET 2 1221 m; TURRET 3 1388 m; SAUCER 7 918 m (highlighted); 
+    [354 fps] Flying/ Flight alt 221 gnd 156 spd 35 hdg 190 energy 100
+    [325 fps] Auto/tow-lift Flight alt 677 gnd 675 spd 292 hdg 284 energy 99
+    [386 fps] Auto/tow-lift Flight alt 1475 gnd 1406 spd 92 hdg 285 energy 99
+    [282 fps] Auto/dock-rise Flight alt 1500 gnd 1499 spd 6 hdg 285 energy 99
+--- Dead City: the check jumps to seed 202
+    [694 fps] Flying/ Flight alt 1422 gnd 1414 spd 73 hdg 240 energy 100
+  Dead City: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 5 turrets, 1 saucers
+screenshot r6b_city_turret_2km.png
+  city_turret_2km: turret 1 1965 m away, at screen 43 % / 50 %; warning light 9.8 m; on the radar yes (spotted False); brackets: TURRET 1 1968 m; 
+screenshot r6b_city_turret_1km.png
+  city_turret_1km: turret 1 985 m away, at screen 43 % / 50 %; warning light off (blink); on the radar yes (spotted True); brackets: TURRET 1 987 m (highlighted); TURRET 3 1420 m; TURRET 4 2311 m; 
+screenshot r6b_city_turret_fires_900m.png
+  city: turret firing at 900 m: flashes 1, nearest bolt 824 m
+screenshot r6b_city_saucer_2km.png
+  city_saucer_2km: saucer 7 1925 m away, at screen 43 % / 51 %; warning light 9.6 m; on the radar yes (spotted False); brackets: SAUCER 7 1927 m (highlighted); 
+screenshot r6b_city_saucer_1km.png
+  city_saucer_1km: saucer 7 974 m away, at screen 43 % / 50 %; warning light 4.9 m; on the radar yes (spotted True); brackets: SAUCER 7 976 m (highlighted); 
+    [342 fps] Flying/ Flight alt 207 gnd 198 spd 35 hdg 188 energy 99
+    [358 fps] Auto/tow-lift Flight alt 395 gnd 182 spd 198 hdg 237 energy 98
+    [351 fps] Auto/tow-lift Flight alt 1475 gnd 1402 spd 104 hdg 240 energy 98
+    [366 fps] Auto/tow-lift Flight alt 1475 gnd 1415 spd 12 hdg 240 energy 98
+--- Ice: the check jumps to seed 201
+    [601 fps] Auto/launch Hover alt 1450 gnd 1419 spd 49 hdg 0 energy 100
+  Ice: 6 turrets, 1 saucers; on the radar at launch (none spotted yet: 0): 4 turrets, 1 saucers
+screenshot r6b_ice_turret_2km.png
+  ice_turret_2km: turret 4 1981 m away, at screen 43 % / 50 %; warning light 9.9 m; on the radar yes (spotted False); brackets: TURRET 4 1983 m; TURRET 6 1784 m (highlighted); 
+screenshot r6b_ice_turret_1km.png
+  ice_turret_1km: turret 4 964 m away, at screen 43 % / 49 %; warning light 4.8 m; on the radar yes (spotted True); brackets: TURRET 4 967 m (highlighted); 
+screenshot r6b_ice_turret_fires_900m.png
+  ice: turret firing at 900 m: flashes 1, nearest bolt 812 m
+screenshot r6b_ice_saucer_2km.png
+  ice_saucer_2km: saucer 7 1995 m away, at screen 43 % / 50 %; warning light 10.0 m; on the radar yes (spotted False); brackets: SAUCER 7 1998 m; 
+screenshot r6b_ice_saucer_1km.png
+  ice_saucer_1km: saucer 7 984 m away, at screen 43 % / 50 %; warning light 4.9 m; on the radar yes (spotted True); brackets: SAUCER 7 986 m (highlighted); 
+    [372 fps] Flying/ Flight alt 278 gnd 199 spd 35 hdg 186 energy 100
+    [356 fps] Auto/tow-lift Flight alt 356 gnd 339 spd 133 hdg 335 energy 99
+    [365 fps] Auto/tow-lift Flight alt 1475 gnd 1296 spd 110 hdg 0 energy 99
+    [423 fps] Auto/tow-lift Flight alt 1475 gnd 1292 spd 17 hdg 0 energy 99
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.114 RMS, peak 1.064, zeroed before the speakers; 19664896 samples); master volume 0.00

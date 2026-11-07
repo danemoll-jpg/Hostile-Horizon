@@ -71,7 +71,7 @@ namespace HostileHorizon
             e.quad = new Mesh { name = "Halo quad", vertices = new[] { new Vector3(-.5f, -.5f, 0), new Vector3(.5f, -.5f, 0), new Vector3(.5f, .5f, 0), new Vector3(-.5f, .5f, 0) },
                                 uv = new[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) }, colors = new[] { Color.white, Color.white, Color.white, Color.white }, triangles = new[] { 0, 2, 1, 0, 3, 2 } };
             e.quad.bounds = new Bounds(Vector3.zero, Vector3.one * 2);
-            e.beaconMat = Glow(new Color(1f, .12f, .08f) * 4f); e.flashMat = Glow(new Color(1f, .55f, .35f) * 4f);
+            e.beaconMat = Glow(new Color(1f, .06f, .03f) * 1.8f);   // a saturated red (brighter turned it white) e.flashMat = Glow(new Color(1f, .55f, .35f) * 4f);
             var tr = Shader.Find("HostileHorizon/GlowAdd");
             e.enemyTrail = new Material(tr); e.enemyTrail.SetColor("_Color", new Color(1f, .25f, .2f) * 1.6f);
             e.playerTrail = new Material(tr); e.playerTrail.SetColor("_Color", new Color(.35f, 1f, .7f) * 1.2f);

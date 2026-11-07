@@ -1,0 +1,225 @@
+{
+    "version": 1,
+    "systemSeed": 6363,
+    "systemName": "Vera",
+    "credits": 0,
+    "ship": {
+        "damage": 50.0,
+        "energy": 98.68948364257813,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261107,
+            "name": "Tulel-IV",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-07 01:42:27",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 3,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 205,
+            "name": "Eskshon-V",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                5,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-07 01:42:28",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 6,
+            "saucers": 1,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 209,
+            "name": "Dravel-V",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                4,
+                0
+            ],
+            "quirk": [
+                0,
+                4,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "forest",
+            "biomeSet": true,
+            "lastVisit": "2026-11-07 01:43:18",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 6,
+            "saucers": 1,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 202,
+            "name": "Vogix-VI",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                2,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "city",
+            "biomeSet": true,
+            "lastVisit": "2026-11-07 01:44:06",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 6,
+            "saucers": 1,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 201,
+            "name": "Quoshae-VI",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                4,
+                0,
+                0
+            ],
+            "quirk": [
+                4,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "ice",
+            "biomeSet": true,
+            "lastVisit": "2026-11-07 01:44:59",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 6,
+            "saucers": 1,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 0,
+        "pilotsLost": 0,
+        "creditsEarned": 0,
+        "creditsSpent": 3000,
+        "deaths": 0,
+        "planetsCleared": 0,
+        "sorties": 4,
+        "tows": 0,
+        "recalls": 4,
+        "aliensKilled": 0,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [],
+    "started": "2026-11-07 01:42",
+    "lastSaved": "2026-11-07 01:45:50",
+    "currentSeed": 201,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    }
+}

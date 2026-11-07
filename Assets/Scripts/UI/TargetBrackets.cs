@@ -33,7 +33,8 @@ namespace HostileHorizon
                 m.bars[i * 2 + 1] = UiKit.Panel(t, "v", Color.red, a, a, Vector2.zero, Vector2.zero);
                 Size(m.bars[i * 2].rectTransform, sx, sy, 28, 4); Size(m.bars[i * 2 + 1].rectTransform, sx, sy, 4, 28);
             }
-            m.label = UiKit.Label(t, "Label", 15, TextAnchor.UpperCenter, Color.red, new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(-150, -40), new Vector2(150, -4));
+            m.label = UiKit.Label(t, "Label", 15, TextAnchor.UpperCenter, Color.red, new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(-150, -24), new Vector2(150, -4));
+            m.label.rectTransform.pivot = new Vector2(.5f, 1);
             m.label.horizontalOverflow = HorizontalWrapMode.Overflow;
             marks.Add(m); return m;
         }
@@ -78,7 +79,7 @@ namespace HostileHorizon
                     for (int i = 0; i < 8; i++) { m.bars[i].color = col; var r = m.bars[i].rectTransform; r.sizeDelta = i % 2 == 0 ? new Vector2(28, thick) : new Vector2(thick, 28); }
                     m.label.color = col; m.label.fontSize = hi ? 17 : 14;
                     // the label kept at a readable size on screen: canvas units scale with the box, so fixed-size text
-                    m.label.transform.localScale = Vector3.one * (3.2f / ang);
+                    m.label.transform.localScale = Vector3.one * (8.5f / ang);   // about 22 px tall at 1080p
                     string what = e.Kind == EnemyKind.Turret ? "TURRET" : "SAUCER";
                     m.label.text = (hi && e.Locked ? "<b>LOCKED ON</b> · " : "") + $"{what} {RadarScope.Distance(d)}";
                     Shown++; list.Append($"{what} {e.Index + 1} {d:0} m{(hi ? " (highlighted)" : "")}; ");
