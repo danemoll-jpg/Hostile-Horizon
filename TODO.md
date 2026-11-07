@@ -168,153 +168,13 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 6: jump scare (A), easier-to-find enemies (B), upgrades (C), star map (D), Field Journal viewer (E)
+Current Objective — Round 7 (to be written by the planning chat)
 ---------------------------------------------------------------------------
 
-Round 5 (the ship rights itself; enemies and difficulty) is delivered as 0.5.0 (status under "Previous deliveries"; its
-specification is in `TODO-ARCHIVE.md`). **Next: Round 6 (Modern progression)**, to be written by the planning chat with Dan.
-Open for Dan from Round 5: how self-righting feels; whether turrets should hit more often (see the Round 5 delivery); the gun / shield
-layout on the pad and the HOTAS; the presets. Dan's art pipeline (standing) as before (`Docs/MODELS-NEEDED.md`).
-
-Dan (2026-11-07) folded the jump-scare fix, easier-to-find enemies, the
-upgrade shop, the full star map and a Field Journal viewer into one round:
-**Round 6**, one publish at the end: **0.6.0**. Commit after each part.
-
-**Part A — make the alien attack a real jump scare (was Fix 5.1)**
-
-Dan (2026-11-07): "The problem I see with the attack: in the original, it was
-more of a jump scare. In this one the ship shuts down and the music starts,
-letting you know to expect something."
-
-What gives it away now (from the code, `GameShell.Aliens.cs` `Horror`): the
-instant the airlock opens to an alien, the game reacts differently from a real
-pilot: input is taken away, the computer says "intruder", the displays go dark,
-the airlock closes, the lights die, the alarm starts — a long, announced
-build-up. The player knows the moment they press the button.
-
-**The rule from now on: the player must not be able to tell from the game's
-reaction that it was an alien until the instant it strikes.** Nothing changes
-(sound, music, lights, displays, controls, messages) before the strike.
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Boarding looks exactly like a real pilot boarding.** An alien let in walks
-   in like a pilot: the same animation, the same "Pilot N aboard (2 / 6)" message
-   and chime, the cabin count goes up, the cabin camera shows a pilot, the
-   player keeps full control, the music carries on as a real pickup would. No
-   intruder line, no blackout, no alarm, no input lock.
-2. **Then it strikes, at an unpredictable moment, with no build-up.** Each
-   alien let in rolls one of these (seeded per alien, weights in the tuning
-   file):
-   - **Instant (about 40 %):** 1-4 s after the airlock closes, while the player
-     is still sitting there: a sudden slam on the cockpit hatch, it bursts
-     through and lunges at the player's face, all in about one second.
-   - **On take-off (about 35 %):** a few seconds after lift-off or at the first
-     hard turn: the same sudden burst through the hatch.
-   - **Slow burn (about 25 %):** the current long sequence (lights, cabin
-     noises, the hatch hit three times), kept for variety but started at a
-     random moment in flight, not at the airlock.
-   The scare sound and the alien-reveal stinger land **on** the strike, never
-   before it; the music cuts **at** the strike. The computer's "INTRUDER"
-   call comes after the strike, not before.
-3. **The canopy leap (the original's scare).** An alien left at the door
-   sometimes doesn't climb slowly: with no warning it **leaps and slams onto
-   the canopy** (a hard bang, glass shudder, the creature filling the view)
-   while the player is waiting. Seeded per alien (about 50 % leap / 50 % the
-   current slow climb), at a random time from 5 s after it reaches the door.
-   Same answers as now (engines / shield / take off throw it off).
-4. **Red herrings, so nothing is a sure sign:** harmless things that sometimes
-   happen with real pilots too: a light flicker or power dip when the airlock
-   cycles, a thump from the cabin as a pilot sits down, a crackle on the cabin
-   camera. Rare (tuning), never the full lights-out.
-5. **Keep it fair:** after the strike the outcome is as now (death,
-   regeneration, recovery). The tells at the door (Round 3) and the voice sign
-   (Round 4) are still how a careful player avoids it; this fix only removes
-   the warning *after* the airlock is opened. The Sleeper is unchanged (it
-   turns much later and fights the other pilots); regular aliens never wait
-   that long.
-6. **Still VR rule 5:** no camera takeover, no fade, no full-screen flash; the
-   creature physically comes at the player in the cockpit; the player can look
-   around.
-7. **Check (muted, no focus):** an alien boards: log every sound / music /
-   light / display / input / message event from the airlock opening to the
-   strike and compare it with a real pilot boarding: identical until the
-   strike. Each strike type once (timing logged); the canopy leap; red herrings
-   with real pilots; cockpit pictures at the strike moment.
-8. Commit Part A (publishing happens at the end of the round).
-
-**For Dan to check (Part A):** let a few aliens in. Do you still see it coming?
-Does the instant one make you jump? The canopy leap while you wait.
-
-**Part B — enemies that are easier to find** (Dan, 2026-11-07: "I had a hard
-time finding the enemies to even shoot at." He also asked to **hold off on
-making them more of a threat** until he's used to them: DEFERRED, not decided
-against. Don't change accuracy, fire rate or aggression this round.)
-
-B1. **On the radar always:** turrets within radar range and saucers within
-    their own (longer) range show on the radar without being spotted first,
-    with their distance, like pilots.
-B2. **Target brackets:** enemies in line of sight within about 2.5 km get a
-    bracket in the world (cockpit view and HUD, VR rule 4) with distance; the
-    nearest / the one locked on is highlighted.
-B3. **Visible from afar:** a red blinking warning light on each turret, a clear
-    muzzle flash when it fires, and glowing bolts with a short trail, readable at
-    1-2 km against every biome's sky and ground.
-B4. **Check:** pictures from the cockpit at 2 km and 1 km in each biome: can a
-    first-time player see the turret and the saucer? Commit Part B.
-
-**Part C — the upgrade shop** (credits, in the hangar)
-
-C1. Upgrades in levels (starting 3 levels each; prices and effects in the tuning
-    file), bought with credits, shown in the hangar with what each level does:
-    **Engine** (top speed, acceleration, climb), **Hull** (max hull), **Shields**
-    (less energy drain, more hits blocked), **Energy** (capacity, less drain in
-    flight), **Radar** (range, earlier exact positions), **Cabin** (6 -> 8 -> 10
-    seats), **Gun** (rate and damage).
-C2. Upgrades raise the ship's value, so the recovery fee grows (as already
-    decided); the free loaner has none. Saved with the career.
-C3. A small visible change on the ship / cockpit per category where easy (e.g.
-    extra cabin seats on the cabin camera, a bigger radar display ring).
-C4. Balance: the first upgrade affordable after about two planets on Normal;
-    report the numbers. **Check:** buy each, prove the effect in flight. Commit.
-
-**Part D — the full star map** (replaces Fix 3.2's planet list)
-
-D1. A star map of the career's home system in the hangar (world-space panel
-    rule): the star, the planets visited and the next undiscovered one,
-    each drawn in its biome's colours with its name, biome, status (planet of
-    the day, cleared, pilots waiting, lost), and its danger (difficulty tier,
-    turrets / saucers). Select one and **Jump** (the jump plays live, as now).
-D2. **Coordinates:** type a seed to visit any planet (Fix 3.2's typed seed
-    idea), added to the map once visited.
-D3. **New distress calls on old planets** (decided default, tuning): a visited,
-    cleared planet sometimes gets new downed pilots after real time passes
-    (starting: a chance every few hours, 1-3 pilots), marked on the map and
-    announced by Control at the next dock. Gives old planets a reason to visit.
-D4. **Check:** map pictures; jump to a visited planet and to a typed seed; a
-    distress call appears after a simulated time skip. Commit.
-
-**Part E — the Field Journal viewer**
-
-E1. Each met alien type opens its own page with a **large 3D view of its
-    model**: rotate it (right stick / mouse drag / HOTAS hat), zoom in for
-    detail, and play its animations (idle, walk, attack, shriek); good
-    lighting so the model reads in detail. Unmet types show a dark silhouette
-    and "Unknown".
-E2. More information per type, unlocked by encounters: its name, a short piece
-    of original lore written by Code (where it was first seen, what the corps
-    knows), how it behaves, the tell hints (as now: vague first, clearer after
-    the second meeting, never the full answer), and your record with it (met,
-    killed, killed you, first seen on <planet>).
-E3. Also reachable from the pause menu; works with gamepad, keyboard, HOTAS.
-    **Check:** pictures of a page rotated and zoomed. Commit.
-
-**End of the round:** publish **0.6.0** (Parts A-E), update `TODO.md`
-(per-item status for every part: done / not done / deferred and why; tuning
-values) and `CLAUDE.md`, clean up, commit and push.
-
-**For Dan to check (Parts B-E):** can you find the enemies now? Upgrades: are
-prices fair and do you feel them? The star map and new distress calls. The
-Field Journal pages: rotate and zoom an alien.
+Round 6 (jump scare, easier-to-find enemies, upgrade shop, star map, Field Journal viewer) is delivered as 0.6.0 (status under
+"Previous deliveries"; its specification is in `TODO-ARCHIVE.md`). **Next: Round 7**, to be written by the planning chat with Dan
+(queued below: missions and more progression). Open for Dan from Rounds 5 and 6: see "For Dan to check" in their deliveries.
+Dan's art pipeline (standing) as before (`Docs/MODELS-NEEDED.md`).
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -342,6 +202,71 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Round 6 — jump scare, easier-to-find enemies, upgrades, star map, Field Journal viewer (2026-11-07). Published: 0.6.0 (`game-600`,
+Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-07 02:10 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round6/`:
+`partA/` .. `partE/` (`--only round6a` .. `round6e`), `final/` (`--only round6`: the evidence for A, B and E; C and D read x1.00 / timed
+out there because Part A's deaths leave the check flying the loaner, which correctly has no upgrades: their own runs are the evidence),
+`launcher/`. Every run headless, muted (output 0.000 RMS from the first frame), no window, Below Normal. Commits: `56d00e9` planning,
+`bf9faa4` A, `e6f7eb3` B, `4dbaeef` C, `7bf628e` D, `98449c3` E (all five parts were written before the first build, so the A commit
+already holds B-E code; each part was then checked and fixed in turn).
+- **A0 Commit first — done.** **A1 Boards like a pilot — done.** An alien let in walks in, "Pilot 1 aboard (1 / 6), brought 7 % energy",
+  chime, thanks line, cabin count, a seat, music unchanged, full control (`PilotBoarded`; `Core/GameShell.Strike.cs`).
+- **A2 Strike — done.** Seeded per alien: instant 40 % (1-4 s after the airlock shuts), take-off 35 % (2-6 s after lift-off, or a turn
+  over 70 °/s), slow burn 25 % (8-40 s of flight; the old long sequence). Instant / take-off: hatch slam and burst, at your face in ~0.4 s,
+  the lunge, death at 1.9 s; music cut, sting and scare sounds **on** the strike; INTRUDER, lights out and alarm 0.35 s **after** it. An
+  alien still aboard strikes before docking / the beam / running dry. Over 600 planets: 40 / 35 / 25 %, mean 2.5 s / 4.0 s / 24 s.
+- **A3 Canopy leap — done.** 50 % leap (5-15 s at the door) / 50 % the slow climb (25 s); the leap: 0.3 s from the ground onto the glass,
+  `canopy_slam`, view shake; engines throw it off (checked: leapt at 7.6 s, thrown off, bounty).
+- **A4 Red herrings — done.** Per boarding, real pilots and aliens alike (seeded per pilot): flicker 12 % (two short flickers +
+  `power_dip`), thump 15 % (`cabin_thump`), crackle 12 % (the cabin feed stutters + `feed_crackle`); never the full lights-out.
+- **A5 Fair — done** (tells, voice sign, Sleeper unchanged). **A6 VR rule 5 — done** (no camera takeover or fade; the creature comes at you).
+- **A7 Check — done.** Event-log comparison (sounds, stings, music, voices, messages, cabin lights; HUD / displays / controls / airlock /
+  creature state), B pressed to the strike: **instant 16 / 16 events IDENTICAL, take-off 20 / 20 IDENTICAL**; the first alien-only event is
+  the strike itself (7.45 s / 9.48 s after B). Slow burn struck 22 s after lift-off. Pictures r6a_*_strike_0.1s / 0.5s / 1.0s.
+- **B1 Radar — done.** Turrets within 3 km and saucers within 6 km on the radar unspotted, labelled "TURRET 1.4 km" / "SAUCER 1.9 km"
+  (every biome: every enemy in range on the radar at launch).
+- **B2 Brackets — done** (`UI/TargetBrackets.cs`, in the world): enemies in sight within 2.5 km, "TURRET 1.9 km", the nearest / locked
+  one brighter ("LOCKED ON").
+- **B3 Visible from afar — done.** Blinking red warning light on turrets and saucers (0.008 m per m: ~16 m at 2 km), muzzle flash
+  (0.009), enemy bolts' glow kept readable (0.006) with a 0.12 s trail. Accuracy, fire rate and aggression unchanged.
+- **B4 Check — done.** Cockpit pictures at 2 km and 1 km, turret and saucer, all four biomes (r6b_*): bracket and light in every one. First
+  run: labels too small and the light read white; fixed (bigger labels, saturated red).
+- **C1 Shop — done** (hangar > Upgrades; `Core/Upgrades.cs`, `GameShell.Upgrades.cs`). Prices (cr): Engine 6500 / 10500 / 16000, Hull
+  6000 / 9500 / 14500, Shields 6000 / 9500 / 14500, Energy 6500 / 10500 / 16000, Radar 5500 / 8500 / 13000, Cabin 7000 / 12000 (6 -> 8 -> 10),
+  Gun 6000 / 9500 / 14500. Steps a level: engine +8 %, hull +25 %, shield drain -20 % and +1 m catch radius, energy capacity +20 %, radar
+  reach +30 % and exact bearings +1 km, gun rate +20 % / damage +25 %. Shields' "more hits blocked" = the same energy blocks for longer and
+  a wider shell catches near misses (it already blocked every hit it caught).
+- **C2 Value — done.** Ship value 6000 + the prices paid; recovery 1500 + 25 %: no upgrades 3000 cr, everything 53 500 cr. Loaner: none.
+  Saved in `career.json` (`ship.upgrades`).
+- **C3 Visible — done.** Seat cushions per seat (the cabin camera shows 8 / 10), a radar bezel ring, extra reticle rings (Gun), whiter
+  nozzle glow (Engine), a stronger, larger shield shell.
+- **C4 Balance — done.** Normal, all pilots, 4 sorties at 40 %: 5020 cr after planet 1, 7540 after planet 2; cheapest level 5500: after two
+  planets. All levels vs none, measured in flight: top speed 450 -> 558 km/h, hover climb x1.13, flight drain x0.63, shield drain 2.0 -> 0.8
+  %/s, a 10 % hit 10 -> 5.7 %, gun 6.0 -> 9.7 shots/s, enemy radar reach 3000 -> 5700 m, cabin 6 -> 10 (10 pilots seated).
+- **D1 Star map — done** (replaces the planet list; hangar "Star map · Planets"): the star, every visited planet, today's and the next
+  undiscovered one in biome colours with status (★ of the day, cleared, waiting, DISTRESS) and danger (tier, difficulty, turrets / saucers
+  left, or an estimate); the selected row is ringed on the map; A jumps (live, as before). Drawn by `UI/ViewStage.cs` into the page.
+- **D2 Coordinates — done.** Type a seed (keyboard or D-pad digits), "Go to the coordinates"; checked: typed 24 -> Tulra-VI, on the map.
+- **D3 Distress calls — done.** A cleared, visited planet rolls every 3 h of real time (35 %): 1-3 new pilots (aliens by the usual rules,
+  cap 14), marked on the map, Control's "New distress calls…" (`ctl_distress`) and a debrief line at the next dock; no second clear bonus.
+  Checked with the clock moved 30 h: 3 new pilots, announced, jumped there, 3 waiting.
+- **E1 Viewer — done** (`Core/GameShell.Journal.cs`). An index of the five kinds; a page each: the model large and lit, turn (right stick /
+  right-mouse drag / hat: 132° in 1.2 s), zoom (triggers / Shift-Ctrl / wheel: 5.7 -> 2.0 m), animations idle / walk / run / attack /
+  shriek and its own (leap, stagger, climb, circle, sit); unmet: a black silhouette on grey, "Unknown".
+- **E2 Information — done.** Name, original lore (more after the 2nd meeting), behaviour, the tell hint (as before), record (met, killed,
+  killed you, first seen on <planet> (date)).
+- **E3 Pause menu — done** (time stopped; the creature still animates). Pictures r6e_*.
+- **Publish — done.** 0.6.0 = build 600, `game-600` Latest (the first attempt hit the draft-listing delay; `--resume-draft` finished it).
+  The `starter-200` package: "Updating to game 0.6.0… Updating the soundtrack… Update installed. Starting the game…", `versions/600`, exit 0.
+  New sounds (ElevenLabs; nothing played): hatch_burst, canopy_slam, power_dip, cabin_thump, feed_crackle; voices ctl_distress, ctl_upgrade.
+
+**Decisions made:** an alien still aboard strikes before docking / the beam / running dry (it never reaches the mothership); the comparison
+uses a check-only `Trace` log; Shields' "more hits blocked" as above; distress calls pay no second clear bonus; the star map shows the 16
+most recent planets + today's + the next new one.
+**For Dan to check:** let a few aliens in: do you still see it coming, does the instant one make you jump? Wait at the door for a leap. Can
+you find the enemies now (brackets, lights, radar labels; is the radar too busy)? Upgrade prices and feel; is a 53 500 cr recovery with
+everything bought too harsh? The star map (planets are small in the picture) and distress calls. Turn and zoom an alien in the journal.
 
 **Round 5 — the ship rights itself; enemies and difficulty (2026-11-04). Published: 0.5.0 (`game-500`, Latest; soundtrack stays
 `soundtrack-401`).** Exe built 2026-11-04 20:07 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round5/`: `partA2/` (`--only round5a`),
@@ -413,70 +338,6 @@ to stay out of sight fun; are saucers too much? The gun / shield buttons on the 
 
 **For Dan to check:** the tension layer under low energy / RETURN NOW (its slow 65 s build-up plays first each time it comes in) and the
 regeneration cue on the trip to the pod.
-
-**Round 4 — planet biomes, music and voices (2026-11-04). Published: 0.4.0 (`game-400`, Latest) + soundtrack 0.4.0
-(`soundtrack-400`).** Exe built 2026-11-04 14:14 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round4/`: `final/` (`--only round4`:
-`exe_check.txt` + pictures a, b_* Free Flight per biome, c_* Campaign per biome), `deck/` (`--only round4perf -steamDeck 1`, 1280 x 800),
-`mute_exe_check.txt`, `launcher/`. Every run headless, muted (output 0.000 RMS from the first frame to the end), no window, Below Normal.
-Commits: `4785e13` planning, `9227ed5` Part A, `57e15d9` Part B, `f9a0c6a` Part C (the three parts were built and checked together; the
-GameShell glue is in the Part C commit, so only that one builds on its own).
-- **A1 Biome per planet — done.** `Biomes.ForSeed` (seeds 1-2000: 502 / 506 / 488 / 504); a new career's first planet is Canyons
-  (check: "canyons" while today's seed is a Dead City); old saves get their biome on the next visit (`biomeSet`). Shown in the hangar,
-  the Planets list (every row), the jump screen, the HUD place line, the title ("Today's planet: Zanveth-IV (Dead City)"); Free Flight
-  has **Planet type** (By seed / Canyons / Giant Forest / Dead City / Ice). Same seed = same ground (identical samples, all four).
-- **A2 Giant Forest — done.** Rolling ground, wide valleys; trees one per 64 m cell (86 %), trunks 5-15 m, 60-150 m tall, deep crowns;
-  valley floors and clearings (the pads) open. Trunks solid (`CanyonField.SolidPush`: flown into at 210 km/h = one hit, pushed out, no
-  crash on Bounce); crowns soft (leaf burst + rustle, no hit). Soft light shafts into the clearings, spores, green-gold haze. b_forest_*.
-- **A3 Dead City — done.** Street grid in the height field (32 m streets, 64 m avenues), towers 60-500 m (downtown taller), broken tops,
-  rubble blocks, plazas; facades with a window grid and a few flickering dead lights (shader); ash. Pads: flat roofs (81 of 117 in a
-  test area) and plazas; the check landed on a roof 245 m up and picked a pilot up there. Sky bridges are solid boxes (a hit, logged).
-- **A4 Ice — done.** Snow plains stepped by ice cliffs, narrow deep crevasses (the canyons), ice pads on crevasse floors; snow bridges
-  over crevasses = short ice caves you fly under (solid); snow; blizzards every 2-4 min for 25-45 s (white haze to 450 m, the computer
-  says "Visibility low. Instruments only."). b_ice_*.
-- **A5 Look per biome — done** (`WorldLook.LookFor`: sky, sun, haze, ambient, strata palette, ground mode in `Rock.shader`, particles).
-  Wrecks and pads use the biome's ground; the wreck model itself is unchanged.
-- **A6 Performance — done, numbers for Dan.** Trees GPU-instanced (2 LODs, near ones with shadows), bridges per cell, props from the seed
-  on worker threads; the Deck setting draws trees to 60 % of the view and the detailed ones only to 420 m (collisions never change).
-  1660 Ti, 1080p, flying low, average / 1 % low fps: Canyons 862 / 289, Forest 489 / 120, City 592 / 157, Ice 497 / 143 (final run; a
-  Chastain Rush build was running at the same time). An earlier run had Forest 301 / 34 and City 388 / 64: short hitches (worst frames
-  0.3-0.7 s) while new props / music load. Deck setting (1280 x 800 on this PC, not a Deck): 1295 / 629, 1201 / 507, 1501 / 439, 1006 / 353.
-- **A7 Art — done by script.** Trees, buildings and ice are made in code (no Meshy needed); no third-party textures (credits updated).
-- **A8 Later biomes — queued** (volcanic, crystal / fungal, ocean islands; "Next Steps").
-- **B1 Adaptive music — done** (`Audio/Music.cs`): title, hangar, planet list, flight per biome, tension layer at low energy / RETURN NOW,
-  regeneration cue; 4 s crossfades; silence (wind) near a waiting pilot and landed for a pickup; no music in the horror sequence, the
-  canopy alien or the Sleeper; ducks under voices. Check log: every change with its gain (final/exe_check.txt "--- music").
-- **B2 Files — done.** `BundleMusic/` (git-ignored) -> `Music/` beside the exe (PlayerBuild) and the launcher's soundtrack component
-  (`soundtrack-400`); the game reads the launcher's soundtrack folder (checked: the fresh install played from `shared/soundtracks/400`).
-- **B3 ElevenLabs music and stingers — partly.** Stingers done (7, `Resources/Sounds/sting_*`, wired to launch, pilot aboard, docked,
-  cleared, jump, alien reveal, death). **The two music loops are stand-ins: Dan's API key lacks the `music_generation` permission**
-  (HTTP 401), so `tension_low_energy` (22 s loop) and `regeneration` (10 s) were made with the sound-effects model. Fix: allow Music on
-  the key, then `python Tools/make_music.py --only tension_low_energy,regeneration --force` (Docs/MUSIC.md).
-- **B4 Settings — done.** Settings > **Sound**: Master, Music (70 %), Effects, Voices, Subtitles.
-- **B5 Dan's Suno tracks — done.** All 7 looped: `Tools/music_loops.py` finds tempo, intro, end fade and a bar-aligned loop where the music
-  matches best (match .88-.95) -> `BundleMusic/music.json`; the game plays the intro once, then crossfades loopEnd into loopStart.
-- **C1 Voices — done.** Control (Daniel), the computer (River + chorus), 12 pilot voices (6 women, 6 men; American, British, Australian,
-  US Southern; young to old), each pilot's callsign = their voice. 245 lines (`Docs/VOICES.md`). Wired: launch, planet of the day,
-  briefings per biome, beacons, cabin full / everyone found, docking, docked, tow, recall, cleared, jump, regeneration ("Welcome back.
-  Again."), engines-off advice, low energy, alien / pilot killed by the exhaust, security; computer: energy low, RETURN NOW, can't
-  reach, pull up, hull, gear, airlock, pilot aboard, cabin full, intruder, engines off, white-out; pilots: mayday (per biome), "I see
-  you", at the door, thanks, cabin chatter, the Sleeper's victim screams.
-- **C2 Aliens use the voices — done.** Aliens radio and talk at the door like pilots. **Mimic voice sign** (seeded, 75 % = the tell rate):
-  wrong lines (a word repeats, a breath in the wrong place) or the voice and callsign of a pilot already lost there. Check: a Mimic
-  radioed "Mayday, mayday, this is... this is Corps pilot Lund" and said "It's me. It's me. Open... open up." at the door; exhaust ->
-  "That was no pilot." Over 400 planets the sign showed 300 times.
-- **C3 Radio sound — done.** Radio: 350 Hz-3.2 kHz, drive, crackle, click in / out; computer clean; door voice 3D at the airlock,
-  low-pass 900 Hz; one line at a time, warnings first (logged in order).
-- **C4 Subtitles — done** (On by default): under the HUD prompt and on the cockpit's centre display (c_*_4 pictures).
-- **C5 Files — done.** `Docs/VOICES.md`, `Tools/make_voices.py [--only id / prefix_] [--force]`, key from `ELEVENLABS_API_KEY`, never printed.
-- **Publish — done.** 0.4.0 = build 400: `soundtrack-400`, then `game-400` (Latest; its catalog points at both). The `starter-200` ZIP from
-  GitHub, `--auto-check`: "Updating to game 0.4.0… Updating the soundtrack… Update installed. Starting the game", `versions/400`,
-  `shared/soundtracks/400`, ready, exit 0 (the game muted by the launcher's test-save flag).
-
-**Decisions made:** the city is built in the height field (roofs are real ground: landing, collisions, the pilot's run); trees and bridges
-collide from the seed, not from what is drawn (the Deck's thinner drawing never changes play); music stand-ins rather than none; pilots'
-callsigns come from their voices (12 names). **For Dan to check:** do the forest, city and ice feel different and good to fly (and how the
-tree crowns look)? Rooftop and clearing landings. Control, the pilots' voices, how much radio chatter. The music with your tracks: does
-each place fit, are the loop points clean? Any hitch in the forest / city? The key's Music permission for the two real loops.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

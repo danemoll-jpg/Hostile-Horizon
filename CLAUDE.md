@@ -303,6 +303,22 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (gun_fire, turret_fire, saucer_fire, bolt_hit_*, shield_*, enemy_explosion, saucer_hum, lock_warning); voices `cpu_locked_on`,
   `cpu_saucer`, `cpu_shield_up/down`, `cpu_target_down`, `ctl_hot`, `ctl_hot_saucers`. Check `-exeCheckOnly round5` (`Checks/ExeCheck.Round5.cs`,
   about 20 min; `round5perf` = the per-biome fight frame rates only).
+- **Round 6:** (A) **jump scare** (`Core/GameShell.Strike.cs`): an alien let in boards exactly like a pilot (message, chime, seat, music,
+  control), then strikes, seeded per alien: instant (`strikeInstant*`, after the airlock shuts), on take-off (`strikeTakeoff*`, or a turn over
+  `strikeHardTurn`), slow burn (`strikeSlow*`, the old long sequence); music cut / sting on the strike, INTRUDER after it; it strikes before
+  docking / the beam. Canopy leap (`canopyLeap*`), red herrings for every boarding (`herring*`). `Core/Trace.cs` = the check-only event
+  log for the alien-vs-pilot comparison. (B) enemies on the radar unspotted within `radarTurretRange` / `radarSaucerRange` (labelled with
+  distance), world brackets within `bracketRange` (`UI/TargetBrackets.cs`), blinking warning lights, muzzle flashes, bolt trails
+  (`beaconScale`, `flashScale`, `boltGlowScale`); accuracy / fire rate / aggression unchanged ("more of a threat" DEFERRED by Dan). (C) the
+  **upgrade shop** (hangar > Upgrades; `Core/Upgrades.cs`, `GameShell.Upgrades.cs`): Engine, Hull, Shields, Energy, Radar, Cabin (6 -> 8 -> 10),
+  Gun; prices `upg*` arrays, effects `upg*Step`; levels saved as keys in `ShipState.upgrades` (the loaner has none); ship value = 6000 + the
+  prices paid. (D) the **star map** (hangar "Star map · Planets", `GameShell.Planets.cs`; drawn in 3D by `UI/ViewStage.cs`, a stage at y
+  -30 000 on layer 30 shown as `MenuPanel.Page.View`), coordinates (typed seed), distress calls on cleared planets (`distress*`,
+  `Career.CheckDistress`, real time; `Career.CheckHoursAhead` for checks; Control's `ctl_distress` at the dock). (E) the **Field Journal
+  viewer** (`GameShell.Journal.cs`): a page per kind, the 3D model turned (Look / right-mouse drag / hat) and zoomed (ThrottleChange /
+  wheel), animations, lore, record (`JournalEntry.killed / killedYou / firstPlanet`); silhouette for unmet kinds; from the hangar and the
+  pause menu. Hangar rows: Launch, Jump, Star map, Upgrades, Repair, Refuel, Recover, Field Journal, Difficulty, Back. Check
+  `-exeCheckOnly round6` (or `round6a` .. `round6e`; `Checks/ExeCheck.Round6.cs`, `ExeCheck.Round6CDE.cs`; about 45 min in all).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -350,7 +366,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -414,13 +430,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 6 (A: the alien attack as a jump scare: an alien boards exactly like a pilot, then strikes instantly, on take-off or as a slow burn;
+canopy leap; red herrings. B: enemies easier to find. C: upgrade shop. D: full star map, coordinates, distress calls. E: Field Journal
+viewer with 3D creatures) is built, checked in the exe (headless, muted, `--only round6a` .. `round6e` and `round6`) and published as
+0.6.0 (`game-600` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet played by Dan.**
+The event-log comparison: an alien boarding is identical to a real pilot boarding until the strike (16 / 16 and 20 / 20 events). Per-item
+status, prices and tuning in `TODO.md` (Round 6 delivery). **Next: Round 7**, to be written by the planning chat.
 **Round 5 (Part A: the ship rights itself when the stick is released, a level-out button, Auto-level / Righting speed settings; Part B:
 turrets, saucers, your gun and shield, hull damage from enemy fire, warnings, difficulty presets Easy / Normal / Hard / Nightmare / Custom)
 is built, checked in the exe (headless, muted, `--only round5a`, `round5`, `round5perf` with the Deck setting, `round5presets`) and
 published as 0.5.0 (`game-500` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet
 played by Dan.** Open for Dan: turrets rarely hit a ship crossing at 650 m (tuning limit reached after two tries: `turretLead` .9,
 `turretAimError` 14, `boltHitRadius` 3.5). Per-item status, numbers and the control layout in `TODO.md` (Round 5 delivery).
-**Next: Round 6 (Modern progression)**, to be written by the planning chat.
+Round 6 followed (above).
 **Fix 4.1 (Dan's own tension and regeneration music replace the stand-ins) is checked in the exe (headless, muted, `--only music`)
 and published as 0.4.1 (`game-401` Latest + `soundtrack-401`); a starter-200 install updates to both from GitHub. Not yet heard by Dan.**
 **Round 4 (planet biomes: Canyons, Giant Forest, Dead City, Ice; adaptive music with Dan's 7 Suno tracks as the launcher's soundtrack
