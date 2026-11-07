@@ -168,13 +168,153 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 6 (to be written by the planning chat with Dan)
+Current Objective — Round 6: jump scare (A), easier-to-find enemies (B), upgrades (C), star map (D), Field Journal viewer (E)
 ---------------------------------------------------------------------------
 
-Round 4 (plaRound 5 (the ship rights itself; enemies and difficulty) is delivered as 0.5.0 (status under "Previous deliveries"; its
+Round 5 (the ship rights itself; enemies and difficulty) is delivered as 0.5.0 (status under "Previous deliveries"; its
 specification is in `TODO-ARCHIVE.md`). **Next: Round 6 (Modern progression)**, to be written by the planning chat with Dan.
 Open for Dan from Round 5: how self-righting feels; whether turrets should hit more often (see the Round 5 delivery); the gun / shield
 layout on the pad and the HOTAS; the presets. Dan's art pipeline (standing) as before (`Docs/MODELS-NEEDED.md`).
+
+Dan (2026-11-07) folded the jump-scare fix, easier-to-find enemies, the
+upgrade shop, the full star map and a Field Journal viewer into one round:
+**Round 6**, one publish at the end: **0.6.0**. Commit after each part.
+
+**Part A — make the alien attack a real jump scare (was Fix 5.1)**
+
+Dan (2026-11-07): "The problem I see with the attack: in the original, it was
+more of a jump scare. In this one the ship shuts down and the music starts,
+letting you know to expect something."
+
+What gives it away now (from the code, `GameShell.Aliens.cs` `Horror`): the
+instant the airlock opens to an alien, the game reacts differently from a real
+pilot: input is taken away, the computer says "intruder", the displays go dark,
+the airlock closes, the lights die, the alarm starts — a long, announced
+build-up. The player knows the moment they press the button.
+
+**The rule from now on: the player must not be able to tell from the game's
+reaction that it was an alien until the instant it strikes.** Nothing changes
+(sound, music, lights, displays, controls, messages) before the strike.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Boarding looks exactly like a real pilot boarding.** An alien let in walks
+   in like a pilot: the same animation, the same "Pilot N aboard (2 / 6)" message
+   and chime, the cabin count goes up, the cabin camera shows a pilot, the
+   player keeps full control, the music carries on as a real pickup would. No
+   intruder line, no blackout, no alarm, no input lock.
+2. **Then it strikes, at an unpredictable moment, with no build-up.** Each
+   alien let in rolls one of these (seeded per alien, weights in the tuning
+   file):
+   - **Instant (about 40 %):** 1-4 s after the airlock closes, while the player
+     is still sitting there: a sudden slam on the cockpit hatch, it bursts
+     through and lunges at the player's face, all in about one second.
+   - **On take-off (about 35 %):** a few seconds after lift-off or at the first
+     hard turn: the same sudden burst through the hatch.
+   - **Slow burn (about 25 %):** the current long sequence (lights, cabin
+     noises, the hatch hit three times), kept for variety but started at a
+     random moment in flight, not at the airlock.
+   The scare sound and the alien-reveal stinger land **on** the strike, never
+   before it; the music cuts **at** the strike. The computer's "INTRUDER"
+   call comes after the strike, not before.
+3. **The canopy leap (the original's scare).** An alien left at the door
+   sometimes doesn't climb slowly: with no warning it **leaps and slams onto
+   the canopy** (a hard bang, glass shudder, the creature filling the view)
+   while the player is waiting. Seeded per alien (about 50 % leap / 50 % the
+   current slow climb), at a random time from 5 s after it reaches the door.
+   Same answers as now (engines / shield / take off throw it off).
+4. **Red herrings, so nothing is a sure sign:** harmless things that sometimes
+   happen with real pilots too: a light flicker or power dip when the airlock
+   cycles, a thump from the cabin as a pilot sits down, a crackle on the cabin
+   camera. Rare (tuning), never the full lights-out.
+5. **Keep it fair:** after the strike the outcome is as now (death,
+   regeneration, recovery). The tells at the door (Round 3) and the voice sign
+   (Round 4) are still how a careful player avoids it; this fix only removes
+   the warning *after* the airlock is opened. The Sleeper is unchanged (it
+   turns much later and fights the other pilots); regular aliens never wait
+   that long.
+6. **Still VR rule 5:** no camera takeover, no fade, no full-screen flash; the
+   creature physically comes at the player in the cockpit; the player can look
+   around.
+7. **Check (muted, no focus):** an alien boards: log every sound / music /
+   light / display / input / message event from the airlock opening to the
+   strike and compare it with a real pilot boarding: identical until the
+   strike. Each strike type once (timing logged); the canopy leap; red herrings
+   with real pilots; cockpit pictures at the strike moment.
+8. Commit Part A (publishing happens at the end of the round).
+
+**For Dan to check (Part A):** let a few aliens in. Do you still see it coming?
+Does the instant one make you jump? The canopy leap while you wait.
+
+**Part B — enemies that are easier to find** (Dan, 2026-11-07: "I had a hard
+time finding the enemies to even shoot at." He also asked to **hold off on
+making them more of a threat** until he's used to them: DEFERRED, not decided
+against. Don't change accuracy, fire rate or aggression this round.)
+
+B1. **On the radar always:** turrets within radar range and saucers within
+    their own (longer) range show on the radar without being spotted first,
+    with their distance, like pilots.
+B2. **Target brackets:** enemies in line of sight within about 2.5 km get a
+    bracket in the world (cockpit view and HUD, VR rule 4) with distance; the
+    nearest / the one locked on is highlighted.
+B3. **Visible from afar:** a red blinking warning light on each turret, a clear
+    muzzle flash when it fires, and glowing bolts with a short trail, readable at
+    1-2 km against every biome's sky and ground.
+B4. **Check:** pictures from the cockpit at 2 km and 1 km in each biome: can a
+    first-time player see the turret and the saucer? Commit Part B.
+
+**Part C — the upgrade shop** (credits, in the hangar)
+
+C1. Upgrades in levels (starting 3 levels each; prices and effects in the tuning
+    file), bought with credits, shown in the hangar with what each level does:
+    **Engine** (top speed, acceleration, climb), **Hull** (max hull), **Shields**
+    (less energy drain, more hits blocked), **Energy** (capacity, less drain in
+    flight), **Radar** (range, earlier exact positions), **Cabin** (6 -> 8 -> 10
+    seats), **Gun** (rate and damage).
+C2. Upgrades raise the ship's value, so the recovery fee grows (as already
+    decided); the free loaner has none. Saved with the career.
+C3. A small visible change on the ship / cockpit per category where easy (e.g.
+    extra cabin seats on the cabin camera, a bigger radar display ring).
+C4. Balance: the first upgrade affordable after about two planets on Normal;
+    report the numbers. **Check:** buy each, prove the effect in flight. Commit.
+
+**Part D — the full star map** (replaces Fix 3.2's planet list)
+
+D1. A star map of the career's home system in the hangar (world-space panel
+    rule): the star, the planets visited and the next undiscovered one,
+    each drawn in its biome's colours with its name, biome, status (planet of
+    the day, cleared, pilots waiting, lost), and its danger (difficulty tier,
+    turrets / saucers). Select one and **Jump** (the jump plays live, as now).
+D2. **Coordinates:** type a seed to visit any planet (Fix 3.2's typed seed
+    idea), added to the map once visited.
+D3. **New distress calls on old planets** (decided default, tuning): a visited,
+    cleared planet sometimes gets new downed pilots after real time passes
+    (starting: a chance every few hours, 1-3 pilots), marked on the map and
+    announced by Control at the next dock. Gives old planets a reason to visit.
+D4. **Check:** map pictures; jump to a visited planet and to a typed seed; a
+    distress call appears after a simulated time skip. Commit.
+
+**Part E — the Field Journal viewer**
+
+E1. Each met alien type opens its own page with a **large 3D view of its
+    model**: rotate it (right stick / mouse drag / HOTAS hat), zoom in for
+    detail, and play its animations (idle, walk, attack, shriek); good
+    lighting so the model reads in detail. Unmet types show a dark silhouette
+    and "Unknown".
+E2. More information per type, unlocked by encounters: its name, a short piece
+    of original lore written by Code (where it was first seen, what the corps
+    knows), how it behaves, the tell hints (as now: vague first, clearer after
+    the second meeting, never the full answer), and your record with it (met,
+    killed, killed you, first seen on <planet>).
+E3. Also reachable from the pause menu; works with gamepad, keyboard, HOTAS.
+    **Check:** pictures of a page rotated and zoomed. Commit.
+
+**End of the round:** publish **0.6.0** (Parts A-E), update `TODO.md`
+(per-item status for every part: done / not done / deferred and why; tuning
+values) and `CLAUDE.md`, clean up, commit and push.
+
+**For Dan to check (Parts B-E):** can you find the enemies now? Upgrades: are
+prices fair and do you feel them? The star map and new distress calls. The
+Field Journal pages: rotate and zoom an alien.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -182,19 +322,22 @@ Next Steps — queued rounds (Do Not Start Yet)
 
 - **More biomes (after Round 4):** volcanic, crystal / fungal forest, ocean
   islands, each with its own Suno flight track.
-- **Round 6 — Modern progression:** the upgrade shop (credits), mission
-  objectives, the full star map (builds on Fix 3.2's planet list; typed seed;
-  maybe new distress calls appearing on visited planets over time), recovering
-  your own wreck yourself, insurance, best run per planet.
-- **Round 7 — Look and sound polish:** art pass (ship model, cockpit,
+- **Round 7 — Missions and more progression:** mission objectives (recover a
+  flight recorder, knock out a turret cluster, timed rescues, no-damage runs),
+  recovering your own wreck yourself, insurance, best run per planet.
+- **Enemies more of a threat** (DEFERRED by Dan 2026-11-07 until he's used to
+  them; not decided against): turrets that hit a moving ship sometimes on
+  Normal, saucers that hunt, more fire. Round 5's tuning note
+  (`turretLead`, `turretAimError`, `boltHitRadius`) applies.
+- **Round 8 — Look and sound polish:** art pass (ship model, cockpit,
   mothership; pilots and aliens are done), sound pass, Steam Deck tuning,
   credits.
-- **Round 8+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
+- **Round 9+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
   head-tracked cockpit, world-space menus, comfort options (all OFF by
   default: no snap turn, no fades, no vignette; Dan wants realism), VR performance
   pass. Native Quest decided afterwards.
 - **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
-  After Round 6 unless Dan moves it.
+  After Round 7 unless Dan moves it.
 
 ---------------------------------------------------------------------------
 Previous deliveries
