@@ -259,7 +259,7 @@ already holds B-E code; each part was then checked and fixed in turn).
 - **E3 Pause menu — done** (time stopped; the creature still animates). Pictures r6e_*.
 - **Publish — done.** 0.6.0 = build 600, `game-600` Latest (the first attempt hit the draft-listing delay; `--resume-draft` finished it).
   The `starter-200` package: "Updating to game 0.6.0… Updating the soundtrack… Update installed. Starting the game…", `versions/600`, exit 0.
-  New sounds (ElevenLabs; nothing played): hatch_burst, canopy_slam, power_dip, cabin_thump, feed_crackle; voices ctl_distress, ctl_upgrade.
+  New sounds (ElevenLabs; nothing played): hatch_burst, canopy_slam, power_dip, cabin_thump, feed_crackle; voices ctl_distress, ctl_upgrade. Clean-up: disk 3.2 GB -> 3.2 GB (starter-check folder removed, Library/BuildHistory cleared).
 
 **Decisions made:** an alien still aboard strikes before docking / the beam / running dry (it never reaches the mothership); the comparison
 uses a check-only `Trace` log; Shields' "more hits blocked" as above; distress calls pay no second clear bonus; the star map shows the 16
