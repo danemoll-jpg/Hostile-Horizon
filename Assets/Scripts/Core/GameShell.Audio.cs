@@ -164,7 +164,7 @@ namespace HostileHorizon
             if (Ship.Landed && Ship.EnginesOn && pilotCanCome) { landedEnginesOn += Time.deltaTime; if (landedEnginesOn > 5f && landedEnginesOn - Time.deltaTime <= 5f) Voice.Say("ctl_engines_off", VoiceKind.Radio, 2); }
             else landedEnginesOn = 0;
             // everyone found
-            if (Waiting == 0 && cabin.Count > 0 && cabin.Count < t.cabinSize && !everyoneSaid) { everyoneSaid = true; Voice.Say("ctl_everyone", VoiceKind.Radio, 2); }
+            if (Waiting == 0 && cabin.Count > 0 && cabin.Count < CabinSize && !everyoneSaid) { everyoneSaid = true; Voice.Say("ctl_everyone", VoiceKind.Radio, 2); }
             // cabin chatter: now and then, from a passenger
             if (cabin.Count > 0 && !sleeperTurning)
             {
@@ -197,7 +197,7 @@ namespace HostileHorizon
         {
             Music.Sting("sting_pilot_aboard"); Voice.Say("cpu_pilot_aboard", VoiceKind.Computer, 3);
             Voice.Say(P(Talk(p), talkRoll.Next(2) == 0 ? "thanks_1" : "thanks_2"), VoiceKind.Cabin, 1, Ship.transform, new Vector3(0, .8f, -3f), maxAge: 8f);
-            if (cabin.Count >= Tuning.T.cabinSize) { Voice.Say("cpu_cabin_full", VoiceKind.Computer, 3); Voice.Say("ctl_full", VoiceKind.Radio, 2, maxAge: 15f); }
+            if (cabin.Count >= CabinSize) { Voice.Say("cpu_cabin_full", VoiceKind.Computer, 3); Voice.Say("ctl_full", VoiceKind.Radio, 2, maxAge: 15f); }
         }
         void SayScream(int victim)
         {

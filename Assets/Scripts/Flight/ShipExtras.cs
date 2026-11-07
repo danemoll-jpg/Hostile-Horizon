@@ -15,6 +15,7 @@ namespace HostileHorizon
         readonly List<(Material m, Color c, float smooth, string slot)> paint = new List<(Material, Color, float, string)>();
         readonly List<Material> nozzles = new List<Material>();
         Look look;
+        public int EngineLevel;   // Round 6 (C3): the Engine upgrade: the nozzles burn whiter
 
         public static ShipExtras Add(ShipController s, Material lit, IEnumerable<(Material m, string slot)> materials)
         {
@@ -47,6 +48,7 @@ namespace HostileHorizon
 
         public void OpenAirlock(float seconds) { openUntil = Time.time + seconds; Sfx.Play(Sfx.Hiss, transform.TransformPoint(new Vector3(-1.8f, .2f, -1.6f)), .9f, 3f); }
         public bool AirlockOpen => doorOpen > .9f;
+        public bool AirlockShut => doorOpen <= 0 && Time.time >= openUntil;   // Round 6 (A2)
         public void CloseAirlock() => openUntil = 0;   // Round 3: it shuts behind what came in
 
         public void SetLook(Look l)
@@ -74,7 +76,8 @@ namespace HostileHorizon
             doorOpen = Mathf.MoveTowards(doorOpen, Time.time < openUntil ? 1 : 0, Time.deltaTime / .9f);
             door.localPosition = new Vector3(-1.80f - doorOpen * .06f, .05f, -1.6f - doorOpen * 1.15f);
             float glow = look == Look.Wreck || !ship.EnginesOn ? .04f : 1.2f + (ship.Mode == FlightMode.Hover ? .6f : ship.Throttle);
-            foreach (var m in nozzles) m.SetColor("_Color", new Color(1f, .5f, .18f) * glow);
+            var hot = Color.Lerp(new Color(1f, .5f, .18f), new Color(.75f, .85f, 1f), EngineLevel / 3f);
+            foreach (var m in nozzles) m.SetColor("_Color", hot * glow);
         }
     }
 }

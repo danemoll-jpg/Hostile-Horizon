@@ -81,11 +81,11 @@ namespace HostileHorizon
             if (!lines.ContainsKey(id)) { Debug.LogWarning($"[Voices] no line {id}"); return; }
             if (playing != null && playing.id == id) return;
             foreach (var q in queue) if (q.id == id) return;
-            queue.Add(new Req { id = id, kind = kind, priority = priority, time = Time.unscaledTime, maxAge = maxAge, at = at, local = local });
+            queue.Add(new Req { id = id, kind = kind, priority = priority, time = Time.unscaledTime, maxAge = maxAge, at = at, local = local }); Trace.Add("voice", id);
         }
 
         public void Clear() { queue.Clear(); }
-        public void StopAll() { queue.Clear(); foreach (var a in new[] { radio, computer, spatial, crackle }) a.Stop(); playing = null; subtitleUntil = 0; }
+        public void StopAll() { Trace.Add("voice", "(all stopped)"); queue.Clear(); foreach (var a in new[] { radio, computer, spatial, crackle }) a.Stop(); playing = null; subtitleUntil = 0; }
 
         AudioClip ClipOf(string id)
         {

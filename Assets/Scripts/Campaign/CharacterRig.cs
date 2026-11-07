@@ -103,6 +103,10 @@ namespace HostileHorizon
 
         public float Length(string name) { var c = Clip(Model, name); return c ? c.length : 0; }
         public void Speed(float s) { if (cur.IsValid()) cur.SetSpeed(s); }
+        // Round 6 (E1): the Field Journal's viewer animates in the pause menu too (time stopped)
+        bool unscaled;
+        public void Unscaled() { unscaled = true; if (graph.IsValid()) graph.SetTimeUpdateMode(DirectorUpdateMode.UnscaledGameTime); }
+        public float CurrentLength => cur.IsValid() ? Length(Current) : 0;
 
         public void ShadowMode(UnityEngine.Rendering.ShadowCastingMode m) { foreach (var x in Renderers) x.shadowCastingMode = m; }
         public void Tint(Color c) { foreach (var x in Renderers) { var m = new Material(x.sharedMaterial); m.SetColor("_BaseColor", c); x.sharedMaterial = m; } }
@@ -116,7 +120,7 @@ namespace HostileHorizon
         void Update()
         {
             if (!graph.IsValid()) return;
-            float dt = Time.deltaTime;
+            float dt = unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
             fadeT += dt; Weights();
             if (queued != null) { queuedAt -= dt; if (queuedAt <= 0) { var q = queued; queued = null; Play(q, .25f, queuedSpeed); } }
         }

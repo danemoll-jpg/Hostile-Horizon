@@ -1,0 +1,225 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 75776 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 01:32; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+    [1153 fps] Auto/launch Hover alt 1444 gnd 1218 spd 56 hdg 120 energy 100
+--- Part A tuning: strike weights instant 0.4 / take-off 0.35 / slow burn 0.25; instant 1-4 s after the airlock shuts; take-off 2-6 s after lift-off or a turn over 70 °/s; slow burn 8-40 s; canopy leap 50 % at 5-15 s (else the climb at 25 s); herrings flicker 0.12 / thump 0.15 / crackle 0.12
+  600 planets x 6 pilots: instant 40 % (mean 2.5 s), take-off 35 % (4.0 s), slow burn 25 % (24 s); canopy leap 51 %; the same seed again: Instant 2.3 s / Instant 2.3 s
+--- A7 instant: a real pilot boards, then a Knocker (no tell shown) boards the same way at the same pad; the alien strikes Instant
+    [395 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 314 energy 97
+    [303 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 314 energy 94
+    [341 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [363 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  real pilot: cabin 1, state Flying
+    [353 fps] Flying/ Hover alt 34 gnd 35 spd 7 hdg 314 energy 100
+    [304 fps] Flying/ Hover alt 8 gnd 10 spd 1 hdg 314 energy 96
+    [329 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 314 energy 93
+    [394 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+screenshot r6a_instant_1_strike_0.1s.png
+    strike +0.33 s: creature Creature (Knocker): active True, face 0.62 m from the eye ((0.02, -0.10, 0.61) eye space), root at ship (0.02, -1.05, 3.05), clip attack, bounds (2.4, 3.1, 2.5) at (926.4, 0.3, -1973.5) (eye (926.8, 1.4, -1973.5)), lod-near 0.05
+  the alien struck 7.45 s after B was pressed (Instant (its moment) after 2.5 s armed)
+  COMPARISON, B pressed -> 7.40 s: real pilot 16 events, alien 16 events: IDENTICAL
+    real pilot, timed:
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.09 state: airlock = moving
+      04.91 state: airlock = shut
+      05.40 state: prompt = Engines off. Throttle up or A / K to start them
+    alien, timed (to the strike and 2 s past it):
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.81 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.10 state: airlock = moving
+      04.91 state: airlock = shut
+      05.41 state: prompt = Engines off. Throttle up or A / K to start them
+      07.45 strike: Instant
+      07.45 music: (cut)
+      07.45 voice: (all stopped)
+      07.45 sting: sting_alien_reveal
+      07.45 sound: hatch_burst
+      07.45 sound: creature_lunge
+      07.45 hatch: hit
+      07.45 hatch: breaks
+      07.45 state: controls = taken
+      07.45 state: creature = SHOWN
+  first event the alien adds: at 7.45 s (7.45 s = the strike)
+screenshot r6a_instant_2_strike_0.5s.png
+    strike +0.67 s: creature Creature (Knocker): active True, face 0.16 m from the eye ((-0.14, 0.07, -0.03) eye space), root at ship (0.01, -0.95, 2.87), clip attack, bounds (2.2, 2.7, 2.4) at (926.7, 0.4, -1973.4) (eye (926.8, 1.4, -1973.5)), lod-near 0.05
+screenshot r6a_instant_3_strike_1.0s.png
+    strike +1.23 s: creature Creature (Knocker): active True, face 0.54 m from the eye ((-0.19, 0.20, 0.46) eye space), root at ship (0.02, -0.86, 3.12), clip attack, bounds (2.0, 2.7, 2.2) at (926.3, 0.6, -1973.3) (eye (926.8, 1.4, -1973.5)), lod-near 0.05; beat "at your face", lights off
+    [366 fps] Auto/horror Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: new entry — Knocker /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_instant_death_page.png
+    [662 fps] Auto/regen-trip Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_instant_regen_bay.png
+    [741 fps] Auto/recovery Hover alt 962 gnd 417 spd 55 hdg 120 energy 100
+    [1232 fps] Auto/recovery Hover alt 1379 gnd 834 spd 27 hdg 120 energy 100
+    [1159 fps] Auto/recovery Hover alt 1500 gnd 955 spd 7 hdg 120 energy 100
+    [1250 fps] Auto/launch Hover alt 1431 gnd 1376 spd 70 hdg 120 energy 100
+--- A7 takeoff: a real pilot boards, then a Knocker (no tell shown) boards the same way at the same pad; the alien strikes Takeoff
+    [322 fps] Flying/ Hover alt 10 gnd 12 spd 1 hdg 314 energy 97
+    [317 fps] Flying/ Hover alt 3 gnd 5 spd 1 hdg 314 energy 93
+    [358 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [341 fps] Flying/ Hover alt 19 gnd 20 spd 14 hdg 314 energy 98
+    [274 fps] Flying/ Hover alt 78 gnd 79 spd 4 hdg 314 energy 94
+  real pilot: cabin 1, state Flying
+    [277 fps] Flying/ Hover alt 18 gnd 19 spd 2 hdg 314 energy 98
+    [295 fps] Flying/ Hover alt 5 gnd 7 spd 1 hdg 314 energy 95
+    [319 fps] Flying/ Hover alt 0 gnd 2 spd 1 hdg 314 energy 91
+    [371 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 98
+  the alien struck 9.49 s after B was pressed (Takeoff (its moment) after 4.1 s armed)
+  COMPARISON, B pressed -> 9.44 s: real pilot 20 events, alien 20 events: IDENTICAL
+    real pilot, timed:
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.82 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.10 state: airlock = moving
+      04.90 state: airlock = shut
+      05.40 state: prompt = Engines off. Throttle up or A / K to start them
+      05.41 state: prompt = Landed. Climb (throttle up) to take off
+      05.43 music: flight_canyons
+      05.43 state: prompt = Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently
+      05.43 state: music wanted = flight_canyons
+    alien, timed (to the strike and 2 s past it):
+      00.00 sound: airlock
+      00.00 voice: cpu_airlock_open
+      00.00 state: prompt = Pilot coming aboard
+      00.00 state: pickup line = PILOT COMING — keep engines off
+      00.00 state: airlock = moving
+      00.82 state: airlock = open
+      01.40 message: Pilot 1 aboard (1 / 6), brought 7 % energy
+      01.40 sting: sting_pilot_aboard
+      01.40 voice: cpu_pilot_aboard
+      01.40 voice: p9_thanks_2
+      01.40 state: prompt = Pilot # aboard (# / #), brought # % energy
+      01.40 state: pickup line = 
+      01.40 state: cabin count = 1
+      04.10 state: airlock = moving
+      04.91 state: airlock = shut
+      05.40 state: prompt = Engines off. Throttle up or A / K to start them
+      05.42 state: prompt = Landed. Climb (throttle up) to take off
+      05.43 music: flight_canyons
+      05.43 state: prompt = Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently
+      05.43 state: music wanted = flight_canyons
+      09.49 strike: Takeoff
+      09.49 music: (cut)
+      09.49 voice: (all stopped)
+      09.49 sting: sting_alien_reveal
+      09.49 sound: hatch_burst
+      09.49 sound: creature_lunge
+      09.49 hatch: hit
+      09.49 hatch: breaks
+      09.49 music: (silence)
+      09.49 state: controls = taken
+      09.49 state: music wanted = 
+      09.49 state: creature = SHOWN
+  first event the alien adds: at 9.49 s (9.49 s = the strike)
+screenshot r6a_takeoff_1_strike_0.1s.png
+    strike +0.32 s: creature Creature (Knocker): active True, face 0.60 m from the eye ((0.02, -0.03, 0.60) eye space), root at ship (0.02, -0.98, 3.04), clip attack, bounds (2.4, 3.1, 2.5) at (926.4, 46.2, -1973.5) (eye (926.8, 47.2, -1973.5)), lod-near 0.05
+screenshot r6a_takeoff_2_strike_0.5s.png
+    strike +0.68 s: creature Creature (Knocker): active True, face 0.30 m from the eye ((-0.15, 0.25, -0.07) eye space), root at ship (0.01, -0.76, 2.87), clip attack, bounds (2.2, 2.8, 2.5) at (926.7, 46.0, -1973.4) (eye (926.8, 46.8, -1973.5)), lod-near 0.05
+screenshot r6a_takeoff_3_strike_1.0s.png
+    strike +1.21 s: creature Creature (Knocker): active True, face 0.61 m from the eye ((-0.17, 0.40, 0.43) eye space), root at ship (0.03, -0.66, 3.11), clip attack, bounds (2.1, 2.7, 2.2) at (926.3, 45.5, -1973.3) (eye (926.8, 46.2, -1973.5)), lod-near 0.05; beat "at your face", lights off
+    [344 fps] Crashed/dead Flight alt 43 gnd 45 spd 1 hdg 314 energy 97
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_takeoff_death_page.png
+    [605 fps] Auto/regen-trip Flight alt 31 gnd 32 spd 1 hdg 314 energy 97
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_takeoff_regen_bay.png
+    [726 fps] Auto/recovery Hover alt 1068 gnd 523 spd 51 hdg 120 energy 100
+    [1177 fps] Auto/recovery Hover alt 1425 gnd 880 spd 21 hdg 120 energy 100
+    [1323 fps] Auto/recovery Hover alt 1500 gnd 955 spd 15 hdg 120 energy 100
+--- slow burn: a Hollow boards, the ship flies on
+    [1175 fps] Flying/ Hover alt 33 gnd 35 spd 7 hdg 314 energy 99
+    [305 fps] Flying/ Hover alt 8 gnd 9 spd 1 hdg 314 energy 96
+    [329 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 314 energy 92
+    [393 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [268 fps] Flying/ Hover alt 35 gnd 35 spd 2 hdg 230 energy 94
+    [240 fps] Flying/ Hover alt 36 gnd 35 spd 0 hdg 228 energy 91
+  struck 22.1 s after lift-off (SlowBurn (its moment) after 24.5 s armed)
+  beat 0.0 s: lights die; cabin lights off, displays dark True, input off, view Cockpit
+    no creature
+screenshot r6a_slow_01_lights_die.png
+  beat 1.4 s: moving in the cabin; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 3.97 m from the eye ((-1.09, 0.14, -3.81) eye space), root at ship (-1.10, -0.64, -1.60), clip crawl, bounds (1.3, 2.3, 1.1) at (974.8, 35.0, -1966.5) (eye (971.1, 35.7, -1968.3)), lod-near 0.05
+  looked round: the view turned 106° (look works during it)
+screenshot r6a_slow_02_moving_in_the_cabin_looking_back.png
+picture r6a_slow_02_cabin_cam.png (384 x 216, straight from the camera)
+    [379 fps] Auto/horror Flight alt 31 gnd 30 spd 1 hdg 228 energy 89
+  beat 7.4 s: the hatch is hit; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 1.84 m from the eye ((-0.01, -1.80, -0.39) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, bounds (2.3, 1.0, 2.1) at (973.4, 27.4, -1967.4) (eye (971.1, 28.5, -1968.3)), lod-near 0.05
+  looked round: the view turned 0° (look works during it)
+screenshot r6a_slow_03_the_hatch_is_hit_looking_back.png
+picture r6a_slow_03_cabin_cam.png (384 x 216, straight from the camera)
+  beat 11.2 s: the hatch gives way; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 1.68 m from the eye ((-0.57, 0.14, -1.57) eye space), root at ship (-0.63, -0.64, 0.55), clip attack, bounds (1.3, 2.4, 1.4) at (972.9, 26.5, -1967.6) (eye (971.1, 27.2, -1968.3)), lod-near 0.05
+screenshot r6a_slow_04_the_hatch_gives_way.png
+  beat 13.0 s: in front of you; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 0.89 m from the eye ((-0.67, 0.56, -0.21) eye space), root at ship (-0.72, -0.20, 2.00), clip roar, bounds (1.3, 2.3, 1.2) at (971.9, 26.9, -1968.6) (eye (971.1, 27.2, -1968.3)), lod-near 0.05
+screenshot r6a_slow_05_in_front_of_you.png
+    [519 fps] Auto/horror Flight alt 26 gnd 25 spd 0 hdg 228 energy 89
+  beat 15.4 s: lunge; cabin lights off, displays dark True, input off, view Cockpit
+    creature Creature (Hollow): active True, face 0.56 m from the eye ((-0.10, -0.01, 0.55) eye space), root at ship (-0.13, -0.39, 3.65), clip attack, bounds (1.7, 2.4, 1.1) at (970.1, 26.5, -1968.7) (eye (971.1, 27.2, -1968.3)), lod-near 0.05
+screenshot r6a_slow_06_lunge.png
+    at the end: creature Creature (Hollow): active True, face 0.29 m from the eye ((-0.03, 0.08, 0.28) eye space), root at ship (0.07, -0.62, 2.79), clip attack, bounds (1.0, 2.4, 1.5) at (970.8, 26.5, -1968.3) (eye (971.1, 27.2, -1968.3)), lod-near 0.05
+  horror over after 15.8 s: state Crashed, phase dead, killed by Hollow; camera: fastest 1 m/s, fastest turn 163°/s (continuous: no cut)
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: new entry — Hollow /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r6a_slow_death_page.png
+    [700 fps] Auto/regen-trip Flight alt 26 gnd 25 spd 0 hdg 228 energy 89
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r6a_slow_regen_bay.png
+    [771 fps] Auto/recovery Hover alt 917 gnd 900 spd 55 hdg 120 energy 100
+    [1266 fps] Auto/recovery Hover alt 1356 gnd 1339 spd 29 hdg 120 energy 100
+    [1234 fps] Auto/recovery Hover alt 1500 gnd 1483 spd 17 hdg 120 energy 100
+    [1340 fps] Auto/launch Hover alt 1443 gnd 978 spd 57 hdg 120 energy 100
+--- A3 canopy leap: a Knocker left at the door (seeded: leaps at 7.6 s)
+    [366 fps] Flying/ Hover alt 11 gnd 13 spd 1 hdg 314 energy 97
+    [301 fps] Flying/ Hover alt 3 gnd 5 spd 1 hdg 314 energy 93
+    [358 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+    [395 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+  it leapt 7.6 s after reaching the door
+  on the canopy 7.97 s after the door; sounds: 460.9 canopy_slam, 460.9 canopy_scrape (loop), 460.9 canopy_breath (loop); view shake 0.80
+screenshot r6a_leap_1_slam.png
+screenshot r6a_leap_2_on_the_glass.png
+  engines on: canopy alien gone (thrown off), fate AlienGone
+--- A4 red herrings: seeded rates over 3600 boardings: flicker 12.1 %, thump 15.0 %, crackle 12.1 % (the same for real pilots and aliens)
+    [409 fps] Flying/ Hover alt 22 gnd 23 spd 5 hdg 314 energy 99
+    [294 fps] Flying/ Hover alt 6 gnd 8 spd 1 hdg 314 energy 95
+    [320 fps] Flying/ Hover alt 1 gnd 3 spd 1 hdg 314 energy 92
+    [375 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 314 energy 91
+  real pilot with all three: 1.40 herring: flicker | 1.40 sound: power_dip | 1.40 cabin lights: off | 1.40 state: cabin lights = off | 1.47 cabin lights: on | 1.47 state: cabin lights = on | 1.60 cabin lights: off | 1.60 state: cabin lights = off | 1.65 cabin lights: on | 1.65 state: cabin lights = on | 1.74 cabin lights: on | 3.04 herring: thump | 3.04 sound: cabin_thump | 5.24 herring: crackle | 5.24 sound: feed_crackle
+  after: cabin 1, lights on, state Flying, no strike (none)
+alien events: 93.0 pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 2.5 s after the airlock shuts | 99.0 strike: the Knocker (pilot 1), Instant (its moment) after 2.5 s armed; landed | 100.9 the Knocker got you (1.9 s after the strike) | 100.9 journal: Knocker encounter 1 (it killed you): "Listen at the door." | 239.4 pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 4.1 s after lift-off (or the first hard turn) | 247.5 strike: the Knocker (pilot 1), Takeoff (its moment) after 4.1 s armed; in flight, 47 m up | 249.4 the Knocker got you (1.9 s after the strike) | 249.4 journal: Knocker encounter 2 (it killed you): "The corps knocks a code. Count, and listen to where it comes from." | 331.5 pilot 1 aboard: a Hollow, boarded as a pilot; it strikes 24 s into the flight (slow burn) | 356.0 strike: the Hollow (pilot 1), SlowBurn (its moment) after 24.5 s armed; in flight, 35 m up | 356.0 horror sequence: a Hollow, in through the cabin (slow burn) | 371.8 the Hollow got you | 371.8 journal: Hollow encounter 1 (it killed you): "Look it in the eye." | 460.5 pilot 1 (Knocker) left at the airlock 8 s: it climbs onto the canopy | 460.5 it leaps onto the canopy | 460.9 on the canopy: pressed against the glass | 462.7 engines on with it on the canopy: thrown off (Knocker); bounty +200 cr | 462.7 journal: Knocker encounter 3 (thrown off the canopy): "The corps knocks a code. Count, and listen to where it comes from."
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.084 RMS, peak 0.710, zeroed before the speakers; 48791552 samples); master volume 0.00

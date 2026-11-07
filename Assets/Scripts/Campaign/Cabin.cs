@@ -14,7 +14,10 @@ namespace HostileHorizon
         public const int W = 384, H = 216;
         public static readonly Vector3 HatchCentre = new Vector3(-.625f, .475f, 1.17f), HatchCockpitSide = new Vector3(-.625f, .1f, 1.6f), Inside = new Vector3(0, -.55f, -1.3f);
         static readonly Vector3 CamAt = new Vector3(1.15f, .76f, .75f), CamLook = new Vector3(-.5f, -.35f, -2.6f);
-        static readonly Vector3[] Seats = { new Vector3(-1.08f, -.52f, .35f), new Vector3(1.08f, -.52f, .35f), new Vector3(-1.08f, -.52f, -.45f), new Vector3(1.08f, -.52f, -.75f), new Vector3(1.08f, -.52f, -1.85f), new Vector3(-1.08f, -.52f, -2.8f) };
+        static readonly Vector3[] Seats = { new Vector3(-1.08f, -.52f, .35f), new Vector3(1.08f, -.52f, .35f), new Vector3(-1.08f, -.52f, -.45f), new Vector3(1.08f, -.52f, -.75f), new Vector3(1.08f, -.52f, -1.85f), new Vector3(-1.08f, -.52f, -2.8f),
+            // Round 6 (C): the Cabin upgrade's seats (8, then 10)
+            new Vector3(1.08f, -.52f, -2.85f), new Vector3(-1.08f, -.52f, -1.3f), new Vector3(1.08f, -.52f, -1.3f), new Vector3(-1.08f, -.52f, -2.05f) };
+        readonly List<GameObject> cushions = new List<GameObject>();
         public Camera Cam { get; private set; }
         public RenderTexture Feed { get; private set; }
         public bool FeedOn;                  // set by the Campaign: drawn while it is shown
@@ -58,6 +61,10 @@ namespace HostileHorizon
             }
             c.emergency = new GameObject("Emergency lamp").AddComponent<Light>(); c.emergency.transform.SetParent(c.transform, false); c.emergency.transform.localPosition = new Vector3(0, 1.3f, 1.6f);
             c.emergency.type = LightType.Point; c.emergency.range = 3.5f; c.emergency.intensity = 0; c.emergency.color = new Color(1f, .12f, .08f); c.emergency.shadows = LightShadows.None;
+            // Round 6 (C3): a seat cushion for every seat the cabin has (the Cabin upgrade adds them: seen on the cabin camera)
+            var cushion = M(new Color(.55f, .32f, .12f), .2f);
+            for (int i = 0; i < Seats.Length; i++) { var g = GameObject.CreatePrimitive(PrimitiveType.Cube); Destroy(g.GetComponent<Collider>()); g.name = "Seat " + (i + 1); g.transform.SetParent(c.transform, false); g.transform.localPosition = new Vector3(Seats[i].x * 1.065f, -.35f, Seats[i].z); g.transform.localScale = new Vector3(.4f, .06f, .5f); g.GetComponent<Renderer>().sharedMaterial = cushion; c.cushions.Add(g); }
+            c.SetCapacity(6);
             // the passengers (shown for the pilots aboard)
             for (int i = 0; i < Seats.Length; i++) { c.figures.Add(Figure(c.transform, Seats[i], lit, i, out var rig)); c.rigs.Add(rig); c.slumped.Add(false); }
             // the cabin camera
@@ -101,9 +108,9 @@ namespace HostileHorizon
             return root;
         }
 
-        public void Lights(bool on) { foreach (var (m, c) in surfaces) m.SetColor("_BaseColor", on ? c : c * .08f); foreach (var l in lamps) l.enabled = on; foreach (var m in strips) m.SetColor("_Color", on ? new Color(1f, .92f, .78f) * 1.6f : new Color(.02f, .02f, .02f)); LightsOn = on; }
+        public void Lights(bool on) { foreach (var (m, c) in surfaces) m.SetColor("_BaseColor", on ? c : c * .08f); foreach (var l in lamps) l.enabled = on; foreach (var m in strips) m.SetColor("_Color", on ? new Color(1f, .92f, .78f) * 1.6f : new Color(.02f, .02f, .02f)); LightsOn = on; Trace.Add("cabin lights", on ? "on" : "off"); }
         public bool LightsOn { get; private set; }
-        public void Emergency(bool on) => emergencyWant = on ? .9f : 0;
+        public void Emergency(bool on) { emergencyWant = on ? .9f : 0; Trace.Add("emergency light", on ? "on" : "off"); }
 
         // Who sits where: one figure per pilot aboard; sleeper = the cabin index of the Sleeper (or -1), tell = it shows its tell.
         public void Seat(List<int> cabin, int sleeper, bool tell)
@@ -118,6 +125,8 @@ namespace HostileHorizon
                 else if (on) rigs[i].Play("sit_idle", 0, .8f + .07f * i);
             }
         }
+        public int Capacity { get; private set; } = 6;
+        public void SetCapacity(int n) { Capacity = Mathf.Clamp(n, 1, Seats.Length); for (int i = 0; i < cushions.Count; i++) cushions[i].SetActive(i < Capacity); }
         public int SeatOf(int pilotIndex) => seated.IndexOf(pilotIndex);
         public Vector3 SeatPoint(int seat) => seat >= 0 && seat < Seats.Length ? Seats[seat] : Inside;
         public void HideSeat(int seat) { if (seat >= 0 && seat < figures.Count) figures[seat].gameObject.SetActive(false); }
@@ -142,8 +151,10 @@ namespace HostileHorizon
         }
         public CharacterRig PassengerRig(int seat) => seat >= 0 && seat < rigs.Count ? rigs[seat] : null;   // checks
 
-        public void HitDoor() { doorShake = 1f; }
-        public void BreakDoor() { doorGone = true; doorVel = new Vector3(.2f, 1.2f, 3.2f); doorSpin = new Vector3(-180f, 40f, 30f); }
+        float crackleUntil;
+        public void Crackle(float seconds) => crackleUntil = Time.time + seconds;
+        public void HitDoor() { doorShake = 1f; Trace.Add("hatch", "hit"); }
+        public void BreakDoor() { Trace.Add("hatch", "breaks"); doorGone = true; doorVel = new Vector3(.2f, 1.2f, 3.2f); doorSpin = new Vector3(-180f, 40f, 30f); }
         public void ResetDoor() { doorGone = false; doorShake = 0; Door.localPosition = doorRest; Door.localRotation = Quaternion.identity; Door.gameObject.SetActive(true); }
 
         void LateUpdate()
@@ -177,7 +188,9 @@ namespace HostileHorizon
                 Door.localPosition = doorRest + new Vector3(0, 0, doorShake * .06f * Mathf.Sin(clock * 70f) + doorShake * .04f);
                 Door.localRotation = Quaternion.Euler(doorShake * 6f * Mathf.Sin(clock * 53f), 0, doorShake * 3f);
             }
-            if (FeedOn && ship.gameObject.activeInHierarchy && (frame++ & 1) == 0) Cam.Render();   // every other frame
+            // Round 6 (A4): a crackle on the feed: it stutters (frames held) for a moment
+            bool stutter = Time.time < crackleUntil && (int)(Time.time * 12f) % 3 != 0;
+            if (FeedOn && ship.gameObject.activeInHierarchy && (frame++ & 1) == 0 && !stutter) Cam.Render();   // every other frame
         }
     }
 }

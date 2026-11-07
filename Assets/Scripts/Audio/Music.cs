@@ -200,10 +200,14 @@ namespace HostileHorizon
             float vol = Mathf.Round(main.gain * 4) / 4;
             if (main.track != lastLogged || Mathf.Abs(vol - lastLogVol) > .01f)
             {
+                if (main.track != lastLogged) Trace.Add("music", main.track == "" ? "(silence)" : main.track);
                 lastLogged = main.track; lastLogVol = vol;
                 if (CheckRun.Active && Log.Count < 2000) Log.Add($"{Time.time:0.0} music \"{(main.track == "" ? "(silence)" : main.track)}\" gain {vol:0.00}{(Tension ? " +tension" : "")}{(Duck < .99f ? " ducked" : "")}");
             }
         }
+
+        // Round 6 (A2): the strike cuts the music at once (no 4 s fade)
+        public void Cut() { Stop(main); Stop(old); Stop(tension); Trace.Add("music", "(cut)"); }
 
         void Swap() { if (old.track != "") Stop(old); var t = old; old = main; main = t; Stop(main); }
 
@@ -211,7 +215,7 @@ namespace HostileHorizon
         public void Sting(string name)
         {
             var c = Sfx.Clip(name); if (!c) return;
-            oneShot.PlayOneShot(c, 1f);
+            oneShot.PlayOneShot(c, 1f); Trace.Add("sting", name);
             if (CheckRun.Active && Log.Count < 2000) Log.Add($"{Time.time:0.0} sting {name}");
             if (CheckRun.Active && Sfx.Played.Count < 4000) Sfx.Played.Add($"{Time.time:0.0} {name} (sting)");
         }

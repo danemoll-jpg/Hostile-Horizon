@@ -37,3 +37,8 @@ own file with the same name (mp3 / ogg / wav) into that folder and rebuild.
 | `enemy_explosion.mp3` | 3 s | no | a turret or saucer blows up | A heavy machine exploding: a big blast, metal debris flying and crashing, a burning roar fading. Outdoors, no music. |
 | `saucer_hum.mp3` | 4 s | yes | a saucer flying (loop) | An alien flying saucer hovering and moving: a pulsing, wavering electronic drone with a low throb. Seamless, no music. |
 | `lock_warning.mp3` | 1.2 s | no | a turret has locked on (cockpit tone) | A spaceship cockpit missile-lock warning: fast urgent electronic beeps, then a steady tone. No music. |
+| `hatch_burst.mp3` | 1.5 s | no | the alien slams through the cockpit hatch in one blow (the instant / take-off strike) | A sudden violent slam on a metal hatch right behind you that bursts it open at once: a huge metallic bang, metal tearing, the door crashing in. Very close, no music. |
+| `canopy_slam.mp3` | 1.2 s | no | the alien leaps onto the canopy with no warning | A heavy body slamming hard onto a thick glass canopy right above your head: a loud thud and a deep glass shudder and rattle. Very close, no music. |
+| `power_dip.mp3` | 1 s | no | a harmless power flicker as the airlock cycles (red herring) | A brief electrical power dip in a small spaceship cockpit: a short buzz, a click, a relay chattering, then normal hum. Quiet, no music. |
+| `cabin_thump.mp3` | 1 s | no | a pilot sitting down hard in the cabin (red herring) | A single dull thump and a creak behind a metal wall, like someone dropping heavily into a seat. Muffled, no music. |
+| `feed_crackle.mp3` | 1 s | no | static on the cabin camera feed (red herring) | A short burst of electronic video static and digital crackle from a small cockpit screen. Quiet, no music. |

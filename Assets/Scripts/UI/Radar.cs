@@ -24,6 +24,9 @@ namespace HostileHorizon
         readonly List<Text> labels = new List<Text>();
         readonly Image[] rings = new Image[3]; readonly Text[] ringLabels = new Text[3];
         public float Range { get; private set; } = 3000;   // metres at the rim (checks read it)
+        public static float ExactRange = MidRange;          // Round 6 (C): exact bearings out to here (the Radar upgrade)
+        public static int Bezel;                            // Round 6 (C3): the Radar upgrade's level: a bright outer ring
+        readonly Image bezel;
 
         public RadarScope(Transform parent, Vector2 centre, float size, Vector2 anchor, int labelFont)
         {
@@ -31,6 +34,7 @@ namespace HostileHorizon
             root = UiKit.Rect(parent, "Radar", anchor, anchor, centre - Vector2.one * size / 2, centre + Vector2.one * size / 2);
             radius = size / 2 * .9f;
             Img(root, disc, new Color(.02f, .08f, .07f, .85f), Vector2.zero, size);
+            bezel = Img(root, ring, new Color(.45f, 1f, .9f, .8f), Vector2.zero, size * 1.07f); bezel.enabled = false;
             for (int i = 0; i < 3; i++)
             {
                 rings[i] = Img(root, ring, new Color(.4f, 1f, .8f, i == 2 ? .55f : .22f), Vector2.zero, size);
@@ -99,6 +103,7 @@ namespace HostileHorizon
                 }
             for (int i = nt; i < threatMarks.Count; i++) threatMarks[i].enabled = false;
             float pulse = .65f + .35f * Mathf.Sin(Time.time * 5f);
+            bezel.enabled = Bezel > 0; if (Bezel > 0) { bezel.color = new Color(.45f, 1f, .9f, .35f + .2f * Bezel); Place(bezel, Vector2.zero, size * (1.04f + .03f * Bezel)); }
             int nearest = Nearest(ship, contacts);
             // the zoom: the smallest range that holds the nearest pilot (the mothership when no pilot is left)
             float want = 0;
@@ -131,7 +136,7 @@ namespace HostileHorizon
                 var c = contacts[i]; var b = blips[i]; b.enabled = true; labels[i].enabled = true;
                 Vector3 dv = c.position - ship.position; dv.y = 0;
                 float dist = dv.magnitude, bearing = Mathf.Atan2(dv.x, dv.z) * Mathf.Rad2Deg - ship.eulerAngles.y;
-                if (dist > MidRange) bearing = Mathf.Round(bearing / 30f) * 30f;
+                if (dist > ExactRange) bearing = Mathf.Round(bearing / 30f) * 30f;
                 bool isNear = i == nearest;
                 float r = Mathf.Min(1, dist / Range), sz = radius * (isNear ? .19f : c.enemy != 0 ? .1f : .13f);
                 Color col = c.enemy != 0 ? new Color(1f, .22f, .2f) : c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
@@ -141,7 +146,7 @@ namespace HostileHorizon
                 b.color = col; Place(b, at, sz);
                 halos[i].enabled = isNear; if (isNear) { halos[i].color = new Color(1f, 1f, .8f, .5f + .5f * pulse); Place(halos[i], at, sz * 2.1f); }
                 string name = c.mothership ? "MS" : $"P{c.number}";
-                labels[i].text = c.enemy == 1 ? "" : c.enemy == 2 ? "SAUCER" : isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
+                labels[i].text = c.enemy != 0 ? (dist > Range ? "" : $"{(c.enemy == 1 ? "TURRET" : "SAUCER")} {Distance(dist)}") : isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
                 labels[i].color = c.enemy != 0 ? new Color(1f, .45f, .4f) : c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
                 labels[i].fontSize = isNear ? font + 1 : font;
                 // the label centred under the blip (over it in the scope's lower part), so it stays on the scope
@@ -186,7 +191,7 @@ namespace HostileHorizon
                 Vector3 d = c.position - ship.position; d.y = 0; float dist = d.magnitude;
                 float brg = (Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg + 360f) % 360f;
                 string name = c.mothership ? "MOTHERSHIP" : $"PILOT {c.number}";
-                string b = dist > MidRange ? $"~{Mathf.Round(brg / 30f) * 30f % 360:000}°" : dist > NearRange ? $"{Mathf.Round(brg / 10f) * 10f % 360:000}°" : $"{brg:000}°";
+                string b = dist > ExactRange ? $"~{Mathf.Round(brg / 30f) * 30f % 360:000}°" : dist > NearRange ? $"{Mathf.Round(brg / 10f) * 10f % 360:000}°" : $"{brg:000}°";
                 string line = $"{name}  {b}  {Distance(dist)}";
                 if (!c.mothership && first) { line = $"<b>{line}  ◄ NEAREST</b>"; first = false; }
                 sb.AppendLine(line);

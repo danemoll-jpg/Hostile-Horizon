@@ -106,7 +106,7 @@ namespace HostileHorizon
             go.transform.position = at; if (follow) go.transform.SetParent(follow, true);
             var a = go.AddComponent<AudioSource>();
             a.clip = clip; a.volume = volume * Effects; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 200; a.rolloffMode = AudioRolloffMode.Logarithmic; a.dopplerLevel = 0;
-            a.Play(); Object.Destroy(go, clip.length + .1f);
+            a.Play(); Object.Destroy(go, clip.length + .1f); Trace.Add("sound", clip.name);
             if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name}");
             return a;
         }
@@ -116,7 +116,7 @@ namespace HostileHorizon
             var go = new GameObject("Sfx loop " + clip.name); go.transform.SetParent(parent, false);
             var a = go.AddComponent<AudioSource>();
             a.clip = clip; a.loop = true; a.volume = volume * Effects; a.spatialBlend = 1; a.minDistance = minDistance; a.maxDistance = minDistance * 100; a.dopplerLevel = 0;
-            a.Play(); if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name} (loop)"); return a;
+            a.Play(); Trace.Add("sound loop", clip.name); if (CheckRun.Active && Played.Count < 4000) Played.Add($"{Time.time:0.0} {clip.name} (loop)"); return a;
         }
     }
 }

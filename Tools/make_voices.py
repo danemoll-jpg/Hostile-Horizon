@@ -66,6 +66,9 @@ CONTROL_LINES = [
     # Round 5 (B6): the planet fights back
     ('hot', 'launch: the planet has turrets', 'Heads up, this one\'s hot. Gun turrets on the high ground. Keep low and they can\'t see you.'),
     ('hot_saucers', 'launch: turrets and saucers', 'Heads up, this one\'s hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving.'),
+    # Round 6 (D3): new downed pilots on a planet you'd cleared
+    ('distress', 'at the dock: new distress calls on an old planet', 'New distress calls coming in from a planet you\'d cleared. More of ours went down there. It\'s on the star map.'),
+    ('upgrade', 'the hangar: an upgrade fitted', 'Workshop says she\'s ready. Try not to bend it.'),
 ]
 
 COMPUTER_LINES = [

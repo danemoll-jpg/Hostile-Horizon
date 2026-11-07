@@ -45,6 +45,7 @@ namespace HostileHorizon
         public int Knocks { get; private set; }               // Fix 2.5: knocks played (checks log them and their sound)
         public AudioSource LastKnock { get; private set; }
         public float AtDoorFor { get; private set; }          // Round 3: s at the door with the airlock shut
+        public float ClimbAfter = -1; public bool Leaps;      // Round 6 (A3): when it goes for the canopy (s at the door), and whether it leaps
         public string KnockPattern { get; private set; } = "three knocks (the corps' code)";
         public bool HiddenFromRadar { get; private set; }     // Round 3: the Stalker drops off the radar for a moment
         public float Circled { get; private set; }            // Round 3: degrees the Stalker has run round the ship
@@ -232,7 +233,7 @@ namespace HostileHorizon
                     else if (knockTimer < 5.5f) FaceTowards(st.TransformPoint(BellyCam.AirlockCamAt));   // looks up into the airlock camera
                     Pose(0, knocksLeft > 0 ? 1.5f + Mathf.Max(0, Mathf.Sin(clock * 18f)) * .4f : 0);
                     Act("idle");
-                    if (IsAlien && Type != AlienType.Sleeper && AtDoorFor > t.canopyClimbAfter) { Hide(); OnClimb?.Invoke(this); }
+                    if (IsAlien && Type != AlienType.Sleeper && AtDoorFor > (ClimbAfter > 0 ? ClimbAfter : t.canopyClimbAfter)) { Hide(); OnClimb?.Invoke(this); }
                     break;
                 case State.Boarding:
                     Act("climb", 1.6f, .15f);

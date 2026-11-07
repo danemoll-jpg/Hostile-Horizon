@@ -33,6 +33,10 @@ namespace HostileHorizon
         public string lastVisit;           // Fix 3.2: for the planet list's order (most recent first)
         public List<int> enemiesDown = new List<int>();   // Round 5: enemies destroyed here (turret i = i, saucer i = 1000 + i)
         public string enemiesKey = "";                    // Round 5: the difficulty's enemies they belong to (a change: other enemies)
+        public int turrets = -1, saucers = -1;            // Round 6 (D1): its defences as placed (-1: not visited since Round 6)
+        public string distressCheck;                      // Round 6 (D3): when its distress-call roll last ran (real time)
+        public int distressRolls, distressNew;            // rolls made; pilots the last call added
+        public bool distress, distressSaid;               // new pilots down since your last visit; Control has announced it
         public bool OfTheDay => seed == Seeds.OfTheDay;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
     }
@@ -44,7 +48,11 @@ namespace HostileHorizon
         public int turretsDestroyed, saucersDestroyed;   // Round 5
     }
 
-    [Serializable] public sealed class JournalEntry { public int type; public int encounters; }
+    [Serializable] public sealed class JournalEntry
+    {
+        public int type; public int encounters;
+        public int killed, killedYou; public string firstPlanet, firstSeen;   // Round 6 (E2): your record with it
+    }
 
     [Serializable] public sealed class Career
     {
@@ -71,6 +79,8 @@ namespace HostileHorizon
         public static bool Exists => File.Exists(FilePath);
 
         public static int CheckSystemSeed;   // Fix 3.2, checks only: a new career with this system seed (0 = random)
+        public static double CheckHoursAhead;   // Round 6 (D4), checks only: the clock moved on (a simulated wait)
+        public static DateTime Now => DateTime.Now.AddHours(CheckHoursAhead);
 
         public static Career New()
         {
@@ -138,14 +148,42 @@ namespace HostileHorizon
 
         // Round 3, item B10: the Field Journal. A meeting that revealed the type (it killed you, you killed it, the pilots or security
         // killed it) adds an encounter; the first gives the entry and a vague hint, the second a clearer one.
-        public JournalEntry Meet(AlienType type)
+        public JournalEntry Meet(AlienType type, string planet = null, bool itKilledYou = false)
         {
             var e = journal.Find(j => j.type == (int)type);
-            if (e == null) { e = new JournalEntry { type = (int)type }; journal.Add(e); }
-            e.encounters++; return e;
+            if (e == null) { e = new JournalEntry { type = (int)type, firstPlanet = planet, firstSeen = DateTime.Now.ToString("yyyy-MM-dd") }; journal.Add(e); }
+            e.encounters++; if (itKilledYou) e.killedYou++; else e.killed++;
+            return e;
         }
 
-        public int ShipValue => Tuning.T.shipValue;   // + the upgrades' value once the shop exists (Round 5)
+        // Round 6 (D3): new distress calls. A visited, cleared planet (not the one you're over) gets a roll every distressEveryHours of
+        // real time; a hit puts 1-3 new pilots down there (aliens among them by the usual rules). Returns the planets that got one.
+        public List<PlanetState> CheckDistress(int here)
+        {
+            var t = Tuning.T; var now = Now; var hit = new List<PlanetState>();
+            foreach (var p in planets)
+            {
+                if (p.seed == here || !p.cleared || p.visits == 0) { if (p.seed == here) p.distressCheck = null; continue; }
+                if (string.IsNullOrEmpty(p.distressCheck) || !DateTime.TryParse(p.distressCheck, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var last)) { p.distressCheck = now.ToString("s"); continue; }
+                int rolls = 0;
+                while ((now - last).TotalHours >= t.distressEveryHours && rolls < 48 && p.cleared)
+                {
+                    last = last.AddHours(t.distressEveryHours); rolls++;
+                    var r = new SeedRng(p.seed ^ (p.distressRolls * 7349), 71); p.distressRolls++;
+                    if (r.Value >= t.distressChance) continue;
+                    int n = Mathf.Min(t.distressMin + r.Next(t.distressMax - t.distressMin + 1), t.distressPilotCap - p.pilots.Length);
+                    if (n <= 0) continue;
+                    int from = p.pilots.Length;
+                    Array.Resize(ref p.pilots, from + n); Array.Resize(ref p.alien, from + n); Array.Resize(ref p.quirk, from + n);
+                    Aliens.AssignExtra(p, from, r);
+                    p.cleared = false; p.distress = true; p.distressSaid = false; p.distressNew = n; hit.Add(p);
+                }
+                p.distressCheck = last.ToString("s");
+            }
+            return hit;
+        }
+
+        public int ShipValue => Tuning.T.shipValue + Upgrades.Value(ship);   // Round 6 (C2): the upgrades add their price (the loaner is free)
         public int RecoveryFee => Tuning.T.recoveryBase + Mathf.RoundToInt(Tuning.T.recoveryShareOfShipValue * ShipValue);
         public int RepairCost => Mathf.CeilToInt(Current.damage * Tuning.T.repairPricePerPercent);
         public int RefuelCost => Mathf.CeilToInt((100 - Current.energy) * Tuning.T.fuelPricePerPercent);

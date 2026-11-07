@@ -117,6 +117,31 @@ namespace HostileHorizon
         public float breakInAfter = 10;               // s on the canopy before it breaks in
         public float sleeperTurnMin = 40, sleeperTurnMax = 120;   // s of flight after boarding before the Sleeper turns (seeded)
         public int sleeperPilotsWin = 2;              // pilots left after its first kill that are enough to kill it
+        // Round 6 (B): enemies easier to find (their accuracy, fire rate and aggression are unchanged)
+        public float radarTurretRange = 3000, radarSaucerRange = 6000;   // m: on the radar without being spotted first
+        public float bracketRange = 2500;                                // m: a bracket in the world round enemies in sight
+        public float beaconScale = .005f, flashScale = .009f, boltGlowScale = .006f;   // m of size per m from the eye (readable at 1-2 km)
+        // Round 6 (C): the upgrade shop. Prices per level (credits); the steps are what each level adds.
+        public int[] upgEngine = { 6500, 10500, 16000 }, upgHull = { 6000, 9500, 14500 }, upgShields = { 6000, 9500, 14500 }, upgEnergy = { 6500, 10500, 16000 };
+        public int[] upgRadar = { 5500, 8500, 13000 }, upgCabin = { 7000, 12000 }, upgGun = { 6000, 9500, 14500 };
+        public float upgEngineStep = .08f;      // top speed, acceleration and climb +8 % a level
+        public float upgHullStep = .25f;        // max hull +25 % a level (hits do 1 / 1.25, 1 / 1.5, 1 / 1.75 of the damage)
+        public float upgShieldsStep = .2f, upgShieldsRadius = 1f;   // shield drain -20 % a level; catches bolts 1 m further out a level
+        public float upgEnergyStep = .2f;       // capacity +20 % a level (flight and hover drain / 1.2, 1.4, 1.6)
+        public float upgRadarStep = .3f, upgRadarExact = 1000;      // enemies' radar reach +30 % a level; exact bearings 1 km further a level
+        public int upgCabinStep = 2;            // seats a level (6 -> 8 -> 10)
+        public float upgGunRate = .2f, upgGunDamage = .25f;         // shots a second +20 %, damage +25 % a level
+        // Round 6 (D3): new distress calls on cleared planets (real time)
+        public float distressEveryHours = 3, distressChance = .35f;
+        public int distressMin = 1, distressMax = 3, distressPilotCap = 14;
+        // Round 6 (A): an alien let in boards as a pilot, then strikes (one kind per alien, from the seed; weights)
+        public float strikeInstantWeight = .40f, strikeTakeoffWeight = .35f, strikeSlowWeight = .25f;
+        public float strikeInstantMin = 1, strikeInstantMax = 4;   // s after the airlock shuts
+        public float strikeTakeoffMin = 2, strikeTakeoffMax = 6;   // s after lift-off, or sooner at the first hard turn
+        public float strikeHardTurn = 70;                          // degrees per second of turning that counts as a hard turn
+        public float strikeSlowMin = 8, strikeSlowMax = 40;        // slow burn: s of flight after lift-off
+        public float canopyLeapChance = .5f, canopyLeapMin = 5, canopyLeapMax = 15;   // A3: leap (no warning) instead of the slow climb, s at the door
+        public float herringFlicker = .12f, herringThump = .15f, herringCrackle = .12f;  // A4: chance per boarding (real pilots and aliens alike)
 
         static Tuning t;
         public static Tuning T

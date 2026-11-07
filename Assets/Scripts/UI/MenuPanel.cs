@@ -28,6 +28,7 @@ namespace HostileHorizon
             public Action Back;
             public Func<string> Hint;
             public Func<bool> CaptureInput;        // true while the page edits something itself (the seed digits)
+            public Func<Texture> View;             // Round 6 (D1, E1): a large picture over the body (the star map, the creature viewer)
             public int Selected;
             public Page Add(Row r) { Rows.Add(r); return this; }
         }
@@ -36,7 +37,7 @@ namespace HostileHorizon
         public bool Visible => canvas && canvas.gameObject.activeSelf;
         public Canvas Canvas => canvas;
         Canvas canvas; Text title, subtitle, body, hint; readonly List<Text> rows = new List<Text>(); Image cursor, backdrop;
-        readonly List<RawImage> pics = new List<RawImage>(); readonly List<Text> picLabels = new List<Text>();
+        readonly List<RawImage> pics = new List<RawImage>(); readonly List<Text> picLabels = new List<Text>(); RawImage view; Image viewFrame;
         const int MaxPictures = 5;
         float navTimer; int navDir, shownFrame;
         const int MaxRows = 12;
@@ -61,6 +62,10 @@ namespace HostileHorizon
                 rt.offsetMin = new Vector2(150 + i * 145, -580); rt.offsetMax = new Vector2(150 + i * 145 + 126, -412); ri.enabled = false; m.pics.Add(ri);
                 var l = UiKit.Label(t, "PictureLabel" + i, 20, TextAnchor.UpperCenter, UiKit.Accent, new Vector2(0, 1), new Vector2(0, 1), new Vector2(150 + i * 145 - 6, -612), new Vector2(150 + i * 145 + 132, -584)); m.picLabels.Add(l);
             }
+            m.viewFrame = UiKit.Panel(t, "View frame", new Color(.4f, 1f, .8f, .25f), new Vector2(0, 1), new Vector2(1, 1), new Vector2(956, -694), new Vector2(-76, -286));
+            var vg = new GameObject("View", typeof(RectTransform)); vg.transform.SetParent(t, false);
+            m.view = vg.AddComponent<RawImage>(); var vr = m.view.rectTransform; vr.anchorMin = new Vector2(0, 1); vr.anchorMax = new Vector2(1, 1); vr.offsetMin = new Vector2(960, -690); vr.offsetMax = new Vector2(-80, -290);
+            m.view.enabled = m.viewFrame.enabled = false; m.view.raycastTarget = false;
             m.hint = UiKit.Label(t, "Hint", 22, TextAnchor.LowerLeft, UiKit.Dim, new Vector2(0, 0), new Vector2(0, 0), new Vector2(150, 40), new Vector2(1800, 120));
             return m;
         }
@@ -142,6 +147,8 @@ namespace HostileHorizon
                 line++;
             }
             body.text = p.Body?.Invoke() ?? "";
+            var v = p.View?.Invoke(); view.enabled = viewFrame.enabled = v; if (v) view.texture = v;
+            body.rectTransform.offsetMax = new Vector2(-80, v ? -706 : -300); body.fontSize = v ? 21 : 24;
             var list = p.Pictures?.Invoke();
             for (int i = 0; i < MaxPictures; i++)
             {

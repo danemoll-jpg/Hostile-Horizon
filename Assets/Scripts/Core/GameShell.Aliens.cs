@@ -32,8 +32,6 @@ namespace HostileHorizon
         public AlienType KilledBy { get; private set; }
         public string HorrorBeat { get; private set; } = "";    // checks: the sequence's current beat
         public readonly List<string> AlienEvents = new List<string>();   // checks: what happened, in order
-        MenuPanel.Page journalPage;
-        string journalNote = "";
 
         void AlienEvent(string s) { AlienEvents.Add($"{Time.time:0.0} {s}"); if (CheckRun.Active) Debug.Log("[Aliens] " + s); }
 
@@ -49,7 +47,7 @@ namespace HostileHorizon
         void ClearAliens()
         {
             if (canopyCo != null) StopCoroutine(canopyCo); if (sleeperCo != null) StopCoroutine(sleeperCo); if (driftCo != null) StopCoroutine(driftCo);
-            canopyCo = sleeperCo = driftCo = null; CanopyAlien = null; SleeperIndex = -1; sleeperTurning = false; HorrorBeat = "";
+            canopyCo = sleeperCo = driftCo = null; CanopyAlien = null; stows.Clear(); SleeperIndex = -1; sleeperTurning = false; HorrorBeat = "";
             foreach (var a in horrorLoops) if (a) Destroy(a.gameObject); horrorLoops.Clear();
             if (horrorCreature) Destroy(horrorCreature.gameObject); horrorCreature = null;
             foreach (var c in corpses) if (c) Destroy(c.gameObject); corpses.Clear();
@@ -69,7 +67,7 @@ namespace HostileHorizon
         // The journal: an encounter that showed what it was.
         void Met(AlienType t, string how)
         {
-            var c = Career.C; var e = c.Meet(t); c.Save();
+            var c = Career.C; var e = c.Meet(t, Planet?.name, how == "it killed you"); c.Save();
             journalNote = e.encounters == 1 ? $"Field Journal: new entry — {Aliens.Names[(int)t]}" : e.encounters == 2 ? $"Field Journal: {Aliens.Names[(int)t]} — a clearer note" : "";
             AlienEvent($"journal: {Aliens.Names[(int)t]} encounter {e.encounters} ({how}): \"{Aliens.Hint(t, e.encounters)}\"");
         }
@@ -128,10 +126,29 @@ namespace HostileHorizon
         {
             CanopyAlien = p; CanopyClock = 0; HorrorBeat = "climbing";
             var c = horrorCreature = NewCreature(p.Type); c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 8;
-            c.Act(p.Type == AlienType.Mimic ? "leap" : "climb", 1.4f);   // Fix 3.1: up the hull (the Mimic leaps)
+            c.Act(p.Type == AlienType.Mimic || p.Leaps ? "leap" : "climb", 1.4f);   // Fix 3.1: up the hull (the Mimic leaps)
             var st = Ship.transform;
-            // up the hull, live (2.4 s)
             float t = 0;
+            if (p.Leaps)
+            {
+                // Round 6 (A3): no warning: it leaps from the ground and slams onto the canopy in a third of a second
+                HorrorBeat = "leap"; AlienEvent("it leaps onto the canopy");
+                Vector3 from = new Vector3(-3.2f, -1.2f, 5.5f);
+                while (t < .32f)
+                {
+                    if (CanopyAlien != p) yield break;
+                    t += Time.deltaTime; float k = Mathf.Clamp01(t / .32f);
+                    var lp = Vector3.Lerp(from, CanopyFace + new Vector3(0, .1f, .3f), k) + Vector3.up * Mathf.Sin(k * Mathf.PI) * .8f;
+                    c.transform.SetPositionAndRotation(st.TransformPoint(lp), Quaternion.LookRotation(st.TransformDirection(CanopyFace - from), st.up));
+                    yield return null;
+                }
+                PlayAt("canopy_slam", CanopyFace, 1f, 2f); Rig.Shake(.8f); c.SetPose(Creature.Pose.Canopy); c.Jaw = .8f;
+                var head0 = Rig.Head.transform.position;
+                c.transform.rotation = Quaternion.LookRotation(head0 - st.TransformPoint(CanopyFace), -st.forward * .9f + st.up * .45f);
+                c.transform.position += st.TransformPoint(CanopyFace) - c.HeadWorld;
+                t = 2.4f;   // straight on to pressing against the glass
+            }
+            // up the hull, live (2.4 s)
             while (t < 2.4f)
             {
                 if (CanopyAlien != p) yield break;
@@ -190,10 +207,11 @@ namespace HostileHorizon
         IEnumerator Horror(AlienType type, int entry, DownedPilot p = null)
         {
             Now = State.Auto; Phase = "horror"; KilledBy = type; Ship.InputEnabled = false; calling = 0;
-            Voice.StopAll(); Voice.Say("cpu_intruder", VoiceKind.Computer, 3);   // Round 4: no music, the computer's alarm
+            // Round 6 (A2): the music cuts at the strike; the computer's INTRUDER call comes after it, with the alarm
+            Music.Cut(); Voice.StopAll();
             Displays.SetVisible(false); Menu.Hide();
             if (p != null) AlienGone(p);
-            AlienEvent($"horror sequence: a {type}, in through {(entry == 0 ? "the airlock" : entry == 1 ? "the canopy" : "the cabin")}");
+            AlienEvent($"horror sequence: a {type}, in through {(entry == 0 ? "the airlock" : entry == 1 ? "the canopy" : entry == 3 ? "the cabin (slow burn)" : "the cabin")}");
             if (!Ship.Landed) driftCo = StartCoroutine(Drift());   // in flight: the autopilot holds the ship as best it can
             var st = Ship.transform; var c = horrorCreature;
             IEnumerator Wait(float s) { float t = 0; while (t < s) { t += Time.deltaTime; yield return null; } }
@@ -210,6 +228,7 @@ namespace HostileHorizon
             PlayAt("lights_die", ShipLayout.DashCentre, 1f, 3f);
             yield return Wait(1.4f);
             var alarm = LoopAt("alarm", ShipLayout.DashCentre + new Vector3(0, .3f, -.2f), .45f, 2f);
+            Voice.Say("cpu_intruder", VoiceKind.Computer, 3);
             if (entry != 1)
             {
                 // something moving in the cabin behind you
@@ -266,7 +285,7 @@ namespace HostileHorizon
                 c.Jaw = Mathf.Clamp01((tt - 1f) / 1.2f);
                 yield return null;
             }
-            HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); c.Jaw = 1; c.Speed = 14; c.Act("attack", 1.5f);
+            HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); Music.Sting("sting_alien_reveal"); c.Jaw = 1; c.Speed = 14; c.Act("attack", 1.5f);
             tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; PlaceFace(c, head.position + head.forward * .16f, head.position, head.up, 12f); yield return null; }
             HorrorBeat = "dead";
             AlienEvent($"the {type} got you");
@@ -383,33 +402,10 @@ namespace HostileHorizon
         {
             Planet.pilots = new int[count]; Planet.alien = new int[count]; Planet.quirk = new int[count];
             for (int i = 0; i < count; i++) { Planet.alien[i] = i < types.Length ? types[i] : 0; Planet.quirk[i] = i < quirks.Length ? quirks[i] : 0; }
-            cabin.Clear(); Reseat(); SpawnPilots();
+            cabin.Clear(); stows.Clear(); Reseat(); SpawnPilots();
         }
         public void CheckBoard(DownedPilot p) { p.ForceAboard(); PilotBoarded(p); }
 
-        // ---- B10: the Field Journal (the hangar and the pause menu)
-
-        void BuildJournalPage()
-        {
-            journalPage = new MenuPanel.Page { Title = "FIELD JOURNAL", Subtitle = "What the corps knows about the things down there" };
-            journalPage.Body = () =>
-            {
-                var c = Career.C; if (c == null || c.journal.Count == 0) return "No entries yet.";
-                var sb = new StringBuilder();
-                foreach (var e in c.journal) sb.AppendLine($"<b>{Aliens.Names[e.type]}</b>  <size=22>(met {e.encounters} time{(e.encounters == 1 ? "" : "s")})</size>\n  {Aliens.Hint((AlienType)e.type, e.encounters)}\n");
-                return sb.ToString().TrimEnd();
-            };
-            // Fix 3.1: a picture of each type met (its creature: Resources/Characters/Journal, from the Blender renders)
-            journalPage.Pictures = () =>
-            {
-                var list = new List<(Texture, string)>(); var c = Career.C; if (c == null) return list;
-                foreach (var e in c.journal) { var tex = Resources.Load<Texture2D>("Characters/Journal/" + CharacterRig.ModelFor((AlienType)e.type)); if (tex) list.Add((tex, Aliens.Names[e.type])); }
-                return list;
-            };
-            journalPage.Add(Action("Back", () => Menu.Show(journalReturn ?? hangar)));
-            journalPage.Back = () => Menu.Show(journalReturn ?? hangar);
-        }
-        MenuPanel.Page journalReturn;
-        void ShowJournal(MenuPanel.Page from) { journalReturn = from; Menu.Show(journalPage); }
+        // ---- B10: the Field Journal: Core/GameShell.Journal.cs (Round 6, Part E)
     }
 }

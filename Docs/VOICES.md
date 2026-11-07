@@ -76,6 +76,8 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `ctl_lost_contact.mp3` | Control | the ship lost | I've lost your signal. Regeneration bay, stand by. |
 | `ctl_hot.mp3` | Control | launch: the planet has turrets | Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you. |
 | `ctl_hot_saucers.mp3` | Control | launch: turrets and saucers | Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving. |
+| `ctl_distress.mp3` | Control | at the dock: new distress calls on an old planet | New distress calls coming in from a planet you'd cleared. More of ours went down there. It's on the star map. |
+| `ctl_upgrade.mp3` | Control | the hangar: an upgrade fitted | Workshop says she's ready. Try not to bend it. |
 | `cpu_energy_low.mp3` | Computer | ship's computer | Energy low. |
 | `cpu_return_now.mp3` | Computer | ship's computer | Return now. |
 | `cpu_cant_reach.mp3` | Computer | ship's computer | Mothership out of reach. |

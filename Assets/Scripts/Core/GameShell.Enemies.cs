@@ -49,11 +49,24 @@ namespace HostileHorizon
             reticle = new GameObject("Reticle").AddComponent<LineRenderer>(); reticle.transform.SetParent(Ship.transform, false);
             reticle.useWorldSpace = false; reticle.loop = false; reticle.widthMultiplier = .1f; reticle.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; reticle.receiveShadows = false;
             var rm = new Material(Shader.Find("HostileHorizon/GlowAdd")); rm.SetColor("_Color", new Color(.35f, 1f, .7f) * .9f); reticle.sharedMaterial = rm;
+            BuildReticle(0); reticle.gameObject.SetActive(false);
+            BuildDifficultyPage();
+            Brackets = TargetBrackets.Create();   // Round 6 (B2)
+        }
+
+        // Round 6 (B1, B2): the enemies' radar reach and the brackets (the Radar upgrade, Part C, multiplies the reach)
+        public TargetBrackets Brackets { get; private set; }
+        public float RadarTurretRange => Tuning.T.radarTurretRange * RadarFactor;
+        public float RadarSaucerRange => Tuning.T.radarSaucerRange * RadarFactor;
+
+        // the reticle's line; Round 6 (C3): an outer ring a Gun upgrade level
+        void BuildReticle(int gunLevel)
+        {
             var pts = new List<Vector3>(); var c = ShipLayout.Eye + Vector3.forward * 60f;
             for (int i = 0; i <= 24; i++) { float a = i * Mathf.PI * 2 / 24; pts.Add(c + new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0) * 1.4f); }
             foreach (var d in new[] { Vector3.up, Vector3.right, Vector3.down, Vector3.left }) { pts.Add(c + d * 1.4f); pts.Add(c + d * .5f); pts.Add(c + d * 1.4f); }
-            reticle.positionCount = pts.Count; reticle.SetPositions(pts.ToArray()); reticle.gameObject.SetActive(false);
-            BuildDifficultyPage();
+            for (int r = 1; r <= gunLevel; r++) { pts.Add(c + Vector3.right * 1.4f); for (int i = 0; i <= 24; i++) { float a = i * Mathf.PI * 2 / 24; pts.Add(c + new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0) * (1.4f + .45f * r)); } pts.Add(c + Vector3.right * 1.4f); }
+            reticle.positionCount = pts.Count; reticle.SetPositions(pts.ToArray());
         }
 
         static string Name(Enemy e) => (e.Kind == EnemyKind.Turret ? "turret " : "saucer ") + (e.Index + 1);
@@ -69,6 +82,7 @@ namespace HostileHorizon
             if (Planet.enemiesKey != key) { Planet.enemiesKey = key; Planet.enemiesDown.Clear(); }
             foreach (var e in Foes.All) if (Planet.enemiesDown.Contains(Id(e))) { e.Dead = true; e.Root.gameObject.SetActive(false); }
             FightLog.Clear(); foreach (var l in Foes.Placement) FightLog.Add("placed: " + l);
+            Planet.turrets = Foes.All.FindAll(e => e.Kind == EnemyKind.Turret).Count; Planet.saucers = Foes.All.FindAll(e => e.Kind == EnemyKind.Saucer).Count;   // Round 6 (D1)
         }
 
         static int Id(Enemy e) => e.Kind == EnemyKind.Turret ? e.Index : 1000 + e.Index;
@@ -86,21 +100,23 @@ namespace HostileHorizon
             gunCooldown -= dt;
             if (canFight && gunArmed && Controls.FireHeld && Time.frameCount > Ship.IgnoreButtonsUntil && gunCooldown <= 0 && Ship.Energy > t.gunEnergy)
             {
-                gunCooldown = 1f / t.gunRate; gunSide = -gunSide;
+                gunCooldown = 1f / GunRateNow; gunSide = -gunSide;   // Round 6 (C): the Gun upgrade
                 var from = Ship.transform.TransformPoint(new Vector3(gunSide * 1.3f, -.5f, 6f));
-                Foes.PlayerShot(from, Ship.transform.forward, Ship.Velocity);
+                Foes.PlayerShot(from, Ship.transform.forward, Ship.Velocity, GunDamageNow);
                 Ship.Energy = Mathf.Max(0, Ship.Energy - t.gunEnergy);
                 Sfx.Play(Sfx.Clip("gun_fire"), from, .55f, 6f, Ship.transform);
             }
             if (flying && Ship.InputEnabled && Controls.ShieldPressed && Time.frameCount > Ship.IgnoreButtonsUntil) SetShield(!ShieldOn);
             if (ShieldOn)
             {
-                Ship.Energy = Mathf.Max(0, Ship.Energy - t.shieldDrain * dt);
+                Ship.Energy = Mathf.Max(0, Ship.Energy - ShieldDrainNow * dt);   // Round 6 (C): the Shields upgrade
                 if (Ship.Energy <= 0 || !InCampaign || Ship.Crashed) SetShield(false);
             }
             shieldFlash = Mathf.Max(0, shieldFlash - dt * 3f);
-            if (shieldBubble && ShieldOn) shieldMat.SetColor("_Color", new Color(.05f, .11f, .2f) + new Color(.12f, .3f, .5f) * shieldFlash);
+            if (shieldBubble && ShieldOn) shieldMat.SetColor("_Color", new Color(.05f, .11f, .2f) * (1 + .35f * Lvl(Upg.Shields)) + new Color(.12f, .3f, .5f) * shieldFlash);   // Round 6 (C3): a stronger shell
+            if (shieldBubble) shieldBubble.transform.localScale = new Vector3(13f, 7f, 17f) * (Foes.ShieldRadius / 8f);
             if (reticle) reticle.gameObject.SetActive(flying && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed && Ship.Mode == FlightMode.Flight);
+            Brackets.Tick(flying && !Ship.Crashed && Ship.gameObject.activeInHierarchy, Foes, Rig.Head.transform, Ship.transform.position, t.bracketRange);
             // the displays
             Displays.Shield = ShieldOn; Displays.LockedOn = flying && Foes.AnyLock; Displays.Threats = Foes.Threats;
             Displays.FightLine = InCampaign && Foes.All.Count > 0 ? $"THREATS {Alive(EnemyKind.Turret)} turrets{(Alive(EnemyKind.Saucer) > 0 || Foes.All.Exists(e => e.Kind == EnemyKind.Saucer) ? $" · {Alive(EnemyKind.Saucer)} saucers" : "")}" : "";

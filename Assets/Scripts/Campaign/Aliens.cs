@@ -51,6 +51,20 @@ namespace HostileHorizon
             }
         }
 
+        // Round 6 (D3): pilots added by a distress call (from index `from`): aliens among them at the planet's share, tells as usual
+        public static void AssignExtra(PlanetState p, int from, SeedRng rng)
+        {
+            var t = Tuning.T;
+            float share = Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * p.tier) * Difficulty.AlienShare;
+            for (int i = from; i < p.pilots.Length; i++)
+            {
+                p.pilots[i] = (int)PilotFate.Waiting;
+                int type = rng.Value < share ? rng.Next(5) + 1 : 0;
+                bool tell = rng.Value < Difficulty.TellReliability, falseTell = rng.Value < Difficulty.FalseTell; int fake = rng.Next(4) + 1;
+                p.alien[i] = type; p.quirk[i] = type != 0 ? (tell ? type : 0) : falseTell ? fake : 0;
+            }
+        }
+
         // The Sleeper's turn: seconds of flight after it boards, from the seed.
         public static float SleeperDelay(PlanetState p, int index) { var r = new SeedRng(p.seed ^ (index * 7919), 37); var t = Tuning.T; return Mathf.Lerp(t.sleeperTurnMin, t.sleeperTurnMax, r.Value); }
     }

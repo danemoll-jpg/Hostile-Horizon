@@ -119,7 +119,9 @@ namespace HostileHorizon
             return t;
         }
 
-        public void SetVisible(bool on) => overlay.gameObject.SetActive(on);   // the cockpit displays stay live (they are part of the ship)
+        public void SetVisible(bool on) => overlay.gameObject.SetActive(on);
+        public bool OverlayShown => overlay && overlay.gameObject.activeSelf;   // Round 6 checks
+        public int GunLevel;   // Round 6 (C3): the Gun upgrade (the reticle gets a ring a level)   // the cockpit displays stay live (they are part of the ship)
         public bool Visible => overlay.gameObject.activeSelf;
         public float RadarRange => cockpitRadar.Range;   // Fix 2.6: metres at the radar's rim (checks)
 

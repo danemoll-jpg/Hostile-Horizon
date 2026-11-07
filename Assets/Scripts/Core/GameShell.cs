@@ -150,6 +150,7 @@ namespace HostileHorizon
 
         void Update()
         {
+            StageTick();   // Round 6 (D1, E1): the star map / creature viewer picture
             switch (Now)
             {
                 case State.Title:

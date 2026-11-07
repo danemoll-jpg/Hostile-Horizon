@@ -54,6 +54,7 @@ namespace HostileHorizon
         public bool Landed { get; private set; }
         public bool EnginesOn { get; private set; } = true;
         public float Energy = 100;                           // percent
+        public float SpeedFactor = 1, ArmourFactor = 1, DrainFactor = 1;   // Round 6 (C): the Engine, Hull and Energy upgrades (1 = none)
         public bool UsesEnergy;                              // Campaign
         public float LastImpact { get; private set; }       // m/s into the ground of the last hit (for sound / checks)
         public int Hits { get; private set; }
@@ -157,7 +158,7 @@ namespace HostileHorizon
             {
                 var t = Tuning.T;
                 float drain = Mode == FlightMode.Flight ? t.energyDrainFlightBase + t.energyDrainFlightThrottle * Throttle : t.energyDrainHover;
-                Energy = Mathf.Max(0, Energy - drain * dt);
+                Energy = Mathf.Max(0, Energy - drain * DrainFactor * dt);
                 if (Energy <= 0)
                 {
                     EnginesOn = false; OnEnginesStopped?.Invoke();
@@ -270,7 +271,7 @@ namespace HostileHorizon
             { float lv = Mathf.Clamp(bank, -LevelRate * dt, LevelRate * dt) * level; rot = Quaternion.AngleAxis(lv, fwd) * rot; Moved[2] += Mathf.Abs(lv); }
             transform.rotation = rot;
 
-            Speed = Mathf.MoveTowards(Speed, Mathf.Lerp(MinSpeed, MaxSpeed, Throttle), Accel * dt);
+            Speed = Mathf.MoveTowards(Speed, Mathf.Lerp(MinSpeed, MaxSpeed * SpeedFactor, Throttle), Accel * SpeedFactor * dt);
             knock *= Mathf.Exp(-3f * dt);
             Velocity = transform.forward * Speed + knock;
             transform.position += Velocity * dt;
@@ -355,7 +356,7 @@ namespace HostileHorizon
             h = Vector3.MoveTowards(h, targetH, (Braking ? t.airBrake : t.hoverBrake) * dt);
             float vy = Velocity.y;
             // powerless: a steady sink that eases to a safe touchdown speed close to the ground (ground effect)
-            float targetV = power ? (Lift >= 0 ? Lift * t.hoverClimbRate : Lift * SinkRate(AboveGround)) : -Mathf.Lerp(t.safeTouchdownSpeed * .7f, t.powerlessSinkRate, Mathf.InverseLerp(8f, 50f, AboveGround));
+            float targetV = power ? (Lift >= 0 ? Lift * t.hoverClimbRate * SpeedFactor : Lift * SinkRate(AboveGround)) : -Mathf.Lerp(t.safeTouchdownSpeed * .7f, t.powerlessSinkRate, Mathf.InverseLerp(8f, 50f, AboveGround));
             vy = Mathf.MoveTowards(vy, targetV, (Braking ? t.airBrake : t.hoverVerticalAccel) * dt);
             Velocity = new Vector3(h.x, vy, h.z);
             Speed = Velocity.magnitude;
@@ -454,7 +455,7 @@ namespace HostileHorizon
             if (Level == CrashLevel.Instant) { Crash(); return; }
             if (Level == CrashLevel.Regenerating || Level == CrashLevel.Lasting)
             {
-                if (into > 1f) Damage = Mathf.Min(100f, Damage + into * 1.25f);
+                if (into > 1f) Damage = Mathf.Min(100f, Damage + into * 1.25f * ArmourFactor);
                 if (Damage >= 100f) { Crash(); return; }
             }
             OnHit?.Invoke(into);
@@ -464,7 +465,7 @@ namespace HostileHorizon
         public void TakeDamage(float percent)
         {
             if (Crashed) return;
-            Damage = Mathf.Min(100f, Damage + percent); sinceHit = 0; LastShotAt = Time.time;
+            Damage = Mathf.Min(100f, Damage + percent * ArmourFactor); sinceHit = 0; LastShotAt = Time.time;
             if (Damage >= 100f) { LastImpact = 0; Crash(); }
         }
 

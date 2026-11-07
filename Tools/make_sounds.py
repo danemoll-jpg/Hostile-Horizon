@@ -75,6 +75,17 @@ SOUNDS = [
      'An alien flying saucer hovering and moving: a pulsing, wavering electronic drone with a low throb. Seamless, no music.'),
     ('lock_warning', 1.2, False, 'a turret has locked on (cockpit tone)',
      'A spaceship cockpit missile-lock warning: fast urgent electronic beeps, then a steady tone. No music.'),
+    # Round 6 (A): the jump scare and its red herrings
+    ('hatch_burst', 1.5, False, 'the alien slams through the cockpit hatch in one blow (the instant / take-off strike)',
+     'A sudden violent slam on a metal hatch right behind you that bursts it open at once: a huge metallic bang, metal tearing, the door crashing in. Very close, no music.'),
+    ('canopy_slam', 1.2, False, 'the alien leaps onto the canopy with no warning',
+     'A heavy body slamming hard onto a thick glass canopy right above your head: a loud thud and a deep glass shudder and rattle. Very close, no music.'),
+    ('power_dip', 1.0, False, 'a harmless power flicker as the airlock cycles (red herring)',
+     'A brief electrical power dip in a small spaceship cockpit: a short buzz, a click, a relay chattering, then normal hum. Quiet, no music.'),
+    ('cabin_thump', 1.0, False, 'a pilot sitting down hard in the cabin (red herring)',
+     'A single dull thump and a creak behind a metal wall, like someone dropping heavily into a seat. Muffled, no music.'),
+    ('feed_crackle', 1.0, False, 'static on the cabin camera feed (red herring)',
+     'A short burst of electronic video static and digital crackle from a small cockpit screen. Quiet, no music.'),
 ]
 
 

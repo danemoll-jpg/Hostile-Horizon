@@ -15,6 +15,7 @@ namespace HostileHorizon
         public int Burst, Pass;
         public bool Dead, Spotted, Los, Locked, Chasing, OnStump;
         public AudioSource Hum;
+        public Transform Beacon;   // Round 6 (B3): the blinking red warning light
         public Vector3 Eye => Kind == EnemyKind.Turret ? Pos + Vector3.up * 3.3f : Pos;
         public Vector3 Centre => Kind == EnemyKind.Turret ? Pos + Vector3.up * 2.4f : Pos;
         public float Radius => Kind == EnemyKind.Turret ? 3.3f : 7.5f;
@@ -35,6 +36,7 @@ namespace HostileHorizon
         public CanyonField Field; public ShipController Ship;
         public bool Running;          // a Campaign flight is on (GameShell)
         public bool ShieldOn;         // GameShell
+        public float ShieldRadius = 8f;   // Round 6 (C): m round the ship the shield catches bolts (the Shields upgrade)
         public event Action<Enemy> Destroyed, LockedOn, SaucerSpotted;
         public event Action<Enemy, float, bool, Vector3> HitShip;   // shooter, damage, blocked by the shield, where
         public event Action<Enemy> FiredAtShip;
@@ -43,7 +45,11 @@ namespace HostileHorizon
         public readonly List<string> Placement = new List<string>();
         public readonly List<(Vector3 from, float until)> Threats = new List<(Vector3, float)>();
 
-        sealed class Bolt { public Transform core, halo; public Vector3 p, v; public float life, dmg; public bool player, on; public Enemy from; }
+        sealed class Bolt { public Transform core, halo; public TrailRenderer trail; public Vector3 p, v; public float life, dmg; public bool player, on; public Enemy from; }
+        // Round 6 (B3): muzzle flashes (pooled), sized with the distance from the eye so a shot reads at 1-2 km
+        readonly List<(Transform t, float until, float size)> flashes = new List<(Transform, float, float)>();
+        Material beaconMat, flashMat, enemyTrail, playerTrail;
+        public int Flashes { get; private set; }   // checks
         readonly List<Bolt> bolts = new List<Bolt>();
         Material enemyCore, playerCore, enemyHalo, playerHalo, litArmor, litMetal, litDark, glow, eye, bark;
         Mesh quad;
@@ -65,7 +71,12 @@ namespace HostileHorizon
             e.quad = new Mesh { name = "Halo quad", vertices = new[] { new Vector3(-.5f, -.5f, 0), new Vector3(.5f, -.5f, 0), new Vector3(.5f, .5f, 0), new Vector3(-.5f, .5f, 0) },
                                 uv = new[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) }, colors = new[] { Color.white, Color.white, Color.white, Color.white }, triangles = new[] { 0, 2, 1, 0, 3, 2 } };
             e.quad.bounds = new Bounds(Vector3.zero, Vector3.one * 2);
+            e.beaconMat = Glow(new Color(1f, .12f, .08f) * 4f); e.flashMat = Glow(new Color(1f, .55f, .35f) * 4f);
+            var tr = Shader.Find("HostileHorizon/GlowAdd");
+            e.enemyTrail = new Material(tr); e.enemyTrail.SetColor("_Color", new Color(1f, .25f, .2f) * 1.6f);
+            e.playerTrail = new Material(tr); e.playerTrail.SetColor("_Color", new Color(.35f, 1f, .7f) * 1.2f);
             for (int i = 0; i < 96; i++) e.bolts.Add(e.NewBolt());
+            for (int i = 0; i < 8; i++) { var f = GameObject.CreatePrimitive(PrimitiveType.Sphere); Destroy(f.GetComponent<Collider>()); f.name = "Muzzle flash"; f.transform.SetParent(e.transform, false); var fr = f.GetComponent<Renderer>(); fr.sharedMaterial = e.flashMat; fr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; fr.receiveShadows = false; f.SetActive(false); e.flashes.Add((f.transform, 0, 1)); }
             ShipController.ExtraSolid = e.SolidAt;
             return e;
         }
@@ -80,7 +91,11 @@ namespace HostileHorizon
             core.transform.SetParent(transform, false); b.core = core.transform;
             var h = new GameObject("Halo"); h.transform.SetParent(core.transform, false);
             h.AddComponent<MeshFilter>().sharedMesh = quad; var hr = h.AddComponent<MeshRenderer>(); hr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; hr.receiveShadows = false;
-            b.halo = h.transform; core.SetActive(false);
+            b.halo = h.transform;
+            // Round 6 (B3): a short glowing trail behind each bolt
+            b.trail = core.AddComponent<TrailRenderer>(); b.trail.time = .12f; b.trail.minVertexDistance = 2f; b.trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; b.trail.receiveShadows = false;
+            b.trail.widthCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(1, 0)); b.trail.emitting = false;
+            core.SetActive(false);
             return b;
         }
 
@@ -90,7 +105,7 @@ namespace HostileHorizon
         {
             foreach (var e in All) if (e.Root) Destroy(e.Root.gameObject);
             All.Clear(); Threats.Clear(); Placement.Clear();
-            foreach (var b in bolts) { b.on = false; b.core.gameObject.SetActive(false); }
+            foreach (var b in bolts) { b.on = false; b.trail.emitting = false; b.core.gameObject.SetActive(false); }
             EnemyShots = EnemyHits = Blocked = PlayerShots = PlayerHits = 0;
         }
 
@@ -152,6 +167,16 @@ namespace HostileHorizon
         }
 
         static Vector3 Flat(Vector3 v) { v.y = 0; return v; }
+
+        // Round 6 (D1): the star map's estimate for a planet not yet surveyed (the same formulas as Setup)
+        public static (int turrets, int saucers) Estimate(int tier, bool firstPlanet)
+        {
+            var t = Tuning.T; int mode = Difficulty.Enemies; float ag = Difficulty.Aggression;
+            if (mode == 0) return (0, 0);
+            int nT = firstPlanet ? Mathf.Max(1, Mathf.RoundToInt(t.turretsFirstPlanet * Mathf.Min(1f, ag))) : Mathf.Min(t.turretsMax, Mathf.RoundToInt((t.turretsBase + tier * t.turretsPerTier) * ag));
+            int nS = mode == 2 && !firstPlanet ? Mathf.Clamp(Mathf.RoundToInt((t.saucersBase + tier * t.saucersPerTier) * ag), 1, t.saucersMax) : 0;
+            return (nT, nS);
+        }
 
         // The highest ground near a point (a rim, a roof, a cliff); in the Giant Forest a broken giant stump above the canopy.
         Vector3 HighPoint(float x, float z, out bool onStump, bool wide = true)
@@ -246,6 +271,7 @@ namespace HostileHorizon
                 e.StumpTop = at.y;
             }
             e.Head.localRotation = Quaternion.Euler(0, e.Yaw, 0);
+            e.Beacon = MakeBeacon(e.Root, new Vector3(0, 4.9f, 0));
             return e;
         }
 
@@ -256,7 +282,42 @@ namespace HostileHorizon
             e.Rim = new GameObject("Rim").transform; e.Rim.SetParent(e.Root, false);
             if (saucerModel) Parts(saucerModel, new Dictionary<string, Transform> { { "Saucer", e.Root }, { "SaucerRim", e.Rim } });
             e.Hum = Sfx.Loop(Sfx.Clip("saucer_hum"), e.Root, .9f, 25f);
+            e.Beacon = MakeBeacon(e.Root, new Vector3(0, -2.2f, 0));
             return e;
+        }
+
+        Transform MakeBeacon(Transform parent, Vector3 at)
+        {
+            var b = GameObject.CreatePrimitive(PrimitiveType.Sphere); Destroy(b.GetComponent<Collider>()); b.name = "Warning light";
+            b.transform.SetParent(parent, false); b.transform.localPosition = at;
+            var r = b.GetComponent<Renderer>(); r.sharedMaterial = beaconMat; r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; r.receiveShadows = false;
+            return b.transform;
+        }
+
+        void Flash(Vector3 at)
+        {
+            for (int i = 0; i < flashes.Count; i++)
+                if (!flashes[i].t.gameObject.activeSelf) { flashes[i].t.position = at; flashes[i].t.gameObject.SetActive(true); flashes[i] = (flashes[i].t, Time.time + .14f, 1); Flashes++; return; }
+        }
+
+        // Round 6 (B3): the warning lights blink (on .7 s of every 1.2 s) and, with the flashes and the bolts' glow, keep a size on
+        // screen that reads at 1-2 km (never smaller than their real size)
+        void Readable(Transform cam)
+        {
+            float blink = (Time.time % 1.2f) < .7f ? 1f : 0f;
+            foreach (var e in All)
+            {
+                if (!e.Beacon) continue;
+                bool on = !e.Dead && blink > 0; e.Beacon.gameObject.SetActive(on);
+                if (on && cam) e.Beacon.localScale = Vector3.one * Mathf.Max(.7f, Vector3.Distance(cam.position, e.Beacon.position) * Tuning.T.beaconScale);
+            }
+            for (int i = 0; i < flashes.Count; i++)
+            {
+                var f = flashes[i]; if (!f.t.gameObject.activeSelf) continue;
+                if (Time.time > f.until) { f.t.gameObject.SetActive(false); continue; }
+                float k = (f.until - Time.time) / .14f, d = cam ? Vector3.Distance(cam.position, f.t.position) : 100;
+                f.t.localScale = Vector3.one * Mathf.Max(2.5f, d * Tuning.T.flashScale) * (.5f + .5f * k);
+            }
         }
 
         // B1 / Fix: tree trunks and bridges collide from the seed; turrets and their stumps collide too (ShipController.ExtraSolid)
@@ -291,14 +352,16 @@ namespace HostileHorizon
             b.core.localScale = player ? new Vector3(.22f, .22f, 7f) : new Vector3(.5f, .5f, 9f);
             b.halo.localScale = player ? new Vector3(2f / .22f, 2f / .22f, 1) : new Vector3(5f / .5f, 5f / .5f, 1);
             b.core.SetPositionAndRotation(from, Quaternion.LookRotation(vel));
-            b.core.gameObject.SetActive(true);
+            b.trail.sharedMaterial = player ? playerTrail : enemyTrail; b.trail.widthMultiplier = player ? .35f : .9f;
+            b.core.gameObject.SetActive(true); b.trail.Clear(); b.trail.emitting = true;
+            if (!player) Flash(from);
         }
 
         // B3: one shot of the ship's gun (GameShell: rate, energy, sound)
-        public void PlayerShot(Vector3 from, Vector3 dir, Vector3 inherit)
+        public void PlayerShot(Vector3 from, Vector3 dir, Vector3 inherit, float damage = 1)
         {
             var t = Tuning.T; PlayerShots++;
-            Shoot(from, dir * t.gunBoltSpeed + inherit, true, 1, null, t.gunRange);
+            Shoot(from, dir * t.gunBoltSpeed + inherit, true, damage, null, t.gunRange);
         }
 
         Vector3 Lead(Vector3 from, float speed, float leadShare, float err, SeedRng rng = null)
@@ -316,6 +379,7 @@ namespace HostileHorizon
         void Update()
         {
             Fx.Tick();
+            Readable(GameShell.I && GameShell.I.Rig ? GameShell.I.Rig.Head.transform : null);
             float dt = Time.deltaTime; if (dt <= 0) return;
             MoveBolts(dt);
             if (!Running || Ship == null || Field == null) { AnyLock = false; return; }
@@ -453,11 +517,11 @@ namespace HostileHorizon
                 else if (!end && Ship && Ship.gameObject.activeSelf && !Ship.Crashed)
                 {
                     var c = Ship.transform.position;
-                    float r = ShieldOn ? 8f : Tuning.T.boltHitRadius;
+                    float r = ShieldOn ? ShieldRadius : Tuning.T.boltHitRadius;
                     if (SegDist(p0, b.p, c) < r)
                     {
                         var at = Closest(p0, b.p, c); var n = (at - c).normalized;
-                        if (ShieldOn) { Blocked++; Fx.Sparks(c + n * 8f, n, new Color(.5f, .8f, 1f), 26); HitShip?.Invoke(b.from, 0, true, c + n * 8f); }
+                        if (ShieldOn) { Blocked++; Fx.Sparks(c + n * ShieldRadius, n, new Color(.5f, .8f, 1f), 26); HitShip?.Invoke(b.from, 0, true, c + n * ShieldRadius); }
                         else { EnemyHits++; Fx.Sparks(c + n * 2.5f, n, new Color(1f, .7f, .35f), 30); HitShip?.Invoke(b.from, b.dmg, false, c + n * 2.5f); }
                         end = true;
                     }
@@ -466,9 +530,15 @@ namespace HostileHorizon
                 {
                     if (b.p.y < Field.SurfaceHeight(b.p.x, b.p.z) || Field.SolidPush(b.p, out _, out _)) { Fx.Sparks(b.p, -b.v.normalized, b.player ? new Color(.6f, 1f, .8f) : new Color(1f, .45f, .35f), 12); end = true; }
                 }
-                if (end) { b.on = false; b.core.gameObject.SetActive(false); continue; }
+                if (end) { b.on = false; b.trail.emitting = false; b.core.gameObject.SetActive(false); continue; }
                 b.core.SetPositionAndRotation(b.p, Quaternion.LookRotation(b.v));
-                if (cam) b.halo.rotation = Quaternion.LookRotation(b.halo.position - cam.position);
+                if (cam)
+                {
+                    b.halo.rotation = Quaternion.LookRotation(b.halo.position - cam.position);
+                    // Round 6 (B3): an enemy bolt's glow keeps a readable size far off (5 m at least)
+                    float k = b.player ? 1 : Mathf.Max(1, Vector3.Distance(cam.position, b.p) * Tuning.T.boltGlowScale / 5f);
+                    b.halo.localScale = b.player ? new Vector3(2f / .22f, 2f / .22f, 1) : new Vector3(10f * k, 10f * k, 1);
+                }
             }
         }
 
