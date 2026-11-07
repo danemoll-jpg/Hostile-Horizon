@@ -1,0 +1,54 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 59392 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 01:47; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+--- Part C: prices (cr per level): Engine 6500 / 10500 / 16000; Hull 6000 / 9500 / 14500; Shields 6000 / 9500 / 14500; Energy 6500 / 10500 / 16000; Radar 5500 / 8500 / 13000; Cabin 7000 / 12000; Gun 6000 / 9500 / 14500
+  C4 balance (Normal, no bounties, 4 sorties at 40 % energy = 960 cr fuel): start 3000, after planet 1 5020, after planet 2 7540; cheapest first level 5500 cr: affordable after two planets
+  ship value 6000 cr, recovery fee 3000 cr (before any upgrade)
+    [1191 fps] Auto/launch Hover alt 1444 gnd 1203 spd 56 hdg 120 energy 100
+    [587 fps] Flying/ Flight alt 1410 gnd 1147 spd 125 hdg 120 energy 97
+    [440 fps] Flying/ Flight alt 1410 gnd 943 spd 125 hdg 120 energy 94
+    [434 fps] Flying/ Hover alt 1443 gnd 978 spd 21 hdg 120 energy 81
+  no upgrades: top speed 450 km/h, hover climb 13.4 m/s, flight drain 0.320 %/s, shield drain 2.00 %/s, a 10 % hit does 10.0 %, gun 6.0 shots/s, enemies' radar reach 3000 / 6000 m (0 on the radar), cabin 6
+    [335 fps] Flying/ Hover alt 1470 gnd 1003 spd 0 hdg 120 energy 97
+    [642 fps] Auto/tow-lift Flight alt 1475 gnd 1401 spd 131 hdg 120 energy 97
+    [611 fps] Auto/tow-lift Flight alt 1475 gnd 1035 spd 30 hdg 120 energy 97
+  check shortcut: +200 000 cr to buy everything
+screenshot r6c_1_shop_before.png
+  bought Engine level 1: -6500 cr; "Fitted: Engine level 1 (speed, acceleration, climb +8 % (top 486 km/h)): -6500 cr"
+  bought Engine level 2: -10500 cr; "Fitted: Engine level 2 (speed, acceleration, climb +16 % (top 522 km/h)): -10500 cr"
+  bought Engine level 3: -16000 cr; "Fitted: Engine level 3 (speed, acceleration, climb +24 % (top 558 km/h)): -16000 cr"
+  bought Hull level 1: -6000 cr; "Fitted: Hull level 1 (hull 125 % (hits do 80 % damage)): -6000 cr"
+  bought Hull level 2: -9500 cr; "Fitted: Hull level 2 (hull 150 % (hits do 67 % damage)): -9500 cr"
+  bought Hull level 3: -14500 cr; "Fitted: Hull level 3 (hull 175 % (hits do 57 % damage)): -14500 cr"
+  bought Shields level 1: -6000 cr; "Fitted: Shields level 1 (shield drain 1.6 %/s, catches bolts 9 m out): -6000 cr"
+  bought Shields level 2: -9500 cr; "Fitted: Shields level 2 (shield drain 1.2 %/s, catches bolts 10 m out): -9500 cr"
+  bought Shields level 3: -14500 cr; "Fitted: Shields level 3 (shield drain 0.8 %/s, catches bolts 11 m out): -14500 cr"
+  bought Energy level 1: -6500 cr; "Fitted: Energy level 1 (capacity +20 % (flight drain x0.83)): -6500 cr"
+  bought Energy level 2: -10500 cr; "Fitted: Energy level 2 (capacity +40 % (flight drain x0.71)): -10500 cr"
+  bought Energy level 3: -16000 cr; "Fitted: Energy level 3 (capacity +60 % (flight drain x0.63)): -16000 cr"
+  bought Radar level 1: -5500 cr; "Fitted: Radar level 1 (enemies on the radar to 3.9 / 7.8 km, exact bearings to 4 km): -5500 cr"
+  bought Radar level 2: -8500 cr; "Fitted: Radar level 2 (enemies on the radar to 4.8 / 9.6 km, exact bearings to 5 km): -8500 cr"
+  bought Radar level 3: -13000 cr; "Fitted: Radar level 3 (enemies on the radar to 5.7 / 11.4 km, exact bearings to 6 km): -13000 cr"
+  bought Cabin level 1: -7000 cr; "Fitted: Cabin level 1 (8 seats): -7000 cr"
+  bought Cabin level 2: -12000 cr; "Fitted: Cabin level 2 (10 seats): -12000 cr"
+  bought Gun level 1: -6000 cr; "Fitted: Gun level 1 (7.2 shots/s, damage x1.25): -6000 cr"
+  bought Gun level 2: -9500 cr; "Fitted: Gun level 2 (8.4 shots/s, damage x1.50): -9500 cr"
+  bought Gun level 3: -14500 cr; "Fitted: Gun level 3 (9.6 shots/s, damage x1.75): -14500 cr"
+screenshot r6c_2_shop_after.png
+  saved: ship.upgrades = [engine, engine, engine, hull, hull, hull, shields, shields, shields, energy, energy, energy, radar, radar, radar, cabin, cabin, gun, gun, gun]; loaner: [] (none); ship value 208000 cr, recovery fee 53500 cr
+    [919 fps] Auto/launch Hover alt 1495 gnd 1056 spd 10 hdg 120 energy 100
+    [721 fps] Flying/ Flight alt 1380 gnd 1375 spd 155 hdg 120 energy 99
+    [611 fps] Flying/ Flight alt 1380 gnd 895 spd 155 hdg 120 energy 97
+    [436 fps] Flying/ Flight alt 1380 gnd 1200 spd 155 hdg 120 energy 89
+  every upgrade: top speed 558 km/h, hover climb 15.2 m/s, flight drain 0.200 %/s, shield drain 0.80 %/s, a 10 % hit does 5.7 %, gun 9.7 shots/s, enemies' radar reach 5700 / 11400 m (0 on the radar), cabin 10
+  effect: top speed x1.24, climb x1.13, flight drain x0.63, shield drain x0.40, hit x0.57, gun x1.61, radar x1.90, cabin 6 -> 10
+screenshot r6c_3_cockpit_upgraded.png
+    [134 fps] Flying/ Flight alt 1441 gnd 1405 spd 54 hdg 120 energy 100
+picture r6c_4_cabin_10_seats.png (384 x 216, straight from the camera)
+  cabin: 10 aboard of 10; cushions shown 10
+    [64 fps] Flying/ Flight alt 1441 gnd 896 spd 155 hdg 120 energy 98
+    [138 fps] Flying/ Flight alt 1441 gnd 1435 spd 155 hdg 120 energy 96
+    [97 fps] Auto/tow-lift Flight alt 1480 gnd 1288 spd 172 hdg 120 energy 96
+    [151 fps] Auto/tow-lift Flight alt 1475 gnd 994 spd 54 hdg 120 energy 96
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.184 RMS, peak 1.188, zeroed before the speakers; 16154624 samples); master volume 0.00

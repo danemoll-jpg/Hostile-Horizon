@@ -110,7 +110,7 @@
     "radarTurretRange": 3000,
     "radarSaucerRange": 6000,
     "bracketRange": 2500,
-    "beaconScale": 0.005,
+    "beaconScale": 0.008,
     "flashScale": 0.009,
     "boltGlowScale": 0.006,
     "upgEngine": [6500, 10500, 16000],

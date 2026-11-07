@@ -1,0 +1,90 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.013 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.695800 ms
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 59392 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-07 01:47; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[Music] loaded hangar (199 s)
+[ExeCheck] new career: Tulel-IV (canyons), Normal
+[ExeCheck] --- Part C: prices (cr per level): Engine 6500 / 10500 / 16000; Hull 6000 / 9500 / 14500; Shields 6000 / 9500 / 14500; Energy 6500 / 10500 / 16000; Radar 5500 / 8500 / 13000; Cabin 7000 / 12000; Gun 6000 / 9500 / 14500
+[ExeCheck]   C4 balance (Normal, no bounties, 4 sorties at 40 % energy = 960 cr fuel): start 3000, after planet 1 5020, after planet 2 7540; cheapest first level 5500 cr: affordable after two planets
+[ExeCheck]   ship value 6000 cr, recovery fee 3000 cr (before any upgrade)
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]     [1191 fps] Auto/launch Hover alt 1444 gnd 1203 spd 56 hdg 120 energy 100
+[ExeCheck]     [587 fps] Flying/ Flight alt 1410 gnd 1147 spd 125 hdg 120 energy 97
+[ExeCheck]     [440 fps] Flying/ Flight alt 1410 gnd 943 spd 125 hdg 120 energy 94
+[ExeCheck]     [434 fps] Flying/ Hover alt 1443 gnd 978 spd 21 hdg 120 energy 81
+[ExeCheck]   no upgrades: top speed 450 km/h, hover climb 13.4 m/s, flight drain 0.320 %/s, shield drain 2.00 %/s, a 10 % hit does 10.0 %, gun 6.0 shots/s, enemies' radar reach 3000 / 6000 m (0 on the radar), cabin 6
+[ExeCheck]     [335 fps] Flying/ Hover alt 1470 gnd 1003 spd 0 hdg 120 energy 97
+[ExeCheck]     [642 fps] Auto/tow-lift Flight alt 1475 gnd 1401 spd 131 hdg 120 energy 97
+[ExeCheck]     [611 fps] Auto/tow-lift Flight alt 1475 gnd 1035 spd 30 hdg 120 energy 97
+[ExeCheck]   check shortcut: +200 000 cr to buy everything
+[ExeCheck] screenshot r6c_1_shop_before.png
+[ExeCheck]   bought Engine level 1: -6500 cr; "Fitted: Engine level 1 (speed, acceleration, climb +8 % (top 486 km/h)): -6500 cr"
+[ExeCheck]   bought Engine level 2: -10500 cr; "Fitted: Engine level 2 (speed, acceleration, climb +16 % (top 522 km/h)): -10500 cr"
+[ExeCheck]   bought Engine level 3: -16000 cr; "Fitted: Engine level 3 (speed, acceleration, climb +24 % (top 558 km/h)): -16000 cr"
+[ExeCheck]   bought Hull level 1: -6000 cr; "Fitted: Hull level 1 (hull 125 % (hits do 80 % damage)): -6000 cr"
+[ExeCheck]   bought Hull level 2: -9500 cr; "Fitted: Hull level 2 (hull 150 % (hits do 67 % damage)): -9500 cr"
+[ExeCheck]   bought Hull level 3: -14500 cr; "Fitted: Hull level 3 (hull 175 % (hits do 57 % damage)): -14500 cr"
+[ExeCheck]   bought Shields level 1: -6000 cr; "Fitted: Shields level 1 (shield drain 1.6 %/s, catches bolts 9 m out): -6000 cr"
+[ExeCheck]   bought Shields level 2: -9500 cr; "Fitted: Shields level 2 (shield drain 1.2 %/s, catches bolts 10 m out): -9500 cr"
+[ExeCheck]   bought Shields level 3: -14500 cr; "Fitted: Shields level 3 (shield drain 0.8 %/s, catches bolts 11 m out): -14500 cr"
+[ExeCheck]   bought Energy level 1: -6500 cr; "Fitted: Energy level 1 (capacity +20 % (flight drain x0.83)): -6500 cr"
+[ExeCheck]   bought Energy level 2: -10500 cr; "Fitted: Energy level 2 (capacity +40 % (flight drain x0.71)): -10500 cr"
+[ExeCheck]   bought Energy level 3: -16000 cr; "Fitted: Energy level 3 (capacity +60 % (flight drain x0.63)): -16000 cr"
+[ExeCheck]   bought Radar level 1: -5500 cr; "Fitted: Radar level 1 (enemies on the radar to 3.9 / 7.8 km, exact bearings to 4 km): -5500 cr"
+[ExeCheck]   bought Radar level 2: -8500 cr; "Fitted: Radar level 2 (enemies on the radar to 4.8 / 9.6 km, exact bearings to 5 km): -8500 cr"
+[ExeCheck]   bought Radar level 3: -13000 cr; "Fitted: Radar level 3 (enemies on the radar to 5.7 / 11.4 km, exact bearings to 6 km): -13000 cr"
+[ExeCheck]   bought Cabin level 1: -7000 cr; "Fitted: Cabin level 1 (8 seats): -7000 cr"
+[ExeCheck]   bought Cabin level 2: -12000 cr; "Fitted: Cabin level 2 (10 seats): -12000 cr"
+[ExeCheck]   bought Gun level 1: -6000 cr; "Fitted: Gun level 1 (7.2 shots/s, damage x1.25): -6000 cr"
+[ExeCheck]   bought Gun level 2: -9500 cr; "Fitted: Gun level 2 (8.4 shots/s, damage x1.50): -9500 cr"
+[ExeCheck]   bought Gun level 3: -14500 cr; "Fitted: Gun level 3 (9.6 shots/s, damage x1.75): -14500 cr"
+[ExeCheck] screenshot r6c_2_shop_after.png
+[ExeCheck]   saved: ship.upgrades = [engine, engine, engine, hull, hull, hull, shields, shields, shields, energy, energy, energy, radar, radar, radar, cabin, cabin, gun, gun, gun]; loaner: [] (none); ship value 208000 cr, recovery fee 53500 cr
+[ExeCheck]     [919 fps] Auto/launch Hover alt 1495 gnd 1056 spd 10 hdg 120 energy 100
+[ExeCheck]     [721 fps] Flying/ Flight alt 1380 gnd 1375 spd 155 hdg 120 energy 99
+[ExeCheck]     [611 fps] Flying/ Flight alt 1380 gnd 895 spd 155 hdg 120 energy 97
+[ExeCheck]     [436 fps] Flying/ Flight alt 1380 gnd 1200 spd 155 hdg 120 energy 89
+[ExeCheck]   every upgrade: top speed 558 km/h, hover climb 15.2 m/s, flight drain 0.200 %/s, shield drain 0.80 %/s, a 10 % hit does 5.7 %, gun 9.7 shots/s, enemies' radar reach 5700 / 11400 m (0 on the radar), cabin 10
+[ExeCheck]   effect: top speed x1.24, climb x1.13, flight drain x0.63, shield drain x0.40, hit x0.57, gun x1.61, radar x1.90, cabin 6 -> 10
+[ExeCheck] screenshot r6c_3_cockpit_upgraded.png
+[ExeCheck]     [134 fps] Flying/ Flight alt 1441 gnd 1405 spd 54 hdg 120 energy 100
+[ExeCheck] picture r6c_4_cabin_10_seats.png (384 x 216, straight from the camera)
+[ExeCheck]   cabin: 10 aboard of 10; cushions shown 10
+[ExeCheck]     [64 fps] Flying/ Flight alt 1441 gnd 896 spd 155 hdg 120 energy 98
+[ExeCheck]     [138 fps] Flying/ Flight alt 1441 gnd 1435 spd 155 hdg 120 energy 96
+[ExeCheck]     [97 fps] Auto/tow-lift Flight alt 1480 gnd 1288 spd 172 hdg 120 energy 96
+[ExeCheck]     [151 fps] Auto/tow-lift Flight alt 1475 gnd 994 spd 54 hdg 120 energy 96
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.184 RMS, peak 1.188, zeroed before the speakers; 16154624 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

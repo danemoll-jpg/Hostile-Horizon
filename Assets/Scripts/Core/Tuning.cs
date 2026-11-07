@@ -120,7 +120,7 @@ namespace HostileHorizon
         // Round 6 (B): enemies easier to find (their accuracy, fire rate and aggression are unchanged)
         public float radarTurretRange = 3000, radarSaucerRange = 6000;   // m: on the radar without being spotted first
         public float bracketRange = 2500;                                // m: a bracket in the world round enemies in sight
-        public float beaconScale = .005f, flashScale = .009f, boltGlowScale = .006f;   // m of size per m from the eye (readable at 1-2 km)
+        public float beaconScale = .008f, flashScale = .009f, boltGlowScale = .006f;   // m of size per m from the eye (readable at 1-2 km)
         // Round 6 (C): the upgrade shop. Prices per level (credits); the steps are what each level adds.
         public int[] upgEngine = { 6500, 10500, 16000 }, upgHull = { 6000, 9500, 14500 }, upgShields = { 6000, 9500, 14500 }, upgEnergy = { 6500, 10500, 16000 };
         public int[] upgRadar = { 5500, 8500, 13000 }, upgCabin = { 7000, 12000 }, upgGun = { 6000, 9500, 14500 };
