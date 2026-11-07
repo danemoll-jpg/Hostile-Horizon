@@ -168,18 +168,18 @@ namespace HostileHorizon
             if (!mapLine) { mapLine = new Material(Shader.Find("Sprites/Default")); }
             var c = Career.C;
             Material Glow(Color col) { var m = new Material(Shader.Find("HostileHorizon/Glow")); m.SetColor("_Color", col); return m; }
-            float R = 1.0f + .42f * seeds.Count; mapDist = R / Mathf.Tan(20f * Mathf.Deg2Rad) * 1.05f;
+            float R = 1.0f + .62f * seeds.Count; mapDist = R / Mathf.Tan(20f * Mathf.Deg2Rad) * 1.05f;
             st.Cam.fieldOfView = 40f;
             st.Cam.transform.localPosition = new Vector3(0, .78f, -1f).normalized * mapDist + new Vector3(0, 0, R * .08f);
             st.Cam.transform.LookAt(st.transform.position + new Vector3(0, 0, R * .1f));
             float u = mapDist * .045f;   // a planet's size: the same on the picture however big the system
             var star = GameObject.CreatePrimitive(PrimitiveType.Sphere); Destroy(star.GetComponent<Collider>()); star.name = "Star";
-            star.transform.SetParent(st.Root, false); star.transform.localScale = Vector3.one * u * 2.2f; star.GetComponent<Renderer>().sharedMaterial = Glow(new Color(1f, .85f, .55f) * 2.2f);
+            star.transform.SetParent(st.Root, false); star.transform.localScale = Vector3.one * u * 1.3f; star.GetComponent<Renderer>().sharedMaterial = Glow(new Color(1f, .85f, .55f) * 2.2f);
             MapLabel(star.transform, $"<b>{c.systemName}</b>", new Color(1f, .85f, .55f), u * 1.7f);
             for (int i = 0; i < seeds.Count; i++)
             {
                 int seed = seeds[i]; var p = c.planets.Find(x => x.seed == seed);
-                float r = 1.0f + .42f * (i + 1), ang = (new SeedRng(seed, 81).Value) * 360f;
+                float r = 1.0f + .62f * (i + 1), ang = 40f + i * 137.5f;   // the golden angle: neighbours never bunch up
                 var orbit = MapRing(st.Root, new Color(.4f, 1f, .8f, .14f), u * .06f); orbit.transform.localScale = Vector3.one * r;
                 var mp = new MapPlanet { seed = seed };
                 var g = GameObject.CreatePrimitive(PrimitiveType.Sphere); Destroy(g.GetComponent<Collider>()); g.name = "Planet " + seed;
@@ -220,7 +220,7 @@ namespace HostileHorizon
             {
                 bool on = mp.seed == sel; mp.sel.gameObject.SetActive(on);
                 if (on) mp.sel.startColor = mp.sel.endColor = new Color(1, 1, 1, pulse);
-                mp.label.fontSize = on ? 36 : 30;
+                mp.label.fontSize = on ? 34 : 24;
                 var p = c.planets.Find(x => x.seed == mp.seed);
                 if (p != null && p.distress) mp.ring.startColor = mp.ring.endColor = new Color(1f, .25f, .2f, pulse);
             }

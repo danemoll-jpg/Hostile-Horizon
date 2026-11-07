@@ -14,7 +14,7 @@ namespace HostileHorizon
         MenuPanel.Page journalPage, journalView, journalReturn;
         string journalNote = "";
         int journalType = 1, journalAnim;
-        float viewYaw = 200, viewPitch = 8, viewDist = 3.4f, animClock;
+        float viewYaw = 200, viewPitch = 8, viewDist = 3.4f, animClock, viewHeight = 2f;
         string viewKey = "";
         CharacterRig viewRig; GameObject viewFallback;
         public CharacterRig ViewRig => viewRig;   // checks
@@ -89,7 +89,7 @@ namespace HostileHorizon
                 Disabled = () => Entry(journalType) == null,
             })
             .Add(new MenuPanel.Row { Label = () => "Next kind", Value = () => Entry(NextType(1)) == null ? "Unknown" : Aliens.Names[NextType(1)], Left = () => OpenJournalType(NextType(-1)), Right = () => OpenJournalType(NextType(1)), Submit = () => OpenJournalType(NextType(1)) })
-            .Add(Action("Reset view", () => { viewYaw = 200; viewPitch = 8; viewDist = 3.4f; }))
+            .Add(Action("Reset view", () => { viewYaw = 200; viewPitch = 8; viewDist = viewHeight * 2.3f; }))
             .Add(Action("Back", () => Menu.Show(journalPage, true)));
             journalView.View = () => Stage.Tex;
             journalView.Body = JournalText;
@@ -146,6 +146,9 @@ namespace HostileHorizon
                     foreach (var r in holder.GetComponentsInChildren<Renderer>(true)) { var ms = r.sharedMaterials; for (int i = 0; i < ms.Length; i++) ms[i] = black; r.sharedMaterials = ms; }
                 }
                 ViewStage.SetLayer(st.Root.gameObject); st.Root.gameObject.layer = 0;
+                // frame the whole body: its height from what is drawn
+                var rs = holder.GetComponentsInChildren<Renderer>(true); if (rs.Length > 0) { var b = rs[0].bounds; foreach (var r in rs) b.Encapsulate(r.bounds); viewHeight = Mathf.Clamp(b.max.y - st.transform.position.y, 1f, 4f); }
+                viewDist = viewHeight * 2.3f;
             }
             // E1: turn, tilt, zoom (unscaled time: works in the pause menu)
             float dt = Time.unscaledDeltaTime;
@@ -153,9 +156,9 @@ namespace HostileHorizon
             viewYaw += (look.x * 110f) * dt + mouse.x * .25f;
             viewPitch = Mathf.Clamp(viewPitch - look.y * 70f * dt - mouse.y * .2f, -20f, 60f);
             float zoom = Controls.ThrottleChange + (UnityEngine.InputSystem.Mouse.current != null ? UnityEngine.InputSystem.Mouse.current.scroll.ReadValue().y * .02f : 0);
-            viewDist = Mathf.Clamp(viewDist - zoom * 2.2f * dt * (Mathf.Abs(zoom) > .5f ? 1 : 3), 1.1f, 6f);
-            // the camera orbits a point at chest height; closer in, it aims a little higher (the head)
-            float h = Mathf.Lerp(1.45f, 1.0f, Mathf.InverseLerp(1.2f, 4.5f, viewDist));
+            viewDist = Mathf.Clamp(viewDist - zoom * viewHeight * dt * (Mathf.Abs(zoom) > .5f ? 1 : 3), viewHeight * .45f, viewHeight * 3f);
+            // the camera orbits the body's middle; closer in, it aims higher (the head)
+            float h = viewHeight * Mathf.Lerp(.75f, .5f, Mathf.InverseLerp(viewHeight * .6f, viewHeight * 2.3f, viewDist));
             var at = st.transform.position + Vector3.up * h;
             var rot = Quaternion.Euler(viewPitch, viewYaw, 0);
             st.Cam.transform.SetPositionAndRotation(at - rot * Vector3.forward * viewDist, rot);

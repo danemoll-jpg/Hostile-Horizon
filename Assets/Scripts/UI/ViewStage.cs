@@ -35,7 +35,8 @@ namespace HostileHorizon
         }
 
         public void Clear() { foreach (Transform c in Root) Destroy(c.gameObject); }
-        public void Show(bool on) { Cam.enabled = on; }
+        // drawn by hand while shown (as the cabin camera: a batch-mode check presents nothing, so enabled cameras never draw there)
+        public void Show(bool on) { if (on) Cam.Render(); }
         public void Lights(bool on) { Key.enabled = Fill.enabled = Back.enabled = on; }
 
         public static void SetLayer(GameObject g) { g.layer = Layer; foreach (Transform c in g.transform) SetLayer(c.gameObject); }

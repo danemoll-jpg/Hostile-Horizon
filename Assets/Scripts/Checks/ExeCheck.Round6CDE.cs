@@ -134,6 +134,7 @@ namespace HostileHorizon
             Career.CheckHoursAhead = 30; Log("  check shortcut: the clock moved on 30 hours");
             int v0 = Voices.Log.Count;
             yield return LaunchFromHangar(); yield return HomeByRecall();
+            yield return WaitFor(() => Voices.Log.Skip(v0).Any(l => l.Contains("ctl_distress")), 20f);
             Log($"  docked: {cleared.name}: distress {cleared.distress} ({cleared.distressNew} new pilots, {cleared.distressRolls} rolls), pilots now {cleared.pilots.Length}, cleared {cleared.cleared}; Control: {string.Join(" | ", Voices.Log.Skip(v0).Where(l => l.Contains("ctl_distress")))}; debrief \"{G.Debrief.Replace("\n", " | ")}\"");
             yield return Shot("r6d_5_hangar_distress");
             G.Menu.Current.Selected = Row("Star map"); yield return Press(GamepadButton.South);
@@ -173,7 +174,7 @@ namespace HostileHorizon
             // an unmet type: the silhouette
             G.CheckOpenJournalOf(AlienType.Mimic); yield return new WaitForSecondsRealtime(1f);
             yield return Shot("r6e_6_unknown_silhouette"); Log($"  unmet page: {G.Menu.Current.Title}; body: {G.Menu.Current.Body().Replace("\n", " | ")}");
-            G.CheckOpenJournalOf(AlienType.Hollow); G.CheckViewInput(160, 12, 1.6f); yield return new WaitForSecondsRealtime(1f);
+            G.CheckOpenJournalOf(AlienType.Hollow); yield return null; yield return null; G.CheckViewInput(160, 12, 1.3f); yield return new WaitForSecondsRealtime(1f);
             yield return Shot("r6e_7_hollow_closeup"); Log($"  Hollow (met once): body: {G.Menu.Current.Body().Replace("\n", " | ")}");
             yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);
             // E3: from the pause menu, in flight

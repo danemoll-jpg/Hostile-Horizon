@@ -1,0 +1,30 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 61440 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 02:11; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Tulel-IV (canyons), Normal
+--- Part D: distress every 3 h of real time, chance 0.35, 1-3 pilots (cap 14 on a planet)
+  check shortcut: every pilot on Tulel-IV marked rescued
+  planets: Tulel-IV (canyons, 0 waiting); Bryeth-VI (forest, 3 waiting); Ilovun-IX (ice, 3 waiting)
+screenshot r6d_1_star_map.png
+  r6d_1_star_map: selected "Jump to a new planet  <size=22>(free)</size>"; body: The Vera system: 3 planets visited, 0 cleared. | <b>Next new planet</b>: <b>Drarrra-VIII</b>  (Dead City, seed 17989930) · not visited | Danger: tier 0 (Normal) · about 6 turrets, 1 saucer (not surveyed) · 3 pilots, aliens possible | 
+screenshot r6d_2_star_map_row3.png
+  r6d_2_star_map_row3: selected "Ilovun-IX  <size=22>Ice · 3 waiting  ◄ here</size>"; body: The Vera system: 3 planets visited, 0 cleared. | <b>Ilovun-IX</b>  (Ice, seed 17020325) · 3 waiting | Danger: tier 0 (Normal) · 6 turrets, 1 saucers left · 3 pilots, aliens possible | Pilots: 0 rescued · 0 lost · 3 waiting · visits 1 | The mothership is over this planet now.
+  jumped from the map to Tulel-IV (seed 20261107; visited, cleared True)
+screenshot r6d_3_coordinates_typing.png
+  r6d_3_coordinates_typing: selected "Coordinates  <size=22>(select to type a seed)</size>"; body: The Vera system: 3 planets visited, 1 cleared. | <b>Coordinates</b>: <b>Tulra-VI</b>  (Ice, seed 24) · not visited | Danger: tier 1 (Normal) · about 8 turrets, 2 saucers (not surveyed) · 4 pilots, aliens possible | 
+  typed seed 24
+screenshot r6d_4_coordinates_selected.png
+  r6d_4_coordinates_selected: selected "Go to the coordinates: Tulra-VI  <size=22>(seed 24)</size>"; body: The Vera system: 3 planets visited, 1 cleared. | <b>Coordinates</b>: <b>Tulra-VI</b>  (Ice, seed 24) · not visited | Danger: tier 1 (Normal) · about 8 turrets, 2 saucers (not surveyed) · 4 pilots, aliens possible | 
+  arrived at Tulra-VI (seed 24, ice); on the map now: True
+  Tulel-IV: cleared True, distress clock 2026-11-07T02:11:15
+  check shortcut: the clock moved on 30 hours
+    [632 fps] Auto/launch Hover alt 1496 gnd 1498 spd 9 hdg 45 energy 100
+    [545 fps] Auto/tow-lift Flight alt 1469 gnd 1472 spd 83 hdg 45 energy 100
+    [499 fps] Docked/docked Hover alt 1500 gnd 1503 spd 0 hdg 45 energy 100
+    [525 fps] Docked/docked Hover alt 1500 gnd 1503 spd 0 hdg 45 energy 100
+  docked: Tulel-IV: distress True (3 new pilots, 1 rolls), pilots now 6, cleared False; Control: 41.7 voice ctl_distress [Radio, p2, 7.2 s] CONTROL: New distress calls coming in from a planet you'd cleared. More of ours went down there. It's on the star map.; debrief "Recall: -900 cr | Energy used 0%. Refuelled 0%: -2 cr | <color=#FF8A80>Distress calls from Tulel-IV: 3 pilots down (star map).</color>"
+screenshot r6d_5_hangar_distress.png
+screenshot r6d_6_star_map_distress.png
+  r6d_6_star_map_distress: selected "<color=#FF8A80>Tulel-IV</color>  <size=22>Canyons · ★ of the day · DISTRESS: 3 new</size>"; body: The Vera system: 4 planets visited, 1 cleared · <color=#FF8A80>1 with new distress calls</color>. | <b>Tulel-IV</b>  (Canyons, seed 20261107) · ★ of the day · DISTRESS: 3 new | <color=#FFC873>Planet of the day: pilots pay +50 % (750 cr each).</color> | Danger: tier 0 (Normal) · 3 turrets left · 6 pilots | Pilots: 3 rescued · 0 lost · 3 waiting · visits 2 | <color=#FF8A80>New distress calls: 3 pilots down since you cleared it.</color>
+  there: 3 pilots waiting on Tulel-IV; distress mark False
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.078 RMS, peak 0.983, zeroed before the speakers; 4143104 samples); master volume 0.00
