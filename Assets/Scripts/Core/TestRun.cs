@@ -19,6 +19,7 @@ namespace HostileHorizon
         public static bool Headless => Application.isBatchMode && Has("-exeCheck");
         public static RenderTexture View { get; private set; }
 
+        public static float RecentRms { get; private set; }
         static double producedSum, outputSum; static long samples; static float producedPeak, outputPeak;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -36,6 +37,7 @@ namespace HostileHorizon
             double o = 0; float ok = 0;
             for (int i = 0; i < data.Length; i++) { float v = data[i]; o += v * v; if (Mathf.Abs(v) > ok) ok = Mathf.Abs(v); }
             producedSum += p; outputSum += o; samples += data.Length;
+            RecentRms = Mathf.Lerp(RecentRms, Mathf.Sqrt((float)(p / Math.Max(1, data.Length))), .15f);   // Fix 6.3: the mix the game makes now (before it is zeroed)
             if (pk > producedPeak) producedPeak = pk; if (ok > outputPeak) outputPeak = ok;
         }
 

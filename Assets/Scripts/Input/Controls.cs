@@ -41,11 +41,16 @@ namespace HostileHorizon
             (HotasAct.CabinCam, "CabinCam", "Cabin camera", 4),
         };
         // The symbols printed on the PS4 T.Flight HOTAS 4 and the HID button each one sends. Fix 6.2, Dan's own labels with a HID log
-        // (Data/screenshots/fix62/hid_lever_log.txt): the stick's trigger is printed R3 (button 1), the blue button on the stick's head L1
-        // (2), L3 beside it (4), L2 low on the back of the throttle (9), square 5, cross 6, circle 7, triangle 8, SHARE 11, OPTIONS 12.
-        // R2 (high on the back of the throttle) sent nothing in the log and R1 wasn't found: 10 and 3 assumed. "Identify your buttons" corrects it.
+        // (Data/screenshots/fix62/hid_lever_log.txt); Fix 6.3, Dan: "R1 is the trigger": the stick's trigger is R1 (button 1), R3 the
+        // button at the back of the stick's head (3), the blue button on the head L1 (2), L3 beside it (4), L2 low on the back of the
+        // throttle (9), square 5, cross 6, circle 7, triangle 8, SHARE 11, OPTIONS 12. R2 (high on the back of the throttle) sent nothing
+        // in the log: 10 assumed. "Identify your buttons" corrects it.
         public static readonly string[] HotasSymbols = { "R2", "R1", "R3", "L1", "L2", "L3", "□", "✕", "○", "△", "SHARE", "OPTIONS" };
-        public static readonly int[] DefaultSymbolButtons = { 10, 3, 1, 2, 9, 4, 5, 6, 7, 8, 11, 12 };
+        public static readonly int[] DefaultSymbolButtons = { 10, 1, 3, 2, 9, 4, 5, 6, 7, 8, 11, 12 };
+        public const int FireSymbol = 1;   // R1, the stick's trigger: fire, select, hold to fast-forward
+        // Fix 6.3: the button that fires and selects = the one "Identify your buttons" found for R1 (button 1 by default, which Unity's
+        // HID support names "trigger": HID.cs DetermineName, button usage 1)
+        public static int FireButton { get { var m = GameSettings.S.hotasSymbolButtons ?? DefaultSymbolButtons; int n = m.Length > FireSymbol ? m[FireSymbol] : 1; return n > 0 ? n : 1; } }
         public const int HotasButtonCount = 12;
 
         public static void Init()
@@ -70,18 +75,19 @@ namespace HostileHorizon
         static string ButtonPath(int n) => n <= 1 ? "<Joystick>/trigger" : "<Joystick>/button" + n;
         static int HotasBinding(InputAction a) => a.bindings.IndexOf(b => b.groups != null && b.groups.Contains("HOTAS"));
 
-        // Re-apply the throttle-axis choice (also when a joystick is plugged in) and the HOTAS buttons.
+        // Re-apply the lever (also when a joystick is plugged in) and the HOTAS buttons.
         public static void ApplySettings()
         {
             var s = GameSettings.S;
-            int i = s.throttleAxis;
-            string axis = i > 0 && i < GameSettings.ThrottleAxes.Length ? GameSettings.ThrottleAxes[i] : AutoAxis();
-            ThrottleAxisPath = "<Joystick>/" + axis;
+            ThrottleAxisPath = "<Joystick>/" + AutoAxis();
             throttleAxis.ApplyBindingOverride(0, ThrottleAxisPath);
             if (s.hotasButtons == null) return;
             var f = Asset.FindActionMap("Flight");
             foreach (var h in HotasActs) { var a = f[h.action]; int b = HotasBinding(a); if (b >= 0) a.ApplyBindingOverride(b, ButtonPath(HotasButtonFor(h.act))); }
             int cb = HotasBinding(cancel); if (cb >= 0) cancel.ApplyBindingOverride(cb, ButtonPath(HotasButtonFor(HotasAct.Airlock)));   // menu back = the airlock button
+            // Fix 6.3: fire and select follow R1 as identified (like every other job), not the "trigger" name alone
+            int fb = HotasBinding(fire); if (fb >= 0) fire.ApplyBindingOverride(fb, ButtonPath(FireButton));
+            int sb = HotasBinding(submit); if (sb >= 0) submit.ApplyBindingOverride(sb, ButtonPath(FireButton));
         }
 
         // ---- the throttle lever (Fix 6.2). Dan's T.Flight HOTAS 4 (PC mode) reports x, y (stick), z (the lever: 0 pushed forward, 255
@@ -121,7 +127,10 @@ namespace HostileHorizon
             foreach (var kv in leverBase) if (kv.Value.hi - kv.Value.lo >= m) { m = kv.Value.hi - kv.Value.lo; best = kv.Key; }
             return best;
         }
-        public static void SetFoundLever(string axis) { GameSettings.S.throttleAxisFound = axis; GameSettings.S.throttleAxis = 0; ApplySettings(); }
+        public static void SetFoundLever(string axis) { GameSettings.S.throttleAxisFound = axis; ApplySettings(); }
+        // Fix 6.3: an axis' value now (-1..1, NaN if the HOTAS has none): Find throttle lever learns the direction from where it ends
+        public static float AxisNow(string axis) => HotasDevice?.TryGetChildControl(axis) is AxisControl a ? a.ReadUnprocessedValue() : float.NaN;
+        public static (float lo, float hi) AxisRange(string axis) => leverBase.TryGetValue(axis, out var b) ? b : (0, 0);
         public static string LeverAxisName => ThrottleAxisPath.Replace("<Joystick>/", "");
 
         public static int HotasButtonFor(HotasAct a) { var b = GameSettings.S.hotasButtons; return b != null && (int)a < b.Length ? b[(int)a] : HotasActs[(int)a].button; }
@@ -194,13 +203,13 @@ namespace HostileHorizon
             if (d == Device.Hotas)
                 switch (a)
                 {
-                    case Act.Fire: case Act.Select: return HotasName(1); case Act.Back: return H(HotasAct.Airlock);
+                    case Act.Fire: case Act.Select: return HotasName(FireButton); case Act.Back: return H(HotasAct.Airlock);
                     case Act.Engines: return H(HotasAct.Engines); case Act.Airlock: return H(HotasAct.Airlock); case Act.Land: return H(HotasAct.Land);
                     case Act.Camera: return H(HotasAct.Camera); case Act.Recall: return "hold " + H(HotasAct.Recall); case Act.Pause: return H(HotasAct.Pause);
                     case Act.Shield: return H(HotasAct.Shield); case Act.LevelOut: return H(HotasAct.LevelOut); case Act.BellyCam: return H(HotasAct.BellyCam);
                     case Act.RouteTarget: return H(HotasAct.RouteTarget); case Act.CabinCam: return H(HotasAct.CabinCam);
-                    case Act.FastForward: return "hold " + HotasName(1); case Act.Look: return "hat"; case Act.Throttle: return "throttle lever";
-                    case Act.Yaw: return "twist"; case Act.PitchRoll: return "stick"; case Act.Menus: return "hat / stick";
+                    case Act.FastForward: return "hold " + HotasName(FireButton); case Act.Look: return "hat"; case Act.Throttle: return "throttle lever";
+                    case Act.Yaw: return "twist"; case Act.PitchRoll: return "stick"; case Act.Menus: return "stick / hat up-down, hat left-right";
                 }
             switch (a)
             {
@@ -259,7 +268,7 @@ namespace HostileHorizon
             {
                 TrackLever();
                 // Auto: the first time another axis is moved well and the bound one hasn't been, that one is the lever (saved)
-                if (GameSettings.S.throttleAxis == 0 && !FindingLever)
+                if (!FindingLever)
                 {
                     string m = MostMoved(.6f), cur = LeverAxisName;
                     if (m != null && m != cur && Moved(cur) < .3f) { SetFoundLever(m); GameSettings.Save(); }
@@ -323,14 +332,17 @@ namespace HostileHorizon
         public static bool ViewPressed => view.WasPressedThisFrame();
         public static bool ViewReleased => view.WasReleasedThisFrame();
         // Menus: D-pad, left stick, HOTAS hat (the Navigate action) and the calibrated HOTAS stick; never the twist or the lever.
-        public static Vector2 Navigate { get { var n = navigate.ReadValue<Vector2>(); var h = HotasStick; return h.sqrMagnitude > n.sqrMagnitude ? h : n; } }
+        // Fix 6.3: the HOTAS stick only moves up / down (a stick held in the hand leans sideways: 0.6.2 let that step values, which is how
+        // Dan's throttle axis and button jobs changed); values change with the hat's left / right or a press of the select button.
+        public static Vector2 Navigate { get { var n = navigate.ReadValue<Vector2>(); var h = new Vector2(0, HotasStick.y); return h.sqrMagnitude > n.sqrMagnitude ? h : n; } }
         public static bool SubmitPressed => submit.WasPressedThisFrame();
         // Fix 2.5: held during the automatic parts (launch, docking, tow, recall, the beam): they play live, 4x faster
         public static bool FastForwardHeld => submit.IsPressed();
         public static bool CancelPressed => cancel.WasPressedThisFrame();
 
         // The throttle lever as 0..1 (1 = full), or -1 when no lever is bound. A HID axis reads -1..1 (Dan's lever: -1 pushed forward);
-        // read without the axis' own deadzone (it flattened the lever's middle and ends). Invert lever (on by default): forward = full.
+        // read without the axis' own deadzone (it flattened the lever's middle and ends). Forward = full (Fix 6.3: the direction comes
+        // from leverForwardIsMin, learnt by Find throttle lever; no option).
         public static float ThrottleLever
         {
             get
@@ -338,7 +350,7 @@ namespace HostileHorizon
                 if (!HasLever) return -1;
                 float v = throttleAxis.controls[0] is AxisControl a ? a.ReadUnprocessedValue() : throttleAxis.ReadValue<float>();
                 float t = (v + 1) / 2;
-                if (GameSettings.S.invertThrottle) t = 1 - t;
+                if (GameSettings.S.leverForwardIsMin) t = 1 - t;
                 return Mathf.Clamp01(t);
             }
         }
@@ -365,19 +377,34 @@ namespace HostileHorizon
             return $"<size=44><b>Throttle: {t * 100:0} %</b></size>   <size=30><color=#FFD233>{new string('█', n)}</color><color=#4A4F55>{new string('█', 20 - n)}</color></size>   <size=22>lever: {LeverAxisName} axis</size>";
         }
 
+        // Fix 6.3: what a HOTAS button does now (null: nothing)
+        public static string JobOf(int button)
+        {
+            if (button == FireButton) return "Fire · select";
+            foreach (var h in HotasActs) if (HotasButtonFor(h.act) == button) return h.label;
+            return null;
+        }
+        // The symbol index of a HID button (-1: not one of the twelve)
+        public static int SymbolOf(int button)
+        {
+            var m = GameSettings.S.hotasSymbolButtons ?? DefaultSymbolButtons;
+            for (int k = 0; k < m.Length; k++) if (m[k] == button) return k;
+            return -1;
+        }
+
+        // Fix 6.3: the Test view: every axis live with what it does, every button held with its job (lit on the picture too)
         public static string HotasReport()
         {
             var sb = new StringBuilder();
             if (!HotasPresent) return "No HOTAS found. Plug it in: it shows here at once.";
             var r = HotasRaw; var s = HotasStick;
-            sb.AppendLine($"<b>Stick</b>  ({HotasCalState})");
-            sb.AppendLine($"  left / right  {Bar(s.x)}   raw {r.x:+0.00;-0.00; 0.00}");
-            sb.AppendLine($"  fwd / back    {Bar(s.y)}   raw {r.y:+0.00;-0.00; 0.00}");
-            sb.AppendLine($"<b>Twist</b>  {Bar(Yaw)}");
+            sb.AppendLine($"<b>TEST</b>: move or press anything; held buttons light up  <size=18>(stick {HotasCalState})</size>");
+            sb.AppendLine($"Stick left / right  {Bar(s.x)}  → roll   <size=18>raw {r.x:+0.00;-0.00; 0.00}</size>");
+            sb.AppendLine($"Stick fwd / back    {Bar(s.y)}  → pitch · menus up / down");
             var h = look.ReadValue<Vector2>();
-            sb.AppendLine($"<b>Hat</b>  {(h.y > .5f ? "up" : h.y < -.5f ? "down" : h.x > .5f ? "right" : h.x < -.5f ? "left" : "centre")}");
+            sb.AppendLine($"Twist / rocker (rz) {Yaw:+0.00;-0.00; 0.00} → yaw    Lever ({LeverAxisName}) {(HasLever ? $"{ThrottleLever * 100:0} %" : "none")} → throttle    Hat {(h.y > .5f ? "up" : h.y < -.5f ? "down" : h.x > .5f ? "right" : h.x < -.5f ? "left" : "centre")} → look · menus");
             var held = HotasButtonsHeld();
-            sb.Append("<b>Held</b>  " + (held.Count > 0 ? string.Join("  ", held.Select(HotasName)) : "none"));
+            sb.Append("<b>Held</b>  " + (held.Count > 0 ? string.Join("   ", held.Select(n => $"{HotasName(n)} → {JobOf(n) ?? "nothing"}")) : "none"));
             return sb.ToString();
         }
 

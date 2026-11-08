@@ -1,0 +1,88 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.804900 ms
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 59392 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 01:48; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] virtual T.Flight HOTAS 4 added; HotasPresent True; Auto picks "z" (0.6.1 picked "slider": the device has one); throttle readout 50%
+[ExeCheck] lever on z: Auto z -> z (OK); moved z 2.00 slider 0.00 dial 0.00 rx 0.00 ry 0.00; lever at -1 / 0 / +1 reads 100 / 50 / 0 %
+[ExeCheck] lever on slider: Auto z -> slider (OK); moved z 0.00 slider 2.00 dial 0.00 rx 0.00 ry 0.00; lever at -1 / 0 / +1 reads 100 / 50 / 0 %
+[ExeCheck] lever on dial: Auto z -> dial (OK); moved z 0.00 slider 0.00 dial 2.00 rx 0.00 ry 0.00; lever at -1 / 0 / +1 reads 100 / 50 / 0 %
+[ExeCheck] lever on rx: Auto z -> rx (OK); moved z 0.00 slider 0.00 dial 0.00 rx 2.00 ry 0.00; lever at -1 / 0 / +1 reads 100 / 50 / 0 %
+[ExeCheck] lever on ry: Auto z -> ry (OK); moved z 0.00 slider 0.00 dial 0.00 rx 0.00 ry 2.00; lever at -1 / 0 / +1 reads 100 / 50 / 0 %
+[ExeCheck] 0.6.1's binding (slider) with the lever (z) at 0 / 25 / 50 / 75 / 100 %: reads 0 0 0 0 0 % (never moves: the cause)
+[ExeCheck] Find throttle lever: started (FindLever); bound before: dial
+[ExeCheck] screenshot fix62_find_lever.png
+[ExeCheck] Find throttle lever: picked "z" in 1.5 s (OK); note "Throttle lever found (z axis); fully forward = full throttle. Move it and watch the throttle readout."; lever at 64 %: readout 64 %
+[ExeCheck] screenshot fix62_find_lever_done.png
+[ExeCheck] Find throttle lever, circle pressed: capturing False; still "z"; note "Stopped; the throttle axis is unchanged."
+[Music] loaded flight_city (219 s)
+[ExeCheck] lever 0 %: ship throttle on the first frame of flight 0 %, next 0 %, after 1 s 0 % (OK; 0.6.1: 30 % until the lever moved)
+[Music] loaded flight_forest (223 s)
+[ExeCheck] lever 50 %: ship throttle on the first frame of flight 50 %, next 50 %, after 1 s 50 % (OK; 0.6.1: 30 % until the lever moved)
+[ExeCheck] lever moved 0 / 25 / 50 / 75 / 100 %: ship throttle 0 25 50 75 100 %
+[ExeCheck] screenshot fix62_flight_full_throttle.png
+[ExeCheck] pad LT held 0.5 s with the lever at 100 %: throttle 77 %, stays 77 %; then the lever moved to 80 %: 80 % (the lever takes it back)
+[ExeCheck] lever 100 %: ship throttle on the first frame of flight 100 %, next 100 %, after 1 s 100 % (OK; 0.6.1: 30 % until the lever moved)
+[ExeCheck] Settings > Reset this page: "Reset this page to the defaults?" rows No / Yes, selected "No"
+[ExeCheck] screenshot fix62_confirm_page.png
+[ExeCheck]   No: back on "SETTINGS", unchanged OK
+[ExeCheck]   Yes: flight assist 1 sens 100 autoLevel True righting 1 invertPitch False deadzone 8 view 0 trail True (defaults: assist 1 sens 100 autoLevel True righting 1 invertPitch False deadzone 8 view 0 trail True); sound still master 40 music 20 fx 30 voices 50 subs False; HOTAS still calibrated True
+[ExeCheck] Sound > Reset this page (Yes): master 80 music 85 fx 100 voices 100 subs True; display still quality 0 deck 1 screen Full screen Default (1920 x 1080)
+[ExeCheck] screenshot fix62_sound.png
+[ExeCheck] Display > Reset this page (Yes): quality 2 deck 0 screen Full screen Default (1920 x 1080); HOTAS still cal True [-1.00,-0.46,0.34,-1.00,0.00,1.00] lever z forwardIsMin False names [1,3,2,10,9,4,5,6,7,8,11,12] jobs [4,2,8,3,5,6,7,11,10,9,12] deadzone 8
+[ExeCheck] HOTAS setup > Reset HOTAS settings: "Reset all HOTAS settings?" — Stick calibration, the throttle lever found, button names, button jobs and the deadzone go back to the defaults. Your careers, saves and the Field Journal are not changed.
+[ExeCheck] screenshot fix62_confirm_hotas.png
+[ExeCheck]   Yes: cal False [-1.00,0.00,1.00,-1.00,0.00,1.00] lever  forwardIsMin True names [10,1,3,2,9,4,5,6,7,8,11,12] jobs [12,2,8,3,5,6,7,11,10,9,4] deadzone 8; Pause on OPTIONS (default OPTIONS)
+[ExeCheck] Settings > Reset all settings (Yes): assist 1 sens 100 autoLevel True righting 1 invertPitch False deadzone 8 view 0 trail True | master 80 music 85 fx 100 voices 100 subs True | quality 2 deck 0 screen Full screen Default (1920 x 1080) | cal False [-1.00,0.00,1.00,-1.00,0.00,1.00] lever  forwardIsMin True names [10,1,3,2,9,4,5,6,7,8,11,12] jobs [12,2,8,3,5,6,7,11,10,9,4] deadzone 8
+[ExeCheck] career file C:\Users\danmo\Hostile-Horizon\Data\screenshots\fix63\fix62_regression\save\career.json: before CCAE6E75BF14, after CCAE6E75BF14 (untouched OK); the settings file is never written by a check
+[ExeCheck] Calibrate stick: asks first "Calibrate the stick?" — Takes about 10 seconds. Your current calibration is kept if you stop part way.; rows No / Yes
+[ExeCheck] screenshot fix62_calibrate_ask.png
+[ExeCheck]   step: CalibCentre
+[ExeCheck] screenshot fix62_calibrate_step1.png
+[ExeCheck]   after 2 s hands off: CalibEdges
+[ExeCheck] screenshot fix62_calibrate_step2.png
+[ExeCheck]   trigger with right not reached: CalibEdges; "xxx-" (fwd back left right); report: Not finished: push the stick to right first.
+[ExeCheck] screenshot fix62_calibrate_step3.png
+[ExeCheck]   trigger after all four: calibrated True; x -1.00 / -0.46 / +0.27, y -0.89 / +0.00 / +0.89; centred stick reads (0.00, 0.00); note "Stick calibrated."
+[ExeCheck]   cancel with circle at CalibEdges: capturing False; calibration kept OK; note "Stopped; the old calibration is kept."
+[ExeCheck]   No on the question: back on HOTAS SETUP, capturing False
+[ExeCheck] screenshot fix62_hotas_setup.png
+[ExeCheck] screenshot fix62_identify_0_R2.png
+[ExeCheck] screenshot fix62_identify_2_R3.png
+[ExeCheck] screenshot fix62_identify_3_L1.png
+[ExeCheck] screenshot fix62_identify_6_square.png
+[ExeCheck] identify with the default buttons: names R1 L1 R3 L3 <size=36>□</size> ✕ <size=36>○</size> <size=36>△</size> L2 R2 SHARE OPTIONS (buttons 1..12)
+[ExeCheck] screenshot fix62_controls_hotas.png
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 0.318, zeroed before the speakers; 2590720 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

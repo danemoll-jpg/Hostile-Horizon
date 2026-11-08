@@ -134,5 +134,11 @@
     "distressChance": 0.35,
     "distressMin": 1,
     "distressMax": 3,
-    "distressPilotCap": 14
+    "distressPilotCap": 14,
+    "engineMix": 0.55,
+    "windMix": 0.5,
+    "voiceDuckEngine": 0.6,
+    "voiceDuckMusic": 0.6,
+    "voiceDuckEffects": 0.25,
+    "voiceChime": 0.5
 }

@@ -39,17 +39,15 @@ namespace HostileHorizon
         }
 
         // ---- what each HOTAS symbol does now
-        static string HotasJob(int k)
-        {
-            int n = (GameSettings.S.hotasSymbolButtons ?? Controls.DefaultSymbolButtons)[k];
-            if (n == 1) return "Fire · select";
-            foreach (var h in Controls.HotasActs) if (Controls.HotasButtonFor(h.act) == n) return h.label;
-            return null;
-        }
+        static string HotasJob(int k) => Controls.JobOf((GameSettings.S.hotasSymbolButtons ?? Controls.DefaultSymbolButtons)[k]);
+        // Fix 6.3: the Test view (HOTAS setup): every symbol held now is lit
+        readonly HashSet<int> held = new HashSet<int>();
+        bool IsLit(int k) => Highlight == k || PictureOnly && held.Contains(k);
 
         void Update()
         {
-            string key = $"{Showing}|{Highlight}|{CalStep}|{string.Join(",", CalReached)}|{string.Join(",", GameSettings.S.hotasButtons ?? new int[0])}|{string.Join(",", GameSettings.S.hotasSymbolButtons ?? new int[0])}";
+            held.Clear(); if (PictureOnly && CalStep == 0) foreach (var b in Controls.HotasButtonsHeld()) { int k = Controls.SymbolOf(b); if (k >= 0) held.Add(k); }
+            string key = $"{Showing}|{Highlight}|{string.Join(",", held)}|{CalStep}|{string.Join(",", CalReached)}|{string.Join(",", GameSettings.S.hotasButtons ?? new int[0])}|{string.Join(",", GameSettings.S.hotasSymbolButtons ?? new int[0])}";
             if (key != drawnKey) { drawnKey = key; Draw(); }
             if (report) report.text = Report?.Invoke() ?? "";
             if (top) top.text = Top?.Invoke() ?? "";
@@ -74,7 +72,7 @@ namespace HostileHorizon
             {
                 if (listTexts.Count <= n) listTexts.Add(UiKit.Label(root, "List" + listTexts.Count, 24, TextAnchor.MiddleLeft, UiKit.Ink, Vector2.up, Vector2.up, Vector2.zero, Vector2.zero));
                 var t = listTexts[n++]; t.gameObject.SetActive(true); t.text = text; t.color = col; t.horizontalOverflow = HorizontalWrapMode.Overflow;
-                float x = 150 + c * 385 + dx, y = -510 - ln * 31;
+                float x = 150 + c * 385 + dx, y = -570 - ln * 31;
                 t.rectTransform.offsetMin = new Vector2(x, y - 18); t.rectTransform.offsetMax = new Vector2(x + w, y + 18);
             }
             for (int g = 0; g < groups.Length; g++)
@@ -178,13 +176,13 @@ namespace HostileHorizon
         // mapping poster (reference only, SourceArt/Reference): from the front, the throttle on the left, the stick on the right, the
         // base between them with SHARE / PS / OPTIONS; close-ups where buttons can't be seen from the front: the throttle's right side
         // (square, cross, circle, triangle top to bottom, the rocker below), the throttle's back (R2 high, L2 low), the stick's head
-        // (hat, L1 the blue one, L3) and the stick from the side (R1 at the back of the head, the trigger, printed R3 on Dan's unit).
+        // (hat, L1 the blue one, L3) and the stick from the side (R3 at the back of the head; R1, the trigger: Fix 6.3, Dan's words).
         // Each printed symbol has its place; what it does comes from the button it sends (identify / assign).
         static readonly Color Ink2 = new Color(.08f, .09f, .1f), Blue = new Color(.22f, .42f, .9f), Frame = new Color(.36f, .38f, .42f, .9f);
         // where each printed symbol is (HotasSymbols order: R2 R1 R3 L1 L2 L3 square cross circle triangle SHARE OPTIONS)
         static readonly Vector2[] SymbolAt =
         {
-            new Vector2(290, 616), new Vector2(512, 582), new Vector2(424, 628), new Vector2(470, 480), new Vector2(290, 662), new Vector2(514, 438),
+            new Vector2(290, 616), new Vector2(424, 628), new Vector2(512, 582), new Vector2(470, 480), new Vector2(290, 662), new Vector2(514, 438),
             new Vector2(300, 398), new Vector2(300, 430), new Vector2(300, 462), new Vector2(300, 494), new Vector2(366, 298), new Vector2(424, 298),
         };
         static readonly Vector2 LeverAt = new Vector2(286, 150), RockerAt = new Vector2(300, 530), StickAt = new Vector2(480, 150), TwistAt = new Vector2(514, 222),
@@ -203,7 +201,7 @@ namespace HostileHorizon
         }
         void Button(int k, bool pill = false, bool blue = false)
         {
-            var p = SymbolAt[k]; bool lit = Highlight == k, unused = HotasJob(k) == null && Highlight < 0;
+            var p = SymbolAt[k]; bool lit = IsLit(k), unused = HotasJob(k) == null && Highlight < 0;
             var col = lit ? Lit : unused ? Unused : blue ? Blue : Btn;
             if (pill) RoundRect(p.x - 19, p.y - 9, p.x + 19, p.y + 9, 9, col);
             else if (k == 0 || k == 4) RoundRect(p.x - 24, p.y - 12, p.x + 24, p.y + 12, 8, col);
@@ -258,10 +256,10 @@ namespace HostileHorizon
             var right = new System.Collections.Generic.List<(string head, string job, Vector2 at, bool lit, bool unused)>
             {
                 ("Stick", "Pitch / roll · menus", StickAt, false, false), ("Twist", "Yaw", TwistAt, false, false), Sym(11),
-                ("Hat", "Look · menus", HatAt, false, false), Sym(5), Sym(3), Sym(1),
-                Sym(2, (GameSettings.S.hotasSymbolButtons ?? Controls.DefaultSymbolButtons)[2] == 1 ? " (trigger)" : ""),
+                ("Hat", "Look · menus", HatAt, false, false), Sym(5), Sym(3), Sym(2),
+                Sym(1, " (trigger)"),
             };
-            (string, string, Vector2, bool, bool) Sym(int k, string extra = "") => (Controls.SymbolText(k) + extra, Job(k), SymbolAt[k], Highlight == k, HotasJob(k) == null);
+            (string, string, Vector2, bool, bool) Sym(int k, string extra = "") => (Controls.SymbolText(k) + extra, Job(k), SymbolAt[k], IsLit(k), HotasJob(k) == null);
             foreach (var (side, list) in new[] { (true, left), (false, right) })
             {
                 var y = new float[list.Count];
@@ -293,7 +291,7 @@ namespace HostileHorizon
                 var lp = CalC + d * (CalR + (d.x != 0 ? 100 : 56));
                 Caption(lp.x - 90, lp.y, lp.x + 90, ok ? name + "  " + Controls.Glyph("✓", "(done)") : name);
             }
-            Caption(180, 660, 580, CalStep == 1 ? "Step 1 of 3: hands off the stick" : CalStep == 2 ? "Step 2 of 3: reach every marker" : $"Step 3 of 3: press {Controls.HotasName(1)} (the trigger)");
+            Caption(180, 660, 580, CalStep == 1 ? "Step 1 of 3: hands off the stick" : CalStep == 2 ? "Step 2 of 3: reach every marker" : $"Step 3 of 3: press {Controls.HotasName(Controls.FireButton)} (the trigger)");
         }
 
         void LateUpdate()

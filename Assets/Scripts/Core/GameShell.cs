@@ -29,7 +29,7 @@ namespace HostileHorizon
         public CrashLevel FlightLevel { get; private set; }
         public bool EditingSeed => editingSeed;
 
-        ShipAudio shipAudio;
+        ShipAudio shipAudio; public ShipAudio ShipSound => shipAudio;   // Fix 6.3: checks read its levels
         public ShipExtras Extras { get; private set; }
         public BellyCam Belly { get; private set; }
         public bool FastForwarding { get; private set; }
@@ -151,7 +151,7 @@ namespace HostileHorizon
         void Update()
         {
             StageTick();   // Round 6 (D1, E1): the star map / creature viewer picture
-            Controls.Tick();   // Fix 6.1: the HOTAS stick's centre and reach
+            Controls.Tick(); InputRecorder.Tick();   // Fix 6.1: the HOTAS stick's centre and reach
             switch (Now)
             {
                 case State.Title:
@@ -379,12 +379,14 @@ namespace HostileHorizon
 
             // Round 4 (B4, C4): Master stays; Music, Effects and Voices on their own; subtitles for the voices
             sound = new MenuPanel.Page { Title = "SOUND", Back = () => Menu.Show(settings), Body = () =>
-                "<b>Master</b>: everything.  <b>Music</b>: the soundtrack and the short music cues.\n<b>Effects</b>: the ship, the world, the scares.  <b>Voices</b>: Control, the ship's computer, the pilots.\n<b>Subtitles</b>: what is said, at the bottom of the screen and on the cockpit's centre display." };
+                "<b>Master</b>: everything.  <b>Music</b>: the soundtrack and the short music cues.\n<b>Effects</b>: guns, hits, the world, the scares.  <b>Engine</b>: the engine hum and the wind.\n<b>Voices</b>: Control, the ship's computer, the pilots (engine, wind and music go quieter while one speaks).\n<b>Test voices</b>: one line each from Control, the computer and a pilot, at these levels.\n<b>Subtitles</b>: what is said, at the bottom of the screen and on the cockpit's centre display." };
             System.Func<int, string> Pct = v => v + "%"; System.Func<int, int, int> Step = (v, d) => Mathf.Clamp(v + d * 10, 0, 100);
             sound.Add(Option("Master volume", () => Pct(GameSettings.S.volume), d => { GameSettings.S.volume = Step(GameSettings.S.volume, d); Saved(); }))
                  .Add(Option("Music", () => Pct(GameSettings.S.musicVolume), d => { GameSettings.S.musicVolume = Step(GameSettings.S.musicVolume, d); Saved(); }))
                  .Add(Option("Effects", () => Pct(GameSettings.S.effectsVolume), d => { GameSettings.S.effectsVolume = Step(GameSettings.S.effectsVolume, d); Saved(); }))
+                 .Add(Option("Engine", () => Pct(GameSettings.S.engineVolume), d => { GameSettings.S.engineVolume = Step(GameSettings.S.engineVolume, d); Saved(); }))   // Fix 6.3
                  .Add(Option("Voices", () => Pct(GameSettings.S.voiceVolume), d => { GameSettings.S.voiceVolume = Step(GameSettings.S.voiceVolume, d); Saved(); }))
+                 .Add(Action("Test voices", () => Voice.Test()))   // Fix 6.3: Control, the computer, a pilot, at the levels set
                  .Add(Option("Subtitles", () => GameSettings.S.subtitles ? "On" : "Off", d => { GameSettings.S.subtitles = !GameSettings.S.subtitles; Saved(); }))
                  .Add(ResetRow("the sound settings", GameSettings.ResetSound, () => sound))
                  .Add(Action("Back", () => Menu.Show(settings)));

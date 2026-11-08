@@ -83,7 +83,7 @@ namespace HostileHorizon
                     Log($"lever on {ax}: Auto {before} -> {Controls.LeverAxisName} ({(Controls.LeverAxisName == ax ? "OK" : "FAIL")}); moved {string.Join(" ", Controls.LeverMoves.Select(m => $"{m.name} {m.moved:0.00}"))}; lever at -1 / 0 / +1 reads {full * 100:0} / {half * 100:0} / {none * 100:0} %");
                 }
                 // 0.6.1's choice on Dan's HOTAS: slider bound, the lever (z) moved: the readout never changes
-                GameSettings.ResetHotas(); GameSettings.S.throttleAxis = 1; Controls.ApplySettings(); H4Rest(0);
+                GameSettings.ResetHotas(); GameSettings.S.throttleAxisFound = "slider"; Controls.ApplySettings(); H4Rest(0);
                 string seen = ""; for (int i = 0; i <= 4; i++) { h4s.z = LeverFor(i / 4f); H4(); yield return null; yield return null; seen += $"{Controls.ThrottleLever * 100:0} "; }
                 Log($"0.6.1's binding (slider) with the lever (z) at 0 / 25 / 50 / 75 / 100 %: reads {seen}% (never moves: the cause)");
 
@@ -181,12 +181,12 @@ namespace HostileHorizon
             string Flight() => $"assist {s.flightAssist} sens {s.sensitivity} autoLevel {s.autoLevel} righting {s.rightingSpeed} invertPitch {s.invertPitch} deadzone {s.deadzone} view {s.cameraDefault} trail {s.routeTrail}";
             string Sound() => $"master {s.volume} music {s.musicVolume} fx {s.effectsVolume} voices {s.voiceVolume} subs {s.subtitles}";
             string Disp() => $"quality {s.quality} deck {s.steamDeck} screen {ScreenSetting.ScreenLabel} {ScreenSetting.ResolutionLabel}";
-            string Hotas() => $"cal {s.hotasCalibrated} [{string.Join(",", s.hotasCal.Select(v => v.ToString("0.00")))}] axis {s.throttleAxis}/{s.throttleAxisFound} invert {s.invertThrottle} names [{string.Join(",", s.hotasSymbolButtons)}] jobs [{string.Join(",", s.hotasButtons)}] deadzone {s.deadzone}";
+            string Hotas() => $"cal {s.hotasCalibrated} [{string.Join(",", s.hotasCal.Select(v => v.ToString("0.00")))}] lever {s.throttleAxisFound} forwardIsMin {s.leverForwardIsMin} names [{string.Join(",", s.hotasSymbolButtons)}] jobs [{string.Join(",", s.hotasButtons)}] deadzone {s.deadzone}";
             void Mess()
             {
                 s.flightAssist = 0; s.sensitivity = 130; s.autoLevel = false; s.rightingSpeed = 2; s.invertPitch = true; s.deadzone = 20; s.cameraDefault = 2; s.routeTrail = false;
                 s.volume = 40; s.musicVolume = 20; s.effectsVolume = 30; s.voiceVolume = 50; s.subtitles = false; s.quality = 0; s.steamDeck = 1;
-                s.hotasCal = new[] { -1f, -.46f, .34f, -1, 0, 1 }; s.hotasCalibrated = true; s.throttleAxis = 3; s.throttleAxisFound = "dial"; s.invertThrottle = false;
+                s.hotasCal = new[] { -1f, -.46f, .34f, -1, 0, 1 }; s.hotasCalibrated = true; s.throttleAxisFound = "dial"; s.leverForwardIsMin = false;
                 s.hotasSymbolButtons = new[] { 1, 3, 2, 10, 9, 4, 5, 6, 7, 8, 11, 12 }; Controls.AssignHotas(Controls.HotasAct.Pause, 4);
             }
             // Settings > Reset this page: No keeps everything, Yes resets only this page

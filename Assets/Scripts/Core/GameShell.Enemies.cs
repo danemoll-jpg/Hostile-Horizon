@@ -95,7 +95,10 @@ namespace HostileHorizon
             bool flying = InCampaign && Now == State.Flying;
             Foes.Running = flying;
             float dt = Time.deltaTime; var t = Tuning.T;
-            bool canFight = flying && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed && Ship.InputEnabled && CanopyAlien == null;
+            // Fix 6.3: the gun works in Free Flight too (no enemies: the shots hit the ground with sparks and cost energy as normal)
+            bool anyFlight = Now == State.Flying;
+            if (anyFlight && !InCampaign && (Foes.Field != Terrain.Field || Foes.Ship != Ship)) { Foes.Clear(); Foes.Field = Terrain.Field; Foes.Ship = Ship; }
+            bool canFight = anyFlight && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed && Ship.InputEnabled && CanopyAlien == null;
             if (!Controls.FireHeld) gunArmed = true;
             gunCooldown -= dt;
             if (canFight && gunArmed && Controls.FireHeld && Time.frameCount > Ship.IgnoreButtonsUntil && gunCooldown <= 0 && Ship.Energy > t.gunEnergy)
@@ -115,7 +118,7 @@ namespace HostileHorizon
             shieldFlash = Mathf.Max(0, shieldFlash - dt * 3f);
             if (shieldBubble && ShieldOn) shieldMat.SetColor("_Color", new Color(.05f, .11f, .2f) * (1 + .35f * Lvl(Upg.Shields)) + new Color(.12f, .3f, .5f) * shieldFlash);   // Round 6 (C3): a stronger shell
             if (shieldBubble) shieldBubble.transform.localScale = new Vector3(13f, 7f, 17f) * (Foes.ShieldRadius / 8f);
-            if (reticle) reticle.gameObject.SetActive(flying && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed && Ship.Mode == FlightMode.Flight);
+            if (reticle) reticle.gameObject.SetActive(anyFlight && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed && Ship.Mode == FlightMode.Flight);
             Brackets.Tick(flying && !Ship.Crashed && Ship.gameObject.activeInHierarchy, Foes, Rig.Head.transform, Ship.transform.position, t.bracketRange);
             // the displays
             Displays.Shield = ShieldOn; Displays.LockedOn = flying && Foes.AnyLock; Displays.Threats = Foes.Threats;

@@ -105,6 +105,10 @@ namespace HostileHorizon
         public float saucerBoltSpeed = 260, saucerDamage = 5, saucerHp = 5;
         // B3, B4: your gun and shield
         public float gunRate = 6, gunEnergy = .12f, gunBoltSpeed = 700, gunRange = 1300;   // shots a second, % energy a shot, m/s, m
+        // Fix 6.3: the sound mix. engineMix / windMix scale the engine hum and the wind (0.6.2: 1 / 1, and Effects 100 % instead of
+        // the Engine slider); a voice line ducks engine and wind by voiceDuckEngine, music by voiceDuckMusic (to 1 - it) and effects by
+        // voiceDuckEffects; voiceChime = the attention chime's level before a computer warning
+        public float engineMix = .55f, windMix = .5f, voiceDuckEngine = .6f, voiceDuckMusic = .6f, voiceDuckEffects = .25f, voiceChime = .5f;
         public float shieldDrain = 2f;                   // % energy a second while on (flight at full throttle uses .32)
         public int turretBounty = 150, saucerBounty = 300;
         public float boltHitRadius = 3.5f;               // m round the ship's centre              // degrees per second at most: the body righting when landing mode starts

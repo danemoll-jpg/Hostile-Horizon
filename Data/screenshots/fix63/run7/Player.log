@@ -1,0 +1,100 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.811100 ms
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 63488 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 01:47; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] virtual HOTAS from Dan's HID descriptor: "Thrustmaster T.Flight Hotas 4" layout HID::Thrustmaster T.Flight Hotas 4, a Joystick True; HotasPresent True; Unity's control names: stick dial slider ry rx rz z hat trigger button2 button3 button4 button5 button6 button7 button8 button9 button10 button11 button12
+[ExeCheck]   hat state: parent byte 11 bit 0 size 4; hat/up byte 11 bit 0 size 4
+[ExeCheck]   hat at rest reads (0.00, 0.00); stick reads (-0.48, 0.00) (sent x -0.49); lever z at 30 % reads 30 %; Fire bound to /Thrustmaster T.Flight Hotas 4/trigger; Submit /Thrustmaster T.Flight Hotas 4/trigger
+[ExeCheck]   stick y sent +0.9 reads +1 on the menus' axis (so the trace below is sent with that sign)
+[ExeCheck] --- what changed Dan's settings (item 2)
+[ExeCheck]   0.6.2's menus, the stick scrolling down HOTAS setup while resting left (7.4 s): 14 left / right steps; throttle axis ry (5), invert True, jobs [2,5,8,4,6,7,9,12,11,10,3]
+[ExeCheck]   Dan's settings.json (00:26): throttle axis ry (5), invert true, jobs [2,5,8,4,6,7,9,12,11,10,3] -> IDENTICAL: reproduced
+[ExeCheck]   the same stick on 0.6.3's menus (up / down only from the stick): 0 left / right steps, ended on row 10 (0.6.2: 10)
+[ExeCheck]   loading 0.6.1 defaults: version 4, lever found "" (no throttle-axis setting any more: Auto), forward=min True, jobs [12,2,8,3,5,6,7,11,10,9,4], names [10,1,3,2,9,4,5,6,7,8,11,12] (R1 = button 1), music 85; saved again: no throttleAxis / invertThrottle keys
+[ExeCheck]   loading 0.6.2 defaults: version 4, lever found "" (no throttle-axis setting any more: Auto), forward=min True, jobs [12,2,8,3,5,6,7,11,10,9,4], names [10,1,3,2,9,4,5,6,7,8,11,12] (R1 = button 1), music 85; saved again: no throttleAxis / invertThrottle keys
+[ExeCheck]   loading Dan's 00:26 file: version 4, lever found "" (no throttle-axis setting any more: Auto), forward=min True, jobs [2,5,8,4,6,7,9,12,11,10,3], names [10,1,3,2,9,4,5,6,7,8,11,12] (R1 = button 1), music 85; saved again: no throttleAxis / invertThrottle keys
+[ExeCheck]   loading never changes jobs or picks an axis; Identify changes only names; Assign one job; Calibrate the calibration; Find the lever; the resets give the defaults (each checked below or in fix62). Only left / right on the setup rows gives axis 5 + those jobs.
+[ExeCheck] --- no accidental changes (item 3)
+[ExeCheck]   HOTAS setup rows: Calibrate stick / Find throttle lever / Identify your buttons / Record my input (20 s) / Pause / Level out / Camera view / Shield / Land / air brakes / Engines on / off / Airlock · menu back / Recall (hold) / Belly camera / Route target / Cabin camera / Reset HOTAS settings / Back
+[ExeCheck]   the trace on HOTAS setup (stick leaning left / right, twist and lever moving): selection moved 15 times (row 0 -> 5 "Level out"); settings UNCHANGED OK
+[ExeCheck]   Level out row, hat left + right and the stick held left 0.8 s: job L1; settings UNCHANGED OK
+[ExeCheck] screenshot fix63_hotas_setup.png
+[ExeCheck]   Settings > Flight assist: Full; stick held right 1 s -> Full (no change OK); hat right -> Light; R1 (select) -> Off; hat left twice -> Full
+[ExeCheck]   hat down: row 0 -> 1; stick pulled (down the menu as read): -> 2
+[ExeCheck] --- names and the Test view (items 1, 6)
+[ExeCheck]   button names 1..12: R1 L1 R3 L3 <size=36>□</size> ✕ <size=36>○</size> <size=36>△</size> L2 R2 SHARE OPTIONS; Fire / select: R1; Shield: R3; menus: stick / hat up-down, hat left-right
+[ExeCheck] screenshot fix63_hotas_setup_test_view.png
+[ExeCheck] screenshot fix63_controls_hotas.png
+[ExeCheck] --- input recorder (item 5)
+[ExeCheck]   started: True; "Recording: 20 s left. Move and press everything."
+[ExeCheck]   Test view, R1 held (recording): <size=30><color=#FFD233><b>Recording: 17 s left. Move and press everything.</b></color></size> | <b>TEST</b>: move or press anything; held buttons light up  <size=18>(stick calibrated)</size> | Stick left / right  ··········|███······· +0.29  → roll   <size=18>raw +0.29</size> | Stick fwd / back    ··········|█████····· +0.49  → pitch · menus up / down | Twist / rocker (rz) +0.11 → yaw    Lever (z) 86 % → throttle    Hat centre → look · menus | <b>Held</b>  R1 → Fire · select
+[ExeCheck] screenshot fix63_test_view_R1_held.png
+[ExeCheck]   Test view, button 3 held: held line "<b>Held</b>  R3 → Shield"; page still HOTAS SETUP
+[ExeCheck] screenshot fix63_test_view_R3_held.png
+[InputRecorder] Saved: C:\Users\danmo\Hostile-Horizon\Data\screenshots\fix63\run7\hotas_input_log.txt (1522 changes)
+[ExeCheck]   after 20.0 s: active False; "Saved: C:\Users\danmo\Hostile-Horizon\Data\screenshots\fix63\run7\hotas_input_log.txt (1522 changes)"; 1574 lines; still on HOTAS setup True (the pad's A during it did nothing: True)
+[ExeCheck]     contains "/trigger  pressed": yes
+[ExeCheck]     contains "Flight/Fire": yes
+[ExeCheck]     contains "/stick/x": yes
+[ExeCheck]     contains "/z ": yes
+[ExeCheck]     contains "/button3  pressed": yes
+[ExeCheck]     contains "UI/Submit": yes
+[ExeCheck]     contains "HID capabilities": yes
+[ExeCheck]     first change lines:   3.020  Thrustmaster T.Flight Hotas 4  /Thrustmaster T.Flight Hotas 4/trigger  pressed  -> Flight/Fire, UI/Submit ||   3.253  Thrustmaster T.Flight Hotas 4  /Thrustmaster T.Flight Hotas 4/trigger  released  -> Flight/Fire, UI/Submit ||   3.253  Thrustmaster T.Flight Hotas 4  /Thrustmaster T.Flight Hotas 4/button3  pressed  -> Flight/Shield ||   3.479  Thrustmaster T.Flight Hotas 4  /Thrustmaster T.Flight Hotas 4/trigger  pressed  -> Flight/Fire, UI/Submit
+[ExeCheck] screenshot fix63_recorded.png
+[ExeCheck] --- the trigger fires (item 4)
+[Music] loaded flight_city (219 s)
+[ExeCheck] screenshot fix63_fire_free_flight.png
+[ExeCheck]   Free Flight: HID button 1 held 1 s: Fire action held True; shots 7; energy 100.0 -> 99.2 %; FIRES OK (state Flying, landed False)
+[ExeCheck] --- the sound mix in Free Flight, lever 70 %, muted (RMS: engine / wind from the ship's sound, the whole mix at the listener before it is zeroed; music = mix - engine - wind)
+[ExeCheck]   music: "flight_city" gain 0.95 (tracks loaded 2, folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music)
+[ExeCheck]   0.6.2's mix (engine / wind 1 x Effects 100 %, music 70 %): engine 0.0788  wind 0.1359  engine+wind 0.1571  music 0.1109  -> music over engine+wind -3.0 dB; whole mix 0.1739  (speed 383 km/h, throttle 80 %)
+[ExeCheck]   0.6.3's defaults (engineMix 0.55, windMix 0.5, Engine 100 %, music 85 %): engine 0.0430  wind 0.0669  engine+wind 0.0795  music 0.1347  -> music over engine+wind +4.6 dB; whole mix 0.0887  (speed 383 km/h, throttle 80 %)
+[ExeCheck]   change: engine+wind -5.9 dB, music +1.7 dB; music over engine+wind -3.0 -> +4.6 dB
+[ExeCheck]   a computer warning (cpu_energy_low, with its chime): duck 1.00; engine 0.0438 -> 0.0170 (-8.2 dB), music x0.60 (-4.4 dB), effects x0.75; the whole mix 0.0888 -> loudest 0.0953 while it speaks (+0.6 dB: the voice on top); voices log: 41.4 voice cpu_pull_up [Computer, p3, 0.8 s] COMPUTER: Pull up.
+[ExeCheck]   output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.070 RMS, peak 0.809, zeroed before the speakers; 4083712 samples); master volume 0.00
+[Music] loaded flight_forest (223 s)
+[ExeCheck]   back on the title: True (HOSTILE HORIZON)
+[Music] loaded hangar (199 s)
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] screenshot fix63_fire_campaign.png
+[ExeCheck]   Campaign: HID button 1 held 1 s: Fire action held True; shots 7; energy 99.6 -> 98.3 %; FIRES OK (state Flying, landed False)
+[ExeCheck]   back on the title: True (HOSTILE HORIZON)
+[ExeCheck] --- Settings > Sound (items 6c, 6d)
+[ExeCheck]   rows: Master volume 80% / Music 85% / Effects 100% / Engine 100% / Voices 100% / Test voices / Subtitles On / Reset this page to defaults / Back
+[ExeCheck]   Test voices: 54.3 voice ctl_launch_1 [Radio, p2, 2.7 s] CONTROL: Bay doors open. You're clear to drop. || 57.4 voice cpu_energy_low [Computer, p2, 1.1 s] COMPUTER: Energy low. || 59.3 voice p0_thanks_1 [Radio, p2, 3.5 s] PILOT HALE: Oh, thank you. Thank you. I thought nobody was coming.; done in 8.6 s; output sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.058 RMS, peak 0.809, zeroed before the speakers; 6098944 samples); master volume 0.00
+[ExeCheck] screenshot fix63_sound_page.png
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.058 RMS, peak 0.809, zeroed before the speakers; 6115328 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

@@ -7,11 +7,17 @@ namespace HostileHorizon
     //  - wind: filtered noise, louder and brighter with speed;
     //  - a thud on every hit of the rock.
     // Master volume (Settings) is AudioListener.volume.
+    // Fix 6.3: engine hum and wind have their own volume (Settings > Sound > Engine; was Effects) and the tuning mix engineMix / windMix
+    // (lower than 0.6.2's, so the music is heard over them); both duck while a voice line plays (Voices.DuckAmount). The thud stays
+    // an effect. EngineRms / WindRms: what this source puts out now (the checks log the mix with them, muted).
     [RequireComponent(typeof(AudioSource))]
     public sealed class ShipAudio : MonoBehaviour
     {
         public ShipController Ship;
-        volatile float throttle, speed01, active; volatile float thud, effects = 1;
+        volatile float throttle, speed01, active; volatile float thud, effects = 1, engine = 1, engineMix = 1, windMix = 1;
+        public float EngineRms { get; private set; }
+        public float WindRms { get; private set; }
+        public static float EngineVolume => Mathf.Clamp01(GameSettings.S.engineVolume / 100f);
         public volatile float Wind;   // Round 4: wind with the engines off (landed waiting, the scares) and the blizzard
         double phase1, phase2, rate; uint rng = 22222; float lpWind, lpRumble, lpWind2, thudEnv;
 
@@ -32,6 +38,7 @@ namespace HostileHorizon
         {
             bool on = Ship && Ship.gameObject.activeInHierarchy && !Ship.Crashed && Ship.EnginesOn && Time.timeScale > 0;
             active = Mathf.MoveTowards(active, on ? 1 : 0, Time.unscaledDeltaTime * 2f); effects = Sfx.Effects;
+            engine = EngineVolume * (1 - Tuning.T.voiceDuckEngine * Voices.DuckAmount); engineMix = Tuning.T.engineMix; windMix = Tuning.T.windMix;
             // Round 2: silent with the engines off; in hover the engines work against the lift
             if (Ship) { throttle = Ship.Mode == FlightMode.Hover ? .45f + Mathf.Abs(Ship.Lift) * .35f : Ship.Throttle; speed01 = Mathf.InverseLerp(0, ShipController.MaxSpeed, Ship.Speed); }
         }
@@ -42,7 +49,8 @@ namespace HostileHorizon
         {
             float t = throttle, s = speed01, a = active;
             float f1 = 48f + 70f * t, f2 = f1 * 1.505f;
-            float fx = effects; float engineVol = fx * a * (.10f + .10f * t), windVol = fx * (a * (.02f + .30f * s * s) + Wind);
+            float fx = effects, en = engine; float engineVol = en * engineMix * a * (.10f + .10f * t), windVol = en * windMix * (a * (.02f + .30f * s * s) + Wind);
+            double se = 0, sw = 0; int frames = 0;
             float windCut = .02f + .10f * Mathf.Max(s, Wind * .5f);
             for (int i = 0; i < data.Length; i += channels)
             {
@@ -54,9 +62,12 @@ namespace HostileHorizon
                 lpWind += (n - lpWind) * windCut; lpWind2 += (lpWind - lpWind2) * windCut;
                 if (thud > 0) { thudEnv = thud; thud = 0; }
                 thudEnv *= .99965f;
-                float sample = engineVol * (saw1 * .35f + sine2 * .5f + lpRumble * 4f) + windVol * lpWind2 * 6f + fx * thudEnv * thudEnv * lpRumble * 18f;
+                float eng = engineVol * (saw1 * .35f + sine2 * .5f + lpRumble * 4f), wnd = windVol * lpWind2 * 6f;
+                float sample = eng + wnd + fx * thudEnv * thudEnv * lpRumble * 18f;
+                se += eng * eng; sw += wnd * wnd; frames++;
                 for (int c = 0; c < channels; c++) data[i + c] = sample;
             }
+            if (frames > 0) { EngineRms = Mathf.Lerp(EngineRms, Mathf.Sqrt((float)(se / frames)), .2f); WindRms = Mathf.Lerp(WindRms, Mathf.Sqrt((float)(sw / frames)), .2f); }
         }
     }
 }

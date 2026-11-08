@@ -97,7 +97,7 @@ namespace HostileHorizon
         public static readonly System.Collections.Generic.List<string> Played = new System.Collections.Generic.List<string>();
 
         // Round 4 (B4): Settings > Sound > Effects (sounds made here and the scare sounds; music and voices have their own)
-        public static float Effects => Mathf.Clamp01(GameSettings.S.effectsVolume / 100f);
+        public static float Effects => Mathf.Clamp01(GameSettings.S.effectsVolume / 100f) * (1 - Tuning.T.voiceDuckEffects * Voices.DuckAmount);   // Fix 6.3: a little lower under a voice
 
         // A one-shot 3D sound at a point (minDistance: full loudness within it).
         public static AudioSource Play(AudioClip clip, Vector3 at, float volume = 1, float minDistance = 5, Transform follow = null)

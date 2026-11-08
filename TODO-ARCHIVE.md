@@ -2018,3 +2018,68 @@ to stay out of sight fun; are saucers too much? The gun / shield buttons on the 
 
 **For Dan to check:** the tension layer under low energy / RETURN NOW (its slow 65 s build-up plays first each time it comes in) and the
 regeneration cue on the trip to the pod.
+
+**Round 6 — jump scare, easier-to-find enemies, upgrades, star map, Field Journal viewer (2026-11-07). Published: 0.6.0 (`game-600`,
+Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-07 02:10 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round6/`:
+`partA/` .. `partE/` (`--only round6a` .. `round6e`), `final/` (`--only round6`: the evidence for A, B and E; C and D read x1.00 / timed
+out there because Part A's deaths leave the check flying the loaner, which correctly has no upgrades: their own runs are the evidence),
+`launcher/`. Every run headless, muted (output 0.000 RMS from the first frame), no window, Below Normal. Commits: `56d00e9` planning,
+`bf9faa4` A, `e6f7eb3` B, `4dbaeef` C, `7bf628e` D, `98449c3` E (all five parts were written before the first build, so the A commit
+already holds B-E code; each part was then checked and fixed in turn).
+- **A0 Commit first — done.** **A1 Boards like a pilot — done.** An alien let in walks in, "Pilot 1 aboard (1 / 6), brought 7 % energy",
+  chime, thanks line, cabin count, a seat, music unchanged, full control (`PilotBoarded`; `Core/GameShell.Strike.cs`).
+- **A2 Strike — done.** Seeded per alien: instant 40 % (1-4 s after the airlock shuts), take-off 35 % (2-6 s after lift-off, or a turn
+  over 70 °/s), slow burn 25 % (8-40 s of flight; the old long sequence). Instant / take-off: hatch slam and burst, at your face in ~0.4 s,
+  the lunge, death at 1.9 s; music cut, sting and scare sounds **on** the strike; INTRUDER, lights out and alarm 0.35 s **after** it. An
+  alien still aboard strikes before docking / the beam / running dry. Over 600 planets: 40 / 35 / 25 %, mean 2.5 s / 4.0 s / 24 s.
+- **A3 Canopy leap — done.** 50 % leap (5-15 s at the door) / 50 % the slow climb (25 s); the leap: 0.3 s from the ground onto the glass,
+  `canopy_slam`, view shake; engines throw it off (checked: leapt at 7.6 s, thrown off, bounty).
+- **A4 Red herrings — done.** Per boarding, real pilots and aliens alike (seeded per pilot): flicker 12 % (two short flickers +
+  `power_dip`), thump 15 % (`cabin_thump`), crackle 12 % (the cabin feed stutters + `feed_crackle`); never the full lights-out.
+- **A5 Fair — done** (tells, voice sign, Sleeper unchanged). **A6 VR rule 5 — done** (no camera takeover or fade; the creature comes at you).
+- **A7 Check — done.** Event-log comparison (sounds, stings, music, voices, messages, cabin lights; HUD / displays / controls / airlock /
+  creature state), B pressed to the strike: **instant 16 / 16 events IDENTICAL, take-off 20 / 20 IDENTICAL**; the first alien-only event is
+  the strike itself (7.45 s / 9.48 s after B). Slow burn struck 22 s after lift-off. Pictures r6a_*_strike_0.1s / 0.5s / 1.0s.
+- **B1 Radar — done.** Turrets within 3 km and saucers within 6 km on the radar unspotted, labelled "TURRET 1.4 km" / "SAUCER 1.9 km"
+  (every biome: every enemy in range on the radar at launch).
+- **B2 Brackets — done** (`UI/TargetBrackets.cs`, in the world): enemies in sight within 2.5 km, "TURRET 1.9 km", the nearest / locked
+  one brighter ("LOCKED ON").
+- **B3 Visible from afar — done.** Blinking red warning light on turrets and saucers (0.008 m per m: ~16 m at 2 km), muzzle flash
+  (0.009), enemy bolts' glow kept readable (0.006) with a 0.12 s trail. Accuracy, fire rate and aggression unchanged.
+- **B4 Check — done.** Cockpit pictures at 2 km and 1 km, turret and saucer, all four biomes (r6b_*): bracket and light in every one. First
+  run: labels too small and the light read white; fixed (bigger labels, saturated red).
+- **C1 Shop — done** (hangar > Upgrades; `Core/Upgrades.cs`, `GameShell.Upgrades.cs`). Prices (cr): Engine 6500 / 10500 / 16000, Hull
+  6000 / 9500 / 14500, Shields 6000 / 9500 / 14500, Energy 6500 / 10500 / 16000, Radar 5500 / 8500 / 13000, Cabin 7000 / 12000 (6 -> 8 -> 10),
+  Gun 6000 / 9500 / 14500. Steps a level: engine +8 %, hull +25 %, shield drain -20 % and +1 m catch radius, energy capacity +20 %, radar
+  reach +30 % and exact bearings +1 km, gun rate +20 % / damage +25 %. Shields' "more hits blocked" = the same energy blocks for longer and
+  a wider shell catches near misses (it already blocked every hit it caught).
+- **C2 Value — done.** Ship value 6000 + the prices paid; recovery 1500 + 25 %: no upgrades 3000 cr, everything 53 500 cr. Loaner: none.
+  Saved in `career.json` (`ship.upgrades`).
+- **C3 Visible — done.** Seat cushions per seat (the cabin camera shows 8 / 10), a radar bezel ring, extra reticle rings (Gun), whiter
+  nozzle glow (Engine), a stronger, larger shield shell.
+- **C4 Balance — done.** Normal, all pilots, 4 sorties at 40 %: 5020 cr after planet 1, 7540 after planet 2; cheapest level 5500: after two
+  planets. All levels vs none, measured in flight: top speed 450 -> 558 km/h, hover climb x1.13, flight drain x0.63, shield drain 2.0 -> 0.8
+  %/s, a 10 % hit 10 -> 5.7 %, gun 6.0 -> 9.7 shots/s, enemy radar reach 3000 -> 5700 m, cabin 6 -> 10 (10 pilots seated).
+- **D1 Star map — done** (replaces the planet list; hangar "Star map · Planets"): the star, every visited planet, today's and the next
+  undiscovered one in biome colours with status (★ of the day, cleared, waiting, DISTRESS) and danger (tier, difficulty, turrets / saucers
+  left, or an estimate); the selected row is ringed on the map; A jumps (live, as before). Drawn by `UI/ViewStage.cs` into the page.
+- **D2 Coordinates — done.** Type a seed (keyboard or D-pad digits), "Go to the coordinates"; checked: typed 24 -> Tulra-VI, on the map.
+- **D3 Distress calls — done.** A cleared, visited planet rolls every 3 h of real time (35 %): 1-3 new pilots (aliens by the usual rules,
+  cap 14), marked on the map, Control's "New distress calls…" (`ctl_distress`) and a debrief line at the next dock; no second clear bonus.
+  Checked with the clock moved 30 h: 3 new pilots, announced, jumped there, 3 waiting.
+- **E1 Viewer — done** (`Core/GameShell.Journal.cs`). An index of the five kinds; a page each: the model large and lit, turn (right stick /
+  right-mouse drag / hat: 132° in 1.2 s), zoom (triggers / Shift-Ctrl / wheel: 5.7 -> 2.0 m), animations idle / walk / run / attack /
+  shriek and its own (leap, stagger, climb, circle, sit); unmet: a black silhouette on grey, "Unknown".
+- **E2 Information — done.** Name, original lore (more after the 2nd meeting), behaviour, the tell hint (as before), record (met, killed,
+  killed you, first seen on <planet> (date)).
+- **E3 Pause menu — done** (time stopped; the creature still animates). Pictures r6e_*.
+- **Publish — done.** 0.6.0 = build 600, `game-600` Latest (the first attempt hit the draft-listing delay; `--resume-draft` finished it).
+  The `starter-200` package: "Updating to game 0.6.0… Updating the soundtrack… Update installed. Starting the game…", `versions/600`, exit 0.
+  New sounds (ElevenLabs; nothing played): hatch_burst, canopy_slam, power_dip, cabin_thump, feed_crackle; voices ctl_distress, ctl_upgrade. Clean-up: disk 3.2 GB -> 3.2 GB (starter-check folder removed, Library/BuildHistory cleared).
+
+**Decisions made:** an alien still aboard strikes before docking / the beam / running dry (it never reaches the mothership); the comparison
+uses a check-only `Trace` log; Shields' "more hits blocked" as above; distress calls pay no second clear bonus; the star map shows the 16
+most recent planets + today's + the next new one.
+**For Dan to check:** let a few aliens in: do you still see it coming, does the instant one make you jump? Wait at the door for a leap. Can
+you find the enemies now (brackets, lights, radar labels; is the radar too busy)? Upgrade prices and feel; is a 53 500 cr recovery with
+everything bought too harsh? The star map (planets are small in the picture) and distress calls. Turn and zoom an alien in the journal.

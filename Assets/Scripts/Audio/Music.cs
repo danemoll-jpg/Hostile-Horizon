@@ -178,7 +178,7 @@ namespace HostileHorizon
         void Update()
         {
             float dt = Time.unscaledDeltaTime;
-            Duck = Mathf.MoveTowards(Duck, Voices.I && Voices.I.Speaking ? .4f : 1f, dt * 1.5f);
+            Duck = 1 - (1 - Tuning.T.voiceDuckMusic) * Voices.DuckAmount;   // Fix 6.3: one duck for engine, wind, music and effects (Voices)
             // main track: a different one crossfades over 4 s (the old one moves to the old deck)
             if (Want != doneOnce) doneOnce = "";
             if (Want != main.track && (Want == "" || Want != doneOnce))
@@ -221,5 +221,19 @@ namespace HostileHorizon
         }
 
         public void PreLoad(params string[] tracks) { foreach (var t in tracks) Ready(t, out _); }
+
+        // Fix 6.3 (checks): the music's output level now, RMS of every deck's sources (AudioSource.GetOutputData; before the listener)
+        readonly float[] meter = new float[1024];
+        public float OutputRms()
+        {
+            double sum = 0; int n = 0;
+            foreach (var d in new[] { main, old, tension })
+                foreach (var a in d.src)
+                {
+                    if (!a.isPlaying) continue;
+                    for (int ch = 0; ch < 2; ch++) { a.GetOutputData(meter, ch); foreach (var v in meter) sum += v * v; n += meter.Length; }
+                }
+            return n > 0 ? Mathf.Sqrt((float)(sum / 2048)) : 0;   // the power of the sources playing together (each read over 1024 x 2 channels)
+        }
     }
 }

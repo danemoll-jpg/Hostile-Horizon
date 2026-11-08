@@ -15,10 +15,25 @@ namespace HostileHorizon
     //  - Cabin: from the cabin behind the cockpit (3D, through the bulkhead).
     // Subtitles (C4, Settings > Sound > Subtitles): the line's speaker and text while it plays, on the HUD and the cockpit's centre
     // display (FlightDisplays). Volume: Settings > Sound > Voices. Music ducks while a line plays (Music.Duck).
+    // Fix 6.3: every line ducks the engine, wind and music (and effects a little): DuckAmount, 0..1, eased in and out; the computer
+    // plays at the full Voices level (0.6.2: 90 %) from lines made clearer and even (Tools/process_computer_voice.py), and a short
+    // attention chime comes before each of its warnings (Warnings).
     public sealed class Voices : MonoBehaviour
     {
         public static Voices I { get; private set; }
         public bool Speaking => playing != null;
+        public static float DuckAmount { get; private set; }   // Fix 6.3: 1 while a line plays
+        // Fix 6.3: the computer's warnings (a chime first); its other lines (airlock, gear, shield, target down...) are plain
+        public static readonly HashSet<string> Warnings = new HashSet<string> { "cpu_pull_up", "cpu_energy_low", "cpu_return_now", "cpu_cant_reach", "cpu_hull_damage", "cpu_hull_critical", "cpu_locked_on", "cpu_saucer", "cpu_intruder", "cpu_whiteout" };
+        public float ComputerRms { get; private set; }   // checks: the computer source's output now
+        public bool Testing;   // Fix 6.3: Settings > Sound > Test voices plays even in the pause menu
+
+        // Fix 6.3: Settings > Sound > Test voices: one line each from Control, the computer (a warning, with its chime) and a pilot
+        public void Test()
+        {
+            StopAll(); Testing = true;
+            Say("ctl_launch_1", VoiceKind.Radio, 2, maxAge: 30f); Say("cpu_energy_low", VoiceKind.Computer, 2, maxAge: 30f); Say("p0_thanks_1", VoiceKind.Radio, 2, maxAge: 30f);
+        }
         public string Subtitle => GameSettings.S.subtitles && Time.unscaledTime < subtitleUntil ? subtitle : "";
         public static readonly List<string> Log = new List<string>();   // checks: every line started (time, id, kind, speaker, text)
         public string[] PilotNames { get; private set; } = new string[0];
@@ -29,7 +44,7 @@ namespace HostileHorizon
         readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
         readonly List<Req> queue = new List<Req>();
         Req playing; AudioSource radio, computer, spatial, crackle, click; AudioLowPassFilter spatialLp;
-        float endsAt, nextAt, subtitleUntil; string subtitle = ""; AudioClip clickClip, crackleClip;
+        float endsAt, nextAt, subtitleUntil; string subtitle = ""; AudioClip clickClip, crackleClip, chimeClip; readonly float[] meter = new float[512];
 
         public static Voices Create()
         {
@@ -44,7 +59,7 @@ namespace HostileHorizon
             var s = new GameObject("Spatial voice"); s.transform.SetParent(go.transform, false);
             v.spatial = s.AddComponent<AudioSource>(); v.spatial.spatialBlend = 1; v.spatial.minDistance = 3; v.spatial.maxDistance = 60; v.spatial.playOnAwake = false; v.spatial.dopplerLevel = 0;
             v.spatialLp = s.AddComponent<AudioLowPassFilter>();
-            v.crackleClip = Noise(); v.clickClip = Click();
+            v.crackleClip = Noise(); v.clickClip = Click(); v.chimeClip = Chime();
             v.crackle = go.AddComponent<AudioSource>(); v.crackle.clip = v.crackleClip; v.crackle.loop = true; v.crackle.spatialBlend = 0; v.crackle.playOnAwake = false;
             v.click = go.AddComponent<AudioSource>(); v.click.spatialBlend = 0; v.click.playOnAwake = false;
             v.ReadLines();
@@ -97,18 +112,21 @@ namespace HostileHorizon
         {
             float now = Time.unscaledTime;
             float vol = GameSettings.S.voiceVolume / 100f;
-            radio.volume = vol; computer.volume = vol * .9f; spatial.volume = vol; click.volume = vol * .35f; crackle.volume = playing != null && playing.kind == VoiceKind.Radio ? vol * .045f : 0;
+            DuckAmount = Mathf.MoveTowards(DuckAmount, playing != null && Time.timeScale > 0 ? 1 : 0, Time.unscaledDeltaTime * (playing != null ? 4f : 1.5f));
+            if (computer.isPlaying) { computer.GetOutputData(meter, 0); double q = 0; foreach (var x in meter) q += x * x; ComputerRms = Mathf.Sqrt((float)(q / meter.Length)); } else ComputerRms = 0;
+            radio.volume = vol; computer.volume = vol; spatial.volume = vol; click.volume = vol * .35f; crackle.volume = playing != null && playing.kind == VoiceKind.Radio ? vol * .045f : 0;
             if (playing != null)
             {
                 if (playing.kind == VoiceKind.Door || playing.kind == VoiceKind.Cabin) { if (playing.at) spatial.transform.position = playing.at.TransformPoint(playing.local); }
-                bool paused = Time.timeScale == 0;
+                bool paused = Time.timeScale == 0 && !Testing;
                 foreach (var a in new[] { radio, computer, spatial }) { if (paused && a.isPlaying) a.Pause(); else if (!paused) a.UnPause(); }
                 if (paused) { endsAt += Time.unscaledDeltaTime; nextAt += Time.unscaledDeltaTime; return; }
                 if (now < endsAt) return;
                 if (playing.kind == VoiceKind.Radio) { click.PlayOneShot(clickClip); crackle.Stop(); }
                 playing = null; nextAt = now + .35f; subtitleUntil = now + 1.2f;
             }
-            if (now < nextAt || queue.Count == 0 || Time.timeScale == 0) return;
+            if (Testing && playing == null && queue.Count == 0) Testing = false;
+            if (now < nextAt || queue.Count == 0 || Time.timeScale == 0 && !Testing) return;
             queue.RemoveAll(q => now - q.time > q.maxAge);
             if (queue.Count == 0) return;
             Req best = null; foreach (var q in queue) if (best == null || q.priority > best.priority || q.priority == best.priority && q.time < best.time) best = q;
@@ -128,7 +146,8 @@ namespace HostileHorizon
                     if (c) { radio.clip = c; radio.PlayDelayed(delay); }
                     break;
                 case VoiceKind.Computer:
-                    if (c) { computer.clip = c; computer.Play(); }
+                    if (Warnings.Contains(r.id)) { click.PlayOneShot(chimeClip, Tuning.T.voiceChime / Mathf.Max(.01f, click.volume) * vol(r)); delay = .42f; }
+                    if (c) { computer.clip = c; computer.PlayDelayed(delay); }
                     break;
                 default:
                     spatialLp.cutoffFrequency = r.kind == VoiceKind.Door ? 900 : 1800;
@@ -141,6 +160,20 @@ namespace HostileHorizon
             subtitle = (r.kind == VoiceKind.Door ? "<i>(through the hull)</i> " : r.kind == VoiceKind.Cabin ? "<i>(cabin)</i> " : "") + $"<b>{who}:</b> {line.text}";
             if (CheckRun.Active && Log.Count < 3000) Log.Add($"{Time.time:0.0} voice {r.id} [{r.kind}, p{r.priority}{(c ? $", {c.length:0.0} s" : ", no file")}] {who}: {line.text}");
             if (CheckRun.Active && Sfx.Played.Count < 4000) Sfx.Played.Add($"{Time.time:0.0} voice {r.id} ({r.kind})");
+        }
+
+        static float vol(Req r) => GameSettings.S.voiceVolume / 100f;
+
+        // Fix 6.3: two soft rising tones before a computer warning (made in code)
+        static AudioClip Chime()
+        {
+            int rate = AudioSettings.outputSampleRate, n = (int)(rate * .36f); var d = new float[n];
+            for (int i = 0; i < n; i++)
+            {
+                float t = i / (float)rate, f = t < .16f ? 880f : 1318.5f, t0 = t < .16f ? t : t - .16f;
+                d[i] = Mathf.Sin(t * 2 * Mathf.PI * f) * Mathf.Min(1, t0 * 200f) * Mathf.Exp(-t0 * 9f) * .6f;
+            }
+            var c = AudioClip.Create("computer chime", n, 1, rate, false); c.SetData(d, 0); return c;
         }
 
         // radio hiss (loops) and the click of the transmit key, made in code

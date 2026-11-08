@@ -224,7 +224,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   door: "PILOT AT AIRLOCK — press B to open" (the button for the device last used:
   `Controls.LastDevice`, `AirlockKey`), the lit AIRLOCK button over the centre display,
   KNOCK KNOCK KNOCK on the displays with each knock (a brighter knock sound).
-- **Fast-forward (Fix 2.5, Dan's ask):** hold A / Space / HOTAS trigger (the UI Submit action)
+- **Fast-forward (Fix 2.5, Dan's ask):** hold A / Space / HOTAS R1, the trigger (the UI Submit action)
   during an automatic part (launch, docking, tow, recall, the beam): it plays live at
   `fastForward` x (no cut, VR rule 5); flight is always back at normal speed. Lift from the
   ground into the bay about 10 s (0.2.4: 54 s), docking 19.5 s (0.2.4: 40-50 s), ~5 s with A held.
@@ -281,12 +281,17 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   subtitles), lines `Assets/Resources/Voices/<id>.mp3` + `lines.json` from `python Tools/make_voices.py [--only id|prefix_] [--force]`
   (ElevenLabs TTS, key never printed); Docs/VOICES.md lists every line. Control = Daniel, computer = River, 12 pilot voices (callsign =
   voice). Wired in `Core/GameShell.Audio.cs` (also the music state and the biome world). Mimic voice sign: `GameShell.MimicVoiceSign`.
-  Settings > **Sound**: Master, Music, Effects, Voices, Subtitles (On).
+  Settings > **Sound**: Master, Music (85 %), Effects, **Engine** (engine hum + wind, Fix 6.3), Voices, **Test voices** (Control, the
+  computer, a pilot; also from the pause menu), Subtitles (On). Fix 6.3: every line ducks engine + wind (`voiceDuckEngine` .6), music
+  (to x`voiceDuckMusic` .6) and effects (`voiceDuckEffects` .25) (`Voices.DuckAmount`); the computer plays at 100 % of Voices with a chime
+  before its 10 warnings (`Voices.Warnings`); its 18 lines are EQ'd, compressed and levelled to -16.5 LUFS by
+  `python Tools/process_computer_voice.py` (originals kept in `SourceArt/Voices/computer_raw/`: after `make_voices.py --force --only cpu_`
+  delete those and run it again). Mix tuning `engineMix` .55, `windMix` .5 (0.6.2: 1 / 1): music +4.6 dB over engine + wind at cruise.
 - **Self-righting (Round 5 Part A):** Flight assist Full / Light with Settings > **Auto-level** On (default): pitch and roll centred
   (any stick output past the deadzones counts as steering) for `rightDelay` .25 s, the ship rolls wings-level the short way (from upside
   down it keeps rolling the way it started) and eases its nose to the horizon (6° climb below 25 m), heading kept; the first stick input
   stops it. Rates: roll 120 / pitch 60 °/s at most, ease-out 3/s; Settings > **Righting speed** Slow x.65 / Normal / Fast x1.5; Full x1.3.
-  **Level-out button** (gamepad left-stick click, keyboard L, HOTAS R3 by default: Settings > Controls > HOTAS setup): x2, overrides pitch / roll until level (also on Flight assist Off). Landing mode rights the body at most `hoverRightRate`
+  **Level-out button** (gamepad left-stick click, keyboard L, HOTAS L1 by default: Settings > Controls > HOTAS setup): x2, overrides pitch / roll until level (also on Flight assist Off). Landing mode rights the body at most `hoverRightRate`
   140 °/s. `ShipController.RightStep`; `Moved` sources 5 (self-righting) and 6 (level-out). Graphics quality and Steam Deck moved to
   Settings > Display (12 rows at most). Check `-exeCheckOnly round5a` (`Checks/ExeCheck.Round5A.cs`, about 8 min).
 - **Enemies and difficulty (Round 5 Part B):** Campaign only. `Campaign/Enemies.cs` (placement from the seed + difficulty, turrets, saucers,
@@ -298,8 +303,8 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   ground, and tree crowns in the forest); saucers from a career's second planet on (patrol, chase on sight or when you land / hover within
   3 km, firing passes, kept above the rock and the forest). On Easy / Normal no turret sees a pilot's pad; Hard / Nightmare cover a share
   (`coveredPadShare`). Destroyed enemies stay destroyed per planet (`PlanetState.enemiesDown`). **Controls:** gun = held A / Space / left
-  mouse / HOTAS trigger (A still starts / stops the engines on the ground); shield toggle = D-pad left / Z / HOTAS R1; level out = left-stick
-  click / L / HOTAS R3 (Fix 6.1 layout). Difficulty: Campaign page "Difficulty (new career)" + "Difficulty options"; hangar "Difficulty: X". Presets
+  mouse / HOTAS R1, the trigger (A still starts / stops the engines on the ground; Fix 6.3: the gun works in Free Flight too); shield toggle =
+  D-pad left / Z / HOTAS R3; level out = left-stick click / L / HOTAS L1 (Fix 6.1 layout, Fix 6.3 names). Difficulty: Campaign page "Difficulty (new career)" + "Difficulty options"; hangar "Difficulty: X". Presets
   Easy / Normal / Hard / Nightmare / Custom; all numbers in the tuning file (tables `aggressionLevels`, `alienShareLevels`, `tellLevels`,
   `falseTellLevels`, `payLevels`, `coveredPadShare`, `preset*`; enemy, gun, shield and bounty numbers). Sounds `make_sounds.py`
   (gun_fire, turret_fire, saucer_fire, bolt_hit_*, shield_*, enemy_explosion, saucer_hum, lock_warning); voices `cpu_locked_on`,
@@ -326,19 +331,26 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
   device)` names a button for the device in use (`LastDevice`, switched only by a clear push); pad: Xbox names / colours, ☰ Menu, View;
   HOTAS: printed symbols (`HotasSymbols`, `hotasSymbolButtons` from "Identify your buttons"). HOTAS layout (`HotasActs`, assignable in
-  HOTAS setup, `hotasButtons`), by button number: 1 (the trigger, printed **R3** on Dan's unit, Fix 6.2) fire / select / hold fast-forward,
-  ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, hold SHARE recall, OPTIONS pause, 3 (R1, assumed) shield, 2 (**L1**, the blue
+  HOTAS setup, `hotasButtons`), by button number: 1 (the trigger, printed **R1**: Fix 6.3, Dan) fire / select / hold fast-forward (Fire and Submit follow R1 as identified: `Controls.FireButton`),
+  ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, hold SHARE recall, OPTIONS pause, 3 (**R3**, the back of the stick's head) shield, 2 (**L1**, the blue
   button on the stick head) level out, 10 (R2, assumed; sent nothing in Dan's log) belly camera, 9 (L2) route target, 4 (L3) cabin camera,
   hat look / menus, twist and the rocker yaw (the HOTAS puts both on rz), lever throttle.
   **Throttle lever (Fix 6.2):** Dan's T.Flight HOTAS 4 (PC mode, PID b67c) reports the lever as **z** (0 = fully forward), plus slider,
-  dial, rx, ry that never move. Auto (`GameSettings.throttleAxis` 0) starts on z and switches by itself to any other axis moved end to end
-  (never stick / twist), saved as `throttleAxisFound`; HOTAS setup > Find throttle lever does the same on request; a big live Throttle %
+  dial, rx, ry that never move. Auto starts on z and switches by itself to any other axis moved end to end (never stick / twist), saved as
+  `throttleAxisFound`; HOTAS setup > Find throttle lever does the same on request and learns the direction (`leverForwardIsMin`: the lever
+  is left fully forward); **no Throttle axis / Invert lever options** (Fix 6.3, Dan; 0.6.2's keys are dropped); a big live Throttle %
   over the setup picture; the ship's throttle = the lever from the first frame of flight (`ShipController.LeverTakesThrottle`; the pad's
   triggers take over while used). **Resets (Fix 6.2):** `GameSettings.ResetHotas / ResetFlight / ResetSound / ResetDisplay / ResetAll`
   behind Yes / No pages (`GameShell.Confirm`); never touch `career.json`. Calibration: asked first, then three steps (let go; each edge with
   four markers; the trigger); ○ / B / Esc cancels. The HOTAS picture: a front view + four close-ups (`ControlsSheet.DrawHotas`, positions in
   `SymbolAt`). Log a real HOTAS's HID axes and buttons: `python Tools/hotas_hid_log.py <seconds> --out <file>` (read-only; no window, no
-  sound). Check `-exeCheckOnly fix62` (about 3 min; `fix62pics` with `--size 1280x800`). Menus: `MenuPanel.NavReader` (dominant axis + lock); pages with more rows scroll (`Page.RowsShown`). Settings > Controls:
+  sound). Check `-exeCheckOnly fix62` (about 3 min; `fix62pics` with `--size 1280x800`). Menus: `MenuPanel.NavReader` (dominant axis + lock); pages with more rows scroll (`Page.RowsShown`). **Fix 6.3:** on the HOTAS the stick
+  only moves up / down in menus (0.6.2's sideways stick on HOTAS setup's rows changed Dan's throttle axis and button jobs); values change with
+  the hat's left / right or R1 on a row; button jobs only by "press a button". HOTAS setup is a live **Test view** (every axis and held
+  button with its job, held buttons lit). **Record my input (20 s)** (Controls and HOTAS setup; `Input/InputRecorder.cs`): every control of
+  every device, Unity's HID descriptor and each change with the game action it feeds, to `hotas_input_log.txt` beside `settings.json`; the
+  menu ignores buttons meanwhile. Check `-exeCheckOnly fix63` (about 5 min): a HID joystick built from Dan's descriptor, the cause replayed,
+  menus, the trigger in Free Flight / Campaign, the recorder, the mix. Settings > Controls:
   `Core/GameShell.ControlsPages.cs`, picture and list `UI/ControlsSheet.cs` (drawn in code). Check `-exeCheckOnly fix61` (about 1 min;
   `--extra=-hotasTrace <csv>` plays a recorded stick, `Data/screenshots/fix61/dan_updown_trace.csv`), `fix61pics` (pictures; use
   `--size 1280x800`), `input` (a real joystick's layout: a batch-mode run sees none, so log a real HOTAS with Windows' joystick calls).
@@ -389,7 +401,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -453,13 +465,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 6.3 (R1 is the trigger and fires, also in Free Flight; the cause of Dan's changed throttle axis and button jobs found: 0.6.2's
+HOTAS setup rows stepped with left / right and the menus took left / right from the stick, so a hand leaning on it changed them (replayed:
+exactly Dan's file); now the stick only scrolls and jobs change only by "press a button"; no Throttle axis / Invert lever options; a live
+Test view and Record my input; an Engine volume, a new mix (music +4.6 dB over engine + wind at cruise, was -3.0), voices ducking the rest,
+a levelled, louder computer with a warning chime, Test voices) is built, checked in the exe (headless, muted, `--only fix63`, `fix62` again)
+and published as 0.6.3 (`game-603` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet
+tried by Dan on the real HOTAS.** Details in `TODO.md` (Fix 6.3 delivery). **Next: Round 7**, to be written by the planning chat.
 **Fix 6.2 (the HOTAS throttle lever works: 0.6.1's Auto read the `slider` axis, which never moves on Dan's HOTAS, so the ship kept its 30 %
 start; the lever is z, now found by itself or by Find throttle lever, with a live Throttle % and the ship following it from the first frame;
 Reset HOTAS settings, Reset this page, Reset all settings, each asked first; calibration asked first and done in three plain steps; a new
 HOTAS picture with close-ups; button names from Dan's own unit) is built, checked in the exe (headless, muted, `--only fix62`, `fix62pics`
 at 1280 x 800) and published as 0.6.2 (`game-602` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from
-GitHub. Not yet tried by Dan on the real HOTAS.** Details and the cause in `TODO.md` (Fix 6.2 delivery). **Next: Round 7**, to be written
-by the planning chat.
+GitHub. Dan: the lever worked once its axis was set back.** Details and the cause in `TODO.md` (Fix 6.2 delivery). Fix 6.3 followed (above).
 **Fix 6.1 (menus with the HOTAS no longer change the option you leave: Dan's stick reads half-left when centred, now calibrated, and
 menus take the dominant axis with a lock; prompts name only the device in use's buttons, PlayStation symbols on the HOTAS, Xbox names and
 colours on the pad; Settings > Controls per device with a code-drawn HOTAS / pad picture; HOTAS setup: calibrate, identify your buttons,

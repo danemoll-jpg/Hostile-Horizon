@@ -168,105 +168,12 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 6.3: HOTAS trigger / R1 / R3, stray setting changes, an input recorder
+Current Objective — Round 7 (to be written by the planning chat)
 ---------------------------------------------------------------------------
 
-Fix 6.2 is delivered as 0.6.2 (status under "Previous deliveries"). Round 7
-(missions and more progression) comes after this fix.
-
-Dan (2026-11-08, PC, HOTAS, 0.6.2): "Throttle now stuck at 100 %, doesn't
-respond. Trigger also does nothing." Then: "R1 and R3 are reversed too... R1
-is the trigger. Neither of them shot, but maybe this is because I was in
-[Free Flight]?"
-
-What the planning chat found in Dan's own files (`%USERPROFILE%\AppData\
-LocalLow\Hostile Horizon\Hostile Horizon\settings.json`, 00:26):
-- `"throttleAxis": 5` = **"ry"**, an axis that never moves on his HOTAS, with
-  `invertThrottle` true -> a constant 100 %; `throttleAxisFound` is empty.
-  Default is 0 (Auto -> z). So the setting was changed — by a stray menu input
-  or by something in the game; find out which.
-- `"hotasButtons": [2,5,8,4,6,7,9,12,11,10,3]` vs the defaults
-  `[12,2,8,3,5,6,7,11,10,9,4]`: every job shuffled (Pause on L1, ...). Again:
-  stray input, the identify / assign step, or a settings-migration bug?
-- The gun only works in the Campaign (`GameShell.Enemies.cs`: `canFight`
-  needs `InCampaign`), so in Free Flight neither button could shoot — that
-  part is expected. The trigger itself is still to be proven working.
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Button names: R1 is the trigger.** Dan's unit: the stick's trigger is
-   **R1** (HID button 1) and **R3** is the other one Fix 6.2 called R1 (button
-   3, at the back of the stick's head). Swap them in `HotasSymbols` /
-   `DefaultSymbolButtons`, the picture, the identify step and every prompt.
-   Settings saved by 0.6.2 get the corrected names once.
-2. **Find what changed Dan's settings.** Reproduce with a virtual HOTAS: menu
-   navigation with the stick (and the twist / throttle / rocker moving at the
-   same time, as on a real HOTAS while you hold it), the identify / assign /
-   calibrate / Find steps, the resets, and loading 0.6.1 / 0.6.2 settings.
-   Report which one produced `throttleAxis` 5 and the shuffled `hotasButtons`,
-   and fix it.
-3. **No accidental changes on the HOTAS.** On the HOTAS, the **stick only moves
-   up / down through menus; values change only with the hat (left / right)**,
-   or by pressing the select button on a row to step it. The twist, rocker and
-   throttle never touch menus. Values that are easy to break (Throttle axis,
-   Invert lever, button jobs) only change through their setup steps (Find
-   throttle lever, Assign: "press a button"), never by left / right.
-4. **The trigger fires** (Campaign). Prove it with what Unity actually sees from
-   a real HID joystick's first button: Fire's HOTAS binding should follow the
-   identify step's R1 (button 1) like the other jobs, not rely on the
-   `<Joystick>/trigger` name alone; same for Submit. In **Free Flight the gun
-   works too** (no enemies there; the shots hit the ground with sparks and cost
-   energy as normal), so the controls can be tried anywhere.
-5. **Input recorder (for support).** HOTAS setup (and the gamepad / keyboard
-   pages): **Record my input (20 s)**: writes every control of every connected
-   device as Unity's Input System sees it (name, path, value at each change,
-   which game action it fed) to `hotas_input_log.txt` beside `settings.json`,
-   and says where. The planning chat can read that file on Dan's PC, so a
-   problem can be found from real data next time.
-6. **HOTAS "Test" view:** on the setup page, every button lights on the picture
-   while held and every axis shows its live value, with the game action it
-   does now (so Dan can check the trigger, R1 / R3, the rocker at a glance).
-6b. **No throttle-axis option at all** (Dan, 2026-11-08, after setting it back
-   fixed the throttle: "Why I would want to [change] this I have no idea. I
-   prefer it to not even be an option."). Remove **Throttle axis** and
-   **Invert lever** from every settings page. The lever is found automatically
-   (Auto: z, else the axis moved end to end; never the stick or twist) and its
-   direction is learnt automatically (forward = more throttle). Keep only the
-   **Find throttle lever** step inside HOTAS setup as a recovery tool, and
-   Reset HOTAS settings. Old saved values for these two are ignored and
-   dropped.
-6c. **Sound mix: hear the music over the engines** (Dan, 2026-11-08: "I can't
-   even hear the music over the engines"). Settings > Sound already has Master
-   / Music / Effects / Voices (Round 4); add an **Engine** slider of its own
-   (engine hum, wind, thrusters), and rebalance the defaults so the flight
-   music is clearly heard over the engine at cruise (engine and wind lower,
-   music higher in flight; voices still on top). Report the before / after
-   levels (measured, muted runs: log the mixer levels, no audible run).
-6d. **An audible ship's computer** (Dan, 2026-11-08: "couldn't hear the
-   computer at all, is this even voiced?"). It is voiced (18 ElevenLabs lines,
-   `Assets/Resources/Voices/cpu_*.mp3`, played 2D at 0.9 x Voices), but it is
-   buried under the engine and wind, and Round 4 only ducks the *music* under
-   voices. Fix: **every voice line ducks the engine, wind and music** (and
-   effects a little) while it plays; the computer's voice gets a clear,
-   present treatment (light compression / EQ so it cuts through, a short
-   attention chime before warnings); check the loudness of all 18 computer
-   lines against each other (normalise them). Add **Test voices** in Settings >
-   Sound: plays one line each from Control, the computer and a pilot, at the
-   current levels (the one place a check may play sound: follow the testing
-   rule). Report which computer lines can fire in Free Flight vs the Campaign.
-7. **Check (muted, no focus):** the cause found in 2, reproduced and fixed; stick
-   menu navigation with a leaning stick and moving twist / throttle changes no
-   value; the hat changes values; a virtual HOTAS's button 1 fires in the
-   Campaign and in Free Flight; the recorder writes a readable file; pictures of
-   the Test view and the corrected R1 / R3.
-8. **Publish as 0.6.3**, update `TODO.md` (per-item status, the cause from 2)
-   and `CLAUDE.md`, commit and push.
-
-**For Dan to check:** the Throttle axis / Invert lever options are gone and the
-lever just works. The new Engine volume slider and the default mix: can you hear
-the music now, and the computer's warnings (try Settings > Sound > Test voices)? Move through Settings with the stick: nothing changes unless
-you use the hat. Pull R1 (the trigger) in Free Flight: does the gun fire? Then
-press **Record my input** and move everything, so the planning chat can check
-the file.
+Fix 6.3 is delivered as 0.6.3 (status under "Previous deliveries"). Round 7
+(missions and more progression, queued below) is next, once the planning chat
+writes it.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -294,6 +201,58 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 6.3 — HOTAS trigger / R1 / R3, stray setting changes, an input recorder, the sound mix (2026-11-08). Published: 0.6.3
+(`game-603`, Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-08 01:47. Evidence `Data/screenshots/fix63/`: `run7/` (the
+check `--only fix63`: `exe_check.txt`, pictures, the recorder's `hotas_input_log.txt`), `fix62_regression/` (`--only fix62` again: all OK),
+`launcher/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal. The check's HOTAS is a HID joystick built from Dan's own
+HID descriptor, so Unity's HID support names its controls exactly as for his unit (`trigger`, `button2`..`button12`, `stick`, `z`, `hat`...).
+- **0 Commit first — done** (`9d75f72`).
+- **1 R1 is the trigger — done.** `DefaultSymbolButtons` now R1 = button 1, R3 = button 3 (the back of the stick's head); the picture
+  (R1 on the trigger, R3 on the head), Identify, every prompt. Settings still on 0.6.2's default names get the new ones once (`version` 4).
+- **2 What changed Dan's settings — found and fixed. Cause:** on 0.6.2's HOTAS setup page the Throttle axis, Invert lever and all 11
+  button-job rows changed with **left / right**, and the menus took left / right from the **stick** too. A hand resting on the stick leans it
+  sideways while scrolling. Replaying that through 0.6.2's own menu rules (two left steps on Throttle axis, two on Invert lever, a held lean on
+  Level out (8 steps), one left on Camera view, one right on Shield) gives **exactly** Dan's 00:26 file: throttle axis `ry` (5), invert
+  true, jobs `[2,5,8,4,6,7,9,12,11,10,3]`. The other suspects don't: loading 0.6.1 / 0.6.2 / Dan's file never changes jobs, Identify only
+  changes names, Assign one job, Calibrate the calibration, Find the lever, the resets give the defaults. Fixed by 3 and 6b.
+- **3 No accidental changes — done.** On the HOTAS the stick only moves up / down in menus; values change only with the hat's left / right
+  or a press of R1 (select) on a row. Twist, rocker and lever never touch menus. Button jobs have no left / right at all (only "press a
+  button"). Check: the same leaning-stick trace with twist and lever moving, live on HOTAS setup: selection moved 15 times, **settings
+  unchanged**; stick held right 1 s on Flight assist: no change; hat right / R1 / hat left: Light / Off / Full; hat down moves a row.
+- **4 The trigger fires — done.** Fire and Submit's HOTAS bindings follow R1 as identified (`Controls.FireButton`; Unity names HID button 1
+  `trigger`). Free Flight has the gun now (no enemies; shots spark on the rock and cost energy). Check: HID button 1 held 1 s = 7 shots in
+  Free Flight and 7 in the Campaign.
+- **5 Input recorder — done.** Settings > Controls and HOTAS setup: **Record my input (20 s)** writes every control of every device (the
+  device list with Unity's HID descriptor, then each change: time, device, path, value, the game actions it feeds) to
+  `hotas_input_log.txt` beside `settings.json` and says where. Buttons don't act on the menu while it records. Check: 1 507 changes,
+  `trigger pressed -> Flight/Fire, UI/Submit`, `button3 pressed -> Flight/Shield`.
+- **6 Test view — done.** HOTAS setup always shows the live Test readout (stick, twist / rocker, lever, hat, each with its job; held
+  buttons with their job) and lights every held button on the picture. Holding R1 on a row also selects it, so the page says to use Record
+  my input to try buttons freely. Pictures `fix63_test_view_R1_held.png`, `_R3_held.png`, `fix63_controls_hotas.png`.
+- **6b No throttle-axis option — done.** Throttle axis and Invert lever are gone from every page; 0.6.2's saved values are ignored and
+  dropped. The lever is found by itself (z, else the axis moved end to end), forward = full; Find throttle lever learns the direction
+  (you leave the lever fully forward) and Reset HOTAS settings stay.
+- **6c Sound mix — done (2 tuning tries; numbers for Dan).** Settings > Sound > **Engine** (engine hum + wind, 100 %). Defaults: music 70
+  -> 85 % (0.6.2's untouched 70 becomes 85 once), tuning `engineMix` .55, `windMix` .5 (was 1 / 1). At cruise (383 km/h, 80 %): engine +
+  wind -5.9 dB, music +1.7 dB: music vs engine + wind **-3.0 dB -> +4.6 dB** (try 1, windMix .6: +4.5). The music's level comes from the
+  track files (-16 dB RMS, all four flight tracks): a muted run doesn't render the music, so it can't be metered live.
+- **6d Audible computer — done.** Every voice line ducks engine + wind (-8.6 dB measured), music (x.6, -4.4 dB) and effects (x.75).
+  The 18 computer lines: EQ + light compression + levelled (`Tools/process_computer_voice.py`; originals kept in
+  `SourceArt/Voices/computer_raw/`): **-31.1 .. -24.5 LUFS (6.6 LU apart) -> -16.7 .. -16.4 LUFS**, played at 100 % of Voices (was 90 %).
+  A two-tone chime before its 10 warnings. **Test voices** (Settings > Sound) plays Control, the computer and a pilot, also from the pause
+  menu (check: all three logged, muted). In Free Flight the computer can say only `cpu_pull_up` and `cpu_whiteout` (Ice blizzards); every
+  other line is Campaign only (energy, return / can't reach, hull, gear, airlock, pilot aboard, cabin full, intruder, engines off, locked
+  on, saucer, shield up / down, target down).
+- **7 Check — done** (`-exeCheckOnly fix63`, about 5 min). **8 Publish — done:** 0.6.3 = build 603, `game-603` Latest; a fresh `starter-200`
+  install updated to `versions/603`, exit 0. Clean-up: disk see the round report.
+
+**Decisions made:** the gun works in Free Flight (no enemies there); the Test view shows all the time on HOTAS setup; buttons are tried
+freely under Record my input (R1 is select on the page itself); the music meter uses the files' level.
+**For Dan to check:** the Throttle axis / Invert lever options are gone and the lever just works. Scroll Settings with the stick: nothing
+changes unless you use the hat. Pull R1 in Free Flight: does the gun fire? Can you hear the music over the engine now (try the Engine
+slider), and the computer (Settings > Sound > Test voices)? Then **Record my input** in HOTAS setup and move everything, so the planning
+chat can read `hotas_input_log.txt`.
 
 **Fix 6.2 — HOTAS reset to defaults, the throttle lever, clear calibration, an accurate HOTAS picture (2026-11-07). Published: 0.6.2
 (`game-602`, Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-07 21:36. Evidence `Data/screenshots/fix62/`: `hid_descriptor.txt`
@@ -381,71 +340,6 @@ Calibrate stick once (then the ship shouldn't roll with the stick let go), and I
 the controller? Thrustmaster's own fix for the off-centre stick may be to unplug / replug it without touching the stick; if it then reads
 centred, run Calibrate stick again.
 
-**Round 6 — jump scare, easier-to-find enemies, upgrades, star map, Field Journal viewer (2026-11-07). Published: 0.6.0 (`game-600`,
-Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-07 02:10 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round6/`:
-`partA/` .. `partE/` (`--only round6a` .. `round6e`), `final/` (`--only round6`: the evidence for A, B and E; C and D read x1.00 / timed
-out there because Part A's deaths leave the check flying the loaner, which correctly has no upgrades: their own runs are the evidence),
-`launcher/`. Every run headless, muted (output 0.000 RMS from the first frame), no window, Below Normal. Commits: `56d00e9` planning,
-`bf9faa4` A, `e6f7eb3` B, `4dbaeef` C, `7bf628e` D, `98449c3` E (all five parts were written before the first build, so the A commit
-already holds B-E code; each part was then checked and fixed in turn).
-- **A0 Commit first — done.** **A1 Boards like a pilot — done.** An alien let in walks in, "Pilot 1 aboard (1 / 6), brought 7 % energy",
-  chime, thanks line, cabin count, a seat, music unchanged, full control (`PilotBoarded`; `Core/GameShell.Strike.cs`).
-- **A2 Strike — done.** Seeded per alien: instant 40 % (1-4 s after the airlock shuts), take-off 35 % (2-6 s after lift-off, or a turn
-  over 70 °/s), slow burn 25 % (8-40 s of flight; the old long sequence). Instant / take-off: hatch slam and burst, at your face in ~0.4 s,
-  the lunge, death at 1.9 s; music cut, sting and scare sounds **on** the strike; INTRUDER, lights out and alarm 0.35 s **after** it. An
-  alien still aboard strikes before docking / the beam / running dry. Over 600 planets: 40 / 35 / 25 %, mean 2.5 s / 4.0 s / 24 s.
-- **A3 Canopy leap — done.** 50 % leap (5-15 s at the door) / 50 % the slow climb (25 s); the leap: 0.3 s from the ground onto the glass,
-  `canopy_slam`, view shake; engines throw it off (checked: leapt at 7.6 s, thrown off, bounty).
-- **A4 Red herrings — done.** Per boarding, real pilots and aliens alike (seeded per pilot): flicker 12 % (two short flickers +
-  `power_dip`), thump 15 % (`cabin_thump`), crackle 12 % (the cabin feed stutters + `feed_crackle`); never the full lights-out.
-- **A5 Fair — done** (tells, voice sign, Sleeper unchanged). **A6 VR rule 5 — done** (no camera takeover or fade; the creature comes at you).
-- **A7 Check — done.** Event-log comparison (sounds, stings, music, voices, messages, cabin lights; HUD / displays / controls / airlock /
-  creature state), B pressed to the strike: **instant 16 / 16 events IDENTICAL, take-off 20 / 20 IDENTICAL**; the first alien-only event is
-  the strike itself (7.45 s / 9.48 s after B). Slow burn struck 22 s after lift-off. Pictures r6a_*_strike_0.1s / 0.5s / 1.0s.
-- **B1 Radar — done.** Turrets within 3 km and saucers within 6 km on the radar unspotted, labelled "TURRET 1.4 km" / "SAUCER 1.9 km"
-  (every biome: every enemy in range on the radar at launch).
-- **B2 Brackets — done** (`UI/TargetBrackets.cs`, in the world): enemies in sight within 2.5 km, "TURRET 1.9 km", the nearest / locked
-  one brighter ("LOCKED ON").
-- **B3 Visible from afar — done.** Blinking red warning light on turrets and saucers (0.008 m per m: ~16 m at 2 km), muzzle flash
-  (0.009), enemy bolts' glow kept readable (0.006) with a 0.12 s trail. Accuracy, fire rate and aggression unchanged.
-- **B4 Check — done.** Cockpit pictures at 2 km and 1 km, turret and saucer, all four biomes (r6b_*): bracket and light in every one. First
-  run: labels too small and the light read white; fixed (bigger labels, saturated red).
-- **C1 Shop — done** (hangar > Upgrades; `Core/Upgrades.cs`, `GameShell.Upgrades.cs`). Prices (cr): Engine 6500 / 10500 / 16000, Hull
-  6000 / 9500 / 14500, Shields 6000 / 9500 / 14500, Energy 6500 / 10500 / 16000, Radar 5500 / 8500 / 13000, Cabin 7000 / 12000 (6 -> 8 -> 10),
-  Gun 6000 / 9500 / 14500. Steps a level: engine +8 %, hull +25 %, shield drain -20 % and +1 m catch radius, energy capacity +20 %, radar
-  reach +30 % and exact bearings +1 km, gun rate +20 % / damage +25 %. Shields' "more hits blocked" = the same energy blocks for longer and
-  a wider shell catches near misses (it already blocked every hit it caught).
-- **C2 Value — done.** Ship value 6000 + the prices paid; recovery 1500 + 25 %: no upgrades 3000 cr, everything 53 500 cr. Loaner: none.
-  Saved in `career.json` (`ship.upgrades`).
-- **C3 Visible — done.** Seat cushions per seat (the cabin camera shows 8 / 10), a radar bezel ring, extra reticle rings (Gun), whiter
-  nozzle glow (Engine), a stronger, larger shield shell.
-- **C4 Balance — done.** Normal, all pilots, 4 sorties at 40 %: 5020 cr after planet 1, 7540 after planet 2; cheapest level 5500: after two
-  planets. All levels vs none, measured in flight: top speed 450 -> 558 km/h, hover climb x1.13, flight drain x0.63, shield drain 2.0 -> 0.8
-  %/s, a 10 % hit 10 -> 5.7 %, gun 6.0 -> 9.7 shots/s, enemy radar reach 3000 -> 5700 m, cabin 6 -> 10 (10 pilots seated).
-- **D1 Star map — done** (replaces the planet list; hangar "Star map · Planets"): the star, every visited planet, today's and the next
-  undiscovered one in biome colours with status (★ of the day, cleared, waiting, DISTRESS) and danger (tier, difficulty, turrets / saucers
-  left, or an estimate); the selected row is ringed on the map; A jumps (live, as before). Drawn by `UI/ViewStage.cs` into the page.
-- **D2 Coordinates — done.** Type a seed (keyboard or D-pad digits), "Go to the coordinates"; checked: typed 24 -> Tulra-VI, on the map.
-- **D3 Distress calls — done.** A cleared, visited planet rolls every 3 h of real time (35 %): 1-3 new pilots (aliens by the usual rules,
-  cap 14), marked on the map, Control's "New distress calls…" (`ctl_distress`) and a debrief line at the next dock; no second clear bonus.
-  Checked with the clock moved 30 h: 3 new pilots, announced, jumped there, 3 waiting.
-- **E1 Viewer — done** (`Core/GameShell.Journal.cs`). An index of the five kinds; a page each: the model large and lit, turn (right stick /
-  right-mouse drag / hat: 132° in 1.2 s), zoom (triggers / Shift-Ctrl / wheel: 5.7 -> 2.0 m), animations idle / walk / run / attack /
-  shriek and its own (leap, stagger, climb, circle, sit); unmet: a black silhouette on grey, "Unknown".
-- **E2 Information — done.** Name, original lore (more after the 2nd meeting), behaviour, the tell hint (as before), record (met, killed,
-  killed you, first seen on <planet> (date)).
-- **E3 Pause menu — done** (time stopped; the creature still animates). Pictures r6e_*.
-- **Publish — done.** 0.6.0 = build 600, `game-600` Latest (the first attempt hit the draft-listing delay; `--resume-draft` finished it).
-  The `starter-200` package: "Updating to game 0.6.0… Updating the soundtrack… Update installed. Starting the game…", `versions/600`, exit 0.
-  New sounds (ElevenLabs; nothing played): hatch_burst, canopy_slam, power_dip, cabin_thump, feed_crackle; voices ctl_distress, ctl_upgrade. Clean-up: disk 3.2 GB -> 3.2 GB (starter-check folder removed, Library/BuildHistory cleared).
-
-**Decisions made:** an alien still aboard strikes before docking / the beam / running dry (it never reaches the mothership); the comparison
-uses a check-only `Trace` log; Shields' "more hits blocked" as above; distress calls pay no second clear bonus; the star map shows the 16
-most recent planets + today's + the next new one.
-**For Dan to check:** let a few aliens in: do you still see it coming, does the instant one make you jump? Wait at the door for a leap. Can
-you find the enemies now (brackets, lights, radar labels; is the radar too busy)? Upgrade prices and feel; is a 53 500 cr recovery with
-everything bought too harsh? The star map (planets are small in the picture) and distress calls. Turn and zoom an alien in the journal.
-
 ---------------------------------------------------------------------------
 Technical Notes / Blockers
 ---------------------------------------------------------------------------
@@ -459,7 +353,8 @@ Technical Notes / Blockers
 - The HOTAS 4 shows up to the Input System as a HID joystick (VID 044F, PID B67C in PC mode, red light). Fix 6.1, logged on Dan's
   unit: X / Y 16-bit with logical 0..1023 (X rests at 258 and reaches 0..686: calibrated in code), Z, Rx, Ry, Rz, slider, dial 8-bit, a hat
   (0..7, null = centre), 12 buttons. `<Joystick>/stick` -> the `HotasStick` action (calibrated, `Controls.HotasStick`); `/twist` and `/rz`
-  yaw; the throttle lever per the HOTAS setup picker (Dan picked `ry`); `/hat` look and menus; `/trigger` fire / select; the other
+  yaw; the throttle lever `z` (found by itself, Fix 6.2 / 6.3; no option); `/hat` look and menus (left / right change values); the
+  stick only moves up / down in menus (Fix 6.3); `/trigger` (HID button 1, printed R1) fire / select; the other
   buttons by symbol (`Controls.HotasActs`, `DefaultSymbolButtons`). A batch-mode game sees no real joystick: log a real one through
   Windows' joystick / HID calls.
 - The launcher self-check needs the game to close itself in its hidden batch run
