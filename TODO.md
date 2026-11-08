@@ -168,19 +168,126 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — none: Round 7 delivered (0.7.0, below); Round 8 to be written by the planning chat
+Current Objective — Round 8: the creature in front of the screens (A), polish (B), VR (C)
 ---------------------------------------------------------------------------
 
-Round 7's text as planned is in `TODO-ARCHIVE.md` (word for word). Its delivery is the first of "Previous deliveries".
+Round 7 is delivered as 0.7.0 (status under "Previous deliveries"). Dan
+(2026-11-08): the alien in the cockpit "is not transparent [now]; however they
+appear behind the screens instead of in front." Then: polish (queued as
+Round 8). One publish at the end: **0.8.0**; Part B runs in stages with STOPs
+for Dan (his art pipeline).
+
+**Part A — the creature in front of the screens**
+
+A0. **Commit first** (the repo as it is, with this text).
+A1. Find out with pictures and data what draws over the creature during the
+    strike / canopy: the flat-screen HUD overlay (a screen-space canvas, always
+    on top), the cockpit's world-space displays (their UI shader's ZTest /
+    render queue), the belly / cabin camera feeds, the glass, or the creature
+    really being placed behind the dash. Report the cause.
+A2. Fix so **the creature is always drawn in front of anything between it and
+    the player's eyes:** world-space displays z-test against it like solid
+    objects; at the strike the flat HUD overlay, subtitles and prompts hide
+    (they come back for the death screen); the creature is placed between the
+    player and the dash, never inside it. Same on the canopy (outside the glass,
+    in front of the sky, the displays inside the cockpit stay in front of it
+    only where they really are nearer).
+A3. **Check:** cockpit pictures of each creature at the strike and on the
+    canopy, with the HUD on and off, before / after, that Code looks at and
+    describes. Commit Part A.
+
+**Part B — polish**
+
+B1. **Art pipeline (Dan's standing way, `Docs/MODELS-NEEDED.md`; STOP for Dan
+    at each step):** new models for the **ship's exterior**, the **cockpit
+    interior** (detailed, believable, built for VR: switches, panels, seat,
+    canopy frame; the displays, glass floor and cameras keep working), the
+    **mothership** and its **hangar bay**, the **turret** and the **saucer**.
+    Code writes the concept-image prompts (STOP), Dan makes the images, Code
+    makes the models with the Meshy API and cleans them up in Blender (LODs,
+    collision shapes kept simple; the cockpit's layout must match `ShipLayout`
+    or update it) and shows renders (STOP), then puts them in the game. No
+    Mixamo needed (no characters), unless Code finds something that needs
+    rigging.
+B2. **Sound pass:** every ship and world sound checked and improved where weak
+    (engine at idle / cruise / boost, landing gear, airlock, hover, docking,
+    the jump, the regeneration bay, biome ambiences: forest, city, ice, lava,
+    crystal, ocean), ElevenLabs where new; levels balanced with the Round 6.3
+    mix. Muted checks with logged levels; any audible step brief and reported.
+B3. **Steam Deck tuning:** frame rate in every biome on the Deck setting at
+    1280 x 800 (target 40+ fps, 1 % lows reported), lighter settings where it
+    misses; text sizes readable on the Deck; the controls pages fit.
+B4. **Credits:** a proper credits screen (Dan; the tools: Unity, Blender, Meshy,
+    Mixamo, Suno, ElevenLabs; third-party licences from `Launcher/vendor` and
+    any CC0 assets; Code / the planning chat as tools).
+B5. **Check:** pictures of every new model in game (cockpit view, chase view,
+    hangar), frame rate before / after, the Deck setting's numbers.
+
+**Part C — VR** (Dan, 2026-11-08: "let's go ahead and wrap VR into this
+round"). PC VR first: Quest 3 through **Virtual Desktop** (and SteamVR), via
+OpenXR. Native Quest is decided later. The VR-ready rules in `CLAUDE.md` were
+followed from Round 1, so this should be wiring, not rebuilding. Best done after
+Part B's new cockpit is in, so the cockpit is checked once in VR.
+
+C1. **OpenXR:** add Unity's OpenXR plugin + XR Plugin Management (versions that
+    fit Unity 6000.6.1f1), PC Standalone only. The same exe plays flat or VR.
+C2. **Starting in VR, never by accident:** a **VR mode** setting (Off by default)
+    and **`-vr`** on the command line; `Play Hostile Horizon (VR).bat` in the
+    repo root; the launcher passes `-vr` through when asked. With VR on and no
+    headset / runtime found, say so and start flat (never hang, never force
+    SteamVR open when VR is off). The Steam Deck build is unaffected (VR off).
+C3. **Seated cockpit, head-tracked:** the camera rig's head follows the
+    headset at 1:1 inside the cockpit (seated reference, the eyes at the seat's
+    eye point); **Recenter** (a button on HOTAS / gamepad, and in the pause
+    menu); the player's head can lean and look through the canopy, the glass
+    floor and back at the cabin hatch. Only the cockpit view in VR (the chase
+    / landing views are flat-screen only); the belly / cabin cameras stay on the
+    cockpit displays.
+C4. **No screen overlay in VR:** everything the flat HUD shows is already on
+    the cockpit displays (VR rule 2); subtitles, prompts and warnings move to a
+    world-space strip under the canopy frame; menus (title, pause, hangar, star
+    map, Field Journal with the rotatable 3D alien, settings) show on a
+    world-space panel in front of the seat, driven by HOTAS / gamepad /
+    keyboard as now. Motion controllers are optional this round: if they're
+    easy, a laser pointer for menus; not required.
+C5. **Comfort and realism (Dan's rule, VR rule 5):** realism by default: no
+    vignette, no fades, no snap anything, the docking, tow, jump and horror all
+    live. A **Comfort** settings group exists with every option **Off by
+    default** (vignette when turning hard, fade instead of the jump, a
+    horizon line). The ship's self-righting and Auto-level apply as on the flat
+    screen.
+C6. **The scares in VR:** the canopy creature and the strike staged for real
+    stereo depth (the 0.42 m minimum distance from Round 7 kept; the creature
+    solid and lit; the cabin hatch behind the left shoulder so turning your head
+    to the noise works). Spatial sound for the creature, the knocks and the
+    cabin.
+C7. **Performance:** the 1660 Ti must hold the headset's rate through Virtual
+    Desktop (72 Hz target, 90 if it can): single-pass instanced rendering, a
+    **VR quality** preset (render scale, shadows, view distance, effects, the
+    densest biomes thinned), no expensive full-screen effects; report frame
+    times per biome. Text in the cockpit and on panels readable in the headset
+    (sizes in metres, not pixels).
+C8. **Check (muted, no focus; Code can't wear the headset):** with OpenXR's
+    **mock runtime**: VR starts, the head moves the view 1:1, Recenter, menus
+    on the panel, no overlay, the strike and canopy staged in both eyes'
+    pictures (Code looks at the left / right images), frame times with the VR
+    quality preset in every biome; VR off by default and with no runtime starts
+    flat. **For Dan to check** (only he has the headset): everything above in
+    the Quest 3 through Virtual Desktop.
+
+**End of the round:** publish **0.8.0**, update `TODO.md` (per-item status for
+A1-A3, B1-B5 and C1-C8: done / not done / deferred and why; the cause from A1) and
+`CLAUDE.md`, clean up, commit and push.
+
+**For Dan to check:** the creature at the strike: in front of everything? The
+new ship, cockpit, mothership, turrets and saucers. The sound. The Deck. Then
+VR: `Play Hostile Horizon (VR).bat` with Virtual Desktop running on the Quest 3:
+the cockpit, the menus, the scares, the frame rate.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 8 — Polish (Dan, 2026-11-08: next after Round 7):** the ship, cockpit,
-  mothership, turrets and saucers made through Dan's art pipeline (concept art
-  -> Meshy -> Blender clean-up; cockpit detailed for VR), a sound pass, Steam
-  Deck tuning, credits.
 - **Round 9 — Missions and more progression:** mission objectives (recover a
   flight recorder, knock out a turret cluster, timed rescues, no-damage runs),
   recovering your own wreck yourself, insurance, best run per planet.
@@ -188,10 +295,6 @@ Next Steps — queued rounds (Do Not Start Yet)
   them; not decided against): turrets that hit a moving ship sometimes on
   Normal, saucers that hunt, more fire. Round 5's tuning note
   (`turretLead`, `turretAimError`, `boltHitRadius`) applies.
-- **Round 10+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
-  head-tracked cockpit, world-space menus, comfort options (all OFF by
-  default: no snap turn, no fades, no vignette; Dan wants realism), VR performance
-  pass. Native Quest decided afterwards.
 - **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
   After Round 9 unless Dan moves it.
 
