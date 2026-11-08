@@ -168,10 +168,83 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 9 (to be written by the planning chat)
+Current Objective — Fix 8.1: VR right eye, the pilot's body and hands, a real floor window
 ---------------------------------------------------------------------------
 
-Round 8 is delivered as 0.8.0 (status under "Previous deliveries"). The planning chat writes the next round here.
+Round 8 is delivered as 0.8.0 (status under "Previous deliveries"). Round 9
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-08, Quest 3 through Virtual Desktop, 0.8.0):
+- "You can see the cockpit in both eyes but the scenery is only in the left
+  eye. Scenery in the right eye is blue."
+- "Is it possible to show the body and the hands of the pilot?"
+- "There is a hole in the floor, which I think would be fine except it is all
+  jagged instead of looking like a window."
+
+Cause of the first, found by the planning chat: OpenXR is set to **single-pass
+instanced** (`Assets/XR/Settings/OpenXR Package Settings.asset`
+`m_renderMode: 1`), and **none of the game's own shaders support it**: Rock,
+Prop, Sky, Liquid, Glass, Glow, GlowAdd, Particle and Shaft in
+`Assets/Resources/Shaders/` have no stereo-instancing macros, so they draw
+only into the left eye; the right eye shows the clear colour (blue). The
+cockpit uses URP's own shaders, which is why it shows in both eyes. Round 8's
+mock-runtime check didn't catch it: its pictures must compare both eyes.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Both eyes see everything.** Make every custom shader single-pass-instanced
+   safe (`UNITY_VERTEX_INPUT_INSTANCE_ID`, `UNITY_VERTEX_OUTPUT_STEREO`,
+   `UNITY_SETUP_INSTANCE_ID`, `UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO`,
+   `UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX` and stereo-aware screen /
+   depth sampling where used, e.g. Glass, Shaft, Liquid, fog), and check any
+   other custom rendering (render textures, command buffers, screen-space
+   effects, the belly / cabin camera feeds, particles, the GPU-instanced trees
+   / buildings / crystals) in single-pass instanced. Keep single-pass instanced
+   (it's the fast path the 1660 Ti needs). **Check:** with the mock runtime,
+   the left and right eye images of every biome, the sky, water / lava, glass,
+   the route trail, shots, particles and the mothership bay: the same scene in
+   both (allowing for eye offset); Code compares them pixel-wise (no blank /
+   one-colour eye) and looks at them.
+2. **The pilot's body and hands** (VR and the flat cockpit view).
+   - The player sits as a pilot in the seat: the corps flight suit (the pilot
+     model from Fix 3.1, its suit / gloves), seated, legs on the floor /
+     pedals, torso against the seat; **no head** in the player's own view
+     (VR: the head is the headset; flat screen: the camera is the head).
+   - **Mirror the seat's controls to match the HOTAS** (Dan, 2026-11-08: the
+     Meshy seat has the throttle on the right and the stick on the left; his
+     HOTAS is the other way round). Mirror the seat / consoles (or move the
+     controls) so the **stick is on the right and the throttle on the left**,
+     exactly where his hands are on the real HOTAS. Mirror cleanly (normals,
+     UVs, any text or markings must not read backwards) and update `ShipLayout`
+     and anything placed on the seat or consoles (screens, buttons, the cabin
+     hatch side if it depends on it).
+   - **Hands on the controls, following the real input:** the right hand on
+     the ship's stick, the left on the throttle, both drawn as in-cockpit
+     controls that move with the HOTAS / gamepad input (stick tilts with
+     pitch / roll, twists with yaw; throttle lever moves with the throttle),
+     hands placed by IK on them; fingers press when the matching buttons are
+     pressed (trigger = index finger for fire). The cockpit's stick and
+     throttle should look like real flight controls (the art pipeline if Code
+     needs new models: STOP for Dan).
+   - Body and arms follow the head a little in VR (torso stays in the seat,
+     shoulders turn slightly) so looking down feels like your body.
+   - The body is lit like the cockpit and shown in the cabin camera's view too
+     if it's in shot. The horror strike still reaches the player's face.
+   - **Check:** pictures looking down from the eye (VR both eyes, flat cockpit
+     view) at rest, full stick / throttle, firing.
+3. **A real window in the floor.** Replace the jagged hole with a proper floor
+   window: a clean shape (rounded rectangle) with a solid frame / trim and
+   bolts, thick glass with a slight tint, reflections and a few scratches,
+   placed between the pilot's feet so it's easy to look through when landing
+   (the belly camera stays as well). No jagged edges from the Meshy mesh: cut
+   it cleanly in Blender (or cover the old cut with the frame).
+   **Check:** pictures looking down through it in flight and in hover,
+   flat and in VR.
+4. **Publish as 0.8.1**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (the stereo shader rule: every new shader must be single-pass-instanced
+   safe, and VR checks compare both eyes), commit and push.
+
+**For Dan to check (Quest 3):** scenery in both eyes; look down: body, hands on
+the stick and throttle moving with the HOTAS; the floor window.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
