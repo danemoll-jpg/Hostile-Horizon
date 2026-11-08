@@ -110,6 +110,7 @@ namespace HostileHorizon
         // the Engine slider); a voice line ducks engine and wind by voiceDuckEngine, music by voiceDuckMusic (to 1 - it) and effects by
         // voiceDuckEffects; voiceChime = the attention chime's level before a computer warning
         public float engineMix = .55f, windMix = .5f, voiceDuckEngine = .6f, voiceDuckMusic = .6f, voiceDuckEffects = .25f, voiceChime = .5f;
+        public float ambienceMix = .5f;   // Round 8 (B2): the biome / regeneration-bay ambience (files at -24 LUFS) x Effects
         public float shieldDrain = 2f;                   // % energy a second while on (flight at full throttle uses .32)
         public int turretBounty = 150, saucerBounty = 300;
         public float boltHitRadius = 3.5f;               // m round the ship's centre              // degrees per second at most: the body righting when landing mode starts

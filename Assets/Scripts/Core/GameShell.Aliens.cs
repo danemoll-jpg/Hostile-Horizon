@@ -211,7 +211,7 @@ namespace HostileHorizon
         readonly List<UnityEngine.Vector3> gapVerts = new List<UnityEngine.Vector3>();
         // Round 7 (A2): the eye as the ship carries it (the camera follows the ship in LateUpdate, so during a frame's coroutines it
         // is a frame behind: chasing it at speed left the creature v/16 metres off, 9 m on a fast launch, 1-2 m in flight)
-        Vector3 Eye => CheckOldStaging ? Rig.Head.transform.position : Ship.transform.TransformPoint(ShipLayout.Eye);
+        Vector3 Eye => CheckOldStaging || VrMode.Active ? Rig.Head.transform.position : Ship.transform.TransformPoint(ShipLayout.Eye);   // Round 8 (C6): in VR the real head
         void KeepClear(Creature c, float gap)
         {
             if (CheckOldStaging || !c) return;

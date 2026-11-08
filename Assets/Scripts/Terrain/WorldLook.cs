@@ -162,15 +162,20 @@ namespace HostileHorizon
                   : s.quality == 1 ? new Quality { view = 2500, shadow = 260, cascades = 2, msaa = 2, shadowLods = 2 }
                   : new Quality { view = 3200, shadow = 420, cascades = 2, msaa = 4, shadowLods = 2 };
             if (SteamDeck.On) { q.view *= SteamDeck.ViewScale; q.shadow *= SteamDeck.ViewScale; q.msaa = 1; q.cascades = 1; q.shadowLods = 1; }
+            // Round 8 (C7): the VR quality preset (two eyes at the headset's rate on a 1660 Ti): a shorter view, one short shadow cascade,
+            // 2x MSAA (edges matter in a headset), render scale 0.9 (ApplyQuality)
+            if (VrMode.Active) { q.view = Mathf.Min(q.view, 2200); q.shadow = Mathf.Min(q.shadow, 150); q.cascades = 1; q.msaa = 2; q.shadowLods = 1; }
             return q;
         }
 
+        public static float VrRenderScale = .9f;
         public static void ApplyQuality(TerrainStreamer terrain, Camera cam)
         {
             var q = Current();
             if (GraphicsSettings.defaultRenderPipeline is UniversalRenderPipelineAsset urp)
             {
                 urp.shadowDistance = q.shadow; urp.shadowCascadeCount = q.cascades; urp.msaaSampleCount = q.msaa;
+                urp.renderScale = VrMode.Active ? VrRenderScale : 1f;   // Round 8 (C7)
             }
             if (terrain) { terrain.ViewDistance = q.view; terrain.ShadowLods = q.shadowLods; }
             if (cam) cam.farClipPlane = q.view + 400f;

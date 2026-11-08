@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,7 +104,13 @@ namespace HostileHorizon
             d.cabinPipBack = UiKit.Panel(t, "Cabin back", new Color(0, 0, 0, .6f), new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-474, 0), new Vector2(-20, 262));
             d.cabinPip = UiKit.Rect(t, "Cabin feed", new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-470, 4), new Vector2(-24, 255)).gameObject.AddComponent<RawImage>(); d.cabinPip.raycastTarget = false;
             d.cabinPipText = UiKit.Label(t, "Cabin feed text", 20, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), new Vector2(1, .5f), new Vector2(1, .5f), new Vector2(-462, 4), new Vector2(-30, 252));
-            foreach (var c in shipModel.GetComponentsInChildren<Canvas>(true)) if (c.renderMode == RenderMode.WorldSpace && c != d.cabinCanvas) { var dk = UiKit.Panel(c.transform, "Dark", new Color(0, 0, 0, .985f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero); dk.enabled = false; d.darks.Add(dk); }
+            // Round 8 (C4): the VR strip: 0.6 m wide, high in front of the eye under the canopy frame (off on the flat screen)
+            d.vrStrip = UiKit.WorldCanvas("VR strip", shipModel, new Vector2(1000, 150), .0006f);
+            var vat = ShipLayout.Eye + new Vector3(0, .22f, .75f); d.vrStrip.transform.localPosition = vat; d.vrStrip.transform.localRotation = Quaternion.LookRotation(vat - ShipLayout.Eye, Vector3.up);
+            UiKit.Panel(d.vrStrip.transform, "Back", new Color(0, 0, 0, .45f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            d.vrText = UiKit.Label(d.vrStrip.transform, "Text", 34, TextAnchor.MiddleCenter, new Color(.92f, .96f, 1f), Vector2.zero, Vector2.one, new Vector2(16, 8), new Vector2(-16, -8));
+            d.vrStrip.gameObject.SetActive(false);
+            foreach (var c in shipModel.GetComponentsInChildren<Canvas>(true)) if (c.renderMode == RenderMode.WorldSpace && c != d.cabinCanvas && c != d.vrStrip) { var dk = UiKit.Panel(c.transform, "Dark", new Color(0, 0, 0, .985f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero); dk.enabled = false; d.darks.Add(dk); }
             return d;
         }
 
@@ -124,7 +131,9 @@ namespace HostileHorizon
             return t;
         }
 
-        public void SetVisible(bool on) => overlay.gameObject.SetActive(on);
+        bool overlayWanted;
+        public void SetVisible(bool on) { overlayWanted = on; overlay.gameObject.SetActive(on && !VrMode.Active); }   // Round 8 (C4): never in VR
+        Canvas vrStrip; Text vrText;
         public bool OverlayShown => overlay && overlay.gameObject.activeSelf;   // Round 6 checks
         public int GunLevel;   // Round 6 (C3): the Gun upgrade (the reticle gets a ring a level)   // the cockpit displays stay live (they are part of the ship)
         public bool Visible => overlay.gameObject.activeSelf;
@@ -241,6 +250,8 @@ namespace HostileHorizon
                 : shot ? $"HIT  −{shotDmg:0}%" : Campaign && LockedOn && !Ship.Kinematic ? (lockBlink ? "LOCKED ON" : "")
                 : Ship.OutOfEnergy && !Ship.Landed && !Ship.Kinematic ? "OUT OF ENERGY" : low ? "TERRAIN" : homeWarn != "" ? (Time.time % 1f < .7f ? homeWarn : "")
                 : energyLow && !Ship.Kinematic && Time.time % 1f < .6f ? "ENERGY LOW" : "";
+            // Round 8 (C4): in VR the flat overlay is never drawn; its warning, prompt and subtitle go on a strip under the canopy frame
+            if (vrStrip) { bool on = VrMode.Active && overlayWanted && !Blackout; vrStrip.gameObject.SetActive(on); if (on) vrText.text = string.Join("\n", new[] { warning.text != "" ? $"<color=#FF6A50><b>{warning.text}</b></color>" : "", PickupLine, say, Subtitle }.Where(x => !string.IsNullOrEmpty(x))); }
         }
 
         public void NoteHit() => lastHitTime = Time.time;

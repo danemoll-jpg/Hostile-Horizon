@@ -141,5 +141,6 @@
     "voiceDuckEngine": 0.6,
     "voiceDuckMusic": 0.6,
     "voiceDuckEffects": 0.25,
+    "ambienceMix": 0.5,
     "voiceChime": 0.5
 }

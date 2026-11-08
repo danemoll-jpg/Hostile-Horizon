@@ -105,6 +105,8 @@ namespace HostileHorizon
             var toBiome = made ? (c.planets.Count == 0 ? Biome.Canyons : Biomes.ForSeed(seed)) : Biomes.FromKey(c.planets.Find(p => p.seed == seed).biome);
             jumping.Body = () => $"Leaving {from}.\n\nJumping to <b>{Names.Planet(seed)}</b>  ({Biomes.Name(toBiome)})…";
             Music.Sting("sting_jump"); Voice.Say("ctl_jump", VoiceKind.Radio, 2);
+            Sfx.Play(Sfx.Clip("jump_drive"), Rig.Head.transform.position + Rig.Head.transform.forward * 3f, .9f, 20f);   // Round 8 (B2)
+            Comfort.I?.FadeFor(4f);   // Round 8 (C5): only with Comfort: fade for the jump on (off by default)
             Menu.SetBackdrop(.15f); Menu.Show(jumping);
             foreach (var p in Pilots) if (p) Destroy(p.gameObject);
             Pilots.Clear(); cabin.Clear(); ClearAliens(); Reseat();
@@ -873,6 +875,7 @@ namespace HostileHorizon
                 $"<b>Reset position</b>: hover over the nearest landing pad (free).\n<b>Recall</b>: the mothership comes and lifts you home (also: {Controls.RecallKey}).";
             campaignPause.Add(Action("Resume", Resume))
                          .Add(Action("Reset position", ResetPosition, () => !CanReset))
+                         .Add(new MenuPanel.Row { Label = () => "Recenter VR view", Submit = () => { Rig.Recenter(); Resume(); }, Visible = () => VrMode.Active })   // Round 8 (C3)
                          .Add(new MenuPanel.Row { Label = () => $"Recall the mothership  <size=24>({Tuning.T.recallFee} cr)</size>", Submit = () => { Resume(); Recall(); },
                                                   Disabled = () => PausedFrom != State.Flying || calling != 0 || Ship.Crashed })
                          .Add(Action("Settings", () => { settingsReturn = campaignPause; Menu.Show(settings); }))

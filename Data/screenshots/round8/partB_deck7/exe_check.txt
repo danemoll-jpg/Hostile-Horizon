@@ -1,0 +1,38 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 79872 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 18:21; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+biomes over seeds 1-2000: Canyons 267, Giant Forest 280, Dead City 277, Ice 278, Volcanic 312, Crystal Forest 273, Ocean Islands 313; seed 4242 twice: City / City
+  Volcanic (seed 777): same seed, same ground identical; ground -15 .. 496 m; lava covers 20 % (level 0 m); pads in 11 x 11 pad cells 99; vents in 16 x 16 prop cells (4 km): 25
+  Crystal Forest (seed 777): same seed, same ground identical; ground -3 .. 91 m; pads in 11 x 11 pad cells 101; in 40 x 40 cells (2.6 km): 499 spires (150 over 100 m), 5125 shards
+  Ocean Islands (seed 777): same seed, same ground identical; ground -43 .. 281 m; sea covers 54 % (level 0 m); pads in 11 x 11 pad cells 65; arches in 16 x 16 prop cells (4 km): 16
+--- Volcanic (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Volcanic; music "flight_volcanic" want "flight_volcanic" gain 0.50; liquid lava (drawn); props: 0 crystals drawn, 25 vents, fliers off
+screenshot r7b_volcanic_1_start_cockpit.png
+    [942 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 7 energy 100
+Volcanic flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.018 RMS, peak 0.085, zeroed before the speakers; 1984512 samples); master volume 0.00
+fps Volcanic flying low (Steam Deck setting): average 874.2, 1% low 316.4, worst frame 14 ms over 13115 frames; mean height over ground 58 m; terrain chunks 231, waiting 0
+  hits while flying low: 0; crystals drawn 0; hull heat seen: no
+screenshot r7b_volcanic_2_low_cockpit.png
+    [849 fps] Flying/ Flight alt 119 gnd 119 spd 59 hdg 293 energy 100
+screenshot r7b_volcanic_3_chase.png
+--- Crystal Forest (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Crystal; music "flight_crystal" want "flight_crystal" gain 0.49; liquid none (not drawn); props: 12206 crystals drawn, 0 vents, fliers off
+screenshot r7b_crystal_1_start_cockpit.png
+    [799 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 345 energy 100
+Crystal Forest flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.018 RMS, peak 0.096, zeroed before the speakers; 3905536 samples); master volume 0.00
+fps Crystal Forest flying low (Steam Deck setting): average 723.4, 1% low 242.2, worst frame 14 ms over 10853 frames; mean height over ground 36 m; terrain chunks 228, waiting 0
+  hits while flying low: 0; crystals drawn 12753; 
+screenshot r7b_crystal_2_low_cockpit.png
+    [711 fps] Flying/ Flight alt 36 gnd 36 spd 59 hdg 353 energy 100
+screenshot r7b_crystal_3_chase.png
+--- Ocean Islands (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Ocean; music "flight_ocean" want "flight_ocean" gain 0.50; liquid sea (drawn); props: 0 crystals drawn, 0 vents, fliers on
+screenshot r7b_ocean_1_start_cockpit.png
+    [688 fps] Flying/ Flight alt 127 gnd 33 spd 59 hdg 35 energy 100
+Ocean Islands flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.019 RMS, peak 0.096, zeroed before the speakers; 5814272 samples); master volume 0.00
+fps Ocean Islands flying low (Steam Deck setting): average 577.8, 1% low 205.4, worst frame 28 ms over 8667 frames; mean height over ground 46 m; terrain chunks 227, waiting 0
+  hits while flying low: 0; crystals drawn 0; 
+screenshot r7b_ocean_2_low_cockpit.png
+    [567 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 35 energy 100
+screenshot r7b_ocean_3_chase.png
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.019 RMS, peak 0.096, zeroed before the speakers; 6037504 samples); master volume 0.00

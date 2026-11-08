@@ -1,0 +1,44 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 94208 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 18:17; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+--- the credits (B4)
+screenshot r8b_credits_1.png
+screenshot r8b_credits_2.png
+screenshot r8b_credits_3.png
+  credits: 3 sections shown, back on "HOSTILE HORIZON"
+--- the new ship and cockpit (Free Flight, Canyons, Bounce)
+screenshot r8b_cockpit_ahead.png
+screenshot r8b_cockpit_down.png
+    [1036 fps] Flying/ Flight alt 35 gnd 36 spd 59 hdg 135 energy 100
+screenshot r8b_cockpit_left.png
+screenshot r8b_cockpit_right.png
+screenshot r8b_cockpit_back_left.png
+    [1170 fps] Flying/ Flight alt 221 gnd 170 spd 59 hdg 46 energy 100
+    [899 fps] Flying/ Flight alt 93 gnd 85 spd 59 hdg 319 energy 100
+cockpit, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.021 RMS, peak 1.004, zeroed before the speakers; 3207168 samples); master volume 0.00
+fps cockpit, flying low (Canyons): average 928.0, 1% low 221.1, worst frame 131 ms over 13921 frames; mean height over ground 136 m; terrain chunks 233, waiting 0
+  sound, Round 7's code-made engine hum: engine 0.0310, wind 0.0195, music 0.1347 ("flight_canyons") -> music over engine + wind +11.3 dB; whole mix 0.0413; throttle 30 %, 211 km/h
+    [974 fps] Flying/ Flight alt 37 gnd 36 spd 59 hdg 271 energy 100
+  sound, Round 8's engine loops: engine 0.0322, wind 0.0196, music 0.1347 ("flight_canyons") -> music over engine + wind +11.1 dB; whole mix 0.0196; throttle 30 %, 211 km/h
+  ambience: "amb_canyons" (Effects 100 %, ambienceMix 0.5)
+screenshot r8b_chase.png
+screenshot r8b_close_chase.png
+screenshot r8b_landing_view.png
+    [881 fps] Flying/ Flight alt 36 gnd 36 spd 59 hdg 257 energy 100
+    [663 fps] Flying/ Flight alt 36 gnd 37 spd 59 hdg 271 energy 100
+close chase, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.004, zeroed before the speakers; 5984256 samples); master volume 0.00
+fps close chase, flying low (Canyons): average 748.4, 1% low 159.9, worst frame 610 ms over 11227 frames; mean height over ground 37 m; terrain chunks 233, waiting 0
+screenshot r8b_cockpit_left_up.png
+--- the hangar and the launch (Campaign, new career)
+screenshot r8b_hangar_docked.png
+    [1172 fps] Auto/launch Hover alt 1499 gnd 1497 spd 4 hdg 315 energy 100
+screenshot r8b_launch_1.png
+screenshot r8b_launch_2_chase.png
+screenshot r8b_turret.png
+screenshot r8b_turret_2.png
+turret 1 at (-2229, 526, 855): pictures
+screenshot r8b_saucer.png
+    [902 fps] Flying/ Hover alt 606 gnd 478 spd 0 hdg 0 energy 99
+screenshot r8b_saucer_below.png
+  sounds started this run (new in Round 8): 65.3 gear_down, 65.6 gear_down, 67.1 airlock_cycle, 69.3 dock_clamp, 71.5 gear_up, 71.5 gear_up, 75.3 gear_down
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.020 RMS, peak 1.004, zeroed before the speakers; 7790592 samples); master volume 0.00

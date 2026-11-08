@@ -191,8 +191,8 @@ namespace HostileHorizon
             yield return Shot("a_title");
 
             // ---- 1. biomes from the seed
-            var counts = new int[4]; for (int s = 1; s <= 2000; s++) counts[(int)Biomes.ForSeed(s)]++;
-            Log($"biomes over seeds 1-2000: " + string.Join(", ", Enumerable.Range(0, 4).Select(i => $"{Biomes.Names[i]} {counts[i]}")) + $"; today ({Seeds.OfTheDay}): {Biomes.ForSeed(Seeds.OfTheDay)}; again: {Biomes.ForSeed(Seeds.OfTheDay)}");
+            var counts = new int[Biomes.Count]; for (int s = 1; s <= 2000; s++) counts[(int)Biomes.ForSeed(s)]++;
+            Log($"biomes over seeds 1-2000: " + string.Join(", ", Enumerable.Range(0, Biomes.Count).Select(i => $"{Biomes.Names[i]} {counts[i]}")) + $"; today ({Seeds.OfTheDay}): {Biomes.ForSeed(Seeds.OfTheDay)}; again: {Biomes.ForSeed(Seeds.OfTheDay)}");
             foreach (Biome b in Enum.GetValues(typeof(Biome)))
             {
                 string Sample(CanyonField f) { var r = new System.Random(9); var sb = new System.Text.StringBuilder(); for (int i = 0; i < 400; i++) sb.Append(f.Height((float)r.NextDouble() * 6000 - 3000, (float)r.NextDouble() * 6000 - 3000).ToString("0.000")); return sb.ToString(); }

@@ -73,6 +73,7 @@ namespace HostileHorizon
             Sea.Follow(view, Terrain.ViewDistance); Weather.Plumes(Props.VentsNear, view); Birds.Tick(view, Terrain.Field, Time.deltaTime);
             LiquidTick(flying);
             MusicTick();
+            AmbienceTick();
             if (flying && Ship.gameObject.activeInHierarchy && !Ship.Crashed) { CanopyBrush(); ComputerTick(); if (InCampaign) VoiceTick(); }
             else landedEnginesOn = 0;
             Displays.Subtitle = Voice.Subtitle;
@@ -103,6 +104,21 @@ namespace HostileHorizon
         }
 
         string musicWhyLogged = "?";
+        // Round 8 (B2): the place's own sound, quietly under the engines and the music: each biome's ambience on a planet (louder with
+        // the engines off or landed), the regeneration bay's hum where you wake; crossfaded (1.5 s) when it changes. Effects volume,
+        // tuning ambienceMix; ducks under voices with the effects.
+        AudioSource amb; string ambName = ""; float ambFade;
+        public string Ambience => ambName;   // checks
+        void AmbienceTick()
+        {
+            if (!amb) { amb = new GameObject("Ambience").AddComponent<AudioSource>(); amb.loop = true; amb.spatialBlend = 0; amb.playOnAwake = false; amb.volume = 0; }
+            bool onPlanet = Ship && Ship.gameObject.activeInHierarchy && (Now == State.Flying || (Now == State.Auto && Phase != "horror" && Phase != "regen-trip" && Phase != "docking" && Phase != "launch" && !Ship.Kinematic));
+            string want = Phase == "regen" ? "regen_bay" : onPlanet && Terrain.Field != null ? "amb_" + Biomes.Keys[(int)WorldBiome] : "";
+            float target = want == "" ? 0 : Sfx.Effects * Tuning.T.ambienceMix * (want == "regen_bay" ? 1f : Ship.EnginesOn && !Ship.Landed ? .55f : 1f);
+            if (want != ambName) { ambFade = Mathf.MoveTowards(amb.volume, 0, Time.unscaledDeltaTime / 1.5f); amb.volume = ambFade; if (ambFade <= 0) { ambName = want; amb.Stop(); if (want != "") { amb.clip = Sfx.Clip(want); amb.Play(); } } }
+            else amb.volume = Mathf.MoveTowards(amb.volume, target, Time.unscaledDeltaTime / 1.5f);
+        }
+
         void MusicTick()
         {
             string want = Music.Want, why; bool tension = false; float wind = 0;

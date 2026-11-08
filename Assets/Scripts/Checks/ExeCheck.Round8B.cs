@@ -23,6 +23,11 @@ namespace HostileHorizon
         {
             yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
             yield return new WaitForSecondsRealtime(1.5f);
+            Log("--- the credits (B4)");
+            G.Menu.Current.Selected = Row("Credits"); yield return Press(GamepadButton.South); yield return new WaitForSecondsRealtime(.4f);
+            for (int r = 0; r < 3; r++) { G.Menu.Current.Selected = r; yield return new WaitForSecondsRealtime(.3f); yield return Shot($"r8b_credits_{r + 1}"); }
+            G.Menu.Current.Selected = 3; yield return Press(GamepadButton.South); yield return new WaitForSecondsRealtime(.5f);
+            Log($"  credits: 3 sections shown, back on \"{G.Menu.Current?.Title}\"");
             Log("--- the new ship and cockpit (Free Flight, Canyons, Bounce)");
             yield return StartFreeFlight(Biome.Canyons, 1);
             yield return Fly(4f);
@@ -32,6 +37,7 @@ namespace HostileHorizon
             yield return LookShot(new Vector2(1, -.25f), .8f, "r8b_cockpit_right");
             yield return LookShot(new Vector2(-1, 0), 1.45f, "r8b_cockpit_back_left");
             yield return MeasureFps("cockpit, flying low (Canyons)");
+            yield return SoundMix();
             foreach (var (m, n) in new[] { (CameraRig.Mode.Chase, "chase"), (CameraRig.Mode.CloseChase, "close_chase"), (CameraRig.Mode.Landing, "landing_view") })
             {
                 G.Rig.Current = m; G.Rig.Snap(); yield return Fly(1.5f); yield return Shot($"r8b_{n}");
@@ -69,7 +75,26 @@ namespace HostileHorizon
             yield return null; yield return null;
             yield return ModelShot(sau.Pos, sau.Pos + new Vector3(16, 7, 18), "r8b_saucer");
             yield return ModelShot(sau.Pos, sau.Pos + new Vector3(-14, -9, 16), "r8b_saucer_below");
+            Log($"  sounds started this run (new in Round 8): {string.Join(", ", Sfx.Played.FindAll(x => x.Contains("gear_") || x.Contains("airlock") || x.Contains("clamp") || x.Contains("explosion") || x.Contains("jump_drive")).ConvertAll(x => x.Length > 60 ? x.Substring(0, 60) : x))}");
             Career.CheckSystemSeed = 0;
+        }
+
+        // B2: the engine loops against Round 7's code-made hum at the same throttle; music over engine + wind (Fix 6.3's way: the
+        // flight tracks are -16 dB RMS); the ambience; muted (what the game produces is measured before it is zeroed)
+        IEnumerator SoundMix()
+        {
+            var sa = G.ShipSound; float Db(float a, float b) => 20 * Mathf.Log10(Mathf.Max(1e-6f, a) / Mathf.Max(1e-6f, b));
+            float m = Mathf.Pow(10, -16f / 20) * GameSettings.S.musicVolume / 100f * Mathf.Max(.01f, G.Music.PlayingVolume);
+            foreach (bool hum in new[] { true, false })
+            {
+                ShipAudio.CheckHum = hum; yield return Fly(1.5f);
+                float e = 0, w = 0, mix = 0; int n = 0; float end = Time.realtimeSinceStartup + 3f;
+                while (Time.realtimeSinceStartup < end) { Autopilot(); e += sa.EngineRms; w += sa.WindRms; mix += TestRun.RecentRms; n++; yield return null; }
+                e /= n; w /= n; mix /= n; float ew = Mathf.Sqrt(e * e + w * w);
+                Log($"  sound, {(hum ? "Round 7's code-made engine hum" : "Round 8's engine loops")}: engine {e:0.0000}, wind {w:0.0000}, music {m:0.0000} (\"{G.Music.Playing}\") -> music over engine + wind {Db(m, ew):+0.0;-0.0} dB; whole mix {mix:0.0000}; throttle {G.Ship.Throttle * 100:0} %, {G.Ship.Speed * 3.6f:0} km/h");
+            }
+            ShipAudio.CheckHum = false;
+            Log($"  ambience: \"{G.Ambience}\" (Effects {GameSettings.S.effectsVolume} %, ambienceMix {Tuning.T.ambienceMix})");
         }
 
         IEnumerator ModelShot(Vector3 target, Vector3 from, string name)

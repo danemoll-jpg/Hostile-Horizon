@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 namespace HostileHorizon
 {
@@ -36,7 +38,28 @@ namespace HostileHorizon
             return rig;
         }
 
-        public void Cycle() { Current = (Mode)(((int)Current + 1) % 5); snapped = false; }
+        public void Cycle() { if (Vr) return; Current = (Mode)(((int)Current + 1) % 5); snapped = false; }   // Round 8 (C3): VR has the cockpit only
+
+        // Round 8 (C3): VR. The headset drives the Head's local pose (an Input System TrackedPoseDriver, 1:1, seated); this root stays
+        // the tracking space, placed so the recentred head sits on the ship's eye point looking ahead. Recenter takes the head's pose
+        // now as "sitting straight in the seat" (yaw and position only). The look control does nothing in VR: your head looks.
+        public bool Vr { get; private set; }
+        Vector3 recPos; float recYaw, recenterAt = -1;
+        public int Recentered { get; private set; }   // checks
+        public void EnableVr()
+        {
+            Vr = true; Current = Mode.Cockpit; Head.targetTexture = null; Head.stereoTargetEye = StereoTargetEyeMask.Both;
+            var tpd = Head.gameObject.AddComponent<TrackedPoseDriver>();
+            tpd.positionInput = new InputActionProperty(new InputAction("Head position", binding: "<XRHMD>/centerEyePosition", expectedControlType: "Vector3"));
+            tpd.rotationInput = new InputActionProperty(new InputAction("Head rotation", binding: "<XRHMD>/centerEyeRotation", expectedControlType: "Quaternion"));
+            tpd.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition; tpd.updateType = TrackedPoseDriver.UpdateType.UpdateAndBeforeRender;
+            recenterAt = Time.unscaledTime + 1.5f;   // once the headset reports a pose
+        }
+        public void Recenter()
+        {
+            if (!Vr) return;
+            recPos = Head.transform.localPosition; recYaw = Head.transform.localEulerAngles.y; Recentered++;
+        }
         public void Snap() => snapped = false;
         public void WatchWreck(Vector3 at) { Watch = at; watchAngle = (Ship ? Ship.Heading : 0) + 160f; }
 
@@ -47,6 +70,7 @@ namespace HostileHorizon
 
         void LateUpdate()
         {
+            if (Vr && recenterAt > 0 && Time.unscaledTime > recenterAt) { recenterAt = -1; Recenter(); }
             Place();
             if (shake > 0 && !Scripted && FollowShip && Ship && Time.timeScale > 0)
             {
@@ -63,8 +87,8 @@ namespace HostileHorizon
             float dt = Time.unscaledDeltaTime;
             if (Time.timeScale > 0)
             {
-                var input = Controls.Look * 110f * dt;
-                var m = Controls.MouseLook * .12f;
+                var input = Vr ? Vector2.zero : Controls.Look * 110f * dt;
+                var m = Vr ? Vector2.zero : Controls.MouseLook * .12f;
                 Vector2 held = new Vector2(Controls.Look.x, Controls.Look.y);
                 if (held.sqrMagnitude > .01f || m.sqrMagnitude > 0) look += new Vector2(input.x + m.x, input.y + m.y);
                 else look = Vector2.MoveTowards(look, Vector2.zero, 160f * dt);
@@ -86,6 +110,7 @@ namespace HostileHorizon
             }
             if (Current == Mode.Cockpit)
             {
+                if (Vr) { var vrot = ship.rotation * Quaternion.Euler(0, -recYaw, 0); transform.SetPositionAndRotation(ship.TransformPoint(ShipLayout.Eye) - vrot * recPos, vrot); return; }
                 transform.SetPositionAndRotation(ship.TransformPoint(ShipLayout.Eye), ship.rotation * lookRot);
                 return;
             }

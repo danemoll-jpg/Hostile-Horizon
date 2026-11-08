@@ -43,6 +43,7 @@ namespace HostileHorizon
             MakeScene();
             CharacterImport.MakeMaterials();   // Fix 3.1: the characters' materials as assets (keeps their shader variants)
             HardImport.MakeMaterials();        // Round 8 (B1): the Meshy ship, cockpit, mothership, bay, enemies
+            XrSetup.Ensure();                  // Round 8 (C1): OpenXR for Windows, not started with the game
             MakePropMaterial();                // Round 4: the instanced trees' material (keeps the instancing variants)
             PlayerSettings.companyName = "Hostile Horizon";
             PlayerSettings.productName = "Hostile Horizon";

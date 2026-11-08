@@ -64,6 +64,9 @@ namespace HostileHorizon
             levelOut = f["LevelOut"];   // Round 5 (A2)
             fire = f["Fire"]; shield = f["Shield"];   // Round 5 (B3, B4)
             hotasStick = f["HotasStick"];   // Fix 6.1
+            // Round 8 (C3): Recenter the VR view: gamepad right-stick click, keyboard Home (and the pause menu, on every device)
+            recenter = f.FindAction("Recenter") ?? f.AddAction("Recenter", InputActionType.Button);
+            if (recenter.bindings.Count == 0) { recenter.AddBinding("<Gamepad>/rightStickPress"); recenter.AddBinding("<Keyboard>/home"); }
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
             f.actionTriggered += Noted; u.actionTriggered += Noted;
             LastDevice = Gamepad.all.Count > 0 ? Device.Gamepad : Joystick.all.Count > 0 ? Device.Hotas : Device.Keyboard;
@@ -251,6 +254,8 @@ namespace HostileHorizon
         // Round 5 (B3, B4): the gun (held) and the shield toggle
         public static bool FireHeld => fire.IsPressed();
         public static bool ShieldPressed => shield.WasPressedThisFrame();
+        static InputAction recenter;
+        public static bool RecenterPressed => recenter != null && recenter.WasPressedThisFrame();
 
         // ---- the HOTAS stick (Fix 6.1)
         public static bool HotasPresent => hotasStick != null && hotasStick.controls.Count > 0;

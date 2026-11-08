@@ -1,0 +1,72 @@
+window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 83968 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 18:19; 1280x800 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting on; view 1920 m
+title: Today's planet: Halthel-II (Ocean Islands), seed 20261108; music "title_theme" want "title_theme" gain 0.76; music folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music
+screenshot a_title.png
+biomes over seeds 1-2000: Canyons 267, Giant Forest 280, Dead City 277, Ice 278, Volcanic 312, Crystal Forest 273, Ocean Islands 313; today (20261108): Ocean; again: Ocean
+  Canyons (seed 777): same seed, same ground: identical; heights -5 .. 569 m; pads in 11 x 11 pad cells: 99; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 0
+  Giant Forest (seed 777): same seed, same ground: identical; heights -3 .. 112 m; pads in 11 x 11 pad cells: 101; trees in 40 x 40 tree cells: 711; bridges in 12 x 12 prop cells: 0
+  Dead City (seed 777): same seed, same ground: identical; heights 1 .. 367 m; pads in 11 x 11 pad cells: 117 (81 on roofs); trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 2
+  Ice (seed 777): same seed, same ground: identical; heights -3 .. 260 m; pads in 11 x 11 pad cells: 91; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 2
+  Volcanic (seed 777): same seed, same ground: identical; heights -15 .. 496 m; pads in 11 x 11 pad cells: 99; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 0
+  Crystal Forest (seed 777): same seed, same ground: identical; heights -2 .. 91 m; pads in 11 x 11 pad cells: 101; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 0
+  Ocean Islands (seed 777): same seed, same ground: identical; heights -43 .. 281 m; pads in 11 x 11 pad cells: 65; trees in 40 x 40 tree cells: 0; bridges in 12 x 12 prop cells: 11
+the Mimic's voice sign over 400 planets (pilot 1 a Mimic): on 300 times (75 %; tell reliability 75 %): only some of the time
+--- Canyons (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Canyons; music "flight_canyons" want "flight_canyons" gain 0.50; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_canyons_1_start_cockpit.png
+    [1126 fps] Flying/ Flight alt 35 gnd 37 spd 59 hdg 135 energy 100
+    [1020 fps] Flying/ Flight alt 39 gnd 36 spd 59 hdg 148 energy 100
+Canyons flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.017 RMS, peak 0.085, zeroed before the speakers; 2023424 samples); master volume 0.00
+fps Canyons flying low (Steam Deck setting): average 1026.4, 1% low 358.5, worst frame 190 ms over 15398 frames; mean height over ground 39 m; terrain chunks 232, waiting 0
+  hits while flying low: 0; trees drawn 0 (0 near)
+screenshot b_canyons_2_low_cockpit.png
+screenshot b_canyons_3_chase.png
+--- Giant Forest (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Forest; music "flight_forest" want "flight_forest" gain 0.49; weather particles on; props: 1552 trees drawn (29 near, detailed)
+screenshot b_forest_1_start_cockpit.png
+    [956 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 345 energy 100
+    [917 fps] Flying/ Flight alt 37 gnd 37 spd 59 hdg 353 energy 100
+Giant Forest flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.018 RMS, peak 0.096, zeroed before the speakers; 3938304 samples); master volume 0.00
+fps Giant Forest flying low (Steam Deck setting): average 906.2, 1% low 313.5, worst frame 13 ms over 13595 frames; mean height over ground 36 m; terrain chunks 228, waiting 0
+  hits while flying low: 0; trees drawn 1478 (53 near)
+screenshot b_forest_2_low_cockpit.png
+screenshot b_forest_3_chase.png
+  a tree: trunk 5 m wide, 111 m tall, crown 56 x 55 m at 88 m
+  flown at the trunk: hits 1 (impact 52.5 m/s), crashed False; after: 76.7 m from the trunk's axis (radius there 2.6 m)
+screenshot b_forest_4_trunk_hit.png
+  flown through a crown: deepest 0.75 (1 = its middle), rustles 5, crashed False, hits from leaves none
+screenshot b_forest_5_through_crown.png
+--- Dead City (Free Flight, seed of the day 20261108, Bounce)
+  world: biome City; music "flight_city" want "flight_city" gain 0.49; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_city_1_start_cockpit.png
+    [1080 fps] Flying/ Flight alt 153 gnd 117 spd 59 hdg 0 energy 100
+    [1038 fps] Flying/ Flight alt 133 gnd 59 spd 59 hdg 359 energy 100
+Dead City flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 2.197, zeroed before the speakers; 6318080 samples); master volume 0.00
+fps Dead City flying low (Steam Deck setting): average 1095.7, 1% low 263.3, worst frame 226 ms over 16438 frames; mean height over ground 75 m; terrain chunks 230, waiting 0
+  hits while flying low: 0; trees drawn 0 (0 near)
+screenshot b_city_2_low_cockpit.png
+screenshot b_city_3_chase.png
+  sky bridges within ~3.5 km: 9
+  nearest: 64 m long across, 10 m wide, 7 m thick, bottom 92 m over the ground under it
+screenshot b_city_4_at_sky_bridge.png
+    [1329 fps] Flying/ Flight alt 100 gnd 95 spd 57 hdg 276 energy 100
+  flown into a sky bridge: hits 2, crashed False
+--- Ice (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Ice; music "flight_ice" want "flight_ice" gain 0.49; weather particles on; props: 0 trees drawn (0 near, detailed)
+screenshot b_ice_1_start_cockpit.png
+    [1080 fps] Flying/ Flight alt 41 gnd 42 spd 51 hdg 128 energy 100
+Ice flying low (Steam Deck setting): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 2.197, zeroed before the speakers; 8706048 samples); master volume 0.00
+fps Ice flying low (Steam Deck setting): average 840.7, 1% low 287.2, worst frame 15 ms over 12613 frames; mean height over ground 69 m; terrain chunks 227, waiting 0
+  hits while flying low: 1; trees drawn 0 (0 near)
+screenshot b_ice_2_low_cockpit.png
+    [816 fps] Flying/ Flight alt 79 gnd 36 spd 59 hdg 154 energy 100
+screenshot b_ice_3_chase.png
+  snow bridges (ice caves) within ~3.5 km: 11
+  nearest: 150 m long across, 122 m wide, 50 m thick, bottom 90 m over the ground under it
+screenshot b_ice_5_under_snow_bridge.png
+  flown under the snow bridge (ice cave): hits 0, crashed False
+    [975 fps] Flying/ Flight alt 134 gnd 37 spd 59 hdg 252 energy 100
+  blizzard: weather 1.00 after 9 s (haze end 450 m); the computer: 97.2 voice cpu_whiteout [Computer, p3, 2.3 s] COMPUTER: Visibility low. Instruments only.
+screenshot b_ice_4_blizzard.png
+end: window: none (batch mode), view 1280x800 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.036 RMS, peak 2.197, zeroed before the speakers; 10301440 samples); master volume 0.00

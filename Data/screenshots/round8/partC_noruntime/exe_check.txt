@@ -1,0 +1,6 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 92160 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 18:10; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+VR: asked True (-vr True, setting 0), Steam Deck False; status "VR asked for, but no headset or OpenXR runtime was found: flat screen. Start Virtual Desktop or SteamVR first."; XR loader none started, start with the game False; XR device active False; title reached 2.3 s after start; runtime json C:/nonexistent/no-runtime.json
+flat screen: HUD overlay hidden in flight as always; menus ScreenSpaceCamera
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 196608 samples); master volume 0.00

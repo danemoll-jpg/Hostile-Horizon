@@ -139,6 +139,7 @@ namespace HostileHorizon
         {
             StartCoroutine(Progress());
             if (CheckRun.Only == "round8b") { yield return Round8B(); yield break; }
+            if (CheckRun.Only == "round8c") { yield return Round8C(); yield break; }
             yield return WaitFor(() => G.Now == GameShell.State.Title, 60f);
             yield return new WaitForSecondsRealtime(1.5f);
             Career.CheckSystemSeed = 7171;

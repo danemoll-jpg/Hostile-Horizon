@@ -65,8 +65,17 @@ namespace HostileHorizon
             }
         }
 
+        float lastGear = -1;
         void LateUpdate()
         {
+            // Round 8 (B2): the legs' motors as they start to move
+            float gr = ship.Gear;
+            if (lastGear >= 0 && ship.gameObject.activeInHierarchy && !ship.Crashed)
+            {
+                if (lastGear <= .001f && gr > lastGear) Sfx.Play(Sfx.Clip("gear_down"), transform.TransformPoint(0, -.8f, 0), .8f, 6f, transform);
+                else if (lastGear >= .999f && gr < lastGear) Sfx.Play(Sfx.Clip("gear_up"), transform.TransformPoint(0, -.8f, 0), .8f, 6f, transform);
+            }
+            lastGear = gr;
             float g = ship.Gear, e = g * g * (3 - 2 * g);
             for (int i = 0; i < struts.Count; i++)
             {

@@ -9,7 +9,7 @@ namespace HostileHorizon
         static AudioClip boom, knock, hiss, beep, fire, thunk, warn, brake;
         static int rate => AudioSettings.outputSampleRate;
 
-        public static AudioClip Boom => boom ? boom : boom = Make("boom", 4.5f, (t, n, s) =>
+        public static AudioClip Boom => boom ? boom : boom = File("explosion") ?? Make("boom", 4.5f, (t, n, s) =>
         {
             // a sharp crack, then a long low rumble
             float crack = Mathf.Exp(-t * 30f) * n;
@@ -25,14 +25,14 @@ namespace HostileHorizon
             return env * (Mathf.Sin(t * 2 * Mathf.PI * 430f) * .45f + Mathf.Sin(t * 2 * Mathf.PI * 1160f) * .3f + Mathf.Sin(t * 2 * Mathf.PI * 190f) * .25f) + Mathf.Exp(-t * 300f) * n * .8f;
         });
 
-        public static AudioClip Hiss => hiss ? hiss : hiss = Make("airlock", 1.6f, (t, n, s) =>
+        public static AudioClip Hiss => hiss ? hiss : hiss = File("airlock_cycle") ?? Make("airlock", 1.6f, (t, n, s) =>
         {
             s.lp += (n - s.lp) * .35f;
             float env = Mathf.Min(1, t * 20f) * Mathf.Exp(-t * 1.6f);
             return (n - s.lp) * env * .45f + Mathf.Sin(t * 2 * Mathf.PI * 60f) * .15f * Mathf.Exp(-t * 3f);
         });
 
-        public static AudioClip Thunk => thunk ? thunk : thunk = Make("clamp", .5f, (t, n, s) =>
+        public static AudioClip Thunk => thunk ? thunk : thunk = File("dock_clamp") ?? Make("clamp", .5f, (t, n, s) =>
             Mathf.Exp(-t * 14f) * (Mathf.Sin(t * 2 * Mathf.PI * 70f) * .8f + n * .2f));
 
         public static AudioClip Beep => beep ? beep : beep = Make("beep", .5f, (t, n, s) =>
@@ -86,6 +86,8 @@ namespace HostileHorizon
         // Round 3, item B11: the scare sounds, made with ElevenLabs (Tools/make_sounds.py, Docs/SOUNDS.md) in Resources/Sounds/<name>;
         // a missing file falls back to a rough sound made here, so the game never goes silent.
         static readonly System.Collections.Generic.Dictionary<string, AudioClip> clips = new System.Collections.Generic.Dictionary<string, AudioClip>();
+        // Round 8 (B2): the ElevenLabs file when there is one (airlock_cycle, dock_clamp, explosion), else the code-made sound
+        static AudioClip File(string name) { var c = Resources.Load<AudioClip>("Sounds/" + name); return c ? c : null; }
         public static AudioClip Clip(string name)
         {
             if (clips.TryGetValue(name, out var c) && c) return c;

@@ -102,6 +102,7 @@ namespace HostileHorizon
             if (sheetOn && sheetOn != p.Sheet) sheetOn.SetActive(false);
             sheetOn = p.Sheet; if (sheetOn) sheetOn.SetActive(true);
             Current = p; canvas.gameObject.SetActive(true); nav.Reset(); shownFrame = Time.frameCount; scrollTop = 0;
+            if (VrHead && VrMode.Active) PlaceInVr();
             p.Shown?.Invoke(); Refresh();
         }
 
@@ -116,6 +117,18 @@ namespace HostileHorizon
             rt.SetPositionAndRotation(cam.transform.position + cam.transform.forward * 2.2f, Quaternion.LookRotation(cam.transform.forward, Vector3.up));
         }
         public void ShowOnScreen() { canvas.renderMode = RenderMode.ScreenSpaceOverlay; }
+
+        // Round 8 (C4): in VR every page is a board 1.4 m in front of where your head points (level, turned to face you), 1.34 m wide,
+        // carried with the camera rig (the cockpit, the hangar, the title's slow pan); driven by the HOTAS / gamepad / keyboard as now.
+        public static Transform VrRoot; public static Camera VrHead;
+        void PlaceInVr()
+        {
+            canvas.renderMode = RenderMode.WorldSpace; canvas.worldCamera = VrHead;
+            var rt = (RectTransform)canvas.transform; rt.SetParent(VrRoot, false);
+            rt.sizeDelta = new Vector2(1920, 1080); rt.localScale = Vector3.one * .0007f;
+            var h = VrHead.transform; var fwd = Vector3.ProjectOnPlane(h.localRotation * Vector3.forward, Vector3.up); if (fwd.sqrMagnitude < .01f) fwd = Vector3.forward; fwd.Normalize();
+            rt.localPosition = h.localPosition + fwd * 1.4f - Vector3.up * .05f; rt.localRotation = Quaternion.LookRotation(fwd, Vector3.up);
+        }
 
         static bool Shown(Row r) => r.Visible == null || r.Visible();
         static int FirstVisible(Page p, int from, int dir)

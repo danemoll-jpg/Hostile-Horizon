@@ -21,6 +21,8 @@ namespace HostileHorizon
         public int cameraDefault;             // CameraRig.Mode
         public int quality = 2;               // 0 Low, 1 Medium, 2 High
         public int steamDeck;                 // 0 Auto, 1 On, 2 Off (as Chastain Rush)
+        public int vrMode;                    // Round 8 (C2): 0 Off (default), 1 On: start in VR (OpenXR); -vr on the command line also does
+        public bool comfortVignette, comfortFade, comfortHorizon;   // Round 8 (C5): comfort options, all OFF by default (Dan: realism first)
         public int volume = 80;               // percent
         public int crashLevel = 1;            // CrashLevel (Bounce)
         public int seedMode;                  // 0 seed of the day, 1 random, 2 typed in
@@ -114,7 +116,7 @@ namespace HostileHorizon
             S.invertPitch = d.invertPitch; S.deadzone = d.deadzone; S.cameraDefault = d.cameraDefault; S.routeTrail = d.routeTrail;
         }
         public static void ResetSound() { var d = new GameSettings(); S.volume = d.volume; S.musicVolume = d.musicVolume; S.effectsVolume = d.effectsVolume; S.voiceVolume = d.voiceVolume; S.engineVolume = d.engineVolume; S.subtitles = d.subtitles; }
-        public static void ResetDisplay() { var d = new GameSettings(); S.quality = d.quality; S.steamDeck = d.steamDeck; ScreenSetting.ResetToDefault(); }
+        public static void ResetDisplay() { var d = new GameSettings(); S.quality = d.quality; S.steamDeck = d.steamDeck; S.vrMode = d.vrMode; S.comfortVignette = d.comfortVignette; S.comfortFade = d.comfortFade; S.comfortHorizon = d.comfortHorizon; ScreenSetting.ResetToDefault(); }
         // Every Settings page (Free Flight's seed / planet type / crash level and the new-career difficulty are their own pages' choices)
         public static void ResetAll() { ResetFlight(); ResetHotas(); ResetSound(); ResetDisplay(); }
 
