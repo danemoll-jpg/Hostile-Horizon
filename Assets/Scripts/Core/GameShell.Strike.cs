@@ -89,8 +89,8 @@ namespace HostileHorizon
         // Instant / on take-off. Round 7 (A4): first the creature, through the hatch behind your left shoulder, round the seat and into
         // view; nothing else changes until it is in view (the flight, controls, music, lights and displays go on as they were). The
         // moment it is in view: the hatch bursts, the lunge, the sting, the music cuts, controls are taken; 0.35 s later the lights /
-        // displays die, the alarm and the INTRUDER call. Round 7 (A2): it stops with its face about 0.65 m from your eyes, never
-        // closer than 0.42 m with any part of it (it came to 0.16 m before: the eye was inside its body).
+        // displays die, the alarm and the INTRUDER call. Round 7 (A2): never closer than 0.42 m with any part of it (it came to 0.16 m
+        // before: the eye was inside its body). Round 8 (A2): StageAtFace: its face nearer than the cockpit screens, its body beside you.
         public float StrikeSeenAt { get; private set; } = -1;   // checks: Time.time it came into view
         public float BurstAt { get; private set; } = -1;        // checks: Time.time the burst began
         IEnumerator Burst(AlienType type, DownedPilot p, int fromCabin = -1)   // fromCabin: the Sleeper's seat, emptied when it is seen
@@ -106,9 +106,9 @@ namespace HostileHorizon
                 tt += Time.deltaTime; var head = Rig.Head.transform;
                 // round your left side (0.25 s), then in front of your face
                 var eye = Eye;
-                Vector3 face = tt < .25f && !seen ? eye - head.right * .75f + head.forward * .3f - head.up * .1f : eye + head.forward * StrikeFace - head.up * .06f;
-                if (CheckOldStaging) face = head.position + head.forward * (tt < .4f ? .5f : .16f) + head.up * .02f;   // checks: 0.6.3's
-                PlaceFace(c, face, eye, head.up, CheckOldStaging ? (tt < .4f ? 14f : 18f) : 16f);
+                if (CheckOldStaging) PlaceFace(c, head.position + head.forward * (tt < .4f ? .5f : .16f) + head.up * .02f, eye, head.up, tt < .4f ? 14f : 18f);   // checks: 0.6.3's
+                else if (tt < .25f && !seen) PlaceFace(c, eye - head.right * .75f + head.forward * .3f - head.up * .1f, eye, head.up, 16f);
+                else StageAtFace(c, 0, 16f);
                 KeepClear(c, StrikeGap); c.LightFrom(eye);
                 if (!seen && (InView(c) || tt > .6f))
                 {
@@ -118,6 +118,7 @@ namespace HostileHorizon
                     PlayAt("hatch_burst", Cabin.HatchCentre, 1f, 3f); PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f);
                     CabinRoom.HitDoor(); CabinRoom.BreakDoor(); Rig.Shake(.5f);
                     Music.Sting("sting_alien_reveal"); Music.Cut(); Voice.StopAll(); Menu.Hide();
+                    Displays.SetVisible(false);   // Round 8 (A2): no flat HUD, prompt or subtitle over it (back with the death page)
                     if (!Ship.Landed) driftCo = StartCoroutine(Drift());
                     AlienEvent($"in view {tt:0.00} s after the strike ({(InView(c) ? "seen" : "not yet in view: 0.6 s limit")}), {c.NearestTo(Eye, gapVerts):0.00} m from the eye at its nearest");
                 }

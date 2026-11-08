@@ -215,8 +215,41 @@ namespace HostileHorizon
         void KeepClear(Creature c, float gap)
         {
             if (CheckOldStaging || !c) return;
-            var eye = Eye; float d = c.NearestTo(eye, gapVerts);
-            if (d < gap) c.transform.position += Rig.Head.transform.forward * (gap - d);
+            var eye = Eye; c.Surface(gapVerts); float best = float.MaxValue; Vector3 at = eye + Rig.Head.transform.forward;
+            foreach (var v in gapVerts) { float d2 = (v - eye).sqrMagnitude; if (d2 < best) { best = d2; at = v; } }
+            float d = Mathf.Sqrt(best); if (gapVerts.Count == 0 || d >= gap) return;
+            // Round 8: straight away from the eye (Round 7 pushed along the view, which drove a body beside you forward into the screens)
+            // Round 8: straight away from the eye (Round 7 pushed along the view, which drove a body beside you forward into the
+            // screens). Pushing toward the hatch side instead was tried (round8a run 3): it slid the creature out of view behind you.
+            c.transform.position += (StrikeStaging >= 2 ? (at - eye).normalized : Rig.Head.transform.forward) * (gap - d);
+        }
+
+        // Round 8 (A2). Cause (check round8a): Round 7 turned the whole creature to look at you with its face 0.65 m ahead, so its
+        // body went straight out from there, away from you: its neck, shoulders and chest 0.6-1.5 m ahead, behind the cockpit
+        // screens (0.51-0.57 m from the eye) and down inside the dash. The screens z-test correctly, so they were drawn over it. Now
+        // its face is nearer than the screens and its body lies where there is room: beside you, back past your left shoulder toward
+        // the hatch it came through (or, through the broken canopy, out over the top of the dash); the upper body and head turn so
+        // the face looks at you (Creature.LookAt). StrikeStaging 0 = Round 7's, 1 = Round 7's at the new distance (checks).
+        public static int StrikeStaging = 2;
+        public const float StrikeFaceNear = .45f;
+        void StageAtFace(Creature c, int from, float rate, float nearer = 0)   // from: 0 the hatch, 1 the canopy
+        {
+            var head = Rig.Head.transform; var eye = Eye;
+            if (StrikeStaging <= 1)
+            {
+                c.LookAt = null; c.FaceAt = null;
+                PlaceFace(c, eye + head.forward * ((StrikeStaging == 0 ? StrikeFace : StrikeFaceNear) + nearer) - head.up * .06f, eye, head.up, rate);
+                return;
+            }
+            var face = eye + head.forward * (StrikeFaceNear + nearer) + (from == 1 ? head.up * .04f : -head.right * .06f - head.up * .03f);
+            // body = from the head toward the hips (these bodies hang below the head): down past your left shoulder toward the hatch, or
+            // up over the dash under the canopy roof (head first, toward you); the chest faces you as far as that line allows
+            var body = from == 1 ? (head.forward * .85f + head.up * .5f).normalized
+                                 : (-head.right * .6f - head.up * .65f - head.forward * .45f).normalized;
+            var chest = Vector3.ProjectOnPlane(eye - face, body); if (chest.sqrMagnitude < 1e-4f) chest = head.up;
+            float k = 1 - Mathf.Exp(-rate * Time.deltaTime);
+            c.transform.rotation = Quaternion.Slerp(c.transform.rotation, Quaternion.LookRotation(chest, -body), k);
+            c.LookAt = c.Local(eye); c.FaceAt = c.Local(face); c.FaceRate = rate;   // the face is moved onto its mark after the animation (Creature.LateUpdate)
         }
         // the canopy bubble (ship.py: ellipsoid at (0, .62, 2.95), radii (1.02, .98, 1.75)): push the creature out along the glass's
         // normal at its face until no vertex is inside
@@ -330,13 +363,13 @@ namespace HostileHorizon
             while (tt < 2.4f)
             {
                 tt += Time.deltaTime; var head = Rig.Head.transform;
-                PlaceFace(c, CheckOldStaging ? head.position + head.forward * .5f + head.up * .02f : Eye + head.forward * StrikeFace - head.up * .06f, Eye, head.up, 3.2f);
+                if (CheckOldStaging) PlaceFace(c, head.position + head.forward * .5f + head.up * .02f, Eye, head.up, 3.2f); else StageAtFace(c, entry == 1 ? 1 : 0, 3.2f);
                 KeepClear(c, StrikeGap); c.LightFrom(Eye);
                 c.Jaw = Mathf.Clamp01((tt - 1f) / 1.2f);
                 yield return null;
             }
             HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); Music.Sting("sting_alien_reveal"); c.Jaw = 1; c.Speed = 14; c.Act("attack", 1.5f);
-            tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; PlaceFace(c, (CheckOldStaging ? head.position : Eye) + head.forward * (CheckOldStaging ? .16f : StrikeFace - .1f), CheckOldStaging ? head.position : Eye, head.up, 12f); KeepClear(c, StrikeGap - .05f); c.LightFrom(Eye); yield return null; }
+            tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; if (CheckOldStaging) PlaceFace(c, head.position + head.forward * .16f, head.position, head.up, 12f); else StageAtFace(c, entry == 1 ? 1 : 0, 12f, -.05f); KeepClear(c, StrikeGap - .05f); c.LightFrom(Eye); yield return null; }
             HorrorBeat = "dead";
             AlienEvent($"the {type} got you");
             Now = State.Crashed;
@@ -458,6 +491,15 @@ namespace HostileHorizon
         }
         public void CheckBoard(DownedPilot p) { p.ForceAboard(); PilotBoarded(p); }
         // Round 7 (checks): a creature standing in the cabin, facing the cabin camera 1.6 m in front of it
+        // checks (round8a): a creature held where the strike puts it (from 0 the hatch, 1 the canopy), until it is destroyed
+        public Creature CheckStrikeCreature(AlienType t, int from)
+        {
+            var c = NewCreature(t); c.Show(true); c.FullDetail(true); c.SetPose(Creature.Pose.Lunge, true); c.Jaw = 1; c.Act("attack", 1.5f);
+            c.transform.SetPositionAndRotation(Ship.transform.TransformPoint(ShipLayout.Eye + new Vector3(0, 0, .6f)), Ship.transform.rotation * Quaternion.Euler(0, 180, 0));
+            StartCoroutine(HoldStage(c, from)); return c;
+        }
+        IEnumerator HoldStage(Creature c, int from) { while (c) { StageAtFace(c, from, 16f); KeepClear(c, StrikeGap); c.LightFrom(Eye); yield return null; } }
+
         public Creature CheckCabinCreature(AlienType t, bool old)
         {
             var c = NewCreature(t); c.Show(true); c.FullDetail(!old); c.SetPose(Creature.Pose.Stand, true);

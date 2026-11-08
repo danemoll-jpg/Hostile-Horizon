@@ -1,6 +1,7 @@
 """Fix 3.1 stage 3: concept images -> textured 3D models with the Meshy image-to-3D API.
 
 python Tools/meshy_generate.py [--only pilot,mimic] [--force]
+Round 8: also the hard-surface models (ship, cockpit_dash, ... saucer), only when named with --only.
 
 Reads SourceArt/Concepts/<name>.png, writes SourceArt/Meshy/<name>/ (model.glb, model.fbx, textures, preview.png,
 task.json). The API key comes from MESHY_API_KEY (process environment, else the Windows user environment); it is never
@@ -13,6 +14,11 @@ ROOT = Path(__file__).resolve().parent.parent
 API = "https://api.meshy.ai/openapi/v1/image-to-3d"
 # triangle budgets (TODO.md Fix 3.1): pilot 15-20k, creatures 20-30k
 MODELS = {"pilot": 18000, "mimic": 25000, "hollow": 25000, "knocker": 28000, "stalker": 25000, "sleeper": 25000}
+# Round 8 (B1): hard-surface models (Docs/MODELS-NEEDED.md); no pose
+HARD = {"ship": 30000, "cockpit_dash": 15000, "cockpit_console": 8000, "cockpit_seat": 8000, "mothership": 40000,
+        "bay_wall": 8000, "bay_cradle": 10000, "regen_pod": 10000, "turret": 12000, "saucer": 12000}
+CHARACTERS = set(MODELS)
+MODELS.update(HARD)
 
 
 def key():
@@ -49,7 +55,7 @@ def main():
     ap.add_argument("--only", default="")
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args()
-    names = [n for n in MODELS if not a.only or n in a.only.split(",")]
+    names = [n for n in MODELS if (n in a.only.split(",") if a.only else n in CHARACTERS)]   # Round 8: the hard-surface ones only by name
     k = key()
     tasks = {}
     for n in names:
@@ -65,7 +71,8 @@ def main():
         img = ROOT / "SourceArt" / "Concepts" / f"{n}.png"
         body = {"image_url": "data:image/png;base64," + base64.b64encode(img.read_bytes()).decode(),
                 "ai_model": "latest", "should_remesh": True, "topology": "triangle", "target_polycount": MODELS[n],
-                "should_texture": True, "enable_pbr": True, "pose_mode": "a-pose", "remove_lighting": True}
+                "should_texture": True, "enable_pbr": True, "remove_lighting": True}
+        if n in CHARACTERS: body["pose_mode"] = "a-pose"
         tid = call("POST", API, k, body)["result"]
         tj.write_text(json.dumps({"id": tid, "status": "PENDING", "polycount": MODELS[n]}, indent=1))
         tasks[n] = tid

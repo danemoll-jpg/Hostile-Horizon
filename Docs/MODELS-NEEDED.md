@@ -1,4 +1,198 @@
-# Hostile Horizon — character models needed (Fix 3.1)
+# Hostile Horizon — models needed
+
+- **Round 8 (B1): the ship, the cockpit, the mothership and its hangar bay, the turret, the saucer** — below, waiting for
+  Dan's concept images.
+- Fix 3.1: the pilot and the five creatures — done (further down, kept for reference).
+
+---------------------------------------------------------------------------------------------------------------------------
+
+# Round 8 (B1) — hard-surface models
+
+Same pipeline as the characters (Dan's standing way): Code writes the prompts (this section) -> **Dan has the concept
+images drawn** -> Code makes the models with the Meshy API (`MESHY_API_KEY`, never written down) and finishes them in
+Blender (scale, pivots, LODs, simple collision shapes, materials) -> **Code shows Dan renders and waits** -> Code puts them
+in the game. No Mixamo: nothing here has a skeleton.
+
+All original designs, nothing from the 1984 game. Sizes are for Code to set in Blender; the images don't need to show them.
+
+## What Meshy needs, and what the game keeps doing itself
+
+Meshy turns one picture into **one solid, fused, textured shell**. So:
+- **Moving or see-through parts are made by the game or by Code in Blender, not by the picture:** the canopy glass and the
+  glass floor, the landing legs, the sliding airlock door, the engine glow, the screens' pictures, the mothership's floor
+  doors, the saucer's spinning rim lamps. The pictures should show where these go (a canopy frame, a door outline, nozzles,
+  dark screen recesses), drawn closed and solid.
+- **The cockpit is made from parts** (seat, dash, side console), each its own picture, because Meshy builds objects, not the
+  inside of a room. Code assembles them round the pilot's eye at 1:1 (the eye stays where it is now, `ShipLayout.Eye`), so
+  the screens, the glass floor, the belly / cabin cameras and VR keep working.
+- **The hangar bay is made from parts too** (wall section, docking cradle, regeneration pod); Code builds the room from
+  them inside the new mothership.
+- The **turret's** base, turning head and gun barrels are cut apart by Code in Blender (the game turns the head and lifts
+  the gun), so draw them clearly distinct: a visible turning ring, barrels on a short axle.
+
+## The images (Dan)
+
+Paste each prompt as it is. Save each image as **`SourceArt/Concepts/<name>.png`** (names in the headings).
+
+What makes an image usable (Code checks these when you've saved them):
+- **one object, all of it in frame**, some space round it, nothing cropped;
+- **three-quarter view from the front and a little above** (unless the prompt says otherwise), not a flat side view;
+- **plain light-grey background**, even soft light, no strong shadows or reflections of a scene (Meshy paints them in);
+- no ground, no people, no text, no extra views, no motion blur, no lens effects;
+- solid, believable hard-surface detail: panels, bolts, vents, wear; nothing glowing;
+- square or landscape, at least 1024 px.
+
+If your tool has a negative prompt: `cropped, cut off, multiple views, people, pilot, text, logo, watermark, background
+scenery, ground, strong shadows, reflections, motion blur, lens flare, depth of field, cartoon, low poly`.
+
+Shared style (already in each prompt): our ship and mothership are **worn industrial rescue-corps hardware** (off-white and
+pale grey paint, burnt-orange rescue markings, dark gunmetal machinery, scuffs and grime). The enemies are the opposite:
+**dark, alien, rust-red and bronze**, no orange markings.
+
+---
+
+### 1. Rescue ship, outside — `ship.png` (12.5 m long, 11 m across the wings)
+
+> Hard-surface concept art of a small sci-fi rescue lander, three-quarter front view from slightly above, the whole craft
+> in frame. A stubby delta-wing ship about 12 metres long: a rounded, chunky fuselage; a large bubble canopy at the front
+> made of a few big framed glass panes, drawn as dark tinted glass; short swept delta wings low on the body with a squared
+> engine pod on each wing root, the nozzles at the back; two fins canted outward at the tail; a rectangular airlock door
+> outline in the left side behind the canopy; small landing lamps under the nose; landing legs retracted (flush doors).
+> Worn industrial rescue-corps hardware: off-white and pale grey painted metal with burnt-orange rescue markings and stripes,
+> dark gunmetal machinery, scuffs, grime and heat staining around the engines, realistic hard-surface sci-fi, like a working
+> vehicle that has flown a thousand missions. Plain light grey background, soft even studio lighting, no shadows, no text.
+
+**Design note:** seen in every chase view, the landing view, the hangar and the launch. It keeps today's silhouette (stubby
+delta, bubble canopy, two engine pods, two canted fins) so the cockpit fits inside. Code replaces the canopy panes with the
+game's own glass; the airlock door, legs and engine glow stay made by the game; the loaner's yellow and the burnt wreck are
+tints over the new texture.
+
+### 2. Cockpit seat — `cockpit_seat.png` (seat back about 1.1 m tall)
+
+> Hard-surface concept art of a single sci-fi pilot's seat from a small rescue ship's cockpit, three-quarter front view from
+> slightly above, the whole seat in frame, no pilot. A rugged padded flight seat: a tall back with a headrest, side bolsters,
+> five-point harness straps lying flat on the cushion, armrests with a flight-stick grip on the right armrest and a throttle
+> lever on the left, a metal frame and rails underneath. Worn industrial rescue-corps hardware: dark grey padding with
+> burnt-orange stitching and pull tabs, off-white painted metal frame, dark gunmetal rails, scuffs and wear on the edges,
+> realistic hard-surface sci-fi. Plain light grey background, soft even studio lighting, no shadows, no text.
+
+**Design note:** in VR you look down at it and your arms rest on it. Code places it so the eye point stays at
+`ShipLayout.Eye` and the cabin hatch behind your left shoulder stays clear.
+
+### 3. Cockpit dash — `cockpit_dash.png` (about 1.4 m wide, 0.5 m tall)
+
+> Hard-surface concept art of the instrument dash of a small sci-fi rescue ship's cockpit, seen from the pilot's seat,
+> slightly from above, the whole dash in frame. A low, wide, curved dash panel: three rectangular screen recesses in a row
+> across the middle, the centre one largest, each screen plain flat black; around them rows of small toggle switches,
+> guarded switches, push buttons and rotary knobs, a few small round analogue gauges, labels too small to read, grab handles
+> at each end, a sloped glare shield over the top edge. The panel is low so the pilot sees over it, with an open space under
+> it for the legs. Worn industrial rescue-corps hardware: off-white and pale grey painted panels, dark gunmetal bezels, small
+> burnt-orange warning markings, scuffed paint around the switches, realistic hard-surface sci-fi. Plain light grey
+> background, soft even studio lighting, no shadows, no text, no glowing screens.
+
+**Design note:** the three black recesses are where the game's live screens go (flight numbers, the belly camera, the
+radar); keep them flat and black so Code can line the screens up with them. The dash top stays below the eye line (the view
+over the nose) and the footwell open (the glass floor is there).
+
+### 4. Cockpit side console — `cockpit_console.png` (about 1.2 m long, 0.6 m tall)
+
+> Hard-surface concept art of a side console from a small sci-fi rescue ship's cockpit, three-quarter view from above, the
+> whole console in frame. A long, narrow console that runs along the cockpit wall beside the pilot's seat at elbow height:
+> a sloped top covered in switch panels, circuit-breaker rows, a small keypad, two small round gauges, a recessed storage
+> slot, a few cable runs and a hand rail on the inner edge; the side facing the pilot is plain panelling with vents.
+> Worn industrial rescue-corps hardware: off-white and pale grey painted panels, dark gunmetal switch plates, small
+> burnt-orange markings, scuffs and grime, realistic hard-surface sci-fi. Plain light grey background, soft even studio
+> lighting, no shadows, no text, nothing glowing.
+
+**Design note:** one picture for both sides (Code mirrors it for the right). The canopy frame and the bulkhead with the
+cabin hatch are built by Code to fit the glass, in the same paint.
+
+### 5. Mothership, outside — `mothership.png` (about 190 m long, 60 m wide)
+
+> Hard-surface concept art of a huge sci-fi rescue carrier ship, three-quarter rear view from slightly above, the whole
+> ship in frame. A long, heavy, blunt-nosed hull, about 190 metres long, built like an industrial hospital ship: stacked hull
+> sections, radiator fins, antenna masts, rows of small windows, docking light housings. Two very large engines at the stern,
+> one on each side, and between them a big open rectangular hangar mouth at the stern, dark inside, with a wide opening in
+> the hangar floor underneath where small craft rise in. Worn industrial rescue-corps hardware: off-white and pale grey
+> painted plating with large burnt-orange rescue stripes and markings, dark gunmetal machinery, grime and heat staining
+> around the engines, realistic hard-surface sci-fi. Plain light grey background, soft even studio lighting, no shadows, no
+> text.
+
+**Design note:** you fly up to it from below and into the open stern on every docking, and see it hanging in the sky. Code
+cuts the hangar mouth and floor opening clean (to the bay's numbers in `Mothership.cs`) and builds the bay inside from the
+next three pictures.
+
+### 6. Hangar bay wall section — `bay_wall.png` (a section about 10 m wide, 15 m tall)
+
+> Hard-surface concept art of one section of the inside wall of a large spaceship hangar bay, front view, slightly from
+> one side, the whole section in frame. A tall wall panel module: heavy structural ribs at both edges, a walkway with railings
+> halfway up, pipes and cable trays running across, a recessed equipment locker, hazard-striped edges, floodlight housings
+> near the top. Worn industrial rescue-corps hardware: pale grey painted plating, dark gunmetal ribs and machinery,
+> burnt-orange and black hazard stripes, grime and fluid stains, realistic hard-surface sci-fi. Plain light grey background,
+> soft even studio lighting, no shadows, no text, no people.
+
+**Design note:** Code repeats this section round the bay. It's what you look at while docked in the hangar menus.
+
+### 7. Docking cradle — `bay_cradle.png` (about 8 m across)
+
+> Hard-surface concept art of a heavy docking cradle that hangs from a hangar ceiling and holds a small spaceship from above,
+> three-quarter view from below, the whole cradle in frame. A big mechanical clamp: a ceiling mount with hydraulic rams, two
+> long arms that reach down and out, padded grab pads at their ends, cable bundles and hoses, warning light housings
+> (unlit). Worn industrial rescue-corps hardware: dark gunmetal machinery, off-white painted covers, burnt-orange and black
+> hazard markings, oil and grime, realistic hard-surface sci-fi. Plain light grey background, soft even studio lighting, no
+> shadows, no text, no spaceship.
+
+**Design note:** it holds your ship after every docking and lets it go at every launch, over the floor opening.
+
+### 8. Regeneration pod — `regen_pod.png` (about 2.4 m tall)
+
+> Hard-surface concept art of a medical regeneration pod from a sci-fi rescue ship, three-quarter front view, the whole pod
+> in frame. An upright capsule big enough for one person to stand in: a heavy base full of machinery and cables, a curved
+> front hatch with a large window (drawn as dark tinted glass), side panels with small status displays (dark), coolant
+> pipes, a top cap with a vent. Clinical but worn: off-white and pale grey painted panels, dark gunmetal machinery, a small
+> burnt-orange medical cross marking, scuffs and grime, realistic hard-surface sci-fi. Plain light grey background, soft
+> even studio lighting, no shadows, no text, no person inside.
+
+**Design note:** you wake inside this after every death and look out through its window into the bay; Code keeps the
+window open (the game's glass) and the waking eye point where it is now.
+
+### 9. Turret — `turret.png` (about 5 m across, 4.5 m tall)
+
+> Hard-surface concept art of a hostile alien ground gun turret, three-quarter front view from slightly above, the whole
+> turret in frame. A squat armoured emplacement: a stepped, wide pedestal with braced feet, a clearly separate rotating
+> armoured head on a visible turning ring, and twin heavy gun barrels mounted on a short axle at the front of the head, with
+> a single round sensor eye between the barrels. Alien and hostile, not human-made: dark weathered metal in rust-red, bronze
+> and black, organic ridged armour plates, corrosion and scorch marks, realistic hard-surface sci-fi. Plain light grey
+> background, soft even studio lighting, no shadows, no text, no muzzle flash.
+
+**Design note:** the game turns the head, lifts the barrels and lights the sensor eye red; the turning ring and the axle
+must be clear so Code can cut base, head and gun apart. Seen at 100 m - 2 km, often against the sky.
+
+### 10. Saucer — `saucer.png` (about 14 m across, 3.5 m deep)
+
+> Hard-surface concept art of a hostile alien flying saucer drone, three-quarter view from slightly above, the whole craft
+> in frame. A flat lens-shaped hull about 14 metres across: overlapping armour plates in rings, a raised dark sensor dome on
+> top, a thick rim with a row of small round lamp sockets all the way round (unlit), and on the underside a circular emitter
+> housing. Alien and hostile, not human-made: dark weathered metal in rust-red, bronze and black, ridged organic armour,
+> scorch marks and corrosion, realistic hard-surface sci-fi. Plain light grey background, soft even studio lighting, no
+> shadows, no text, no glow, no beams.
+
+**Design note:** the game spins its own lamps round the rim and lights the emitter; a saucer is seen from below as much as
+from above, so the underside matters.
+
+---
+
+## After the images (Code)
+
+`python Tools/meshy_generate.py --only <names>` (image-to-3D, hard-surface settings; triangle budgets: ship 30k, dash 15k,
+console 8k, seat 8k, mothership 40k, bay wall 8k, cradle 10k, pod 10k, turret 12k, saucer 12k; LODs at ~50 % and ~20 % in
+Blender except the cockpit parts, which are always close) -> Blender clean-up (scale to the sizes above, pivots, the cuts
+listed above, simple box / capsule collision) -> renders `SourceArt/Meshy/<name>/render_*.png` and a contact sheet for Dan
+(**STOP**) -> into the game.
+
+---------------------------------------------------------------------------------------------------------------------------
+
+# Fix 3.1 — character models (done)
 
 Six models: the **pilot** (also every alien's disguise) and **five alien reveal forms**, one per type. Pipeline (Dan's
 standing way of working): Code writes the prompts (this file) -> **Dan has the concept images drawn** -> Code makes the 3D

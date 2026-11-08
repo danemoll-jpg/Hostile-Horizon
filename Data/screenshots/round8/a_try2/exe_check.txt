@@ -1,0 +1,90 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 69632 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 15:40; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Halthel-II (canyons)
+    [1264 fps] Auto/launch Hover alt 1444 gnd 1442 spd 56 hdg 315 energy 100
+--- the creature at the strike and on the canopy: what hides it (before = Round 7's staging with 0.7.0's HUD; after = Round 8's)
+  Mimic strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): creature in the view 291661 px (14.1 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 55.6 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 0.61 m from the eye, nearest part 0.52 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_before.png
+screenshot r8a_mimic_strike_before_nohud.png
+  Mimic strike held, AFTER (Round 8 staging, HUD hidden): creature in the view 340424 px (16.4 % of it); hidden by the cockpit screens 24.1 %, by the cockpit's body (dash, frame, seat) 0.2 %, under the flat HUD 0.1 % (HUD hidden in play; measured with it on); face 0.52 m from the eye, nearest part 0.42 m, face turned 23 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_after.png
+screenshot r8a_mimic_strike_after_hud.png
+screenshot r8a_mimic_strike_play_1_0.1s.png
+    Mimic strike played +0.26 s after in view: HUD hidden, menu none
+    [359 fps] Auto/horror Flight alt 1143 gnd 700 spd 61 hdg 287 energy 100
+screenshot r8a_mimic_strike_play_2_0.5s.png
+    Mimic strike played +0.98 s after in view: HUD hidden, menu none; creature in the view 265001 px (12.8 % of it); hidden by the cockpit screens 0.1 %, by the cockpit's body (dash, frame, seat) 3.4 %, under the flat HUD 37.8 % (HUD hidden in play; measured with it on); face 0.51 m from the eye, nearest part 0.41 m, face turned 26 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_play_3_1.2s.png
+    Mimic strike played +1.35 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: new entry — Mimic /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_strike_play_death_page.png
+    [632 fps] Auto/regen-trip Flight alt 1056 gnd 572 spd 1 hdg 283 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_strike_play_regen_bay.png
+    [1002 fps] Auto/recovery Hover alt 1174 gnd 1173 spd 44 hdg 315 energy 100
+    [1253 fps] Auto/recovery Hover alt 1464 gnd 1463 spd 14 hdg 315 energy 100
+    [1399 fps] Auto/launch Hover alt 1500 gnd 1500 spd 0 hdg 315 energy 100
+    [877 fps] Flying/ Hover alt 19 gnd 21 spd 3 hdg 320 energy 99
+    [294 fps] Flying/ Hover alt 5 gnd 8 spd 1 hdg 320 energy 95
+    [311 fps] Flying/ Hover alt 0 gnd 3 spd 1 hdg 320 energy 92
+    [384 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic on the canopy (HUD shown, as in play): creature in the view 101737 px (4.9 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 46.9 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.05 m from the eye, nearest part 1.92 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_canopy_hud.png
+screenshot r8a_mimic_canopy_nohud.png
+    [406 fps] Auto/horror Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic through the canopy, in front of you: HUD hidden; creature in the view 573637 px (27.7 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 15.4 % (HUD hidden in play; measured with it on); face 0.51 m from the eye, nearest part 0.42 m, face turned 47 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_breakin.png
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_breakin_death_page.png
+    [626 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [789 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_breakin_regen_bay.png
+    [908 fps] Auto/recovery Hover alt 1090 gnd 1091 spd 50 hdg 315 energy 100
+    [1186 fps] Auto/recovery Hover alt 1432 gnd 1433 spd 20 hdg 315 energy 100
+    [1304 fps] Auto/launch Hover alt 1500 gnd 1501 spd 0 hdg 315 energy 100
+  Knocker strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): creature in the view 546553 px (26.4 % of it); hidden by the cockpit screens 0.7 %, by the cockpit's body (dash, frame, seat) 4.4 %, under the flat HUD 9.9 % (HUD shown in play; measured with it on); face 0.71 m from the eye, nearest part 0.41 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+    [1017 fps] Flying/ Flight alt 1363 gnd 964 spd 73 hdg 309 energy 100
+screenshot r8a_knocker_strike_before.png
+screenshot r8a_knocker_strike_before_nohud.png
+  Knocker strike held, AFTER (Round 8 staging, HUD hidden): creature in the view 295030 px (14.2 % of it); hidden by the cockpit screens 0.7 %, by the cockpit's body (dash, frame, seat) 0.1 %, under the flat HUD 0.7 % (HUD hidden in play; measured with it on); face 0.64 m from the eye, nearest part 0.42 m, face turned 38 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_strike_after.png
+screenshot r8a_knocker_strike_after_hud.png
+screenshot r8a_knocker_strike_play_1_0.1s.png
+    Knocker strike played +0.26 s after in view: HUD hidden, menu none
+screenshot r8a_knocker_strike_play_2_0.5s.png
+    Knocker strike played +0.98 s after in view: HUD hidden, menu none; creature in the view 849010 px (40.9 % of it); hidden by the cockpit screens 7.9 %, by the cockpit's body (dash, frame, seat) 13.6 %, under the flat HUD 0.1 % (HUD hidden in play; measured with it on); face 0.94 m from the eye, nearest part 0.41 m, face turned 51 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_strike_play_3_1.2s.png
+    Knocker strike played +1.34 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: new entry — Knocker /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_knocker_strike_play_death_page.png
+    [284 fps] Auto/regen-trip Flight alt 1085 gnd 794 spd 1 hdg 286 energy 100
+    [492 fps] Auto/regen-trip Flight alt 1073 gnd 782 spd 1 hdg 286 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_knocker_strike_play_regen_bay.png
+    [990 fps] Auto/recovery Hover alt 1340 gnd 1236 spd 31 hdg 315 energy 100
+    [1060 fps] Auto/recovery Hover alt 1498 gnd 1394 spd 7 hdg 315 energy 100
+    [1257 fps] Auto/launch Hover alt 1452 gnd 1454 spd 47 hdg 315 energy 100
+    [393 fps] Flying/ Hover alt 12 gnd 14 spd 2 hdg 320 energy 97
+    [301 fps] Flying/ Hover alt 3 gnd 6 spd 1 hdg 320 energy 94
+    [325 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Knocker on the canopy (HUD shown, as in play): creature in the view 229051 px (11.0 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 48.9 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.04 m from the eye, nearest part 1.69 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_canopy_hud.png
+screenshot r8a_knocker_canopy_nohud.png
+    [346 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [529 fps] Auto/horror Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Knocker through the canopy, in front of you: HUD hidden; creature in the view 834894 px (40.3 % of it); hidden by the cockpit screens 0.1 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 15.4 % (HUD hidden in play; measured with it on); face 0.59 m from the eye, nearest part 0.38 m, face turned 32 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_breakin.png
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_knocker_breakin_death_page.png
+    [587 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [734 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_knocker_breakin_regen_bay.png
+    [995 fps] Auto/recovery Hover alt 1249 gnd 1246 spd 39 hdg 315 energy 100
+    [1175 fps] Auto/recovery Hover alt 1484 gnd 1482 spd 8 hdg 315 energy 100
+    [1234 fps] Auto/launch Hover alt 1489 gnd 1487 spd 15 hdg 315 energy 100
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 0.298, zeroed before the speakers; 31141888 samples); master volume 0.00

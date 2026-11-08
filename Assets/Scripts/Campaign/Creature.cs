@@ -44,7 +44,8 @@ namespace HostileHorizon
             if (type != AlienType.None && (c.rig = CharacterRig.Create(CharacterRig.ModelFor(type), root.transform)))
             {
                 root.name = "Creature (" + Aliens.Names[(int)type] + ")";
-                c.rs = c.rig.Renderers; root.SetActive(false); return c;
+                c.rs = c.rig.Renderers; if (c.rig.Head) c.faceLocal = Quaternion.Inverse(c.rig.Head.rotation) * root.transform.forward;   // the face's direction in the head bone (bind pose)
+                root.SetActive(false); return c;
             }
             var model = Instantiate(Resources.Load<GameObject>("Models/Creature"), root.transform); model.name = "Model";
             model.transform.localRotation = Quaternion.Euler(0, 180, 0);   // Blender FBX files import facing back
@@ -126,7 +127,7 @@ namespace HostileHorizon
         }
         public void Shadows(bool on) { foreach (var r in rs) r.shadowCastingMode = on ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off; }
         public Transform Joint(string name) => rig ? null : j[name];
-        public Vector3 HeadWorld => rig ? rig.Head.position + transform.forward * .14f : j["Head"].position + j["Head"].rotation * new Vector3(0, .05f, .14f);   // the face
+        public Vector3 HeadWorld => rig ? rig.Head.position + (LookAt.HasValue ? faceDir : transform.forward) * .14f : j["Head"].position + j["Head"].rotation * new Vector3(0, .05f, .14f);   // the face
 
         void Set(string n, float x, float y = 0, float z = 0) => want[n] = new Vector3(x, y, z);
 
@@ -178,6 +179,33 @@ namespace HostileHorizon
         }
 
         void OnDestroy() { if (baked) Destroy(baked); }
+
+        // Round 8 (A2): the face turned to look at a point while the body stays where it is put (the strike: the body beside you,
+        // back toward the hatch, the face in front of yours). After the animation each frame: the turn is shared out up the spine,
+        // the neck and the head, so no one joint bends far.
+        public Vector3? LookAt;
+        Vector3 faceLocal = Vector3.forward, faceDir = Vector3.forward;
+        static readonly (HumanBodyBones b, float w)[] Twist = { (HumanBodyBones.Spine, .05f), (HumanBodyBones.Chest, .1f), (HumanBodyBones.UpperChest, .15f), (HumanBodyBones.Neck, .3f), (HumanBodyBones.Head, .4f) };
+        public float TwistAngle { get; private set; }   // checks: how far the face was turned from where the clip had it
+        void LateUpdate()
+        {
+            if (!rig || !LookAt.HasValue || !rig.Head) return;
+            var head = rig.Head; var have = head.rotation * faceLocal; var want = (World(LookAt.Value) - head.position).normalized;
+            var q = Quaternion.FromToRotation(have, want); TwistAngle = Vector3.Angle(have, want);
+            float carry = 0;
+            foreach (var (b, w) in Twist)
+            {
+                var t = rig.Bone(b); if (!t) { carry += w; continue; }   // a rig without that bone: the next one takes its share
+                t.rotation = Quaternion.Slerp(Quaternion.identity, q, w + carry) * t.rotation; carry = 0;
+            }
+            faceDir = (head.rotation * faceLocal).normalized;
+            // then the face onto its mark, after the clip and the turn (placed before the animation, a swinging clip carried it out of view)
+            if (FaceAt.HasValue) transform.position += (World(FaceAt.Value) - HeadWorld) * (1 - Mathf.Exp(-FaceRate * Time.deltaTime));
+        }
+        public Vector3? FaceAt; public float FaceRate = 16f;
+        // LookAt and FaceAt are in the parent's space (the ship's: it moves between the strike's coroutine and the drawing)
+        Vector3 World(Vector3 p) => transform.parent ? transform.parent.TransformPoint(p) : p;
+        public Vector3 Local(Vector3 world) => transform.parent ? transform.parent.InverseTransformPoint(world) : world;
 
         void Update()
         {

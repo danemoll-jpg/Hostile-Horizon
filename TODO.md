@@ -196,6 +196,28 @@ A3. **Check:** cockpit pictures of each creature at the strike and on the
     canopy, with the HUD on and off, before / after, that Code looks at and
     describes. Commit Part A.
 
+**Part A status (Code, 2026-11-08; evidence `Data/screenshots/round8/partA/`, check `--only round8a`, headless, muted, output
+0.000 RMS):**
+- **A0 — done** (`bf66b6d`).
+- **A1 — done. Cause (pixels, each frame drawn with and without the creature / screens / cockpit / HUD; magenta = behind the
+  screens, orange = inside the dash, cyan = under the HUD in `*_covered.png`):** Round 7 turned the whole creature to look at
+  you with its face 0.65 m ahead, so its body went straight out from there, away from you: neck and chest 0.6-1.5 m ahead, behind
+  the screens (0.51-0.57 m from the eye) and down **inside the dash: 34-59 % of the creature hidden** (Mimic 54 %, Hollow 59 %,
+  Stalker 35 %, Sleeper 34 % + 22 % behind the screens). The screens themselves z-test correctly (they hide it only where they
+  really are nearer). Also the flat HUD stayed on through the strike (up to 9 % of the Knocker under it). On the canopy the
+  creature is outside, 2 m ahead: the dash hides 36-49 % of it there, which is physically right (it is on the nose, below the
+  dash line).
+- **A2 — done, with residuals for Dan (tuning limit: two staging attempts plus one bug fix).** At the strike the HUD, prompts and
+  subtitles hide (back with the death page; checked for all five). The creature's face stops 0.40-0.55 m from the eye (nearer
+  than the screens), its body hangs down past your left shoulder toward the hatch (through the canopy: up over the dash under
+  the roof), and the neck / head turn to face you (`Creature.LookAt`, placed after the animation: `FaceAt`). Nearest part
+  0.39-0.42 m (Round 7's 0.42 kept). Still hidden in play: Mimic 13.5 % behind the screens (its shoulder), Knocker 11 % in the
+  dash (its far arm in the attack swing), Stalker 12 % in the dash (its long snout keeps the face 0.9 m out); Hollow, Sleeper
+  and all four canopy break-ins 0-1 %. Tried and dropped: pushing it clear toward the hatch side (it slid out of view behind you).
+- **A3 — done:** pictures per creature: strike held before / after (HUD on / off), the strike played (+0.1 / +0.5 / +1.2 s), on
+  the canopy (HUD on / off), the break-in, and the `_covered` maps. Looked at: the Hollow's open mouth fills the view in front of
+  the dash and screens; the Knocker leans in from the left; the Mimic's head tilts at you from the left.
+
 **Part B — polish**
 
 B1. **Art pipeline (Dan's standing way, `Docs/MODELS-NEEDED.md`; STOP for Dan

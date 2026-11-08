@@ -1,0 +1,196 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 75776 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 16:00; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Halthel-II (canyons)
+    [1155 fps] Auto/launch Hover alt 1443 gnd 1441 spd 57 hdg 315 energy 100
+--- the creature at the strike and on the canopy: what hides it (before = Round 7's staging with 0.7.0's HUD; after = Round 8's)
+  Mimic strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): face IN VIEW at (0.54, 0.41); creature in the view 291533 px (14.1 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 55.7 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 0.61 m from the eye, nearest part 0.52 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_before.png
+screenshot r8a_mimic_strike_before_nohud.png
+  Mimic strike held, AFTER (Round 8 staging, HUD hidden): face IN VIEW at (0.42, 0.37); creature in the view 344620 px (16.6 % of it); hidden by the cockpit screens 24.2 %, by the cockpit's body (dash, frame, seat) 0.2 %, under the flat HUD 0.1 % (HUD hidden in play; measured with it on); face 0.51 m from the eye, nearest part 0.42 m, face turned 23 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_after.png
+screenshot r8a_mimic_strike_after_hud.png
+screenshot r8a_mimic_strike_play_1_0.1s.png
+    Mimic strike played +0.31 s after in view: HUD hidden, menu none
+    [328 fps] Auto/horror Flight alt 1145 gnd 703 spd 61 hdg 288 energy 100
+screenshot r8a_mimic_strike_play_2_0.5s.png
+    Mimic strike played +0.99 s after in view: HUD hidden, menu none; face NOT IN VIEW; creature in the view 241318 px (11.6 % of it); hidden by the cockpit screens 1.4 %, by the cockpit's body (dash, frame, seat) 1.9 %, under the flat HUD 49.4 % (HUD hidden in play; measured with it on); face 0.51 m from the eye, nearest part 0.41 m, face turned 29 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_play_3_1.2s.png
+    Mimic strike played +1.34 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: new entry — Mimic /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_strike_play_death_page.png
+    [591 fps] Auto/regen-trip Flight alt 1058 gnd 573 spd 1 hdg 284 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_strike_play_regen_bay.png
+    [931 fps] Auto/recovery Hover alt 1173 gnd 1173 spd 44 hdg 315 energy 100
+    [1145 fps] Auto/recovery Hover alt 1464 gnd 1463 spd 14 hdg 315 energy 100
+    [1312 fps] Auto/launch Hover alt 1500 gnd 1500 spd 0 hdg 315 energy 100
+    [770 fps] Flying/ Hover alt 21 gnd 23 spd 5 hdg 320 energy 99
+    [294 fps] Flying/ Hover alt 5 gnd 8 spd 1 hdg 320 energy 95
+    [302 fps] Flying/ Hover alt 0 gnd 3 spd 1 hdg 320 energy 92
+    [342 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic on the canopy (HUD shown, as in play): face IN VIEW at (0.48, 0.63); creature in the view 101648 px (4.9 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 46.9 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.05 m from the eye, nearest part 1.92 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_canopy_hud.png
+screenshot r8a_mimic_canopy_nohud.png
+    [305 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic through the canopy, in front of you: HUD hidden; face IN VIEW at (0.22, 0.28); creature in the view 570681 px (27.5 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 15.6 % (HUD hidden in play; measured with it on); face 0.51 m from the eye, nearest part 0.42 m, face turned 47 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_breakin.png
+    [569 fps] Crashed/dead Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_breakin_death_page.png
+    [781 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_breakin_regen_bay.png
+    [940 fps] Auto/recovery Hover alt 1058 gnd 1059 spd 51 hdg 315 energy 100
+    [1301 fps] Auto/recovery Hover alt 1421 gnd 1423 spd 21 hdg 315 energy 100
+    [1365 fps] Auto/recovery Hover alt 1500 gnd 1501 spd 17 hdg 315 energy 100
+    [1205 fps] Flying/ Flight alt 1380 gnd 1107 spd 73 hdg 308 energy 100
+  Hollow strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): face IN VIEW at (0.54, 0.42); creature in the view 256409 px (12.4 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 59.3 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 0.68 m from the eye, nearest part 0.45 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_hollow_strike_before.png
+screenshot r8a_hollow_strike_before_nohud.png
+  Hollow strike held, AFTER (Round 8 staging, HUD hidden): face IN VIEW at (0.31, 0.13); creature in the view 254957 px (12.3 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 0.8 % (HUD hidden in play; measured with it on); face 0.41 m from the eye, nearest part 0.37 m, face turned 20 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_hollow_strike_after.png
+screenshot r8a_hollow_strike_after_hud.png
+screenshot r8a_hollow_strike_play_1_0.1s.png
+    Hollow strike played +0.26 s after in view: HUD hidden, menu none
+screenshot r8a_hollow_strike_play_2_0.5s.png
+    Hollow strike played +0.98 s after in view: HUD hidden, menu none; face NOT IN VIEW; creature in the view 16344 px (0.8 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 60.8 % (HUD hidden in play; measured with it on); face 0.46 m from the eye, nearest part 0.43 m, face turned 51 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_hollow_strike_play_3_1.2s.png
+    Hollow strike played +1.33 s after in view: HUD hidden, menu none
+    [316 fps] Crashed/dead Flight alt 1073 gnd 673 spd 11 hdg 284 energy 100
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: new entry — Hollow /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_hollow_strike_play_death_page.png
+    [683 fps] Auto/regen-trip Flight alt 1058 gnd 638 spd 1 hdg 284 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_hollow_strike_play_regen_bay.png
+    [940 fps] Auto/recovery Hover alt 1313 gnd 1215 spd 33 hdg 315 energy 100
+    [1157 fps] Auto/recovery Hover alt 1493 gnd 1396 spd 3 hdg 315 energy 100
+    [1335 fps] Auto/launch Hover alt 1463 gnd 1465 spd 36 hdg 315 energy 100
+    [455 fps] Flying/ Hover alt 13 gnd 15 spd 2 hdg 320 energy 97
+    [299 fps] Flying/ Hover alt 3 gnd 6 spd 1 hdg 320 energy 94
+    [334 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Hollow on the canopy (HUD shown, as in play): face IN VIEW at (0.49, 0.61); creature in the view 88255 px (4.3 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 37.3 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.02 m from the eye, nearest part 1.90 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_hollow_canopy_hud.png
+screenshot r8a_hollow_canopy_nohud.png
+    [379 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [541 fps] Auto/horror Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Hollow through the canopy, in front of you: HUD hidden; face IN VIEW at (0.24, 0.36); creature in the view 561412 px (27.1 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 17.4 % (HUD hidden in play; measured with it on); face 0.52 m from the eye, nearest part 0.42 m, face turned 46 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_hollow_breakin.png
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: Hollow — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_hollow_breakin_death_page.png
+    [616 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [753 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_hollow_breakin_regen_bay.png
+    [1141 fps] Auto/recovery Hover alt 1243 gnd 1241 spd 39 hdg 315 energy 100
+    [1275 fps] Auto/recovery Hover alt 1482 gnd 1480 spd 9 hdg 315 energy 100
+    [1362 fps] Auto/launch Hover alt 1491 gnd 1489 spd 13 hdg 315 energy 100
+  Knocker strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): face IN VIEW at (0.53, 0.42); creature in the view 545649 px (26.3 % of it); hidden by the cockpit screens 1.2 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 9.5 % (HUD shown in play; measured with it on); face 0.71 m from the eye, nearest part 0.42 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_strike_before.png
+screenshot r8a_knocker_strike_before_nohud.png
+  Knocker strike held, AFTER (Round 8 staging, HUD hidden): face IN VIEW at (0.23, 0.32); creature in the view 285115 px (13.7 % of it); hidden by the cockpit screens 0.7 %, by the cockpit's body (dash, frame, seat) 0.1 %, under the flat HUD 0.7 % (HUD hidden in play; measured with it on); face 0.64 m from the eye, nearest part 0.42 m, face turned 38 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_strike_after.png
+screenshot r8a_knocker_strike_after_hud.png
+    [670 fps] Flying/ Flight alt 1257 gnd 789 spd 73 hdg 322 energy 100
+screenshot r8a_knocker_strike_play_1_0.1s.png
+    Knocker strike played +0.26 s after in view: HUD hidden, menu none
+screenshot r8a_knocker_strike_play_2_0.5s.png
+    Knocker strike played +1.02 s after in view: HUD hidden, menu none; face IN VIEW at (0.17, 0.16); creature in the view 176411 px (8.5 % of it); hidden by the cockpit screens 3.5 %, by the cockpit's body (dash, frame, seat) 23.4 %, under the flat HUD 1.2 % (HUD hidden in play; measured with it on); face 0.50 m from the eye, nearest part 0.44 m, face turned 12 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_strike_play_3_1.2s.png
+    Knocker strike played +1.32 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: new entry — Knocker /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_knocker_strike_play_death_page.png
+    [372 fps] Auto/regen-trip Flight alt 1110 gnd 1108 spd 1 hdg 328 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_knocker_strike_play_regen_bay.png
+    [736 fps] Auto/recovery Hover alt 1104 gnd 1101 spd 49 hdg 315 energy 100
+    [1312 fps] Auto/recovery Hover alt 1440 gnd 1437 spd 18 hdg 315 energy 100
+    [1391 fps] Auto/launch Hover alt 1500 gnd 1497 spd 0 hdg 315 energy 100
+    [1129 fps] Flying/ Hover alt 27 gnd 30 spd 6 hdg 320 energy 99
+    [303 fps] Flying/ Hover alt 6 gnd 9 spd 1 hdg 320 energy 96
+    [319 fps] Flying/ Hover alt 1 gnd 3 spd 1 hdg 320 energy 92
+    [385 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Knocker on the canopy (HUD shown, as in play): face IN VIEW at (0.49, 0.62); creature in the view 229096 px (11.0 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 48.9 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.04 m from the eye, nearest part 1.69 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_canopy_hud.png
+screenshot r8a_knocker_canopy_nohud.png
+    [389 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Knocker through the canopy, in front of you: HUD hidden; face IN VIEW at (0.16, 0.09); creature in the view 898294 px (43.3 % of it); hidden by the cockpit screens 0.5 %, by the cockpit's body (dash, frame, seat) 0.1 %, under the flat HUD 14.5 % (HUD hidden in play; measured with it on); face 0.66 m from the eye, nearest part 0.42 m, face turned 34 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_knocker_breakin.png
+    [627 fps] Crashed/dead Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_knocker_breakin_death_page.png
+    [777 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_knocker_breakin_regen_bay.png
+    [911 fps] Auto/recovery Hover alt 1023 gnd 1018 spd 53 hdg 315 energy 100
+    [1336 fps] Auto/recovery Hover alt 1407 gnd 1401 spd 23 hdg 315 energy 100
+    [1381 fps] Auto/recovery Hover alt 1500 gnd 1495 spd 16 hdg 315 energy 100
+    [1300 fps] Flying/ Flight alt 1407 gnd 1405 spd 73 hdg 321 energy 100
+  Stalker strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): face IN VIEW at (0.53, 0.43); creature in the view 636976 px (30.7 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 35.0 %, under the flat HUD 1.0 % (HUD shown in play; measured with it on); face 0.77 m from the eye, nearest part 0.42 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_stalker_strike_before.png
+screenshot r8a_stalker_strike_before_nohud.png
+  Stalker strike held, AFTER (Round 8 staging, HUD hidden): face IN VIEW at (0.30, 0.11); creature in the view 260465 px (12.6 % of it); hidden by the cockpit screens 3.4 %, by the cockpit's body (dash, frame, seat) 29.3 %, under the flat HUD 0.1 % (HUD hidden in play; measured with it on); face 0.91 m from the eye, nearest part 0.42 m, face turned 42 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_stalker_strike_after.png
+screenshot r8a_stalker_strike_after_hud.png
+screenshot r8a_stalker_strike_play_1_0.1s.png
+    Stalker strike played +0.26 s after in view: HUD hidden, menu none
+screenshot r8a_stalker_strike_play_2_0.5s.png
+    Stalker strike played +1.00 s after in view: HUD hidden, menu none; face IN VIEW at (0.15, 0.08); creature in the view 236167 px (11.4 % of it); hidden by the cockpit screens 1.4 %, by the cockpit's body (dash, frame, seat) 9.2 %, under the flat HUD 0.9 % (HUD hidden in play; measured with it on); face 0.92 m from the eye, nearest part 0.42 m, face turned 22 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_stalker_strike_play_3_1.2s.png
+    Stalker strike played +1.36 s after in view: HUD hidden, menu none
+    [272 fps] Crashed/dead Flight alt 1085 gnd 1084 spd 21 hdg 335 energy 100
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Stalker</b>. / Field Journal: new entry — Stalker /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_stalker_strike_play_death_page.png
+    [574 fps] Auto/regen-trip Flight alt 1064 gnd 1063 spd 1 hdg 335 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_stalker_strike_play_regen_bay.png
+    [1069 fps] Auto/recovery Hover alt 1287 gnd 1284 spd 36 hdg 315 energy 100
+    [1301 fps] Auto/recovery Hover alt 1490 gnd 1487 spd 5 hdg 315 energy 100
+    [1419 fps] Auto/launch Hover alt 1473 gnd 1470 spd 25 hdg 315 energy 100
+    [624 fps] Flying/ Hover alt 14 gnd 16 spd 2 hdg 320 energy 98
+    [326 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 320 energy 94
+    [338 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Stalker on the canopy (HUD shown, as in play): face IN VIEW at (0.49, 0.61); creature in the view 170396 px (8.2 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 36.1 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.03 m from the eye, nearest part 1.47 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_stalker_canopy_hud.png
+screenshot r8a_stalker_canopy_nohud.png
+    [379 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [559 fps] Auto/horror Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Stalker through the canopy, in front of you: HUD hidden; face IN VIEW at (0.24, 0.14); creature in the view 678249 px (32.7 % of it); hidden by the cockpit screens 1.0 %, by the cockpit's body (dash, frame, seat) 9.9 %, under the flat HUD 15.2 % (HUD hidden in play; measured with it on); face 0.92 m from the eye, nearest part 0.42 m, face turned 42 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_stalker_breakin.png
+  death page: "Killed by the thing you let aboard: a <b>Stalker</b>. / Field Journal: Stalker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_stalker_breakin_death_page.png
+    [596 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+    [787 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_stalker_breakin_regen_bay.png
+    [1082 fps] Auto/recovery Hover alt 1227 gnd 1223 spd 40 hdg 315 energy 100
+    [1231 fps] Auto/recovery Hover alt 1479 gnd 1475 spd 10 hdg 315 energy 100
+    [1507 fps] Auto/launch Hover alt 1496 gnd 1492 spd 9 hdg 315 energy 100
+  Sleeper strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): face IN VIEW at (0.53, 0.41); creature in the view 266308 px (12.8 % of it); hidden by the cockpit screens 22.1 %, by the cockpit's body (dash, frame, seat) 33.7 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 0.62 m from the eye, nearest part 0.53 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_sleeper_strike_before.png
+screenshot r8a_sleeper_strike_before_nohud.png
+  Sleeper strike held, AFTER (Round 8 staging, HUD hidden): face IN VIEW at (0.32, 0.24); creature in the view 242233 px (11.7 % of it); hidden by the cockpit screens 0.3 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 0.8 % (HUD hidden in play; measured with it on); face 0.50 m from the eye, nearest part 0.42 m, face turned 21 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_sleeper_strike_after.png
+screenshot r8a_sleeper_strike_after_hud.png
+    [754 fps] Flying/ Flight alt 1271 gnd 801 spd 73 hdg 324 energy 100
+screenshot r8a_sleeper_strike_play_1_0.1s.png
+    Sleeper strike played +0.27 s after in view: HUD hidden, menu none
+screenshot r8a_sleeper_strike_play_2_0.5s.png
+    Sleeper strike played +0.97 s after in view: HUD hidden, menu none; face NOT IN VIEW; creature in the view 0 px (0.0 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 0.0 % (HUD hidden in play; measured with it on); face 0.40 m from the eye, nearest part 0.41 m, face turned 57 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_sleeper_strike_play_3_1.2s.png
+    Sleeper strike played +1.37 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: new entry — Sleeper /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_sleeper_strike_play_death_page.png
+    [507 fps] Auto/regen-trip Flight alt 1071 gnd 1070 spd 1 hdg 334 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_sleeper_strike_play_regen_bay.png
+    [856 fps] Auto/recovery Hover alt 1039 gnd 1036 spd 53 hdg 315 energy 100
+    [1123 fps] Auto/recovery Hover alt 1413 gnd 1410 spd 22 hdg 315 energy 100
+    [1282 fps] Auto/recovery Hover alt 1500 gnd 1497 spd 9 hdg 315 energy 100
+  Sleeper on the canopy: never (it boards as a pilot)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 0.231, zeroed before the speakers; 66254848 samples); master volume 0.00

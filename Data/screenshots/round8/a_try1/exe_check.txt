@@ -1,0 +1,48 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 79872 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 15:35; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+new career: Halthel-II (canyons)
+    [1086 fps] Auto/launch Hover alt 1444 gnd 1442 spd 56 hdg 315 energy 100
+--- the creature at the strike and on the canopy: what hides it (before = Round 7's staging with 0.7.0's HUD; after = Round 8's)
+  Mimic strike held, BEFORE (Round 7 staging, HUD as 0.7.0: shown): creature in the view 263132 px (12.7 % of it); hidden by the cockpit screens 4.5 %, by the cockpit's body (dash, frame, seat) 58.6 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 0.74 m from the eye, nearest part 0.61 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_before.png
+screenshot r8a_mimic_strike_before_nohud.png
+  Mimic strike held, AFTER (Round 8 staging, HUD hidden): creature in the view 306439 px (14.8 % of it); hidden by the cockpit screens 29.2 %, by the cockpit's body (dash, frame, seat) 8.4 %, under the flat HUD 0.3 % (HUD hidden in play; measured with it on); face 0.52 m from the eye, nearest part 0.42 m, face turned 107 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_after.png
+screenshot r8a_mimic_strike_after_hud.png
+screenshot r8a_mimic_strike_play_1_0.1s.png
+    Mimic strike played +0.32 s after in view: HUD hidden, menu none
+    [340 fps] Auto/horror Flight alt 1142 gnd 698 spd 61 hdg 287 energy 100
+screenshot r8a_mimic_strike_play_2_0.5s.png
+    Mimic strike played +0.97 s after in view: HUD hidden, menu none; creature in the view 289659 px (14.0 % of it); hidden by the cockpit screens 22.3 %, by the cockpit's body (dash, frame, seat) 26.8 %, under the flat HUD 0.0 % (HUD hidden in play; measured with it on); face 0.57 m from the eye, nearest part 0.47 m, face turned 149 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_strike_play_3_1.2s.png
+    Mimic strike played +1.35 s after in view: HUD hidden, menu none
+    death page: HUD hidden, the page shown
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: new entry — Mimic /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_strike_play_death_page.png
+    [607 fps] Auto/regen-trip Flight alt 1054 gnd 571 spd 1 hdg 284 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_strike_play_regen_bay.png
+    [940 fps] Auto/recovery Hover alt 1171 gnd 1172 spd 44 hdg 315 energy 100
+    [1265 fps] Auto/recovery Hover alt 1463 gnd 1463 spd 14 hdg 315 energy 100
+    [1363 fps] Auto/launch Hover alt 1500 gnd 1500 spd 0 hdg 315 energy 100
+    [875 fps] Flying/ Hover alt 19 gnd 22 spd 3 hdg 320 energy 99
+    [260 fps] Flying/ Hover alt 5 gnd 8 spd 1 hdg 320 energy 95
+    [264 fps] Flying/ Hover alt 1 gnd 3 spd 1 hdg 320 energy 92
+    [345 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic on the canopy (HUD shown, as in play): creature in the view 103555 px (5.0 % of it); hidden by the cockpit screens 0.0 %, by the cockpit's body (dash, frame, seat) 42.4 %, under the flat HUD 0.0 % (HUD shown in play; measured with it on); face 2.17 m from the eye, nearest part 1.92 m, face turned 0 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_canopy_hud.png
+screenshot r8a_mimic_canopy_nohud.png
+    [351 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  Mimic through the canopy, in front of you: HUD hidden; creature in the view 117604 px (5.7 % of it); hidden by the cockpit screens 6.5 %, by the cockpit's body (dash, frame, seat) 0.0 %, under the flat HUD 4.0 % (HUD hidden in play; measured with it on); face 0.50 m from the eye, nearest part 0.41 m, face turned 53 deg from the clip; screens 0.51-0.57 m
+screenshot r8a_mimic_breakin.png
+    [546 fps] Crashed/dead Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r8a_mimic_breakin_death_page.png
+    [701 fps] Auto/regen-trip Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r8a_mimic_breakin_regen_bay.png
+    [845 fps] Auto/recovery Hover alt 1027 gnd 1029 spd 53 hdg 315 energy 100
+    [1198 fps] Auto/recovery Hover alt 1408 gnd 1410 spd 23 hdg 315 energy 100
+    [1316 fps] Auto/recovery Hover alt 1500 gnd 1502 spd 15 hdg 315 energy 100
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 0.211, zeroed before the speakers; 16418816 samples); master volume 0.00
