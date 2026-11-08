@@ -360,6 +360,31 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `crystal_shatter`, `water_splash` (`make_sounds.py`); `ctl_brief_<biome>` (arrival), `ctl_launch_<biome>` (Control names the world at
   launch), `cpu_hull_heat`, `p<n>_mayday_<biome>`; music `flight_volcanic / crystal / ocean` (Dan's Suno tracks, soundtrack 700). Free
   Flight's Planet type lists all seven. Check `-exeCheckOnly round7b` / `round7bperf` (`Checks/ExeCheck.Round7B.cs`).
+- **Round 8:** (A) the strike: `GameShell.StageAtFace` (`StrikeStaging` 2; 0 = Round 7's for checks): face `StrikeFaceNear` .45 m out, body down past
+  the left shoulder (canopy break-in: up over the dash), neck / head turned after the animation (`Creature.LookAt`, `FaceAt`, in the
+  parent's space); the flat HUD hides at the strike. Check `-exeCheckOnly round8a` (pixel maps of what hides the creature: `_covered.png`).
+  (B1) **Hard-surface models (Dan's art pipeline, no Mixamo):** concepts `SourceArt/Concepts/<name>.png` -> `meshy_generate.py --only <names>`
+  (hard-surface models only by name) -> `blender ... --python Tools/Blender/hard_cleanup.py -- <names>` (size, turn `YAW`, renders) ->
+  `python Tools/import_hard.py` (textures to `Resources/Hard/`; materials by `Editor/HardImport.cs` at build; slot `mx_<name>`; ship and
+  mothership two-sided) -> `ship.py` / `mothership.py` / `enemies.py` (helpers `meshykit.py`; look with `render_ship.py -- <dir> [Mothership]`).
+  Ship: Meshy hull at 0.8 (10 m long, 9.2 m wings, belly -1.24) fitted round `ShipLayout.Eye` (unchanged), dark canopy faces = glass,
+  dash screens at `ShipLayout.ScreenCentre / Left / Right` (side screens scale .00046), new `Contacts`, airlock `ShipExtras.DoorAt`
+  (-1.66, .95, .81; the door shows only while open). Turret pivots: head 2.40, gun (0, 1.07, 1.53), muzzle 3.1 m, eye 3.47 m.
+  (B2) sounds `make_sounds.py` (engine_idle / engine_cruise loops in `ShipAudio`, at the old hum's level; gear_*, airlock_cycle, dock_clamp,
+  jump_drive, explosion, regen_bay, amb_<biome key>) levelled by `python Tools/level_sounds.py` (raws in `SourceArt/Sounds_raw/`);
+  `GameShell.AmbienceTick`, tuning `ambienceMix` .5. (B4) credits: People / Made with / Licences. Check `-exeCheckOnly round8b` (models,
+  sound mix, credits, turret / saucer pictures; with `-steamDeck 1 --size 1280x800` for the Deck).
+  (C) **VR:** OpenXR 1.18.0 + XR Management 4.6.1, set up by `Editor/XrSetup.cs` before each build (Windows, NOT started with the game,
+  single-pass instanced). `Core/VrMode.cs`: VR only for `-vr` or Settings > Display > **VR mode** (Off by default), never on the Deck;
+  no runtime -> a message and flat. `CameraRig.EnableVr` (TrackedPoseDriver, Recenter: gamepad right-stick click / Home / pause menu;
+  cockpit only, no look control), menus on a board (`MenuPanel.PlaceInVr`, 1.4 m), the flat overlay off and a **VR strip** under the
+  canopy frame (`FlightDisplays`), **Comfort** vignette / fade for the jump / horizon line all Off (`Effects/Comfort.cs`), VR quality
+  preset (`WorldLook`: view 2200, shadow 150 / 1 cascade, MSAA 2, `VrRenderScale` .9). `Play Hostile Horizon (VR).bat`; the launcher
+  passes `-vr` / `--vr`. **Check:** `-exeCheckOnly round8c` three ways: flat; `--extra=-vr --env XR_RUNTIME_JSON=C:/nonexistent/x.json`
+  (never run `-vr` in a check without `XR_RUNTIME_JSON`: it would open Dan's real runtime); the mock runtime: `--extra=-vr --env
+  "XR_RUNTIME_JSON=<repo>\Library\PackageCache\com.unity.xr.openxr@<hash>\Runtime\MockRuntime\unity-mock-runtime.json" --env
+  "PATH=<that folder>\windows\x64;..."` (`local/round8_runs2.sh` has the exact line). `run_check.py`: `--env KEY=VALUE`; an `--extra`
+  starting with `-` needs `--extra=...`.
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -435,7 +460,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -499,6 +524,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 8 (A: the creature at the strike in front of the screens, the HUD off for it (cause: Round 7's staging put its body behind the
+screens and inside the dash, 34-59 % hidden; now 0-14 %, residuals for Dan); B: Dan's ship / cockpit / mothership / bay / turret /
+saucer via Meshy, 16 ElevenLabs sounds levelled into the Fix 6.3 mix, a credits page, Deck-setting numbers; C: VR through OpenXR,
+off unless asked, checked on the mock runtime) is built, checked in the exe (headless, muted: `round8a`, `round8b`, `round8b` Deck,
+`round4perf` / `round7bperf` Deck, `round8c` x 3) and published as 0.8.0 (`game-800` Latest; soundtrack stays `soundtrack-700`). Not yet
+played by Dan; VR only he can check (Quest 3 over Virtual Desktop).** Details in `TODO.md` (Round 8 delivery). **Next: Round 9**, to be
+written by the planning chat.
 **Round 7 (Part A: the flight music drops out only for the pickup (cause: 0.6.3's rule silenced it for 32-55 % of low flying); aliens
 up close solid (cause: the strike put the eye 0.02-0.20 m from the body; now face 0.54-0.77 m, nothing nearer than 0.37-0.48 m; the
 canopy kept at 0.6.3's place after two failed restaging tries, for Dan); a `[Play]` event log in `Player.log`; the slow burn removed,

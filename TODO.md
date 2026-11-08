@@ -168,143 +168,10 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 8: the creature in front of the screens (A), polish (B), VR (C)
+Current Objective — Round 9 (to be written by the planning chat)
 ---------------------------------------------------------------------------
 
-Round 7 is delivered as 0.7.0 (status under "Previous deliveries"). Dan
-(2026-11-08): the alien in the cockpit "is not transparent [now]; however they
-appear behind the screens instead of in front." Then: polish (queued as
-Round 8). One publish at the end: **0.8.0**; Part B runs in stages with STOPs
-for Dan (his art pipeline).
-
-**Part A — the creature in front of the screens**
-
-A0. **Commit first** (the repo as it is, with this text).
-A1. Find out with pictures and data what draws over the creature during the
-    strike / canopy: the flat-screen HUD overlay (a screen-space canvas, always
-    on top), the cockpit's world-space displays (their UI shader's ZTest /
-    render queue), the belly / cabin camera feeds, the glass, or the creature
-    really being placed behind the dash. Report the cause.
-A2. Fix so **the creature is always drawn in front of anything between it and
-    the player's eyes:** world-space displays z-test against it like solid
-    objects; at the strike the flat HUD overlay, subtitles and prompts hide
-    (they come back for the death screen); the creature is placed between the
-    player and the dash, never inside it. Same on the canopy (outside the glass,
-    in front of the sky, the displays inside the cockpit stay in front of it
-    only where they really are nearer).
-A3. **Check:** cockpit pictures of each creature at the strike and on the
-    canopy, with the HUD on and off, before / after, that Code looks at and
-    describes. Commit Part A.
-
-**Part A status (Code, 2026-11-08; evidence `Data/screenshots/round8/partA/`, check `--only round8a`, headless, muted, output
-0.000 RMS):**
-- **A0 — done** (`bf66b6d`).
-- **A1 — done. Cause (pixels, each frame drawn with and without the creature / screens / cockpit / HUD; magenta = behind the
-  screens, orange = inside the dash, cyan = under the HUD in `*_covered.png`):** Round 7 turned the whole creature to look at
-  you with its face 0.65 m ahead, so its body went straight out from there, away from you: neck and chest 0.6-1.5 m ahead, behind
-  the screens (0.51-0.57 m from the eye) and down **inside the dash: 34-59 % of the creature hidden** (Mimic 54 %, Hollow 59 %,
-  Stalker 35 %, Sleeper 34 % + 22 % behind the screens). The screens themselves z-test correctly (they hide it only where they
-  really are nearer). Also the flat HUD stayed on through the strike (up to 9 % of the Knocker under it). On the canopy the
-  creature is outside, 2 m ahead: the dash hides 36-49 % of it there, which is physically right (it is on the nose, below the
-  dash line).
-- **A2 — done, with residuals for Dan (tuning limit: two staging attempts plus one bug fix).** At the strike the HUD, prompts and
-  subtitles hide (back with the death page; checked for all five). The creature's face stops 0.40-0.55 m from the eye (nearer
-  than the screens), its body hangs down past your left shoulder toward the hatch (through the canopy: up over the dash under
-  the roof), and the neck / head turn to face you (`Creature.LookAt`, placed after the animation: `FaceAt`). Nearest part
-  0.39-0.42 m (Round 7's 0.42 kept). Still hidden in play: Mimic 13.5 % behind the screens (its shoulder), Knocker 11 % in the
-  dash (its far arm in the attack swing), Stalker 12 % in the dash (its long snout keeps the face 0.9 m out); Hollow, Sleeper
-  and all four canopy break-ins 0-1 %. Tried and dropped: pushing it clear toward the hatch side (it slid out of view behind you).
-- **A3 — done:** pictures per creature: strike held before / after (HUD on / off), the strike played (+0.1 / +0.5 / +1.2 s), on
-  the canopy (HUD on / off), the break-in, and the `_covered` maps. Looked at: the Hollow's open mouth fills the view in front of
-  the dash and screens; the Knocker leans in from the left; the Mimic's head tilts at you from the left.
-
-**Part B — polish**
-
-B1. **Art pipeline (Dan's standing way, `Docs/MODELS-NEEDED.md`; STOP for Dan
-    at each step):** new models for the **ship's exterior**, the **cockpit
-    interior** (detailed, believable, built for VR: switches, panels, seat,
-    canopy frame; the displays, glass floor and cameras keep working), the
-    **mothership** and its **hangar bay**, the **turret** and the **saucer**.
-    Code writes the concept-image prompts (STOP), Dan makes the images, Code
-    makes the models with the Meshy API and cleans them up in Blender (LODs,
-    collision shapes kept simple; the cockpit's layout must match `ShipLayout`
-    or update it) and shows renders (STOP), then puts them in the game. No
-    Mixamo needed (no characters), unless Code finds something that needs
-    rigging.
-B2. **Sound pass:** every ship and world sound checked and improved where weak
-    (engine at idle / cruise / boost, landing gear, airlock, hover, docking,
-    the jump, the regeneration bay, biome ambiences: forest, city, ice, lava,
-    crystal, ocean), ElevenLabs where new; levels balanced with the Round 6.3
-    mix. Muted checks with logged levels; any audible step brief and reported.
-B3. **Steam Deck tuning:** frame rate in every biome on the Deck setting at
-    1280 x 800 (target 40+ fps, 1 % lows reported), lighter settings where it
-    misses; text sizes readable on the Deck; the controls pages fit.
-B4. **Credits:** a proper credits screen (Dan; the tools: Unity, Blender, Meshy,
-    Mixamo, Suno, ElevenLabs; third-party licences from `Launcher/vendor` and
-    any CC0 assets; Code / the planning chat as tools).
-B5. **Check:** pictures of every new model in game (cockpit view, chase view,
-    hangar), frame rate before / after, the Deck setting's numbers.
-
-**Part C — VR** (Dan, 2026-11-08: "let's go ahead and wrap VR into this
-round"). PC VR first: Quest 3 through **Virtual Desktop** (and SteamVR), via
-OpenXR. Native Quest is decided later. The VR-ready rules in `CLAUDE.md` were
-followed from Round 1, so this should be wiring, not rebuilding. Best done after
-Part B's new cockpit is in, so the cockpit is checked once in VR.
-
-C1. **OpenXR:** add Unity's OpenXR plugin + XR Plugin Management (versions that
-    fit Unity 6000.6.1f1), PC Standalone only. The same exe plays flat or VR.
-C2. **Starting in VR, never by accident:** a **VR mode** setting (Off by default)
-    and **`-vr`** on the command line; `Play Hostile Horizon (VR).bat` in the
-    repo root; the launcher passes `-vr` through when asked. With VR on and no
-    headset / runtime found, say so and start flat (never hang, never force
-    SteamVR open when VR is off). The Steam Deck build is unaffected (VR off).
-C3. **Seated cockpit, head-tracked:** the camera rig's head follows the
-    headset at 1:1 inside the cockpit (seated reference, the eyes at the seat's
-    eye point); **Recenter** (a button on HOTAS / gamepad, and in the pause
-    menu); the player's head can lean and look through the canopy, the glass
-    floor and back at the cabin hatch. Only the cockpit view in VR (the chase
-    / landing views are flat-screen only); the belly / cabin cameras stay on the
-    cockpit displays.
-C4. **No screen overlay in VR:** everything the flat HUD shows is already on
-    the cockpit displays (VR rule 2); subtitles, prompts and warnings move to a
-    world-space strip under the canopy frame; menus (title, pause, hangar, star
-    map, Field Journal with the rotatable 3D alien, settings) show on a
-    world-space panel in front of the seat, driven by HOTAS / gamepad /
-    keyboard as now. Motion controllers are optional this round: if they're
-    easy, a laser pointer for menus; not required.
-C5. **Comfort and realism (Dan's rule, VR rule 5):** realism by default: no
-    vignette, no fades, no snap anything, the docking, tow, jump and horror all
-    live. A **Comfort** settings group exists with every option **Off by
-    default** (vignette when turning hard, fade instead of the jump, a
-    horizon line). The ship's self-righting and Auto-level apply as on the flat
-    screen.
-C6. **The scares in VR:** the canopy creature and the strike staged for real
-    stereo depth (the 0.42 m minimum distance from Round 7 kept; the creature
-    solid and lit; the cabin hatch behind the left shoulder so turning your head
-    to the noise works). Spatial sound for the creature, the knocks and the
-    cabin.
-C7. **Performance:** the 1660 Ti must hold the headset's rate through Virtual
-    Desktop (72 Hz target, 90 if it can): single-pass instanced rendering, a
-    **VR quality** preset (render scale, shadows, view distance, effects, the
-    densest biomes thinned), no expensive full-screen effects; report frame
-    times per biome. Text in the cockpit and on panels readable in the headset
-    (sizes in metres, not pixels).
-C8. **Check (muted, no focus; Code can't wear the headset):** with OpenXR's
-    **mock runtime**: VR starts, the head moves the view 1:1, Recenter, menus
-    on the panel, no overlay, the strike and canopy staged in both eyes'
-    pictures (Code looks at the left / right images), frame times with the VR
-    quality preset in every biome; VR off by default and with no runtime starts
-    flat. **For Dan to check** (only he has the headset): everything above in
-    the Quest 3 through Virtual Desktop.
-
-**End of the round:** publish **0.8.0**, update `TODO.md` (per-item status for
-A1-A3, B1-B5 and C1-C8: done / not done / deferred and why; the cause from A1) and
-`CLAUDE.md`, clean up, commit and push.
-
-**For Dan to check:** the creature at the strike: in front of everything? The
-new ship, cockpit, mothership, turrets and saucers. The sound. The Deck. Then
-VR: `Play Hostile Horizon (VR).bat` with Virtual Desktop running on the Quest 3:
-the cockpit, the menus, the scares, the frame rate.
+Round 8 is delivered as 0.8.0 (status under "Previous deliveries"). The planning chat writes the next round here.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -323,6 +190,55 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Round 8 — the creature in front of the screens (A), new models, sound, credits, Deck numbers (B), VR (C) (2026-11-08). Published:
+0.8.0 (`game-800`, Latest; soundtrack stays `soundtrack-700`).** Exe built 2026-11-08 18:14. Commits: Part A `b0127db`, models `e5ac84f` /
+`1c33830`, B2-C `2ac7c9d`. Evidence `Data/screenshots/round8/`: `partA/` (+ `a_try1`, `a_try2`, `partA_run3`, `partA_run4`: logs of each
+staging try), `partB_models/`, `partB_run1/`, `partB_deck/`, `partB_deck4/`, `partB_deck7/`, `partB_controls/`, `partC_flat/`,
+`partC_noruntime/`, `partC_mock/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal, one at a time (one overlap
+by mistake mid-round: those results were thrown away and run again).
+- **A0 — done** (`bf66b6d`). **A1 — done. Cause:** Round 7 turned the whole creature to look at you with its face 0.65 m out, so its body
+  ran straight out from there, away from you: behind the screens (0.51-0.57 m) and inside the dash, **34-59 % of it hidden** (pixel maps:
+  each frame drawn with and without creature / screens / cockpit / HUD); the screens themselves z-test correctly; the flat HUD stayed on.
+- **A2 — done, residuals for Dan (tuning limit).** HUD / prompts / subtitles hide at the strike (back with the death page). Face 0.40-0.55 m
+  out, body down past your left shoulder toward the hatch (canopy break-in: up over the dash), neck and head turned to you after the
+  animation (`Creature.LookAt` / `FaceAt`). Still hidden: Mimic 13.5 % (shoulder, behind a screen), Knocker 11 %, Stalker 12 % (in the
+  dash); Hollow, Sleeper, all break-ins 0-1 %. **A3 — done** (pictures + `_covered` maps per creature).
+- **B1 — done.** Dan's 10 concepts -> Meshy -> Blender (`hard_cleanup.py`, `meshykit.py`, `render_ship.py`) -> game. Ship: Meshy hull at
+  0.8 (10 m) round `ShipLayout.Eye`, its canopy panes = game glass, hull two-sided, belly window glass; Meshy seat / dash (live screens in
+  its recesses: `ShipLayout.Screen*`) / two consoles; new `Contacts`, airlock door at the hull's painted door (z +0.8), engine glow at the
+  pods. Mothership: Meshy hull, bay cut out, 7 wall modules, cradle, regeneration pod. Turret cut into base / head / gun (pivots measured:
+  ring 2.40, gun (0, 1.07, 1.53), barrel tips 3.1 m), saucer with the game's rim lamps. For Dan: the hangar is dim, the floor window's
+  edge is ragged.
+- **B2 — done.** 16 ElevenLabs sounds (Docs/SOUNDS.md), levelled (`Tools/level_sounds.py`: one-shots -12, engines -16, ambiences -24 LUFS;
+  raws in `SourceArt/Sounds_raw/`): engine idle / cruise loops (crossfaded and pitched by throttle, at the old hum's level: 0.0322 vs
+  0.0313 RMS, music over engine + wind +11.1 dB vs +11.3), gear down / up, airlock, clamp, jump drive, explosion, regen bay, 7 biome
+  ambiences (`AmbienceTick`, tuning `ambienceMix` .5). Not heard by Code (muted): **for Dan to listen**.
+- **B3 — done (on this PC with the Deck setting at 1280 x 800, not on a Deck):** Canyons 1026 fps (1 % low 359), Forest 906 (314), City
+  1096 (263), Ice 841 (287), Volcanic 874 (316), Crystal 723 (242), Ocean 578 (205); no lighter settings needed. Credits / menus /
+  controls pages read at 1280 x 800 (`partB_deck`, `partB_controls`). Fixed on the way: `round4perf` broke at 7 biomes (array of 4).
+- **B4 — done.** Credits page: People / Made with / Licences (JSON for Modern C++ and miniz, MIT; no CC0 assets).
+- **B5 — done.** Pictures in game: cockpit (ahead, down, left, right, back), chase, close chase, landing view, hangar, launch, turret,
+  saucer. Frame rate with the new models: cockpit 824 fps (1 % low 198), close chase 789 (192), 1080p; no same-flight 0.7.0 number.
+- **C1 — done.** OpenXR 1.18.0 + XR Management 4.6.1; `Editor/XrSetup.cs` before every build: OpenXR for Windows, not started with the
+  game, single-pass instanced. **C2 — done.** `Core/VrMode.cs`: only `-vr` or Settings > Display > VR mode (Off by default), never on the
+  Deck; no runtime -> says so, flat, title in 2.3 s (checked); `Play Hostile Horizon (VR).bat`; the launcher passes `-vr` (source + build;
+  installed launchers get it with the next starter package).
+- **C3 — done, 1:1 not provable with the mock.** TrackedPoseDriver on the head, rig = tracking space, Recenter (right-stick click, Home,
+  pause menu; auto at start): head on the eye point after it (0.000 m); cockpit view only. The mock's test API did not move Unity's head
+  pose, so 1:1 head movement is **for Dan**.
+- **C4 — done.** No screen overlay in VR; warning / prompt / subtitle on a strip under the canopy frame; every menu on a 1.34 m board
+  1.4 m ahead (title, pause seen in both eyes). No motion controllers this round (optional).
+- **C5 — done.** Display: Comfort vignette / fade for the jump / horizon line, all Off by default (`Effects/Comfort.cs`).
+- **C6 — done.** Strike staged at the real head in VR (face 0.49 m, nearest 0.34 m in the mock run); creature, knocks, cabin are 3D sounds.
+- **C7 — done.** VR quality preset: view 2200 m, shadows 150 m / 1 cascade, MSAA 2x, render scale 0.9. **Frame times (mock runtime,
+  1512 x 1680 per eye, both eyes):** Canyons 1.0 ms (1 % 4.5), Forest 1.3 (5.1), City 1.0 (4.6), Ice 1.5 (6.0), Volcanic 1.3 (5.0),
+  Crystal 1.6 (5.9), Ocean 1.9 (6.9) vs 13.9 ms (72 Hz) / 11.1 ms (90 Hz). Virtual Desktop's encode is not in these.
+- **C8 — done:** flat (OpenXR never started), no runtime (flat), mock (all above, both eyes' pictures). **For Dan: everything in the Quest.**
+
+**For Dan to check:** the strike (anything still behind the screens?); the new ship / cockpit / mothership / turret / saucer; the hangar's
+light; the sounds (engine, gear, ambiences: levels by ear); the Deck. VR: `Play Hostile Horizon (VR).bat` with Virtual Desktop running:
+the head following you, Recenter, menus, the strip, the scares, the frame rate.
 
 **Round 7 — the music, aliens up close, a [Play] log, no slow burn (Part A); Volcanic, Crystal Forest, Ocean Islands (Part B)
 (2026-11-08). Published: 0.7.0 (`game-700`, Latest) + `soundtrack-700` (Dan's three new tracks).** Exe built 2026-11-08 04:57. Part A
@@ -445,49 +361,6 @@ freely under Record my input (R1 is select on the page itself); the music meter 
 changes unless you use the hat. Pull R1 in Free Flight: does the gun fire? Can you hear the music over the engine now (try the Engine
 slider), and the computer (Settings > Sound > Test voices)? Then **Record my input** in HOTAS setup and move everything, so the planning
 chat can read `hotas_input_log.txt`.
-
-**Fix 6.2 — HOTAS reset to defaults, the throttle lever, clear calibration, an accurate HOTAS picture (2026-11-07). Published: 0.6.2
-(`game-602`, Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-07 21:36. Evidence `Data/screenshots/fix62/`: `hid_descriptor.txt`
-and `hid_lever_log.txt` (Dan's HOTAS logged through Windows' HID calls while he moved it: `python Tools/hotas_hid_log.py`), `run3/` (the
-check at 1080p), `deck/` (pictures at 1280 x 800), `launcher/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal.
-- **0 Commit first — done** (`749447f`).
-- **1 Reset to defaults — done.** HOTAS setup > **Reset HOTAS settings** (calibration, throttle axis and the lever found, invert lever, button
-  names, button jobs, deadzone); Settings, Sound and Display > **Reset this page to defaults**; Settings > **Reset all settings**. Each asks
-  "Reset ...? No / Yes", No selected first. The Controls page has no settings of its own (its reset is HOTAS setup's). Check: No changes
-  nothing; each Yes resets only its own page; `career.json` byte-identical before / after.
-- **2 The throttle lever — done. Cause, from the log:** in PC mode the T.Flight HOTAS 4 reports **z = the lever** (0 fully forward, 255 fully
-  back), rz = the twist **and** the rocker (the HOTAS itself puts both on one axis), and four axes that never move: slider and dial (always
-  the middle), rx and ry. 0.6.1's Auto took `slider` whenever a device had one. So the game read an axis that never moves. The ship only
-  took the lever's value when it changed, so the throttle stayed at its 30 % start. Not Dan's settings, not the pad's triggers. Fixed:
-  Auto starts on z and switches to any other axis moved end to end (never the stick or the twist), and saves it; **Find throttle lever**
-  in HOTAS setup; a big live **Throttle: 64 %** readout and bar over the picture; the lever is read without the axis' own deadzone; the
-  ship's throttle = the lever from the first frame of flight and all the time (the pad's triggers take over while used, until the lever
-  moves). Check (a virtual HOTAS with Dan's eight axes): a lever on z / slider / dial / rx / ry is picked by Auto every time and reads
-  100 / 50 / 0 %; 0.6.1's binding with the lever moving reads 50 50 50 50 50 %; Find picked z in 2.7 s with the twist and stick moving;
-  lever 0 / 50 / 100 % = ship 0 / 50 / 100 % on the first frame of flight; lever steps 0-100 % = ship 0 25 50 75 100 %. **PC / PS4
-  switch:** Dan's is on PC (Windows sees "T.Flight Hotas 4", PID b67c). How the PS4 position looks to the PC was not logged: it needs the
-  switch moved during a log.
-- **3 Calibration — done.** It asks first ("Calibrate the stick? Takes about 10 seconds", No / Yes), then: Step 1 of 3 let go; Step 2 of 3
-  push to each edge (or full circles) with the stick drawn from above, four markers that turn green and a live dot; Step 3 of 3 press the
-  trigger. The trigger before all four edges names the missing ones. ○ / B / Esc cancels at any step and keeps the old calibration
-  (checked). Idioms removed: "right round", "look round", "banks the ship round".
-- **4 HOTAS picture — done** (our own drawing, `UI/ControlsSheet.cs`). A front view (throttle left, stick right, the base with SHARE / PS /
-  OPTIONS between) plus four close-ups: the throttle's side (□ ✕ ○ △ top to bottom, rocker below), its back (R2 high, L2 low), the stick
-  head (hat, L1 = the blue one, L3) and the stick from the side (R1, the trigger). Each control has a leader line and label; PS is greyed
-  with no label. Identify lights each symbol in its place. **Button names now follow Dan's labels:** trigger = R3 (button 1), L1 2, L3 4,
-  L2 9. R2 sent nothing in the log and R1 wasn't found, so 10 and 3 are assumed. 0.6.1 had guessed the trigger was R2; settings still on
-  0.6.1's defaults get the new names once. Compared with the poster and Dan's photo, control by control: throttle left / stick right, the
-  four face buttons' order and the rocker, SHARE / PS / OPTIONS, hat / L1 / L3 on the head all match. R1 at the back of the head and R2 / L2
-  on the throttle's back come from the poster and Dan's words; the photo doesn't show them.
-- **5 Check — done** (`-exeCheckOnly fix62`, `Checks/ExeCheck.Fix62.cs`, about 3 min; `fix62pics` at 1280 x 800): every line OK. Readable at
-  1080p; at 1280 x 800 the picture's labels are small (~13 px) but clear. Not re-run: `--only fix61` (its calibration step now meets the
-  new question first).
-- **6 Publish — done.** 0.6.2 = build 602, `game-602` Latest; a fresh `starter-200` install updated to `versions/602`, exit 0.
-  Clean-up: 3.9 GB -> 3.9 GB.
-
-**For Dan to check:** HOTAS setup: Reset HOTAS settings, then move the lever: does Throttle % follow it (Auto should already be on
-"z"), and does the ship speed up and slow down with it? Calibrate: are the steps clear? Does the picture match your HOTAS? Run
-Identify your buttons once: R2 sent nothing in today's log, so see whether "Held" shows R2 when you press it, and find where R1 is.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers
