@@ -168,12 +168,105 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 7 (to be written by the planning chat)
+Current Objective — Fix 6.2: HOTAS reset to defaults, the throttle lever, clear calibration, an accurate HOTAS picture
 ---------------------------------------------------------------------------
 
-Fix 6.1 (menus with the HOTAS, a clean Controls page per device) is delivered as 0.6.1 (status under "Previous deliveries"; its
-specification is in `TODO-ARCHIVE.md`). **Next: Round 7**, to be written by the planning chat with Dan (queued below: missions and more
-progression). Open for Dan from Rounds 5, 6 and Fix 6.1: see "For Dan to check" in their deliveries.
+Fix 6.1 is delivered as 0.6.1 (status under "Previous deliveries"). Round 7
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-07, PC, HOTAS, 0.6.1): "Seems to be working mostly." But:
+- "I was on the settings screen and accidentally changed some values but there
+  is no way to reset to default for the HOTAS."
+- "It doesn't seem the throttle does anything. I am stuck at 30 % no matter
+  what." (He may have changed the Throttle axis / Invert lever by accident,
+  but it must be found, not guessed.)
+- "I accidentally hit calibrate and it asked to move the stick 'right round'. I
+  have no idea what 'right round' means."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Reset to defaults.**
+   - HOTAS setup page: **Reset HOTAS settings** (stick calibration, throttle
+     axis, invert lever, button identification, button assignments, deadzone)
+     back to the defaults, with a confirm ("Reset all HOTAS settings? Yes / No").
+   - Every Settings page gets **Reset this page to defaults** (confirm), and
+     Settings gets **Reset all settings** (confirm). Saves, careers and the
+     Field Journal are never touched by these.
+2. **The throttle lever must work.**
+   - Find the real cause with data: log the raw value of every HOTAS axis
+     (`<Joystick>` x, y, z, rx, ry, rz, slider(s), dial, twist) while the lever
+     is moved, as reported by Unity's Input System for this device; which one
+     is the lever? Check what `Auto` picks, what a changed Throttle axis /
+     Invert lever setting does, and why the ship's throttle stays at its 30 %
+     start (e.g. the lever value never reaching the ship, or another source —
+     the gamepad triggers' ThrottleChange — overriding it). Report the cause.
+   - **Auto-detect the lever:** in HOTAS setup, **Find throttle lever: "Move the
+     throttle lever all the way forward and back"** picks the axis that moved
+     the most (the stick's axes and twist excluded) and saves it. Auto mode
+     does the same by itself the first time the lever moves.
+   - On the HOTAS setup page, a big live **Throttle: 64 %** readout and bar, so
+     Dan can see the lever working without flying.
+   - When a HOTAS lever is active, the ship's throttle follows the lever
+     directly (absolute), from the first frame of flight; it is not stuck at
+     the 30 % launch value.
+   - Note for Dan in the status: the T.Flight HOTAS 4 has a **PC / PS4 mode
+     switch** on its base; it should be on **PC** when used on the computer
+     (Code: check whether the PS4 position changes what the PC sees, if it can
+     be told from the device's report).
+3. **Calibration in plain words, and hard to start by accident.**
+   - Selecting Calibrate asks first: "Calibrate the stick? Takes about 10
+     seconds. Yes / No".
+   - Then clear steps, one at a time, with the HOTAS picture:
+     **1. Let go of the stick** (it reads the centre),
+     **2. Push the stick to each edge: forward, back, left and right — or
+     slowly round in full circles — 2 or 3 times** (four direction markers
+     around the picture tick off as each edge is reached),
+     **3. Press the trigger to finish.** ○ / Back cancels at any step and
+     keeps the old calibration.
+   - No idioms anywhere in the game's text ("right round" and the like): plain
+     words a first-time player understands. Review all HOTAS / controls text
+     for this.
+4. **A HOTAS picture that matches the real thing** (Dan, 2026-11-07: "the
+   layout on the screen is not accurate so not easy to understand where
+   everything is"; he sent Thrustmaster's own mapping poster as the model:
+   `SourceArt/Reference/hotas4_layout_reference.jpg`, next to his photo
+   `hotas_dan.jpg`. **Reference only: never ship, copy or trace that poster**
+   — it is Thrustmaster's / Frontier's artwork. Draw our own.)
+   - Same idea as the poster: the **throttle and the stick drawn in their real
+     shapes and real positions** (throttle on the left, stick on the right, the
+     base between with SHARE / PS / OPTIONS), plus **close-up insets** where
+     buttons can't be seen from the front: the throttle's side face with
+     **□ ✕ ○ △** top to bottom on its right side and the **rocker** below them,
+     the throttle's top with its two buttons (L2 / R2 on this unit; check with
+     the identify step), the **back of the stick** (R3 at the top back, the
+     trigger / R2-side), and the stick's head from the front (**hat**, L1, L3).
+   - Every control has a thin **leader line** to a short label of what it does in
+     our game, grouped by side like the poster; unused controls are drawn
+     but greyed without a label. Axes are labelled too: stick (pitch / roll),
+     twist (yaw), throttle lever (throttle), rocker (whatever Code maps it to
+     — suggested: yaw, as an alternative to the twist).
+   - Dark background, clean light lines, our game's font, readable at 1080p
+     and on the Deck (big enough to read from the couch). The button names
+     follow Dan's identify-your-buttons result.
+   - The same drawing (or a simpler version of it) is used on the HOTAS setup
+     page for the identify / calibrate steps, highlighting the control in
+     question.
+   - **Check:** pictures of the new Controls page and setup page; Code compares
+     them with the reference photo / poster and says, control by control, that
+     each one is in the right place.
+5. **Check (muted, no focus):** each reset (and that saves aren't touched);
+   the axis log with a simulated lever on each possible axis; Find throttle
+   lever picks the right one; with the lever set to 0 / 50 / 100 % the ship's
+   throttle is 0 / 50 / 100 % from the first frame; the calibration steps and
+   cancel; pictures of the setup page and calibration steps (readable?).
+6. **Publish as 0.6.2**, update `TODO.md` (per-item status, the throttle cause)
+   and `CLAUDE.md`, commit and push.
+
+**For Dan to check:** HOTAS setup: Reset HOTAS settings, then Find throttle
+lever; does the live Throttle % move with the lever, and does the ship speed up
+and slow down with it? Is the PC / PS4 switch on the base set to PC?
+Calibrate: are the steps clear? Does the HOTAS picture now match where
+everything is on yours?
+
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
