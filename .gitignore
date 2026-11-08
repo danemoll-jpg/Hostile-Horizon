@@ -26,3 +26,8 @@ SourceArt/Meshy/*/*.blend
 
 # Round 4: Suno soundtrack ships through the launcher soundtrack component, not git
 BundleMusic/
+
+# Round 8: big Blender sources are made again by their scripts (ship.py, mothership.py); backups never
+SourceArt/Blender/Ship.blend
+SourceArt/Blender/Mothership.blend
+*.blend1
