@@ -62,7 +62,7 @@ namespace HostileHorizon
             var d = new GameObject("Flight displays").AddComponent<FlightDisplays>();
             d.Ship = ship; d.Rig = rig;
             // cockpit: three screens on the dash, each turned to face the pilot's eye
-            d.centre = Screen(shipModel, "Centre display", ShipLayout.DashCentre + new Vector3(0, .17f, -.34f), new Vector2(420, 250), 26, out var cc);
+            d.centre = Screen(shipModel, "Centre display", ShipLayout.ScreenCentre + Toward(ShipLayout.ScreenCentre), new Vector2(420, 250), 26, out var cc, .00073f);   // Round 8: in the dash's recesses
             // Fix 2.5: the belly camera fills the centre display when it is on, with the height and the pickup line over it
             d.centreFeed = UiKit.Rect(cc.transform, "Belly feed", Vector2.zero, Vector2.one, new Vector2(4, 4), new Vector2(-4, -6)).gameObject.AddComponent<RawImage>(); d.centreFeed.raycastTarget = false;
             d.centreFeedText = UiKit.Label(cc.transform, "Belly feed text", 21, TextAnchor.UpperLeft, new Color(.6f, 1f, .85f), Vector2.zero, Vector2.one, new Vector2(12, 8), new Vector2(-10, -10));
@@ -71,8 +71,8 @@ namespace HostileHorizon
             d.airlockLamp = UiKit.Panel(cc.transform, "Airlock lamp", new Color(1f, .62f, .2f), new Vector2(0, 1), new Vector2(1, 1), new Vector2(4, -50), new Vector2(-4, -6));
             d.airlockText = UiKit.Label(cc.transform, "Airlock label", 28, TextAnchor.MiddleCenter, new Color(.1f, .05f, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(4, -50), new Vector2(-4, -6));
             d.airlockText.GetComponent<Shadow>().enabled = false;
-            d.left = Screen(shipModel, "Left display", ShipLayout.DashCentre + new Vector3(-.33f, .14f, -.31f), new Vector2(400, 250), 26, out _);
-            d.right = Screen(shipModel, "Right display", ShipLayout.DashCentre + new Vector3(.33f, .14f, -.31f), new Vector2(400, 250), 24, out var rc);
+            d.left = Screen(shipModel, "Left display", ShipLayout.ScreenLeft + Toward(ShipLayout.ScreenLeft), new Vector2(400, 250), 26, out _, SideScale);
+            d.right = Screen(shipModel, "Right display", ShipLayout.ScreenRight + Toward(ShipLayout.ScreenRight), new Vector2(400, 250), 24, out var rc, SideScale);
             d.cockpitRadar = new RadarScope(rc.transform, new Vector2(112, 132), 210, Vector2.zero, 15);
             d.rightList = UiKit.Label(rc.transform, "List", 17, TextAnchor.UpperLeft, new Color(.55f, 1f, .85f), Vector2.zero, Vector2.one, new Vector2(226, 40), new Vector2(-6, -14));
             d.rightList.GetComponent<Shadow>().enabled = false;
@@ -107,9 +107,13 @@ namespace HostileHorizon
             return d;
         }
 
-        static Text Screen(Transform ship, string name, Vector3 at, Vector2 size, int font, out Canvas c)
+        // Round 8: the side recesses are 0.19 x 0.12 m (the Meshy dash), the centre one 0.32 x 0.17 m; each screen sits 6 mm in front of
+        // its recess, toward the eye
+        const float SideScale = .00046f;
+        static Vector3 Toward(Vector3 p) => (ShipLayout.Eye - p).normalized * .006f;
+        static Text Screen(Transform ship, string name, Vector3 at, Vector2 size, int font, out Canvas c, float scale = .0007f)
         {
-            c = UiKit.WorldCanvas(name, ship, size, .0007f);
+            c = UiKit.WorldCanvas(name, ship, size, scale);
             c.transform.localPosition = at;
             c.transform.localRotation = Quaternion.LookRotation(at - ShipLayout.Eye, Vector3.up);
             UiKit.Panel(c.transform, "Glass", new Color(.02f, .05f, .05f, .96f), Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);

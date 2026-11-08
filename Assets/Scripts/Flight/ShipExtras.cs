@@ -9,6 +9,7 @@ namespace HostileHorizon
     public sealed class ShipExtras : MonoBehaviour
     {
         public enum Look { Own, Loaner, Wreck }
+        public static readonly Vector3 DoorAt = new Vector3(-1.66f, .95f, .81f);   // Round 8: the Meshy hull's airlock door (ship.py's renders); was (-1.80, .05, -1.6)
         ShipController ship;
         readonly List<Transform> struts = new List<Transform>(), pads = new List<Transform>();
         Transform door, hole; float doorOpen, openUntil;
@@ -33,8 +34,8 @@ namespace HostileHorizon
                 x.struts.Add(Part(PrimitiveType.Cylinder, s.transform, new Vector3(f.x, -.6f, f.z), new Vector3(.18f, .55f, .18f), metal));
                 x.pads.Add(Part(PrimitiveType.Cylinder, s.transform, new Vector3(f.x, -.9f, f.z), new Vector3(.7f, .05f, .7f), panel));
             }
-            x.hole = Part(PrimitiveType.Cube, s.transform, new Vector3(-1.785f, .05f, -1.6f), new Vector3(.02f, 1.42f, 1.06f), black);
-            x.door = Part(PrimitiveType.Cube, s.transform, new Vector3(-1.80f, .05f, -1.6f), new Vector3(.04f, 1.47f, 1.12f), panel);
+            x.hole = Part(PrimitiveType.Cube, s.transform, DoorAt + new Vector3(.015f, 0, 0), new Vector3(.02f, 1.18f, 1.0f), black);
+            x.door = Part(PrimitiveType.Cube, s.transform, DoorAt, new Vector3(.04f, 1.22f, 1.05f), panel);
             x.paint.Add((panel, panel.GetColor("_BaseColor"), .3f, "panel")); x.paint.Add((metal, metal.GetColor("_BaseColor"), .5f, "metal"));
             return x;
         }
@@ -46,7 +47,7 @@ namespace HostileHorizon
             g.GetComponent<Renderer>().sharedMaterial = m; return g.transform;
         }
 
-        public void OpenAirlock(float seconds) { openUntil = Time.time + seconds; Sfx.Play(Sfx.Hiss, transform.TransformPoint(new Vector3(-1.8f, .2f, -1.6f)), .9f, 3f); }
+        public void OpenAirlock(float seconds) { openUntil = Time.time + seconds; Sfx.Play(Sfx.Hiss, transform.TransformPoint(DoorAt), .9f, 3f); }
         public bool AirlockOpen => doorOpen > .9f;
         public bool AirlockShut => doorOpen <= 0 && Time.time >= openUntil;   // Round 6 (A2)
         public void CloseAirlock() => openUntil = 0;   // Round 3: it shuts behind what came in
@@ -59,6 +60,7 @@ namespace HostileHorizon
                 Color col = c; float sm = smooth;
                 if (l == Look.Wreck) { col = new Color(c.r * .16f, c.g * .15f, c.b * .14f); sm = .08f; }
                 else if (l == Look.Loaner && slot == "hull") col = new Color(.80f, .64f, .22f);
+                else if (l == Look.Loaner && slot == "mx_ship") col = new Color(1f, .8f, .32f);   // Round 8: over the hull's own paint
                 m.SetColor("_BaseColor", col); m.SetFloat("_Smoothness", sm);
             }
         }
@@ -74,7 +76,8 @@ namespace HostileHorizon
                 struts[i].gameObject.SetActive(g > .01f); pads[i].gameObject.SetActive(g > .01f);
             }
             doorOpen = Mathf.MoveTowards(doorOpen, Time.time < openUntil ? 1 : 0, Time.deltaTime / .9f);
-            door.localPosition = new Vector3(-1.80f - doorOpen * .06f, .05f, -1.6f - doorOpen * 1.15f);
+            door.localPosition = DoorAt + new Vector3(-doorOpen * .06f, 0, -doorOpen * 1.1f);
+            door.gameObject.SetActive(doorOpen > 0); hole.gameObject.SetActive(doorOpen > 0);   // Round 8: shut, the hull's own painted door shows
             float glow = look == Look.Wreck || !ship.EnginesOn ? .04f : 1.2f + (ship.Mode == FlightMode.Hover ? .6f : ship.Throttle);
             var hot = Color.Lerp(new Color(1f, .5f, .18f), new Color(.75f, .85f, 1f), EngineLevel / 3f);
             foreach (var m in nozzles) m.SetColor("_Color", hot * glow);

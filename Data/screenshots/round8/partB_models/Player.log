@@ -1,0 +1,83 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.807400 ms
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 86016 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 17:48; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] --- the new ship and cockpit (Free Flight, Canyons, Bounce)
+[Play]     2.3 music flight_canyons: flying
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] screenshot r8b_cockpit_ahead.png
+[ExeCheck] screenshot r8b_cockpit_down.png
+[ExeCheck] screenshot r8b_cockpit_left.png
+[ExeCheck]     [853 fps] Flying/ Flight alt 35 gnd 37 spd 59 hdg 135 energy 100
+[ExeCheck] screenshot r8b_cockpit_right.png
+[ExeCheck] screenshot r8b_cockpit_back_left.png
+[ExeCheck]     [894 fps] Flying/ Flight alt 157 gnd 153 spd 59 hdg 129 energy 100
+[ExeCheck]     [771 fps] Flying/ Flight alt 217 gnd 176 spd 59 hdg 188 energy 100
+[ExeCheck] cockpit, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.047 RMS, peak 1.639, zeroed before the speakers; 3049472 samples); master volume 0.00
+[ExeCheck] fps cockpit, flying low (Canyons): average 776.5, 1% low 170.1, worst frame 116 ms over 11650 frames; mean height over ground 106 m; terrain chunks 580, waiting 0
+[ExeCheck] screenshot r8b_chase.png
+[ExeCheck] screenshot r8b_close_chase.png
+[ExeCheck] screenshot r8b_landing_view.png
+[ExeCheck]     [706 fps] Flying/ Flight alt 291 gnd 113 spd 59 hdg 197 energy 100
+[ExeCheck]     [802 fps] Flying/ Flight alt 37 gnd 37 spd 59 hdg 220 energy 100
+[ExeCheck] close chase, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.045 RMS, peak 1.639, zeroed before the speakers; 4997120 samples); master volume 0.00
+[ExeCheck] fps close chase, flying low (Canyons): average 793.0, 1% low 166.2, worst frame 89 ms over 11897 frames; mean height over ground 77 m; terrain chunks 579, waiting 0
+[ExeCheck] screenshot r8b_cockpit_left_up.png
+[Music] loaded flight_ocean (190 s)
+[Play]    53.6 music title_theme: title
+[ExeCheck] --- the hangar and the launch (Campaign, new career)
+[Play]    55.2 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]    55.3 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]    55.4 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] screenshot r8b_hangar_docked.png
+[Play]    57.3 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]    57.3 music flight_canyons: flight (automatic)
+[ExeCheck]     [916 fps] Auto/launch Hover alt 1500 gnd 1498 spd 1 hdg 315 energy 100
+[ExeCheck] screenshot r8b_launch_1.png
+[ExeCheck] screenshot r8b_launch_2_chase.png
+[Play]    64.4 voice CONTROL: Clamps released. Go and find our people.
+[Play]    65.4 music flight_canyons: flying
+[Play]    67.9 voice COMPUTER: Warning. Locked on.
+[ExeCheck] screenshot r8b_turret.png
+[ExeCheck]     [683 fps] Flying/ Hover alt 606 gnd 478 spd 0 hdg 0 energy 99
+[ExeCheck] screenshot r8b_turret_2.png
+[ExeCheck] turret 1 at (-2229, 526, 855): pictures
+[ExeCheck] screenshot r8b_saucer.png
+[Play]    70.2 voice COMPUTER: Saucer. Saucer.
+[ExeCheck] screenshot r8b_saucer_below.png
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.040 RMS, peak 1.639, zeroed before the speakers; 6883328 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

@@ -16,7 +16,7 @@ namespace HostileHorizon
         public bool Dead, Spotted, Los, Locked, Chasing, OnStump;
         public AudioSource Hum;
         public Transform Beacon;   // Round 6 (B3): the blinking red warning light
-        public Vector3 Eye => Kind == EnemyKind.Turret ? Pos + Vector3.up * 3.3f : Pos;
+        public Vector3 Eye => Kind == EnemyKind.Turret ? Pos + Vector3.up * 3.47f : Pos;   // Round 8: the Meshy turret's barrel axis (3.3 before)
         public Vector3 Centre => Kind == EnemyKind.Turret ? Pos + Vector3.up * 2.4f : Pos;
         public float Radius => Kind == EnemyKind.Turret ? 3.3f : 7.5f;
     }
@@ -237,6 +237,7 @@ namespace HostileHorizon
         Material Slot(string name)
         {
             string s = name.Contains("__") ? name.Substring(name.IndexOf("__") + 2) : name;
+            if (s.StartsWith("mx_")) { var hard = Resources.Load<Material>("Hard/" + s.Substring(3)); if (hard) return hard; }   // Round 8 (B1): Meshy parts
             return s == "armor" ? litArmor : s == "metal" ? litMetal : s == "glow" ? glow : s == "eye" ? eye : litDark;
         }
 
@@ -260,7 +261,7 @@ namespace HostileHorizon
             var e = new Enemy { Kind = EnemyKind.Turret, Index = i, Pos = at, Hp = Tuning.T.turretHp, OnStump = onStump, Yaw = (i * 73) % 360 };
             e.Root = new GameObject("Turret " + (i + 1)).transform; e.Root.SetParent(transform, false); e.Root.position = at;
             e.Head = new GameObject("Head").transform; e.Head.SetParent(e.Root, false); e.Head.localPosition = new Vector3(0, 2.4f, 0);
-            e.Gun = new GameObject("Gun").transform; e.Gun.SetParent(e.Head, false); e.Gun.localPosition = new Vector3(0, .9f, .4f);
+            e.Gun = new GameObject("Gun").transform; e.Gun.SetParent(e.Head, false); e.Gun.localPosition = new Vector3(0, 1.07f, 1.53f);   // Round 8: the Meshy turret's barrel root (enemies.py prints it); was (0, .9, .4)
             if (turretModel) Parts(turretModel, new Dictionary<string, Transform> { { "TurretBase", e.Root }, { "TurretHead", e.Head }, { "TurretGun", e.Gun } });
             if (onStump)
             {
@@ -275,6 +276,8 @@ namespace HostileHorizon
             e.Beacon = MakeBeacon(e.Root, new Vector3(0, 4.9f, 0));
             return e;
         }
+
+        public Enemy CheckSaucer(Vector3 home) { var e = MakeSaucer(All.Count, home, 0); All.Add(e); return e; }   // checks (round8b): a saucer to look at
 
         Enemy MakeSaucer(int i, Vector3 home, float heading)
         {
@@ -425,7 +428,7 @@ namespace HostileHorizon
                     if (e.Cooldown <= 0 && onTarget)
                     {
                         e.Cooldown = t.turretFireInterval / ag * UnityEngine.Random.Range(.8f, 1.2f);
-                        var muzzle = e.Gun.position + e.Gun.forward * 3.9f;
+                        var muzzle = e.Gun.position + e.Gun.forward * 3.1f;   // Round 8: the Meshy barrels' tips (3.9 before)
                         var at = Lead(muzzle, t.turretBoltSpeed, t.turretLead, t.turretAimError / ag);
                         Shoot(muzzle, (at - muzzle).normalized * t.turretBoltSpeed, false, t.turretDamage, e, t.turretRange * 1.25f);
                         EnemyShots++; Sfx.Play(Sfx.Clip("turret_fire"), muzzle, 1f, 40f);

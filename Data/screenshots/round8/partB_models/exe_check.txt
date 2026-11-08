@@ -1,0 +1,34 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 86016 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 17:48; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- the new ship and cockpit (Free Flight, Canyons, Bounce)
+screenshot r8b_cockpit_ahead.png
+screenshot r8b_cockpit_down.png
+screenshot r8b_cockpit_left.png
+    [853 fps] Flying/ Flight alt 35 gnd 37 spd 59 hdg 135 energy 100
+screenshot r8b_cockpit_right.png
+screenshot r8b_cockpit_back_left.png
+    [894 fps] Flying/ Flight alt 157 gnd 153 spd 59 hdg 129 energy 100
+    [771 fps] Flying/ Flight alt 217 gnd 176 spd 59 hdg 188 energy 100
+cockpit, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.047 RMS, peak 1.639, zeroed before the speakers; 3049472 samples); master volume 0.00
+fps cockpit, flying low (Canyons): average 776.5, 1% low 170.1, worst frame 116 ms over 11650 frames; mean height over ground 106 m; terrain chunks 580, waiting 0
+screenshot r8b_chase.png
+screenshot r8b_close_chase.png
+screenshot r8b_landing_view.png
+    [706 fps] Flying/ Flight alt 291 gnd 113 spd 59 hdg 197 energy 100
+    [802 fps] Flying/ Flight alt 37 gnd 37 spd 59 hdg 220 energy 100
+close chase, flying low (Canyons): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.045 RMS, peak 1.639, zeroed before the speakers; 4997120 samples); master volume 0.00
+fps close chase, flying low (Canyons): average 793.0, 1% low 166.2, worst frame 89 ms over 11897 frames; mean height over ground 77 m; terrain chunks 579, waiting 0
+screenshot r8b_cockpit_left_up.png
+--- the hangar and the launch (Campaign, new career)
+screenshot r8b_hangar_docked.png
+    [916 fps] Auto/launch Hover alt 1500 gnd 1498 spd 1 hdg 315 energy 100
+screenshot r8b_launch_1.png
+screenshot r8b_launch_2_chase.png
+screenshot r8b_turret.png
+    [683 fps] Flying/ Hover alt 606 gnd 478 spd 0 hdg 0 energy 99
+screenshot r8b_turret_2.png
+turret 1 at (-2229, 526, 855): pictures
+screenshot r8b_saucer.png
+screenshot r8b_saucer_below.png
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.040 RMS, peak 1.639, zeroed before the speakers; 6883328 samples); master volume 0.00

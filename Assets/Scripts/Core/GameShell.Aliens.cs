@@ -301,7 +301,7 @@ namespace HostileHorizon
             {
                 HorrorBeat = "airlock closes";
                 yield return Wait(.8f);
-                Extras.CloseAirlock(); Sfx.Play(Sfx.Thunk, st.TransformPoint(new Vector3(-1.7f, .2f, -1.6f)), 1f, 4f, st);
+                Extras.CloseAirlock(); Sfx.Play(Sfx.Thunk, st.TransformPoint(ShipExtras.DoorAt), 1f, 4f, st);
                 yield return Wait(1.2f);
             }
             // the lights die

@@ -93,7 +93,8 @@ namespace HostileHorizon
             {
                 string slot = r.name.Contains("__") ? r.name.Substring(r.name.IndexOf("__") + 2) : r.name;
                 Material mat;
-                if (slot == "glass") mat = glass;
+                if (slot.StartsWith("mx_")) { var hard = Resources.Load<Material>("Hard/" + slot.Substring(3)); mat = hard ? new Material(hard) : new Material(r.sharedMaterial); }   // Round 8 (B1): Meshy parts
+                else if (slot == "glass") mat = glass;
                 else if (slot == "glow" || slot == "lamp") { mat = new Material(Shader.Find("HostileHorizon/Glow")); mat.SetColor("_Color", slot == "glow" ? new Color(1f, .5f, .18f) * 2.2f : new Color(1f, .95f, .8f) * 1.6f); }
                 else
                 {

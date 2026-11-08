@@ -42,6 +42,7 @@ namespace HostileHorizon
             if (Application.isPlaying) throw new InvalidOperationException("Leave Play mode first.");
             MakeScene();
             CharacterImport.MakeMaterials();   // Fix 3.1: the characters' materials as assets (keeps their shader variants)
+            HardImport.MakeMaterials();        // Round 8 (B1): the Meshy ship, cockpit, mothership, bay, enemies
             MakePropMaterial();                // Round 4: the instanced trees' material (keeps the instancing variants)
             PlayerSettings.companyName = "Hostile Horizon";
             PlayerSettings.productName = "Hostile Horizon";

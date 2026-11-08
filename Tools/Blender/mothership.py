@@ -1,4 +1,5 @@
-"""Hostile Horizon, Round 2: the placeholder mothership (Round 6 replaces the art).
+"""Hostile Horizon, Round 2: the mothership. Round 8 (B1): Dan's art via Meshy (hull, bay wall modules, cradle, regeneration pod);
+the bay's liners, light strips, floor strips and the numbers below are Round 2's (Mothership.cs relies on them).
 
 Run:  F:\\blender\\blender.exe --background --factory-startup --python Tools/Blender/mothership.py
 
@@ -31,45 +32,43 @@ def section(z, hw, y0, y1):
     return [(-hw, y0, z), (hw, y0, z), (hw, y1, z), (-hw, y1, z)]
 
 
-# ---- the fore hull and the blunt nose
-box('fore hull', (0, 3, 50), (60, 30, 72), G, 'hull', .3)
-loft('nose', [section(86, 30, -12, 18), section(110, 26, -10, 16), section(132, 18, -7, 11), section(150, 8, -3, 5)], G, 'hull')
-# ---- around the bay: side blocks, roof, the floor strips round the opening
+import math, meshykit
+from mathutils import Matrix
+
+# ---- Round 8: the Meshy hull, half a turn (its nose to +z), its stern at the old engines' end (z -42), its keel at y -18
+hullob = meshykit.load('mothership', Matrix.Translation((0, 0, 0)) @ Matrix.Rotation(math.pi, 4, 'Z'), G)
+V = [meshykit.unity(v.co) for v in hullob.data.vertices]
+dz = -42 - min(v[2] for v in V); dy = -18 - min(v[1] for v in V)
+hullob.data.transform(Matrix.Translation(kit.B(0, dy, dz)))
+print(f'MOTHERSHIP hull z {-42:.0f}..{max(v[2] for v in V) + dz:.0f}, y -18..{max(v[1] for v in V) + dy:.0f}, x +-{max(abs(v[0]) for v in V):.0f}')
+# cut out the bay (x -14.5..14.5, y -6.5..9.5, z back to the stern) and the floor opening below it (x -9..9, z -10..10)
+cut = [p.index for p in hullob.data.polygons if (lambda c: (abs(c[0]) < 14.5 and -6.5 < c[1] < 9.5 and c[2] < 14.5)
+       or (abs(c[0]) < 9.5 and abs(c[2]) < 10.5 and c[1] < -5))(meshykit.unity(p.center))]
+print(f'MOTHERSHIP bay cut: {len(cut)} faces')
+meshykit.split(hullob, cut, G, False)
+
+# ---- around the bay (Round 2): floor strips round the opening, the liners, light strips
 for s in (-1, 1):
-    box('bay side', (s * 22, 3, -6), (16, 30, 40), G, 'hull', .3)
     box('floor side', (s * 11.5, -9, 0), (5, 6, 20), G, 'panel', .05)
-box('bay roof', (0, 13.5, -6), (28, 9, 40), G, 'hull', .2)
 box('floor front', (0, -9, 12), (28, 6, 4), G, 'panel', .05)
 box('floor rear', (0, -9, -18), (28, 6, 16), G, 'panel', .05)
-# ---- the bay's inside: darker liners, the cradle that holds the ship, light strips
 for s in (-1, 1):
-    box('bay wall', (s * 13.9, 1.5, -6), (.2, 15, 40), G, 'bay', .0)
+    box('bay wall', (s * 14.0, 1.5, -6), (.2, 15, 40), G, 'bay', .0)
     box('ceiling light', (s * 9, 8.8, -6), (.5, .15, 34), G, 'glow', .0)
     box('opening light', (s * 9.2, -5.95, 0), (.3, .1, 20), G, 'glow', .0)
-box('bay ceiling', (0, 8.9, -6), (28, .2, 40), G, 'bay', .0)
-box('bay front wall', (0, 1.5, 13.9), (28, 15, .2), G, 'bay', .0)
-box('cradle arm', (0, 5.3, 1.5), (1.2, 7.4, 1.6), G, 'metal', .05)
-box('cradle clamp', (0, 1.45, 1.5), (2.2, .3, 2.0), G, 'metal', .03)
-box('cradle beam', (0, 8.4, 1.5), (16, .8, 1.2), G, 'metal', .05)
-# ---- regeneration pod in the bay's front corner: a glass tube on a base, lit from inside
-cyl('pod base', (11.5, -6, 11.5), (11.5, -5.7, 11.5), 1.3, G, 'metal', 20)
-cyl('pod glass', (11.5, -5.7, 11.5), (11.5, -3.0, 11.5), 1.05, G, 'glass', 24, cap=False)
-cyl('pod cap', (11.5, -3.0, 11.5), (11.5, -2.6, 11.5), 1.3, G, 'metal', 20)
-cyl('pod light', (11.5, -2.62, 11.5), (11.5, -2.55, 11.5), .9, G, 'window', 20)
-box('pod console', (9.6, -5.2, 12.8), (1.0, 1.6, .5), G, 'panel', .03)
-# ---- stern engines either side of the bay mouth
+box('bay ceiling', (0, 9.0, -6), (28, .2, 40), G, 'bay', .0)
+box('bay front wall', (0, 1.5, 14.0), (28, 15, .2), G, 'bay', .0)
+# ---- Round 8: Meshy wall modules along the bay's sides (their backs on the liners; the right side stops short of the pod)
 for s in (-1, 1):
-    cyl('engine', (s * 22, 3, -26), (s * 22, 3, -40), 9, G, 'engine', 24)
-    cyl('engine ring', (s * 22, 3, -40), (s * 22, 3, -42), 9.6, G, 'metal', 24)
-    cyl('nozzle', (s * 22, 3, -42.2), (s * 22, 3, -42.0), 7.5, G, 'glow', 24)
-# ---- the bridge on top, lit windows, running lights
-box('bridge', (0, 22, 44), (22, 8, 30), G, 'panel', .3)
-box('bridge windows', (0, 23, 59.05), (18, 2, .2), G, 'window', .0)
-for s in (-1, 1):
-    box('side windows', (s * 30.05, 8, 50), (.2, 1.2, 60), G, 'window', .0)
-    box('running light', (s * 30.1, -4, 20), (.3, .6, 8), G, 'glow', .0)
-    box('wing fin', (s * 34, -2, 30), (8, 2, 40), G, 'panel', .2)
-box('keel', (0, -13.5, 50), (12, 3, 70), G, 'panel', .2)
+    for k in range(4 if s < 0 else 3):
+        zc = -21 + k * 10
+        meshykit.load('bay_wall', Matrix.Translation(kit.B(s * 14.0, -6, zc)) @ Matrix.Rotation(-s * math.pi / 2, 4, 'Z') @ Matrix.Translation((0, -1.285, 0)), G)
+# ---- the cradle that holds the ship, hanging from the ceiling over the dock point (1.2 x: its pads just over the fins)
+cr = meshykit.load('bay_cradle', Matrix.Translation(kit.B(0, 9.0 - 5.1 * 1.2, 1.5)) @ Matrix.Scale(1.2, 4), G)
+# ---- the regeneration pod in the bay's front corner, its window turned toward the bay (the waking view, Mothership.PodLook)
+meshykit.load('regen_pod', Matrix.Translation(kit.B(11.5, -6, 11.5)) @ Matrix.Rotation(math.radians(-26), 4, 'Z'), G)
+cyl('pod light', (11.5, -3.75, 11.5), (11.5, -3.7, 11.5), .45, G, 'window', 20)
+box('pod console', (9.4, -5.2, 13.0), (1.0, 1.6, .5), G, 'panel', .03)
 
 for ob in kit.join_all(): pass
 kit.export('Mothership')
