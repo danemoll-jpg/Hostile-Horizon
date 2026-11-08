@@ -145,7 +145,7 @@ namespace HostileHorizon
             yield return new WaitForSecondsRealtime(1.5f);
             var tu = Tuning.T;
             Log($"tuning: pitch {tu.pitchRate} / roll {tu.rollRate} / yaw {tu.yawRate} °/s; bank turn Full {tu.bankTurnFull} Light {tu.bankTurnLight}; levelling Full {tu.levelRateFull} Light {tu.levelRateLight}; stick curve {tu.stickCurve}; air brake {tu.airBrake} m/s²; hover sink {tu.hoverSinkHigh} (above {tu.hoverSinkHighAbove} m) / {tu.hoverSinkMid} ({tu.hoverSinkMidAbove} m) / {tu.hoverSinkLow} (below {tu.hoverSinkLowBelow} m); reset {tu.resetHeight} m");
-            Log($"settings (defaults): Flight assist {GameSettings.AssistNames[GameSettings.S.flightAssist]}, Stick sensitivity {GameSettings.S.sensitivity}%, HOTAS pause button {GameSettings.S.hotasPauseButton}");
+            Log($"settings (defaults): Flight assist {GameSettings.AssistNames[GameSettings.S.flightAssist]}, Stick sensitivity {GameSettings.S.sensitivity}%, HOTAS pause button {Controls.HotasName(Controls.HotasButtonFor(Controls.HotasAct.Pause))}");
             Determinism(); HeightMap(Seeds.OfTheDay);
             var f0 = new CanyonField(Seeds.OfTheDay); int pads = 0, cells = 0;
             for (int j = -10; j < 10; j++) for (int i = -10; i < 10; i++) { cells++; if (f0.PadAt(i, j).ok) pads++; }

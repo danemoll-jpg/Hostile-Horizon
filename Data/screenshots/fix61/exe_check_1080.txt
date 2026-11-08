@@ -1,0 +1,39 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 61440 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-07 19:14; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+virtual HOTAS added: Check HOTAS; HotasPresent True; stick waiting for the stick's first move; raw (-0.46, 0.00), used (0.00, 0.00)
+font: □✓ ✕✓ ○✓ △✓ ▲✓ ×✓ ☰✓ ≡✓ ⧉✓ ←✓ ↓✓ -> HOTAS names R2 R1 R3 L1 L2 L3 <size=36>□</size> ✕ <size=36>○</size> <size=36>△</size> SHARE OPTIONS; pad Menu "☰ Menu", View "View"
+Settings values before: Full | 100% | On | Normal | Off | 8% | Cockpit | On
+Dan's recorded up / down (2026-11-07, 16 s): 986 samples over 17.0 s; now: selection moved 47 times, values changed 0 times (OK); the 0.6.0 rule on the same input: 44 up / down, 2 left / right (each a value change on an option row)
+up / down leaning sideways, back through a diagonal: 376 samples over 7.5 s; now: selection moved 16 times, values changed 0 times (OK); the 0.6.0 rule on the same input: 16 up / down, 8 left / right (each a value change on an option row)
+Settings values after: Full | 100% | On | Normal | Off | 8% | Cockpit | On
+Stick sensitivity with the stick pushed right (raw +0.34): 100% -> 110%; then left: 100% (OK)
+hat down, down, up: row 1 -> 3 -> 2 (OK); hat left / right: change values like the stick
+twist full left / right and the lever end to end for 1.5 s: selection unchanged, values unchanged
+HOTAS centred, pad left stick x 0.30: Roll +0.05 (pad's), Pitch 0.00; HOTAS used (0.00, 0.00)
+both centred: Roll 0.00, Pitch 0.00
+HOTAS full right / full left / full forward: Roll +1.00 / -1.00, Pitch -0.77 (0.6.0 read: right -> +0.34, left -> -1.00, centred -> -0.50)
+screenshot fix61_footer_pad.png
+screenshot fix61_footer_hotas.png
+screenshot fix61_footer_keyboard.png
+device in use after a pad Y: Gamepad (airlock "<color=#E8473D><b>B</b></color>"); a HOTAS L3: Hotas ("<size=36>○</size>"); the C key: Keyboard ("O")
+after the pad, 1.5 s of HOTAS jitter at rest (±0.03 stick, ±0.05 twist): device in use Gamepad (OK)
+prompts per device: land <color=#3D8FE8><b>X</b></color> / G / <size=36>□</size>; recall hold View / hold H / hold SHARE; pause ☰ Menu / Esc / OPTIONS
+Controls page opened from the pad: showing Gamepad
+screenshot fix61_controls_hotas.png
+screenshot fix61_controls_gamepad.png
+screenshot fix61_controls_keyboard.png
+screenshot fix61_hotas_setup.png
+screenshot fix61_identify_square.png
+identify: pressed 1,3,2,9,10,4,5,6,7,8,11,12 for R2 R1 R3 L1 L2 L3 □ ✕ ○ △ SHARE OPTIONS; names now: button 9 = L1, 10 = L2, 7 = <size=36>○</size>; capturing False
+screenshot fix61_assign_wait.png
+assign Pause -> pressed L3: pause L3, cabin camera OPTIONS
+L3 pressed in the game: pause pressed (title: nothing to pause); binding now <Joystick>/button4
+screenshot fix61_calibrate_range.png
+calibrated: True; x -1.00 / -0.46 / +0.27, y -0.99 / +0.00 / +0.99; centred stick reads (0.00, 0.00)
+screenshot fix61_hotas_setup_after.png
+in flight after HOTAS L2: device Hotas; HUD pause prompt "OPTIONS: Pause"
+screenshot fix61_hud_hotas.png
+after pad D-pad right: device Gamepad; HUD pause prompt "☰ Menu: Pause"
+screenshot fix61_hud_pad.png
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.012 RMS, peak 0.269, zeroed before the speakers; 3905536 samples); master volume 0.00

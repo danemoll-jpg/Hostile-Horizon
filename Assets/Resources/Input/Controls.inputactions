@@ -193,20 +193,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HotasStick",
+                    "type": "PassThrough",
+                    "id": "ffefc3ef-bac8-43bb-bbf3-a6d1ec576678",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "8f8a2f25-f6d3-4f36-80f4-aeb9c3cbedf3",
-                    "path": "<Joystick>/stick/y",
-                    "interactions": "",
-                    "processors": "invert",
-                    "groups": "HOTAS",
-                    "action": "Pitch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "c6afd44f-08db-4cbc-b5df-f7c506d01b83",
@@ -250,17 +248,6 @@
                     "action": "Pitch",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "0a1abbe0-54e3-44e3-9ae7-75cd9b1d22e1",
-                    "path": "<Joystick>/stick/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "HOTAS",
-                    "action": "Roll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -595,7 +582,7 @@
                 {
                     "name": "",
                     "id": "93befaca-6461-4564-a7da-515426e13536",
-                    "path": "<Joystick>/button3",
+                    "path": "<Joystick>/button8",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -628,18 +615,7 @@
                 {
                     "name": "",
                     "id": "374eac11-6f05-4e15-ab8e-38e07005bba3",
-                    "path": "<Joystick>/button9",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "HOTAS",
-                    "action": "Menu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a58c227d-e7d5-4fa9-b85f-c4cbee750a9a",
-                    "path": "<Joystick>/button10",
+                    "path": "<Joystick>/button12",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -672,7 +648,7 @@
                 {
                     "name": "",
                     "id": "7ceabe50-779a-4200-94d8-763efb38c298",
-                    "path": "<Joystick>/button4",
+                    "path": "<Joystick>/button5",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -705,7 +681,7 @@
                 {
                     "name": "",
                     "id": "ea5c98f3-92db-4353-a675-5add8f5053d0",
-                    "path": "<Joystick>/button5",
+                    "path": "<Joystick>/button6",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -738,7 +714,7 @@
                 {
                     "name": "",
                     "id": "192eb043-fd2b-48c9-b830-492fc3820f99",
-                    "path": "<Joystick>/button6",
+                    "path": "<Joystick>/button7",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -771,7 +747,7 @@
                 {
                     "name": "",
                     "id": "2942945c-fe83-4c20-a91f-9d74b703846c",
-                    "path": "<Joystick>/button7",
+                    "path": "<Joystick>/button11",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -837,7 +813,7 @@
                 {
                     "name": "",
                     "id": "b260c0de-ffc5-4f8b-927f-eb8b2ea6c7ab",
-                    "path": "<Joystick>/button8",
+                    "path": "<Joystick>/button10",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -870,7 +846,7 @@
                 {
                     "name": "",
                     "id": "8e13e523-4582-4e4f-967e-2d560904d216",
-                    "path": "<Joystick>/button11",
+                    "path": "<Joystick>/button9",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -903,7 +879,7 @@
                 {
                     "name": "",
                     "id": "af903772-9780-47cb-85dc-b6d1ecf6e04a",
-                    "path": "<Joystick>/button12",
+                    "path": "<Joystick>/button4",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -936,7 +912,7 @@
                 {
                     "name": "",
                     "id": "2585c904-550b-49a3-b737-6166906d1d8f",
-                    "path": "<Joystick>/button14",
+                    "path": "<Joystick>/button2",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -1013,11 +989,22 @@
                 {
                     "name": "",
                     "id": "c56d18e1-f621-40ac-a8d4-bd36335cfdc6",
-                    "path": "<Joystick>/button2",
+                    "path": "<Joystick>/button3",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
                     "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1210385f-1ab2-4ba9-959b-1a5d437f834e",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "HOTAS",
+                    "action": "HotasStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1082,17 +1069,6 @@
                     "name": "",
                     "id": "20d6e31a-feae-4673-a911-f02ebec8d5e4",
                     "path": "<Joystick>/hat",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "HOTAS",
-                    "action": "Navigate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "90eed95e-ab29-43c4-ac1e-ba01a1c80686",
-                    "path": "<Joystick>/stick",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",
@@ -1301,7 +1277,7 @@
                 {
                     "name": "",
                     "id": "f78b036d-f05f-46a4-bdfa-a8f407ca40db",
-                    "path": "<Joystick>/button2",
+                    "path": "<Joystick>/button7",
                     "interactions": "",
                     "processors": "",
                     "groups": "HOTAS",

@@ -231,7 +231,7 @@ namespace HostileHorizon
             }
             Ship.ReleaseToFlight(Ship.Speed, .45f);
             Mother.Holding = false; Phase = ""; Now = State.Flying; flightStartedAt = Time.time;
-            Flash($"Find the beacons on the radar. Brake / landing mode: {Controls.LandKeys}", 6f);
+            Flash($"Find the beacons on the radar. Brake / landing mode: {Controls.LandKey}", 6f);
         }
 
         // ---- flying the planet
@@ -447,8 +447,8 @@ namespace HostileHorizon
             float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude);
             if (calling == 2) return "Recall: the mothership is coming. Its beam will lift you";
             if (calling == 1) return "Out of energy: the mothership is coming. Its beam will catch you";
-            if (HomeState == 2) return $"Can't reach the mothership: recall ({Controls.RecallKeys}, {t.recallFee} cr) or land";
-            if (HomeState == 1) return $"RETURN NOW: climb to dock (↑ {climb:0} m), or recall ({Controls.RecallKeys})";
+            if (HomeState == 2) return $"Can't reach the mothership: recall ({Controls.RecallKey}, {t.recallFee} cr) or land";
+            if (HomeState == 1) return $"RETURN NOW: climb to dock (↑ {climb:0} m), or recall ({Controls.RecallKey})";
             if (Ship.Landed)
             {
                 if (cabin.Count >= CabinSize) return "Cabin full: take off and dock with the mothership";
@@ -457,7 +457,7 @@ namespace HostileHorizon
                 // Fix 2.5: a pilot near but unable to get to the ship says so
                 foreach (var p in Pilots) if (p.OnFoot && p.LevelToDoor < 700f)
                         return $"Pilot {p.Index + 1} can't reach you here ({p.LevelToDoor:0} m away, {Mathf.Abs(p.ClimbToDoor):0} m {(p.ClimbToDoor > 0 ? "up" : "down")}): land on their pad (green ring)";
-                return Ship.EnginesOn ? "Landed. Climb (throttle up) to take off" : "Engines off. Throttle up or A / K to start them";
+                return Ship.EnginesOn ? "Landed. Climb (throttle up) to take off" : $"Engines off. Throttle up or {Controls.EngineKey} to start them";
             }
             if (cabin.Count >= CabinSize) return $"Cabin full: climb to dock (↑ {climb:0} m)";
             if (Waiting == 0) return $"Everyone found: climb to dock (↑ {climb:0} m)";
@@ -468,7 +468,7 @@ namespace HostileHorizon
             if (nearest < 900f) return $"Pilot close by: brake ({Controls.LandKey}) when the amber ring reaches their pad (green ring)";
             if (cabin.Count > 0) return $"{cabin.Count} aboard: more pilots, or climb to dock (↑ {climb:0} m)";
             if (CanDock) return $"Climb to dock (↑ {climb:0} m)";
-            if (Ship.Energy < t.energyWarning) return $"Energy low: recall the mothership any time ({Controls.RecallKeys}, {t.recallFee} cr)";
+            if (Ship.Energy < t.energyWarning) return $"Energy low: recall the mothership any time ({Controls.RecallKey}, {t.recallFee} cr)";
             return "";
         }
 
@@ -865,7 +865,7 @@ namespace HostileHorizon
 
             campaignPause = new MenuPanel.Page { Title = "PAUSED", Back = Resume };
             campaignPause.Body = () => $"{Planet?.name} · {CrashLevels.Names[(int)Ship.Level]}\nQuitting now saves; pilots in your cabin go back to wait on the planet.\n\n" +
-                "<b>Reset position</b>: hover over the nearest landing pad (free).\n<b>Recall</b>: the mothership comes and lifts you home (also: hold View / H / HOTAS 7).";
+                $"<b>Reset position</b>: hover over the nearest landing pad (free).\n<b>Recall</b>: the mothership comes and lifts you home (also: {Controls.RecallKey}).";
             campaignPause.Add(Action("Resume", Resume))
                          .Add(Action("Reset position", ResetPosition, () => !CanReset))
                          .Add(new MenuPanel.Row { Label = () => $"Recall the mothership  <size=24>({Tuning.T.recallFee} cr)</size>", Submit = () => { Resume(); Recall(); },

@@ -40,7 +40,7 @@ namespace HostileHorizon
             GameSettings.S.flightAssist = 0;
             Log("check pilot: Flight assist Full for getting about (measurements set their own)");
             Log($"Hostile Horizon exe check {DateTime.Now:yyyy-MM-dd HH:mm}; {(TestRun.Headless ? $"{TestRun.View.width}x{TestRun.View.height} off-screen" : $"{Screen.width}x{Screen.height}")}; GPU {SystemInfo.graphicsDeviceName}; Steam Deck setting {(SteamDeck.On ? "on" : "off")}; view {G.Terrain.ViewDistance:0} m");
-            IEnumerator run = CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only == "music" ? MusicCheck() : CheckRun.Only == "round5a" ? Round5A() : CheckRun.Only.StartsWith("round6") ? Round6() : CheckRun.Only.StartsWith("round5") ? Round5() : CheckRun.Only.StartsWith("round4") ? Round4() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
+            IEnumerator run = CheckRun.Only == "input" ? InputDump() : CheckRun.Only.StartsWith("fix61") ? Fix61() : CheckRun.Only == "perf" ? Perf() : CheckRun.Only == "campaign" ? Campaign() : CheckRun.Only == "home" ? Home() : CheckRun.Only == "mute" ? MuteCheck() : CheckRun.Only == "screen" ? ScreenCheck() : CheckRun.Only == "fullscreen" ? FullscreenCheck() : CheckRun.Only == "fix24" ? Fix24() : CheckRun.Only == "fix25" ? Fix25() : CheckRun.Only == "fix26" ? Fix26() : CheckRun.Only == "fix32" ? Fix32() : CheckRun.Only == "music" ? MusicCheck() : CheckRun.Only == "round5a" ? Round5A() : CheckRun.Only.StartsWith("round6") ? Round6() : CheckRun.Only.StartsWith("round5") ? Round5() : CheckRun.Only.StartsWith("round4") ? Round4() : CheckRun.Only == "aliens" || CheckRun.Only.StartsWith("fix31") ? AlienCheck() : All();
             while (true)
             {
                 object cur;
@@ -299,13 +299,10 @@ namespace HostileHorizon
             yield return Shot("08_pause");
             yield return Nav(GamepadButton.DpadDown, 3); yield return Press(GamepadButton.South);   // Settings
             yield return Shot("09_settings");
-            G.Menu.Current.Selected = Row("Controls and HOTAS"); G.Menu.Show(G.Menu.Current, true); yield return Press(GamepadButton.South);   // Controls and HOTAS (Round 5: picked by label)
-            yield return Nav(GamepadButton.DpadDown, 3); yield return Press(GamepadButton.South);   // Axis display
-            state.leftStick = new Vector2(.5f, -.3f); Set(); yield return null; yield return null;
-            yield return Shot("10_axis_display");
-            state.leftStick = Vector2.zero; Set();
-            yield return Press(GamepadButton.East); yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);   // back to pause
-            Log($"after three B presses: page {G.Menu.Current?.Title}");
+            G.Menu.Current.Selected = Row("Controls"); G.Menu.Show(G.Menu.Current, true); yield return Press(GamepadButton.South);   // Controls (Fix 6.1)
+            yield return Shot("10_controls");
+            yield return Press(GamepadButton.East); yield return Press(GamepadButton.East);   // back to pause
+            Log($"after two B presses: page {G.Menu.Current?.Title}");
             yield return Press(GamepadButton.East);                                                 // resume
             Log($"after B on pause: {G.Now}");
             yield return Fly(1f);

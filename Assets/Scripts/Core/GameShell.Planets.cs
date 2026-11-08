@@ -95,8 +95,8 @@ namespace HostileHorizon
             planetsPage.Body = PlanetsBody;
             planetsPage.View = () => Stage.Tex;
             planetsPage.CaptureInput = () => { bool c = coordEditing && SeedEditInput(); if (!editingSeed) coordEditing = false; return c; };
-            planetsPage.Hint = () => coordEditing ? "Type the seed (Backspace deletes), or up / down changes the marked digit, left / right moves.   A / Enter: done"
-                                                  : "Up / down: choose a planet (the map rings it)     A / Enter / trigger: jump there     B / Esc: back";
+            planetsPage.Hint = () => coordEditing ? $"{(Controls.LastDevice == Controls.Device.Keyboard ? "Type the seed (Backspace deletes), or " : "")}up / down changes the marked digit, left / right moves.   {Controls.Btn(Controls.Act.Select)}: done"
+                                                  : $"{Controls.Btn(Controls.Act.Menus)}: choose a planet (the map rings it)     {Controls.Btn(Controls.Act.Select)}: jump there     {Controls.Btn(Controls.Act.Back)}: back";
         }
 
         void ShowPlanets() { planetsFrom = 0; mapKey = ""; Menu.Show(planetsPage); }

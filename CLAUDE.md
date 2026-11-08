@@ -64,6 +64,9 @@ is the source of truth for what to build; this file is the standing context.
   buttons), any gamepad (Xbox layout, Steam Deck built-in controls), keyboard +
   mouse as a fallback. All through one Input Actions asset with a binding set
   per device. HOTAS axes need deadzones and a calibration/invert option.
+  **HOTAS buttons are named by the symbol printed on them** (Dan's is the PS4
+  T.Flight HOTAS 4: R2 trigger, R1, R3, L1-L3, □ ✕ ○ △, SHARE, OPTIONS), never
+  "button 6"; prompts name only the buttons of the device in use (Fix 6.1).
   Code cannot hold the HOTAS: HOTAS behaviour is "for Dan to check".
 - **Seeded everything.** Terrain, pilot placement, enemy placement and which
   pilots are aliens all come from one seed, so a seed always plays the same.
@@ -187,22 +190,22 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `homeClimbRate` 30 (m/s assumed for the climb to dock), `homeMargin` 3 %,
   `returnNowWarning` 8 %, `beamReach` 600 m, `pilotFuelMin` / `pilotFuelMax` 3 / 15 %.
 - **Recall (Fix 2.3):** the `Recall` input action, **held 1 s**: gamepad View
-  (Select; the Deck's View button), keyboard **H**, HOTAS **button 7**. The
+  (Select; the Deck's View button), keyboard **H**, HOTAS **hold SHARE** (Fix 6.1; was button 7). The
   mothership comes and its beam lifts you to the dock (in the air or landed),
   `recallFee` at the dock; refused while a pilot is running / knocking / boarding.
   At 0 energy in the air the same beam catches the ship (tow fee). Code:
   `GameShell.Campaign` (`calling`, `BeamLift`, `HomeWarnings`, `SkyMarker`).
 - **Pause / reset (Fix 2.4):** pause anywhere in play, including launch, docking,
   tow, recall and the beam (time stops; resume carries on): gamepad Start or a
-  **tap** of View (held 1 s it is still the recall), keyboard Esc, HOTAS button 9
-  (Settings > Controls and HOTAS > "HOTAS pause button", any of 1-16) or 10. A
+  **tap** of View (held 1 s it is still the recall), keyboard Esc, HOTAS OPTIONS
+  (Fix 6.1; any button in Settings > Controls > HOTAS setup). A
   player's build auto-pauses on focus loss (`OnApplicationFocus` / `OnApplicationPause`;
   check runs don't). "≡ / Esc: Pause" shows on the HUD and the cockpit display for the
   first minute of a flight. Pause menu: Resume, **Reset position** (hover 60 m over
   the nearest landing pad, same cabin / energy, free; greyed out while a pilot runs /
   knocks / boards and during the automatic parts), Free Flight: Restart; Campaign:
   Recall (900 cr); Settings, quit. Code: `GameShell.Pause / Resume / ResetPosition`.
-- **Landing (Fix 2.4):** X / G / HOTAS 4 from flight = air brakes (top speed to hover
+- **Landing (Fix 2.4):** X / G / HOTAS □ from flight = air brakes (top speed to hover
   speed in 2.5 s, stopped in about 4 s, brake sound), BRAKING / HOVER (height in big
   type) / TOUCHDOWN / LANDED states on the HUD and the cockpit display; near a waiting
   pilot (2.5 km) an amber ring + post on the ground marks where the ship would stop
@@ -211,7 +214,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   60 m, 3 m/s (a safe touchdown) below 8 m.
   Fix 2.5: the cue and the amber ring aim at the waiting pilot's pad (green ring within
   900 m), the amber ring also shows in hover. **Belly camera** (`Cameras/BellyCam.cs`):
-  on by itself in landing mode, D-pad down / V / HOTAS 8 toggles it; on the cockpit's
+  on by itself in landing mode, D-pad down / V / HOTAS L1 toggles it; on the cockpit's
   centre display and as a HUD picture-in-picture; landed with a pilot coming it is the
   airlock camera. **Glass floor** at the feet and glass in the lower canopy (front of the
   side consoles) in `ship.py`. **Landing view** (5th in the camera cycle): high over the ship.
@@ -235,16 +238,16 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   follows the stick at once (only the lean eases); a wall hit pushes the ship away and turns
   the nose only to run along the rock (0.2.4 mirrored it off, a spin). `ShipController.Moved`
   sums the rotation by source for the checks. Settings has at most 12 rows: the HOTAS
-  rows moved to Settings > Controls and HOTAS (with the Axis display).
+  rows moved to Settings > Controls > HOTAS setup (Fix 6.1; with the live axis display).
 - **Radar and route trail (Fix 2.6):** the radar zooms by itself (1 / 2 / 3 / 6 / 9 km at the rim), range rings, every blip
   with its distance, NEAREST on the nearest pilot (`UI/Radar.cs`). Route trail (`Campaign/RouteTrail.cs`): A* on canyon openness
   (30 m grid, off the main thread), chevrons every 100 m (fade 300-700 m ahead) at 35 m over the floor (raised where the canyon is
-  under ~70 m wide), the route on the radar; target cycling `RouteTarget` (gamepad D-pad right, keyboard T, HOTAS button 11);
+  under ~70 m wide), the route on the radar; target cycling `RouteTarget` (gamepad D-pad right, keyboard T, HOTAS L2);
   Settings > Route trail (On).
 - **Aliens (Round 3):** `Campaign/Aliens.cs` (types, seeded assignment, journal hints), `DownedPilot.cs` (tells), `Core/GameShell.Aliens.cs`
   (exhaust reveal + bounty, canopy climb / break-in, the horror sequence, the Sleeper, security at the dock, Field Journal page),
   `Campaign/Creature.cs`, `Campaign/Cabin.cs` (cabin, hatch, lamps, passengers, cabin camera: `CabinCam` gamepad D-pad up, keyboard N,
-  HOTAS button 12 toggles the HUD picture-in-picture). Pilots wait at the airlock ahead of the left wing (ship space x -2.45, z +0.8);
+  HOTAS L3 toggles the HUD picture-in-picture). Pilots wait at the airlock ahead of the left wing (ship space x -2.45, z +0.8);
   the airlock camera looks at them from ahead of the wing (42°). Round 3 tuning: `alienShareStart` .20, `alienSharePerTier` .05,
   `alienShareMax` .35, `tellReliability` .75, `falseTellChance` 0, `alienBounty` 200, `canopyClimbAfter` 25, `breakInAfter` 10,
   `sleeperTurnMin/Max` 40 / 120, `sleeperPilotsWin` 2. Career save adds `journal`, `stats.aliensKilled`, planets' `alien` / `quirk`.
@@ -283,8 +286,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (any stick output past the deadzones counts as steering) for `rightDelay` .25 s, the ship rolls wings-level the short way (from upside
   down it keeps rolling the way it started) and eases its nose to the horizon (6° climb below 25 m), heading kept; the first stick input
   stops it. Rates: roll 120 / pitch 60 °/s at most, ease-out 3/s; Settings > **Righting speed** Slow x.65 / Normal / Fast x1.5; Full x1.3.
-  **Level-out button** (gamepad left-stick click, keyboard L, HOTAS button 14 by default: Settings > Controls and HOTAS > "HOTAS level-out
-  button"): x2, overrides pitch / roll until level (also on Flight assist Off). Landing mode rights the body at most `hoverRightRate`
+  **Level-out button** (gamepad left-stick click, keyboard L, HOTAS R3 by default: Settings > Controls > HOTAS setup): x2, overrides pitch / roll until level (also on Flight assist Off). Landing mode rights the body at most `hoverRightRate`
   140 °/s. `ShipController.RightStep`; `Moved` sources 5 (self-righting) and 6 (level-out). Graphics quality and Steam Deck moved to
   Settings > Display (12 rows at most). Check `-exeCheckOnly round5a` (`Checks/ExeCheck.Round5A.cs`, about 8 min).
 - **Enemies and difficulty (Round 5 Part B):** Campaign only. `Campaign/Enemies.cs` (placement from the seed + difficulty, turrets, saucers,
@@ -296,8 +298,8 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   ground, and tree crowns in the forest); saucers from a career's second planet on (patrol, chase on sight or when you land / hover within
   3 km, firing passes, kept above the rock and the forest). On Easy / Normal no turret sees a pilot's pad; Hard / Nightmare cover a share
   (`coveredPadShare`). Destroyed enemies stay destroyed per planet (`PlanetState.enemiesDown`). **Controls:** gun = held A / Space / left
-  mouse / HOTAS trigger (A still starts / stops the engines on the ground); shield toggle = D-pad left / Z / HOTAS 2; level out = left-stick
-  click / L / HOTAS 14. Difficulty: Campaign page "Difficulty (new career)" + "Difficulty options"; hangar "Difficulty: X". Presets
+  mouse / HOTAS trigger (A still starts / stops the engines on the ground); shield toggle = D-pad left / Z / HOTAS R1; level out = left-stick
+  click / L / HOTAS R3 (Fix 6.1 layout). Difficulty: Campaign page "Difficulty (new career)" + "Difficulty options"; hangar "Difficulty: X". Presets
   Easy / Normal / Hard / Nightmare / Custom; all numbers in the tuning file (tables `aggressionLevels`, `alienShareLevels`, `tellLevels`,
   `falseTellLevels`, `payLevels`, `coveredPadShare`, `preset*`; enemy, gun, shield and bounty numbers). Sounds `make_sounds.py`
   (gun_fire, turret_fire, saucer_fire, bolt_hit_*, shield_*, enemy_explosion, saucer_hum, lock_warning); voices `cpu_locked_on`,
@@ -319,6 +321,17 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   wheel), animations, lore, record (`JournalEntry.killed / killedYou / firstPlanet`); silhouette for unmet kinds; from the hangar and the
   pause menu. Hangar rows: Launch, Jump, Star map, Upgrades, Repair, Refuel, Recover, Field Journal, Difficulty, Back. Check
   `-exeCheckOnly round6` (or `round6a` .. `round6e`; `Checks/ExeCheck.Round6.cs`, `ExeCheck.Round6CDE.cs`; about 45 min in all).
+- **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
+  (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
+  moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
+  device)` names a button for the device in use (`LastDevice`, switched only by a clear push); pad: Xbox names / colours, ☰ Menu, View;
+  HOTAS: printed symbols (`HotasSymbols`, `hotasSymbolButtons` from "Identify your buttons"). HOTAS layout (`HotasActs`, assignable in
+  HOTAS setup, `hotasButtons`): R2 fire / select / hold fast-forward, ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, hold SHARE
+  recall, OPTIONS pause, R1 shield, R3 level out, L1 belly camera, L2 route target, L3 cabin camera, hat look / menus, twist yaw, lever
+  throttle. Menus: `MenuPanel.NavReader` (dominant axis + lock); pages with more rows scroll (`Page.RowsShown`). Settings > Controls:
+  `Core/GameShell.ControlsPages.cs`, picture and list `UI/ControlsSheet.cs` (drawn in code). Check `-exeCheckOnly fix61` (about 1 min;
+  `--extra=-hotasTrace <csv>` plays a recorded stick, `Data/screenshots/fix61/dan_updown_trace.csv`), `fix61pics` (pictures; use
+  `--size 1280x800`), `input` (a real joystick's layout: a batch-mode run sees none, so log a real HOTAS with Windows' joystick calls).
 - **Terrain (Fix 2.4):** `CanyonField`: three canyon systems at closer spacing, floors
   about 50 m wide, walls 300-600 m in five ledges; landing pads (one per 520 m cell where
   it falls on a canyon floor, 45 m flat clearing): pilots, the start and Reset use them.
@@ -366,7 +379,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -430,12 +443,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 6.1 (menus with the HOTAS no longer change the option you leave: Dan's stick reads half-left when centred, now calibrated, and
+menus take the dominant axis with a lock; prompts name only the device in use's buttons, PlayStation symbols on the HOTAS, Xbox names and
+colours on the pad; Settings > Controls per device with a code-drawn HOTAS / pad picture; HOTAS setup: calibrate, identify your buttons,
+assign; the HOTAS layout moved onto its 12 buttons) is built, checked in the exe (headless, muted, `--only fix61` with Dan's recorded stick,
+`fix61pics` at 1280 x 800) and published as 0.6.1 (`game-601` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates
+to it from GitHub. Not yet tried by Dan on the real HOTAS.** Details and the cause in `TODO.md` (Fix 6.1 delivery). **Next: Round 7**,
+to be written by the planning chat.
 **Round 6 (A: the alien attack as a jump scare: an alien boards exactly like a pilot, then strikes instantly, on take-off or as a slow burn;
 canopy leap; red herrings. B: enemies easier to find. C: upgrade shop. D: full star map, coordinates, distress calls. E: Field Journal
 viewer with 3D creatures) is built, checked in the exe (headless, muted, `--only round6a` .. `round6e` and `round6`) and published as
 0.6.0 (`game-600` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet played by Dan.**
 The event-log comparison: an alien boarding is identical to a real pilot boarding until the strike (16 / 16 and 20 / 20 events). Per-item
-status, prices and tuning in `TODO.md` (Round 6 delivery). **Next: Round 7**, to be written by the planning chat.
+status, prices and tuning in `TODO.md` (Round 6 delivery). Fix 6.1 followed (above).
 **Round 5 (Part A: the ship rights itself when the stick is released, a level-out button, Auto-level / Righting speed settings; Part B:
 turrets, saucers, your gun and shield, hull damage from enemy fire, warnings, difficulty presets Easy / Normal / Hard / Nightmare / Custom)
 is built, checked in the exe (headless, muted, `--only round5a`, `round5`, `round5perf` with the Deck setting, `round5presets`) and

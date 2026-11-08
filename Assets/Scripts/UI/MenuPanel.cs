@@ -5,6 +5,28 @@ using UnityEngine.UI;
 
 namespace HostileHorizon
 {
+    // Fix 6.1: menu directions from a stick, hat, D-pad or keys. Only a clear push counts: up / down when the stick is mostly up or
+    // down (|y| > .55 and |y| > |x|), left / right only when it is clearly sideways (|x| > .6 and |x| > 2|y|). After an up / down move
+    // the stick must come back near the centre (both axes under .25) before left / right can act, and the other way round, so a
+    // stick that leans sideways on its way up, down or back to the centre never changes a value. Held, a direction repeats.
+    public sealed class NavReader
+    {
+        int lockAxis, dir; float timer;
+        public void Reset() { lockAxis = 0; dir = 0; timer = .25f; }
+        // 0 nothing, 1 up, 2 down, 3 left, 4 right: the step to take this frame
+        public int Step(Vector2 n, float dt)
+        {
+            float ax = Mathf.Abs(n.x), ay = Mathf.Abs(n.y);
+            if (ax < .25f && ay < .25f) lockAxis = 0;
+            if (lockAxis == 0) { if (ay > .55f && ay > ax) lockAxis = 1; else if (ax > .6f && ax > 2 * ay) lockAxis = 2; }
+            int d = lockAxis == 1 && ay > .45f ? (n.y > 0 ? 1 : 2) : lockAxis == 2 && ax > .5f ? (n.x > 0 ? 4 : 3) : 0;
+            bool fire = false;
+            if (d != dir) { dir = d; fire = d != 0; timer = .38f; }
+            else if (d != 0) { timer -= dt; if (timer <= 0) { fire = true; timer = .11f; } }
+            return fire ? d : 0;
+        }
+    }
+
     // Round 1, item 7: one menu panel for every page (title, Free Flight, Settings, pause, crash). Rows are chosen with up / down
     // (D-pad, left stick, HOTAS hat or stick, arrows / WS), changed with left / right, confirmed with Submit (A, Enter / Space, HOTAS
     // trigger), left with Cancel (B, Esc / Backspace, HOTAS button 2). Only the UI actions of Controls are read.
@@ -29,6 +51,9 @@ namespace HostileHorizon
             public Func<string> Hint;
             public Func<bool> CaptureInput;        // true while the page edits something itself (the seed digits)
             public Func<Texture> View;             // Round 6 (D1, E1): a large picture over the body (the star map, the creature viewer)
+            public GameObject Sheet;               // Fix 6.1: a layout of its own on the menu canvas, shown with the page (Settings > Controls)
+            public Action Shown;                   // Fix 6.1: called each time the page is shown
+            public int RowsShown;                  // Fix 6.1: rows on screen at once (0 = MaxRows); more scroll
             public int Selected;
             public Page Add(Row r) { Rows.Add(r); return this; }
         }
@@ -39,7 +64,8 @@ namespace HostileHorizon
         Canvas canvas; Text title, subtitle, body, hint; readonly List<Text> rows = new List<Text>(); Image cursor, backdrop;
         readonly List<RawImage> pics = new List<RawImage>(); readonly List<Text> picLabels = new List<Text>(); RawImage view; Image viewFrame;
         const int MaxPictures = 5;
-        float navTimer; int navDir, shownFrame;
+        readonly NavReader nav = new NavReader(); int shownFrame, scrollTop; GameObject sheetOn;
+        public Transform Root => canvas.transform;
         const int MaxRows = 12;
 
         public static MenuPanel Create()
@@ -73,10 +99,13 @@ namespace HostileHorizon
         public void Show(Page p, bool keepSelection = false)
         {
             if (!keepSelection) p.Selected = FirstVisible(p, 0, 1);
-            Current = p; canvas.gameObject.SetActive(true); navTimer = .25f; shownFrame = Time.frameCount; Refresh();
+            if (sheetOn && sheetOn != p.Sheet) sheetOn.SetActive(false);
+            sheetOn = p.Sheet; if (sheetOn) sheetOn.SetActive(true);
+            Current = p; canvas.gameObject.SetActive(true); nav.Reset(); shownFrame = Time.frameCount; scrollTop = 0;
+            p.Shown?.Invoke(); Refresh();
         }
 
-        public void Hide() { canvas.gameObject.SetActive(false); Current = null; }
+        public void Hide() { canvas.gameObject.SetActive(false); Current = null; if (sheetOn) sheetOn.SetActive(false); sheetOn = null; }
         public void SetBackdrop(float alpha) => backdrop.color = new Color(.03f, .04f, .05f, alpha);
 
         // VR rule 3: the same panel as a world-space board 2 m in front of the camera (used by the check; VR uses it later).
@@ -101,11 +130,8 @@ namespace HostileHorizon
             if (Time.frameCount == shownFrame) return;   // the press that opened this page does not also act on it
             var p = Current;
             if (p.CaptureInput != null && p.CaptureInput()) { Refresh(); return; }
-            Vector2 nav = Controls.Navigate;
-            int dir = Mathf.Abs(nav.y) > .55f ? (nav.y > 0 ? 1 : 2) : Mathf.Abs(nav.x) > .55f ? (nav.x > 0 ? 4 : 3) : 0;
-            bool fire = false;
-            if (dir != navDir) { navDir = dir; fire = dir != 0; navTimer = .38f; }
-            else if (dir != 0) { navTimer -= Time.unscaledDeltaTime; if (navTimer <= 0) { fire = true; navTimer = .11f; } }
+            int dir = nav.Step(Controls.Navigate, Time.unscaledDeltaTime);
+            bool fire = dir != 0;
             if (fire && p.Rows.Count > 0)
             {
                 var row = p.Rows[p.Selected];
@@ -131,13 +157,21 @@ namespace HostileHorizon
             int line = 0;
             for (int i = 0; i < rows.Count; i++) rows[i].text = "";
             cursor.enabled = false;
-            for (int i = 0; i < p.Rows.Count && line < rows.Count; i++)
+            // Fix 6.1: a page with more rows than fit scrolls with the selection
+            var shown = new List<int>(); for (int i = 0; i < p.Rows.Count; i++) if (Shown(p.Rows[i])) shown.Add(i);
+            int selPos = Mathf.Max(0, shown.IndexOf(p.Selected));
+            int max = p.RowsShown > 0 ? Mathf.Min(p.RowsShown, MaxRows) : MaxRows;
+            if (selPos < scrollTop) scrollTop = selPos; if (selPos >= scrollTop + max) scrollTop = selPos - max + 1;
+            scrollTop = Mathf.Clamp(scrollTop, 0, Mathf.Max(0, shown.Count - max));
+            for (int k = scrollTop; k < shown.Count && line < max; k++)
             {
-                var r = p.Rows[i]; if (!Shown(r)) continue;
+                int i = shown[k]; var r = p.Rows[i];
                 bool dis = r.Disabled?.Invoke() ?? false; bool sel = i == p.Selected;
                 string label = r.Label(), value = r.Value?.Invoke();
                 var t = rows[line];
                 t.text = value == null ? label : $"{label}<color=#{ColorUtility.ToHtmlStringRGB(UiKit.Accent)}>   ‹ {value} ›</color>";
+                if (line == 0 && scrollTop > 0) t.text = "▲  " + t.text;
+                if (line == max - 1 && k < shown.Count - 1) t.text = "▼  " + t.text;
                 t.color = dis ? new Color(.5f, .52f, .54f) : sel ? Color.white : UiKit.Ink;
                 if (sel)
                 {
@@ -155,7 +189,7 @@ namespace HostileHorizon
                 bool on = list != null && i < list.Count && list[i].pic;
                 pics[i].enabled = on; picLabels[i].text = on ? list[i].label : ""; if (on) pics[i].texture = list[i].pic;
             }
-            hint.text = p.Hint?.Invoke() ?? "Up / down: choose     Left / right: change     A / Enter / trigger: select" + (p.Back != null ? "     B / Esc: back" : "");
+            hint.text = p.Hint?.Invoke() ?? Controls.MenuHint(p.Back != null);
         }
     }
 }

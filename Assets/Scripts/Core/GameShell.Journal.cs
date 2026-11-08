@@ -93,7 +93,9 @@ namespace HostileHorizon
             .Add(Action("Back", () => Menu.Show(journalPage, true)));
             journalView.View = () => Stage.Tex;
             journalView.Body = JournalText;
-            journalView.Hint = () => "Right stick / drag (right mouse) / hat: turn     Triggers / Shift-Ctrl / wheel: zoom     Left / right: change     B / Esc: back";
+            journalView.Hint = () => Controls.LastDevice == Controls.Device.Keyboard ? "Drag with the right mouse button: turn     Wheel / Shift-Ctrl: zoom     ← →: change     Esc: back"
+                : Controls.LastDevice == Controls.Device.Hotas ? $"Hat: turn     Stick left / right: change     {Controls.Btn(Controls.Act.Back)}: back"
+                : $"Right stick: turn     RT / LT: zoom     D-pad ← →: change     {Controls.Btn(Controls.Act.Back)}: back";
         }
 
         int NextType(int d) => (journalType - 1 + d + 5) % 5 + 1;

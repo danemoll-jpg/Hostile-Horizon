@@ -174,9 +174,9 @@ namespace HostileHorizon
             string fight = !Campaign || Ship.Kinematic || Ship.Crashed ? "" : (shot ? $"<color=#FF5A4A><b>HIT −{shotDmg:0}%</b></color>  " : LockedOn && lockBlink ? "<color=#FF5A4A><b>LOCKED ON</b></color>  " : "") + (Shield ? "<color=#8FD8FF>SHIELD ON</color>" : "");
             centre.text = (st != "" ? $"<size=22><color=#FFFFFF>{st}</color></size>\n" : fight != "" ? $"<size=22>{fight}</size>\n" : "") +
                 $"SPD {spd * 3.6f:0} km/h   HDG {hdg:000}°\nALT {alt:0} m   GND {agl:0} m{(low ? " LOW" : "")}\n<size=21>{mode} · {gear} · {engines}</size>\n<size=20><color=#FFC873>{say}</color></size>" +
-                (PauseHint ? "\n<size=18>≡ / Esc: Pause</size>" : "") + (Subtitle != "" ? $"\n<size=17><color=#DDEEFF>{Subtitle}</color></size>" : "");
+                (PauseHint ? $"\n<size=18>{Controls.PauseKey}: Pause</size>" : "") + (Subtitle != "" ? $"\n<size=17><color=#DDEEFF>{Subtitle}</color></size>" : "");
             subtitle.text = Subtitle;
-            stateLine.text = st; hint.text = PauseHint ? "≡ / Esc: Pause" : "";
+            stateLine.text = st; hint.text = PauseHint ? $"{Controls.PauseKey}: Pause" : "";
             // Fix 2.5: the AIRLOCK button, the knock, the belly / airlock camera
             bool lit = Campaign && AirlockLit, blink = Time.time % .8f < .55f;
             airlockLamp.enabled = airlockText.enabled = lit;

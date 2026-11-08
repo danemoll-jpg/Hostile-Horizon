@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace HostileHorizon
@@ -9,7 +10,7 @@ namespace HostileHorizon
     [Serializable]
     public sealed class GameSettings
     {
-        public int version = 1;
+        public int version = 2;               // Fix 6.1: 2 = the HOTAS layout on the 12 buttons a T.Flight HOTAS 4 has
         public bool invertPitch;
         public int deadzone = 8;              // percent, sticks and twist
         public int throttleAxis;              // 0 Auto, else ThrottleAxes[i]
@@ -25,7 +26,6 @@ namespace HostileHorizon
         public int campaignCrashLevel = 3;    // Round 2, item 14 (unused since Round 5: the crash level is part of the difficulty, DifficultySetting)
         public int flightAssist = 1;          // Fix 2.4: 0 Full (0.2.3's), 1 Light, 2 Off
         public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
-        public int hotasPauseButton = 9;      // Fix 2.4: the HOTAS button that opens the pause menu (button 10 always does too)
         public bool routeTrail = true;        // Fix 2.6: the route trail to the next pilot / the mothership
         public int musicVolume = 70;          // Round 4 (B4): percent of the master volume
         public int effectsVolume = 100;       // Round 4 (B4)
@@ -33,7 +33,13 @@ namespace HostileHorizon
         public bool subtitles = true;         // Round 4 (C4)
         public bool autoLevel = true;         // Round 5 (A3): the ship rights itself with the stick released (Full / Light)
         public int rightingSpeed = 1;         // Round 5 (A3): 0 Slow, 1 Normal, 2 Fast
-        public int hotasLevelButton = 14;     // Round 5 (A2): the HOTAS level-out button
+        // Fix 6.1: the HOTAS. Button per assignable action (HID numbers, Controls.HotasActs), which HID button carries each printed
+        // symbol (Controls.HotasSymbols; "identify your buttons" sets it), the stick's calibration (raw x min / centre / max, y min /
+        // centre / max as the Input System reads them; hotasCalibrated once Dan ran "Calibrate stick", else learnt as it goes).
+        public int[] hotasButtons;
+        public int[] hotasSymbolButtons;
+        public float[] hotasCal;
+        public bool hotasCalibrated;
         public DifficultySetting difficulty = new DifficultySetting();   // Round 5 (B8): what a new career starts on
         public int freeBiome;                 // Round 4 (A1): Free Flight's planet type, 0 = by the seed, else Biome + 1
 
@@ -56,9 +62,19 @@ namespace HostileHorizon
 
         public static void Load()
         {
-            if (CheckRun.Active) { S = new GameSettings(); return; }   // a check always plays on the defaults
+            if (CheckRun.Active) { S = new GameSettings(); Fix(); return; }   // a check always plays on the defaults
             try { if (File.Exists(FilePath)) S = JsonUtility.FromJson<GameSettings>(File.ReadAllText(FilePath)) ?? new GameSettings(); }
             catch (Exception e) { Debug.LogWarning("Settings unreadable, using defaults: " + e.Message); S = new GameSettings(); }
+            Fix();
+        }
+
+        // Fix 6.1: settings from before 0.6.1 bound HOTAS buttons 9 / 10 / 14 / 16 (a T.Flight HOTAS 4 has 12): the new layout replaces them.
+        static void Fix()
+        {
+            if (S.version < 2) { S.hotasButtons = null; S.version = 2; }
+            if (S.hotasButtons == null || S.hotasButtons.Length != Controls.HotasActs.Length) S.hotasButtons = Controls.HotasActs.Select(a => a.button).ToArray();
+            if (S.hotasSymbolButtons == null || S.hotasSymbolButtons.Length != Controls.HotasSymbols.Length) S.hotasSymbolButtons = (int[])Controls.DefaultSymbolButtons.Clone();
+            if (S.hotasCal == null || S.hotasCal.Length != 6) { S.hotasCal = new float[] { -1, 0, 1, -1, 0, 1 }; S.hotasCalibrated = false; }
         }
 
         public static void Save()

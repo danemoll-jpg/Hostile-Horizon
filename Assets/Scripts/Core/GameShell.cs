@@ -12,7 +12,7 @@ namespace HostileHorizon
     // Round 2, item 1: a crash is an explosion and the burning wreck stays; the view pulls out live and circles it, and the menu
     // comes up over the live scene (Round 1's fade to black is gone: VR rule 5).
     // Fix 2.4: pause anywhere in play (also during launch, docking, tow, recall, the beam; time stops, resume carries on), with Start /
-    // Esc / HOTAS 9 (or the button picked in Settings > Controls) / 10 and a tap of the gamepad's View; auto-pause when a player's
+    // Esc / HOTAS OPTIONS (Fix 6.1; Settings > Controls > HOTAS setup) and a tap of the gamepad's View; auto-pause when a player's
     // build loses focus; "≡ / Esc: Pause" on the HUD for the first minute of a flight; Reset position in the pause menu.
     public sealed partial class GameShell : MonoBehaviour
     {
@@ -36,8 +36,8 @@ namespace HostileHorizon
         public Explosion Blast { get; private set; }
         Material litTemplate, debrisMaterial;
         Vector3 titlePos; float titleHeading; float titleClock;
-        MenuPanel.Page title, freeFlight, settings, axes, display, credits, pause, crashed, loading;
-        MenuPanel.Page settingsReturn, controls, sound;
+        MenuPanel.Page title, freeFlight, settings, display, credits, pause, crashed, loading;
+        MenuPanel.Page settingsReturn, sound;
         State pausedFrom; bool hudWasOn, viewDown, recallFiredThisHold; float flightStartedAt = -99;
         bool editingSeed; int seedCursor;
 
@@ -151,6 +151,7 @@ namespace HostileHorizon
         void Update()
         {
             StageTick();   // Round 6 (D1, E1): the star map / creature viewer picture
+            Controls.Tick();   // Fix 6.1: the HOTAS stick's centre and reach
             switch (Now)
             {
                 case State.Title:
@@ -340,7 +341,7 @@ namespace HostileHorizon
                 .Add(Action("Start flight", () => StartFlight(ChosenSeed, (CrashLevel)GameSettings.S.crashLevel)))
                 .Add(Action("Back", () => Menu.Show(title)));
             freeFlight.Body = () => editingSeed
-                ? "Type the seed number with the keyboard (Backspace deletes),\nor change the marked digit with up / down and move with left / right.\nA / Enter / trigger: done."
+                ? $"Type the seed number with the keyboard (Backspace deletes),\nor change the marked digit with up / down and move with left / right.\n{Controls.Btn(Controls.Act.Select)}: done."
                 : $"<b>{CrashLevels.Names[GameSettings.S.crashLevel]}</b>\n{CrashLevels.Explain[GameSettings.S.crashLevel]}\n\nThe same seed always makes the same planet.\nSeed of the day changes at midnight.";
             freeFlight.CaptureInput = SeedEditInput;
             if (Keyboard.current != null) Keyboard.current.onTextInput += ch =>
@@ -358,7 +359,7 @@ namespace HostileHorizon
                 .Add(Option("Righting speed", () => GameSettings.RightingNames[Mathf.Clamp(GameSettings.S.rightingSpeed, 0, 2)], d => { GameSettings.S.rightingSpeed = Wrap(GameSettings.S.rightingSpeed + d, 3); Saved(); }))
                 .Add(Option("Invert pitch", () => GameSettings.S.invertPitch ? "On" : "Off", d => { GameSettings.S.invertPitch = !GameSettings.S.invertPitch; Saved(); }))
                 .Add(Option("Stick deadzone", () => GameSettings.S.deadzone + "%", d => { GameSettings.S.deadzone = Mathf.Clamp(GameSettings.S.deadzone + d * 2, 0, 30); Saved(); }))
-                .Add(Action("Controls and HOTAS", () => Menu.Show(controls)))
+                .Add(Action("Controls", ShowControls))
                 .Add(Action("Display", () => Menu.Show(display)))
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
                 .Add(Action("Sound", () => Menu.Show(sound)))   // Round 4 (B4, C4): the volumes and subtitles
@@ -367,7 +368,7 @@ namespace HostileHorizon
             settings.Body = () =>
                 "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
                 "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n" +
-                "<b>Auto-level</b>: let go of the stick and the ship rolls upright and eases its nose to the horizon\n  (Full and Light; never while you steer). <b>Righting speed</b>: how quickly. Level-out button: L-stick click / L.\n" +
+                "<b>Auto-level</b>: let go of the stick and the ship rolls upright and eases its nose to the horizon\n  (Full and Light; never while you steer). <b>Righting speed</b>: how quickly. Level-out button: " + Controls.LevelOutKey + ".\n" +
                 "<b>Route trail</b>: glowing gates along the canyons to the nearest pilot (then the mothership).\n\n" +
                 "Display: screen, resolution, graphics quality and the Steam Deck setting.";
 
@@ -382,25 +383,7 @@ namespace HostileHorizon
                  .Add(Option("Subtitles", () => GameSettings.S.subtitles ? "On" : "Off", d => { GameSettings.S.subtitles = !GameSettings.S.subtitles; Saved(); }))
                  .Add(Action("Back", () => Menu.Show(settings)));
 
-            controls = new MenuPanel.Page { Title = "CONTROLS", Back = () => Menu.Show(settings) };
-            controls.Add(Option("HOTAS throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.ThrottleAxisPath.Replace("<Joystick>/", "")})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
-                    d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
-                .Add(Option("Invert throttle lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }))
-                .Add(Option("HOTAS pause button", () => "button " + GameSettings.S.hotasPauseButton, d => { GameSettings.S.hotasPauseButton = Mathf.Clamp(GameSettings.S.hotasPauseButton + d, 1, 16); Saved(); }))
-                .Add(Option("HOTAS level-out button", () => "button " + GameSettings.S.hotasLevelButton, d => { GameSettings.S.hotasLevelButton = Mathf.Clamp(GameSettings.S.hotasLevelButton + d, 1, 16); Saved(); }))   // Round 5 (A2)
-                .Add(Action("Axis display", () => Menu.Show(axes)))
-                .Add(Action("Back", () => Menu.Show(settings)));
-            controls.Body = () =>
-                "<b>Controls</b>\n" +
-                $"HOTAS: stick pitch / roll, twist yaw, throttle lever, hat look,\n  button 3 view, button {GameSettings.S.hotasPauseButton} / 10 pause, 4 landing mode / brake,\n  5 engines, 6 airlock, 7 (hold) recall, 8 belly camera,\n  11 route target, 12 cabin camera, {GameSettings.S.hotasLevelButton} level out.\n" +
-                "Gamepad: left stick pitch / roll, LB / RB yaw, RT / LT throttle,\n  right stick look, Y view, Start or a tap of View pause,\n  X landing mode / brake, A engines, B airlock, hold View recall,\n  D-pad down belly camera, right route target, up cabin camera,\n  left-stick click level out.\n" +
-                "Keyboard: W / S pitch, A / D roll, Q / E yaw, Shift / Ctrl throttle,\n  arrows look (or hold the right mouse button), C view, Esc pause,\n  G landing mode / brake, K engines, O airlock, hold H recall, V belly camera,\n  T route target, N cabin camera, L level out.\n" +
-                "Landing mode: stick forward / back moves, left / right turns,\n  throttle up / down climbs and sinks (faster high up). The belly camera\n  comes on by itself; look down (look control) through the glass floor.\n\n" +
-                "Pause button: watch Axis display's \"buttons held\" to find a button's number.";
-
-            axes = new MenuPanel.Page { Title = "AXIS DISPLAY", Subtitle = "Move the stick, twist, lever and hat: the bars follow.", Back = () => Menu.Show(controls),
-                Body = Controls.AxisReport, Hint = () => "B / Esc / HOTAS button 2: back" };
-            axes.Add(Action("Back", () => Menu.Show(controls)));
+            BuildControlsPages();   // Fix 6.1: Settings > Controls (per device, with pictures) and HOTAS setup
 
             // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
             display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>
@@ -439,18 +422,14 @@ namespace HostileHorizon
             return s.Substring(0, seedCursor) + "[" + s[seedCursor] + "]" + s.Substring(seedCursor + 1);
         }
 
-        float seedNavTimer; int seedNavDir;
+        readonly NavReader seedNav = new NavReader();
         bool SeedEditInput()
         {
             if (!editingSeed) return false;
             if (Controls.SubmitPressed) { editingSeed = false; GameSettings.Save(); return true; }
             if (Controls.CancelPressed) { GameSettings.S.customSeed /= 10; return true; }
-            var nav = Controls.Navigate;
-            int dir = Mathf.Abs(nav.y) > .55f ? (nav.y > 0 ? 1 : 2) : Mathf.Abs(nav.x) > .55f ? (nav.x > 0 ? 4 : 3) : 0;
-            bool fire = false;
-            if (dir != seedNavDir) { seedNavDir = dir; fire = dir != 0; seedNavTimer = .38f; }
-            else if (dir != 0) { seedNavTimer -= Time.unscaledDeltaTime; if (seedNavTimer <= 0) { fire = true; seedNavTimer = .12f; } }
-            if (fire)
+            int dir = seedNav.Step(Controls.Navigate, Time.unscaledDeltaTime);   // Fix 6.1: the menus' rule (MenuPanel.NavReader)
+            if (dir != 0)
             {
                 if (dir == 3) seedCursor = Mathf.Max(0, seedCursor - 1);
                 else if (dir == 4) seedCursor = Mathf.Min(7, seedCursor + 1);

@@ -1754,3 +1754,89 @@ collide from the seed, not from what is drawn (the Deck's thinner drawing never 
 callsigns come from their voices (12 names). **For Dan to check:** do the forest, city and ice feel different and good to fly (and how the
 tree crowns look)? Rooftop and clearing landings. Control, the pilots' voices, how much radio chatter. The music with your tracks: does
 each place fit, are the loop points clean? Any hitch in the forest / city? The key's Music permission for the two real loops.
+
+---------------------------------------------------------------------------
+Fix 6.1 specification (moved from TODO.md at the end of Fix 6.1, 2026-11-07)
+---------------------------------------------------------------------------
+
+---------------------------------------------------------------------------
+Current Objective — Fix 6.1: menus with the HOTAS, and a clean controls page per device
+---------------------------------------------------------------------------
+
+Round 6 is delivered as 0.6.0 (status under "Previous deliveries"). Round 7
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-07, first time with the HOTAS, on PC):
+- "When I am selecting options, I can go up and down on the joystick to select
+  the option I want to change. Then I can move left or right to change the
+  selection, but when I pull up or down it does move, but it also changes the
+  option I just left, so I can't keep it set."
+- "Please clean up the HOTAS controls. It looks like just a big wall of text and
+  I can't read it. Since it is the HOTAS settings I don't need to see the
+  keyboard buttons. Also if I am playing with an Xbox controller just show those
+  options."
+
+Likely cause of the first one (planning chat, from `UI/MenuPanel.cs` Update):
+the stick's direction is picked per frame by a plain threshold (|y| > .55 else
+|x| > .55), so a stick pushed up/down that also leans sideways, or that passes
+through a sideways angle on its way back to centre, fires Left / Right on the
+row. Also check the Navigate action's HOTAS bindings (twist or another axis
+must not feed it). Confirm with logged input before fixing.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Menu navigation that doesn't change values by accident** (all devices,
+   sticks and hats):
+   - Log the raw Navigate input from the HOTAS stick / hat / twist while moving
+     up and down, find what triggers the Left / Right, report it.
+   - Dominant-axis only, with hysteresis: Left / Right only when the horizontal
+     push clearly dominates (e.g. |x| > .6 and |x| > 2|y|); after an Up / Down
+     move, no Left / Right until the stick has come back to centre (both axes
+     under about .25), and the same the other way round.
+   - The twist and the throttle never navigate menus.
+   - The HOTAS hat works for menus as a d-pad (it's the cleanest on the HOTAS).
+2. **Controls shown only for the device in use.** The game tracks the active
+   device (last one used: HOTAS, Xbox-style gamepad / Steam Deck, keyboard +
+   mouse) and every control hint (Advice line, prompts like "press B to open",
+   the pause hint, menus' footer) shows only that device's buttons, switching
+   as soon as another device is used. Gamepad hints use Xbox button names /
+   colours (A green, B red, X blue, Y yellow), LB / RB / LT / RT, D-pad, ☰ / ⧉.
+3. **A clean Controls page** (Settings > Controls), showing only the active
+   device (with a small switch to view another device's layout if wanted):
+   - grouped and short: **Flying** (pitch / roll, yaw, throttle, level out),
+     **Landing and pickup** (land / hover, engines, airlock, belly camera),
+     **Combat** (fire, shield), **Views** (camera, look, cabin camera, route
+     target), **Ship** (recall, pause);
+   - two columns (action | button), large readable text, no long sentences;
+   - for the HOTAS: **a picture of the HOTAS with every mapping on it** (Dan,
+     2026-11-07: "there are lots of buttons"): the stick and the throttle drawn
+     clearly (Code draws it; a reference photo of Dan's own unit is in
+     `SourceArt/Reference/hotas_dan.jpg`), with a label line from each button,
+     axis, hat and the twist to what it does in the game. Dan's unit is the
+     **PS4 version of the T.Flight HOTAS 4**: its buttons are printed with
+     PlayStation symbols (**△ □ ✕ ○** on the right side of the throttle, plus
+     L1 / L2 / R1 / R2 / L3 / R3, SHARE / OPTIONS / PS), so the picture, the
+     Controls page, the HOTAS setup page and every in-game prompt name HOTAS
+     buttons **by the symbol printed on them** (e.g. "press ○ to open the
+     airlock"), never "button 6". Map the HID button numbers to the printed
+     symbols; then **a short "identify your buttons" step** on the HOTAS setup
+     page (press each highlighted button on the picture in turn) lets Dan
+     confirm or correct the mapping once, saved in settings. Unused buttons are
+     shown greyed on the picture;
+   - for the gamepad: the same with an Xbox controller picture (fine for the
+     Deck too).
+4. **HOTAS setup separate from the list:** a **HOTAS setup** page (shown when a
+   HOTAS is connected): axis display, throttle axis, invert lever, the
+   assignable buttons (pause, level out, ...), one per row, each with its
+   current button and "press a button to assign". No keyboard text on it.
+5. **Check (muted, no focus):** a recorded HOTAS-like input (up / down with a
+   sideways lean, and returning through a diagonal) moves the selection
+   without changing any value; left / right still changes values; pictures of
+   the Controls page for HOTAS, gamepad and keyboard, and the HOTAS setup page
+   — Code looks at them: readable at 1080p and on the Deck's 1280 x 800?
+6. **Publish as 0.6.1**, update `TODO.md` (per-item status, the cause found in
+   1) and `CLAUDE.md`, commit and push.
+
+**For Dan to check:** with the HOTAS, move up and down the Settings: do values
+stay put? Is the Controls page readable and does it show only the HOTAS? Do
+the in-game prompts switch to Xbox buttons when you pick up the controller?
+
