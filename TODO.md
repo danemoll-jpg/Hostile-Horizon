@@ -168,11 +168,105 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 7 (to be written by the planning chat)
+Current Objective — Fix 6.3: HOTAS trigger / R1 / R3, stray setting changes, an input recorder
 ---------------------------------------------------------------------------
 
-Fix 6.2 is delivered as 0.6.2 (status under "Previous deliveries"). Round 7 (missions and more
-progression, queued below) is next; the planning chat writes it here.
+Fix 6.2 is delivered as 0.6.2 (status under "Previous deliveries"). Round 7
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-08, PC, HOTAS, 0.6.2): "Throttle now stuck at 100 %, doesn't
+respond. Trigger also does nothing." Then: "R1 and R3 are reversed too... R1
+is the trigger. Neither of them shot, but maybe this is because I was in
+[Free Flight]?"
+
+What the planning chat found in Dan's own files (`%USERPROFILE%\AppData\
+LocalLow\Hostile Horizon\Hostile Horizon\settings.json`, 00:26):
+- `"throttleAxis": 5` = **"ry"**, an axis that never moves on his HOTAS, with
+  `invertThrottle` true -> a constant 100 %; `throttleAxisFound` is empty.
+  Default is 0 (Auto -> z). So the setting was changed — by a stray menu input
+  or by something in the game; find out which.
+- `"hotasButtons": [2,5,8,4,6,7,9,12,11,10,3]` vs the defaults
+  `[12,2,8,3,5,6,7,11,10,9,4]`: every job shuffled (Pause on L1, ...). Again:
+  stray input, the identify / assign step, or a settings-migration bug?
+- The gun only works in the Campaign (`GameShell.Enemies.cs`: `canFight`
+  needs `InCampaign`), so in Free Flight neither button could shoot — that
+  part is expected. The trigger itself is still to be proven working.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Button names: R1 is the trigger.** Dan's unit: the stick's trigger is
+   **R1** (HID button 1) and **R3** is the other one Fix 6.2 called R1 (button
+   3, at the back of the stick's head). Swap them in `HotasSymbols` /
+   `DefaultSymbolButtons`, the picture, the identify step and every prompt.
+   Settings saved by 0.6.2 get the corrected names once.
+2. **Find what changed Dan's settings.** Reproduce with a virtual HOTAS: menu
+   navigation with the stick (and the twist / throttle / rocker moving at the
+   same time, as on a real HOTAS while you hold it), the identify / assign /
+   calibrate / Find steps, the resets, and loading 0.6.1 / 0.6.2 settings.
+   Report which one produced `throttleAxis` 5 and the shuffled `hotasButtons`,
+   and fix it.
+3. **No accidental changes on the HOTAS.** On the HOTAS, the **stick only moves
+   up / down through menus; values change only with the hat (left / right)**,
+   or by pressing the select button on a row to step it. The twist, rocker and
+   throttle never touch menus. Values that are easy to break (Throttle axis,
+   Invert lever, button jobs) only change through their setup steps (Find
+   throttle lever, Assign: "press a button"), never by left / right.
+4. **The trigger fires** (Campaign). Prove it with what Unity actually sees from
+   a real HID joystick's first button: Fire's HOTAS binding should follow the
+   identify step's R1 (button 1) like the other jobs, not rely on the
+   `<Joystick>/trigger` name alone; same for Submit. In **Free Flight the gun
+   works too** (no enemies there; the shots hit the ground with sparks and cost
+   energy as normal), so the controls can be tried anywhere.
+5. **Input recorder (for support).** HOTAS setup (and the gamepad / keyboard
+   pages): **Record my input (20 s)**: writes every control of every connected
+   device as Unity's Input System sees it (name, path, value at each change,
+   which game action it fed) to `hotas_input_log.txt` beside `settings.json`,
+   and says where. The planning chat can read that file on Dan's PC, so a
+   problem can be found from real data next time.
+6. **HOTAS "Test" view:** on the setup page, every button lights on the picture
+   while held and every axis shows its live value, with the game action it
+   does now (so Dan can check the trigger, R1 / R3, the rocker at a glance).
+6b. **No throttle-axis option at all** (Dan, 2026-11-08, after setting it back
+   fixed the throttle: "Why I would want to [change] this I have no idea. I
+   prefer it to not even be an option."). Remove **Throttle axis** and
+   **Invert lever** from every settings page. The lever is found automatically
+   (Auto: z, else the axis moved end to end; never the stick or twist) and its
+   direction is learnt automatically (forward = more throttle). Keep only the
+   **Find throttle lever** step inside HOTAS setup as a recovery tool, and
+   Reset HOTAS settings. Old saved values for these two are ignored and
+   dropped.
+6c. **Sound mix: hear the music over the engines** (Dan, 2026-11-08: "I can't
+   even hear the music over the engines"). Settings > Sound already has Master
+   / Music / Effects / Voices (Round 4); add an **Engine** slider of its own
+   (engine hum, wind, thrusters), and rebalance the defaults so the flight
+   music is clearly heard over the engine at cruise (engine and wind lower,
+   music higher in flight; voices still on top). Report the before / after
+   levels (measured, muted runs: log the mixer levels, no audible run).
+6d. **An audible ship's computer** (Dan, 2026-11-08: "couldn't hear the
+   computer at all, is this even voiced?"). It is voiced (18 ElevenLabs lines,
+   `Assets/Resources/Voices/cpu_*.mp3`, played 2D at 0.9 x Voices), but it is
+   buried under the engine and wind, and Round 4 only ducks the *music* under
+   voices. Fix: **every voice line ducks the engine, wind and music** (and
+   effects a little) while it plays; the computer's voice gets a clear,
+   present treatment (light compression / EQ so it cuts through, a short
+   attention chime before warnings); check the loudness of all 18 computer
+   lines against each other (normalise them). Add **Test voices** in Settings >
+   Sound: plays one line each from Control, the computer and a pilot, at the
+   current levels (the one place a check may play sound: follow the testing
+   rule). Report which computer lines can fire in Free Flight vs the Campaign.
+7. **Check (muted, no focus):** the cause found in 2, reproduced and fixed; stick
+   menu navigation with a leaning stick and moving twist / throttle changes no
+   value; the hat changes values; a virtual HOTAS's button 1 fires in the
+   Campaign and in Free Flight; the recorder writes a readable file; pictures of
+   the Test view and the corrected R1 / R3.
+8. **Publish as 0.6.3**, update `TODO.md` (per-item status, the cause from 2)
+   and `CLAUDE.md`, commit and push.
+
+**For Dan to check:** the Throttle axis / Invert lever options are gone and the
+lever just works. The new Engine volume slider and the default mix: can you hear
+the music now, and the computer's warnings (try Settings > Sound > Test voices)? Move through Settings with the stick: nothing changes unless
+you use the hat. Pull R1 (the trigger) in Free Flight: does the gun fire? Then
+press **Record my input** and move everything, so the planning chat can check
+the file.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
