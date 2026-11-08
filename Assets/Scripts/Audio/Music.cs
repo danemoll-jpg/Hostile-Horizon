@@ -33,6 +33,11 @@ namespace HostileHorizon
         public bool TensionCrossfading => tension.fade >= 0;
         public float MainLength => main.clip ? main.clip.length : 0;
         public void CheckSeekTension(float t) { if (tension.clip) tension.src[tension.cur].time = t; }
+        // Round 7 (A1, checks): the main track's play position, moved to just before its loop end, and its loop points
+        public float MainTime => main.clip ? main.src[main.cur].time : -1;
+        public bool MainCrossfading => main.fade >= 0;
+        public void CheckSeekMain(float t) { if (main.clip) main.src[main.cur].time = t; }
+        public Vector3 LoopPoints(string track) { if (clips.TryGetValue(track, out var c) && c) { var l = LoopOf(track, c); return new Vector3(l.start, l.end, l.xfade); } return Vector3.zero; }
 
         sealed class Loop { public float start, end, xfade; }
         sealed class Deck

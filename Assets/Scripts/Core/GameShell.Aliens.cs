@@ -33,7 +33,7 @@ namespace HostileHorizon
         public string HorrorBeat { get; private set; } = "";    // checks: the sequence's current beat
         public readonly List<string> AlienEvents = new List<string>();   // checks: what happened, in order
 
-        void AlienEvent(string s) { AlienEvents.Add($"{Time.time:0.0} {s}"); if (CheckRun.Active) Debug.Log("[Aliens] " + s); }
+        void AlienEvent(string s) { AlienEvents.Add($"{Time.time:0.0} {s}"); PlayLog.Add("alien: " + s); }   // Round 7 (A3): in the [Play] log
 
         void CreateAliens()
         {
@@ -119,13 +119,25 @@ namespace HostileHorizon
         }
 
         // Ship-space points: the face pressed to the glass in front of the pilot's eye; the climb up the left side
-        static readonly Vector3 CanopyFace = new Vector3(0, 1.27f, 4.35f);   // on the front of the canopy, straight ahead of the eye
+        // Round 7 (A2): leaning over the canopy (feet on the nose, the body along the front of the glass, tilted 60 degrees back toward
+        // you), its face pressed on the glass 25 degrees above straight ahead, about 1.3 m from the eye, looking down at you. 0.6.3: it
+        // stood upright on the nose (its "lying" orientation degenerated: forward and up both pointed back), face 2 m ahead, 13-16 % of
+        // its body inside the glass.
+        static readonly Vector3 OldCanopyFace = new Vector3(0, 1.27f, 4.35f);
+        // Tuning limit reached (two tries, round7a): pushed out along the glass the face went 2.5 m away and partly out of view;
+        // leaning over the canopy put the face above the view with 4 % still inside. Kept at 0.6.3's place for Dan to decide;
+        // what changed there: full detail, the face light, two-sided material. CanopyStaging = true turns the push back on.
+        public static bool CanopyStaging = false;
+        static readonly Vector3 NewCanopyFace = new Vector3(0, 1.63f, 3.50f);
+        Vector3 CanopyFace => CheckOldStaging || !CanopyStaging ? OldCanopyFace : NewCanopyFace;
+        Vector3 CanopyUp(Transform st) => CheckOldStaging || !CanopyStaging ? -st.forward * .9f + st.up * .45f : st.TransformDirection(new Vector3(0, .5f, -.87f));
+        Vector3 CanopyLook(Transform st) => CheckOldStaging || !CanopyStaging ? Eye : st.TransformPoint(CanopyFace) + st.TransformDirection(new Vector3(0, -.87f, -.5f));
         static readonly Vector3[] Climb = { new Vector3(-2.7f, -.9f, -1.6f), new Vector3(-2.0f, .3f, -.6f), new Vector3(-1.2f, 1.2f, 1.2f), new Vector3(-.6f, 1.45f, 3.6f), new Vector3(0, 1.3f, 4.6f) };
 
         IEnumerator Canopy(DownedPilot p)
         {
             CanopyAlien = p; CanopyClock = 0; HorrorBeat = "climbing";
-            var c = horrorCreature = NewCreature(p.Type); c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 8;
+            var c = horrorCreature = NewCreature(p.Type); c.Show(true); c.FullDetail(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 8;
             c.Act(p.Type == AlienType.Mimic || p.Leaps ? "leap" : "climb", 1.4f);   // Fix 3.1: up the hull (the Mimic leaps)
             var st = Ship.transform;
             float t = 0;
@@ -144,7 +156,7 @@ namespace HostileHorizon
                 }
                 PlayAt("canopy_slam", CanopyFace, 1f, 2f); Rig.Shake(.8f); c.SetPose(Creature.Pose.Canopy); c.Jaw = .8f;
                 var head0 = Rig.Head.transform.position;
-                c.transform.rotation = Quaternion.LookRotation(head0 - st.TransformPoint(CanopyFace), -st.forward * .9f + st.up * .45f);
+                c.transform.rotation = Quaternion.LookRotation(CanopyLook(st) - st.TransformPoint(CanopyFace), CanopyUp(st));
                 c.transform.position += st.TransformPoint(CanopyFace) - c.HeadWorld;
                 t = 2.4f;   // straight on to pressing against the glass
             }
@@ -168,7 +180,9 @@ namespace HostileHorizon
                 if (CanopyAlien != p) yield break;
                 if (Now != State.Flying) { yield return null; continue; }   // paused: it waits too
                 CanopyClock += Time.deltaTime;
-                PlaceFace(c, st.TransformPoint(CanopyFace), Rig.Head.transform.position, -st.forward * .9f + st.up * .45f, 4f);   // lying over the nose, head toward you
+                PlaceFace(c, st.TransformPoint(CanopyFace), CanopyLook(st), CanopyUp(st), 4f);   // lying over the nose, head toward you
+                if (Time.frameCount % 3 == 0) KeepOutOfCanopy(c);
+                c.LightFrom(Eye);
                 c.Jaw = .25f + .2f * Mathf.Sin(CanopyClock * 1.3f);
                 if (CanopyClock > nextTap) { nextTap += 3.2f; PlayAt("glass_tap", CanopyFace, 1f, 2f); }
                 yield return null;
@@ -187,12 +201,47 @@ namespace HostileHorizon
             c.transform.position += (face - c.HeadWorld) * k;
         }
 
+        // Round 7 (A2): staging up close. Cause found (check round7a, round 6's pictures): the strike put the head bone 0.16 m from
+        // the eye (the body's nearest part 0.18 m), and these bodies are 2-3 m across, so the camera ended up in or against the skin:
+        // through the near clip it saw the inside of the shell, back faces culled ("see through their bodies"); on the canopy 13-16 %
+        // of the body stood inside the glass. The meshes are opaque and closed. Now the face stops StrikeFace from the eye and no
+        // part comes closer than StrikeGap (pushed straight away from the eye); on the canopy no part comes through the glass.
+        public const float StrikeFace = .65f, StrikeGap = .42f;
+        public bool CheckOldStaging;   // checks: 0.6.3's staging, for the before pictures
+        readonly List<UnityEngine.Vector3> gapVerts = new List<UnityEngine.Vector3>();
+        // Round 7 (A2): the eye as the ship carries it (the camera follows the ship in LateUpdate, so during a frame's coroutines it
+        // is a frame behind: chasing it at speed left the creature v/16 metres off, 9 m on a fast launch, 1-2 m in flight)
+        Vector3 Eye => CheckOldStaging ? Rig.Head.transform.position : Ship.transform.TransformPoint(ShipLayout.Eye);
+        void KeepClear(Creature c, float gap)
+        {
+            if (CheckOldStaging || !c) return;
+            var eye = Eye; float d = c.NearestTo(eye, gapVerts);
+            if (d < gap) c.transform.position += Rig.Head.transform.forward * (gap - d);
+        }
+        // the canopy bubble (ship.py: ellipsoid at (0, .62, 2.95), radii (1.02, .98, 1.75)): push the creature out along the glass's
+        // normal at its face until no vertex is inside
+        public static readonly Vector3 CanopyC = new Vector3(0, .62f, 2.95f), CanopyR = new Vector3(1.02f, .98f, 1.75f);
+        public static float CanopyDepth(Vector3 shipPoint, Vector3 shipDir)
+        {
+            var q = Vector3.Scale(shipPoint - CanopyC, new Vector3(1 / CanopyR.x, 1 / CanopyR.y, 1 / CanopyR.z)); var d = Vector3.Scale(shipDir, new Vector3(1 / CanopyR.x, 1 / CanopyR.y, 1 / CanopyR.z));
+            float a = Vector3.Dot(d, d), b = 2 * Vector3.Dot(q, d), cc = Vector3.Dot(q, q) - 1; if (cc >= 0) return 0;
+            return (-b + Mathf.Sqrt(Mathf.Max(0, b * b - 4 * a * cc))) / (2 * a);
+        }
+        void KeepOutOfCanopy(Creature c)
+        {
+            if (CheckOldStaging || !CanopyStaging || !c) return;
+            var st = Ship.transform; c.Surface(gapVerts);
+            var n = Vector3.Scale(CanopyFace - CanopyC, new Vector3(1 / (CanopyR.x * CanopyR.x), 1 / (CanopyR.y * CanopyR.y), 1 / (CanopyR.z * CanopyR.z))).normalized;
+            float push = 0; foreach (var v in gapVerts) push = Mathf.Max(push, CanopyDepth(st.InverseTransformPoint(v), n));
+            if (push > 0) c.transform.position += st.TransformDirection(n) * (push + .02f);
+        }
+
         void ThrowOffCanopy()
         {
             var p = CanopyAlien; if (p == null) return;
             CanopyAlien = null; if (canopyCo != null) { StopCoroutine(canopyCo); canopyCo = null; }
             foreach (var a in horrorLoops) if (a) Destroy(a.gameObject); horrorLoops.Clear();
-            var c = horrorCreature; horrorCreature = null; HorrorBeat = "";
+            var c = horrorCreature; horrorCreature = null; HorrorBeat = ""; if (c) c.FullDetail(false);
             var t = Tuning.T; var career = Career.C;
             AlienGone(p); career.stats.aliensKilled++; career.Earn(t.alienBounty);
             AlienEvent($"engines on with it on the canopy: thrown off ({p.Type}); bounty +{t.alienBounty} cr");
@@ -211,7 +260,7 @@ namespace HostileHorizon
             Music.Cut(); Voice.StopAll();
             Displays.SetVisible(false); Menu.Hide();
             if (p != null) AlienGone(p);
-            AlienEvent($"horror sequence: a {type}, in through {(entry == 0 ? "the airlock" : entry == 1 ? "the canopy" : entry == 3 ? "the cabin (slow burn)" : "the cabin")}");
+            AlienEvent($"horror sequence: a {type}, in through {(entry == 0 ? "the airlock" : entry == 1 ? "the canopy" : "the cabin")}");
             if (!Ship.Landed) driftCo = StartCoroutine(Drift());   // in flight: the autopilot holds the ship as best it can
             var st = Ship.transform; var c = horrorCreature;
             IEnumerator Wait(float s) { float t = 0; while (t < s) { t += Time.deltaTime; yield return null; } }
@@ -234,7 +283,7 @@ namespace HostileHorizon
                 // something moving in the cabin behind you
                 HorrorBeat = "moving in the cabin";
                 if (!c) { c = horrorCreature = NewCreature(type); }
-                c.Show(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 6;
+                c.Show(true); c.FullDetail(true); c.SetPose(Creature.Pose.Crawl, true); c.Speed = 6;
                 var move = LoopAt("cabin_move", Cabin.Inside, 1f, 2.5f);
                 Vector3[] round = { new Vector3(-1.1f, -.64f, -1.6f), new Vector3(.3f, -.64f, -3.0f), new Vector3(.9f, -.64f, -1.0f), new Vector3(-.2f, -.64f, -.2f), new Vector3(-.625f, -.64f, .55f) };
                 float t = 0, T = 6f;
@@ -281,12 +330,13 @@ namespace HostileHorizon
             while (tt < 2.4f)
             {
                 tt += Time.deltaTime; var head = Rig.Head.transform;
-                PlaceFace(c, head.position + head.forward * .5f + head.up * .02f, head.position, head.up, 3.2f);
+                PlaceFace(c, CheckOldStaging ? head.position + head.forward * .5f + head.up * .02f : Eye + head.forward * StrikeFace - head.up * .06f, Eye, head.up, 3.2f);
+                KeepClear(c, StrikeGap); c.LightFrom(Eye);
                 c.Jaw = Mathf.Clamp01((tt - 1f) / 1.2f);
                 yield return null;
             }
             HorrorBeat = "lunge"; PlayAt("creature_lunge", ShipLayout.Eye + new Vector3(0, 0, .3f), 1f, 1f); Music.Sting("sting_alien_reveal"); c.Jaw = 1; c.Speed = 14; c.Act("attack", 1.5f);
-            tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; PlaceFace(c, head.position + head.forward * .16f, head.position, head.up, 12f); yield return null; }
+            tt = 0; while (tt < .45f) { tt += Time.deltaTime; var head = Rig.Head.transform; PlaceFace(c, (CheckOldStaging ? head.position : Eye) + head.forward * (CheckOldStaging ? .16f : StrikeFace - .1f), CheckOldStaging ? head.position : Eye, head.up, 12f); KeepClear(c, StrikeGap - .05f); c.LightFrom(Eye); yield return null; }
             HorrorBeat = "dead";
             AlienEvent($"the {type} got you");
             Now = State.Crashed;
@@ -332,10 +382,11 @@ namespace HostileHorizon
             var t = Tuning.T; var career = Career.C; int me = SleeperIndex;
             var others = cabin.FindAll(i => i != me);
             AlienEvent($"the Sleeper (pilot {me + 1}) turns after {SleeperClock:0} s with {others.Count} other pilot{(others.Count == 1 ? "" : "s")} aboard");
+            // Round 7 (A4): alone with you it comes straight for the cockpit as a burst (nothing before it is in view)
+            if (others.Count == 0) { SleeperIndex = -1; sleeperTurning = false; AlienEvent("no other pilot aboard: it comes for the cockpit"); Run(Burst(AlienType.Sleeper, Pilots.Find(x => x.Index == me), me)); yield break; }
             foreach (var a in horrorLoops) if (a) Destroy(a.gameObject); horrorLoops.Clear();
             var c = horrorCreature = NewCreature(AlienType.Sleeper);
             Voice.StopAll(); Voice.Say("cpu_intruder", VoiceKind.Computer, 3);   // Round 4
-            if (others.Count == 0) { Run(Horror(AlienType.Sleeper, 2)); yield break; }
             // it kills one of them: heard, and glimpsed on the cabin camera, never shown in full (the lights go)
             int victim = others[new SeedRng(Planet.seed ^ me, 41).Next(others.Count)];
             int vSeat = CabinRoom.SeatOf(victim), sSeat = CabinRoom.SeatOf(me);
@@ -368,8 +419,9 @@ namespace HostileHorizon
             else
             {
                 AlienEvent($"only {left} pilot{(left == 1 ? "" : "s")} left after it killed pilot {victim + 1}: it comes for the cockpit");
-                cabin.Remove(me); Reseat();
-                Run(Horror(AlienType.Sleeper, 2));
+                cabin.Remove(me); Reseat(); SleeperIndex = -1;
+                if (horrorCreature) { Destroy(horrorCreature.gameObject); horrorCreature = null; }
+                Run(Burst(AlienType.Sleeper, Pilots.Find(x => x.Index == me)));   // Round 7 (A4): the burst, as every strike
             }
             sleeperCo = null;
         }
@@ -405,6 +457,16 @@ namespace HostileHorizon
             cabin.Clear(); stows.Clear(); Reseat(); SpawnPilots();
         }
         public void CheckBoard(DownedPilot p) { p.ForceAboard(); PilotBoarded(p); }
+        // Round 7 (checks): a creature standing in the cabin, facing the cabin camera 1.6 m in front of it
+        public Creature CheckCabinCreature(AlienType t, bool old)
+        {
+            var c = NewCreature(t); c.Show(true); c.FullDetail(!old); c.SetPose(Creature.Pose.Stand, true);
+            var cam = CabinRoom.Cam.transform; var at = cam.position + Vector3.ProjectOnPlane(cam.forward, Ship.transform.up).normalized * 1.6f;
+            at = Ship.transform.TransformPoint(Vector3.Scale(Ship.transform.InverseTransformPoint(at), new Vector3(1, 0, 1)) + new Vector3(0, -.64f, 0));
+            c.transform.SetPositionAndRotation(at, Quaternion.LookRotation(Vector3.ProjectOnPlane(cam.position - at, Ship.transform.up), Ship.transform.up));
+            c.LightFrom(cam.position);
+            return c;
+        }
 
         // ---- B10: the Field Journal: Core/GameShell.Journal.cs (Round 6, Part E)
     }

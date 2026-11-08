@@ -68,6 +68,12 @@ namespace HostileHorizon
                 m.SetTexture("_BumpMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + b + "_normal.png")); m.SetFloat("_BumpScale", 1f); m.EnableKeyword("_NORMALMAP");
                 m.SetTexture("_MetallicGlossMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + (hollowPilot ? "pilot_mask_hollow.png" : b + "_mask.png")));
                 m.EnableKeyword("_METALLICSPECGLOSSMAP"); m.SetFloat("_Smoothness", 1f); m.SetFloat("_Metallic", 1f);
+                // Round 7 (A2): the creatures are drawn from both sides, a safety: their meshes are opaque and nearly closed (4-26
+                // open edges each, check round7a), so a view through a gap or from just inside the skin shows the far side, not the
+                // world behind. The cause of "see through their bodies" was the staging (the eye within 0.2 m of the body).
+                // The pilots stay one-sided.
+                bool creature = !n.StartsWith("pilot");
+                m.SetFloat("_Cull", creature ? 0f : 2f); m.doubleSidedGI = creature;
                 EditorUtility.SetDirty(m);
             }
             AssetDatabase.SaveAssets();

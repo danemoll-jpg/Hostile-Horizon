@@ -117,32 +117,14 @@ namespace HostileHorizon
         IEnumerator Round6A()
         {
             var t = Tuning.T;
-            Log($"--- Part A tuning: strike weights instant {t.strikeInstantWeight} / take-off {t.strikeTakeoffWeight} / slow burn {t.strikeSlowWeight}; instant {t.strikeInstantMin}-{t.strikeInstantMax} s after the airlock shuts; take-off {t.strikeTakeoffMin}-{t.strikeTakeoffMax} s after lift-off or a turn over {t.strikeHardTurn} °/s; slow burn {t.strikeSlowMin}-{t.strikeSlowMax} s; canopy leap {t.canopyLeapChance * 100:0} % at {t.canopyLeapMin}-{t.canopyLeapMax} s (else the climb at {t.canopyClimbAfter} s); herrings flicker {t.herringFlicker} / thump {t.herringThump} / crackle {t.herringCrackle}");
+            Log($"--- Part A tuning: strike weights instant {t.strikeInstantWeight} / take-off {t.strikeTakeoffWeight}; instant {t.strikeInstantMin}-{t.strikeInstantMax} s after the airlock shuts; take-off {t.strikeTakeoffMin}-{t.strikeTakeoffMax} s after lift-off or a turn over {t.strikeHardTurn} °/s; canopy leap {t.canopyLeapChance * 100:0} % at {t.canopyLeapMin}-{t.canopyLeapMax} s (else the climb at {t.canopyClimbAfter} s); herrings flicker {t.herringFlicker} / thump {t.herringThump} / crackle {t.herringCrackle}");
             // the seeded rolls over many planets
-            int[] k = new int[3]; float[] dsum = new float[3]; int leaps = 0, n = 0;
+            int[] k = new int[2]; float[] dsum = new float[2]; int leaps = 0, n = 0;
             for (int s = 1; s <= 600; s++) for (int i = 0; i < 6; i++) { n++; var kk = GameShell.RollStrike(s * 7919, i, out float d); k[(int)kk]++; dsum[(int)kk] += d; if (GameShell.RollLeap(s * 7919, i, out _)) leaps++; }
-            Log($"  600 planets x 6 pilots: instant {k[0] * 100f / n:0} % (mean {dsum[0] / Mathf.Max(1, k[0]):0.0} s), take-off {k[1] * 100f / n:0} % ({dsum[1] / Mathf.Max(1, k[1]):0.0} s), slow burn {k[2] * 100f / n:0} % ({dsum[2] / Mathf.Max(1, k[2]):0} s); canopy leap {leaps * 100f / n:0} %; the same seed again: {GameShell.RollStrike(7919, 2, out var d1)} {d1:0.0} s / {GameShell.RollStrike(7919, 2, out var d2)} {d2:0.0} s");
+            Log($"  600 planets x 6 pilots: instant {k[0] * 100f / n:0} % (mean {dsum[0] / Mathf.Max(1, k[0]):0.0} s), take-off {k[1] * 100f / n:0} % ({dsum[1] / Mathf.Max(1, k[1]):0.0} s); canopy leap {leaps * 100f / n:0} %; the same seed again: {GameShell.RollStrike(7919, 2, out var d1)} {d1:0.0} s / {GameShell.RollStrike(7919, 2, out var d2)} {d2:0.0} s");
 
             yield return Compare(GameShell.StrikeKind.Instant, "instant");
             yield return Compare(GameShell.StrikeKind.Takeoff, "takeoff");
-
-            // ---- the slow burn: boards, take off, fly; the long sequence at its moment in flight
-            {
-                Log("--- slow burn: a Hollow boards, the ship flies on");
-                G.CheckSetup(3, new[] { (int)AlienType.Hollow, 0, 0 }, new[] { 0, 0, 0 }); G.Foes.Running = false;
-                var p = G.Pilots.Find(x => x.Index == 0);
-                G.CheckStrikeKind = (int)GameShell.StrikeKind.SlowBurn; G.StrikeAtReset();
-                yield return LandFor(p); yield return WaitPhase(() => p.AtDoor, 60f, "the door");
-                yield return Press(GamepadButton.East); yield return WaitPhase(() => p.Now == DownedPilot.State.Aboard, 10f, "boarding");
-                G.CheckStrikeKind = -1;
-                yield return BackToFlight(); float lift = Time.time;
-                float end = Time.realtimeSinceStartup + 80f;
-                while (G.StrikeAt < 0 && Time.realtimeSinceStartup < end && G.Now == GameShell.State.Flying) { Autopilot(); yield return null; }
-                state.leftStick = Vector2.zero; Set();
-                Log($"  {(G.StrikeAt > 0 ? $"struck {G.StrikeAt - lift:0.0} s after lift-off ({G.LastStrike})" : "NO STRIKE in 80 s")}");
-                yield return WatchHorror("r6a_slow");
-                yield return DeadToHangar("r6a_slow");
-            }
 
             // ---- A3: the canopy leap (a Stalker set to leap: its seeded time is used)
             {

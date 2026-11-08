@@ -1,0 +1,102 @@
+{
+    "version": 1,
+    "systemSeed": 7171,
+    "systemName": "Nytha",
+    "credits": 3200,
+    "ship": {
+        "damage": 100.0,
+        "energy": 95.884521484375,
+        "wrecked": true,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 99.88512420654297,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": true,
+    "planets": [
+        {
+            "seed": 20261108,
+            "name": "Halthel-II",
+            "tier": 0,
+            "pilots": [
+                3,
+                0,
+                0
+            ],
+            "alien": [
+                5,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 04:21:05",
+            "enemiesDown": [],
+            "enemiesKey": "0/1",
+            "turrets": 0,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 0,
+        "pilotsLost": 0,
+        "creditsEarned": 200,
+        "creditsSpent": 0,
+        "deaths": 4,
+        "planetsCleared": 0,
+        "sorties": 5,
+        "tows": 0,
+        "recalls": 0,
+        "aliensKilled": 1,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [
+        {
+            "type": 3,
+            "encounters": 3,
+            "killed": 1,
+            "killedYou": 2,
+            "firstPlanet": "Halthel-II",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 5,
+            "encounters": 2,
+            "killed": 0,
+            "killedYou": 2,
+            "firstPlanet": "Halthel-II",
+            "firstSeen": "2026-11-08"
+        }
+    ],
+    "started": "2026-11-08 04:21",
+    "lastSaved": "2026-11-08 04:25:20",
+    "currentSeed": 20261108,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 0,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 1,
+        "pay": 1
+    }
+}

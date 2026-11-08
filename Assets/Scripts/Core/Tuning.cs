@@ -29,6 +29,7 @@ namespace HostileHorizon
         public int pilotsMax = 10;
         public float pilotRangeMin = 900, pilotRangeMax = 3000, pilotRangePerTier = 500, pilotSpacing = 700;
         public float pickupRange = 160;               // a pilot runs to a ship landed (engines off) this close
+        public float pickupQuietRange = 250;          // Round 7 (A1): the flight music drops out only landed / hovering this close to your pilot
         public float pilotRunSpeed = 5.5f;
         public float pilotMaxClimb = 30;              // Fix 2.5: m of height between pilot and door they can manage (no canyon walls)
         public float energyDrainFlightBase = .10f, energyDrainFlightThrottle = .22f, energyDrainHover = .35f;
@@ -139,11 +140,10 @@ namespace HostileHorizon
         public float distressEveryHours = 3, distressChance = .35f;
         public int distressMin = 1, distressMax = 3, distressPilotCap = 14;
         // Round 6 (A): an alien let in boards as a pilot, then strikes (one kind per alien, from the seed; weights)
-        public float strikeInstantWeight = .40f, strikeTakeoffWeight = .35f, strikeSlowWeight = .25f;
+        public float strikeInstantWeight = .55f, strikeTakeoffWeight = .45f;   // Round 7 (A4): the slow burn is gone
         public float strikeInstantMin = 1, strikeInstantMax = 4;   // s after the airlock shuts
         public float strikeTakeoffMin = 2, strikeTakeoffMax = 6;   // s after lift-off, or sooner at the first hard turn
         public float strikeHardTurn = 70;                          // degrees per second of turning that counts as a hard turn
-        public float strikeSlowMin = 8, strikeSlowMax = 40;        // slow burn: s of flight after lift-off
         public float canopyLeapChance = .5f, canopyLeapMin = 5, canopyLeapMax = 15;   // A3: leap (no warning) instead of the slow climb, s at the door
         public float herringFlicker = .12f, herringThump = .15f, herringCrackle = .12f;  // A4: chance per boarding (real pilots and aliens alike)
 

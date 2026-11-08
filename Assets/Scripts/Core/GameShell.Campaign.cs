@@ -81,6 +81,7 @@ namespace HostileHorizon
             bool isNew = !c.planets.Exists(p => p.seed == seed);
             Planet = c.Planet(seed); Planet.visits++; Planet.distress = false;   // Round 6 (D3): seen to
             SetWorld(seed, Biomes.FromKey(Planet.biome));   // Round 4: the planet's biome
+            PlayLog.Add($"arrived: planet {Planet.name} (seed {seed}, {Biomes.Name(Biomes.FromKey(Planet.biome))}){(isNew ? ", new" : "")}; pilots waiting {Planet.Count(PilotFate.Waiting)}, aliens among them {AliensWaiting()}");
             SayArrived(isNew); Planet.lastVisit = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); c.currentSeed = seed;
             Terrain.Field.FindStart(out var start, out var heading);
             Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
@@ -210,6 +211,7 @@ namespace HostileHorizon
             ClearAliens(); Reseat(); securityLine = ""; journalNote = ""; ApplyUpgrades();   // Round 6 (C)
             ResetFight(); Ship.Level = CampaignLevel;   // Round 5
             SayLaunch();   // Round 4: the launch cue and Control
+            PlayLog.Add($"launch: {Planet.name} ({Biomes.Name(WorldBiome)}), energy {Ship.Energy:0} %, hull {100 - Ship.Damage:0} %, cabin {cabin.Count}, pilots waiting {Waiting}");
             SayHot();      // Round 5 (B6): "this planet is hot"
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
@@ -483,6 +485,7 @@ namespace HostileHorizon
             LastPilotFuel = Mathf.Round(t.pilotFuelMin + (float)fuelRoll.NextDouble() * (t.pilotFuelMax - t.pilotFuelMin));
             Ship.Energy = Mathf.Min(100, Ship.Energy + LastPilotFuel);
             Flash($"Pilot {p.Index + 1} aboard ({cabin.Count} / {CabinSize}), brought {LastPilotFuel:0} % energy", 4f);
+            PlayLog.Add($"pilot {p.Index + 1} boarded ({(p.IsAlien ? "really a " + p.Type : "a real pilot")}); cabin {cabin.Count} / {CabinSize}");
             SayBoarded(p);
             Herrings(p);
             if (p.IsAlien && p.Type != AlienType.Sleeper) StowAway(p);
@@ -500,7 +503,7 @@ namespace HostileHorizon
             {
                 if (!p.OnFoot || Vector3.Distance(p.Position, Ship.transform.position) > t.exhaustKillRange) continue;
                 if (p.IsAlien) { ExhaustKillsAlien(p, how); continue; }   // Round 3: it shrieks and shows what it was
-                p.Kill(); Planet.pilots[p.Index] = (int)PilotFate.Lost; c.stats.pilotsLost++;
+                p.Kill(); Planet.pilots[p.Index] = (int)PilotFate.Lost; c.stats.pilotsLost++; PlayLog.Add($"pilot {p.Index + 1} killed by your {how} (a real pilot)");
                 int paid = c.Spend(t.exhaustKillPenalty);
                 Flash($"Pilot {p.Index + 1} killed by your {how}. Penalty -{paid} cr", 6f);
                 if (shield) FightLog.Add($"{Time.time:0.0} shield killed pilot {p.Index + 1} (a real pilot): -{paid} cr");
@@ -616,6 +619,7 @@ namespace HostileHorizon
             string calls = DistressCheck(true); if (calls != "") sb.AppendLine(calls);   // Round 6 (D3)
             c.Save();
             debrief = sb.ToString().TrimEnd();
+            PlayLog.Add($"docked{(towLift ? (recallLift ? " (recall)" : " (tow)") : "")}: " + debrief.Replace('\n', '|'));
             if (!towLift) SayDocked();
         }
 
@@ -680,6 +684,7 @@ namespace HostileHorizon
         {
             var c = Career.C; Phase = "dead"; calling = 0;
             bool shotDown = killer == AlienType.None && Time.time - Ship.LastShotAt < 1f && LastKiller != "";   // Round 5 (B5)
+            PlayLog.Add($"died: {(killer != AlienType.None ? "killed by a " + killer : shotDown ? "shot down by " + LastKiller : "crashed")}; cabin {cabin.Count}");
             SetShield(false);
             Voice.StopAll(); Music.Sting("sting_death"); Voice.Say("ctl_lost_contact", VoiceKind.Radio, 2, maxAge: 30f);
             if (CanopyAlien != null) { CanopyAlien = null; if (canopyCo != null) { StopCoroutine(canopyCo); canopyCo = null; } }

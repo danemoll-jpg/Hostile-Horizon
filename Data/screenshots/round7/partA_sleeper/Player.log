@@ -1,0 +1,321 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.622700 ms
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 79872 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 04:21; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] --- the five creature models
+[ExeCheck]   mimic: 26152 vertices, 26051 triangles (full detail), Mesh LOD levels 4; welded edges 39078: OPEN (one triangle) 14 (0.04 %), shared by 3+ 9; material mimic: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   hollow: 23481 vertices, 26077 triangles (full detail), Mesh LOD levels 4; welded edges 39121: OPEN (one triangle) 26 (0.07 %), shared by 3+ 14; material hollow: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   knocker: 30202 vertices, 29178 triangles (full detail), Mesh LOD levels 4; welded edges 43771: OPEN (one triangle) 11 (0.03 %), shared by 3+ 3; material knocker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   stalker: 27030 vertices, 26122 triangles (full detail), Mesh LOD levels 4; welded edges 39183: OPEN (one triangle) 4 (0.01 %), shared by 3+ 3; material stalker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   sleeper: 28218 vertices, 25900 triangles (full detail), Mesh LOD levels 4; welded edges 38852: OPEN (one triangle) 21 (0.05 %), shared by 3+ 15; material sleeper: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[Play]     2.7 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]     2.7 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]     2.9 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] new career: Halthel-II (canyons)
+[ExeCheck] --- the creatures up close (before = 0.6.3's staging and look; after = Round 7's)
+[Play]     3.8 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]     3.9 music flight_canyons: flight (automatic)
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]     [842 fps] Auto/launch Hover alt 1475 gnd 1473 spd 23 hdg 315 energy 100
+[Play]    11.8 voice CONTROL: Clamps released. Go and find our people.
+[Play]    12.0 music flight_canyons: flying
+[Play]    12.0 pilot 1 found (2.3 km): a real pilot
+[Play]    12.0 pilot 2 found (2.4 km): a real pilot
+[Play]    12.0 pilot 3 found (2.4 km): a real pilot
+[Play]    12.8 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]    12.8 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[Play]    12.8 pilot 2 found (2.9 km): a real pilot
+[Play]    12.8 pilot 3 found (0.7 km): a real pilot
+[Play]    15.3 voice COMPUTER: Landing gear down.
+[Play]    16.9 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]     [647 fps] Flying/ Hover alt 15 gnd 17 spd 2 hdg 320 energy 98
+[ExeCheck]     [298 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 320 energy 95
+[Play]    37.3 music (quiet): pickup: landed 25 m from pilot 1
+[Play]    37.9 music (quiet): pickup: pilot 1 running
+[Play]    37.9 pilot 1 runs to the ship (a Knocker)
+[Play]    37.9 voice COMPUTER: Engines off.
+[ExeCheck]     [306 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+[Play]    43.7 music (quiet): pickup: pilot 1 knocking
+[Play]    43.7 pilot 1 at the airlock, knocking (a Knocker, tell hidden)
+[Play]    45.2 alien: pilot 1 (Knocker) left at the airlock 2 s: it climbs onto the canopy
+[Play]    45.2 alien: it leaps onto the canopy
+[Play]    45.2 music (quiet): alien on the canopy
+[Play]    45.5 alien: on the canopy: pressed against the glass
+[ExeCheck]   Knocker on the canopy, BEFORE (0.6.3 staging): face 2.07 m, nearest part 1.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.07, 1.36, 4.45) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 6529 vertices inside the canopy bubble (21.6 %, up to 26 % of the way to its centre)
+[ExeCheck] screenshot r7a_knocker_canopy_before.png
+[ExeCheck]     [367 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+[ExeCheck]   Knocker on the canopy, AFTER: face 1.95 m, nearest part 0.57 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 1.25, 4.34) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 12171 vertices inside the canopy bubble (40.3 %, up to 52 % of the way to its centre)
+[ExeCheck] screenshot r7a_knocker_canopy_after.png
+[Play]    49.0 alien: engines on with it on the canopy: thrown off (Knocker); bounty +200 cr
+[Play]    49.0 alien: journal: Knocker encounter 1 (thrown off the canopy): "Listen at the door."
+[Play]    49.0 music flight_canyons: flying
+[Play]    53.4 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]    53.4 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[Play]    53.4 pilot 2 found (2.9 km): a real pilot
+[Play]    53.4 pilot 3 found (0.7 km): a real pilot
+[Play]    53.4 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[Play]    53.4 alien: pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 2.0 s after lift-off (or the first hard turn)
+[Play]    53.5 music flight_canyons: flying
+[Play]    55.5 alien: strike: the Knocker (pilot 1), Takeoff (its moment) after 2.0 s armed; in flight, 37 m up
+[Play]    55.5 alien strike: the Knocker comes through the hatch
+[Play]    55.6 alien: in view 0.14 s after the strike (not yet in view: 0.6 s limit), 0.04 m from the eye at its nearest
+[Play]    55.6 music (quiet): alien attack
+[ExeCheck] screenshot r7a_knocker_strike_before_1_0.1s.png
+[ExeCheck]     Knocker BEFORE +0.27 s after in view: face 2.18 m, nearest part 0.83 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.03, 0.91, 4.58) (eye (0.00, 1.05, 2.40)), ship 14 m/s kinematic
+[Play]    56.0 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_knocker_strike_before_2_0.5s.png
+[ExeCheck]     Knocker BEFORE +0.67 s after in view: face 1.15 m, nearest part 1.14 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.15, 0.80, 3.51) (eye (0.00, 1.05, 2.40)), ship 9 m/s kinematic
+[ExeCheck] screenshot r7a_knocker_strike_before_3_1.2s.png
+[ExeCheck]     Knocker BEFORE +1.36 s after in view: face 0.19 m, nearest part 0.10 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye INSIDE the body (7/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.06, 1.21, 2.47) (eye (0.00, 1.05, 2.40)), ship 1 m/s kinematic
+[Play]    57.2 alien: the Knocker got you (1.7 s after the strike)
+[Play]    57.2 died: killed by a Knocker; cabin 1
+[Play]    57.2 alien: journal: Knocker encounter 2 (it killed you): "The corps knocks a code. Count, and listen to where it comes from."
+[Play]    57.2 music (quiet): dead
+[Play]    57.2 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [311 fps] Crashed/dead Flight alt 32 gnd 34 spd 1 hdg 320 energy 96
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_knocker_strike_before_death_page.png
+[Play]    61.0 music regeneration: regeneration
+[Music] loaded regeneration (30 s)
+[ExeCheck]     [504 fps] Auto/regen-trip Flight alt 23 gnd 25 spd 0 hdg 320 energy 96
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]    77.7 music hangar: regen
+[Play]    77.7 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_knocker_strike_before_regen_bay.png
+[Play]    77.7 music hangar: recovery
+[ExeCheck]     [638 fps] Auto/recovery Hover alt 936 gnd 882 spd 55 hdg 315 energy 100
+[ExeCheck]     [1203 fps] Auto/recovery Hover alt 1366 gnd 1312 spd 28 hdg 315 energy 100
+[ExeCheck]     [1206 fps] Auto/recovery Hover alt 1500 gnd 1446 spd 5 hdg 315 energy 100
+[Play]   101.2 music hangar: docked
+[Play]   101.2 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   101.2 music flight_canyons: flight (automatic)
+[Play]   101.2 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]     [1419 fps] Auto/launch Hover alt 1438 gnd 1128 spd 62 hdg 315 energy 100
+[Play]   109.4 music flight_canyons: flying
+[Play]   109.4 pilot 1 found (1.6 km): really a Knocker, tell hidden
+[Play]   109.4 pilot 3 found (1.9 km): a real pilot
+[Play]   109.4 voice CONTROL: Another beacon. Bring them home.
+[Play]   109.4 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[Play]   109.4 alien: pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 2.0 s after lift-off (or the first hard turn)
+[Play]   110.3 alien: strike: the Knocker (pilot 1), Takeoff (the first hard turn) after 0.9 s armed; in flight, 1389 m up
+[Play]   110.3 alien strike: the Knocker comes through the hatch
+[Play]   110.4 alien: in view 0.07 s after the strike (seen), 0.41 m from the eye at its nearest
+[Play]   110.4 music (quiet): alien attack
+[ExeCheck] screenshot r7a_knocker_strike_after_1_0.1s.png
+[ExeCheck]     Knocker AFTER +0.29 s after in view: face 1.06 m, nearest part 0.03 m from the eye, 14 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.01, 0.85, 3.44) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+[Play]   110.7 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_knocker_strike_after_2_0.5s.png
+[ExeCheck]     Knocker AFTER +0.68 s after in view: face 0.55 m, nearest part 0.45 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (-0.05, 0.92, 2.94) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+[ExeCheck] screenshot r7a_knocker_strike_after_3_1.2s.png
+[ExeCheck]     Knocker AFTER +1.37 s after in view: face 0.72 m, nearest part 0.41 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.02, 0.95, 3.11) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[ExeCheck]   Knocker strike order: in view 0.07 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+[Play]   112.0 alien: the Knocker got you (1.7 s after the strike)
+[Play]   112.0 died: killed by a Knocker; cabin 1
+[Play]   112.0 alien: journal: Knocker encounter 3 (it killed you): "The corps knocks a code. Count, and listen to where it comes from."
+[Play]   112.0 music (quiet): dead
+[Play]   112.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Knocker</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_knocker_strike_after_death_page.png
+[Play]   115.6 music regeneration: regeneration
+[ExeCheck]     [496 fps] Auto/regen-trip Flight alt 1285 gnd 882 spd 1 hdg 314 energy 100
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]   126.0 music hangar: regen
+[Play]   126.0 voice CONTROL: You're awake. Good. Take a minute. Then get back out there.
+[ExeCheck] screenshot r7a_knocker_strike_after_regen_bay.png
+[Play]   126.0 music hangar: recovery
+[ExeCheck]     [777 fps] Auto/recovery Hover alt 1033 gnd 999 spd 53 hdg 315 energy 100
+[ExeCheck]     [1246 fps] Auto/recovery Hover alt 1411 gnd 1377 spd 23 hdg 315 energy 100
+[ExeCheck]     [1232 fps] Auto/recovery Hover alt 1500 gnd 1466 spd 5 hdg 315 energy 100
+[Play]   149.5 music hangar: docked
+[Play]   149.5 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   149.5 music flight_canyons: flight (automatic)
+[Play]   149.5 voice CONTROL: Clamps released. Go and find our people.
+[Play]   157.6 music flight_canyons: flying
+[ExeCheck] screenshot r7a_knocker_cabin_cam_before.png
+[ExeCheck]   Knocker in the cabin camera (before): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_knocker_cabin_cam_after.png
+[ExeCheck]   Knocker in the cabin camera (after): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck]   Sleeper on the canopy: never (it boards as a pilot; it doesn't climb)
+[Play]   157.7 pilot 1 found (1.6 km): really a Sleeper, tell hidden
+[Play]   157.7 pilot 3 found (1.9 km): a real pilot
+[Play]   157.7 voice CONTROL: Beacon on your scope. That's one of ours.
+[Play]   157.7 alien: pilot 1 aboard: a Sleeper (tell shown: False); turns after 92 s of flight
+[Play]   157.7 pilot 1 boarded (really a Sleeper); cabin 1 / 6
+[ExeCheck]     [1211 fps] Flying/ Flight alt 1402 gnd 1402 spd 73 hdg 309 energy 100
+[Play]   159.7 alien: the Sleeper (pilot 1) turns after 2 s with 0 other pilots aboard
+[Play]   159.7 alien: no other pilot aboard: it comes for the cockpit
+[Play]   159.7 alien strike: the Sleeper comes through the hatch
+[Play]   159.8 alien: in view 0.10 s after the strike (seen), 0.70 m from the eye at its nearest
+[Play]   159.8 music (quiet): alien attack
+[Play]   160.3 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_sleeper_strike_before_1_0.1s.png
+[ExeCheck]     Sleeper BEFORE +0.45 s after in view: face 16.52 m, nearest part 15.98 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.17, 3.95, -13.86) (eye (0.00, 1.05, 2.40)), ship 66 m/s kinematic
+[ExeCheck] screenshot r7a_sleeper_strike_before_2_0.5s.png
+[ExeCheck]     Sleeper BEFORE +0.69 s after in view: face 10.64 m, nearest part 9.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.05, 3.59, -7.93) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+[ExeCheck] screenshot r7a_sleeper_strike_before_3_1.2s.png
+[ExeCheck]     Sleeper BEFORE +1.39 s after in view: face 8.88 m, nearest part 7.91 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.04, 4.73, -5.68) (eye (0.00, 1.05, 2.40)), ship 53 m/s kinematic
+[Play]   161.4 alien: the Sleeper got you (162.4 s after the strike)
+[Play]   161.4 died: killed by a Sleeper; cabin 0
+[Play]   161.4 alien: journal: Sleeper encounter 1 (it killed you): "It was so quiet in the cabin. Until it wasn't."
+[Play]   161.5 music (quiet): dead
+[Play]   161.5 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: new entry — Sleeper /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_sleeper_strike_before_death_page.png
+[Play]   165.2 music regeneration: regeneration
+[ExeCheck]     [426 fps] Auto/regen-trip Flight alt 1226 gnd 1166 spd 1 hdg 310 energy 100
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]   175.5 music hangar: regen
+[Play]   175.5 voice CONTROL: Welcome back. Again.
+[ExeCheck] screenshot r7a_sleeper_strike_before_regen_bay.png
+[Play]   175.5 music hangar: recovery
+[Play]   177.8 voice COMPUTER: Engines off.
+[ExeCheck]     [821 fps] Auto/recovery Hover alt 1056 gnd 1056 spd 51 hdg 315 energy 100
+[ExeCheck]     [1205 fps] Auto/recovery Hover alt 1420 gnd 1421 spd 21 hdg 315 energy 100
+[ExeCheck]     [1069 fps] Auto/recovery Hover alt 1500 gnd 1501 spd 14 hdg 315 energy 100
+[Play]   199.0 music hangar: docked
+[Play]   199.0 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   199.0 music flight_canyons: flight (automatic)
+[Play]   199.0 voice CONTROL: Clamps released. Go and find our people.
+[Play]   207.1 music flight_canyons: flying
+[Play]   207.1 pilot 1 found (1.6 km): really a Sleeper, tell hidden
+[Play]   207.1 pilot 3 found (1.9 km): a real pilot
+[Play]   207.1 voice CONTROL: Another beacon. Bring them home.
+[Play]   207.1 alien: pilot 1 aboard: a Sleeper (tell shown: False); turns after 92 s of flight
+[Play]   207.1 pilot 1 boarded (really a Sleeper); cabin 1 / 6
+[ExeCheck]     [996 fps] Flying/ Flight alt 1382 gnd 1186 spd 73 hdg 308 energy 100
+[Play]   209.1 alien: the Sleeper (pilot 1) turns after 2 s with 0 other pilots aboard
+[Play]   209.1 alien: no other pilot aboard: it comes for the cockpit
+[Play]   209.1 alien strike: the Sleeper comes through the hatch
+[Play]   209.4 alien: in view 0.26 s after the strike (seen), 0.37 m from the eye at its nearest
+[Play]   209.4 music (quiet): alien attack
+[ExeCheck] screenshot r7a_sleeper_strike_after_1_0.1s.png
+[ExeCheck]     Sleeper AFTER +0.27 s after in view: face 0.97 m, nearest part 0.68 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.01, 0.97, 3.36) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+[Play]   209.7 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_sleeper_strike_after_2_0.5s.png
+[ExeCheck]     Sleeper AFTER +0.65 s after in view: face 0.66 m, nearest part 0.67 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.13, 0.85, 3.01) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+[ExeCheck] screenshot r7a_sleeper_strike_after_3_1.2s.png
+[ExeCheck]     Sleeper AFTER +1.33 s after in view: face 0.59 m, nearest part 0.49 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.06, 0.97, 2.98) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[ExeCheck]   Sleeper strike order: in view 0.25 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+[Play]   211.0 alien: the Sleeper got you (212.0 s after the strike)
+[Play]   211.0 died: killed by a Sleeper; cabin 0
+[Play]   211.0 alien: journal: Sleeper encounter 2 (it killed you): "After a pickup, listen to the cabin and watch the cabin camera. If something is wrong, dock fast."
+[Play]   211.0 music (quiet): dead
+[Play]   211.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: Sleeper — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_sleeper_strike_after_death_page.png
+[Play]   214.7 music regeneration: regeneration
+[ExeCheck]     [456 fps] Auto/regen-trip Flight alt 1219 gnd 1221 spd 1 hdg 307 energy 100
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]   225.0 music hangar: regen
+[Play]   225.0 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_sleeper_strike_after_regen_bay.png
+[Play]   225.0 music hangar: recovery
+[ExeCheck]     [831 fps] Auto/recovery Hover alt 1081 gnd 1082 spd 50 hdg 315 energy 100
+[ExeCheck]     [1274 fps] Auto/recovery Hover alt 1431 gnd 1432 spd 20 hdg 315 energy 100
+[ExeCheck]     [1409 fps] Auto/recovery Hover alt 1500 gnd 1501 spd 17 hdg 315 energy 100
+[Play]   248.5 music hangar: docked
+[Play]   248.5 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   248.5 music flight_canyons: flight (automatic)
+[Play]   248.5 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]   256.6 music flight_canyons: flying
+[ExeCheck] screenshot r7a_sleeper_cabin_cam_before.png
+[ExeCheck]   Sleeper in the cabin camera (before): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_sleeper_cabin_cam_after.png
+[ExeCheck]   Sleeper in the cabin camera (after): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] --- [Play] lines (131), first 60:
+[ExeCheck]   [Play]     0.0 music title_theme: title
+[ExeCheck]   [Play]     2.7 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[ExeCheck]   [Play]     2.7 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[ExeCheck]   [Play]     2.9 music hangar: docked
+[ExeCheck]   [Play]     3.8 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[ExeCheck]   [Play]     3.9 music flight_canyons: flight (automatic)
+[ExeCheck]   [Play]    11.8 voice CONTROL: Clamps released. Go and find our people.
+[ExeCheck]   [Play]    12.0 music flight_canyons: flying
+[ExeCheck]   [Play]    12.0 pilot 1 found (2.3 km): a real pilot
+[ExeCheck]   [Play]    12.0 pilot 2 found (2.4 km): a real pilot
+[ExeCheck]   [Play]    12.0 pilot 3 found (2.4 km): a real pilot
+[ExeCheck]   [Play]    12.8 music (quiet): pickup: hovering 25 m from pilot 1
+[ExeCheck]   [Play]    12.8 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[ExeCheck]   [Play]    12.8 pilot 2 found (2.9 km): a real pilot
+[ExeCheck]   [Play]    12.8 pilot 3 found (0.7 km): a real pilot
+[ExeCheck]   [Play]    15.3 voice COMPUTER: Landing gear down.
+[ExeCheck]   [Play]    16.9 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]   [Play]    37.3 music (quiet): pickup: landed 25 m from pilot 1
+[ExeCheck]   [Play]    37.9 music (quiet): pickup: pilot 1 running
+[ExeCheck]   [Play]    37.9 pilot 1 runs to the ship (a Knocker)
+[ExeCheck]   [Play]    37.9 voice COMPUTER: Engines off.
+[ExeCheck]   [Play]    43.7 music (quiet): pickup: pilot 1 knocking
+[ExeCheck]   [Play]    43.7 pilot 1 at the airlock, knocking (a Knocker, tell hidden)
+[ExeCheck]   [Play]    45.2 alien: pilot 1 (Knocker) left at the airlock 2 s: it climbs onto the canopy
+[ExeCheck]   [Play]    45.2 alien: it leaps onto the canopy
+[ExeCheck]   [Play]    45.2 music (quiet): alien on the canopy
+[ExeCheck]   [Play]    45.5 alien: on the canopy: pressed against the glass
+[ExeCheck]   [Play]    49.0 alien: engines on with it on the canopy: thrown off (Knocker); bounty +200 cr
+[ExeCheck]   [Play]    49.0 alien: journal: Knocker encounter 1 (thrown off the canopy): "Listen at the door."
+[ExeCheck]   [Play]    49.0 music flight_canyons: flying
+[ExeCheck]   [Play]    53.4 music (quiet): pickup: hovering 25 m from pilot 1
+[ExeCheck]   [Play]    53.4 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[ExeCheck]   [Play]    53.4 pilot 2 found (2.9 km): a real pilot
+[ExeCheck]   [Play]    53.4 pilot 3 found (0.7 km): a real pilot
+[ExeCheck]   [Play]    53.4 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[ExeCheck]   [Play]    53.4 alien: pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 2.0 s after lift-off (or the first hard turn)
+[ExeCheck]   [Play]    53.5 music flight_canyons: flying
+[ExeCheck]   [Play]    55.5 alien: strike: the Knocker (pilot 1), Takeoff (its moment) after 2.0 s armed; in flight, 37 m up
+[ExeCheck]   [Play]    55.5 alien strike: the Knocker comes through the hatch
+[ExeCheck]   [Play]    55.6 alien: in view 0.14 s after the strike (not yet in view: 0.6 s limit), 0.04 m from the eye at its nearest
+[ExeCheck]   [Play]    55.6 music (quiet): alien attack
+[ExeCheck]   [Play]    56.0 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck]   [Play]    57.2 alien: the Knocker got you (1.7 s after the strike)
+[ExeCheck]   [Play]    57.2 died: killed by a Knocker; cabin 1
+[ExeCheck]   [Play]    57.2 alien: journal: Knocker encounter 2 (it killed you): "The corps knocks a code. Count, and listen to where it comes from."
+[ExeCheck]   [Play]    57.2 music (quiet): dead
+[ExeCheck]   [Play]    57.2 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   [Play]    61.0 music regeneration: regeneration
+[ExeCheck]   [Play]    77.7 music hangar: regen
+[ExeCheck]   [Play]    77.7 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck]   [Play]    77.7 music hangar: recovery
+[ExeCheck]   [Play]   101.2 music hangar: docked
+[ExeCheck]   [Play]   101.2 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[ExeCheck]   [Play]   101.2 music flight_canyons: flight (automatic)
+[ExeCheck]   [Play]   101.2 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]   [Play]   109.4 music flight_canyons: flying
+[ExeCheck]   [Play]   109.4 pilot 1 found (1.6 km): really a Knocker, tell hidden
+[ExeCheck]   [Play]   109.4 pilot 3 found (1.9 km): a real pilot
+[ExeCheck]   [Play]   109.4 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]   [Play]   109.4 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 0.201, zeroed before the speakers; 24893440 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

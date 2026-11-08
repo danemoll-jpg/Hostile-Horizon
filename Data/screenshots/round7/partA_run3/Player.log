@@ -1,0 +1,920 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 1.000300 ms
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 73728 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 03:53; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] --- the five creature models
+[ExeCheck]   mimic: 26152 vertices, 26051 triangles (full detail), Mesh LOD levels 4; welded edges 39078: OPEN (one triangle) 14 (0.04 %), shared by 3+ 9; material mimic: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   hollow: 23481 vertices, 26077 triangles (full detail), Mesh LOD levels 4; welded edges 39121: OPEN (one triangle) 26 (0.07 %), shared by 3+ 14; material hollow: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   knocker: 30202 vertices, 29178 triangles (full detail), Mesh LOD levels 4; welded edges 43771: OPEN (one triangle) 11 (0.03 %), shared by 3+ 3; material knocker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   stalker: 27030 vertices, 26122 triangles (full detail), Mesh LOD levels 4; welded edges 39183: OPEN (one triangle) 4 (0.01 %), shared by 3+ 3; material stalker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck]   sleeper: 28218 vertices, 25900 triangles (full detail), Mesh LOD levels 4; welded edges 38852: OPEN (one triangle) 21 (0.05 %), shared by 3+ 15; material sleeper: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+[ExeCheck] --- music loops (music folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music)
+[Play]     2.1 music flight_canyons: check
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]     [582 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [753 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_canyons: file 163.4 s, loop 26.4 - 137.8 s (crossfade 4.0 s); pass 1: crossfade yes, now at 27.8 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 27.9 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 27.8 s (back in the loop), gain 1.00, playing
+[Play]    24.2 music flight_forest: check
+[Music] loaded flight_forest (223 s)
+[ExeCheck]     [765 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [762 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_forest: file 222.8 s, loop 133.0 - 194.0 s (crossfade 4.0 s); pass 1: crossfade yes, now at 134.5 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 134.4 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 134.5 s (back in the loop), gain 1.00, playing
+[Play]    46.2 music flight_city: check
+[Music] loaded flight_city (219 s)
+[ExeCheck]     [756 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [757 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_city: file 218.5 s, loop 27.0 - 203.1 s (crossfade 4.0 s); pass 1: crossfade yes, now at 28.3 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 28.4 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 28.5 s (back in the loop), gain 1.00, playing
+[Play]    68.2 music flight_ice: check
+[Music] loaded flight_ice (203 s)
+[ExeCheck]     [859 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [863 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [894 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_ice: file 202.8 s, loop 97.8 - 162.5 s (crossfade 4.0 s); pass 1: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing
+[Play]    90.2 music flight_volcanic: check
+[Music] loaded flight_volcanic (187 s)
+[ExeCheck]     [943 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [921 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_volcanic: file 187.2 s, loop 103.3 - 151.6 s (crossfade 4.0 s); pass 1: crossfade yes, now at 104.7 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 104.8 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 104.7 s (back in the loop), gain 1.00, playing
+[Play]   112.2 music flight_crystal: check
+[Music] loaded flight_crystal (214 s)
+[ExeCheck]     [819 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [774 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_crystal: file 213.6 s, loop 132.1 - 184.0 s (crossfade 4.0 s); pass 1: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing
+[Play]   134.2 music flight_ocean: check
+[Music] loaded flight_ocean (190 s)
+[ExeCheck]     [887 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     [853 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   flight_ocean: file 189.8 s, loop 108.2 - 168.4 s (crossfade 4.0 s); pass 1: crossfade yes, now at 109.7 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 109.6 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 109.7 s (back in the loop), gain 1.00, playing
+[Play]   156.3 music title_theme: title
+[Play]   156.8 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]   156.8 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]   157.0 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] new career: Halthel-II (canyons)
+[ExeCheck] --- music in Canyons (Halthel-II)
+[Play]   158.0 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   158.0 music flight_canyons: flight (automatic)
+[ExeCheck]     [937 fps] Auto/launch Hover alt 1500 gnd 1498 spd 0 hdg 315 energy 100
+[Play]   165.9 voice CONTROL: Clamps released. Go and find our people.
+[Play]   166.1 music flight_canyons: flying
+[Play]   166.1 pilot 1 found (2.3 km): a real pilot
+[Play]   166.1 pilot 2 found (2.4 km): a real pilot
+[Play]   166.1 pilot 3 found (2.4 km): a real pilot
+[ExeCheck]     [1335 fps] Flying/ Flight alt 55 gnd 53 spd 28 hdg 93 energy 100
+[Play]   169.4 voice COMPUTER: Landing gear down.
+[Play]   171.0 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]   HIT 1: 37 m over the ground, 164 km/h, bank 30°, off the route 86 m, path 269 m over the ground there, hull 100 %
+[ExeCheck]   HIT 2: 63 m over the ground, 164 km/h, bank 25°, off the route 90 m, path 288 m over the ground there, hull 100 %
+[ExeCheck]   HIT 3: 45 m over the ground, 164 km/h, bank 5°, off the route 112 m, path 219 m over the ground there, hull 100 %
+[ExeCheck]     [439 fps] Flying/ Flight alt 214 gnd 106 spd 54 hdg 131 energy 98
+[ExeCheck]   HIT 4: 28 m over the ground, 164 km/h, bank -34°, off the route 11 m, path 236 m over the ground there, hull 100 %
+[ExeCheck]   HIT 5: 32 m over the ground, 164 km/h, bank -17°, off the route 25 m, path 239 m over the ground there, hull 100 %
+[ExeCheck]   HIT 6: 34 m over the ground, 164 km/h, bank -14°, off the route 29 m, path 240 m over the ground there, hull 100 %
+[ExeCheck]   HIT 7: 57 m over the ground, 154 km/h, bank -12°, off the route 32 m, path 242 m over the ground there, hull 100 %
+[ExeCheck]   HIT 8: 73 m over the ground, 149 km/h, bank -21°, off the route 38 m, path 244 m over the ground there, hull 100 %
+[ExeCheck]   HIT 9: 51 m over the ground, 164 km/h, bank -24°, off the route 58 m, path 250 m over the ground there, hull 100 %
+[ExeCheck]   HIT 10: 22 m over the ground, 164 km/h, bank 38°, off the route 6 m, path 378 m over the ground there, hull 100 %
+[ExeCheck]     [414 fps] Flying/ Flight alt 470 gnd 450 spd 54 hdg 159 energy 96
+[ExeCheck]     [476 fps] Flying/ Flight alt 368 gnd 367 spd 54 hdg 146 energy 95
+[ExeCheck]     [367 fps] Flying/ Flight alt 263 gnd 262 spd 54 hdg 184 energy 93
+[ExeCheck]     [276 fps] Flying/ Flight alt 435 gnd 434 spd 54 hdg 267 energy 92
+[ExeCheck]     [340 fps] Flying/ Flight alt 467 gnd 463 spd 54 hdg 247 energy 90
+[ExeCheck]     [332 fps] Flying/ Flight alt 476 gnd 51 spd 54 hdg 56 energy 89
+[ExeCheck]     [341 fps] Flying/ Flight alt 517 gnd 56 spd 54 hdg 306 energy 87
+[ExeCheck]     [350 fps] Flying/ Flight alt 476 gnd 425 spd 54 hdg 200 energy 86
+[ExeCheck]   followed the trail: ended 3068 m from pilot 1's pad, wall / ground hits 10, hull 100 %, lowest 17 m over the ground, furthest off the route 150 m, re-plans 17 (last: drifting off it, 2 ms)
+[ExeCheck]     [372 fps] Flying/ Flight alt 381 gnd 376 spd 54 hdg 43 energy 84
+[ExeCheck]     [381 fps] Flying/ Flight alt 171 gnd 170 spd 54 hdg 135 energy 83
+[ExeCheck]     [389 fps] Flying/ Flight alt 154 gnd 155 spd 54 hdg 122 energy 81
+[ExeCheck]     [443 fps] Flying/ Flight alt 208 gnd 200 spd 54 hdg 254 energy 80
+[ExeCheck]   flying 135 s (74 s of it under 250 m over the ground; the closest pilot passed 8 m): 0.6.3's rule was quiet 30 % of the flight (55 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_canyons")
+[ExeCheck] screenshot r7a_music_canyons_flying.png
+[Play]   302.3 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]   302.3 voice COMPUTER: Landing gear down.
+[ExeCheck]     [349 fps] Flying/ Hover alt 14 gnd 17 spd 2 hdg 320 energy 98
+[ExeCheck]     [332 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 320 energy 94
+[Play]   327.1 music (quiet): pickup: landed 25 m from pilot 1
+[Play]   327.7 music (quiet): pickup: pilot 1 running
+[Play]   327.7 pilot 1 runs to the ship
+[Play]   327.7 voice COMPUTER: Engines off.
+[ExeCheck]     [344 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+[Play]   333.5 music (quiet): pickup: pilot 1 knocking
+[Play]   333.5 pilot 1 at the airlock, knocking
+[ExeCheck]   at the pickup (landed 3 m from pilot 1): music quiet 100 % of 32 s (gain now 0.00, want "")
+[Play]   334.5 music (quiet): pickup: pilot 1 boarding
+[Play]   335.6 voice COMPUTER: Airlock open.
+[Play]   335.9 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   335.9 music flight_canyons: flying
+[Play]   337.0 voice COMPUTER: Pilot aboard.
+[ExeCheck]     [357 fps] Flying/ Hover alt 21 gnd 23 spd 14 hdg 320 energy 94
+[ExeCheck]   after the pickup, flying again 8 s: music "flight_canyons" gain 1.00
+[ExeCheck]   [Play] music lines this sortie: music flight_canyons: flight (automatic) | music flight_canyons: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_canyons: flying
+[Play]   348.0 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[ExeCheck]     [228 fps] Flying/ Hover alt 35 gnd 27 spd 0 hdg 322 energy 99
+[Play]   352.2 music flight_canyons: flight (automatic)
+[ExeCheck]     [289 fps] Auto/tow-lift Flight alt 1321 gnd 865 spd 213 hdg 315 energy 98
+[ExeCheck]     [355 fps] Auto/tow-lift Flight alt 1475 gnd 1473 spd 63 hdg 315 energy 98
+[Play]   376.7 docked (recall): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|Recall: -900 cr|Energy used 2%. Refuelled 2%: -11 cr
+[Play]   376.7 music hangar: docked
+[ExeCheck] --- music in Giant Forest: the check jumps to seed 205
+[Play]   377.7 arrived: planet Eskshon-V (seed 205, Giant Forest), new; pilots waiting 3, aliens among them 1
+[Play]   377.7 music planet_select: jump
+[Play]   377.7 voice CONTROL: Jump drive spooling. Hold on to something.
+[Music] loaded planet_select (200 s)
+[Play]   377.9 music hangar: docked
+[Play]   377.9 launch: Eskshon-V (Giant Forest), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   377.9 music flight_forest: flight (automatic)
+[ExeCheck]     [417 fps] Auto/launch Hover alt 1500 gnd 1498 spd 0 hdg 210 energy 100
+[Play]   381.1 voice CONTROL: Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings.
+[Play]   386.0 music flight_forest: flying
+[Play]   386.0 pilot 1 found (2.5 km): a real pilot
+[Play]   386.0 pilot 2 found (2.9 km): a real pilot
+[Play]   386.6 pilot 3 found (2.6 km): a real pilot
+[ExeCheck]     [678 fps] Flying/ Flight alt 53 gnd 51 spd 32 hdg 19 energy 99
+[Play]   390.0 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]   HIT 1: 62 m over the ground, 164 km/h, bank -67°, off the route 106 m, path 35 m over the ground there, hull 100 %
+[ExeCheck]     [365 fps] Flying/ Flight alt 38 gnd 38 spd 54 hdg 327 energy 98
+[ExeCheck]   following: 30 % of the way, 1443 m from the pad, 37 m over the ground, 7 chevrons shown, off the route 4 m; chevrons in view 7 / 7: 37 m at (0.50, 0.39), 132 m at (0.61, 0.50), 227 m at (0.63, 0.52), 322 m at (0.64, 0.53), 417 m at (0.64, 0.53), 512 m at (0.65, 0.54), 607 m at (0.65, 0.54)
+[ExeCheck] screenshot a3_trail_cockpit_1.png
+[ExeCheck]     [374 fps] Flying/ Flight alt 33 gnd 35 spd 54 hdg 356 energy 96
+[ExeCheck]   following: 55 % of the way, 1021 m from the pad, 35 m over the ground, 6 chevrons shown, off the route 1 m; chevrons in view 6 / 6: 112 m at (0.49, 0.50), 212 m at (0.50, 0.50), 312 m at (0.50, 0.50), 412 m at (0.50, 0.50), 512 m at (0.50, 0.50), 612 m at (0.50, 0.50)
+[ExeCheck] screenshot a4_trail_cockpit_2.png
+[ExeCheck]   following: 80 % of the way, 598 m from the pad, 35 m over the ground, 6 chevrons shown, off the route 1 m; chevrons in view 6 / 6: 89 m at (0.51, 0.49), 189 m at (0.51, 0.49), 289 m at (0.51, 0.50), 389 m at (0.51, 0.50), 489 m at (0.51, 0.50), 589 m at (0.51, 0.49)
+[ExeCheck] screenshot a5_trail_cockpit_3.png
+[ExeCheck]     [348 fps] Flying/ Flight alt 36 gnd 36 spd 54 hdg 357 energy 95
+[ExeCheck]   followed the trail: ended 260 m from pilot 1's pad, wall / ground hits 1, hull 100 %, lowest 34 m over the ground, furthest off the route 168 m, re-plans 7953 (last: drifting off it, 10 ms)
+[ExeCheck]     [347 fps] Flying/ Flight alt 35 gnd 35 spd 54 hdg 345 energy 93
+[ExeCheck]     [340 fps] Flying/ Flight alt 37 gnd 36 spd 54 hdg 344 energy 92
+[ExeCheck]     [338 fps] Flying/ Flight alt 36 gnd 36 spd 54 hdg 344 energy 90
+[ExeCheck]     [385 fps] Flying/ Flight alt 36 gnd 35 spd 54 hdg 358 energy 89
+[ExeCheck]   flying 72 s (72 s of it under 250 m over the ground; the closest pilot passed 33 m): 0.6.3's rule was quiet 36 % of the flight (36 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_forest")
+[ExeCheck] screenshot r7a_music_forest_flying.png
+[Play]   459.4 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]   459.4 voice COMPUTER: Landing gear down.
+[ExeCheck]     [226 fps] Flying/ Hover alt 12 gnd 12 spd 1 hdg 301 energy 97
+[ExeCheck]     [180 fps] Flying/ Hover alt 5 gnd 5 spd 1 hdg 301 energy 94
+[Play]   484.9 music (quiet): pickup: landed 25 m from pilot 1
+[Play]   485.6 music (quiet): pickup: pilot 1 running
+[Play]   485.6 pilot 1 runs to the ship
+[Play]   485.6 voice COMPUTER: Engines off.
+[ExeCheck]     [232 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 301 energy 91
+[Play]   491.3 music (quiet): pickup: pilot 1 knocking
+[Play]   491.3 pilot 1 at the airlock, knocking
+[ExeCheck]   at the pickup (landed 3 m from pilot 1): music quiet 100 % of 33 s (gain now 0.00, want "")
+[Play]   492.4 music (quiet): pickup: pilot 1 boarding
+[Play]   493.0 voice COMPUTER: Airlock open.
+[Play]   493.8 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   493.8 music flight_forest: flying
+[Play]   494.4 voice COMPUTER: Pilot aboard.
+[ExeCheck]     [207 fps] Flying/ Hover alt 36 gnd 37 spd 1 hdg 309 energy 99
+[ExeCheck]   after the pickup, flying again 8 s: music "flight_forest" gain 1.00
+[ExeCheck]   [Play] music lines this sortie: music hangar: docked | music flight_forest: flight (automatic) | music flight_forest: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_forest: flying
+[Play]   506.0 music flight_forest: flight (automatic)
+[Play]   506.0 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[ExeCheck]     [196 fps] Auto/tow-lift Flight alt 311 gnd 312 spd 243 hdg 213 energy 100
+[Play]   516.4 docked (recall): Delivered 1 pilot: +500 cr|Recall: -900 cr|Energy used 0%. Refuelled 0%: -3 cr
+[Play]   516.4 music hangar: docked
+[ExeCheck] --- music in Dead City: the check jumps to seed 204
+[Play]   517.4 arrived: planet Drais-IX (seed 204, Dead City), new; pilots waiting 3, aliens among them 1
+[Play]   517.4 music planet_select: jump
+[Play]   517.4 voice CONTROL: Jump drive spooling. Hold on to something.
+[Play]   517.5 music hangar: docked
+[Play]   517.5 launch: Drais-IX (Dead City), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   517.5 music flight_city: flight (automatic)
+[ExeCheck]     [326 fps] Auto/launch Hover alt 1500 gnd 1421 spd 0 hdg 345 energy 100
+[Play]   520.8 voice CONTROL: There's a dead city down there. Nobody's home. Except our pilots, in the streets and on the roofs.
+[Play]   525.7 music flight_city: flying
+[Play]   525.7 pilot 2 found (2.4 km): a real pilot
+[Play]   526.2 pilot 1 found (2.9 km): a real pilot
+[Play]   526.2 pilot 3 found (2.8 km): a real pilot
+[ExeCheck]     [642 fps] Flying/ Flight alt 127 gnd 48 spd 40 hdg 150 energy 99
+[Play]   528.7 voice COMPUTER: Landing gear down.
+[Play]   530.3 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]     [385 fps] Flying/ Flight alt 134 gnd 127 spd 54 hdg 356 energy 98
+[ExeCheck]   following: 30 % of the way, 1585 m from the pad, 121 m over the ground, 7 chevrons shown, off the route 3 m; chevrons in view 4 / 7: 9 m at (5.97, 0.81) off, 77 m at (1.48, 1.15) off, 171 m at (0.97, 0.96), 235 m at (0.93, 0.57), 336 m at (0.75, 0.44), 428 m at (0.68, 0.35), 470 m at (0.76, 0.20) off
+[ExeCheck] screenshot a3_trail_cockpit_1.png
+[ExeCheck]     [426 fps] Flying/ Flight alt 141 gnd 133 spd 54 hdg 79 energy 96
+[ExeCheck]   following: 55 % of the way, 1112 m from the pad, 117 m over the ground, 7 chevrons shown, off the route 30 m; chevrons in view 0 / 7: 15 m at (-2.02, 2.43) off, 2 m at (-33.59, 40.38) off, 60 m at (-1.36, 2.43) off, 135 m at (-0.33, 1.84) off, 209 m at (-0.11, 1.62) off, 278 m at (-0.10, 1.45) off, 354 m at (0.04, 1.45) off
+[ExeCheck] screenshot a4_trail_cockpit_2.png
+[ExeCheck]     [463 fps] Flying/ Flight alt 196 gnd 191 spd 54 hdg 33 energy 95
+[ExeCheck]   following: 80 % of the way, 638 m from the pad, 112 m over the ground, 6 chevrons shown, off the route 8 m; chevrons in view 6 / 6: 124 m at (0.50, 0.42), 228 m at (0.48, 0.46), 315 m at (0.47, 0.63), 396 m at (0.47, 0.77), 503 m at (0.46, 0.68), 565 m at (0.41, 0.75)
+[ExeCheck] screenshot a5_trail_cockpit_3.png
+[ExeCheck]     [476 fps] Flying/ Flight alt 109 gnd 106 spd 54 hdg 4 energy 93
+[ExeCheck]   followed the trail: ended 260 m from pilot 2's pad, wall / ground hits 0, hull 100 %, lowest 42 m over the ground, furthest off the route 187 m, re-plans 7971 (last: drifting off it, 15 ms)
+[ExeCheck]     [461 fps] Flying/ Flight alt 39 gnd 35 spd 54 hdg 360 energy 92
+[ExeCheck]     [456 fps] Flying/ Flight alt 44 gnd 35 spd 54 hdg 360 energy 90
+[ExeCheck]     [453 fps] Flying/ Flight alt 44 gnd 35 spd 54 hdg 360 energy 89
+[ExeCheck]     [447 fps] Flying/ Flight alt 42 gnd 35 spd 54 hdg 360 energy 87
+[ExeCheck]   flying 84 s (84 s of it under 250 m over the ground; the closest pilot passed 86 m): 0.6.3's rule was quiet 32 % of the flight (32 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_city")
+[ExeCheck] screenshot r7a_music_city_flying.png
+[Play]   610.8 music (quiet): pickup: hovering 14 m from pilot 2
+[Play]   610.8 voice COMPUTER: Landing gear down.
+[ExeCheck]     [292 fps] Flying/ Hover alt 88 gnd 14 spd 2 hdg 311 energy 97
+[ExeCheck]     [279 fps] Flying/ Hover alt 80 gnd 5 spd 1 hdg 311 energy 94
+[Play]   635.6 music (quiet): pickup: landed 14 m from pilot 2
+[Play]   636.2 music (quiet): pickup: pilot 2 running
+[Play]   636.2 pilot 2 runs to the ship
+[Play]   636.2 voice COMPUTER: Engines off.
+[ExeCheck]     [287 fps] Flying/ Hover landed alt 76 gnd 2 spd 0 hdg 311 energy 91
+[Play]   640.6 music (quiet): pickup: pilot 2 knocking
+[Play]   640.6 pilot 2 at the airlock, knocking
+[ExeCheck]   at the pickup (landed 3 m from pilot 2): music quiet 100 % of 31 s (gain now 0.00, want "")
+[Play]   641.7 music (quiet): pickup: pilot 2 boarding
+[Play]   642.6 voice COMPUTER: Airlock open.
+[Play]   643.1 pilot 2 boarded (a real pilot); cabin 1 / 6
+[Play]   643.1 music flight_city: flying
+[Play]   644.0 voice COMPUTER: Pilot aboard.
+[ExeCheck]     [267 fps] Flying/ Hover alt 111 gnd 37 spd 1 hdg 311 energy 95
+[ExeCheck]   after the pickup, flying again 8 s: music "flight_city" gain 1.00
+[ExeCheck]   [Play] music lines this sortie: music hangar: docked | music flight_city: flight (automatic) | music flight_city: flying | music (quiet): pickup: hovering 14 m from pilot 2 | music (quiet): pickup: landed 14 m from pilot 2 | music (quiet): pickup: pilot 2 running | music (quiet): pickup: pilot 2 knocking | music (quiet): pickup: pilot 2 boarding | music flight_city: flying
+[Play]   655.1 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[Play]   655.4 music flight_city: flight (automatic)
+[ExeCheck]     [256 fps] Auto/tow-lift Flight alt 557 gnd 549 spd 311 hdg 345 energy 100
+[Play]   665.5 docked (recall): Delivered 1 pilot: +500 cr|Recall: -900 cr|Energy used 0%. Refuelled 0%: -3 cr
+[Play]   665.5 music hangar: docked
+[ExeCheck] --- music in Ice: the check jumps to seed 203
+[Play]   666.5 arrived: planet Cedria-III (seed 203, Ice), new; pilots waiting 3, aliens among them 1
+[Play]   666.5 music planet_select: jump
+[Play]   666.5 voice CONTROL: Jump drive spooling. Hold on to something.
+[Play]   666.7 music hangar: docked
+[Play]   666.7 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   666.7 music flight_ice: flight (automatic)
+[ExeCheck]     [400 fps] Auto/launch Hover alt 1500 gnd 1501 spd 0 hdg 180 energy 100
+[Play]   669.9 voice CONTROL: Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar.
+[Play]   674.9 music flight_ice: flying
+[Play]   674.9 pilot 1 found (2.0 km): a real pilot
+[Play]   675.3 pilot 2 found (3.0 km): a real pilot
+[Play]   675.4 pilot 3 found (2.6 km): a real pilot
+[ExeCheck]     [550 fps] Flying/ Flight alt 86 gnd 75 spd 54 hdg 0 energy 99
+[Play]   679.5 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]   following: 30 % of the way, 885 m from the pad, 292 m over the ground, 7 chevrons shown, off the route 2 m; chevrons in view 0 / 7: 546 m at (0.00, 1.04) off, 585 m at (0.12, 1.01) off, 606 m at (0.21, 1.04) off, 626 m at (0.30, 1.07) off, 639 m at (0.38, 1.11) off, 607 m at (0.44, 1.24) off, 575 m at (0.50, 1.39) off
+[ExeCheck] screenshot a3_trail_cockpit_1.png
+[ExeCheck]     [286 fps] Flying/ Flight alt 403 gnd 229 spd 54 hdg 352 energy 98
+[ExeCheck]     [299 fps] Flying/ Flight alt 408 gnd 236 spd 54 hdg 23 energy 96
+[ExeCheck]     [311 fps] Flying/ Flight alt 352 gnd 178 spd 54 hdg 313 energy 95
+[ExeCheck]     [284 fps] Flying/ Flight alt 298 gnd 298 spd 54 hdg 290 energy 93
+[ExeCheck]     [341 fps] Flying/ Flight alt 222 gnd 53 spd 54 hdg 86 energy 92
+[ExeCheck]   following: 55 % of the way, 662 m from the pad, 35 m over the ground, 7 chevrons shown, off the route 1 m; chevrons in view 6 / 7: 51 m at (0.50, 0.48), 151 m at (0.50, 0.50), 251 m at (0.50, 0.50), 350 m at (0.50, 0.33), 444 m at (0.53, 0.45), 532 m at (0.56, 0.45), 630 m at (0.56, 0.25) off
+[ExeCheck] screenshot a4_trail_cockpit_2.png
+[ExeCheck]     [298 fps] Flying/ Flight alt 207 gnd 32 spd 54 hdg 86 energy 90
+[ExeCheck]   following: 80 % of the way, 439 m from the pad, 32 m over the ground, 4 chevrons shown, off the route 0 m; chevrons in view 2 / 4: 126 m at (0.50, 0.08) off, 219 m at (0.55, 0.43), 307 m at (0.61, 0.44), 409 m at (0.59, 0.14) off
+[ExeCheck] screenshot a5_trail_cockpit_3.png
+[ExeCheck]   followed the trail: ended 260 m from pilot 1's pad, wall / ground hits 0, hull 100 %, lowest 30 m over the ground, furthest off the route 150 m, re-plans 7993 (last: drifting off it, 4 ms)
+[ExeCheck]     [276 fps] Flying/ Flight alt 48 gnd 49 spd 54 hdg 94 energy 89
+[ExeCheck]     [284 fps] Flying/ Flight alt 35 gnd 36 spd 54 hdg 92 energy 87
+[ExeCheck]     [309 fps] Flying/ Flight alt 37 gnd 35 spd 54 hdg 101 energy 85
+[ExeCheck]   flying 101 s (82 s of it under 250 m over the ground; the closest pilot passed 6 m): 0.6.3's rule was quiet 26 % of the flight (33 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_ice")
+[ExeCheck] screenshot r7a_music_ice_flying.png
+[Play]   777.3 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]   777.3 voice COMPUTER: Landing gear down.
+[ExeCheck]     [311 fps] Flying/ Hover alt 35 gnd 37 spd 8 hdg 301 energy 100
+[Play]   783.4 voice COMPUTER: Visibility low. Instruments only.
+[ExeCheck]     [244 fps] Flying/ Hover alt 8 gnd 10 spd 1 hdg 301 energy 96
+[ExeCheck]     [263 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 301 energy 93
+[Play]   802.2 music (quiet): pickup: landed 25 m from pilot 1
+[Play]   802.8 music (quiet): pickup: pilot 1 running
+[Play]   802.8 pilot 1 runs to the ship
+[Play]   802.8 voice COMPUTER: Engines off.
+[ExeCheck]     [271 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]   808.6 music (quiet): pickup: pilot 1 knocking
+[Play]   808.6 pilot 1 at the airlock, knocking
+[ExeCheck]   at the pickup (landed 3 m from pilot 1): music quiet 100 % of 32 s (gain now 0.00, want "")
+[Play]   809.6 music (quiet): pickup: pilot 1 boarding
+[Play]   810.6 voice COMPUTER: Airlock open.
+[Play]   811.0 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   811.0 music flight_ice: flying
+[Play]   812.0 voice COMPUTER: Pilot aboard.
+[ExeCheck]     [92 fps] Flying/ Hover alt 35 gnd 36 spd 18 hdg 283 energy 98
+[ExeCheck]   after the pickup, flying again 8 s: music "flight_ice" gain 1.00
+[ExeCheck]   [Play] music lines this sortie: music hangar: docked | music flight_ice: flight (automatic) | music flight_ice: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_ice: flying
+[Play]   823.5 music flight_ice: flight (automatic)
+[Play]   823.5 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[ExeCheck]     [48 fps] Auto/tow-lift Flight alt 1104 gnd 945 spd 261 hdg 180 energy 100
+[Play]   834.3 docked (recall): Delivered 1 pilot: +500 cr|Recall: -900 cr|Energy used 0%. Refuelled 0%: -2 cr
+[Play]   834.3 music hangar: docked
+[ExeCheck] --- the creatures up close (before = 0.6.3's staging and look; after = Round 7's)
+[Play]   835.3 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   835.3 music flight_ice: flight (automatic)
+[Play]   835.3 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]     [74 fps] Auto/launch Hover alt 1481 gnd 1301 spd 21 hdg 180 energy 100
+[Play]   842.7 music flight_ice: flying
+[Play]   843.2 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]   843.2 pilot 1 found (0.0 km): really a Mimic, tell hidden, wrong voice
+[Play]   843.2 voice COMPUTER: Landing gear down.
+[Play]   845.1 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]     [65 fps] Flying/ Hover alt 19 gnd 21 spd 2 hdg 301 energy 99
+[ExeCheck]     [48 fps] Flying/ Hover alt 8 gnd 10 spd 1 hdg 301 energy 96
+[ExeCheck]     [40 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+[ExeCheck]     [44 fps] Flying/ Hover alt 0 gnd 2 spd 1 hdg 301 energy 91
+[Play]   877.4 music (quiet): pickup: landed 25 m from pilot 1
+[Play]   878.0 music (quiet): pickup: pilot 1 running
+[Play]   878.0 pilot 1 runs to the ship (a Mimic)
+[Play]   878.0 voice COMPUTER: Engines off.
+[Play]   883.9 music (quiet): pickup: pilot 1 knocking
+[Play]   883.9 pilot 1 at the airlock, knocking (a Mimic, tell hidden)
+[Play]   885.5 alien: pilot 1 (Mimic) left at the airlock 2 s: it climbs onto the canopy
+[Play]   885.5 alien: it leaps onto the canopy
+[Play]   885.5 music (quiet): alien on the canopy
+[Play]   885.8 alien: on the canopy: pressed against the glass
+[ExeCheck]     [25 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[ExeCheck]   Mimic on the canopy, BEFORE (0.6.3 staging): face 1.81 m, nearest part 1.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.11, 1.10, 4.20) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 11015 vertices inside the canopy bubble (42.1 %, up to 25 % of the way to its centre)
+[ExeCheck] screenshot r7a_mimic_canopy_before.png
+[ExeCheck]   Mimic on the canopy, AFTER: face 1.66 m, nearest part 1.53 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (-0.02, 2.20, 3.60) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 1116 vertices inside the canopy bubble (4.3 %, up to 9 % of the way to its centre)
+[ExeCheck] screenshot r7a_mimic_canopy_after.png
+[Play]   889.1 alien: engines on with it on the canopy: thrown off (Mimic); bounty +200 cr
+[Play]   889.1 alien: journal: Mimic encounter 1 (thrown off the canopy): "Something about the way the light falls on it..."
+[Play]   889.1 music flight_ice: flying
+[ExeCheck]     [19 fps] Flying/ Hover alt 5 gnd 6 spd 11 hdg 301 energy 91
+[Play]   895.1 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]   895.1 pilot 1 found (0.0 km): really a Mimic, tell hidden, wrong voice
+[Play]   895.1 pilot 1 boarded (really a Mimic); cabin 1 / 6
+[Play]   895.1 alien: pilot 1 aboard: a Mimic, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[Play]   895.1 music flight_ice: flying
+[Play]   898.8 alien: strike: the Mimic (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 36 m up
+[Play]   898.8 alien strike: the Mimic comes through the hatch
+[Play]   898.8 alien: in view 0.18 s after the strike (not yet in view: 0.6 s limit), 2.04 m from the eye at its nearest
+[Play]   898.8 music (quiet): alien attack
+[Play]   899.3 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_mimic_strike_before_1_0.1s.png
+[ExeCheck]     Mimic BEFORE +0.49 s after in view: face 1.67 m, nearest part 1.56 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.01, 1.10, 4.07) (eye (0.00, 1.05, 2.40)), ship 9 m/s kinematic
+[ExeCheck] screenshot r7a_mimic_strike_before_2_0.5s.png
+[ExeCheck]     Mimic BEFORE +0.99 s after in view: face 0.76 m, nearest part 0.58 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.11, 1.35, 3.09) (eye (0.00, 1.05, 2.40)), ship 2 m/s kinematic
+[ExeCheck] screenshot r7a_mimic_strike_before_3_1.2s.png
+[ExeCheck]     Mimic BEFORE +1.58 s after in view: face 0.29 m, nearest part 0.20 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.13, 1.31, 2.46) (eye (0.00, 1.05, 2.40)), ship 1 m/s kinematic
+[Play]   900.5 alien: the Mimic got you (1.6 s after the strike)
+[Play]   900.5 died: killed by a Mimic; cabin 1
+[Play]   900.5 alien: journal: Mimic encounter 2 (it killed you): "Watch the ground beside it, not the suit. Light and shadow should agree."
+[Play]   900.5 music (quiet): dead
+[Play]   900.5 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [36 fps] Crashed/dead Flight alt 32 gnd 33 spd 1 hdg 283 energy 93
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_mimic_strike_before_death_page.png
+[Play]   904.3 music regeneration: regeneration
+[Music] loaded regeneration (30 s)
+[ExeCheck]     [55 fps] Auto/regen-trip Flight alt 24 gnd 25 spd 0 hdg 283 energy 93
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]   919.3 music hangar: regen
+[Play]   919.3 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_mimic_strike_before_regen_bay.png
+[Play]   919.3 music hangar: recovery
+[ExeCheck]     [179 fps] Auto/recovery Hover alt 989 gnd 810 spd 55 hdg 180 energy 100
+[ExeCheck]     [496 fps] Auto/recovery Hover alt 1392 gnd 1212 spd 25 hdg 180 energy 100
+[ExeCheck]     [347 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 0 hdg 180 energy 100
+[Play]   942.3 music hangar: docked
+[Play]   942.3 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   942.3 music flight_ice: flight (automatic)
+[Play]   942.3 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]     [443 fps] Auto/launch Hover alt 1434 gnd 1433 spd 68 hdg 180 energy 100
+[Play]   950.6 music flight_ice: flying
+[Play]   950.6 pilot 1 found (1.5 km): really a Mimic, tell hidden, wrong voice
+[Play]   950.6 voice CONTROL: Beacon on your scope. That's one of ours.
+[Play]   950.6 pilot 1 boarded (really a Mimic); cabin 1 / 6
+[Play]   950.6 alien: pilot 1 aboard: a Mimic, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[Play]   953.9 voice COMPUTER: Pilot aboard.
+[Play]   954.3 alien: strike: the Mimic (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 1103 m up
+[Play]   954.3 alien strike: the Mimic comes through the hatch
+[Play]   954.4 alien: in view 0.08 s after the strike (seen), 0.71 m from the eye at its nearest
+[Play]   954.4 music (quiet): alien attack
+[Play]   954.8 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_mimic_strike_after_1_0.1s.png
+[ExeCheck]     Mimic AFTER +0.44 s after in view: face 0.58 m, nearest part 0.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 0.89, 2.96) (eye (0.00, 1.05, 2.40)), ship 66 m/s kinematic
+[ExeCheck] screenshot r7a_mimic_strike_after_2_0.5s.png
+[ExeCheck]     Mimic AFTER +0.67 s after in view: face 0.54 m, nearest part 0.41 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.05, 0.88, 2.91) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+[ExeCheck] screenshot r7a_mimic_strike_after_3_1.2s.png
+[ExeCheck]     Mimic AFTER +1.39 s after in view: face 0.64 m, nearest part 0.46 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.05, 0.96, 3.03) (eye (0.00, 1.05, 2.40)), ship 53 m/s kinematic
+[ExeCheck]   Mimic strike order: in view 0.07 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.44 voice: cpu_intruder | +0.44 cabin lights: off | +0.44 emergency light: on | +0.44 sound loop: alarm | +0.44 state: displays = dark | +0.44 state: cabin lights = off
+[Play]   956.0 alien: the Mimic got you (1.7 s after the strike)
+[Play]   956.0 died: killed by a Mimic; cabin 1
+[Play]   956.0 alien: journal: Mimic encounter 3 (it killed you): "Watch the ground beside it, not the suit. Light and shadow should agree."
+[Play]   956.0 music (quiet): dead
+[Play]   956.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Mimic</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_mimic_strike_after_death_page.png
+[Play]   959.7 music regeneration: regeneration
+[ExeCheck]     [200 fps] Auto/regen-trip Flight alt 1157 gnd 1155 spd 1 hdg 180 energy 99
+[ExeCheck]     [376 fps] Auto/regen-trip Flight alt 1145 gnd 1143 spd 1 hdg 180 energy 99
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]   970.0 music hangar: regen
+[Play]   970.0 voice CONTROL: You're awake. Good. Take a minute. Then get back out there.
+[ExeCheck] screenshot r7a_mimic_strike_after_regen_bay.png
+[Play]   970.1 music hangar: recovery
+[ExeCheck]     [608 fps] Auto/recovery Hover alt 1339 gnd 1307 spd 31 hdg 180 energy 100
+[ExeCheck]     [743 fps] Auto/recovery Hover alt 1498 gnd 1466 spd 8 hdg 180 energy 100
+[Play]   993.6 music hangar: docked
+[Play]   993.6 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   993.6 music flight_ice: flight (automatic)
+[Play]   993.6 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]     [443 fps] Auto/launch Hover alt 1451 gnd 1450 spd 48 hdg 180 energy 100
+[Play]  1001.7 music flight_ice: flying
+[ExeCheck] screenshot r7a_mimic_cabin_cam_before.png
+[ExeCheck]   Mimic in the cabin camera (before): face 1.62 m, nearest part 1.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.54, 1.57, -0.51) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_mimic_cabin_cam_after.png
+[ExeCheck]   Mimic in the cabin camera (after): face 1.62 m, nearest part 1.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.54, 1.57, -0.51) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[Play]  1001.9 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1001.9 pilot 1 found (0.0 km): really a Hollow, tell hidden
+[Play]  1001.9 voice COMPUTER: Landing gear down.
+[Play]  1003.5 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]     [231 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+[ExeCheck]     [191 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 301 energy 94
+[Play]  1027.4 music (quiet): pickup: landed 25 m from pilot 1
+[Play]  1028.0 music (quiet): pickup: pilot 1 running
+[Play]  1028.0 pilot 1 runs to the ship (a Hollow)
+[Play]  1028.0 voice COMPUTER: Engines off.
+[ExeCheck]     [152 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1033.8 music (quiet): pickup: pilot 1 knocking
+[Play]  1033.8 pilot 1 at the airlock, knocking (a Hollow, tell hidden)
+[Play]  1035.3 alien: pilot 1 (Hollow) left at the airlock 2 s: it climbs onto the canopy
+[Play]  1035.3 alien: it leaps onto the canopy
+[Play]  1035.3 music (quiet): alien on the canopy
+[Play]  1035.6 alien: on the canopy: pressed against the glass
+[ExeCheck]   Hollow on the canopy, BEFORE (0.6.3 staging): face 2.04 m, nearest part 1.92 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.05, 1.32, 4.42) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 2301 vertices inside the canopy bubble (9.8 %, up to 11 % of the way to its centre)
+[ExeCheck] screenshot r7a_hollow_canopy_before.png
+[ExeCheck]   Hollow on the canopy, AFTER: face 1.62 m, nearest part 0.97 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 2.16, 3.58) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 0 vertices inside the canopy bubble (0.0 %)
+[ExeCheck] screenshot r7a_hollow_canopy_after.png
+[Play]  1039.1 alien: engines on with it on the canopy: thrown off (Hollow); bounty +200 cr
+[Play]  1039.1 alien: journal: Hollow encounter 1 (thrown off the canopy): "Look it in the eye."
+[Play]  1039.1 music flight_ice: flying
+[ExeCheck]     [256 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1043.6 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1043.6 pilot 1 found (0.0 km): really a Hollow, tell hidden
+[Play]  1043.6 pilot 1 boarded (really a Hollow); cabin 1 / 6
+[Play]  1043.6 alien: pilot 1 aboard: a Hollow, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[Play]  1043.6 music flight_ice: flying
+[Play]  1047.3 alien: strike: the Hollow (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 30 m up
+[Play]  1047.3 alien strike: the Hollow comes through the hatch
+[Play]  1047.4 alien: in view 0.14 s after the strike (not yet in view: 0.6 s limit), 0.25 m from the eye at its nearest
+[Play]  1047.4 music (quiet): alien attack
+[ExeCheck] screenshot r7a_hollow_strike_before_1_0.1s.png
+[ExeCheck]     Hollow BEFORE +0.30 s after in view: face 4.54 m, nearest part 4.28 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.01, -3.30, 3.71) (eye (0.00, 1.05, 2.40)), ship 30 m/s kinematic
+[Play]  1047.8 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_hollow_strike_before_2_0.5s.png
+[ExeCheck]     Hollow BEFORE +0.68 s after in view: face 2.98 m, nearest part 2.78 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.13, -1.86, 3.06) (eye (0.00, 1.05, 2.40)), ship 17 m/s kinematic
+[ExeCheck] screenshot r7a_hollow_strike_before_3_1.2s.png
+[ExeCheck]     Hollow BEFORE +1.40 s after in view: face 0.11 m, nearest part 0.12 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.09, 1.04, 2.46) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+[Play]  1049.0 alien: the Hollow got you (1.7 s after the strike)
+[Play]  1049.0 died: killed by a Hollow; cabin 1
+[Play]  1049.0 alien: journal: Hollow encounter 2 (it killed you): "A visor shows the world around it: the sky, your lamps. This one showed nothing at all."
+[Play]  1049.0 music (quiet): dead
+[Play]  1049.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [255 fps] Crashed/dead Flight alt 55 gnd 25 spd 0 hdg 283 energy 93
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: Hollow — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_hollow_strike_before_death_page.png
+[Play]  1052.7 music regeneration: regeneration
+[ExeCheck]     [464 fps] Auto/regen-trip Flight alt 55 gnd 25 spd 0 hdg 283 energy 93
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1067.6 music hangar: regen
+[Play]  1067.6 voice CONTROL: Welcome back. Again.
+[ExeCheck] screenshot r7a_hollow_strike_before_regen_bay.png
+[Play]  1067.6 music hangar: recovery
+[ExeCheck]     [561 fps] Auto/recovery Hover alt 1020 gnd 841 spd 54 hdg 180 energy 100
+[Play]  1069.9 voice COMPUTER: Engines off.
+[ExeCheck]     [633 fps] Auto/recovery Hover alt 1405 gnd 1226 spd 23 hdg 180 energy 100
+[ExeCheck]     [746 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 9 hdg 180 energy 100
+[Play]  1091.1 music hangar: docked
+[Play]  1091.1 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1091.1 music flight_ice: flight (automatic)
+[Play]  1091.1 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]  1099.2 music flight_ice: flying
+[Play]  1099.2 pilot 1 found (1.5 km): really a Hollow, tell hidden
+[Play]  1099.2 voice CONTROL: Another beacon. Bring them home.
+[Play]  1099.2 pilot 1 boarded (really a Hollow); cabin 1 / 6
+[Play]  1099.2 alien: pilot 1 aboard: a Hollow, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[ExeCheck]     [734 fps] Flying/ Flight alt 1408 gnd 1236 spd 73 hdg 180 energy 100
+[Play]  1102.1 voice COMPUTER: Pilot aboard.
+[Play]  1103.0 alien: strike: the Hollow (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 1101 m up
+[Play]  1103.0 alien strike: the Hollow comes through the hatch
+[Play]  1103.2 alien: in view 0.26 s after the strike (seen), 0.38 m from the eye at its nearest
+[Play]  1103.2 music (quiet): alien attack
+[ExeCheck] screenshot r7a_hollow_strike_after_1_0.1s.png
+[ExeCheck]     Hollow AFTER +0.25 s after in view: face 0.93 m, nearest part 0.67 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.02, 0.98, 3.32) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+[Play]  1103.6 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_hollow_strike_after_2_0.5s.png
+[ExeCheck]     Hollow AFTER +0.66 s after in view: face 0.68 m, nearest part 0.64 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.09, 0.83, 3.04) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+[ExeCheck] screenshot r7a_hollow_strike_after_3_1.2s.png
+[ExeCheck]     Hollow AFTER +1.32 s after in view: face 0.70 m, nearest part 0.42 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.08, 0.97, 3.09) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[ExeCheck]   Hollow strike order: in view 0.25 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+[Play]  1104.8 alien: the Hollow got you (1.9 s after the strike)
+[Play]  1104.8 died: killed by a Hollow; cabin 1
+[Play]  1104.8 alien: journal: Hollow encounter 3 (it killed you): "A visor shows the world around it: the sky, your lamps. This one showed nothing at all."
+[Play]  1104.8 music (quiet): dead
+[Play]  1104.8 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Hollow</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_hollow_strike_after_death_page.png
+[Play]  1108.4 music regeneration: regeneration
+[ExeCheck]     [317 fps] Auto/regen-trip Flight alt 1146 gnd 1144 spd 1 hdg 180 energy 99
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1118.7 music hangar: regen
+[Play]  1118.7 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_hollow_strike_after_regen_bay.png
+[Play]  1118.7 music hangar: recovery
+[ExeCheck]     [525 fps] Auto/recovery Hover alt 958 gnd 921 spd 55 hdg 180 energy 100
+[ExeCheck]     [758 fps] Auto/recovery Hover alt 1377 gnd 1340 spd 27 hdg 180 energy 100
+[ExeCheck]     [484 fps] Auto/recovery Hover alt 1500 gnd 1463 spd 8 hdg 180 energy 100
+[Play]  1142.3 music hangar: docked
+[Play]  1142.3 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1142.3 music flight_ice: flight (automatic)
+[Play]  1142.3 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck]     [423 fps] Auto/launch Hover alt 1451 gnd 1450 spd 50 hdg 180 energy 100
+[Play]  1150.4 music flight_ice: flying
+[ExeCheck] screenshot r7a_hollow_cabin_cam_before.png
+[ExeCheck]   Hollow in the cabin camera (before): face 1.47 m, nearest part 1.47 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.54, 1.19, -0.52) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_hollow_cabin_cam_after.png
+[ExeCheck]   Hollow in the cabin camera (after): face 1.47 m, nearest part 1.47 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.54, 1.19, -0.52) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[Play]  1150.6 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1150.6 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[Play]  1150.6 voice COMPUTER: Landing gear down.
+[Play]  1152.2 voice CONTROL: Beacon on your scope. That's one of ours.
+[ExeCheck]     [233 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+[ExeCheck]     [285 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+[Play]  1175.4 music (quiet): pickup: landed 25 m from pilot 1
+[Play]  1176.0 music (quiet): pickup: pilot 1 running
+[Play]  1176.0 pilot 1 runs to the ship (a Knocker)
+[Play]  1176.0 voice COMPUTER: Engines off.
+[ExeCheck]     [305 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1181.8 music (quiet): pickup: pilot 1 knocking
+[Play]  1181.8 pilot 1 at the airlock, knocking (a Knocker, tell hidden)
+[Play]  1183.3 alien: pilot 1 (Knocker) left at the airlock 2 s: it climbs onto the canopy
+[Play]  1183.3 alien: it leaps onto the canopy
+[Play]  1183.3 music (quiet): alien on the canopy
+[Play]  1183.6 alien: on the canopy: pressed against the glass
+[ExeCheck]   Knocker on the canopy, BEFORE (0.6.3 staging): face 2.06 m, nearest part 1.71 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.04, 1.34, 4.44) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 6033 vertices inside the canopy bubble (20.0 %, up to 27 % of the way to its centre)
+[ExeCheck] screenshot r7a_knocker_canopy_before.png
+[ExeCheck]   Knocker on the canopy, AFTER: face 2.21 m, nearest part 0.84 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 2.83, 3.71) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 0 vertices inside the canopy bubble (0.0 %)
+[ExeCheck] screenshot r7a_knocker_canopy_after.png
+[Play]  1187.1 alien: engines on with it on the canopy: thrown off (Knocker); bounty +200 cr
+[Play]  1187.1 alien: journal: Knocker encounter 1 (thrown off the canopy): "Listen at the door."
+[Play]  1187.1 music flight_ice: flying
+[ExeCheck]     [347 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1191.7 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1191.7 pilot 1 found (0.0 km): really a Knocker, tell hidden
+[Play]  1191.7 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[Play]  1191.7 alien: pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[Play]  1191.7 music flight_ice: flying
+[Play]  1195.4 alien: strike: the Knocker (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 29 m up
+[Play]  1195.4 alien strike: the Knocker comes through the hatch
+[Play]  1195.5 alien: in view 0.14 s after the strike (not yet in view: 0.6 s limit), 0.02 m from the eye at its nearest
+[Play]  1195.5 music (quiet): alien attack
+[ExeCheck] screenshot r7a_knocker_strike_before_1_0.1s.png
+[ExeCheck]     Knocker BEFORE +0.27 s after in view: face 4.88 m, nearest part 4.41 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.03, -3.64, 3.75) (eye (0.00, 1.05, 2.40)), ship 32 m/s kinematic
+[Play]  1195.9 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_knocker_strike_before_2_0.5s.png
+[ExeCheck]     Knocker BEFORE +0.68 s after in view: face 3.01 m, nearest part 2.93 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.17, -1.91, 2.92) (eye (0.00, 1.05, 2.40)), ship 18 m/s kinematic
+[ExeCheck] screenshot r7a_knocker_strike_before_3_1.2s.png
+[ExeCheck]     Knocker BEFORE +1.36 s after in view: face 0.09 m, nearest part 0.03 m from the eye, 21 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.06, 1.04, 2.46) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+[Play]  1197.1 alien: the Knocker got you (1.7 s after the strike)
+[Play]  1197.1 died: killed by a Knocker; cabin 1
+[Play]  1197.1 alien: journal: Knocker encounter 2 (it killed you): "The corps knocks a code. Count, and listen to where it comes from."
+[Play]  1197.1 music (quiet): dead
+[Play]  1197.1 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [289 fps] Crashed/dead Flight alt 56 gnd 25 spd 0 hdg 283 energy 96
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_knocker_strike_before_death_page.png
+[Play]  1200.8 music regeneration: regeneration
+[ExeCheck]     [549 fps] Auto/regen-trip Flight alt 56 gnd 25 spd 0 hdg 283 energy 96
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1215.6 music hangar: regen
+[Play]  1215.6 voice CONTROL: You're awake. Good. Take a minute. Then get back out there.
+[ExeCheck] screenshot r7a_knocker_strike_before_regen_bay.png
+[Play]  1215.7 music hangar: recovery
+[ExeCheck]     [553 fps] Auto/recovery Hover alt 1063 gnd 884 spd 51 hdg 180 energy 100
+[ExeCheck]     [583 fps] Auto/recovery Hover alt 1424 gnd 1245 spd 21 hdg 180 energy 100
+[ExeCheck]     [768 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 8 hdg 180 energy 100
+[Play]  1239.2 music hangar: docked
+[Play]  1239.2 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1239.2 music flight_ice: flight (automatic)
+[Play]  1239.2 voice CONTROL: Clamps released. Go and find our people.
+[Play]  1247.3 music flight_ice: flying
+[Play]  1247.3 pilot 1 found (1.5 km): really a Knocker, tell hidden
+[Play]  1247.3 voice CONTROL: Beacon on your scope. That's one of ours.
+[Play]  1247.3 pilot 1 boarded (really a Knocker); cabin 1 / 6
+[Play]  1247.3 alien: pilot 1 aboard: a Knocker, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[ExeCheck]     [690 fps] Flying/ Flight alt 1376 gnd 1203 spd 73 hdg 180 energy 100
+[Play]  1250.6 voice COMPUTER: Pilot aboard.
+[Play]  1251.0 alien: strike: the Knocker (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 1144 m up
+[Play]  1251.0 alien strike: the Knocker comes through the hatch
+[Play]  1251.4 alien: in view 0.46 s after the strike (seen), 0.39 m from the eye at its nearest
+[Play]  1251.5 music (quiet): alien attack
+[Play]  1252.2 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_knocker_strike_after_1_0.1s.png
+[ExeCheck]     Knocker AFTER +0.78 s after in view: face 0.65 m, nearest part 0.57 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 0.94, 3.04) (eye (0.00, 1.05, 2.40)), ship 57 m/s kinematic
+[ExeCheck] screenshot r7a_knocker_strike_after_2_0.5s.png
+[ExeCheck]     Knocker AFTER +1.52 s after in view: face 0.76 m, nearest part 0.40 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.02, 0.99, 3.16) (eye (0.00, 1.05, 2.40)), ship 47 m/s kinematic
+[Play]  1253.2 alien: the Knocker got you (2.2 s after the strike)
+[Play]  1253.2 died: killed by a Knocker; cabin 1
+[Play]  1253.2 alien: journal: Knocker encounter 3 (it killed you): "The corps knocks a code. Count, and listen to where it comes from."
+[Play]  1253.6 music (quiet): dead
+[Play]  1253.6 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck] screenshot r7a_knocker_strike_after_3_1.2s.png
+[ExeCheck]     Knocker AFTER +2.21 s after in view: face 0.42 m, nearest part 0.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.17, 0.79, 2.68) (eye (0.00, 1.05, 2.40)), ship 37 m/s kinematic
+[ExeCheck]   Knocker strike order: in view 0.33 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.00 state: prompt = # aboard: more pilots, or climb to dock (↑ # m) | +0.12 music: (silence) | +0.12 state: music wanted =  | +0.45 voice: cpu_intruder | +0.45 cabin lights: off | +0.45 emergency light: on | +0.45 sound loop: alarm | +0.45 state: displays = dark | +0.45 state: cabin lights = off
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Knocker</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_knocker_strike_after_death_page.png
+[Play]  1255.7 music regeneration: regeneration
+[ExeCheck]     [24 fps] Auto/regen-trip Flight alt 1204 gnd 1136 spd 8 hdg 180 energy 99
+[ExeCheck]     [212 fps] Auto/regen-trip Flight alt 1191 gnd 1130 spd 1 hdg 180 energy 99
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1266.0 music hangar: regen
+[Play]  1266.0 voice CONTROL: Welcome back. Again.
+[ExeCheck] screenshot r7a_knocker_strike_after_regen_bay.png
+[Play]  1266.0 music hangar: recovery
+[Play]  1268.3 voice COMPUTER: Engines off.
+[ExeCheck]     [645 fps] Auto/recovery Hover alt 1340 gnd 1314 spd 31 hdg 180 energy 100
+[ExeCheck]     [746 fps] Auto/recovery Hover alt 1498 gnd 1473 spd 7 hdg 180 energy 100
+[Play]  1289.5 music hangar: docked
+[Play]  1289.5 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1289.5 music flight_ice: flight (automatic)
+[Play]  1289.5 voice CONTROL: Clamps released. Go and find our people.
+[ExeCheck]     [798 fps] Auto/launch Hover alt 1451 gnd 1450 spd 49 hdg 180 energy 100
+[Play]  1297.7 music flight_ice: flying
+[ExeCheck] screenshot r7a_knocker_cabin_cam_before.png
+[ExeCheck]   Knocker in the cabin camera (before): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_knocker_cabin_cam_after.png
+[ExeCheck]   Knocker in the cabin camera (after): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[Play]  1297.8 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1297.8 pilot 1 found (0.0 km): really a Stalker, tell hidden
+[Play]  1297.8 voice COMPUTER: Landing gear down.
+[Play]  1299.4 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]     [333 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+[Play]  1308.9 voice COMPUTER: Visibility low. Instruments only.
+[ExeCheck]     [265 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+[Play]  1322.5 music (quiet): pickup: landed 25 m from pilot 1
+[Play]  1323.1 music (quiet): pickup: pilot 1 running
+[Play]  1323.1 pilot 1 runs to the ship (a Stalker)
+[Play]  1323.1 voice COMPUTER: Engines off.
+[ExeCheck]     [285 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1328.9 music (quiet): pickup: pilot 1 knocking
+[Play]  1328.9 pilot 1 at the airlock, knocking (a Stalker, tell hidden)
+[Play]  1330.4 alien: pilot 1 (Stalker) left at the airlock 2 s: it climbs onto the canopy
+[Play]  1330.4 alien: it leaps onto the canopy
+[Play]  1330.4 music (quiet): alien on the canopy
+[Play]  1330.7 alien: on the canopy: pressed against the glass
+[ExeCheck]   Stalker on the canopy, BEFORE (0.6.3 staging): face 2.05 m, nearest part 1.49 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.05, 1.32, 4.43) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 7739 vertices inside the canopy bubble (28.6 %, up to 23 % of the way to its centre)
+[ExeCheck] screenshot r7a_stalker_canopy_before.png
+[ExeCheck]   Stalker on the canopy, AFTER: face 1.95 m, nearest part 0.86 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (-0.03, 2.54, 3.66) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 14 vertices inside the canopy bubble (0.1 %, up to 1 % of the way to its centre)
+[ExeCheck] screenshot r7a_stalker_canopy_after.png
+[Play]  1334.1 alien: engines on with it on the canopy: thrown off (Stalker); bounty +200 cr
+[Play]  1334.1 alien: journal: Stalker encounter 1 (thrown off the canopy): "It took its time getting to the door."
+[Play]  1334.1 music flight_ice: flying
+[ExeCheck]     [315 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+[Play]  1338.5 music (quiet): pickup: hovering 25 m from pilot 1
+[Play]  1338.5 pilot 1 found (0.0 km): really a Stalker, tell hidden
+[Play]  1338.5 pilot 1 boarded (really a Stalker); cabin 1 / 6
+[Play]  1338.5 alien: pilot 1 aboard: a Stalker, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[Play]  1338.6 music flight_ice: flying
+[Play]  1342.3 alien: strike: the Stalker (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 29 m up
+[Play]  1342.3 alien strike: the Stalker comes through the hatch
+[Play]  1342.4 alien: in view 0.12 s after the strike (seen), 0.16 m from the eye at its nearest
+[Play]  1342.4 music (quiet): alien attack
+[ExeCheck] screenshot r7a_stalker_strike_before_1_0.1s.png
+[ExeCheck]     Stalker BEFORE +0.30 s after in view: face 5.70 m, nearest part 5.29 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.03, -4.43, 3.98) (eye (0.00, 1.05, 2.40)), ship 32 m/s kinematic
+[Play]  1342.7 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_stalker_strike_before_2_0.5s.png
+[ExeCheck]     Stalker BEFORE +0.67 s after in view: face 3.07 m, nearest part 2.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.06, -1.94, 3.08) (eye (0.00, 1.05, 2.40)), ship 19 m/s kinematic
+[ExeCheck] screenshot r7a_stalker_strike_before_3_1.2s.png
+[ExeCheck]     Stalker BEFORE +1.39 s after in view: face 0.11 m, nearest part 0.02 m from the eye, 52 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.09, 1.03, 2.47) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+[Play]  1344.0 alien: the Stalker got you (1.7 s after the strike)
+[Play]  1344.0 died: killed by a Stalker; cabin 1
+[Play]  1344.0 alien: journal: Stalker encounter 2 (it killed you): "Pilots run straight to a ship. Watch the way it comes, and the radar."
+[Play]  1344.0 music (quiet): dead
+[Play]  1344.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [291 fps] Crashed/dead Flight alt 56 gnd 25 spd 0 hdg 283 energy 97
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Stalker</b>. / Field Journal: Stalker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_stalker_strike_before_death_page.png
+[Play]  1347.7 music regeneration: regeneration
+[ExeCheck]     [507 fps] Auto/regen-trip Flight alt 56 gnd 25 spd 0 hdg 283 energy 97
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1362.5 music hangar: regen
+[Play]  1362.5 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_stalker_strike_before_regen_bay.png
+[Play]  1362.5 music hangar: recovery
+[ExeCheck]     [610 fps] Auto/recovery Hover alt 1076 gnd 897 spd 50 hdg 180 energy 100
+[ExeCheck]     [692 fps] Auto/recovery Hover alt 1429 gnd 1250 spd 20 hdg 180 energy 100
+[ExeCheck]     [806 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 11 hdg 180 energy 100
+[Play]  1386.0 music hangar: docked
+[Play]  1386.0 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1386.0 music flight_ice: flight (automatic)
+[Play]  1386.0 voice CONTROL: Clamps released. Go and find our people.
+[Play]  1394.2 music flight_ice: flying
+[Play]  1394.2 pilot 1 found (1.5 km): really a Stalker, tell hidden
+[Play]  1394.2 voice CONTROL: Beacon on your scope. That's one of ours.
+[Play]  1394.2 pilot 1 boarded (really a Stalker); cabin 1 / 6
+[Play]  1394.2 alien: pilot 1 aboard: a Stalker, boarded as a pilot; it strikes 3.7 s after lift-off (or the first hard turn)
+[ExeCheck]     [716 fps] Flying/ Flight alt 1363 gnd 1192 spd 73 hdg 180 energy 100
+[Play]  1397.4 voice COMPUTER: Pilot aboard.
+[Play]  1397.9 alien: strike: the Stalker (pilot 1), Takeoff (its moment) after 3.7 s armed; in flight, 1101 m up
+[Play]  1397.9 alien strike: the Stalker comes through the hatch
+[Play]  1398.1 alien: in view 0.22 s after the strike (seen), 0.42 m from the eye at its nearest
+[Play]  1398.1 music (quiet): alien attack
+[ExeCheck] screenshot r7a_stalker_strike_after_1_0.1s.png
+[ExeCheck]     Stalker AFTER +0.33 s after in view: face 0.81 m, nearest part 0.55 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.03, 0.99, 3.20) (eye (0.00, 1.05, 2.40)), ship 68 m/s kinematic
+[Play]  1398.5 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_stalker_strike_after_2_0.5s.png
+[ExeCheck]     Stalker AFTER +0.62 s after in view: face 0.80 m, nearest part 0.56 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.13, 0.74, 3.12) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+[ExeCheck] screenshot r7a_stalker_strike_after_3_1.2s.png
+[ExeCheck]     Stalker AFTER +1.33 s after in view: face 0.77 m, nearest part 0.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.08, 0.96, 3.16) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[ExeCheck]   Stalker strike order: in view 0.21 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.36 voice: cpu_intruder | +0.36 cabin lights: off | +0.36 emergency light: on | +0.36 sound loop: alarm | +0.36 state: displays = dark | +0.36 state: cabin lights = off
+[Play]  1399.7 alien: the Stalker got you (1.8 s after the strike)
+[Play]  1399.7 died: killed by a Stalker; cabin 1
+[Play]  1399.7 alien: journal: Stalker encounter 3 (it killed you): "Pilots run straight to a ship. Watch the way it comes, and the radar."
+[Play]  1399.7 music (quiet): dead
+[Play]  1399.7 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Stalker</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_stalker_strike_after_death_page.png
+[Play]  1403.4 music regeneration: regeneration
+[ExeCheck]     [327 fps] Auto/regen-trip Flight alt 1146 gnd 1144 spd 1 hdg 180 energy 99
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1413.7 music hangar: regen
+[Play]  1413.7 voice CONTROL: You're awake. Good. Take a minute. Then get back out there.
+[ExeCheck] screenshot r7a_stalker_strike_after_regen_bay.png
+[Play]  1413.7 music hangar: recovery
+[ExeCheck]     [562 fps] Auto/recovery Hover alt 1015 gnd 974 spd 54 hdg 180 energy 100
+[ExeCheck]     [744 fps] Auto/recovery Hover alt 1403 gnd 1362 spd 24 hdg 180 energy 100
+[ExeCheck]     [775 fps] Auto/recovery Hover alt 1500 gnd 1459 spd 11 hdg 180 energy 100
+[Play]  1437.2 music hangar: docked
+[Play]  1437.2 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1437.2 music flight_ice: flight (automatic)
+[Play]  1437.2 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]  1445.4 music flight_ice: flying
+[ExeCheck] screenshot r7a_stalker_cabin_cam_before.png
+[ExeCheck]   Stalker in the cabin camera (before): face 1.31 m, nearest part 0.75 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.64, 1.32, -0.32) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_stalker_cabin_cam_after.png
+[ExeCheck]   Stalker in the cabin camera (after): face 1.31 m, nearest part 0.75 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.65, 1.32, -0.32) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck]   Sleeper on the canopy: never (it boards as a pilot; it doesn't climb)
+[Play]  1445.5 pilot 1 found (1.5 km): really a Sleeper, tell hidden
+[Play]  1445.5 voice CONTROL: Beacon on your scope. That's one of ours.
+[Play]  1445.5 alien: pilot 1 aboard: a Sleeper (tell shown: False); turns after 105 s of flight
+[Play]  1445.5 pilot 1 boarded (really a Sleeper); cabin 1 / 6
+[ExeCheck]     [851 fps] Flying/ Flight alt 1413 gnd 1241 spd 73 hdg 180 energy 100
+[Play]  1447.5 alien: the Sleeper (pilot 1) turns after 2 s with 0 other pilots aboard
+[Play]  1447.5 alien: no other pilot aboard: it comes for the cockpit
+[Play]  1447.5 alien strike: the Sleeper comes through the hatch
+[Play]  1447.5 music (quiet): the Sleeper turns
+[Play]  1447.6 alien: in view 0.14 s after the strike (seen), 0.40 m from the eye at its nearest
+[Play]  1447.6 music (quiet): alien attack
+[ExeCheck] screenshot r7a_sleeper_strike_before_1_0.1s.png
+[ExeCheck]     Sleeper BEFORE +0.23 s after in view: face 6.49 m, nearest part 6.07 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.01, 1.65, -4.06) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+[Play]  1447.9 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_sleeper_strike_before_2_0.5s.png
+[ExeCheck]     Sleeper BEFORE +0.62 s after in view: face 5.04 m, nearest part 4.13 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.01, 2.15, -2.51) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+[ExeCheck] screenshot r7a_sleeper_strike_before_3_1.2s.png
+[ExeCheck]     Sleeper BEFORE +1.34 s after in view: face 6.42 m, nearest part 5.50 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.04, 3.67, -3.46) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[Play]  1449.2 alien: the Sleeper got you (1450.2 s after the strike)
+[Play]  1449.2 died: killed by a Sleeper; cabin 0
+[Play]  1449.2 alien: journal: Sleeper encounter 1 (it killed you): "It was so quiet in the cabin. Until it wasn't."
+[Play]  1449.2 music (quiet): the Sleeper turns
+[Play]  1449.2 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: new entry — Sleeper /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_sleeper_strike_before_death_page.png
+[ExeCheck]     [412 fps] Auto/regen-trip Flight alt 1221 gnd 1219 spd 1 hdg 180 energy 100
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1463.2 voice CONTROL: Welcome back. Again.
+[ExeCheck] screenshot r7a_sleeper_strike_before_regen_bay.png
+[Play]  1463.2 music hangar: recovery
+[Play]  1465.5 voice COMPUTER: Engines off.
+[ExeCheck]     [639 fps] Auto/recovery Hover alt 1042 gnd 1042 spd 52 hdg 180 energy 100
+[ExeCheck]     [868 fps] Auto/recovery Hover alt 1415 gnd 1414 spd 22 hdg 180 energy 100
+[ExeCheck]     [847 fps] Auto/recovery Hover alt 1500 gnd 1499 spd 6 hdg 180 energy 100
+[Play]  1486.7 music hangar: docked
+[Play]  1486.7 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1486.7 music flight_ice: flight (automatic)
+[Play]  1486.7 voice CONTROL: Clamps released. Go and find our people.
+[Play]  1494.9 music flight_ice: flying
+[Play]  1494.9 pilot 1 found (1.5 km): really a Sleeper, tell hidden
+[Play]  1494.9 voice CONTROL: Another beacon. Bring them home.
+[Play]  1494.9 alien: pilot 1 aboard: a Sleeper (tell shown: False); turns after 105 s of flight
+[Play]  1494.9 pilot 1 boarded (really a Sleeper); cabin 1 / 6
+[ExeCheck]     [772 fps] Flying/ Flight alt 1392 gnd 1220 spd 73 hdg 180 energy 100
+[Play]  1496.9 alien: the Sleeper (pilot 1) turns after 2 s with 0 other pilots aboard
+[Play]  1496.9 alien: no other pilot aboard: it comes for the cockpit
+[Play]  1496.9 alien strike: the Sleeper comes through the hatch
+[Play]  1496.9 music (quiet): the Sleeper turns
+[Play]  1497.1 alien: in view 0.25 s after the strike (seen), 0.38 m from the eye at its nearest
+[Play]  1497.2 music (quiet): alien attack
+[ExeCheck] screenshot r7a_sleeper_strike_after_1_0.1s.png
+[ExeCheck]     Sleeper AFTER +0.24 s after in view: face 0.97 m, nearest part 0.60 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.01, 0.97, 3.37) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+[Play]  1497.5 voice COMPUTER: Intruder alert. Intruder alert.
+[ExeCheck] screenshot r7a_sleeper_strike_after_2_0.5s.png
+[ExeCheck]     Sleeper AFTER +0.64 s after in view: face 0.67 m, nearest part 0.68 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.15, 0.83, 3.01) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+[ExeCheck] screenshot r7a_sleeper_strike_after_3_1.2s.png
+[ExeCheck]     Sleeper AFTER +1.32 s after in view: face 0.59 m, nearest part 0.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.06, 0.97, 2.99) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+[ExeCheck]   Sleeper strike order: in view 0.25 s after the strike; anything the player could notice before it was in view: 0.00 music: (silence), 0.00 state: cabin count = 0, 0.00 state: music wanted = ; then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+[Play]  1498.7 alien: the Sleeper got you (1499.7 s after the strike)
+[Play]  1498.7 died: killed by a Sleeper; cabin 0
+[Play]  1498.7 alien: journal: Sleeper encounter 2 (it killed you): "After a pickup, listen to the cabin and watch the cabin camera. If something is wrong, dock fast."
+[Play]  1498.8 music (quiet): the Sleeper turns
+[Play]  1498.8 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]   death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: Sleeper — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+[ExeCheck] screenshot r7a_sleeper_strike_after_death_page.png
+[ExeCheck]     [378 fps] Auto/regen-trip Flight alt 1217 gnd 1215 spd 1 hdg 180 energy 100
+[ExeCheck]   woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+[Play]  1512.7 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck] screenshot r7a_sleeper_strike_after_regen_bay.png
+[Play]  1512.7 music hangar: recovery
+[ExeCheck]     [575 fps] Auto/recovery Hover alt 1071 gnd 1071 spd 51 hdg 180 energy 100
+[ExeCheck]     [762 fps] Auto/recovery Hover alt 1427 gnd 1426 spd 20 hdg 180 energy 100
+[ExeCheck]     [772 fps] Auto/recovery Hover alt 1500 gnd 1499 spd 8 hdg 180 energy 100
+[Play]  1536.2 music hangar: docked
+[Play]  1536.2 launch: Cedria-III (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]  1536.2 music flight_ice: flight (automatic)
+[Play]  1536.2 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]  1544.4 music flight_ice: flying
+[ExeCheck] screenshot r7a_sleeper_cabin_cam_before.png
+[ExeCheck]   Sleeper in the cabin camera (before): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] screenshot r7a_sleeper_cabin_cam_after.png
+[ExeCheck]   Sleeper in the cabin camera (after): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+[ExeCheck] --- [Play] lines (441), first 60:
+[ExeCheck]   [Play]     0.0 music title_theme: title
+[ExeCheck]   [Play]     2.1 music flight_canyons: check
+[ExeCheck]   [Play]    24.2 music flight_forest: check
+[ExeCheck]   [Play]    46.2 music flight_city: check
+[ExeCheck]   [Play]    68.2 music flight_ice: check
+[ExeCheck]   [Play]    90.2 music flight_volcanic: check
+[ExeCheck]   [Play]   112.2 music flight_crystal: check
+[ExeCheck]   [Play]   134.2 music flight_ocean: check
+[ExeCheck]   [Play]   156.3 music title_theme: title
+[ExeCheck]   [Play]   156.8 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[ExeCheck]   [Play]   156.8 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[ExeCheck]   [Play]   157.0 music hangar: docked
+[ExeCheck]   [Play]   158.0 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[ExeCheck]   [Play]   158.0 music flight_canyons: flight (automatic)
+[ExeCheck]   [Play]   165.9 voice CONTROL: Clamps released. Go and find our people.
+[ExeCheck]   [Play]   166.1 music flight_canyons: flying
+[ExeCheck]   [Play]   166.1 pilot 1 found (2.3 km): a real pilot
+[ExeCheck]   [Play]   166.1 pilot 2 found (2.4 km): a real pilot
+[ExeCheck]   [Play]   166.1 pilot 3 found (2.4 km): a real pilot
+[ExeCheck]   [Play]   169.4 voice COMPUTER: Landing gear down.
+[ExeCheck]   [Play]   171.0 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]   [Play]   302.3 music (quiet): pickup: hovering 25 m from pilot 1
+[ExeCheck]   [Play]   302.3 voice COMPUTER: Landing gear down.
+[ExeCheck]   [Play]   327.1 music (quiet): pickup: landed 25 m from pilot 1
+[ExeCheck]   [Play]   327.7 music (quiet): pickup: pilot 1 running
+[ExeCheck]   [Play]   327.7 pilot 1 runs to the ship
+[ExeCheck]   [Play]   327.7 voice COMPUTER: Engines off.
+[ExeCheck]   [Play]   333.5 music (quiet): pickup: pilot 1 knocking
+[ExeCheck]   [Play]   333.5 pilot 1 at the airlock, knocking
+[ExeCheck]   [Play]   334.5 music (quiet): pickup: pilot 1 boarding
+[ExeCheck]   [Play]   335.6 voice COMPUTER: Airlock open.
+[ExeCheck]   [Play]   335.9 pilot 1 boarded (a real pilot); cabin 1 / 6
+[ExeCheck]   [Play]   335.9 music flight_canyons: flying
+[ExeCheck]   [Play]   337.0 voice COMPUTER: Pilot aboard.
+[ExeCheck]   [Play]   348.0 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[ExeCheck]   [Play]   352.2 music flight_canyons: flight (automatic)
+[ExeCheck]   [Play]   376.7 docked (recall): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|Recall: -900 cr|Energy used 2%. Refuelled 2%: -11 cr
+[ExeCheck]   [Play]   376.7 music hangar: docked
+[ExeCheck]   [Play]   377.7 arrived: planet Eskshon-V (seed 205, Giant Forest), new; pilots waiting 3, aliens among them 1
+[ExeCheck]   [Play]   377.7 music planet_select: jump
+[ExeCheck]   [Play]   377.7 voice CONTROL: Jump drive spooling. Hold on to something.
+[ExeCheck]   [Play]   377.9 music hangar: docked
+[ExeCheck]   [Play]   377.9 launch: Eskshon-V (Giant Forest), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[ExeCheck]   [Play]   377.9 music flight_forest: flight (automatic)
+[ExeCheck]   [Play]   381.1 voice CONTROL: Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings.
+[ExeCheck]   [Play]   386.0 music flight_forest: flying
+[ExeCheck]   [Play]   386.0 pilot 1 found (2.5 km): a real pilot
+[ExeCheck]   [Play]   386.0 pilot 2 found (2.9 km): a real pilot
+[ExeCheck]   [Play]   386.6 pilot 3 found (2.6 km): a real pilot
+[ExeCheck]   [Play]   390.0 voice CONTROL: Another beacon. Bring them home.
+[ExeCheck]   [Play]   459.4 music (quiet): pickup: hovering 25 m from pilot 1
+[ExeCheck]   [Play]   459.4 voice COMPUTER: Landing gear down.
+[ExeCheck]   [Play]   484.9 music (quiet): pickup: landed 25 m from pilot 1
+[ExeCheck]   [Play]   485.6 music (quiet): pickup: pilot 1 running
+[ExeCheck]   [Play]   485.6 pilot 1 runs to the ship
+[ExeCheck]   [Play]   485.6 voice COMPUTER: Engines off.
+[ExeCheck]   [Play]   491.3 music (quiet): pickup: pilot 1 knocking
+[ExeCheck]   [Play]   491.3 pilot 1 at the airlock, knocking
+[ExeCheck]   [Play]   492.4 music (quiet): pickup: pilot 1 boarding
+[ExeCheck]   [Play]   493.0 voice COMPUTER: Airlock open.
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.045 RMS, peak 1.986, zeroed before the speakers; 148480000 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

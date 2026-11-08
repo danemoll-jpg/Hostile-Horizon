@@ -1,0 +1,231 @@
+{
+    "version": 1,
+    "systemSeed": 7171,
+    "systemName": "Nytha",
+    "credits": 2431,
+    "ship": {
+        "damage": 100.0,
+        "energy": 93.01839447021484,
+        "wrecked": true,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 99.88304901123047,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": true,
+    "planets": [
+        {
+            "seed": 20261108,
+            "name": "Halthel-II",
+            "tier": 0,
+            "pilots": [
+                1,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 03:56:14",
+            "enemiesDown": [],
+            "enemiesKey": "0/1",
+            "turrets": 0,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 205,
+            "name": "Eskshon-V",
+            "tier": 0,
+            "pilots": [
+                1,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "forest",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 03:59:55",
+            "enemiesDown": [],
+            "enemiesKey": "0/1",
+            "turrets": 0,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 204,
+            "name": "Drais-IX",
+            "tier": 0,
+            "pilots": [
+                0,
+                1,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "city",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 04:02:15",
+            "enemiesDown": [],
+            "enemiesKey": "0/1",
+            "turrets": 0,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        },
+        {
+            "seed": 203,
+            "name": "Cedria-III",
+            "tier": 0,
+            "pilots": [
+                3,
+                0,
+                0
+            ],
+            "alien": [
+                5,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "ice",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 04:04:44",
+            "enemiesDown": [],
+            "enemiesKey": "0/1",
+            "turrets": 0,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 4,
+        "pilotsLost": 0,
+        "creditsEarned": 3050,
+        "creditsSpent": 3619,
+        "deaths": 10,
+        "planetsCleared": 0,
+        "sorties": 15,
+        "tows": 0,
+        "recalls": 4,
+        "aliensKilled": 4,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [
+        {
+            "type": 1,
+            "encounters": 3,
+            "killed": 1,
+            "killedYou": 2,
+            "firstPlanet": "Cedria-III",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 2,
+            "encounters": 3,
+            "killed": 1,
+            "killedYou": 2,
+            "firstPlanet": "Cedria-III",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 3,
+            "encounters": 3,
+            "killed": 1,
+            "killedYou": 2,
+            "firstPlanet": "Cedria-III",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 4,
+            "encounters": 3,
+            "killed": 1,
+            "killedYou": 2,
+            "firstPlanet": "Cedria-III",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 5,
+            "encounters": 2,
+            "killed": 0,
+            "killedYou": 2,
+            "firstPlanet": "Cedria-III",
+            "firstSeen": "2026-11-08"
+        }
+    ],
+    "started": "2026-11-08 03:56",
+    "lastSaved": "2026-11-08 04:19:36",
+    "currentSeed": 203,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 0,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 1,
+        "pay": 1
+    }
+}

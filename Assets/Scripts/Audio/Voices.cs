@@ -158,6 +158,7 @@ namespace HostileHorizon
             playing = r; endsAt = now + delay + len; subtitleUntil = endsAt + 1.2f;
             string who = line.speaker == "Control" ? "CONTROL" : line.speaker == "Computer" ? "COMPUTER" : "PILOT " + line.speaker.ToUpperInvariant();
             subtitle = (r.kind == VoiceKind.Door ? "<i>(through the hull)</i> " : r.kind == VoiceKind.Cabin ? "<i>(cabin)</i> " : "") + $"<b>{who}:</b> {line.text}";
+            if (line.speaker == "Control" || line.speaker == "Computer") PlayLog.Add($"voice {who}: {line.text}");   // Round 7 (A3)
             if (CheckRun.Active && Log.Count < 3000) Log.Add($"{Time.time:0.0} voice {r.id} [{r.kind}, p{r.priority}{(c ? $", {c.length:0.0} s" : ", no file")}] {who}: {line.text}");
             if (CheckRun.Active && Sfx.Played.Count < 4000) Sfx.Played.Add($"{Time.time:0.0} voice {r.id} ({r.kind})");
         }

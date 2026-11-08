@@ -1,0 +1,435 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 73728 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 03:53; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- the five creature models
+  mimic: 26152 vertices, 26051 triangles (full detail), Mesh LOD levels 4; welded edges 39078: OPEN (one triangle) 14 (0.04 %), shared by 3+ 9; material mimic: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+  hollow: 23481 vertices, 26077 triangles (full detail), Mesh LOD levels 4; welded edges 39121: OPEN (one triangle) 26 (0.07 %), shared by 3+ 14; material hollow: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+  knocker: 30202 vertices, 29178 triangles (full detail), Mesh LOD levels 4; welded edges 43771: OPEN (one triangle) 11 (0.03 %), shared by 3+ 3; material knocker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+  stalker: 27030 vertices, 26122 triangles (full detail), Mesh LOD levels 4; welded edges 39183: OPEN (one triangle) 4 (0.01 %), shared by 3+ 3; material stalker: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+  sleeper: 28218 vertices, 25900 triangles (full detail), Mesh LOD levels 4; welded edges 38852: OPEN (one triangle) 21 (0.05 %), shared by 3+ 15; material sleeper: shader Universal Render Pipeline/Lit, cull 0 (0 both sides, 2 back culled), surface opaque, alpha clip 0, base colour alpha 1.00
+--- music loops (music folder C:\Users\danmo\Hostile-Horizon\Builds\HostileHorizon\Music)
+    [582 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [753 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_canyons: file 163.4 s, loop 26.4 - 137.8 s (crossfade 4.0 s); pass 1: crossfade yes, now at 27.8 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 27.9 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 27.8 s (back in the loop), gain 1.00, playing
+    [765 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [762 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_forest: file 222.8 s, loop 133.0 - 194.0 s (crossfade 4.0 s); pass 1: crossfade yes, now at 134.5 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 134.4 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 134.5 s (back in the loop), gain 1.00, playing
+    [756 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [757 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_city: file 218.5 s, loop 27.0 - 203.1 s (crossfade 4.0 s); pass 1: crossfade yes, now at 28.3 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 28.4 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 28.5 s (back in the loop), gain 1.00, playing
+    [859 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [863 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [894 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_ice: file 202.8 s, loop 97.8 - 162.5 s (crossfade 4.0 s); pass 1: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 99.3 s (back in the loop), gain 1.00, playing
+    [943 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [921 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_volcanic: file 187.2 s, loop 103.3 - 151.6 s (crossfade 4.0 s); pass 1: crossfade yes, now at 104.7 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 104.8 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 104.7 s (back in the loop), gain 1.00, playing
+    [819 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [774 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_crystal: file 213.6 s, loop 132.1 - 184.0 s (crossfade 4.0 s); pass 1: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 133.6 s (back in the loop), gain 1.00, playing
+    [887 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    [853 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  flight_ocean: file 189.8 s, loop 108.2 - 168.4 s (crossfade 4.0 s); pass 1: crossfade yes, now at 109.7 s (back in the loop), gain 1.00, playing; pass 2: crossfade yes, now at 109.6 s (back in the loop), gain 1.00, playing; pass 3: crossfade yes, now at 109.7 s (back in the loop), gain 1.00, playing
+new career: Halthel-II (canyons)
+--- music in Canyons (Halthel-II)
+    [937 fps] Auto/launch Hover alt 1500 gnd 1498 spd 0 hdg 315 energy 100
+    [1335 fps] Flying/ Flight alt 55 gnd 53 spd 28 hdg 93 energy 100
+  HIT 1: 37 m over the ground, 164 km/h, bank 30°, off the route 86 m, path 269 m over the ground there, hull 100 %
+  HIT 2: 63 m over the ground, 164 km/h, bank 25°, off the route 90 m, path 288 m over the ground there, hull 100 %
+  HIT 3: 45 m over the ground, 164 km/h, bank 5°, off the route 112 m, path 219 m over the ground there, hull 100 %
+    [439 fps] Flying/ Flight alt 214 gnd 106 spd 54 hdg 131 energy 98
+  HIT 4: 28 m over the ground, 164 km/h, bank -34°, off the route 11 m, path 236 m over the ground there, hull 100 %
+  HIT 5: 32 m over the ground, 164 km/h, bank -17°, off the route 25 m, path 239 m over the ground there, hull 100 %
+  HIT 6: 34 m over the ground, 164 km/h, bank -14°, off the route 29 m, path 240 m over the ground there, hull 100 %
+  HIT 7: 57 m over the ground, 154 km/h, bank -12°, off the route 32 m, path 242 m over the ground there, hull 100 %
+  HIT 8: 73 m over the ground, 149 km/h, bank -21°, off the route 38 m, path 244 m over the ground there, hull 100 %
+  HIT 9: 51 m over the ground, 164 km/h, bank -24°, off the route 58 m, path 250 m over the ground there, hull 100 %
+  HIT 10: 22 m over the ground, 164 km/h, bank 38°, off the route 6 m, path 378 m over the ground there, hull 100 %
+    [414 fps] Flying/ Flight alt 470 gnd 450 spd 54 hdg 159 energy 96
+    [476 fps] Flying/ Flight alt 368 gnd 367 spd 54 hdg 146 energy 95
+    [367 fps] Flying/ Flight alt 263 gnd 262 spd 54 hdg 184 energy 93
+    [276 fps] Flying/ Flight alt 435 gnd 434 spd 54 hdg 267 energy 92
+    [340 fps] Flying/ Flight alt 467 gnd 463 spd 54 hdg 247 energy 90
+    [332 fps] Flying/ Flight alt 476 gnd 51 spd 54 hdg 56 energy 89
+    [341 fps] Flying/ Flight alt 517 gnd 56 spd 54 hdg 306 energy 87
+    [350 fps] Flying/ Flight alt 476 gnd 425 spd 54 hdg 200 energy 86
+  followed the trail: ended 3068 m from pilot 1's pad, wall / ground hits 10, hull 100 %, lowest 17 m over the ground, furthest off the route 150 m, re-plans 17 (last: drifting off it, 2 ms)
+    [372 fps] Flying/ Flight alt 381 gnd 376 spd 54 hdg 43 energy 84
+    [381 fps] Flying/ Flight alt 171 gnd 170 spd 54 hdg 135 energy 83
+    [389 fps] Flying/ Flight alt 154 gnd 155 spd 54 hdg 122 energy 81
+    [443 fps] Flying/ Flight alt 208 gnd 200 spd 54 hdg 254 energy 80
+  flying 135 s (74 s of it under 250 m over the ground; the closest pilot passed 8 m): 0.6.3's rule was quiet 30 % of the flight (55 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_canyons")
+screenshot r7a_music_canyons_flying.png
+    [349 fps] Flying/ Hover alt 14 gnd 17 spd 2 hdg 320 energy 98
+    [332 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 320 energy 94
+    [344 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 320 energy 91
+  at the pickup (landed 3 m from pilot 1): music quiet 100 % of 32 s (gain now 0.00, want "")
+    [357 fps] Flying/ Hover alt 21 gnd 23 spd 14 hdg 320 energy 94
+  after the pickup, flying again 8 s: music "flight_canyons" gain 1.00
+  [Play] music lines this sortie: music flight_canyons: flight (automatic) | music flight_canyons: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_canyons: flying
+    [228 fps] Flying/ Hover alt 35 gnd 27 spd 0 hdg 322 energy 99
+    [289 fps] Auto/tow-lift Flight alt 1321 gnd 865 spd 213 hdg 315 energy 98
+    [355 fps] Auto/tow-lift Flight alt 1475 gnd 1473 spd 63 hdg 315 energy 98
+--- music in Giant Forest: the check jumps to seed 205
+    [417 fps] Auto/launch Hover alt 1500 gnd 1498 spd 0 hdg 210 energy 100
+    [678 fps] Flying/ Flight alt 53 gnd 51 spd 32 hdg 19 energy 99
+  HIT 1: 62 m over the ground, 164 km/h, bank -67°, off the route 106 m, path 35 m over the ground there, hull 100 %
+    [365 fps] Flying/ Flight alt 38 gnd 38 spd 54 hdg 327 energy 98
+  following: 30 % of the way, 1443 m from the pad, 37 m over the ground, 7 chevrons shown, off the route 4 m; chevrons in view 7 / 7: 37 m at (0.50, 0.39), 132 m at (0.61, 0.50), 227 m at (0.63, 0.52), 322 m at (0.64, 0.53), 417 m at (0.64, 0.53), 512 m at (0.65, 0.54), 607 m at (0.65, 0.54)
+screenshot a3_trail_cockpit_1.png
+    [374 fps] Flying/ Flight alt 33 gnd 35 spd 54 hdg 356 energy 96
+  following: 55 % of the way, 1021 m from the pad, 35 m over the ground, 6 chevrons shown, off the route 1 m; chevrons in view 6 / 6: 112 m at (0.49, 0.50), 212 m at (0.50, 0.50), 312 m at (0.50, 0.50), 412 m at (0.50, 0.50), 512 m at (0.50, 0.50), 612 m at (0.50, 0.50)
+screenshot a4_trail_cockpit_2.png
+  following: 80 % of the way, 598 m from the pad, 35 m over the ground, 6 chevrons shown, off the route 1 m; chevrons in view 6 / 6: 89 m at (0.51, 0.49), 189 m at (0.51, 0.49), 289 m at (0.51, 0.50), 389 m at (0.51, 0.50), 489 m at (0.51, 0.50), 589 m at (0.51, 0.49)
+screenshot a5_trail_cockpit_3.png
+    [348 fps] Flying/ Flight alt 36 gnd 36 spd 54 hdg 357 energy 95
+  followed the trail: ended 260 m from pilot 1's pad, wall / ground hits 1, hull 100 %, lowest 34 m over the ground, furthest off the route 168 m, re-plans 7953 (last: drifting off it, 10 ms)
+    [347 fps] Flying/ Flight alt 35 gnd 35 spd 54 hdg 345 energy 93
+    [340 fps] Flying/ Flight alt 37 gnd 36 spd 54 hdg 344 energy 92
+    [338 fps] Flying/ Flight alt 36 gnd 36 spd 54 hdg 344 energy 90
+    [385 fps] Flying/ Flight alt 36 gnd 35 spd 54 hdg 358 energy 89
+  flying 72 s (72 s of it under 250 m over the ground; the closest pilot passed 33 m): 0.6.3's rule was quiet 36 % of the flight (36 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_forest")
+screenshot r7a_music_forest_flying.png
+    [226 fps] Flying/ Hover alt 12 gnd 12 spd 1 hdg 301 energy 97
+    [180 fps] Flying/ Hover alt 5 gnd 5 spd 1 hdg 301 energy 94
+    [232 fps] Flying/ Hover landed alt 1 gnd 2 spd 0 hdg 301 energy 91
+  at the pickup (landed 3 m from pilot 1): music quiet 100 % of 33 s (gain now 0.00, want "")
+    [207 fps] Flying/ Hover alt 36 gnd 37 spd 1 hdg 309 energy 99
+  after the pickup, flying again 8 s: music "flight_forest" gain 1.00
+  [Play] music lines this sortie: music hangar: docked | music flight_forest: flight (automatic) | music flight_forest: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_forest: flying
+    [196 fps] Auto/tow-lift Flight alt 311 gnd 312 spd 243 hdg 213 energy 100
+--- music in Dead City: the check jumps to seed 204
+    [326 fps] Auto/launch Hover alt 1500 gnd 1421 spd 0 hdg 345 energy 100
+    [642 fps] Flying/ Flight alt 127 gnd 48 spd 40 hdg 150 energy 99
+    [385 fps] Flying/ Flight alt 134 gnd 127 spd 54 hdg 356 energy 98
+  following: 30 % of the way, 1585 m from the pad, 121 m over the ground, 7 chevrons shown, off the route 3 m; chevrons in view 4 / 7: 9 m at (5.97, 0.81) off, 77 m at (1.48, 1.15) off, 171 m at (0.97, 0.96), 235 m at (0.93, 0.57), 336 m at (0.75, 0.44), 428 m at (0.68, 0.35), 470 m at (0.76, 0.20) off
+screenshot a3_trail_cockpit_1.png
+    [426 fps] Flying/ Flight alt 141 gnd 133 spd 54 hdg 79 energy 96
+  following: 55 % of the way, 1112 m from the pad, 117 m over the ground, 7 chevrons shown, off the route 30 m; chevrons in view 0 / 7: 15 m at (-2.02, 2.43) off, 2 m at (-33.59, 40.38) off, 60 m at (-1.36, 2.43) off, 135 m at (-0.33, 1.84) off, 209 m at (-0.11, 1.62) off, 278 m at (-0.10, 1.45) off, 354 m at (0.04, 1.45) off
+screenshot a4_trail_cockpit_2.png
+    [463 fps] Flying/ Flight alt 196 gnd 191 spd 54 hdg 33 energy 95
+  following: 80 % of the way, 638 m from the pad, 112 m over the ground, 6 chevrons shown, off the route 8 m; chevrons in view 6 / 6: 124 m at (0.50, 0.42), 228 m at (0.48, 0.46), 315 m at (0.47, 0.63), 396 m at (0.47, 0.77), 503 m at (0.46, 0.68), 565 m at (0.41, 0.75)
+screenshot a5_trail_cockpit_3.png
+    [476 fps] Flying/ Flight alt 109 gnd 106 spd 54 hdg 4 energy 93
+  followed the trail: ended 260 m from pilot 2's pad, wall / ground hits 0, hull 100 %, lowest 42 m over the ground, furthest off the route 187 m, re-plans 7971 (last: drifting off it, 15 ms)
+    [461 fps] Flying/ Flight alt 39 gnd 35 spd 54 hdg 360 energy 92
+    [456 fps] Flying/ Flight alt 44 gnd 35 spd 54 hdg 360 energy 90
+    [453 fps] Flying/ Flight alt 44 gnd 35 spd 54 hdg 360 energy 89
+    [447 fps] Flying/ Flight alt 42 gnd 35 spd 54 hdg 360 energy 87
+  flying 84 s (84 s of it under 250 m over the ground; the closest pilot passed 86 m): 0.6.3's rule was quiet 32 % of the flight (32 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_city")
+screenshot r7a_music_city_flying.png
+    [292 fps] Flying/ Hover alt 88 gnd 14 spd 2 hdg 311 energy 97
+    [279 fps] Flying/ Hover alt 80 gnd 5 spd 1 hdg 311 energy 94
+    [287 fps] Flying/ Hover landed alt 76 gnd 2 spd 0 hdg 311 energy 91
+  at the pickup (landed 3 m from pilot 2): music quiet 100 % of 31 s (gain now 0.00, want "")
+    [267 fps] Flying/ Hover alt 111 gnd 37 spd 1 hdg 311 energy 95
+  after the pickup, flying again 8 s: music "flight_city" gain 1.00
+  [Play] music lines this sortie: music hangar: docked | music flight_city: flight (automatic) | music flight_city: flying | music (quiet): pickup: hovering 14 m from pilot 2 | music (quiet): pickup: landed 14 m from pilot 2 | music (quiet): pickup: pilot 2 running | music (quiet): pickup: pilot 2 knocking | music (quiet): pickup: pilot 2 boarding | music flight_city: flying
+    [256 fps] Auto/tow-lift Flight alt 557 gnd 549 spd 311 hdg 345 energy 100
+--- music in Ice: the check jumps to seed 203
+    [400 fps] Auto/launch Hover alt 1500 gnd 1501 spd 0 hdg 180 energy 100
+    [550 fps] Flying/ Flight alt 86 gnd 75 spd 54 hdg 0 energy 99
+  following: 30 % of the way, 885 m from the pad, 292 m over the ground, 7 chevrons shown, off the route 2 m; chevrons in view 0 / 7: 546 m at (0.00, 1.04) off, 585 m at (0.12, 1.01) off, 606 m at (0.21, 1.04) off, 626 m at (0.30, 1.07) off, 639 m at (0.38, 1.11) off, 607 m at (0.44, 1.24) off, 575 m at (0.50, 1.39) off
+screenshot a3_trail_cockpit_1.png
+    [286 fps] Flying/ Flight alt 403 gnd 229 spd 54 hdg 352 energy 98
+    [299 fps] Flying/ Flight alt 408 gnd 236 spd 54 hdg 23 energy 96
+    [311 fps] Flying/ Flight alt 352 gnd 178 spd 54 hdg 313 energy 95
+    [284 fps] Flying/ Flight alt 298 gnd 298 spd 54 hdg 290 energy 93
+    [341 fps] Flying/ Flight alt 222 gnd 53 spd 54 hdg 86 energy 92
+  following: 55 % of the way, 662 m from the pad, 35 m over the ground, 7 chevrons shown, off the route 1 m; chevrons in view 6 / 7: 51 m at (0.50, 0.48), 151 m at (0.50, 0.50), 251 m at (0.50, 0.50), 350 m at (0.50, 0.33), 444 m at (0.53, 0.45), 532 m at (0.56, 0.45), 630 m at (0.56, 0.25) off
+screenshot a4_trail_cockpit_2.png
+    [298 fps] Flying/ Flight alt 207 gnd 32 spd 54 hdg 86 energy 90
+  following: 80 % of the way, 439 m from the pad, 32 m over the ground, 4 chevrons shown, off the route 0 m; chevrons in view 2 / 4: 126 m at (0.50, 0.08) off, 219 m at (0.55, 0.43), 307 m at (0.61, 0.44), 409 m at (0.59, 0.14) off
+screenshot a5_trail_cockpit_3.png
+  followed the trail: ended 260 m from pilot 1's pad, wall / ground hits 0, hull 100 %, lowest 30 m over the ground, furthest off the route 150 m, re-plans 7993 (last: drifting off it, 4 ms)
+    [276 fps] Flying/ Flight alt 48 gnd 49 spd 54 hdg 94 energy 89
+    [284 fps] Flying/ Flight alt 35 gnd 36 spd 54 hdg 92 energy 87
+    [309 fps] Flying/ Flight alt 37 gnd 35 spd 54 hdg 101 energy 85
+  flying 101 s (82 s of it under 250 m over the ground; the closest pilot passed 6 m): 0.6.3's rule was quiet 26 % of the flight (33 % of the low flying), the new rule 0 % (0 %); music heard 100 % ("flight_ice")
+screenshot r7a_music_ice_flying.png
+    [311 fps] Flying/ Hover alt 35 gnd 37 spd 8 hdg 301 energy 100
+    [244 fps] Flying/ Hover alt 8 gnd 10 spd 1 hdg 301 energy 96
+    [263 fps] Flying/ Hover alt 2 gnd 4 spd 1 hdg 301 energy 93
+    [271 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+  at the pickup (landed 3 m from pilot 1): music quiet 100 % of 32 s (gain now 0.00, want "")
+    [92 fps] Flying/ Hover alt 35 gnd 36 spd 18 hdg 283 energy 98
+  after the pickup, flying again 8 s: music "flight_ice" gain 1.00
+  [Play] music lines this sortie: music hangar: docked | music flight_ice: flight (automatic) | music flight_ice: flying | music (quiet): pickup: hovering 25 m from pilot 1 | music (quiet): pickup: landed 25 m from pilot 1 | music (quiet): pickup: pilot 1 running | music (quiet): pickup: pilot 1 knocking | music (quiet): pickup: pilot 1 boarding | music flight_ice: flying
+    [48 fps] Auto/tow-lift Flight alt 1104 gnd 945 spd 261 hdg 180 energy 100
+--- the creatures up close (before = 0.6.3's staging and look; after = Round 7's)
+    [74 fps] Auto/launch Hover alt 1481 gnd 1301 spd 21 hdg 180 energy 100
+    [65 fps] Flying/ Hover alt 19 gnd 21 spd 2 hdg 301 energy 99
+    [48 fps] Flying/ Hover alt 8 gnd 10 spd 1 hdg 301 energy 96
+    [40 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+    [44 fps] Flying/ Hover alt 0 gnd 2 spd 1 hdg 301 energy 91
+    [25 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+  Mimic on the canopy, BEFORE (0.6.3 staging): face 1.81 m, nearest part 1.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.11, 1.10, 4.20) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 11015 vertices inside the canopy bubble (42.1 %, up to 25 % of the way to its centre)
+screenshot r7a_mimic_canopy_before.png
+  Mimic on the canopy, AFTER: face 1.66 m, nearest part 1.53 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (-0.02, 2.20, 3.60) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 1116 vertices inside the canopy bubble (4.3 %, up to 9 % of the way to its centre)
+screenshot r7a_mimic_canopy_after.png
+    [19 fps] Flying/ Hover alt 5 gnd 6 spd 11 hdg 301 energy 91
+screenshot r7a_mimic_strike_before_1_0.1s.png
+    Mimic BEFORE +0.49 s after in view: face 1.67 m, nearest part 1.56 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.01, 1.10, 4.07) (eye (0.00, 1.05, 2.40)), ship 9 m/s kinematic
+screenshot r7a_mimic_strike_before_2_0.5s.png
+    Mimic BEFORE +0.99 s after in view: face 0.76 m, nearest part 0.58 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.11, 1.35, 3.09) (eye (0.00, 1.05, 2.40)), ship 2 m/s kinematic
+screenshot r7a_mimic_strike_before_3_1.2s.png
+    Mimic BEFORE +1.58 s after in view: face 0.29 m, nearest part 0.20 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.13, 1.31, 2.46) (eye (0.00, 1.05, 2.40)), ship 1 m/s kinematic
+    [36 fps] Crashed/dead Flight alt 32 gnd 33 spd 1 hdg 283 energy 93
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. / Field Journal: Mimic — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_mimic_strike_before_death_page.png
+    [55 fps] Auto/regen-trip Flight alt 24 gnd 25 spd 0 hdg 283 energy 93
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_mimic_strike_before_regen_bay.png
+    [179 fps] Auto/recovery Hover alt 989 gnd 810 spd 55 hdg 180 energy 100
+    [496 fps] Auto/recovery Hover alt 1392 gnd 1212 spd 25 hdg 180 energy 100
+    [347 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 0 hdg 180 energy 100
+    [443 fps] Auto/launch Hover alt 1434 gnd 1433 spd 68 hdg 180 energy 100
+screenshot r7a_mimic_strike_after_1_0.1s.png
+    Mimic AFTER +0.44 s after in view: face 0.58 m, nearest part 0.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 0.89, 2.96) (eye (0.00, 1.05, 2.40)), ship 66 m/s kinematic
+screenshot r7a_mimic_strike_after_2_0.5s.png
+    Mimic AFTER +0.67 s after in view: face 0.54 m, nearest part 0.41 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.05, 0.88, 2.91) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+screenshot r7a_mimic_strike_after_3_1.2s.png
+    Mimic AFTER +1.39 s after in view: face 0.64 m, nearest part 0.46 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.05, 0.96, 3.03) (eye (0.00, 1.05, 2.40)), ship 53 m/s kinematic
+  Mimic strike order: in view 0.07 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.44 voice: cpu_intruder | +0.44 cabin lights: off | +0.44 emergency light: on | +0.44 sound loop: alarm | +0.44 state: displays = dark | +0.44 state: cabin lights = off
+  death page: "Killed by the thing you let aboard: a <b>Mimic</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_mimic_strike_after_death_page.png
+    [200 fps] Auto/regen-trip Flight alt 1157 gnd 1155 spd 1 hdg 180 energy 99
+    [376 fps] Auto/regen-trip Flight alt 1145 gnd 1143 spd 1 hdg 180 energy 99
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_mimic_strike_after_regen_bay.png
+    [608 fps] Auto/recovery Hover alt 1339 gnd 1307 spd 31 hdg 180 energy 100
+    [743 fps] Auto/recovery Hover alt 1498 gnd 1466 spd 8 hdg 180 energy 100
+    [443 fps] Auto/launch Hover alt 1451 gnd 1450 spd 48 hdg 180 energy 100
+screenshot r7a_mimic_cabin_cam_before.png
+  Mimic in the cabin camera (before): face 1.62 m, nearest part 1.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.54, 1.57, -0.51) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+screenshot r7a_mimic_cabin_cam_after.png
+  Mimic in the cabin camera (after): face 1.62 m, nearest part 1.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 26152 vertices / 26051 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.54, 1.57, -0.51) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+    [231 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+    [191 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 301 energy 94
+    [152 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+  Hollow on the canopy, BEFORE (0.6.3 staging): face 2.04 m, nearest part 1.92 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.05, 1.32, 4.42) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 2301 vertices inside the canopy bubble (9.8 %, up to 11 % of the way to its centre)
+screenshot r7a_hollow_canopy_before.png
+  Hollow on the canopy, AFTER: face 1.62 m, nearest part 0.97 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 2.16, 3.58) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 0 vertices inside the canopy bubble (0.0 %)
+screenshot r7a_hollow_canopy_after.png
+    [256 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+screenshot r7a_hollow_strike_before_1_0.1s.png
+    Hollow BEFORE +0.30 s after in view: face 4.54 m, nearest part 4.28 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.01, -3.30, 3.71) (eye (0.00, 1.05, 2.40)), ship 30 m/s kinematic
+screenshot r7a_hollow_strike_before_2_0.5s.png
+    Hollow BEFORE +0.68 s after in view: face 2.98 m, nearest part 2.78 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.13, -1.86, 3.06) (eye (0.00, 1.05, 2.40)), ship 17 m/s kinematic
+screenshot r7a_hollow_strike_before_3_1.2s.png
+    Hollow BEFORE +1.40 s after in view: face 0.11 m, nearest part 0.12 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.09, 1.04, 2.46) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+    [255 fps] Crashed/dead Flight alt 55 gnd 25 spd 0 hdg 283 energy 93
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. / Field Journal: Hollow — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_hollow_strike_before_death_page.png
+    [464 fps] Auto/regen-trip Flight alt 55 gnd 25 spd 0 hdg 283 energy 93
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_hollow_strike_before_regen_bay.png
+    [561 fps] Auto/recovery Hover alt 1020 gnd 841 spd 54 hdg 180 energy 100
+    [633 fps] Auto/recovery Hover alt 1405 gnd 1226 spd 23 hdg 180 energy 100
+    [746 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 9 hdg 180 energy 100
+    [734 fps] Flying/ Flight alt 1408 gnd 1236 spd 73 hdg 180 energy 100
+screenshot r7a_hollow_strike_after_1_0.1s.png
+    Hollow AFTER +0.25 s after in view: face 0.93 m, nearest part 0.67 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.02, 0.98, 3.32) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+screenshot r7a_hollow_strike_after_2_0.5s.png
+    Hollow AFTER +0.66 s after in view: face 0.68 m, nearest part 0.64 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.09, 0.83, 3.04) (eye (0.00, 1.05, 2.40)), ship 63 m/s kinematic
+screenshot r7a_hollow_strike_after_3_1.2s.png
+    Hollow AFTER +1.32 s after in view: face 0.70 m, nearest part 0.42 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.08, 0.97, 3.09) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+  Hollow strike order: in view 0.25 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+  death page: "Killed by the thing you let aboard: a <b>Hollow</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_hollow_strike_after_death_page.png
+    [317 fps] Auto/regen-trip Flight alt 1146 gnd 1144 spd 1 hdg 180 energy 99
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_hollow_strike_after_regen_bay.png
+    [525 fps] Auto/recovery Hover alt 958 gnd 921 spd 55 hdg 180 energy 100
+    [758 fps] Auto/recovery Hover alt 1377 gnd 1340 spd 27 hdg 180 energy 100
+    [484 fps] Auto/recovery Hover alt 1500 gnd 1463 spd 8 hdg 180 energy 100
+    [423 fps] Auto/launch Hover alt 1451 gnd 1450 spd 50 hdg 180 energy 100
+screenshot r7a_hollow_cabin_cam_before.png
+  Hollow in the cabin camera (before): face 1.47 m, nearest part 1.47 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.54, 1.19, -0.52) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+screenshot r7a_hollow_cabin_cam_after.png
+  Hollow in the cabin camera (after): face 1.47 m, nearest part 1.47 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 23481 vertices / 26077 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.54, 1.19, -0.52) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+    [233 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+    [285 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+    [305 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+  Knocker on the canopy, BEFORE (0.6.3 staging): face 2.06 m, nearest part 1.71 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.04, 1.34, 4.44) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 6033 vertices inside the canopy bubble (20.0 %, up to 27 % of the way to its centre)
+screenshot r7a_knocker_canopy_before.png
+  Knocker on the canopy, AFTER: face 2.21 m, nearest part 0.84 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 2.83, 3.71) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 0 vertices inside the canopy bubble (0.0 %)
+screenshot r7a_knocker_canopy_after.png
+    [347 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+screenshot r7a_knocker_strike_before_1_0.1s.png
+    Knocker BEFORE +0.27 s after in view: face 4.88 m, nearest part 4.41 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.03, -3.64, 3.75) (eye (0.00, 1.05, 2.40)), ship 32 m/s kinematic
+screenshot r7a_knocker_strike_before_2_0.5s.png
+    Knocker BEFORE +0.68 s after in view: face 3.01 m, nearest part 2.93 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.17, -1.91, 2.92) (eye (0.00, 1.05, 2.40)), ship 18 m/s kinematic
+screenshot r7a_knocker_strike_before_3_1.2s.png
+    Knocker BEFORE +1.36 s after in view: face 0.09 m, nearest part 0.03 m from the eye, 21 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.06, 1.04, 2.46) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+    [289 fps] Crashed/dead Flight alt 56 gnd 25 spd 0 hdg 283 energy 96
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. / Field Journal: Knocker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_knocker_strike_before_death_page.png
+    [549 fps] Auto/regen-trip Flight alt 56 gnd 25 spd 0 hdg 283 energy 96
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_knocker_strike_before_regen_bay.png
+    [553 fps] Auto/recovery Hover alt 1063 gnd 884 spd 51 hdg 180 energy 100
+    [583 fps] Auto/recovery Hover alt 1424 gnd 1245 spd 21 hdg 180 energy 100
+    [768 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 8 hdg 180 energy 100
+    [690 fps] Flying/ Flight alt 1376 gnd 1203 spd 73 hdg 180 energy 100
+screenshot r7a_knocker_strike_after_1_0.1s.png
+    Knocker AFTER +0.78 s after in view: face 0.65 m, nearest part 0.57 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.00, 0.94, 3.04) (eye (0.00, 1.05, 2.40)), ship 57 m/s kinematic
+screenshot r7a_knocker_strike_after_2_0.5s.png
+    Knocker AFTER +1.52 s after in view: face 0.76 m, nearest part 0.40 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.02, 0.99, 3.16) (eye (0.00, 1.05, 2.40)), ship 47 m/s kinematic
+screenshot r7a_knocker_strike_after_3_1.2s.png
+    Knocker AFTER +2.21 s after in view: face 0.42 m, nearest part 0.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.17, 0.79, 2.68) (eye (0.00, 1.05, 2.40)), ship 37 m/s kinematic
+  Knocker strike order: in view 0.33 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.00 state: prompt = # aboard: more pilots, or climb to dock (↑ # m) | +0.12 music: (silence) | +0.12 state: music wanted =  | +0.45 voice: cpu_intruder | +0.45 cabin lights: off | +0.45 emergency light: on | +0.45 sound loop: alarm | +0.45 state: displays = dark | +0.45 state: cabin lights = off
+  death page: "Killed by the thing you let aboard: a <b>Knocker</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_knocker_strike_after_death_page.png
+    [24 fps] Auto/regen-trip Flight alt 1204 gnd 1136 spd 8 hdg 180 energy 99
+    [212 fps] Auto/regen-trip Flight alt 1191 gnd 1130 spd 1 hdg 180 energy 99
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_knocker_strike_after_regen_bay.png
+    [645 fps] Auto/recovery Hover alt 1340 gnd 1314 spd 31 hdg 180 energy 100
+    [746 fps] Auto/recovery Hover alt 1498 gnd 1473 spd 7 hdg 180 energy 100
+    [798 fps] Auto/launch Hover alt 1451 gnd 1450 spd 49 hdg 180 energy 100
+screenshot r7a_knocker_cabin_cam_before.png
+  Knocker in the cabin camera (before): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+screenshot r7a_knocker_cabin_cam_after.png
+  Knocker in the cabin camera (after): face 1.47 m, nearest part 0.94 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 30202 vertices / 29178 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.60, 1.52, -0.39) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+    [333 fps] Flying/ Hover alt 12 gnd 14 spd 1 hdg 301 energy 97
+    [265 fps] Flying/ Hover alt 4 gnd 5 spd 1 hdg 301 energy 94
+    [285 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+  Stalker on the canopy, BEFORE (0.6.3 staging): face 2.05 m, nearest part 1.49 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.05, 1.32, 4.43) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 7739 vertices inside the canopy bubble (28.6 %, up to 23 % of the way to its centre)
+screenshot r7a_stalker_canopy_before.png
+  Stalker on the canopy, AFTER: face 1.95 m, nearest part 0.86 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (-0.03, 2.54, 3.66) (eye (0.00, 1.05, 2.40)), ship 0 m/s; 14 vertices inside the canopy bubble (0.1 %, up to 1 % of the way to its centre)
+screenshot r7a_stalker_canopy_after.png
+    [315 fps] Flying/ Hover landed alt 0 gnd 2 spd 0 hdg 301 energy 91
+screenshot r7a_stalker_strike_before_1_0.1s.png
+    Stalker BEFORE +0.30 s after in view: face 5.70 m, nearest part 5.29 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.03, -4.43, 3.98) (eye (0.00, 1.05, 2.40)), ship 32 m/s kinematic
+screenshot r7a_stalker_strike_before_2_0.5s.png
+    Stalker BEFORE +0.67 s after in view: face 3.07 m, nearest part 2.69 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.06, -1.94, 3.08) (eye (0.00, 1.05, 2.40)), ship 19 m/s kinematic
+screenshot r7a_stalker_strike_before_3_1.2s.png
+    Stalker BEFORE +1.39 s after in view: face 0.11 m, nearest part 0.02 m from the eye, 52 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.09, 1.03, 2.47) (eye (0.00, 1.05, 2.40)), ship 0 m/s kinematic
+    [291 fps] Crashed/dead Flight alt 56 gnd 25 spd 0 hdg 283 energy 97
+  death page: "Killed by the thing you let aboard: a <b>Stalker</b>. / Field Journal: Stalker — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_stalker_strike_before_death_page.png
+    [507 fps] Auto/regen-trip Flight alt 56 gnd 25 spd 0 hdg 283 energy 97
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_stalker_strike_before_regen_bay.png
+    [610 fps] Auto/recovery Hover alt 1076 gnd 897 spd 50 hdg 180 energy 100
+    [692 fps] Auto/recovery Hover alt 1429 gnd 1250 spd 20 hdg 180 energy 100
+    [806 fps] Auto/recovery Hover alt 1500 gnd 1321 spd 11 hdg 180 energy 100
+    [716 fps] Flying/ Flight alt 1363 gnd 1192 spd 73 hdg 180 energy 100
+screenshot r7a_stalker_strike_after_1_0.1s.png
+    Stalker AFTER +0.33 s after in view: face 0.81 m, nearest part 0.55 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.03, 0.99, 3.20) (eye (0.00, 1.05, 2.40)), ship 68 m/s kinematic
+screenshot r7a_stalker_strike_after_2_0.5s.png
+    Stalker AFTER +0.62 s after in view: face 0.80 m, nearest part 0.56 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.13, 0.74, 3.12) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+screenshot r7a_stalker_strike_after_3_1.2s.png
+    Stalker AFTER +1.33 s after in view: face 0.77 m, nearest part 0.37 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.08, 0.96, 3.16) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+  Stalker strike order: in view 0.21 s after the strike; anything the player could notice before it was in view: NOTHING (as asked); then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.01 music: (silence) | +0.01 state: music wanted =  | +0.36 voice: cpu_intruder | +0.36 cabin lights: off | +0.36 emergency light: on | +0.36 sound loop: alarm | +0.36 state: displays = dark | +0.36 state: cabin lights = off
+  death page: "Killed by the thing you let aboard: a <b>Stalker</b>. /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_stalker_strike_after_death_page.png
+    [327 fps] Auto/regen-trip Flight alt 1146 gnd 1144 spd 1 hdg 180 energy 99
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_stalker_strike_after_regen_bay.png
+    [562 fps] Auto/recovery Hover alt 1015 gnd 974 spd 54 hdg 180 energy 100
+    [744 fps] Auto/recovery Hover alt 1403 gnd 1362 spd 24 hdg 180 energy 100
+    [775 fps] Auto/recovery Hover alt 1500 gnd 1459 spd 11 hdg 180 energy 100
+screenshot r7a_stalker_cabin_cam_before.png
+  Stalker in the cabin camera (before): face 1.31 m, nearest part 0.75 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.64, 1.32, -0.32) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+screenshot r7a_stalker_cabin_cam_after.png
+  Stalker in the cabin camera (after): face 1.31 m, nearest part 0.75 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 27030 vertices / 26122 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.65, 1.32, -0.32) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+  Sleeper on the canopy: never (it boards as a pilot; it doesn't climb)
+    [851 fps] Flying/ Flight alt 1413 gnd 1241 spd 73 hdg 180 energy 100
+screenshot r7a_sleeper_strike_before_1_0.1s.png
+    Sleeper BEFORE +0.23 s after in view: face 6.49 m, nearest part 6.07 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (-0.01, 1.65, -4.06) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+screenshot r7a_sleeper_strike_before_2_0.5s.png
+    Sleeper BEFORE +0.62 s after in view: face 5.04 m, nearest part 4.13 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.01, 2.15, -2.51) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+screenshot r7a_sleeper_strike_before_3_1.2s.png
+    Sleeper BEFORE +1.34 s after in view: face 6.42 m, nearest part 5.50 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.04, 3.67, -3.46) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+  death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: new entry — Sleeper /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_sleeper_strike_before_death_page.png
+    [412 fps] Auto/regen-trip Flight alt 1221 gnd 1219 spd 1 hdg 180 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_sleeper_strike_before_regen_bay.png
+    [639 fps] Auto/recovery Hover alt 1042 gnd 1042 spd 52 hdg 180 energy 100
+    [868 fps] Auto/recovery Hover alt 1415 gnd 1414 spd 22 hdg 180 energy 100
+    [847 fps] Auto/recovery Hover alt 1500 gnd 1499 spd 6 hdg 180 energy 100
+    [772 fps] Flying/ Flight alt 1392 gnd 1220 spd 73 hdg 180 energy 100
+screenshot r7a_sleeper_strike_after_1_0.1s.png
+    Sleeper AFTER +0.24 s after in view: face 0.97 m, nearest part 0.60 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.01, 0.97, 3.37) (eye (0.00, 1.05, 2.40)), ship 69 m/s kinematic
+screenshot r7a_sleeper_strike_after_2_0.5s.png
+    Sleeper AFTER +0.64 s after in view: face 0.67 m, nearest part 0.68 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.15, 0.83, 3.01) (eye (0.00, 1.05, 2.40)), ship 64 m/s kinematic
+screenshot r7a_sleeper_strike_after_3_1.2s.png
+    Sleeper AFTER +1.32 s after in view: face 0.59 m, nearest part 0.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.06, 0.97, 2.99) (eye (0.00, 1.05, 2.40)), ship 54 m/s kinematic
+  Sleeper strike order: in view 0.25 s after the strike; anything the player could notice before it was in view: 0.00 music: (silence), 0.00 state: cabin count = 0, 0.00 state: music wanted = ; then: +0.00 sound: hatch_burst | +0.00 sound: creature_lunge | +0.00 hatch: hit | +0.00 hatch: breaks | +0.00 sting: sting_alien_reveal | +0.00 music: (cut) | +0.00 voice: (all stopped) | +0.00 state: controls = taken | +0.35 voice: cpu_intruder | +0.35 cabin lights: off | +0.35 emergency light: on | +0.35 sound loop: alarm | +0.35 state: displays = dark | +0.35 state: cabin lights = off
+  death page: "Killed by the thing you let aboard: a <b>Sleeper</b>. / Field Journal: Sleeper — a clearer note /  / Your mind was backed up on the mothership. /  / Your ship is lost down there, with it inside."
+screenshot r7a_sleeper_strike_after_death_page.png
+    [378 fps] Auto/regen-trip Flight alt 1217 gnd 1215 spd 1 hdg 180 energy 100
+  woke in the regeneration bay: phase regen, page "REGENERATION BAY"
+screenshot r7a_sleeper_strike_after_regen_bay.png
+    [575 fps] Auto/recovery Hover alt 1071 gnd 1071 spd 51 hdg 180 energy 100
+    [762 fps] Auto/recovery Hover alt 1427 gnd 1426 spd 20 hdg 180 energy 100
+    [772 fps] Auto/recovery Hover alt 1500 gnd 1499 spd 8 hdg 180 energy 100
+screenshot r7a_sleeper_cabin_cam_before.png
+  Sleeper in the cabin camera (before): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod -1); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+screenshot r7a_sleeper_cabin_cam_after.png
+  Sleeper in the cabin camera (after): face 1.51 m, nearest part 1.48 m from the eye, 0 vertices nearer than the near clip (0.05 m), eye outside the body (0/7 rays odd), 28218 vertices / 25900 triangles drawn (forceMeshLod 0); parent Ship, face in ship space (0.50, 1.04, -0.58) (eye (0.00, 1.05, 2.40)), ship 73 m/s
+--- [Play] lines (441), first 60:
+  [Play]     0.0 music title_theme: title
+  [Play]     2.1 music flight_canyons: check
+  [Play]    24.2 music flight_forest: check
+  [Play]    46.2 music flight_city: check
+  [Play]    68.2 music flight_ice: check
+  [Play]    90.2 music flight_volcanic: check
+  [Play]   112.2 music flight_crystal: check
+  [Play]   134.2 music flight_ocean: check
+  [Play]   156.3 music title_theme: title
+  [Play]   156.8 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+  [Play]   156.8 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+  [Play]   157.0 music hangar: docked
+  [Play]   158.0 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+  [Play]   158.0 music flight_canyons: flight (automatic)
+  [Play]   165.9 voice CONTROL: Clamps released. Go and find our people.
+  [Play]   166.1 music flight_canyons: flying
+  [Play]   166.1 pilot 1 found (2.3 km): a real pilot
+  [Play]   166.1 pilot 2 found (2.4 km): a real pilot
+  [Play]   166.1 pilot 3 found (2.4 km): a real pilot
+  [Play]   169.4 voice COMPUTER: Landing gear down.
+  [Play]   171.0 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+  [Play]   302.3 music (quiet): pickup: hovering 25 m from pilot 1
+  [Play]   302.3 voice COMPUTER: Landing gear down.
+  [Play]   327.1 music (quiet): pickup: landed 25 m from pilot 1
+  [Play]   327.7 music (quiet): pickup: pilot 1 running
+  [Play]   327.7 pilot 1 runs to the ship
+  [Play]   327.7 voice COMPUTER: Engines off.
+  [Play]   333.5 music (quiet): pickup: pilot 1 knocking
+  [Play]   333.5 pilot 1 at the airlock, knocking
+  [Play]   334.5 music (quiet): pickup: pilot 1 boarding
+  [Play]   335.6 voice COMPUTER: Airlock open.
+  [Play]   335.9 pilot 1 boarded (a real pilot); cabin 1 / 6
+  [Play]   335.9 music flight_canyons: flying
+  [Play]   337.0 voice COMPUTER: Pilot aboard.
+  [Play]   348.0 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+  [Play]   352.2 music flight_canyons: flight (automatic)
+  [Play]   376.7 docked (recall): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|Recall: -900 cr|Energy used 2%. Refuelled 2%: -11 cr
+  [Play]   376.7 music hangar: docked
+  [Play]   377.7 arrived: planet Eskshon-V (seed 205, Giant Forest), new; pilots waiting 3, aliens among them 1
+  [Play]   377.7 music planet_select: jump
+  [Play]   377.7 voice CONTROL: Jump drive spooling. Hold on to something.
+  [Play]   377.9 music hangar: docked
+  [Play]   377.9 launch: Eskshon-V (Giant Forest), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+  [Play]   377.9 music flight_forest: flight (automatic)
+  [Play]   381.1 voice CONTROL: Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings.
+  [Play]   386.0 music flight_forest: flying
+  [Play]   386.0 pilot 1 found (2.5 km): a real pilot
+  [Play]   386.0 pilot 2 found (2.9 km): a real pilot
+  [Play]   386.6 pilot 3 found (2.6 km): a real pilot
+  [Play]   390.0 voice CONTROL: Another beacon. Bring them home.
+  [Play]   459.4 music (quiet): pickup: hovering 25 m from pilot 1
+  [Play]   459.4 voice COMPUTER: Landing gear down.
+  [Play]   484.9 music (quiet): pickup: landed 25 m from pilot 1
+  [Play]   485.6 music (quiet): pickup: pilot 1 running
+  [Play]   485.6 pilot 1 runs to the ship
+  [Play]   485.6 voice COMPUTER: Engines off.
+  [Play]   491.3 music (quiet): pickup: pilot 1 knocking
+  [Play]   491.3 pilot 1 at the airlock, knocking
+  [Play]   492.4 music (quiet): pickup: pilot 1 boarding
+  [Play]   493.0 voice COMPUTER: Airlock open.
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.045 RMS, peak 1.986, zeroed before the speakers; 148480000 samples); master volume 0.00

@@ -1,0 +1,201 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+UnloadTime: 0.805100 ms
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 88064 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 04:32; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] save folder: C:\Users\danmo\Hostile-Horizon\Data\screenshots\round7\partA_campaign\save (a check never touches Dan's career)
+[ExeCheck] today's planet: Halthel-II (twice: Halthel-II), seed 20261108; next day's Halkon-II; pilot spots twice identical: 1710 m out, bumps 0.0 m, 1753 m out, bumps 0.0 m, 1836 m out, bumps 0.0 m
+[ExeCheck] screenshot 20_campaign_menu.png
+[Play]     2.3 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]     2.3 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]     2.5 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] new career: Vethia system, 3000 cr; planet Halthel-II, 3 pilots, 3 placed; save written: True
+[ExeCheck] screenshot 21_hangar.png
+[ExeCheck] screenshot 21b_hangar_bay_view.png
+[Play]     4.2 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]     4.3 music flight_canyons: flight (automatic)
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] screenshot 22_launch_drop.png
+[ExeCheck]     [449 fps] Auto/launch Hover alt 1457 gnd 1455 spd 44 hdg 315 energy 100
+[Play]    11.6 voice CONTROL: Clamps released. Go and find our people.
+[ExeCheck] launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 66°/s (continuous: no cut)
+[Play]    12.4 music flight_canyons: flying
+[Play]    12.4 pilot 1 found (2.3 km): a real pilot
+[Play]    12.4 pilot 2 found (2.4 km): a real pilot
+[Play]    12.4 pilot 3 found (2.4 km): a real pilot
+[ExeCheck] screenshot 23_after_launch.png
+[ExeCheck]   to pilot 1: 2262 m; radar says: MOTHERSHIP  135°  270 m
+[Play]    15.1 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]     [156 fps] Flying/ Flight alt 1238 gnd 746 spd 73 hdg 3 energy 99
+[Play]    22.1 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[ExeCheck]     [233 fps] Flying/ Flight alt 937 gnd 473 spd 73 hdg 77 energy 97
+[ExeCheck]     [374 fps] Flying/ Flight alt 615 gnd 129 spd 73 hdg 83 energy 95
+[ExeCheck]   near: radar says: <b>PILOT 1  080°  440 m  ◄ NEAREST</b>
+[ExeCheck]   landing mode: Hover, prompt "Braking: the ring on the ground shows where you will stop"
+[Play]    44.4 voice COMPUTER: Landing gear down.
+[ExeCheck]     [257 fps] Flying/ Hover alt 533 gnd 39 spd 19 hdg 83 energy 92
+[Play]    51.4 music (quiet): pickup: hovering 250 m from pilot 1
+[ExeCheck]     [173 fps] Flying/ Hover alt 505 gnd 36 spd 18 hdg 84 energy 89
+[ExeCheck]     [205 fps] Flying/ Hover alt 269 gnd 271 spd 30 hdg 91 energy 85
+[ExeCheck]     [150 fps] Flying/ Hover alt 59 gnd 62 spd 12 hdg 94 energy 82
+[ExeCheck]     [91 fps] Flying/ Hover alt 15 gnd 17 spd 2 hdg 94 energy 79
+[ExeCheck]     [171 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 94 energy 76
+[ExeCheck]   landed True at 4 m from the spot, Landed; hits 0, hull 100%, energy 73%
+[Play]   108.0 music (quiet): pickup: landed 26 m from pilot 1
+[ExeCheck] screenshot 24_landed.png
+[Play]   108.0 music (quiet): pickup: pilot 1 running
+[Play]   108.0 pilot 1 runs to the ship
+[Play]   108.0 voice COMPUTER: Engines off.
+[ExeCheck]   engines off: True; pilot 1: Running
+[ExeCheck]     [275 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 94 energy 73
+[ExeCheck] screenshot 25_pilot_running_chase.png
+[Play]   112.1 music (quiet): pickup: pilot 1 knocking
+[Play]   112.1 pilot 1 at the airlock, knocking
+[ExeCheck]   pilot at the hull, knocking, after 1 s; prompt "PILOT AT AIRLOCK — press <color=#E8473D><b>B</b></color> to open"
+[ExeCheck] screenshot 26_knocking.png
+[Play]   113.6 music (quiet): pickup: pilot 1 boarding
+[Play]   114.6 voice COMPUTER: Airlock open.
+[Play]   115.0 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   115.0 music flight_canyons: flying
+[ExeCheck]   airlock: pilot 1 Aboard, cabin 1
+[ExeCheck] screenshot 27_aboard.png
+[Play]   116.0 voice COMPUTER: Pilot aboard.
+[ExeCheck]     [153 fps] Flying/ Hover alt 40 gnd 42 spd 14 hdg 94 energy 81
+[Play]   121.7 voice COMPUTER: Hull damage.
+[Play]   123.6 voice COMPUTER: Hull critical.
+[Play]   123.6 died: crashed; cabin 1
+[Play]   124.0 music (quiet): dead
+[Play]   124.0 voice CONTROL: I've lost your signal. Regeneration bay, stand by.
+[ExeCheck]     [205 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [401 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [451 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for docking to start after 30 s (state Crashed, phase dead)
+[ExeCheck] docking started at 143 m (dead)
+[ExeCheck]     [358 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [295 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [318 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [509 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [384 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [313 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [305 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [319 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [462 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for the final approach after 90 s (state Crashed, phase dead)
+[ExeCheck] screenshot 28_docking_approach.png
+[ExeCheck]   looking round while docking: view 103° off the nose
+[ExeCheck] screenshot 29_docking_look_round.png
+[ExeCheck]     [407 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [406 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [396 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [459 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [303 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [300 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [288 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [246 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [236 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for the rise into the bay after 90 s (state Crashed, phase dead)
+[ExeCheck]     [227 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck] screenshot 30_rising_into_bay.png
+[ExeCheck]     [288 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [461 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [415 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [476 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [414 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [427 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for docked after 60 s (state Crashed, phase dead)
+[ExeCheck] docked: camera: fastest 112 m/s, fastest turn 121°/s (continuous: no cut)
+[ExeCheck]   credits 3000 -> 3000; debrief: 
+[ExeCheck]   planet: rescued 0, lost 1, waiting 2; save 04:34:32
+[ExeCheck] screenshot 31_hangar_after_dock.png
+[ExeCheck]     [410 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [260 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [217 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [183 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [221 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [225 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for the hangar after 60 s (state Crashed, phase dead)
+[Play]   458.7 music regeneration: regeneration
+[Music] loaded regeneration (30 s)
+[ExeCheck]     [460 fps] Auto/regen-trip Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[Play]   472.4 music hangar: regen
+[Play]   472.4 voice CONTROL: Welcome back. Try to keep this body in one piece.
+[ExeCheck]     [274 fps] Docked/regen Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]     [259 fps] Docked/regen Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+[ExeCheck]   TIMED OUT waiting for flight after launch after 30 s (state Docked, phase regen)
+[ExeCheck] launch: doors, drop, engines; handed over at 143 m, 0 km/h; camera: fastest 220 m/s, fastest turn 531°/s (continuous: no cut)
+[ExeCheck]   to pilot 3: 723 m; radar says: <b>PILOT 3  145°  680 m  ◄ NEAREST</b>
+[ExeCheck]   near: radar says: <b>PILOT 3  145°  680 m  ◄ NEAREST</b>
+[ExeCheck]   landing mode: Flight, prompt "Pilot close by: brake (<color=#3D8FE8><b>X</b></color>) when the amber ring reaches their pad (green ring)"
+[ExeCheck]   landed False at 723 m from the spot, ; hits 0, hull 0%, energy 79%
+[Play]   492.0 music hangar: recovery
+[Play]   492.0 voice COMPUTER: Engines off.
+[ExeCheck]     [765 fps] Auto/recovery Hover alt 1188 gnd 1010 spd 43 hdg 315 energy 79
+[ExeCheck]     [1072 fps] Auto/recovery Hover alt 1468 gnd 1290 spd 13 hdg 315 energy 79
+[Play]   515.5 music hangar: docked
+[ExeCheck]     [739 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+[ExeCheck]     [454 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+[ExeCheck]     [307 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+[ExeCheck]     [560 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+[ExeCheck]   TIMED OUT waiting for the pilot to come close after 60 s (state Docked, phase docked)
+[Play]   552.0 launch: Halthel-II (Canyons), energy 79 %, hull 100 %, cabin 0, pilots waiting 2
+[Play]   552.0 music flight_canyons: flight (automatic)
+[Play]   552.0 voice CONTROL: Bay doors open. You're clear to drop.
+[ExeCheck] engines started with pilot 3 1598 m away: pilot Waiting, planet says Waiting, credits 0 -> 0; message "Docked in the mothership"
+[ExeCheck] screenshot 32_exhaust_killed.png
+[Play]   555.2 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[ExeCheck]     [479 fps] Auto/launch Hover alt 1460 gnd 1397 spd 39 hdg 315 energy 79
+[Play]   560.1 music flight_canyons: flying
+[ExeCheck]     [237 fps] Flying/ Flight alt 1416 gnd 1276 spd 73 hdg 315 energy 78
+[Play]   573.2 voice COMPUTER: Warning. Locked on.
+[ExeCheck]     [198 fps] Flying/ Flight alt 1416 gnd 1271 spd 73 hdg 315 energy 76
+[ExeCheck]     [305 fps] Flying/ Flight alt 1416 gnd 875 spd 73 hdg 315 energy 74
+[ExeCheck]     [431 fps] Flying/ Flight alt 1416 gnd 967 spd 73 hdg 315 energy 72
+[ExeCheck]     [449 fps] Flying/ Flight alt 1416 gnd 956 spd 73 hdg 315 energy 70
+[ExeCheck] energy set to 0.5 % over pilot 3's spot (933 m up) to see the end of energy
+[Play]   613.9 music flight_canyons +tension: flying + tension (low energy)
+[Play]   613.9 voice COMPUTER: Energy low.
+[Music] loaded tension_low_energy (121 s)
+[Play]   615.7 voice COMPUTER: Mothership out of reach.
+[ExeCheck]     [365 fps] Flying/ Hover alt 1409 gnd 1004 spd 35 hdg 315 energy 0
+[Play]   617.9 voice COMPUTER: Engines off.
+[Play]   619.4 voice CONTROL: Watch your energy. I can't tow everyone.
+[Play]   620.1 music flight_canyons: flight (automatic)
+[ExeCheck] CHECK FAILED with an exception: System.NullReferenceException: routine is null
+  at UnityEngine.MonoBehaviour.StopCoroutine (UnityEngine.Coroutine routine) [0x00003] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at HostileHorizon.ExeCheck+<Campaign>d__28.MoveNext () [0x01141] in <81cebb09b40948a9bd5f8986c370dc1f>:0 
+  at HostileHorizon.ExeCheck+<Start>d__221.MoveNext () [0x003a9] in <81cebb09b40948a9bd5f8986c370dc1f>:0 
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.029 RMS, peak 1.838, zeroed before the speakers; 59912192 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

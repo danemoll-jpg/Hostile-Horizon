@@ -1,0 +1,114 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 88064 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 04:32; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+save folder: C:\Users\danmo\Hostile-Horizon\Data\screenshots\round7\partA_campaign\save (a check never touches Dan's career)
+today's planet: Halthel-II (twice: Halthel-II), seed 20261108; next day's Halkon-II; pilot spots twice identical: 1710 m out, bumps 0.0 m, 1753 m out, bumps 0.0 m, 1836 m out, bumps 0.0 m
+screenshot 20_campaign_menu.png
+new career: Vethia system, 3000 cr; planet Halthel-II, 3 pilots, 3 placed; save written: True
+screenshot 21_hangar.png
+screenshot 21b_hangar_bay_view.png
+screenshot 22_launch_drop.png
+    [449 fps] Auto/launch Hover alt 1457 gnd 1455 spd 44 hdg 315 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 66°/s (continuous: no cut)
+screenshot 23_after_launch.png
+  to pilot 1: 2262 m; radar says: MOTHERSHIP  135°  270 m
+    [156 fps] Flying/ Flight alt 1238 gnd 746 spd 73 hdg 3 energy 99
+    [233 fps] Flying/ Flight alt 937 gnd 473 spd 73 hdg 77 energy 97
+    [374 fps] Flying/ Flight alt 615 gnd 129 spd 73 hdg 83 energy 95
+  near: radar says: <b>PILOT 1  080°  440 m  ◄ NEAREST</b>
+  landing mode: Hover, prompt "Braking: the ring on the ground shows where you will stop"
+    [257 fps] Flying/ Hover alt 533 gnd 39 spd 19 hdg 83 energy 92
+    [173 fps] Flying/ Hover alt 505 gnd 36 spd 18 hdg 84 energy 89
+    [205 fps] Flying/ Hover alt 269 gnd 271 spd 30 hdg 91 energy 85
+    [150 fps] Flying/ Hover alt 59 gnd 62 spd 12 hdg 94 energy 82
+    [91 fps] Flying/ Hover alt 15 gnd 17 spd 2 hdg 94 energy 79
+    [171 fps] Flying/ Hover alt 4 gnd 6 spd 1 hdg 94 energy 76
+  landed True at 4 m from the spot, Landed; hits 0, hull 100%, energy 73%
+screenshot 24_landed.png
+  engines off: True; pilot 1: Running
+    [275 fps] Flying/ Hover landed alt -1 gnd 2 spd 0 hdg 94 energy 73
+screenshot 25_pilot_running_chase.png
+  pilot at the hull, knocking, after 1 s; prompt "PILOT AT AIRLOCK — press <color=#E8473D><b>B</b></color> to open"
+screenshot 26_knocking.png
+  airlock: pilot 1 Aboard, cabin 1
+screenshot 27_aboard.png
+    [153 fps] Flying/ Hover alt 40 gnd 42 spd 14 hdg 94 energy 81
+    [205 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [401 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [451 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for docking to start after 30 s (state Crashed, phase dead)
+docking started at 143 m (dead)
+    [358 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [295 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [318 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [509 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [384 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [313 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [305 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [319 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [462 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for the final approach after 90 s (state Crashed, phase dead)
+screenshot 28_docking_approach.png
+  looking round while docking: view 103° off the nose
+screenshot 29_docking_look_round.png
+    [407 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [406 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [396 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [459 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [303 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [300 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [288 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [246 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [236 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for the rise into the bay after 90 s (state Crashed, phase dead)
+    [227 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+screenshot 30_rising_into_bay.png
+    [288 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [461 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [415 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [476 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [414 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [427 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for docked after 60 s (state Crashed, phase dead)
+docked: camera: fastest 112 m/s, fastest turn 121°/s (continuous: no cut)
+  credits 3000 -> 3000; debrief: 
+  planet: rescued 0, lost 1, waiting 2; save 04:34:32
+screenshot 31_hangar_after_dock.png
+    [410 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [260 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [217 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [183 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [221 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [225 fps] Crashed/dead Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for the hangar after 60 s (state Crashed, phase dead)
+    [460 fps] Auto/regen-trip Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [274 fps] Docked/regen Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+    [259 fps] Docked/regen Flight alt 143 gnd 0 spd 0 hdg 104 energy 79
+  TIMED OUT waiting for flight after launch after 30 s (state Docked, phase regen)
+launch: doors, drop, engines; handed over at 143 m, 0 km/h; camera: fastest 220 m/s, fastest turn 531°/s (continuous: no cut)
+  to pilot 3: 723 m; radar says: <b>PILOT 3  145°  680 m  ◄ NEAREST</b>
+  near: radar says: <b>PILOT 3  145°  680 m  ◄ NEAREST</b>
+  landing mode: Flight, prompt "Pilot close by: brake (<color=#3D8FE8><b>X</b></color>) when the amber ring reaches their pad (green ring)"
+  landed False at 723 m from the spot, ; hits 0, hull 0%, energy 79%
+    [765 fps] Auto/recovery Hover alt 1188 gnd 1010 spd 43 hdg 315 energy 79
+    [1072 fps] Auto/recovery Hover alt 1468 gnd 1290 spd 13 hdg 315 energy 79
+    [739 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+    [454 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+    [307 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+    [560 fps] Docked/docked Hover alt 1500 gnd 1322 spd 0 hdg 315 energy 79
+  TIMED OUT waiting for the pilot to come close after 60 s (state Docked, phase docked)
+engines started with pilot 3 1598 m away: pilot Waiting, planet says Waiting, credits 0 -> 0; message "Docked in the mothership"
+screenshot 32_exhaust_killed.png
+    [479 fps] Auto/launch Hover alt 1460 gnd 1397 spd 39 hdg 315 energy 79
+    [237 fps] Flying/ Flight alt 1416 gnd 1276 spd 73 hdg 315 energy 78
+    [198 fps] Flying/ Flight alt 1416 gnd 1271 spd 73 hdg 315 energy 76
+    [305 fps] Flying/ Flight alt 1416 gnd 875 spd 73 hdg 315 energy 74
+    [431 fps] Flying/ Flight alt 1416 gnd 967 spd 73 hdg 315 energy 72
+    [449 fps] Flying/ Flight alt 1416 gnd 956 spd 73 hdg 315 energy 70
+energy set to 0.5 % over pilot 3's spot (933 m up) to see the end of energy
+    [365 fps] Flying/ Hover alt 1409 gnd 1004 spd 35 hdg 315 energy 0
+CHECK FAILED with an exception: System.NullReferenceException: routine is null
+  at UnityEngine.MonoBehaviour.StopCoroutine (UnityEngine.Coroutine routine) [0x00003] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at HostileHorizon.ExeCheck+<Campaign>d__28.MoveNext () [0x01141] in <81cebb09b40948a9bd5f8986c370dc1f>:0 
+  at HostileHorizon.ExeCheck+<Start>d__221.MoveNext () [0x003a9] in <81cebb09b40948a9bd5f8986c370dc1f>:0 
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.029 RMS, peak 1.838, zeroed before the speakers; 59912192 samples); master volume 0.00

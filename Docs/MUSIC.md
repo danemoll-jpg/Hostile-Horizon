@@ -33,8 +33,12 @@ into `Assets/Resources/Sounds/sting_*.mp3` (built into the game).
 
 ## How the game uses them (adaptive)
 - The music follows the game state with slow crossfades (3-6 s).
-- **Flight music drops away near a pilot and while landed waiting**: silence
-  and wind make the pickup tense (the scares work better without music).
+- **Flight music drops away only for the pickup itself** (Round 7): landed or
+  hovering within 250 m of the pilot you're going for (the route's pilot), or while
+  a pilot runs / knocks / boards; it comes back as you leave. Flying past a pilot
+  never silences it (0.6.3 went quiet whenever any pilot was within 700 m and the
+  ship under 250 m up, and whenever landed). Every change is in `Player.log` as a
+  `[Play] music ...` line with the reason.
 - Music ducks under voice messages.
 - Each biome has its own flight track; tension layers sit on top.
 

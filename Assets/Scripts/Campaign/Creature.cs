@@ -74,6 +74,56 @@ namespace HostileHorizon
         }
 
         public void Show(bool on) => gameObject.SetActive(on);
+
+        // Round 7 (A2): up close (in or on the ship) always the full-detail mesh (no Mesh LOD swap) and a cold light on the face, so
+        // its shape reads even with the cockpit lights dead.
+        Light faceLight;
+        public bool CloseUp { get; private set; }
+        public void FullDetail(bool on)
+        {
+            CloseUp = on;
+            foreach (var r in rs) if (r) r.forceMeshLod = (short)(on ? 0 : -1);
+            if (on && !faceLight)
+            {
+                var go = new GameObject("Face light"); go.transform.SetParent(transform, false);
+                faceLight = go.AddComponent<Light>(); faceLight.type = LightType.Point; faceLight.range = 3f; faceLight.intensity = 1.0f;
+                faceLight.color = new Color(.72f, .82f, 1f); faceLight.shadows = LightShadows.None; faceLight.renderMode = LightRenderMode.ForcePixel;
+            }
+            if (faceLight) faceLight.enabled = on;
+        }
+        // the face light sits between the face and the viewer, a little above (call each frame while close up)
+        public void LightFrom(Vector3 viewer)
+        {
+            if (!faceLight || !faceLight.enabled) return;
+            var face = HeadWorld; faceLight.transform.position = Vector3.Lerp(face, viewer, .45f) + Vector3.up * .35f;
+        }
+
+        // Round 7 (A2): the drawn surface right now (skinned meshes baked in their current pose), world space. Used to keep the eye
+        // out of the body and the body out of the canopy, and by the checks.
+        static readonly List<Vector3> bakeV = new List<Vector3>();
+        Mesh baked;
+        public void Surface(List<Vector3> verts, List<int> tris = null)
+        {
+            verts.Clear(); tris?.Clear();
+            if (!baked) baked = new Mesh();
+            foreach (var r in rs)
+            {
+                if (!r || !r.enabled || !r.gameObject.activeInHierarchy) continue;
+                Mesh m; Matrix4x4 toWorld;
+                if (r is SkinnedMeshRenderer s) { s.BakeMesh(baked, true); m = baked; toWorld = Matrix4x4.TRS(s.transform.position, s.transform.rotation, Vector3.one); }
+                else { var mf = r.GetComponent<MeshFilter>(); if (!mf || !mf.sharedMesh) continue; m = mf.sharedMesh; toWorld = r.localToWorldMatrix; }
+                int at = verts.Count;
+                m.GetVertices(bakeV); foreach (var v in bakeV) verts.Add(toWorld.MultiplyPoint3x4(v));
+                if (tris != null)
+                    for (int sm = 0; sm < m.subMeshCount; sm++) { var t = m.lodCount > 1 ? m.GetTriangles(sm, 0, true) : m.GetTriangles(sm); foreach (int i in t) tris.Add(at + i); }   // the full-detail level
+            }
+        }
+        public float NearestTo(Vector3 p, List<Vector3> verts)
+        {
+            Surface(verts); float best = float.MaxValue;
+            foreach (var v in verts) { float d = (v - p).sqrMagnitude; if (d < best) best = d; }
+            return verts.Count > 0 ? Mathf.Sqrt(best) : float.MaxValue;
+        }
         public void Shadows(bool on) { foreach (var r in rs) r.shadowCastingMode = on ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off; }
         public Transform Joint(string name) => rig ? null : j[name];
         public Vector3 HeadWorld => rig ? rig.Head.position + transform.forward * .14f : j["Head"].position + j["Head"].rotation * new Vector3(0, .05f, .14f);   // the face
@@ -126,6 +176,8 @@ namespace HostileHorizon
             }
             if (instant) { foreach (var k in want.Keys) now[k] = want[k]; bodyNow = bodyWant; Apply(); }
         }
+
+        void OnDestroy() { if (baked) Destroy(baked); }
 
         void Update()
         {

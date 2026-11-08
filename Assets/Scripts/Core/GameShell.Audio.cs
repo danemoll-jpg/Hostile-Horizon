@@ -56,31 +56,54 @@ namespace HostileHorizon
         }
 
         // ---- music (B1)
-        bool NearWaitingPilot()
+        // Round 7 (A1): 0.6.3 went quiet whenever any pilot on foot was within 700 m and the ship under 250 m over the ground, and
+        // whenever landed: flying low in the canyons that was most of the flight. Now the flight music drops out only for the pickup
+        // itself: a pilot running / knocking / boarding, or landed / hovering within pickupQuietRange of the pilot you are going for
+        // (the route's pilot, else the nearest one waiting). Flying past a pilot never silences it.
+        public string PickupQuiet()
         {
+            foreach (var p in Pilots)
+                if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding) return $"pilot {p.Index + 1} {p.Now.ToString().ToLower()}";
+            if (!(Ship.Landed || Ship.Mode == FlightMode.Hover)) return null;
+            var target = RoutePilot != null && RoutePilot.OnFoot ? RoutePilot : NearestWaiting(out _);
+            if (target == null) return null;
+            float d = Flat(target.Position - Ship.transform.position).magnitude;
+            return d < Tuning.T.pickupQuietRange ? $"{(Ship.Landed ? "landed" : "hovering")} {d:0} m from pilot {target.Index + 1}" : null;
+        }
+        // the 0.6.3 rule, kept for the check's comparison only
+        public bool OldMusicQuiet()
+        {
+            if (Ship.Landed) return true;
             foreach (var p in Pilots) if (p.OnFoot && Vector3.Distance(p.Position, Ship.transform.position) < 700f && Ship.AboveGround < 250f) return true;
             foreach (var p in Pilots) if (p.Now == DownedPilot.State.Running || p.Now == DownedPilot.State.Knocking || p.Now == DownedPilot.State.Boarding) return true;
             return false;
         }
 
+        string musicWhyLogged = "?";
         void MusicTick()
         {
-            string want = Music.Want; bool tension = false; float wind = 0;
+            string want = Music.Want, why; bool tension = false; float wind = 0;
             var st = Now == State.Paused ? pausedFrom : Now;
-            if (Now == State.Title || Now == State.Loading && Phase == "" && !InCampaign) want = "title_theme";
-            else if (Phase == "horror" || CanopyAlien != null || sleeperTurning || Phase == "dead") want = "";   // sound only: the scares
-            else if (Phase == "regen-trip") want = "regeneration";
+            if (Now == State.Title || Now == State.Loading && Phase == "" && !InCampaign) { want = "title_theme"; why = "title"; }
+            else if (Phase == "horror" || CanopyAlien != null || sleeperTurning || Phase == "dead") { want = ""; why = Phase == "horror" ? "alien attack" : CanopyAlien != null ? "alien on the canopy" : sleeperTurning ? "the Sleeper turns" : "dead"; }   // sound only: the scares
+            else if (Phase == "regen-trip") { want = "regeneration"; why = "regeneration"; }
             else if (Phase == "regen" || Phase == "recovery" || Phase == "docked" || Phase == "jump")
-                want = Menu.Current == planetsPage || Phase == "jump" ? "planet_select" : "hangar";
-            else if (st == State.Crashed) want = "";
+            { want = Menu.Current == planetsPage || Phase == "jump" ? "planet_select" : "hangar"; why = Phase; }
+            else if (st == State.Crashed) { want = ""; why = "crashed"; }
             else if (st == State.Flying || st == State.Auto)
             {
-                bool quiet = InCampaign && st == State.Flying && (Ship.Landed || NearWaitingPilot());
-                want = quiet ? "" : FlightTrack(WorldBiome);
-                if (quiet) wind = .22f;
-                tension = InCampaign && st == State.Flying && !quiet && (Ship.Energy < Tuning.T.energyWarning || HomeState > 0);
+                string quiet = InCampaign && st == State.Flying ? PickupQuiet() : null;
+                want = quiet != null ? "" : FlightTrack(WorldBiome);
+                why = quiet != null ? "pickup: " + quiet : st == State.Auto ? "flight (automatic)" : "flying";
+                if (quiet != null) wind = .22f;
+                tension = InCampaign && st == State.Flying && quiet == null && (Ship.Energy < Tuning.T.energyWarning || HomeState > 0);
+                if (tension) why += Ship.Energy < Tuning.T.energyWarning ? " + tension (low energy)" : " + tension (home warning)";
             }
-            if (CheckRun.Active && Music.CheckWant != null) { want = Music.CheckWant; tension = Music.CheckTension; }   // the music check
+            else why = st.ToString().ToLower();
+            if (CheckRun.Active && Music.CheckWant != null) { want = Music.CheckWant; tension = Music.CheckTension; why = "check"; }   // the music check
+            string key = (want == "" ? "(quiet)" : want) + (tension ? " +tension" : "");
+            var coarse = new System.Text.StringBuilder(key); foreach (char ch in why) if (!char.IsDigit(ch)) coarse.Append(ch);   // a change of reason, not of the metres in it
+            if (coarse.ToString() != musicWhyLogged && Now != State.Paused) { PlayLog.Add($"music {key}: {why}"); musicWhyLogged = coarse.ToString(); }
             Music.Want = want; Music.Tension = tension;
             if (shipAudio) shipAudio.Wind = Ship.gameObject.activeInHierarchy ? Mathf.Max(wind, Weather.Blizzard * .5f) : 0;
         }
@@ -134,6 +157,7 @@ namespace HostileHorizon
             talk[p] = k; return k;
         }
 
+        int AliensWaiting() { int n = 0; if (Planet?.alien != null) for (int i = 0; i < Planet.alien.Length; i++) if (Planet.alien[i] != 0 && Planet.pilots[i] == (int)PilotFate.Waiting) n++; return n; }
         public bool MimicVoiceSign(DownedPilot p) => p.Type == AlienType.Mimic && Talk(p).wrong;   // checks
         string P(PilotTalk k, string line) => $"p{k.voice}_{line}";
 
@@ -147,14 +171,16 @@ namespace HostileHorizon
                 if (p.OnFoot && !k.mayday && d < 3000f && p.Now == DownedPilot.State.Waiting)
                 {
                     k.mayday = true;
+                    PlayLog.Add($"pilot {p.Index + 1} found ({d / 1000f:0.0} km): {(p.IsAlien ? $"really a {p.Type}, tell {(p.Quirk != AlienType.None ? "shown" : "hidden")}" : "a real pilot")}{(k.wrong ? ", wrong voice" : "")}");
                     if (!foundSaid) { foundSaid = true; Voice.Say(talkRoll.Next(2) == 0 ? "ctl_found_1" : "ctl_found_2", VoiceKind.Radio, 2); }
                     string line = k.wrong && !k.borrowed ? "mayday_wrong" : (p.Index % 2 == 0 ? "mayday_" + Biomes.Keys[(int)WorldBiome] : "mayday");
                     Voice.Say(P(k, line), VoiceKind.Radio, 1, maxAge: 20f);
                 }
-                if (p.Now == DownedPilot.State.Running && !k.saw) { k.saw = true; Voice.Say(P(k, talkRoll.Next(2) == 0 ? "see_1" : "see_2"), VoiceKind.Radio, 1, maxAge: 4f); }
+                if (p.Now == DownedPilot.State.Running && !k.saw) { k.saw = true; PlayLog.Add($"pilot {p.Index + 1} runs to the ship{(p.IsAlien ? $" (a {p.Type})" : "")}"); Voice.Say(P(k, talkRoll.Next(2) == 0 ? "see_1" : "see_2"), VoiceKind.Radio, 1, maxAge: 4f); }
                 if (p.Now == DownedPilot.State.Knocking && Time.time - k.doorAt > 9f)
                 {
                     k.doorAt = Time.time; k.doorCount++;
+                    if (k.doorCount == 1) PlayLog.Add($"pilot {p.Index + 1} at the airlock, knocking{(p.IsAlien ? $" (a {p.Type}, tell {(p.Quirk != AlienType.None ? "shown" : "hidden")})" : "")}");
                     string line = k.wrong && !k.borrowed && k.doorCount % 2 == 1 ? "door_wrong" : (k.doorCount % 2 == 1 ? "door_1" : "door_2");
                     Voice.Say(P(k, line), VoiceKind.Door, 1, Ship.transform, DownedPilot.DoorOutside + Vector3.up * 1.4f, maxAge: 3f);
                 }
