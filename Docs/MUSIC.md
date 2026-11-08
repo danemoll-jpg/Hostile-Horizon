@@ -50,6 +50,14 @@ into `Assets/Resources/Sounds/sting_*.mp3` (built into the game).
 | 6 | `flight_ice.mp3` | White Silence | 3-4 min, loops | cold minimal sci-fi ambient, flying over frozen glaciers and crevasses, glassy high synth bells, icy granular textures, deep slow sub bass, sparse heartbeat kick, wind-like noise swells, vast and lonely, 90 bpm, cinematic, instrumental |
 | 9 | `planet_select.mp3` | The Home System | 2-3 min, loops | wonder and scale, sci-fi star map music, slow shimmering arpeggios, warm wide pads, soft cinematic percussion, curious and adventurous, 85 bpm, instrumental |
 
+## Round 7 biomes (Suno, Dan makes them)
+
+| File | Title | Length | Style prompt |
+|---|---|---|---|
+| `flight_volcanic.mp3` | Ash and Fire | 3-4 min, loops | heavy ominous sci-fi flight music over a volcanic alien world, deep rumbling distorted synth bass, ritual tribal drums, low brass swells, hissing textures, hot and dangerous, minor key, 100 bpm, cinematic, instrumental |
+| `flight_crystal.mp3` | Glass Garden | 3-4 min, loops | strange beautiful sci-fi ambient, flying through a forest of giant glowing crystals, glassy bell tones and shimmering arpeggios, glass harmonica textures, soft pulsing sub bass, light glitchy percussion, eerie wonder, 90 bpm, cinematic, instrumental |
+| `flight_ocean.mp3` | Stacks and Arches | 3-4 min, loops | wide adventurous sci-fi flight music over an alien ocean of rocky islands, rolling ocean-like synth swells, driving low strings, lonely distant horn melody, steady cinematic percussion, wind and spray textures, 105 bpm, cinematic, instrumental |
+
 Later biomes (when they are built) get their own flight track in the same
 style: volcanic ("heavy, rumbling, ritual drums, hot distorted bass"), crystal /
 fungal ("strange, glassy, microtonal, alien"), ocean ("wide, rolling, sea

@@ -168,35 +168,154 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 7 (to be written by the planning chat)
+Current Objective — Round 7: fixes (music, aliens up close, play log, the alien warning) + three more biomes
 ---------------------------------------------------------------------------
 
-Fix 6.3 is delivered as 0.6.3 (status under "Previous deliveries"). Round 7
-(missions and more progression, queued below) is next, once the planning chat
-writes it.
+Fix 6.3 is delivered as 0.6.3 (status under "Previous deliveries"). Dan
+(2026-11-08): "HOTAS is working as expected now." Dan then asked for more
+biomes and polish next: this round is **Part A** (the fixes, items 0-5, commit)
+and **Part B** (three more biomes), one publish: **0.7.0**. Polish is Round 8;
+missions move to Round 9.
+
+**Part A — fixes**
+
+Dan (2026-11-08, PC, 0.6.3):
+- "I may be mistaken but I think the music disappears on planets after a bit."
+- "Still getting a warning about the aliens." (Which warning is being asked;
+  item 3 makes the next one visible in the log either way.)
+- "When they appear the graphics aren't very good. They are too close and you
+  can kind of see through their bodies."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Music that doesn't disappear.** Find out with data why the flight music goes
+   away. Planning chat's reading of `GameShell.Audio.cs` `MusicTick`: the flight
+   track goes silent whenever **any** pilot on foot is within 700 m and the ship
+   is under 250 m above the ground (`NearWaitingPilot`), and while landed; with
+   pilots about 700 m apart and the ship flying low in the canyons, that may be
+   most of the time. Also check the loop / crossfade logic over a long flight
+   (20+ min simulated, every biome track), and the tension layer taking over.
+   Fix: the flight music only drops out for the pickup itself: when the ship is
+   **landed or hovering for a pickup within about 250 m of the pilot it's
+   going for** (the route target), and comes back as soon as you leave; never
+   silent just for flying past a pilot. Log the reason whenever the music goes
+   quiet (item 3).
+2. **Aliens up close look right.**
+   - **"See through their bodies":** find the cause (a transparent / alpha
+     material from Meshy's textures, back faces culled on a one-sided mesh,
+     inverted normals, the cockpit camera's near clip plane (.05 m) cutting into
+     the model, the low LOD used close up, or the canopy glass shader's draw
+     order). Fix it so the creature is solid from every angle, inside and
+     outside the cockpit and through the canopy glass.
+   - **"Too close":** the strike and the canopy pose put the creature's body
+     through or right at the camera. Stage them so the player sees it: the
+     canopy creature pressed against the outside of the glass at a readable
+     distance (head and shoulders filling the view, not inside the camera);
+     the cockpit strike stops about 0.5-0.8 m from the player's eyes, face lit,
+     body visible behind it (VR rule 5 still: it comes at you, the camera
+     isn't moved).
+   - Up close it always uses the **full-detail** model and textures (no LOD
+     swap), with a light that shows its shape (a rim / cockpit light on it).
+   - Check with pictures from the cockpit for each of the five creatures: on
+     the canopy, at the strike, in the cabin camera, that Code looks at and
+     describes (solid? readable? scary?), before / after.
+3. **A play log Dan's planning chat can read.** In players' builds, write game
+   events (not every frame) to `Player.log` with a `[Play]` prefix: launch,
+   planet / biome, pilots found / boarded / lost, every alien event (type,
+   tell shown or not, door, canopy, strike type and time), every music change
+   with the reason (track, quiet: why), every computer / Control voice line,
+   docking, deaths. Short lines, so the planning chat can read what happened
+   in Dan's session from his PC.
+4. **The alien warning** — Dan: "the cockpit shuts down and the music
+   starts", before the creature is on him. That is the **slow burn** strike
+   (`GameShell.Strike.cs`: 25 %, `Horror(..., 3, ...)`: lights and displays
+   die, cabin noises, hatch hits, before the attack), which still announces
+   it. Dan wants the jump scare. **Remove the slow burn** (weights become
+   Instant about 55 % / On take-off about 45 %, tuning). In every strike,
+   the order is: the creature is on the player first (hatch bursts, lunge),
+   and only then the sting, the cut of the music, the lights / displays going
+   and the INTRUDER call. Nothing (no music, sting, sound, light, display,
+   input or message change) before the creature is visible. Check that no
+   tension / regeneration / other track can start before it. Prove with the
+   `[Play]` log and the event comparison from Round 6.
+5. **Check (muted, no focus):** item 1's music on a long low flight past pilots
+   in each biome (logged: it keeps playing, drops only for the pickup); the
+   creature pictures; the `[Play]` lines from a full campaign run.
+6. Commit Part A (publishing happens at the end of the round).
+
+**For Dan to check:** does the music stay with you while flying? Let an alien
+in or wait for one on the canopy: does it look solid and readable now? If
+anything strange happens, say so: the planning chat can read the `[Play]` log.
+
+
+**Part B — three more biomes** (Dan, 2026-11-08: "I want more biomes")
+
+B1. Add **Volcanic**, **Crystal Forest** and **Ocean Islands** to the biomes
+    a planet's seed can pick (Round 4's rules: one biome per planet, same seed
+    = same biome, the first planet of a career is Canyons; Free Flight's biome
+    picker gets them). Same game rules everywhere: landing pads, pilots and
+    wrecks, aliens, turrets and saucers placed to fit, radar, route trail,
+    recall / tow, crash levels.
+B2. **Volcanic:** black basalt canyons and cliffs, **lava rivers and lakes** in
+    the valley floors (glowing, they light the canyon walls from below; flying
+    into lava is a crash at any crash level except Ghost; low over it: heat
+    shimmer and a hull-heat warning), ash falling, smoke plumes, glowing vents,
+    a dark red sky. Pads on cooled rock shelves above the lava.
+B3. **Crystal Forest:** huge glassy crystal spires and clusters (10-200 m),
+    some translucent and glowing from inside in cold colours, refracting the
+    light; fields of smaller crystals; dark ground with luminous fungus /
+    moss; a pale violet sky. Crystals are solid (crash levels apply); thin
+    crystal shards break when hit (debris, chime-like shatter), big spires
+    don't. Pads in the clearings.
+B4. **Ocean Islands:** open sea with **tall rocky islands, sea stacks and
+    arches** to fly between and through, cliffs, surf breaking at their feet,
+    a moving water surface with reflections, sea spray low down, gulls-like
+    alien fliers (harmless, few). Hitting the water hard is a crash; skimming it
+    throws spray. Pilots crashed on island tops, beaches and ledges (the pads);
+    turrets on cliff tops; saucers over open water.
+B5. Each gets its own sky, light, weather, fog, materials and particles, as in
+    Round 4; its own Suno flight track (`flight_volcanic.mp3`,
+    `flight_crystal.mp3`, `flight_ocean.mp3`; prompts in `Docs/MUSIC.md`;
+    Dan's tracks are **already in `BundleMusic/`** (2026-11-08, put there by the
+    planning chat: volcanic 3:07, crystal 3:34, ocean 3:10); loop them like the
+    others and ship them in a soundtrack update); and new voice
+    lines where useful (Control naming the biome at launch, the computer's
+    "Hull heat" warning over lava).
+B6. Performance as Round 4 (instancing, LOD, the Deck setting thins them);
+    report frame rate per new biome on PC and the Deck setting.
+B7. **Check (muted, no focus):** per new biome: cockpit pictures flying low, a
+    landing at a pilot, a turret, the route trail; lava / water crash and heat
+    warning; crystal shard break; the same seed = the same biome; frame rate.
+
+**End of the round:** publish **0.7.0** (Part A = items 0-5 above, Part B), update
+`TODO.md` (per-item status for Part A and B1-B7: done / not done / deferred and
+why; the causes found) and `CLAUDE.md`, clean up, commit and push. Tell Dan if
+the three Suno tracks aren't in yet.
+
+**For Dan to check (Part B):** do the volcano, crystal and ocean planets feel
+different and good to fly? Lava, the arches, the crystal spires.
+
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **More biomes (after Round 4):** volcanic, crystal / fungal forest, ocean
-  islands, each with its own Suno flight track.
-- **Round 7 — Missions and more progression:** mission objectives (recover a
+- **Round 8 — Polish (Dan, 2026-11-08: next after Round 7):** the ship, cockpit,
+  mothership, turrets and saucers made through Dan's art pipeline (concept art
+  -> Meshy -> Blender clean-up; cockpit detailed for VR), a sound pass, Steam
+  Deck tuning, credits.
+- **Round 9 — Missions and more progression:** mission objectives (recover a
   flight recorder, knock out a turret cluster, timed rescues, no-damage runs),
   recovering your own wreck yourself, insurance, best run per planet.
 - **Enemies more of a threat** (DEFERRED by Dan 2026-11-07 until he's used to
   them; not decided against): turrets that hit a moving ship sometimes on
   Normal, saucers that hunt, more fire. Round 5's tuning note
   (`turretLead`, `turretAimError`, `boltHitRadius`) applies.
-- **Round 8 — Look and sound polish:** art pass (ship model, cockpit,
-  mothership; pilots and aliens are done), sound pass, Steam Deck tuning,
-  credits.
-- **Round 9+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
+- **Round 10+ — VR:** OpenXR, PC VR through Virtual Desktop / SteamVR first:
   head-tracked cockpit, world-space menus, comfort options (all OFF by
   default: no snap turn, no fades, no vignette; Dan wants realism), VR performance
   pass. Native Quest decided afterwards.
 - **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
-  After Round 7 unless Dan moves it.
+  After Round 9 unless Dan moves it.
 
 ---------------------------------------------------------------------------
 Previous deliveries
