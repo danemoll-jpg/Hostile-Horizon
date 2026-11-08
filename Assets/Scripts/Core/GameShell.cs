@@ -364,9 +364,14 @@ namespace HostileHorizon
                 .Add(Option("Default view", () => CameraRig.ModeNames[GameSettings.S.cameraDefault], d => { GameSettings.S.cameraDefault = Wrap(GameSettings.S.cameraDefault + d, 4); Saved(); }))
                 .Add(Action("Sound", () => Menu.Show(sound)))   // Round 4 (B4, C4): the volumes and subtitles
                 .Add(Option("Route trail", () => GameSettings.S.routeTrail ? "On" : "Off", d => { GameSettings.S.routeTrail = !GameSettings.S.routeTrail; Saved(); }))
+                // Fix 6.2: back to the defaults (asked first); careers, saves and the Field Journal are never touched
+                .Add(ResetRow("this page", GameSettings.ResetFlight, () => settings))
+                .Add(Action("Reset all settings", () => Confirm("Reset all settings to the defaults?",
+                    "Flying, controls and the HOTAS, sound and display all go back to the defaults.\nYour careers, saves and the Field Journal are not changed.",
+                    () => { GameSettings.ResetAll(); Controls.ForgetCalibration(); Controls.ForgetLeverMoves(); Saved(); }, settings)))
                 .Add(Action("Back", () => Menu.Show(settingsReturn ?? title)));
             settings.Body = () =>
-                "<b>Flight assist</b>: Full banks the ship round on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
+                "<b>Flight assist</b>: Full banks the ship into turns on its own and levels the wings quickly (as 0.2.3).\n  Light (default): stick centred, the ship holds its attitude; pulling while banked turns a little\n  tighter. Off: none; bank and pull to turn.\n" +
                 "<b>Stick sensitivity</b>: how fast the ship turns at full stick (100 % = normal).\n" +
                 "<b>Auto-level</b>: let go of the stick and the ship rolls upright and eases its nose to the horizon\n  (Full and Light; never while you steer). <b>Righting speed</b>: how quickly. Level-out button: " + Controls.LevelOutKey + ".\n" +
                 "<b>Route trail</b>: glowing gates along the canyons to the nearest pilot (then the mothership).\n\n" +
@@ -381,6 +386,7 @@ namespace HostileHorizon
                  .Add(Option("Effects", () => Pct(GameSettings.S.effectsVolume), d => { GameSettings.S.effectsVolume = Step(GameSettings.S.effectsVolume, d); Saved(); }))
                  .Add(Option("Voices", () => Pct(GameSettings.S.voiceVolume), d => { GameSettings.S.voiceVolume = Step(GameSettings.S.voiceVolume, d); Saved(); }))
                  .Add(Option("Subtitles", () => GameSettings.S.subtitles ? "On" : "Off", d => { GameSettings.S.subtitles = !GameSettings.S.subtitles; Saved(); }))
+                 .Add(ResetRow("the sound settings", GameSettings.ResetSound, () => sound))
                  .Add(Action("Back", () => Menu.Show(settings)));
 
             BuildControlsPages();   // Fix 6.1: Settings > Controls (per device, with pictures) and HOTAS setup
@@ -392,6 +398,7 @@ namespace HostileHorizon
                    .Add(Option("Resolution", () => ScreenSetting.ResolutionLabel, ScreenSetting.StepResolution))
                    .Add(Option("Graphics quality", () => new[] { "Low", "Medium", "High" }[GameSettings.S.quality], d => { GameSettings.S.quality = Wrap(GameSettings.S.quality + d, 3); Saved(); }))
                    .Add(Option("Steam Deck", () => SteamDeck.Label, d => { GameSettings.S.steamDeck = Wrap(GameSettings.S.steamDeck + d, 3); Saved(); }))
+                   .Add(ResetRow("the display settings", GameSettings.ResetDisplay, () => display))
                    .Add(Action("Back", () => Menu.Show(settings)));
 
             credits = new MenuPanel.Page { Title = "CREDITS", Back = () => Menu.Show(title), Body = () =>

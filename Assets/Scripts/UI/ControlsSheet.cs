@@ -14,11 +14,12 @@ namespace HostileHorizon
         public int Highlight = -1;          // HOTAS symbol index lit on the picture ("identify your buttons")
         public bool PictureOnly;            // HOTAS setup: no list; Report text instead
         public System.Func<string> Report;
+        public System.Func<string> Top;     // Fix 6.2: HOTAS setup's big live throttle readout, over the picture
 
         const int W = 760, Hh = 700;
         RawImage pic; Texture2D tex; Color32[] px; string drawnKey;
         readonly List<Text> labels = new List<Text>(); readonly List<Text> marks = new List<Text>();
-        readonly List<Text> listTexts = new List<Text>(); Transform root; Text report, note;
+        readonly List<Text> listTexts = new List<Text>(); Transform root; Text report, note, top;
 
         public static ControlsSheet Create(Transform menuRoot, bool pictureOnly)
         {
@@ -29,6 +30,8 @@ namespace HostileHorizon
             s.tex = new Texture2D(W, Hh, TextureFormat.RGBA32, false) { name = "Controls picture", wrapMode = TextureWrapMode.Clamp }; s.px = new Color32[W * Hh];
             s.pic.texture = s.tex;
             s.note = UiKit.Label(root, "Note", 24, TextAnchor.UpperLeft, UiKit.Dim, Vector2.up, Vector2.up, new Vector2(960, -900), new Vector2(1700, -280));
+            if (pictureOnly)
+                s.top = UiKit.Label(root, "Throttle readout", 24, TextAnchor.LowerLeft, UiKit.Ink, Vector2.up, Vector2.up, new Vector2(940, -248), new Vector2(1900, -150));
             if (pictureOnly)
                 s.report = UiKit.Label(root, "Report", 23, TextAnchor.UpperLeft, UiKit.Ink, Vector2.up, Vector2.up, new Vector2(150, -1000), new Vector2(900, -800));
             root.gameObject.SetActive(false);
@@ -46,9 +49,10 @@ namespace HostileHorizon
 
         void Update()
         {
-            string key = $"{Showing}|{Highlight}|{string.Join(",", GameSettings.S.hotasButtons ?? new int[0])}|{string.Join(",", GameSettings.S.hotasSymbolButtons ?? new int[0])}";
+            string key = $"{Showing}|{Highlight}|{CalStep}|{string.Join(",", CalReached)}|{string.Join(",", GameSettings.S.hotasButtons ?? new int[0])}|{string.Join(",", GameSettings.S.hotasSymbolButtons ?? new int[0])}";
             if (key != drawnKey) { drawnKey = key; Draw(); }
             if (report) report.text = Report?.Invoke() ?? "";
+            if (top) top.text = Top?.Invoke() ?? "";
             if (!PictureOnly) List();
         }
 
@@ -155,7 +159,7 @@ namespace HostileHorizon
             Line(left ? 206 : 554, slotY, tx, ty, 2, lit ? Lit : unused ? new Color(.4f, .42f, .45f, .8f) : LineC);
             Circle(tx, ty, 3.5f, lit ? Lit : LineC);
         }
-        void Letter(float x, float y, string s, Color c) { var m = Mark(markUsed++); m.text = s; m.color = c; m.rectTransform.offsetMin = new Vector2(x - 30, -y - 12); m.rectTransform.offsetMax = new Vector2(x + 30, -y + 12); }
+        void Letter(float x, float y, string s, Color c) { var m = Mark(markUsed++); m.text = s; m.fontSize = 15; m.color = c; m.rectTransform.offsetMin = new Vector2(x - 30, -y - 12); m.rectTransform.offsetMax = new Vector2(x + 30, -y + 12); }
 
         void Draw()
         {
@@ -165,59 +169,146 @@ namespace HostileHorizon
             note.text = "";
             if (Showing == Controls.Device.Hotas) DrawHotas();
             else if (Showing == Controls.Device.Gamepad) DrawPad();
-            else note.text = "<b>Keyboard and mouse</b>\n\nHold the right mouse button and move the mouse to look round.\nThe left mouse button fires too.\n\nEvery key is in the list on the left.";
+            else note.text = "<b>Keyboard and mouse</b>\n\nHold the right mouse button and move the mouse to look around.\nThe left mouse button fires too.\n\nEvery key is in the list on the left.";
             tex.SetPixels32(px); tex.Apply(false);
             pic.enabled = Showing != Controls.Device.Keyboard;
         }
 
+        // Fix 6.2: the HOTAS as it is (Dan: "the layout on the screen is not accurate"). Our own drawing after the idea of Thrustmaster's
+        // mapping poster (reference only, SourceArt/Reference): from the front, the throttle on the left, the stick on the right, the
+        // base between them with SHARE / PS / OPTIONS; close-ups where buttons can't be seen from the front: the throttle's right side
+        // (square, cross, circle, triangle top to bottom, the rocker below), the throttle's back (R2 high, L2 low), the stick's head
+        // (hat, L1 the blue one, L3) and the stick from the side (R1 at the back of the head, the trigger, printed R3 on Dan's unit).
+        // Each printed symbol has its place; what it does comes from the button it sends (identify / assign).
+        static readonly Color Ink2 = new Color(.08f, .09f, .1f), Blue = new Color(.22f, .42f, .9f), Frame = new Color(.36f, .38f, .42f, .9f);
+        // where each printed symbol is (HotasSymbols order: R2 R1 R3 L1 L2 L3 square cross circle triangle SHARE OPTIONS)
+        static readonly Vector2[] SymbolAt =
+        {
+            new Vector2(290, 616), new Vector2(512, 582), new Vector2(424, 628), new Vector2(470, 480), new Vector2(290, 662), new Vector2(514, 438),
+            new Vector2(300, 398), new Vector2(300, 430), new Vector2(300, 462), new Vector2(300, 494), new Vector2(366, 298), new Vector2(424, 298),
+        };
+        static readonly Vector2 LeverAt = new Vector2(286, 150), RockerAt = new Vector2(300, 530), StickAt = new Vector2(480, 150), TwistAt = new Vector2(514, 222),
+            HatAt = new Vector2(430, 412), PsAt = new Vector2(395, 280);
+
+        void Caption(float x0, float y0, float x1, string s)
+        {
+            var m = Mark(markUsed++); m.text = s; m.color = UiKit.Dim; m.fontSize = 20;
+            m.rectTransform.offsetMin = new Vector2(x0, -y0 - 12); m.rectTransform.offsetMax = new Vector2(x1, -y0 + 12);
+        }
+        void Inset(float x0, float y0, float x1, float y1, string caption)
+        {
+            RoundRect(x0, y0, x1, y1, 12, new Color(.1f, .11f, .12f, .85f));
+            for (int i = 0; i < 2; i++) { Line(x0 + 6, y0, x1 - 6, y0, 1.5f, Frame); Line(x0 + 6, y1, x1 - 6, y1, 1.5f, Frame); Line(x0, y0 + 6, x0, y1 - 6, 1.5f, Frame); Line(x1, y0 + 6, x1, y1 - 6, 1.5f, Frame); }
+            Caption(x0, y0 + 13, x1, caption);
+        }
+        void Button(int k, bool pill = false, bool blue = false)
+        {
+            var p = SymbolAt[k]; bool lit = Highlight == k, unused = HotasJob(k) == null && Highlight < 0;
+            var col = lit ? Lit : unused ? Unused : blue ? Blue : Btn;
+            if (pill) RoundRect(p.x - 19, p.y - 9, p.x + 19, p.y + 9, 9, col);
+            else if (k == 0 || k == 4) RoundRect(p.x - 24, p.y - 12, p.x + 24, p.y + 12, 8, col);
+            else Circle(p.x, p.y, 15, col);
+            if (lit) Ring(p.x, p.y, pill || k == 0 || k == 4 ? 28 : 21, 4, Lit);
+            string s = Controls.HotasSymbols[k];
+            if (s.Length == 1) Symbol(s, p.x, p.y, Ink2); else if (!pill) Letter(p.x, p.y, s, blue && !lit ? Color.white : Ink2);
+        }
+
         void DrawHotas()
         {
-            // the throttle (left) and the stick (right)
-            RoundRect(225, 480, 395, 665, 22, Body);
-            RoundRect(250, 140, 360, 520, 32, Body2); RoundRect(262, 150, 348, 220, 24, Edge);
-            Arrow(238, 430, 238, 330, Btn); Arrow(238, 330, 238, 430, Btn);
-            Circle(470, 605, 78, Body); Ring(470, 605, 52, 4, new Color(.25f, .35f, .75f));
-            RoundRect(455, 440, 485, 580, 10, Body2);
-            RoundRect(422, 190, 518, 465, 36, Body2); RoundRect(418, 140, 522, 235, 32, Edge);
-            Arrow(470, 500, 470, 470, Btn); Arrow(470, 500, 500, 500, Btn); Arrow(470, 500, 440, 500, Btn); Arrow(470, 500, 470, 530, Btn);
-            Ring(470, 395, 58, 3, new Color(Btn.r, Btn.g, Btn.b, .7f)); Arrow(520, 365, 528, 380, Btn);
+            if (CalStep > 0) { DrawCalibration(); return; }
+            // ---- from the front: the base (throttle half on the left, the panel, the stick's round base), the throttle grip, the stick
+            RoundRect(214, 222, 372, 322, 44, Body);                                        // the throttle's half of the base
+            RoundRect(232, 126, 336, 236, 30, Body2); RoundRect(222, 92, 344, 162, 32, Edge); // the throttle grip and its head
+            Arrow(228, 200, 228, 120, Btn); Arrow(228, 120, 228, 200, Btn);                 // the lever goes forward / back
+            Circle(480, 274, 74, Body); Ring(480, 274, 48, 4, Blue);                        // the stick's base and its blue ring
+            RoundRect(340, 262, 448, 318, 12, Body);                                        // the panel between
+            RoundRect(467, 186, 493, 262, 10, Body2); RoundRect(448, 92, 512, 206, 26, Body2); RoundRect(442, 44, 518, 110, 22, Edge);   // shaft, grip, head
+            Circle(458, 70, 7, Btn); RoundRect(474, 64, 486, 84, 3, Blue); Circle(502, 70, 6, Btn);   // hat, L1, L3 (close-up below)
+            Arrow(480, 150, 480, 128, Ink2); Arrow(480, 150, 480, 172, Ink2); Arrow(480, 150, 460, 150, Ink2); Arrow(480, 150, 500, 150, Ink2);
+            Ring(480, 222, 34, 3, new Color(Btn.r, Btn.g, Btn.b, .75f)); Arrow(506, 200, 514, 214, Btn);   // the twist
+            Button(10, true); Button(11, true);
+            Circle(PsAt.x, PsAt.y, 9, Unused); Letter(PsAt.x, PsAt.y, "PS", Ink2);          // PS: not used (it switches the HOTAS's mode)
 
-            // where each symbol sits: (symbol index, x, y, left side?)
-            var at = new (int k, float x, float y)[]
-            {
-                (3, 290, 172), (4, 330, 205), (5, 280, 255),          // L1 L2 L3
-                (9, 318, 300), (6, 292, 328), (8, 344, 328), (7, 318, 356),   // △ □ ○ ✕
-                (10, 258, 628), (11, 310, 628),                    // SHARE OPTIONS
-                (1, 498, 170), (2, 432, 290), (0, 518, 262),       // R1 R3 R2 (trigger)
-            };
-            foreach (var (k, x, y) in at)
-            {
-                bool lit = Highlight == k, unused = HotasJob(k) == null && Highlight < 0;
-                var col = lit ? Lit : unused ? Unused : Btn;
-                if (k >= 10) RoundRect(x - 20, y - 9, x + 20, y + 9, 9, col); else Circle(x, y, k == 0 ? 13 : 13, col);
-                if (lit) Ring(x, y, k >= 10 ? 26 : 22, 4, Lit);
-                string s = Controls.HotasSymbols[k];
-                if (s.Length == 1) Symbol(s, x, y, new Color(.08f, .09f, .1f)); else if (k < 10) Letter(x, y, s, new Color(.08f, .09f, .1f));
-            }
-            Circle(360, 628, 10, Unused); Letter(360, 628, "PS", new Color(.08f, .09f, .1f));   // PS: not used (it switches the HOTAS's mode)
-            Circle(448, 178, 17, Btn); Line(448, 168, 448, 188, 3, Body); Line(438, 178, 458, 178, 3, Body);   // the hat
+            // ---- close-ups
+            Inset(205, 350, 376, 550, "THROTTLE SIDE");
+            RoundRect(262, 378, 340, 544, 30, Body2);
+            for (int k = 6; k <= 9; k++) Button(k);
+            RoundRect(RockerAt.x - 26, RockerAt.y - 9, RockerAt.x + 26, RockerAt.y + 9, 8, Btn);
+            Arrow(RockerAt.x, RockerAt.y, RockerAt.x - 22, RockerAt.y, Ink2); Arrow(RockerAt.x, RockerAt.y, RockerAt.x + 22, RockerAt.y, Ink2);
+            Inset(205, 562, 376, 690, "THROTTLE BACK");
+            RoundRect(250, 588, 330, 686, 28, Body2);
+            Button(0); Button(4); Letter(SymbolAt[0].x, SymbolAt[0].y, "R2", Ink2); Letter(SymbolAt[4].x, SymbolAt[4].y, "L2", Ink2);
+            Inset(386, 350, 555, 520, "STICK HEAD");
+            RoundRect(400, 380, 542, 510, 40, Edge);
+            Circle(HatAt.x, HatAt.y, 20, Btn); Line(HatAt.x, HatAt.y - 12, HatAt.x, HatAt.y + 12, 4, Body); Line(HatAt.x - 12, HatAt.y, HatAt.x + 12, HatAt.y, 4, Body);
+            Button(3, false, true); Button(5);
+            Inset(386, 530, 555, 690, "STICK SIDE");
+            RoundRect(446, 558, 532, 608, 22, Edge); RoundRect(452, 598, 506, 684, 22, Body2);   // the head and the grip, seen from the left
+            Line(424, 608, 452, 608, 3, Body2); Line(424, 608, 424, 650, 3, Body2);             // the trigger guard
+            Button(1); Button(2);
+            Caption(386, 682, 470, "← front");
 
-            // callouts: throttle on the left, stick on the right, in slot order by height
+            // ---- labels: the throttle and the base's left on the left; the stick on the right (a symbol's job: its button's)
             string Job(int k) => HotasJob(k) ?? "not used";
-            var left = new (int k, float x, float y)[] { (3, 290, 172), (4, 330, 205), (5, 280, 255), (9, 318, 300), (6, 292, 328), (8, 344, 328), (7, 318, 356), (10, 258, 628), (11, 310, 628) };
-            float slot = 60;
-            foreach (var (k, x, y) in left)
+            var left = new System.Collections.Generic.List<(string head, string job, Vector2 at, bool lit, bool unused)>
             {
-                if (left[4].k == k) { Callout(true, slot, 238, 380, "Throttle lever", "Throttle", false, false); slot += 60; }   // the lever, between the face buttons
-                Callout(true, slot, x, y, Controls.SymbolText(k), Job(k), Highlight == k, HotasJob(k) == null); slot += 60;
+                ("Throttle lever", "Throttle", LeverAt, false, false), Sym(10), Sym(6), Sym(7), Sym(8), Sym(9),
+                ("Rocker", "Yaw (as the twist)", RockerAt, false, false), Sym(0), Sym(4),
+            };
+            var right = new System.Collections.Generic.List<(string head, string job, Vector2 at, bool lit, bool unused)>
+            {
+                ("Stick", "Pitch / roll · menus", StickAt, false, false), ("Twist", "Yaw", TwistAt, false, false), Sym(11),
+                ("Hat", "Look · menus", HatAt, false, false), Sym(5), Sym(3), Sym(1),
+                Sym(2, (GameSettings.S.hotasSymbolButtons ?? Controls.DefaultSymbolButtons)[2] == 1 ? " (trigger)" : ""),
+            };
+            (string, string, Vector2, bool, bool) Sym(int k, string extra = "") => (Controls.SymbolText(k) + extra, Job(k), SymbolAt[k], Highlight == k, HotasJob(k) == null);
+            foreach (var (side, list) in new[] { (true, left), (false, right) })
+            {
+                var y = new float[list.Count];
+                for (int i = 0; i < y.Length; i++) y[i] = Mathf.Max(list[i].at.y, i > 0 ? y[i - 1] + 70 : 34);
+                for (int i = y.Length - 1; i >= 0; i--) y[i] = Mathf.Min(y[i], i < y.Length - 1 ? y[i + 1] - 70 : 666);
+                for (int i = 0; i < y.Length; i++) Callout(side, y[i], list[i].at.x, list[i].at.y, list[i].head, list[i].job, list[i].lit, list[i].unused);
             }
-            Callout(true, slot, 360, 628, "PS", "not used", false, true);
-            Callout(false, 70, 448, 178, "Hat", "Look · menus", false, false);
-            Callout(false, 160, 498, 170, Controls.SymbolText(1), Job(1), Highlight == 1, HotasJob(1) == null);
-            Callout(false, 250, 518, 262, Controls.SymbolText(0) + " (trigger)", Job(0), Highlight == 0, false);
-            Callout(false, 340, 432, 290, Controls.SymbolText(2), Job(2), Highlight == 2, HotasJob(2) == null);
-            Callout(false, 430, 528, 380, "Twist", "Yaw", false, false);
-            Callout(false, 520, 500, 500, "Stick", "Pitch / roll · menus", false, false);
+        }
+
+        // Fix 6.2: calibration, step by step: the stick seen from above, a marker at each edge that turns green when reached, the stick's
+        // position as a dot (Controls page's calibration only; drawn when the step or a marker changes, the dot moves every frame).
+        public int CalStep;                      // 0 off, 1 let go, 2 each edge, 3 press the trigger
+        public readonly bool[] CalReached = new bool[4];
+        public Vector2 CalDot;
+        RectTransform dot;
+        static readonly Vector2 CalC = new Vector2(380, 330); const float CalR = 190;
+        void DrawCalibration()
+        {
+            Caption(180, 40, 580, "THE STICK, SEEN FROM ABOVE");
+            Circle(CalC.x, CalC.y, CalR + 20, Body); Ring(CalC.x, CalC.y, CalR, 3, Edge);
+            Line(CalC.x - CalR, CalC.y, CalC.x + CalR, CalC.y, 1.5f, Frame); Line(CalC.x, CalC.y - CalR, CalC.x, CalC.y + CalR, 1.5f, Frame);
+            Circle(CalC.x, CalC.y, 16, Body2); Ring(CalC.x, CalC.y, 16, 2, Edge);
+            var green = new Color(.35f, .85f, .4f);
+            var marks = new[] { (new Vector2(0, -1), "FORWARD"), (new Vector2(0, 1), "BACK"), (new Vector2(-1, 0), "LEFT"), (new Vector2(1, 0), "RIGHT") };
+            for (int k = 0; k < 4; k++)
+            {
+                var (d, name) = marks[k]; var p = CalC + d * (CalR + 2); bool ok = CalReached[k] && CalStep >= 2;
+                Circle(p.x, p.y, 24, ok ? green : Unused); Arrow(p.x - d.x * 10, p.y - d.y * 10, p.x + d.x * 12, p.y + d.y * 12, ok ? Ink2 : Btn);
+                var lp = CalC + d * (CalR + (d.x != 0 ? 100 : 56));
+                Caption(lp.x - 90, lp.y, lp.x + 90, ok ? name + "  " + Controls.Glyph("✓", "(done)") : name);
+            }
+            Caption(180, 660, 580, CalStep == 1 ? "Step 1 of 3: hands off the stick" : CalStep == 2 ? "Step 2 of 3: reach every marker" : $"Step 3 of 3: press {Controls.HotasName(1)} (the trigger)");
+        }
+
+        void LateUpdate()
+        {
+            bool on = CalStep > 0 && Showing == Controls.Device.Hotas;
+            if (on && dot == null)
+            {
+                dot = UiKit.Rect(pic.transform, "Stick dot", Vector2.up, Vector2.up, Vector2.zero, Vector2.zero);
+                var img = dot.gameObject.AddComponent<Image>(); img.color = Lit; img.raycastTarget = false;
+            }
+            if (dot == null) return;
+            dot.gameObject.SetActive(on);
+            if (!on) return;
+            var v = Vector2.ClampMagnitude(new Vector2(CalDot.x, -CalDot.y), 1.15f) * CalR + CalC;   // stick forward (+y) = up on the picture
+            dot.offsetMin = new Vector2(v.x - 11, -v.y - 11); dot.offsetMax = new Vector2(v.x + 11, -v.y + 11);
         }
 
         void DrawPad()

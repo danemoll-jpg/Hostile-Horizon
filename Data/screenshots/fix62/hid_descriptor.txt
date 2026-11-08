@@ -1,0 +1,18 @@
+device \\?\hid#vid_044f&pid_b67c#6&3925ff2d&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}
+VID 0x044f PID 0xb67c version 0x0110 "T.Flight Hotas 4"
+top-level usage page 0x01 usage 0x04, input report 64 bytes
+input values (descriptor order as Windows lists them):
+  y          page 0x01 usage 0x31  logical 0..1023  16 bits  report 1  Unity: stick/y
+  x          page 0x01 usage 0x30  logical 0..1023  16 bits  report 1  Unity: stick/x
+  dial       page 0x01 usage 0x37  logical 0..255  8 bits  report 1  Unity: dial
+  slider     page 0x01 usage 0x36  logical 0..255  8 bits  report 1  Unity: slider
+  ry         page 0x01 usage 0x34  logical 0..255  8 bits  report 1  Unity: ry
+  rx         page 0x01 usage 0x33  logical 0..255  8 bits  report 1  Unity: rx
+  rz         page 0x01 usage 0x35  logical 0..255  8 bits  report 1  Unity: rz
+  z          page 0x01 usage 0x32  logical 0..255  8 bits  report 1  Unity: z
+  hat        page 0x01 usage 0x39  logical 0..7  4 bits  report 1  Unity: hat
+  page 0xff00 usage 0x21 page 0xff00 usage 0x21  logical 0..1  8 bits  report 1  Unity: (not used by Unity)
+  buttons page 0x09 usage 1..12  report 1
+logging 3 s: move the throttle lever all the way forward and back
+ 63.776 y 512  x 260  dial 128  slider 128  ry 255  rx 255  rz 128  z 126  hat 8  page 0xff00 usage 0x21 218  buttons []
+range seen: y 512..512  x 260..260  dial 128..128  slider 128..128  ry 255..255  rx 255..255  rz 128..128  z 126..126  hat 8..8  page 0xff00 usage 0x21 218..218

@@ -1840,3 +1840,181 @@ must not feed it). Confirm with logged input before fixing.
 stay put? Is the Controls page readable and does it show only the HOTAS? Do
 the in-game prompts switch to Xbox buttons when you pick up the controller?
 
+---------------------------------------------------------------------------
+Fix 6.2 specification (moved from TODO.md at the end of Fix 6.2, 2026-11-07)
+---------------------------------------------------------------------------
+
+---------------------------------------------------------------------------
+Current Objective — Fix 6.2: HOTAS reset to defaults, the throttle lever, clear calibration, an accurate HOTAS picture
+---------------------------------------------------------------------------
+
+Fix 6.1 is delivered as 0.6.1 (status under "Previous deliveries"). Round 7
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-07, PC, HOTAS, 0.6.1): "Seems to be working mostly." But:
+- "I was on the settings screen and accidentally changed some values but there
+  is no way to reset to default for the HOTAS."
+- "It doesn't seem the throttle does anything. I am stuck at 30 % no matter
+  what." (He may have changed the Throttle axis / Invert lever by accident,
+  but it must be found, not guessed.)
+- "I accidentally hit calibrate and it asked to move the stick 'right round'. I
+  have no idea what 'right round' means."
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Reset to defaults.**
+   - HOTAS setup page: **Reset HOTAS settings** (stick calibration, throttle
+     axis, invert lever, button identification, button assignments, deadzone)
+     back to the defaults, with a confirm ("Reset all HOTAS settings? Yes / No").
+   - Every Settings page gets **Reset this page to defaults** (confirm), and
+     Settings gets **Reset all settings** (confirm). Saves, careers and the
+     Field Journal are never touched by these.
+2. **The throttle lever must work.**
+   - Find the real cause with data: log the raw value of every HOTAS axis
+     (`<Joystick>` x, y, z, rx, ry, rz, slider(s), dial, twist) while the lever
+     is moved, as reported by Unity's Input System for this device; which one
+     is the lever? Check what `Auto` picks, what a changed Throttle axis /
+     Invert lever setting does, and why the ship's throttle stays at its 30 %
+     start (e.g. the lever value never reaching the ship, or another source —
+     the gamepad triggers' ThrottleChange — overriding it). Report the cause.
+   - **Auto-detect the lever:** in HOTAS setup, **Find throttle lever: "Move the
+     throttle lever all the way forward and back"** picks the axis that moved
+     the most (the stick's axes and twist excluded) and saves it. Auto mode
+     does the same by itself the first time the lever moves.
+   - On the HOTAS setup page, a big live **Throttle: 64 %** readout and bar, so
+     Dan can see the lever working without flying.
+   - When a HOTAS lever is active, the ship's throttle follows the lever
+     directly (absolute), from the first frame of flight; it is not stuck at
+     the 30 % launch value.
+   - Note for Dan in the status: the T.Flight HOTAS 4 has a **PC / PS4 mode
+     switch** on its base; it should be on **PC** when used on the computer
+     (Code: check whether the PS4 position changes what the PC sees, if it can
+     be told from the device's report).
+3. **Calibration in plain words, and hard to start by accident.**
+   - Selecting Calibrate asks first: "Calibrate the stick? Takes about 10
+     seconds. Yes / No".
+   - Then clear steps, one at a time, with the HOTAS picture:
+     **1. Let go of the stick** (it reads the centre),
+     **2. Push the stick to each edge: forward, back, left and right — or
+     slowly round in full circles — 2 or 3 times** (four direction markers
+     around the picture tick off as each edge is reached),
+     **3. Press the trigger to finish.** ○ / Back cancels at any step and
+     keeps the old calibration.
+   - No idioms anywhere in the game's text ("right round" and the like): plain
+     words a first-time player understands. Review all HOTAS / controls text
+     for this.
+4. **A HOTAS picture that matches the real thing** (Dan, 2026-11-07: "the
+   layout on the screen is not accurate so not easy to understand where
+   everything is"; he sent Thrustmaster's own mapping poster as the model:
+   `SourceArt/Reference/hotas4_layout_reference.jpg`, next to his photo
+   `hotas_dan.jpg`. **Reference only: never ship, copy or trace that poster**
+   — it is Thrustmaster's / Frontier's artwork. Draw our own.)
+   - Same idea as the poster: the **throttle and the stick drawn in their real
+     shapes and real positions** (throttle on the left, stick on the right, the
+     base between with SHARE / PS / OPTIONS), plus **close-up insets** where
+     buttons can't be seen from the front: the throttle's side face with
+     **□ ✕ ○ △** top to bottom on its right side and the **rocker** below them,
+     the throttle's top with its two buttons (L2 / R2 on this unit; check with
+     the identify step), the **back of the stick** (R3 at the top back, the
+     trigger / R2-side), and the stick's head from the front (**hat**, L1, L3).
+   - Every control has a thin **leader line** to a short label of what it does in
+     our game, grouped by side like the poster; unused controls are drawn
+     but greyed without a label. Axes are labelled too: stick (pitch / roll),
+     twist (yaw), throttle lever (throttle), rocker (whatever Code maps it to
+     — suggested: yaw, as an alternative to the twist).
+   - Dark background, clean light lines, our game's font, readable at 1080p
+     and on the Deck (big enough to read from the couch). The button names
+     follow Dan's identify-your-buttons result.
+   - The same drawing (or a simpler version of it) is used on the HOTAS setup
+     page for the identify / calibrate steps, highlighting the control in
+     question.
+   - **Check:** pictures of the new Controls page and setup page; Code compares
+     them with the reference photo / poster and says, control by control, that
+     each one is in the right place.
+5. **Check (muted, no focus):** each reset (and that saves aren't touched);
+   the axis log with a simulated lever on each possible axis; Find throttle
+   lever picks the right one; with the lever set to 0 / 50 / 100 % the ship's
+   throttle is 0 / 50 / 100 % from the first frame; the calibration steps and
+   cancel; pictures of the setup page and calibration steps (readable?).
+6. **Publish as 0.6.2**, update `TODO.md` (per-item status, the throttle cause)
+   and `CLAUDE.md`, commit and push.
+
+**For Dan to check:** HOTAS setup: Reset HOTAS settings, then Find throttle
+lever; does the live Throttle % move with the lever, and does the ship speed up
+and slow down with it? Is the PC / PS4 switch on the base set to PC?
+Calibrate: are the steps clear? Does the HOTAS picture now match where
+everything is on yours?
+
+---------------------------------------------------------------------------
+Round 5 and Fix 4.1 deliveries (moved from TODO.md at the end of Fix 6.2)
+---------------------------------------------------------------------------
+
+**Round 5 — the ship rights itself; enemies and difficulty (2026-11-04). Published: 0.5.0 (`game-500`, Latest; soundtrack stays
+`soundtrack-401`).** Exe built 2026-11-04 20:07 (`BUILD_INFO.txt`). Evidence `Data/screenshots/round5/`: `partA2/` (`--only round5a`),
+`partB/` (`--only round5`, pictures r5_*), `deck/` (`--only round5perf -steamDeck 1`, 1280 x 800), `presets/`, `launcher/`. Every run
+headless, muted (output 0.000 RMS from the first frame), no window, Below Normal. Commits: `329991a` planning, `2a2feb2` Part A, then Part B.
+- **A0 Commit first — done.** **A1 Self-righting — done.** Full / Light, stick released .25 s: roll wings-level the short way, nose to the
+  horizon (6° climb below 25 m), heading kept; any stick output stops it. Light: 60° bank level in 1.4 s, 120° 1.9 s, upside down 2.3 s
+  (0 m lost), nose-down 45° 1.4 s (49 m lost), inverted + 30° down 2.4 s (31 m). Full: 1.1 / 1.5 / 1.9 / 1.2 s (Full's bank turn turns
+  it 20-34° meanwhile). Slow 3.5 s / Fast 1.7 s from upside down (times include the .25 s wait).
+- **A2 Level-out button — done.** L-stick click / L / HOTAS 14 (picked in Settings > Controls and HOTAS): upside down level in 1.1 s,
+  with the stick held 0.85-1.1 s; works on Flight assist Off too.
+- **A3 Settings — done.** Settings > Auto-level (On) and Righting speed (Slow / Normal / Fast); Graphics quality and Steam Deck moved to
+  Settings > Display (the page holds 12 rows).
+- **A4 Hover — done.** Landing mode from upside down: upright in 2.2 s, body turn capped at 140 °/s (0.4.x: up to ~400 °/s).
+- **A5 Check — done.** Fix 2.5's list: while the stick is held only the stick (and Light's pull-only bank turn) turns the ship; the first
+  run found righting acting on a 25 % pad roll (1.6 % after the deadzones), fixed (any output = steering), clean in the second run.
+  Canyon run with 1.2 s releases between turns: 0 wall touches (Light, Full, and Light with Auto-level off as the baseline). Pictures
+  r5a_low_inverted_before / _after (upside down over the Dead City -> level, same heading). **A6 Part A commit — done** (`2a2feb2`).
+- **B1 Turrets — done.** On the high ground from the seed (canyon rims, roofs, ice cliffs; forest: giant stumps above the canopy);
+  line of sight over the ground and through no tree crown; lock 1.2 s, a bolt every 1.8 s (230 m/s, lead .9, error 14 m at 1 km),
+  7 % a hit, 4 gun hits to kill. **Not met: turrets rarely hit a ship crossing at 650 m** (0 hits in 4-14 shots per biome, straight or
+  weaving; they did shoot the check's slow ship down from 85 % at 450 m). Tuned twice (lead .6 -> .9): the tuning limit; Dan decides
+  (`turretLead`, `turretAimError`, `boltHitRadius` 3.5 m).
+- **B2 Saucers — done.** From a career's second planet on; chase on sight or when you land / hover within 3 km; passes, bursts of 3;
+  above the rock and the forest. Each biome: chasing in 0.3-1.9 s, 3-5 shots in 10 s, destroyed by the gun in 1.1-1.3 s.
+- **B3 Gun — done.** Held A / Space / left mouse / HOTAS trigger (A still does the engines on the ground), 6 shots/s, .12 % energy a
+  shot; reticle 60 m ahead in the world. Turret kills 1.2-1.7 s (one canyon turret on a rim edge took 60 shots, 0 hits: the rim hid
+  its body from the check's angle). Bounty 150 (turret) / 300 (saucer) x pay.
+- **B4 Shield — done.** D-pad left / Z / HOTAS 2; blocks bolts (1-3 blocked per biome), drains 2 %/s (17-19 % in ~9 s with flight);
+  on with something at the door: a Mimic burnt (+200 bounty, journal), a real pilot killed (-400). Faint blue shell in the world.
+- **B5 Damage — done.** Hits: hull %, shake, sparks, HIT -7% on the HUD / centre display; hull 0: "Shot down by a turret", the
+  regeneration trip, the loaner.
+- **B6 Warnings — done.** Red arrows round the HUD centre and red marks on the radar rim toward the shooter (2.5 s), LOCKED ON (HUD,
+  centre display), computer "Warning. Locked on." / "Saucer. Saucer." / "Shield up / down" / "Target destroyed.", enemies on the radar
+  once spotted, Control's "this one's hot" at launch; hangar "Defences: N turrets, M saucers".
+- **B7 Pads — done.** Easy / Normal: no turret sees a pilot's pad (first planet: landed and picked up, 0 shots); Hard 2 of 5 pads
+  covered, Nightmare 3 of 5 (test planet, tier 1).
+- **B8 Difficulty — done.** Campaign page "Difficulty (new career)" + options; hangar "Difficulty: X" (changes apply at once; alien numbers
+  to new planets). Presets (aggression x / tells / false tells / crash level / pay): Easy .6 / 95 % / 0 / Regenerating / x.8; Normal 1 /
+  75 % / 0 / Lasting / x1; Hard 1.35 / 60 % / 10 % / Lasting / x1.25; Nightmare 1.7 / 50 % / 20 % / Lasting / x1.5. Measured over 300
+  planets: tells 97 / 74 / 60 / 49 %, false tells 0 / 0 / 8 / 20 %; aliens 17 / 33 / 33 / 33 % (whole pilots on a 6-pilot planet).
+- **B9 Ease-in — done.** First planet: 3 turrets, no saucers; second on: 6 turrets + 1 saucer (Normal, tier 0), +2 turrets / +.5 saucer a tier.
+- **B10 Models and sound — done.** `Tools/Blender/enemies.py` (turret 3.0k triangles, saucer 4.2k); 12 ElevenLabs sounds, 7 voice lines.
+- **B11 Performance — done.** Enemies active, 1080p average / 1 % low: Canyons 233 / 77, Forest 180 / 38, City 190 / 40, Ice 166 / 25;
+  Deck setting 179 / 34, 245 / 60, 314 / 69, 209 / 29. Bolts and effects pooled (96 bolts, 16 sparks, 4 blasts).
+- **B12 Check — done** (`Checks/ExeCheck.Round5.cs`). The first run's frame rates included ground loading after the check's teleport
+  (fixed: it waits for the ground). The last build changed only Hard / Nightmare pad cover (re-checked: `presets/`).
+- **Publish — done.** 0.5.0 = build 500, `game-500` Latest; the `starter-200` package, `--auto-check`: "Updating to game 0.5.0… Updating
+  the soundtrack… Update installed. Starting the game", `versions/500`, ready, exit 0. Clean-up: 3.3 GB -> 2.8 GB.
+
+**Control layout (Round 5):** gamepad: A fire (on the ground: engines), D-pad left shield, left-stick click level out (rest as before);
+keyboard: Space / left mouse fire, Z shield, L level out; HOTAS: trigger fire, button 2 shield, button 14 level out (Settings).
+
+**For Dan to check:** let go of the stick when turned around: does it come upright quickly and smoothly, never fighting you? The
+level-out button. Can you see the shots coming and from where? Should turrets hit more (they rarely hit a moving ship now)? Is flying low
+to stay out of sight fun; are saucers too much? The gun / shield buttons on the pad (A fires in the air), the HOTAS when you can.
+
+**Fix 4.1 — Dan's tension and regeneration music (2026-11-04). Published: 0.4.1 (`game-401`, Latest) + soundtrack 0.4.1
+(`soundtrack-401`).** Exe built 2026-11-04 16:41. Evidence `Data/screenshots/round4/fix41_music/` (`exe_check.txt`, launcher `auto-status.txt`).
+- **The two stand-ins replaced — done.** Dan made them himself (the API key still refused music after he updated it): `rising_tension.mp3`
+  (120 s) -> `BundleMusic/tension_low_energy.mp3`, loop 65.7 -> 107.3 s (match .94, 1 s crossfade; the first 65 s play once as its build-up);
+  `regenerate.mp3` (30 s) -> `BundleMusic/regeneration.mp3`, a one-shot (0.4.0's stand-ins were 22 s / 10 s). No game code changed for it.
+- **Check — done.** New `-exeCheckOnly music` (`Checks/ExeCheck.Music.cs`, 1 min; `Music.CheckWant / CheckTension` set the state): the tension
+  layer loads the 120.6 s file under the flight track, moved to 104 s it crossfades back into the loop (68.4 s after 6 s); regeneration plays
+  its 30.2 s once, then silence (no loop). Headless, muted (output 0.000 RMS), no window.
+- **Publish — done.** `soundtrack-401` (only the two new files and music.json uploaded), then `game-401`. The `starter-200` ZIP from GitHub,
+  `--auto-check`: "Updating to game 0.4.1… Updating the soundtrack… Update installed. Starting the game", `versions/401`,
+  `shared/soundtracks/401` with both of Dan's files (same sizes), exit 0.
+
+**For Dan to check:** the tension layer under low energy / RETURN NOW (its slow 65 s build-up plays first each time it comes in) and the
+regeneration cue on the trip to the pod.

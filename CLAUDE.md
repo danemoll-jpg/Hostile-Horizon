@@ -326,9 +326,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
   device)` names a button for the device in use (`LastDevice`, switched only by a clear push); pad: Xbox names / colours, ☰ Menu, View;
   HOTAS: printed symbols (`HotasSymbols`, `hotasSymbolButtons` from "Identify your buttons"). HOTAS layout (`HotasActs`, assignable in
-  HOTAS setup, `hotasButtons`): R2 fire / select / hold fast-forward, ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, hold SHARE
-  recall, OPTIONS pause, R1 shield, R3 level out, L1 belly camera, L2 route target, L3 cabin camera, hat look / menus, twist yaw, lever
-  throttle. Menus: `MenuPanel.NavReader` (dominant axis + lock); pages with more rows scroll (`Page.RowsShown`). Settings > Controls:
+  HOTAS setup, `hotasButtons`), by button number: 1 (the trigger, printed **R3** on Dan's unit, Fix 6.2) fire / select / hold fast-forward,
+  ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, hold SHARE recall, OPTIONS pause, 3 (R1, assumed) shield, 2 (**L1**, the blue
+  button on the stick head) level out, 10 (R2, assumed; sent nothing in Dan's log) belly camera, 9 (L2) route target, 4 (L3) cabin camera,
+  hat look / menus, twist and the rocker yaw (the HOTAS puts both on rz), lever throttle.
+  **Throttle lever (Fix 6.2):** Dan's T.Flight HOTAS 4 (PC mode, PID b67c) reports the lever as **z** (0 = fully forward), plus slider,
+  dial, rx, ry that never move. Auto (`GameSettings.throttleAxis` 0) starts on z and switches by itself to any other axis moved end to end
+  (never stick / twist), saved as `throttleAxisFound`; HOTAS setup > Find throttle lever does the same on request; a big live Throttle %
+  over the setup picture; the ship's throttle = the lever from the first frame of flight (`ShipController.LeverTakesThrottle`; the pad's
+  triggers take over while used). **Resets (Fix 6.2):** `GameSettings.ResetHotas / ResetFlight / ResetSound / ResetDisplay / ResetAll`
+  behind Yes / No pages (`GameShell.Confirm`); never touch `career.json`. Calibration: asked first, then three steps (let go; each edge with
+  four markers; the trigger); ○ / B / Esc cancels. The HOTAS picture: a front view + four close-ups (`ControlsSheet.DrawHotas`, positions in
+  `SymbolAt`). Log a real HOTAS's HID axes and buttons: `python Tools/hotas_hid_log.py <seconds> --out <file>` (read-only; no window, no
+  sound). Check `-exeCheckOnly fix62` (about 3 min; `fix62pics` with `--size 1280x800`). Menus: `MenuPanel.NavReader` (dominant axis + lock); pages with more rows scroll (`Page.RowsShown`). Settings > Controls:
   `Core/GameShell.ControlsPages.cs`, picture and list `UI/ControlsSheet.cs` (drawn in code). Check `-exeCheckOnly fix61` (about 1 min;
   `--extra=-hotasTrace <csv>` plays a recorded stick, `Data/screenshots/fix61/dan_updown_trace.csv`), `fix61pics` (pictures; use
   `--size 1280x800`), `input` (a real joystick's layout: a batch-mode run sees none, so log a real HOTAS with Windows' joystick calls).
@@ -379,7 +389,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -443,13 +453,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 6.2 (the HOTAS throttle lever works: 0.6.1's Auto read the `slider` axis, which never moves on Dan's HOTAS, so the ship kept its 30 %
+start; the lever is z, now found by itself or by Find throttle lever, with a live Throttle % and the ship following it from the first frame;
+Reset HOTAS settings, Reset this page, Reset all settings, each asked first; calibration asked first and done in three plain steps; a new
+HOTAS picture with close-ups; button names from Dan's own unit) is built, checked in the exe (headless, muted, `--only fix62`, `fix62pics`
+at 1280 x 800) and published as 0.6.2 (`game-602` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from
+GitHub. Not yet tried by Dan on the real HOTAS.** Details and the cause in `TODO.md` (Fix 6.2 delivery). **Next: Round 7**, to be written
+by the planning chat.
 **Fix 6.1 (menus with the HOTAS no longer change the option you leave: Dan's stick reads half-left when centred, now calibrated, and
 menus take the dominant axis with a lock; prompts name only the device in use's buttons, PlayStation symbols on the HOTAS, Xbox names and
 colours on the pad; Settings > Controls per device with a code-drawn HOTAS / pad picture; HOTAS setup: calibrate, identify your buttons,
 assign; the HOTAS layout moved onto its 12 buttons) is built, checked in the exe (headless, muted, `--only fix61` with Dan's recorded stick,
 `fix61pics` at 1280 x 800) and published as 0.6.1 (`game-601` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates
-to it from GitHub. Not yet tried by Dan on the real HOTAS.** Details and the cause in `TODO.md` (Fix 6.1 delivery). **Next: Round 7**,
-to be written by the planning chat.
+to it from GitHub.** Details and the cause in `TODO.md` (Fix 6.1 delivery). Fix 6.2 followed (above).
 **Round 6 (A: the alien attack as a jump scare: an alien boards exactly like a pilot, then strikes instantly, on take-off or as a slow burn;
 canopy leap; red herrings. B: enemies easier to find. C: upgrade shop. D: full star map, coordinates, distress calls. E: Field Journal
 viewer with 3D creatures) is built, checked in the exe (headless, muted, `--only round6a` .. `round6e` and `round6`) and published as

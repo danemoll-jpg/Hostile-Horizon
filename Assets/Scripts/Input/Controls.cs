@@ -40,11 +40,12 @@ namespace HostileHorizon
             (HotasAct.RouteTarget, "RouteTarget", "Route target", 9),
             (HotasAct.CabinCam, "CabinCam", "Cabin camera", 4),
         };
-        // The symbols printed on the PS4 T.Flight HOTAS 4 and the HID button each one sends (Dan's unit, logged 2026-11-07: trigger 1,
-        // R3 2, R1 3, L3 4, square 5, cross 6, circle 7, triangle 8, L1 10, SHARE 11, OPTIONS 12; L2 was not pressed: 9 assumed).
-        // "Identify your buttons" (HOTAS setup) corrects it.
+        // The symbols printed on the PS4 T.Flight HOTAS 4 and the HID button each one sends. Fix 6.2, Dan's own labels with a HID log
+        // (Data/screenshots/fix62/hid_lever_log.txt): the stick's trigger is printed R3 (button 1), the blue button on the stick's head L1
+        // (2), L3 beside it (4), L2 low on the back of the throttle (9), square 5, cross 6, circle 7, triangle 8, SHARE 11, OPTIONS 12.
+        // R2 (high on the back of the throttle) sent nothing in the log and R1 wasn't found: 10 and 3 assumed. "Identify your buttons" corrects it.
         public static readonly string[] HotasSymbols = { "R2", "R1", "R3", "L1", "L2", "L3", "□", "✕", "○", "△", "SHARE", "OPTIONS" };
-        public static readonly int[] DefaultSymbolButtons = { 1, 3, 2, 10, 9, 4, 5, 6, 7, 8, 11, 12 };
+        public static readonly int[] DefaultSymbolButtons = { 10, 3, 1, 2, 9, 4, 5, 6, 7, 8, 11, 12 };
         public const int HotasButtonCount = 12;
 
         public static void Init()
@@ -74,16 +75,54 @@ namespace HostileHorizon
         {
             var s = GameSettings.S;
             int i = s.throttleAxis;
-            string axis = i > 0 && i < GameSettings.ThrottleAxes.Length ? GameSettings.ThrottleAxes[i] : null;
-            if (axis == null) axis = Joystick.current != null && Joystick.current.TryGetChildControl("slider") != null ? "slider" : "z";
+            string axis = i > 0 && i < GameSettings.ThrottleAxes.Length ? GameSettings.ThrottleAxes[i] : AutoAxis();
             ThrottleAxisPath = "<Joystick>/" + axis;
             throttleAxis.ApplyBindingOverride(0, ThrottleAxisPath);
-            throttleRange = 0;
             if (s.hotasButtons == null) return;
             var f = Asset.FindActionMap("Flight");
             foreach (var h in HotasActs) { var a = f[h.action]; int b = HotasBinding(a); if (b >= 0) a.ApplyBindingOverride(b, ButtonPath(HotasButtonFor(h.act))); }
             int cb = HotasBinding(cancel); if (cb >= 0) cancel.ApplyBindingOverride(cb, ButtonPath(HotasButtonFor(HotasAct.Airlock)));   // menu back = the airlock button
         }
+
+        // ---- the throttle lever (Fix 6.2). Dan's T.Flight HOTAS 4 (PC mode) reports x, y (stick), z (the lever: 0 pushed forward, 255
+        // back), rz (the twist and the throttle's rocker, both yaw) and slider, dial, rx, ry that never move. 0.6.1's Auto took "slider"
+        // whenever there was one: it never moves, so the lever was never read and the ship kept its 30 % start throttle.
+        // Auto now starts on z (else the first candidate) and switches to whichever axis is moved furthest (never the stick or the twist).
+        public static readonly string[] LeverCandidates = { "z", "slider", "dial", "rx", "ry", "wheel" };
+        static string AutoAxis()
+        {
+            var j = HotasDevice;
+            var found = GameSettings.S.throttleAxisFound;
+            if (!string.IsNullOrEmpty(found) && (j == null || j.TryGetChildControl(found) != null)) return found;
+            if (j == null || j.TryGetChildControl("z") != null) return "z";
+            foreach (var c in LeverCandidates) if (j.TryGetChildControl(c) != null) return c;
+            return "z";
+        }
+        public static InputDevice HotasDevice => HotasPresent ? hotasStick.controls[0].device : Joystick.current;
+        // Each candidate axis' lowest and highest value seen (Auto and "Find throttle lever"); moved = the range covered, of 2
+        static readonly Dictionary<string, (float lo, float hi)> leverBase = new Dictionary<string, (float, float)>();
+        public static IEnumerable<(string name, float moved)> LeverMoves => leverBase.Select(kv => (kv.Key, kv.Value.hi - kv.Value.lo));
+        public static float Moved(string axis) => leverBase.TryGetValue(axis, out var b) ? b.hi - b.lo : 0;
+        public static void ForgetLeverMoves() => leverBase.Clear();
+        static void TrackLever()
+        {
+            var j = HotasDevice; if (j == null) return;
+            foreach (var n in LeverCandidates)
+                if (j.TryGetChildControl(n) is AxisControl a)
+                {
+                    float v = a.ReadUnprocessedValue();
+                    leverBase[n] = leverBase.TryGetValue(n, out var b) ? (Mathf.Min(b.lo, v), Mathf.Max(b.hi, v)) : (v, v);
+                }
+        }
+        // The candidate moved furthest (null if none covered at least `min` of its -1..1 range)
+        public static string MostMoved(float min)
+        {
+            string best = null; float m = min;
+            foreach (var kv in leverBase) if (kv.Value.hi - kv.Value.lo >= m) { m = kv.Value.hi - kv.Value.lo; best = kv.Key; }
+            return best;
+        }
+        public static void SetFoundLever(string axis) { GameSettings.S.throttleAxisFound = axis; GameSettings.S.throttleAxis = 0; ApplySettings(); }
+        public static string LeverAxisName => ThrottleAxisPath.Replace("<Joystick>/", "");
 
         public static int HotasButtonFor(HotasAct a) { var b = GameSettings.S.hotasButtons; return b != null && (int)a < b.Length ? b[(int)a] : HotasActs[(int)a].button; }
         // Assign a HOTAS button; an action that had it takes this action's old button (no button does two things).
@@ -215,7 +254,17 @@ namespace HostileHorizon
         public static void Tick()
         {
             var d = HotasPresent ? hotasStick.controls[0].device : null;
-            if (d != seenDevice) { seenDevice = d; seenTime = d != null ? d.lastUpdateTime : 0; HotasCentred = GameSettings.S.hotasCalibrated; }
+            if (d != seenDevice) { seenDevice = d; seenTime = d != null ? d.lastUpdateTime : 0; HotasCentred = GameSettings.S.hotasCalibrated; leverBase.Clear(); }
+            if (d != null)
+            {
+                TrackLever();
+                // Auto: the first time another axis is moved well and the bound one hasn't been, that one is the lever (saved)
+                if (GameSettings.S.throttleAxis == 0 && !FindingLever)
+                {
+                    string m = MostMoved(.6f), cur = LeverAxisName;
+                    if (m != null && m != cur && Moved(cur) < .3f) { SetFoundLever(m); GameSettings.Save(); }
+                }
+            }
             if (d == null || Calibrating) return;
             var r = HotasRaw; var c = GameSettings.S.hotasCal;
             if (!HotasCentred)
@@ -228,6 +277,7 @@ namespace HostileHorizon
             c[0] = Mathf.Min(c[0], r.x); c[2] = Mathf.Max(c[2], r.x); c[3] = Mathf.Min(c[3], r.y); c[5] = Mathf.Max(c[5], r.y);
         }
         public static bool Calibrating;   // the HOTAS setup page's calibration: it sets hotasCal itself
+        public static bool FindingLever;  // the HOTAS setup page's "Find throttle lever": it picks the axis itself
         public static void SetCalibration(float[] c) { GameSettings.S.hotasCal = c; GameSettings.S.hotasCalibrated = true; HotasCentred = true; }
         // Reset to "learn it again" (the check, or after a recalibration of the HOTAS itself)
         public static void ForgetCalibration() { GameSettings.S.hotasCalibrated = false; HotasCentred = false; seenDevice = null; }
@@ -279,17 +329,15 @@ namespace HostileHorizon
         public static bool FastForwardHeld => submit.IsPressed();
         public static bool CancelPressed => cancel.WasPressedThisFrame();
 
-        // The throttle lever as 0..1, or -1 when no lever is bound. Its range is learnt: a lever that ever reads below zero is -1..1,
-        // otherwise 0..1. Invert throttle flips it (most HID levers read lowest pushed forward).
-        static int throttleRange;   // 0 unknown (0..1 assumed), 1 = -1..1
+        // The throttle lever as 0..1 (1 = full), or -1 when no lever is bound. A HID axis reads -1..1 (Dan's lever: -1 pushed forward);
+        // read without the axis' own deadzone (it flattened the lever's middle and ends). Invert lever (on by default): forward = full.
         public static float ThrottleLever
         {
             get
             {
                 if (!HasLever) return -1;
-                float v = throttleAxis.ReadValue<float>();
-                if (v < -.02f) throttleRange = 1;
-                float t = throttleRange == 1 ? (v + 1) / 2 : v;
+                float v = throttleAxis.controls[0] is AxisControl a ? a.ReadUnprocessedValue() : throttleAxis.ReadValue<float>();
+                float t = (v + 1) / 2;
                 if (GameSettings.S.invertThrottle) t = 1 - t;
                 return Mathf.Clamp01(t);
             }
@@ -309,6 +357,14 @@ namespace HostileHorizon
         }
 
         // HOTAS setup: the stick raw and as used, twist, lever, hat, buttons held. No keyboard text.
+        // Fix 6.2: the big live throttle readout on HOTAS setup
+        public static string ThrottleReadout()
+        {
+            if (!HasLever) return "<size=34><b>Throttle: no lever found</b></size>";
+            float t = ThrottleLever; int n = Mathf.RoundToInt(t * 20);
+            return $"<size=44><b>Throttle: {t * 100:0} %</b></size>   <size=30><color=#FFD233>{new string('█', n)}</color><color=#4A4F55>{new string('█', 20 - n)}</color></size>   <size=22>lever: {LeverAxisName} axis</size>";
+        }
+
         public static string HotasReport()
         {
             var sb = new StringBuilder();
@@ -318,7 +374,6 @@ namespace HostileHorizon
             sb.AppendLine($"  left / right  {Bar(s.x)}   raw {r.x:+0.00;-0.00; 0.00}");
             sb.AppendLine($"  fwd / back    {Bar(s.y)}   raw {r.y:+0.00;-0.00; 0.00}");
             sb.AppendLine($"<b>Twist</b>  {Bar(Yaw)}");
-            sb.AppendLine($"<b>Throttle lever</b>  {(HasLever ? Bar(ThrottleLever * 2 - 1) + $"  {ThrottleLever * 100:0}%  ({ThrottleAxisPath.Replace("<Joystick>/", "")})" : "none")}");
             var h = look.ReadValue<Vector2>();
             sb.AppendLine($"<b>Hat</b>  {(h.y > .5f ? "up" : h.y < -.5f ? "down" : h.x > .5f ? "right" : h.x < -.5f ? "left" : "centre")}");
             var held = HotasButtonsHeld();

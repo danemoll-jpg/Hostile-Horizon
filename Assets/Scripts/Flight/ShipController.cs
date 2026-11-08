@@ -83,7 +83,7 @@ namespace HostileHorizon
         public void ResetMoves() { for (int i = 0; i < Moved.Length; i++) Moved[i] = 0; }
         Vector3 knock;                                       // Fix 2.5: a wall hit's push away from the wall (flight mode), dying out
         Quaternion hoverTilt = Quaternion.identity;          // Fix 2.5: hover body lean (pitch / roll); its heading follows the stick at once
-        float lastLever = -1, sinceHit = 99, noticeUntil, hoverLever = -1, hoverHeading; bool leverInHover;
+        float lastLever = -1, sinceHit = 99, noticeUntil, hoverLever = -1, hoverHeading; bool leverInHover, padThrottle;
 
         public float Altitude => transform.position.y;
         public float AboveGround => Field == null ? 0 : transform.position.y - Field.SurfaceHeight(transform.position.x, transform.position.z);
@@ -98,7 +98,7 @@ namespace HostileHorizon
             Level = level; Throttle = throttle; Speed = Mathf.Lerp(MinSpeed, MaxSpeed, Throttle); Velocity = transform.forward * Speed;
             Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0;
             Kinematic = false; Notice = ""; Braking = false; knock = Vector3.zero; releasedFor = 0; rightBlend = 0; levelOut = false; Righting = false;
-            lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
+            LeverTakesThrottle();
             gameObject.SetActive(true);
         }
 
@@ -117,7 +117,14 @@ namespace HostileHorizon
         public void ReleaseToFlight(float speed, float throttle)
         {
             Kinematic = false; Mode = FlightMode.Flight; Speed = speed; Throttle = throttle; Velocity = transform.forward * speed; Landed = false;
-            EnginesOn = !OutOfEnergy; lastLever = Controls.HasLever ? Controls.ThrottleLever : -1; IgnoreButtonsUntil = Time.frameCount + 2;
+            EnginesOn = !OutOfEnergy; LeverTakesThrottle(); IgnoreButtonsUntil = Time.frameCount + 2;
+        }
+
+        // Fix 6.2: with a HOTAS lever the throttle is the lever's from the first frame of flight (0.6.1 kept the 30 % start until it moved)
+        void LeverTakesThrottle()
+        {
+            padThrottle = false; lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
+            if (lastLever >= 0) Throttle = lastLever;
         }
 
         public void SetEnergyAndDamage(float energy, float damage) { Energy = energy; Damage = damage; }
@@ -139,7 +146,12 @@ namespace HostileHorizon
                 if (Controls.HasLever)
                 {
                     float lever = Controls.ThrottleLever;
-                    if (lastLever < 0 || Mathf.Abs(lever - lastLever) > .01f) { if (lastLever >= 0 && Mode == FlightMode.Flight) Throttle = lever; lastLever = lever; }
+                    // Fix 6.2: the lever sets the throttle directly (absolute) all the time; the pad's triggers / keys take over while used,
+                    // until the lever moves again
+                    if (Mathf.Abs(change) > .05f) padThrottle = true;
+                    else if (lastLever >= 0 && Mathf.Abs(lever - lastLever) > .01f) padThrottle = false;
+                    lastLever = lever;
+                    if (Mode == FlightMode.Flight && !padThrottle) Throttle = lever;
                     if (Mode == FlightMode.Hover && Mathf.Abs(lever - hoverLever) > .04f) leverInHover = true;
                 }
             }
@@ -180,7 +192,7 @@ namespace HostileHorizon
             if (Landed || AboveGround < 6f) { Say("Climb higher first, then switch to flight"); return; }
             Mode = FlightMode.Flight;
             Speed = Mathf.Max(0, Vector3.Dot(Velocity, transform.forward)); Throttle = Mathf.Max(Throttle, .3f);
-            lastLever = Controls.HasLever ? Controls.ThrottleLever : -1;
+            LeverTakesThrottle();
             // nose level for the pick-up of speed
             var e = transform.eulerAngles; transform.rotation = Quaternion.Euler(0, e.y, 0);
         }

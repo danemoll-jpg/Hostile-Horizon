@@ -90,6 +90,10 @@ namespace HostileHorizon
             Set(Fullscreen);
         }
 
+        // Fix 6.2: Settings > Display > Reset this page: full screen at the default size
+        public static void ResetToDefault() { width = height = 0; Set(true); }
+        public static bool IsDefault => Fullscreen && width <= 0;
+
         public static void Set(bool fullscreen)
         {
             Fullscreen = fullscreen;

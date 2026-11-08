@@ -10,10 +10,11 @@ namespace HostileHorizon
     [Serializable]
     public sealed class GameSettings
     {
-        public int version = 2;               // Fix 6.1: 2 = the HOTAS layout on the 12 buttons a T.Flight HOTAS 4 has
+        public int version = 3;               // Fix 6.1: 2 = the HOTAS layout on the 12 buttons a T.Flight HOTAS 4 has; Fix 6.2: 3 = Dan's button names
         public bool invertPitch;
         public int deadzone = 8;              // percent, sticks and twist
         public int throttleAxis;              // 0 Auto, else ThrottleAxes[i]
+        public string throttleAxisFound = ""; // Fix 6.2: the lever Auto found (the axis that moved most; "Find throttle lever" or by itself)
         public bool invertThrottle = true;    // most HID throttles read -1 pushed forward
         public int cameraDefault;             // CameraRig.Mode
         public int quality = 2;               // 0 Low, 1 Medium, 2 High
@@ -72,10 +73,35 @@ namespace HostileHorizon
         static void Fix()
         {
             if (S.version < 2) { S.hotasButtons = null; S.version = 2; }
+            // Fix 6.2: 0.6.1's default button names were guessed (trigger R2, button 2 R3, L1 10): Dan's own labels replace them unless
+            // he identified his buttons himself
+            if (S.version < 3) { if (S.hotasSymbolButtons != null && S.hotasSymbolButtons.SequenceEqual(new[] { 1, 3, 2, 10, 9, 4, 5, 6, 7, 8, 11, 12 })) S.hotasSymbolButtons = null; S.version = 3; }
+            if (S.throttleAxisFound == null) S.throttleAxisFound = "";
             if (S.hotasButtons == null || S.hotasButtons.Length != Controls.HotasActs.Length) S.hotasButtons = Controls.HotasActs.Select(a => a.button).ToArray();
             if (S.hotasSymbolButtons == null || S.hotasSymbolButtons.Length != Controls.HotasSymbols.Length) S.hotasSymbolButtons = (int[])Controls.DefaultSymbolButtons.Clone();
             if (S.hotasCal == null || S.hotasCal.Length != 6) { S.hotasCal = new float[] { -1, 0, 1, -1, 0, 1 }; S.hotasCalibrated = false; }
         }
+
+        // ---- Fix 6.2: back to the defaults (saves, careers and the Field Journal live in career.json: never touched here)
+        // HOTAS setup: calibration, throttle axis and the lever found, invert lever, button names, button assignments, deadzone
+        public static void ResetHotas()
+        {
+            var d = new GameSettings();
+            S.hotasButtons = null; S.hotasSymbolButtons = null; S.hotasCal = null; S.hotasCalibrated = false;
+            S.throttleAxis = d.throttleAxis; S.throttleAxisFound = ""; S.invertThrottle = d.invertThrottle; S.deadzone = d.deadzone;
+            Fix();
+        }
+        // Settings (the flight page)
+        public static void ResetFlight()
+        {
+            var d = new GameSettings();
+            S.flightAssist = d.flightAssist; S.sensitivity = d.sensitivity; S.autoLevel = d.autoLevel; S.rightingSpeed = d.rightingSpeed;
+            S.invertPitch = d.invertPitch; S.deadzone = d.deadzone; S.cameraDefault = d.cameraDefault; S.routeTrail = d.routeTrail;
+        }
+        public static void ResetSound() { var d = new GameSettings(); S.volume = d.volume; S.musicVolume = d.musicVolume; S.effectsVolume = d.effectsVolume; S.voiceVolume = d.voiceVolume; S.subtitles = d.subtitles; }
+        public static void ResetDisplay() { var d = new GameSettings(); S.quality = d.quality; S.steamDeck = d.steamDeck; ScreenSetting.ResetToDefault(); }
+        // Every Settings page (Free Flight's seed / planet type / crash level and the new-career difficulty are their own pages' choices)
+        public static void ResetAll() { ResetFlight(); ResetHotas(); ResetSound(); ResetDisplay(); }
 
         public static void Save()
         {

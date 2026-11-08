@@ -8,25 +8,47 @@ namespace HostileHorizon
     // grouped, action | button) and Settings > Controls > HOTAS setup (shown while a HOTAS is plugged in): Calibrate stick, Identify your
     // buttons (press each button lit on the picture: names the buttons by their printed symbols), throttle axis, invert lever and every
     // assignable button ("press a button to assign"), with the stick / twist / lever / hat / buttons live below. No keyboard text on it.
+    // Fix 6.2: a big live throttle readout, Find throttle lever, calibration asked first and done in three plain steps (○ / Back cancels),
+    // Reset HOTAS settings; the Yes / No page every reset uses (Confirm).
     public sealed partial class GameShell
     {
-        MenuPanel.Page controlsPage, hotasSetup;
+        MenuPanel.Page controlsPage, hotasSetup, confirmPage;
         ControlsSheet controlsSheet, setupSheet;
-        enum Capture { None, CalibCentre, CalibRange, Identify, Assign }
+        enum Capture { None, CalibCentre, CalibEdges, Identify, Assign, FindLever }
         Capture capture; float captureT; int captureIdx; Controls.HotasAct assignAct; List<int> heldPrev = new List<int>();
-        Vector2 calSum; int calN; Vector2 calLast; float[] calWork; string captureNote = "";
+        Vector2 calSum; int calN; Vector2 calLast; float[] calWork; string captureNote = ""; float leverDoneAt;
+        readonly bool[] calReached = new bool[4];   // forward, back, left, right
 
         public static readonly string[] DeviceNames = { "Xbox controller / Steam Deck", "Keyboard and mouse", "HOTAS" };
         public MenuPanel.Page ControlsPage => controlsPage;
         public MenuPanel.Page HotasSetupPage => hotasSetup;
+        public MenuPanel.Page ConfirmPage => confirmPage;
+        public MenuPanel.Page TitlePage => title;   // checks
         public ControlsSheet ControlsSheetUi => controlsSheet;
         public ControlsSheet SetupSheetUi => setupSheet;
         public bool Capturing => capture != Capture.None;
+        public string CaptureState => capture.ToString();
+        public string CaptureNote => captureNote;
 
         void ShowControls() => Menu.Show(controlsPage);
 
+        // Fix 6.2: "Reset ...? Yes / No". No is selected first; either answer goes back to the page it came from, on the same row.
+        void Confirm(string question, string body, System.Action yes, MenuPanel.Page back)
+        {
+            confirmPage.Title = question; confirmPage.Body = () => body; confirmPage.Back = () => Menu.Show(back, true);
+            confirmPage.Rows.Clear();
+            confirmPage.Add(Action("No", () => Menu.Show(back, true))).Add(Action("Yes", () => { Menu.Show(back, true); yes(); }));
+            Menu.Show(confirmPage);
+        }
+        // A page's "Reset this page to defaults" row
+        MenuPanel.Row ResetRow(string what, System.Action reset, System.Func<MenuPanel.Page> page) =>
+            Action("Reset this page to defaults", () => Confirm($"Reset {what} to the defaults?", "Your careers, saves and the Field Journal are not changed.",
+                () => { reset(); Saved(); }, page()));
+
         void BuildControlsPages()
         {
+            confirmPage = new MenuPanel.Page { Title = "RESET?" };
+
             controlsSheet = ControlsSheet.Create(Menu.Root, false);
             controlsPage = new MenuPanel.Page { Title = "CONTROLS", Subtitle = "For the device you used last; left / right shows another",
                 Back = () => Menu.Show(settings), Sheet = controlsSheet.gameObject, Shown = () => controlsSheet.Showing = Controls.LastDevice };
@@ -34,13 +56,18 @@ namespace HostileHorizon
                 .Add(new MenuPanel.Row { Label = () => "HOTAS setup", Submit = () => Menu.Show(hotasSetup), Visible = () => Controls.HotasPresent })
                 .Add(Action("Back", () => Menu.Show(settings)));
 
-            setupSheet = ControlsSheet.Create(Menu.Root, true); setupSheet.Showing = Controls.Device.Hotas; setupSheet.Report = SetupReport;
+            setupSheet = ControlsSheet.Create(Menu.Root, true); setupSheet.Showing = Controls.Device.Hotas; setupSheet.Report = SetupReport; setupSheet.Top = () => Controls.HotasPresent ? Controls.ThrottleReadout() : "";
             hotasSetup = new MenuPanel.Page { Title = "HOTAS SETUP", Subtitle = "Thrustmaster T.Flight HOTAS 4", Back = () => { EndCapture(); Menu.Show(controlsPage); },
                 Sheet = setupSheet.gameObject, CaptureInput = CaptureTick, RowsShown = 8,
-                Hint = () => capture == Capture.None ? Controls.MenuHint(true, Controls.Device.Hotas) : capture == Capture.Identify ? "A button you don't have: wait 8 s and it is skipped" : "" };
-            hotasSetup.Add(new MenuPanel.Row { Label = () => "Calibrate stick", Value = () => GameSettings.S.hotasCalibrated ? "done" : "not yet", Submit = StartCalibration })
+                Hint = () => capture == Capture.None ? Controls.MenuHint(true, Controls.Device.Hotas)
+                    : capture == Capture.Identify ? "A button you don't have: wait 8 seconds and it is skipped"
+                    : capture == Capture.Assign ? "Wait 10 seconds to keep the button it has"
+                    : $"{Controls.Btn(Controls.Act.Back, Controls.Device.Hotas)} or Back: stop, nothing changes" };
+            hotasSetup.Add(new MenuPanel.Row { Label = () => "Calibrate stick", Value = () => GameSettings.S.hotasCalibrated ? "done" : "not yet",
+                    Submit = () => Confirm("Calibrate the stick?", "Takes about 10 seconds. Your current calibration is kept if you stop part way.", StartCalibration, hotasSetup) })
+                .Add(Action("Find throttle lever", StartFindLever))
                 .Add(Action("Identify your buttons", StartIdentify))
-                .Add(Option("Throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.ThrottleAxisPath.Replace("<Joystick>/", "")})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
+                .Add(Option("Throttle axis", () => GameSettings.S.throttleAxis == 0 ? $"Auto ({Controls.LeverAxisName})" : GameSettings.ThrottleAxes[GameSettings.S.throttleAxis],
                     d => { GameSettings.S.throttleAxis = Wrap(GameSettings.S.throttleAxis + d, GameSettings.ThrottleAxes.Length); Saved(); }))
                 .Add(Option("Invert lever", () => GameSettings.S.invertThrottle ? "On" : "Off", d => { GameSettings.S.invertThrottle = !GameSettings.S.invertThrottle; Saved(); }));
             foreach (var h in Controls.HotasActs)
@@ -53,7 +80,10 @@ namespace HostileHorizon
                     Left = () => StepAssign(act, -1), Right = () => StepAssign(act, 1),
                 });
             }
-            hotasSetup.Add(Action("Back", () => { EndCapture(); Menu.Show(controlsPage); }));
+            hotasSetup.Add(Action("Reset HOTAS settings", () => Confirm("Reset all HOTAS settings?",
+                    "Stick calibration, throttle axis, invert lever, button names, button jobs and the deadzone go back to the defaults.\nYour careers, saves and the Field Journal are not changed.",
+                    () => { GameSettings.ResetHotas(); Controls.ForgetCalibration(); Controls.ForgetLeverMoves(); Saved(); captureNote = "HOTAS settings are back to the defaults."; }, hotasSetup)))
+                .Add(Action("Back", () => { EndCapture(); Menu.Show(controlsPage); }));
         }
 
         void StepAssign(Controls.HotasAct act, int d)
@@ -63,10 +93,16 @@ namespace HostileHorizon
         }
 
         // ---- the setup steps (the page's CaptureInput: true while one runs, so the menu doesn't act on these presses)
-        void StartCalibration() { capture = Capture.CalibCentre; captureT = 0; calSum = Vector2.zero; calN = 0; calLast = Controls.HotasRaw; Controls.Calibrating = true; }
+        void StartCalibration()
+        {
+            capture = Capture.CalibCentre; captureT = 0; calSum = Vector2.zero; calN = 0; calLast = Controls.HotasRaw; Controls.Calibrating = true;
+            for (int k = 0; k < 4; k++) calReached[k] = false;
+            captureNote = ""; setupSheet.CalStep = 1;
+        }
+        void StartFindLever() { capture = Capture.FindLever; captureT = 0; leverDoneAt = -1; Controls.FindingLever = true; Controls.ForgetLeverMoves(); captureNote = ""; heldPrev = Controls.HotasButtonsHeld(); }
         void StartIdentify() { capture = Capture.Identify; captureIdx = 0; captureT = 0; heldPrev = Controls.HotasButtonsHeld(); setupSheet.Highlight = 0; }
         void StartAssign(Controls.HotasAct a) { capture = Capture.Assign; assignAct = a; captureT = 0; heldPrev = Controls.HotasButtonsHeld(); }
-        void EndCapture() { capture = Capture.None; Controls.Calibrating = false; setupSheet.Highlight = -1; }
+        void EndCapture() { capture = Capture.None; Controls.Calibrating = false; Controls.FindingLever = false; setupSheet.Highlight = -1; setupSheet.CalStep = 0; }
 
         // A HOTAS button pressed since the last frame (0: none)
         int NewHotasPress()
@@ -77,29 +113,53 @@ namespace HostileHorizon
         bool CaptureTick()
         {
             if (capture == Capture.None) return false;
-            if (Controls.CancelPressed && Controls.LastDevice != Controls.Device.Hotas) { captureNote = "Stopped; nothing changed."; EndCapture(); return true; }
+            // Calibrate and Find lever: circle (the HOTAS's back button), B or Esc stop them. Identify / assign need every HOTAS button
+            // free, so there only the pad / keyboard stops them.
+            bool hotasMayCancel = capture == Capture.CalibCentre || capture == Capture.CalibEdges || capture == Capture.FindLever;
+            if (Controls.CancelPressed && (hotasMayCancel || Controls.LastDevice != Controls.Device.Hotas))
+            {
+                captureNote = capture == Capture.FindLever ? "Stopped; the throttle axis is unchanged." : capture == Capture.CalibCentre || capture == Capture.CalibEdges ? "Stopped; the old calibration is kept." : "Stopped; nothing changed.";
+                EndCapture(); return true;
+            }
             float dt = Time.unscaledDeltaTime; captureT += dt;
             var r = Controls.HotasRaw;
             switch (capture)
             {
-                case Capture.CalibCentre:   // still for 1.5 s: that is the centre
+                case Capture.CalibCentre:   // step 1: still for 1.5 s, that is the centre
                     if ((r - calLast).magnitude > .03f) { captureT = 0; calSum = Vector2.zero; calN = 0; calLast = r; }
                     calSum += r; calN++;
                     if (captureT > 1.5f)
                     {
                         var c = calSum / Mathf.Max(1, calN);
-                        calWork = new[] { c.x, c.x, c.x, c.y, c.y, c.y }; capture = Capture.CalibRange; captureT = 0; heldPrev = Controls.HotasButtonsHeld();
+                        calWork = new[] { c.x, c.x, c.x, c.y, c.y, c.y }; capture = Capture.CalibEdges; captureT = 0; heldPrev = Controls.HotasButtonsHeld();
+                        setupSheet.CalStep = 2;
                     }
                     break;
-                case Capture.CalibRange:    // round its full range, then the trigger
+                case Capture.CalibEdges:    // step 2: each edge (forward / back / left / right), step 3: the trigger
                     calWork[0] = Mathf.Min(calWork[0], r.x); calWork[2] = Mathf.Max(calWork[2], r.x); calWork[3] = Mathf.Min(calWork[3], r.y); calWork[5] = Mathf.Max(calWork[5], r.y);
+                    calReached[0] |= calWork[5] - calWork[4] > .3f; calReached[1] |= calWork[4] - calWork[3] > .3f;
+                    calReached[2] |= calWork[1] - calWork[0] > .3f; calReached[3] |= calWork[2] - calWork[1] > .3f;
+                    bool all = calReached.All(b => b);
+                    setupSheet.CalStep = all ? 3 : 2;
                     if (NewHotasPress() == 1 || Controls.SubmitPressed && Controls.LastDevice != Controls.Device.Hotas)
                     {
-                        bool full = calWork[1] - calWork[0] > .2f && calWork[2] - calWork[1] > .2f && calWork[4] - calWork[3] > .2f && calWork[5] - calWork[4] > .2f;
-                        if (!full) { captureNote = "The stick didn't go far enough each way: move it right round, then press the trigger."; break; }
+                        if (!all) { captureNote = "Not finished: push the stick to " + string.Join(", ", new[] { "forward", "back", "left", "right" }.Where((s, k) => !calReached[k])) + " first."; break; }
                         Controls.SetCalibration(calWork); GameSettings.Save();
-                        captureNote = $"Calibrated: centre {calWork[1]:+0.00;-0.00} / {calWork[4]:+0.00;-0.00}, reach {calWork[0]:+0.00;-0.00} to {calWork[2]:+0.00;-0.00}, {calWork[3]:+0.00;-0.00} to {calWork[5]:+0.00;-0.00}.";
+                        captureNote = "Stick calibrated.";
                         EndCapture();
+                    }
+                    break;
+                case Capture.FindLever:     // move the lever all the way: the axis that moved furthest (not the stick or the twist) is saved
+                    {
+                        string best = Controls.MostMoved(.5f);
+                        if (best != null && Controls.Moved(best) >= 1.6f && leverDoneAt < 0) leverDoneAt = captureT;
+                        bool done = leverDoneAt >= 0 && captureT - leverDoneAt > 1.2f || NewHotasPress() == 1 && best != null;
+                        if (done)
+                        {
+                            Controls.SetFoundLever(best); GameSettings.Save();
+                            captureNote = $"Throttle lever found ({best} axis). Move it and watch the throttle readout."; EndCapture();
+                        }
+                        else if (captureT > 20f) { captureNote = "No lever moved; the throttle axis is unchanged."; EndCapture(); }
                     }
                     break;
                 case Capture.Identify:      // each symbol lit in turn: the button pressed is that symbol; 8 s without one skips it
@@ -128,17 +188,29 @@ namespace HostileHorizon
                     }
                     break;
             }
+            if (capture == Capture.CalibEdges || capture == Capture.CalibCentre)
+            {
+                var c = calWork != null && capture == Capture.CalibEdges ? new Vector2(calWork[1], calWork[4]) : calLast;
+                setupSheet.CalDot = r - c; System.Array.Copy(calReached, setupSheet.CalReached, 4);
+            }
             return true;
         }
 
         string SetupReport()
         {
             string Big(string s) => $"<size=30><color=#FFD233><b>{s}</b></color></size>";
+            string trig = $"{Controls.HotasName(1)} (the trigger)";
             switch (capture)
             {
-                case Capture.CalibCentre: return Big("Let go of the stick") + $"\nHold still… {Mathf.Clamp01(captureT / 1.5f) * 100:0}%";
-                case Capture.CalibRange: return Big("Move the stick right round, all the way, a few times") + $"\nthen press {Controls.HotasName(1)} (the trigger).\n" + (captureNote.StartsWith("The stick") ? captureNote : "");
-                case Capture.Identify: return Big($"Press  {Controls.SymbolText(captureIdx)}") + $"\n(lit on the picture; {captureIdx + 1} of {Controls.HotasSymbols.Length}; wait 8 s to skip)";
+                case Capture.CalibCentre: return Big("Step 1 of 3: let go of the stick") + $"\nKeep your hand off it while it reads the centre… {Mathf.Clamp01(captureT / 1.5f) * 100:0}%";
+                case Capture.CalibEdges:
+                    return calReached.All(b => b)
+                        ? Big($"Step 3 of 3: press {trig} to finish") + "\nAll four edges reached. You can keep moving the stick first."
+                        : Big("Step 2 of 3: push the stick to each edge") + "\nForward, back, left and right, as far as it goes (or move it slowly in full circles), 2 or 3 times.\nEach marker on the picture turns green when that edge is reached.\n" + (captureNote.StartsWith("Not finished") ? $"<color=#FFD233>{captureNote}</color>" : "");
+                case Capture.FindLever:
+                    return Big("Move the throttle lever all the way forward and back") +
+                        $"\n{(leverDoneAt >= 0 ? "Got it…" : "It finishes by itself once the lever has gone end to end.")}";
+                case Capture.Identify: return Big($"Press  {Controls.SymbolText(captureIdx)}") + $"\n(lit on the picture; {captureIdx + 1} of {Controls.HotasSymbols.Length}; wait 8 seconds to skip)";
                 case Capture.Assign: return Big($"Press a button for: {Controls.HotasActs[(int)assignAct].label}") + "\n" + captureNote;
             }
             return (captureNote != "" ? $"<color=#FFD233>{captureNote}</color>\n" : "") + Controls.HotasReport();
