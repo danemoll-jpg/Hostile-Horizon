@@ -29,6 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Crystal: 0
     - _Glow: 0
     - _Translucent: 0
     m_Colors:

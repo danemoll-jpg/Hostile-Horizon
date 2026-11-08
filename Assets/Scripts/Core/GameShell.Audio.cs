@@ -9,6 +9,11 @@ namespace HostileHorizon
     {
         public BiomeProps Props { get; private set; }
         public BiomeWeather Weather { get; private set; }
+        public Liquid Sea { get; private set; }        // Round 7: the sea or the lava
+        public Fliers Birds { get; private set; }      // Round 7 (B4): the ocean's harmless fliers
+        public int ShardsBroken { get; private set; }  // checks
+        public int WaterTouches { get; private set; }  // checks
+        float heatSaidAt = -99, sprayAt;
         public Music Music { get; private set; }
         public Voices Voice { get; private set; }
         public Biome WorldBiome => Terrain.Field != null ? Terrain.Field.Biome : Biome.Canyons;
@@ -24,6 +29,21 @@ namespace HostileHorizon
             Weather = BiomeWeather.Create();
             Weather.OnBlizzard += () => { if (Now == State.Flying) Voice.Say("cpu_whiteout", VoiceKind.Computer, 3); };
             Music = Music.Create(); Voice = Voices.Create();
+            // Round 7 (B2-B4): the liquid, the fliers; what the water and the shards do to the ship shows here
+            Sea = Liquid.Create(WorldLook.DetailTex); Birds = Fliers.Create();
+            Ship.OnWater += (at, hard) =>
+            {
+                WaterTouches++;
+                if (Time.time - sprayAt < .08f && hard < Tuning.T.waterHardSpeed) return;
+                sprayAt = Time.time; Weather.Spray(at, Ship.Velocity, hard + Ship.Speed * .05f);
+                if (hard > 3f) Sfx.Play(Sfx.Clip("water_splash"), at, Mathf.Clamp01(.4f + hard * .05f), 12f);
+            };
+            Ship.OnShard += sh =>
+            {
+                ShardsBroken++; var at = sh.basePos + sh.axis * sh.height * .4f;
+                Weather.Shatter(at, Ship.Velocity); Props.ShardBroken(); Sfx.Play(Sfx.Clip("crystal_shatter"), at, 1f, 15f);
+                PlayLog.Add($"crystal shard broken at {at:F0}");
+            };
             Ship.OnEnginesStopped += () => { if (InCampaign && Time.time - enginesOffAt > 15f) { enginesOffAt = Time.time; Voice.Say("cpu_engines_off", VoiceKind.Computer, 3, maxAge: 3f); } };
         }
 
@@ -37,6 +57,7 @@ namespace HostileHorizon
             }
             WorldLook.ApplyBiome(biome, Props);
             Weather.SetBiome(biome, seed);
+            Sea.SetBiome(Terrain.Field, WorldLook.LookFor(biome)); Birds.SetBiome(biome, seed);
         }
 
         public static string FlightTrack(Biome b) => "flight_" + Biomes.Keys[(int)b];
@@ -49,6 +70,8 @@ namespace HostileHorizon
             Props.SetFocus(view, Terrain.ViewDistance);
             bool flying = Now == State.Flying;
             Weather.Tick(view, flying, Time.deltaTime);
+            Sea.Follow(view, Terrain.ViewDistance); Weather.Plumes(Props.VentsNear, view); Birds.Tick(view, Terrain.Field, Time.deltaTime);
+            LiquidTick(flying);
             MusicTick();
             if (flying && Ship.gameObject.activeInHierarchy && !Ship.Crashed) { CanopyBrush(); ComputerTick(); if (InCampaign) VoiceTick(); }
             else landedEnginesOn = 0;
@@ -106,6 +129,20 @@ namespace HostileHorizon
             if (coarse.ToString() != musicWhyLogged && Now != State.Paused) { PlayLog.Add($"music {key}: {why}"); musicWhyLogged = coarse.ToString(); }
             Music.Want = want; Music.Tension = tension;
             if (shipAudio) shipAudio.Wind = Ship.gameObject.activeInHierarchy ? Mathf.Max(wind, Weather.Blizzard * .5f) : 0;
+        }
+
+        // ---- Round 7 (B2, B4): low over lava: heat haze and HULL HEAT (a warning, no damage); low and fast over the sea: spray
+        public bool HullHot { get; private set; }
+        void LiquidTick(bool flying)
+        {
+            var f = Terrain.Field; var sp = Ship.transform.position;
+            bool over = flying && Ship.gameObject.activeInHierarchy && !Ship.Crashed && f != null && f.OverLiquid(sp.x, sp.z);
+            float agl = Ship.AboveGround;
+            HullHot = over && f.IsLava && agl < Tuning.T.lavaHeatHeight && !Ship.Kinematic;
+            Weather.Heat(new Vector3(sp.x, f != null && f.HasLiquid ? f.Liquid : 0, sp.z), over && f.IsLava ? Mathf.Clamp01(1.4f - agl / (Tuning.T.lavaHeatHeight * 1.6f)) : 0);
+            Displays.HeatWarning = HullHot ? "HULL HEAT: climb" : "";
+            if (HullHot && Time.time - heatSaidAt > 20f) { heatSaidAt = Time.time; Voice.Say("cpu_hull_heat", VoiceKind.Computer, 3, maxAge: 2f); PlayLog.Add($"hull heat: {agl:0} m over the lava"); }
+            if (over && !f.IsLava && agl < 7f && Ship.Speed > 35f && Time.time - sprayAt > .12f) { sprayAt = Time.time; Weather.Spray(new Vector3(sp.x, f.Liquid, sp.z), Ship.Velocity, 1f + (7f - agl)); }
         }
 
         // ---- the forest canopy: soft, a burst of leaves and a rustle, a little drag
@@ -209,12 +246,13 @@ namespace HostileHorizon
         void SayLaunch()
         {
             Music.Sting("sting_launch");
-            Voice.Say(talkRoll.Next(2) == 0 ? "ctl_launch_1" : "ctl_launch_2", VoiceKind.Radio, 2);
+            Voice.Say(talkRoll.Next(2) == 0 ? "ctl_launch_1" : "ctl_launch_2", VoiceKind.Radio, 2); SayBiomeAtLaunch();
             if (Planet != null && Planet.OfTheDay && !launchDaySaid) { launchDaySaid = true; Voice.Say("ctl_day", VoiceKind.Radio, 2, maxAge: 20f); }
             foundSaid = everyoneSaid = energyWarned = false; lastHome = 0; lastHullBand = Ship.Damage >= 80 ? 2 : Ship.Damage >= 50 ? 1 : 0;
             foreach (var k in talk.Values) k.saw = false;
         }
         void SayBriefing() { Voice.Say("ctl_brief_" + Biomes.Keys[(int)WorldBiome], VoiceKind.Radio, 2, maxAge: 30f); }
+        void SayBiomeAtLaunch() { if (WorldBiome >= Biome.Volcanic) Voice.Say("ctl_launch_" + Biomes.Keys[(int)WorldBiome], VoiceKind.Radio, 2, maxAge: 20f); }   // Round 7 (B5): Control names the new biomes at launch
         void SayArrived(bool newPlanet) { launchDaySaid = false; talk.Clear(); if (newPlanet) SayBriefing(); }
         void SayDockApproach() => Voice.Say(talkRoll.Next(2) == 0 ? "ctl_dock_1" : "ctl_dock_2", VoiceKind.Radio, 2);
         void SayDocked() { Music.Sting("sting_docked"); Voice.Say(talkRoll.Next(2) == 0 ? "ctl_docked_1" : "ctl_docked_2", VoiceKind.Radio, 2); }

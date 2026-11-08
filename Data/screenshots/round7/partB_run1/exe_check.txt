@@ -1,0 +1,163 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 86016 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 04:44; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+biomes over seeds 1-2000: Canyons 267, Giant Forest 280, Dead City 277, Ice 278, Volcanic 312, Crystal Forest 273, Ocean Islands 313; seed 4242 twice: City / City
+  Volcanic (seed 777): same seed, same ground identical; ground -15 .. 496 m; lava covers 20 % (level 0 m); pads in 11 x 11 pad cells 99; vents in 16 x 16 prop cells (4 km): 25
+  Crystal Forest (seed 777): same seed, same ground identical; ground -3 .. 91 m; pads in 11 x 11 pad cells 101; in 40 x 40 cells (2.6 km): 499 spires (150 over 100 m), 5125 shards
+  Ocean Islands (seed 777): same seed, same ground identical; ground -43 .. 281 m; sea covers 54 % (level 0 m); pads in 11 x 11 pad cells 65; arches in 16 x 16 prop cells (4 km): 16
+--- Volcanic (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Volcanic; music "flight_volcanic" want "flight_volcanic" gain 0.49; liquid lava (drawn); props: 0 crystals drawn, 55 vents, fliers off
+screenshot r7b_volcanic_1_start_cockpit.png
+    [398 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 11 energy 100
+    [650 fps] Flying/ Flight alt 117 gnd 117 spd 59 hdg 297 energy 100
+Volcanic flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.037 RMS, peak 0.173, zeroed before the speakers; 2082816 samples); master volume 0.00
+fps Volcanic flying low: average 610.7, 1% low 142.2, worst frame 57 ms over 9167 frames; mean height over ground 66 m; terrain chunks 580, waiting 0
+  hits while flying low: 0; crystals drawn 0; hull heat seen: no
+screenshot r7b_volcanic_2_low_cockpit.png
+screenshot r7b_volcanic_3_chase.png
+  a lava lake at (-745, 0, 1249) (440 m from the ship)
+  hovering 18 m over the lava: HULL HEAT ON, display "HULL HEAT: climb", the computer: voice cpu_hull_heat [Computer, p3, 1.4 s] COMPUTER: Hull heat. Climb.; [Play]: [Play]    22.5 hull heat: 18 m over the lava; crashed False
+screenshot r7b_volcanic_4_low_over_lava.png
+  flown into the lava at Bounce: crashed YES (lava), state Crashed, hits 0
+    [576 fps] Crashed/ Flight alt 0 gnd 0 spd 0 hdg 210 energy 100
+screenshot r7b_volcanic_5_into_lava.png
+--- Crystal Forest (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Crystal; music "flight_crystal" want "flight_crystal" gain 0.49; liquid none (not drawn); props: 30811 crystals drawn, 0 vents, fliers off
+screenshot r7b_crystal_1_start_cockpit.png
+    [526 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 345 energy 100
+    [325 fps] Flying/ Flight alt 36 gnd 36 spd 59 hdg 353 energy 100
+Crystal Forest flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.037 RMS, peak 0.184, zeroed before the speakers; 4890624 samples); master volume 0.00
+fps Crystal Forest flying low: average 353.4, 1% low 58.6, worst frame 145 ms over 5302 frames; mean height over ground 36 m; terrain chunks 578, waiting 0
+  hits while flying low: 0; crystals drawn 32406; 
+screenshot r7b_crystal_2_low_cockpit.png
+screenshot r7b_crystal_3_chase.png
+screenshot r7b_crystal_4_shard_breaks.png
+  flown through a shard (24 m tall, 1.4 m thick): broken 1 (drawn no more: yes), hits 0, crashed False; sounds: 55.4 crystal_shatter
+screenshot r7b_crystal_5_spire_ahead.png
+    [268 fps] Flying/ Flight alt 37 gnd 29 spd 35 hdg 0 energy 100
+  flown into a spire (108 m tall, 17 m wide) at Bounce: hits 1 (impact 58.5 m/s), crashed False (big spires don't break)
+--- Ocean Islands (Free Flight, seed of the day 20261108, Bounce)
+  world: biome Ocean; music "flight_ocean" want "flight_ocean" gain 0.50; liquid sea (drawn); props: 0 crystals drawn, 0 vents, fliers on
+screenshot r7b_ocean_1_start_cockpit.png
+    [347 fps] Flying/ Flight alt 127 gnd 37 spd 59 hdg 40 energy 100
+Ocean Islands flying low: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.039 RMS, peak 1.489, zeroed before the speakers; 7690240 samples); master volume 0.00
+fps Ocean Islands flying low: average 296.2, 1% low 49.2, worst frame 320 ms over 4448 frames; mean height over ground 46 m; terrain chunks 578, waiting 0
+  hits while flying low: 0; crystals drawn 0; 
+screenshot r7b_ocean_2_low_cockpit.png
+    [293 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 35 energy 100
+screenshot r7b_ocean_3_chase.png
+screenshot r7b_ocean_4_skim.png
+  skimming the sea: lowest 5.0 m (sea 0), hits 0, crashed False, damage 0 -> 0 %, splash sounds 0
+  dived into the sea at Lasting damage: hits 1 (impact 239 m/s), damage 100 %, crashed True (the sea)
+screenshot r7b_ocean_5_dive.png
+    [423 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 90 energy 100
+new career: first planet Halthel-II (canyons: must be canyons)
+--- Campaign: Volcanic: the check jumps to seed 227
+  arrived: Kaos-V, biome "volcanic"; Control: ; enemies 6 turrets, 1 saucers
+    [610 fps] Flying/ Flight alt 1416 gnd 1416 spd 73 hdg 270 energy 100
+  launched: music "flight_volcanic" want "flight_volcanic" gain 1.00; Control: ctl_brief_volcanic [Radio, p2, 9.6 s] CONTROL: Volcanic world. Lava down in the valleys, ash in the air. Our people are up on the cooled shelves. Do not touch the lava.
+  route trail: target PILOT 1; 83 points, 1987 m long (straight line 1713 m), 4 bends over 20° (255° of turning), highest canyon openness on it 0.14 (0 floor, 1 rim), lowest clearance over the ground 483 m at 1982 m; over the lava: 84 % of its points
+screenshot r7b_volcanic_c1_trail.png
+screenshot r6b_r7b_volcanic_c2_turret.png
+  r7b_volcanic_c2_turret: turret 3 855 m away, at screen 43 % / 49 %; warning light 6.8 m; on the radar yes (spotted True); brackets: TURRET 3 857 m (highlighted); 
+  turret 3: on ground 0.0 m over the drawn ground, on rock, 448 m up
+  pilot 1: pad at (-676, 9, -1901), 9 m over the lava level; 3960 m away
+    [154 fps] Flying/ Hover alt 23 gnd 14 spd 2 hdg 303 energy 97
+    [248 fps] Flying/ Hover alt 14 gnd 5 spd 1 hdg 303 energy 94
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot r7b_volcanic_c3_landed_at_pilot.png
+    [210 fps] Flying/ Hover landed alt 11 gnd 2 spd 0 hdg 303 energy 91
+  pilot 1 aboard: cabin 1; the mayday heard: 
+    [162 fps] Flying/ Hover alt 46 gnd 37 spd 17 hdg 234 energy 98
+  flying again: music "flight_volcanic" want "flight_volcanic" gain 1.00
+    [147 fps] Auto/tow-lift Flight alt 1056 gnd 1056 spd 265 hdg 270 energy 100
+--- Campaign: Crystal Forest: the check jumps to seed 202
+  arrived: Vogix-VI, biome "crystal"; Control: ; enemies 6 turrets, 1 saucers
+    [414 fps] Auto/launch Hover alt 1490 gnd 1490 spd 15 hdg 240 energy 100
+  launched: music "flight_crystal" want "flight_crystal" gain 1.00; Control: ctl_brief_crystal [Radio, p2, 7.9 s] CONTROL: Crystal forest down there. Spires as tall as towers. The big ones will stop you dead. The small ones break.
+  route trail: target PILOT 1; 136 points, 3324 m long (straight line 2659 m), 3 bends over 20° (148° of turning), highest canyon openness on it 0.17 (0 floor, 1 rim), lowest clearance over the ground 27 m at 3319 m; over the ground: 0 % of its points
+screenshot r7b_crystal_c1_trail.png
+screenshot r6b_r7b_crystal_c2_turret.png
+  r7b_crystal_c2_turret: turret 1 884 m away, at screen 43 % / 49 %; warning light off (blink); on the radar yes (spotted True); brackets: TURRET 1 887 m (highlighted); TURRET 2 2050 m; TURRET 3 1488 m; TURRET 4 2072 m; 
+  turret 1: on ground 0.0 m over the drawn ground, on rock, 43 m up
+  pilot 1: pad at (-3002, 0, -144), 0 m over the zero level; 2420 m away
+    [316 fps] Flying/ Hover alt 25 gnd 25 spd 6 hdg 319 energy 99
+    [144 fps] Flying/ Hover alt 8 gnd 8 spd 1 hdg 319 energy 96
+    [180 fps] Flying/ Hover alt 3 gnd 3 spd 1 hdg 319 energy 92
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot r7b_crystal_c3_landed_at_pilot.png
+    [177 fps] Flying/ Hover landed alt 2 gnd 2 spd 0 hdg 319 energy 96
+  pilot 1 aboard: cabin 1; the mayday heard: p10_mayday [Radio, p1, 6.4 s] PILOT BRANNOCK: Mayday, mayday, this is Corps pilot Brannock. I'm down, beacon's on. Is anyone up there?
+  flying again: music "flight_crystal" want "flight_crystal" gain 1.00
+    [92 fps] Flying/ Hover alt 37 gnd 36 spd 0 hdg 319 energy 100
+    [91 fps] Docked/docked Hover alt 1500 gnd 1474 spd 1 hdg 240 energy 100
+--- Campaign: Ocean Islands: the check jumps to seed 201
+  arrived: Quoshae-VI, biome "ocean"; Control: ; enemies 6 turrets, 1 saucers
+    [358 fps] Flying/ Flight alt 1421 gnd 1256 spd 73 hdg 135 energy 100
+  launched: music "flight_ocean" want "flight_ocean" gain 1.00; Control: ctl_brief_ocean [Radio, p2, 10.2 s] CONTROL: Ocean world. Islands, sea stacks, arches. Our pilots are on the islands. Skim the water if you like. Just don't dive into it.
+  route trail: target PILOT 2; 156 points, 3763 m long (straight line 1262 m), 6 bends over 20° (281° of turning), highest canyon openness on it 1.00 (0 floor, 1 rim), lowest clearance over the ground 27 m at 3758 m; over the sea: 84 % of its points
+screenshot r7b_ocean_c1_trail.png
+screenshot r6b_r7b_ocean_c2_turret.png
+  r7b_ocean_c2_turret: turret 6 856 m away, at screen 43 % / 49 %; warning light off (blink); on the radar yes (spotted True); brackets: TURRET 5 2218 m; TURRET 6 859 m (highlighted); 
+  turret 6: on ground 0.0 m over the drawn ground, on rock, 164 m up
+  pilot 1: pad at (3522, 94, 628), 94 m over the sea level; 4468 m away
+    [137 fps] Flying/ Hover alt 110 gnd 16 spd 2 hdg 313 energy 98
+    [209 fps] Flying/ Hover alt 100 gnd 6 spd 1 hdg 313 energy 94
+  landed True 2 m from the pad's centre; music "(silence)" want "" gain 0.00
+screenshot r7b_ocean_c3_landed_at_pilot.png
+    [216 fps] Flying/ Hover landed alt 96 gnd 2 spd 0 hdg 313 energy 91
+  pilot 1 aboard: cabin 1; the mayday heard: p10_mayday [Radio, p1, 6.4 s] PILOT BRANNOCK: Mayday, mayday, this is Corps pilot Brannock. I'm down, beacon's on. Is anyone up there?
+    [193 fps] Flying/ Hover alt 131 gnd 37 spd 1 hdg 313 energy 96
+  flying again: music "flight_ocean" want "flight_ocean" gain 1.00
+    [130 fps] Flying/ Hover alt 131 gnd 37 spd 0 hdg 313 energy 98
+    [148 fps] Auto/tow-lift Flight alt 1473 gnd 1473 spd 127 hdg 135 energy 98
+    [156 fps] Auto/tow-lift Flight alt 1475 gnd 1353 spd 32 hdg 135 energy 98
+--- music (every change)
+  2.8 music "flight_volcanic" gain 0.00
+  3.3 music "flight_volcanic" gain 0.25
+  4.3 music "flight_volcanic" gain 0.50
+  5.1 music "flight_volcanic" gain 0.75
+  5.7 music "flight_volcanic" gain 1.00
+  32.2 music "flight_crystal" gain 0.00
+  32.7 music "flight_crystal" gain 0.25
+  33.7 music "flight_crystal" gain 0.50
+  34.7 music "flight_crystal" gain 0.75
+  35.7 music "flight_crystal" gain 1.00
+  61.0 music "flight_ocean" gain 0.00
+  61.6 music "flight_ocean" gain 0.00
+  62.1 music "flight_ocean" gain 0.25
+  63.1 music "flight_ocean" gain 0.50
+  64.3 music "flight_ocean" gain 0.75
+  65.1 music "flight_ocean" gain 1.00
+  90.0 music "flight_volcanic" gain 0.00 ducked
+  90.4 music "flight_volcanic" gain 0.25 ducked
+  91.4 music "flight_volcanic" gain 0.50 ducked
+  92.4 music "flight_volcanic" gain 0.75 ducked
+  93.4 music "flight_volcanic" gain 1.00 ducked
+  134.3 music "flight_volcanic" gain 0.00 ducked
+  134.8 music "flight_volcanic" gain 0.25 ducked
+  135.8 music "flight_volcanic" gain 0.50 ducked
+  136.8 music "flight_volcanic" gain 0.75 ducked
+  137.8 music "flight_volcanic" gain 1.00 ducked
+  155.8 music "flight_crystal" gain 0.00 ducked
+  156.3 music "flight_crystal" gain 0.25 ducked
+  157.3 music "flight_crystal" gain 0.50 ducked
+  158.3 music "flight_crystal" gain 0.75 ducked
+  159.3 music "flight_crystal" gain 1.00 ducked
+  199.4 music "flight_crystal" gain 0.00 ducked
+  199.9 music "flight_crystal" gain 0.25 ducked
+  200.9 music "flight_crystal" gain 0.50 ducked
+  201.9 music "flight_crystal" gain 0.75 ducked
+  202.9 music "flight_crystal" gain 1.00 ducked
+  221.0 music "flight_ocean" gain 0.00 ducked
+  221.5 music "flight_ocean" gain 0.25 ducked
+  222.5 music "flight_ocean" gain 0.50 ducked
+  223.5 music "flight_ocean" gain 0.75 ducked
+  224.5 music "flight_ocean" gain 1.00 ducked
+  265.1 music "flight_ocean" gain 0.00 ducked
+  265.6 music "flight_ocean" gain 0.25 ducked
+  266.6 music "flight_ocean" gain 0.50 ducked
+  267.5 music "flight_ocean" gain 0.75 ducked
+  268.6 music "flight_ocean" gain 1.00 ducked
+--- [Play] lines: 102; the new biomes' lines: [Play]    22.5 hull heat: 18 m over the lava | [Play]    22.5 voice COMPUTER: Hull heat. Climb. | [Play]    55.4 crystal shard broken at (-82, 8, 1188) | [Play]    89.7 arrived: planet Kaos-V (seed 227, Volcanic), new; pilots waiting 3, aliens among them 1 | [Play]    89.9 launch: Kaos-V (Volcanic), energy 100 %, hull 100 %, cabin 0, pilots waiting 3 | [Play]    98.7 voice CONTROL: Volcanic world. Lava down in the valleys, ash in the air. Our people are up on the cooled shelves. Do not touch the lava. | [Play]   108.8 voice CONTROL: Volcanic below. Keep your height over the lava. | [Play]   155.6 arrived: planet Vogix-VI (seed 202, Crystal Forest), new; pilots waiting 3, aliens among them 1 | [Play]   155.8 launch: Vogix-VI (Crystal Forest), energy 100 %, hull 100 %, cabin 0, pilots waiting 3 | [Play]   159.1 voice CONTROL: Crystal forest down there. Spires as tall as towers. The big ones will stop you dead. The small ones break. | [Play]   169.1 voice CONTROL: Crystal forest below. Mind the spires. | [Play]   220.4 arrived: planet Quoshae-VI (seed 201, Ocean Islands), new; pilots waiting 3, aliens among them 1 | [Play]   221.0 launch: Quoshae-VI (Ocean Islands), energy 100 %, hull 100 %, cabin 0, pilots waiting 3 | [Play]   224.0 voice CONTROL: Ocean world. Islands, sea stacks, arches. Our pilots are on the islands. Skim the water if you like. Just don't dive into it.
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.040 RMS, peak 1.489, zeroed before the speakers; 29396992 samples); master volume 0.00

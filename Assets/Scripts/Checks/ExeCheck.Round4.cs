@@ -25,7 +25,7 @@ namespace HostileHorizon
             G.Menu.Current.Selected = 0; yield return Press(GamepadButton.South);   // Free Flight
             yield return new WaitForSecondsRealtime(.3f);
             G.Menu.Current.Selected = Row("Planet type");
-            for (int k = 0; k < 6 && GameSettings.S.freeBiome != (int)b + 1; k++) yield return Press(GamepadButton.DpadRight);
+            for (int k = 0; k < Biomes.Count + 2 && GameSettings.S.freeBiome != (int)b + 1; k++) yield return Press(GamepadButton.DpadRight);
             G.Menu.Current.Selected = Row("Crash level");
             for (int k = 0; k < 6 && GameSettings.S.crashLevel != crashLevel; k++) yield return Press(GamepadButton.DpadRight);
             G.Menu.Current.Selected = Row("Start flight"); yield return Press(GamepadButton.South);

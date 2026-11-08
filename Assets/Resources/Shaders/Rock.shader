@@ -3,6 +3,9 @@
 // Round 4 (A5): _Mode 0 canyon rock, 1 forest (moss and leaf litter on the flats), 2 dead city (concrete facades with a window grid
 // and a few flickering dead lights on the steep faces, asphalt and rubble on the flats), 3 ice (glacial blue bands, snow on the
 // flats, a cold sheen, deep blue down in the crevasses). Palettes and colours per biome: WorldLook.ApplyBiome.
+// Round 7: 4 volcanic (black basalt, ash on the flats, the walls lit orange from the lava below, glowing cracks near it), 5 crystal
+// forest (dark ground, luminous moss / fungus patches on the flats), 6 ocean islands (sea cliffs, sand just above the water, wet
+// rock and moving surf where the shore meets the sea).
 Shader "HostileHorizon/Rock"
 {
     Properties
@@ -15,6 +18,7 @@ Shader "HostileHorizon/Rock"
         _Mode ("Biome mode", Float) = 0
         _Flat ("Flat ground: from, to (n.y)", Vector) = (0.74, 0.9, 0, 0)
         _Deep ("Deep tint (ice crevasses, city streets)", Color) = (1, 1, 1, 1)
+        _Hot ("Lava light / moss glow (Round 7)", Color) = (1, 0.42, 0.08, 1)
     }
     SubShader
     {
@@ -25,7 +29,7 @@ Shader "HostileHorizon/Rock"
         TEXTURE2D(_Detail); SAMPLER(sampler_Detail);
         TEXTURE2D(_Strata); SAMPLER(sampler_Strata);
         CBUFFER_START(UnityPerMaterial)
-        float4 _Detail_ST, _Strata_ST, _Dust, _AmbientSky, _AmbientGround, _Flat, _Deep; float _Mode;
+        float4 _Detail_ST, _Strata_ST, _Dust, _AmbientSky, _AmbientGround, _Flat, _Deep, _Hot; float _Mode;
         CBUFFER_END
         ENDHLSL
 
@@ -73,7 +77,7 @@ Shader "HostileHorizon/Rock"
                 float flat = smoothstep(_Flat.x, _Flat.y, n.y + (mottle - 0.5) * 0.25);
                 float3 dust = _Dust.rgb * (0.8 + 0.35 * grain) * (0.85 + 0.3 * mottle);
                 if (_Mode > 0.5 && _Mode < 1.5) { dust = lerp(dust, float3(0.20, 0.15, 0.08) * (0.8 + 0.4 * grain), smoothstep(0.45, 0.7, big.g)); rock = lerp(rock, rock * float3(0.8, 1.0, 0.7), smoothstep(0.5, 0.8, fine.r)); }   // forest: leaf litter, moss on the rock
-                if (_Mode > 2.5) rock = strata * (0.86 + 0.22 * mottle) * (0.93 + 0.1 * grain) * lerp(0.9, 1.0, crack);   // ice: smoother than rock
+                if (_Mode > 2.5 && _Mode < 3.5) rock = strata * (0.86 + 0.22 * mottle) * (0.93 + 0.1 * grain) * lerp(0.9, 1.0, crack);   // ice: smoother than rock
                 float3 albedo = lerp(rock, dust, flat);
                 float3 glow = 0; float spec = 0;
                 float3 v = normalize(p - _WorldSpaceCameraPos);
@@ -101,15 +105,41 @@ Shader "HostileHorizon/Rock"
                     float flick = step(0.35, frac(sin(floor(_Time.y * (2.0 + hs * 9.0)) * (12.0 + hs * 40.0)) * 43758.5));
                     glow = lit * flick * lerp(float3(1.0, 0.62, 0.3), float3(0.5, 0.8, 1.0), step(0.993, hs)) * 1.6;
                 }
-                else if (_Mode > 2.5)
+                else if (_Mode > 2.5 && _Mode < 3.5)
                 {
                     // ice: a cold sheen on the steep ice (snow on the flats comes from _Dust)
                     spec = (1 - flat) * 0.55;
                 }
+                else if (_Mode > 3.5 && _Mode < 4.5)
+                {
+                    // volcanic: basalt with a faint sheen; lit from the lava below (falls off over 25 m); glowing cracks just above it
+                    spec = (1 - flat) * 0.12;
+                    float low = exp(-max(p.y, 0.0) / 25.0);
+                    glow = _Hot.rgb * low * (0.55 + 0.45 * (1.0 - n.y)) * 0.9 * albedo * 3.0;
+                    glow += _Hot.rgb * smoothstep(0.55, 0.95, 1.0 - crack) * exp(-max(p.y, 0.0) / 4.0) * 1.4 * (0.8 + 0.2 * sin(_Time.y * 1.7 + p.x * 0.05));
+                }
+                else if (_Mode > 4.5 && _Mode < 5.5)
+                {
+                    // crystal forest: luminous moss and fungus in patches on the flats, slowly breathing
+                    float patchy = smoothstep(0.6, 0.72, big.g) * smoothstep(0.3, 0.7, fine.r);
+                    glow = _Hot.rgb * patchy * flat * (0.7 + 0.3 * sin(_Time.y * 0.8 + big.r * 12.0)) * 0.55;
+                }
+                else if (_Mode > 5.5)
+                {
+                    // ocean islands: sand on the low flats, wet dark rock and moving surf at the waterline (y 0)
+                    float sand = smoothstep(5.0, 1.5, p.y) * smoothstep(-1.5, 0.3, p.y) * smoothstep(0.55, 0.8, n.y);
+                    albedo = lerp(albedo, float3(0.62, 0.55, 0.42) * (0.85 + 0.25 * grain), sand);
+                    float wet = smoothstep(3.0, 0.4, p.y);
+                    albedo *= lerp(1.0, 0.55, wet * (1 - sand * 0.5));
+                    float wave = sin(_Time.y * 1.6 + dot(p.xz, float2(0.06, 0.045))) * 0.45 + sin(_Time.y * 0.9 - p.x * 0.03) * 0.3;
+                    float surf = smoothstep(1.4, 0.2, p.y - wave) * smoothstep(-0.8, 0.0, p.y) * (0.6 + 0.4 * fine.g);
+                    albedo = lerp(albedo, float3(0.92, 0.95, 0.96), surf * 0.85);
+                    spec = wet * 0.4;
+                }
 
                 Light L = GetMainLight(TransformWorldToShadowCoord(p));
                 float ndl = saturate(dot(n, L.direction));
-                float cavity = lerp(0.62, 1.0, saturate((p.y + 10.0) / 170.0)) * lerp(_Mode > 2.5 ? 0.97 : 0.8, 1.0, crack);   // deep canyons and cracks get less sky
+                float cavity = lerp(0.62, 1.0, saturate((p.y + 10.0) / 170.0)) * lerp(_Mode > 2.5 && _Mode < 3.5 ? 0.97 : 0.8, 1.0, crack);   // deep canyons and cracks get less sky
                 float3 amb = lerp(_AmbientGround.rgb, _AmbientSky.rgb, n.y * 0.5 + 0.5) * cavity;
                 amb *= lerp(_Deep.rgb, float3(1, 1, 1), saturate(p.y / 160.0));   // ice: blue down in the crevasses
                 float3 col = albedo * (L.color * ndl * L.shadowAttenuation + amb);

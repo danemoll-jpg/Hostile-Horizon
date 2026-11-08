@@ -67,6 +67,11 @@ namespace HostileHorizon
         public static SolidHook ExtraSolid;
         public float LastShotAt { get; private set; } = -99;
         public event Action OnCrash, OnLanded, OnEnginesStarted, OnEnginesStopped, OnOutOfEnergy, OnBrake;
+        // Round 7 (B2-B4): into the lava (a crash at every level but Ghost), on the water (a skim throws spray; hard, a hit as on rock),
+        // through a crystal shard (it breaks; no hit)
+        public event Action<Vector3, float> OnWater;         // where, how hard (m/s into it)
+        public event Action<CanyonField.Shard> OnShard;
+        public string CrashCause { get; private set; } = "";
         public bool Braking { get; private set; }            // Fix 2.4: hover entered faster than the hover speed: the air brakes are on
         public float LandedAt { get; private set; } = -99;   // Time.time of the last touchdown (TOUCHDOWN on the displays)
         public bool InputEnabled = true;
@@ -96,7 +101,7 @@ namespace HostileHorizon
         {
             transform.SetPositionAndRotation(pos, rot);
             Level = level; Throttle = throttle; Speed = Mathf.Lerp(MinSpeed, MaxSpeed, Throttle); Velocity = transform.forward * Speed;
-            Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0;
+            Damage = damage; Crashed = false; Hits = 0; sinceHit = 99; Mode = FlightMode.Flight; Landed = false; EnginesOn = true; Gear = 0; CrashCause = "";
             Kinematic = false; Notice = ""; Braking = false; knock = Vector3.zero; releasedFor = 0; rightBlend = 0; levelOut = false; Righting = false;
             LeverTakesThrottle();
             gameObject.SetActive(true);
@@ -401,6 +406,17 @@ namespace HostileHorizon
             }
             if (deepest <= 0) return;
             var c = transform.position;
+            if (Field.OverLiquid(c.x, c.z))
+            {
+                if (Field.IsLava) { CrashCause = "lava"; Crash(); return; }
+                // Round 7 (B4): no landing on the sea: held just over it (a splash), or a hit if coming down hard
+                transform.position += Vector3.up * deepest; float hard = -Velocity.y;
+                OnWater?.Invoke(c, hard);
+                if (hard > Tuning.T.waterHardSpeed && sinceHit > .5f) { Hit(hard * Tuning.T.waterHitScale); if (Crashed) { CrashCause = "the sea"; return; } }
+                Velocity = new Vector3(Velocity.x, Mathf.Max(Velocity.y, 1f), Velocity.z);
+                Say("Can't land on water");
+                return;
+            }
             Field.SurfaceHeight(c.x, c.z, out var n);
             float slope = Vector3.Angle(n, Vector3.up), down = -Velocity.y;
             var t = Tuning.T;
@@ -429,17 +445,31 @@ namespace HostileHorizon
         {
             for (int iter = 0; iter < 3; iter++)
             {
-                float deepest = 0, solid = 0; Vector3 n = Vector3.up, sn = Vector3.up;
+                float deepest = 0, solid = 0; Vector3 n = Vector3.up, sn = Vector3.up; bool liquid = false;
                 foreach (var c in ShipLayout.Contacts)
                 {
                     var p = transform.TransformPoint(c);
                     float h = Field.SurfaceHeight(p.x, p.z, out var nn);
-                    if (h - p.y > deepest) { deepest = h - p.y; n = nn; }
+                    if (h - p.y > deepest) { deepest = h - p.y; n = nn; liquid = Field.HasLiquid && h <= Field.Liquid + .01f; }
+                    if (iter == 0 && Field.ShardHit(p, out var shard)) { Field.Broken[shard.id] = true; OnShard?.Invoke(shard); }   // Round 7 (B3)
                     // Round 4: tree trunks, sky bridges, snow bridges (CanyonField.SolidPush: from the seed, not from what is drawn)
                     if (Field.SolidPush(p, out var pn, out var pd) && pd > solid) { solid = pd; sn = pn; }
                     if (ExtraSolid != null && ExtraSolid(p, out var en, out var ed) && ed > solid) { solid = ed; sn = en; }   // Round 5: turrets
                 }
                 if (deepest <= 0 && solid <= 0) return;
+                if (liquid && deepest > 0 && solid <= 0)
+                {
+                    // Round 7: the lava is a crash at any crash level (Ghost never gets here); the sea: a skim (spray, a little drag)
+                    // unless hit hard (more than waterHardSpeed into it), then a hit as on rock, harder
+                    if (Field.IsLava) { CrashCause = "lava"; Crash(); return; }
+                    float down = -Velocity.y;
+                    transform.position += Vector3.up * (deepest + .1f);
+                    OnWater?.Invoke(transform.position, Mathf.Max(0, down));
+                    if (iter == 0 && down > Tuning.T.waterHardSpeed && sinceHit > .5f) { Hit(down * Tuning.T.waterHitScale); if (Crashed) { CrashCause = "the sea"; return; } }
+                    Velocity = new Vector3(Velocity.x, Mathf.Max(0, Velocity.y) + (down > 0 ? down * .3f : 0), Velocity.z) * .995f;
+                    if (Mode == FlightMode.Flight) { Speed = Mathf.Max(MinSpeed, Speed * .997f); var f = transform.forward; if (f.y < 0) transform.rotation = Quaternion.LookRotation(new Vector3(f.x, f.y * .9f, f.z), transform.up); }
+                    return;
+                }
                 // out along the ground's normal, then the flight path bounced off it
                 if (solid > deepest * Mathf.Max(n.y, .2f)) { n = sn; transform.position += n * (solid + .25f); }
                 else transform.position += n * (deepest * Mathf.Max(n.y, .2f) + .25f);

@@ -6,13 +6,15 @@ using UnityEngine;
 namespace HostileHorizon
 {
     // Round 4, item A1: a planet's biome, from its seed (same planet = same biome). A new career's first planet is always Canyons.
-    public enum Biome { Canyons = 0, Forest = 1, City = 2, Ice = 3 }
+    // Round 7 (B1): Volcanic, Crystal Forest, Ocean Islands.
+    public enum Biome { Canyons = 0, Forest = 1, City = 2, Ice = 3, Volcanic = 4, Crystal = 5, Ocean = 6 }
 
     public static class Biomes
     {
-        public static readonly string[] Keys = { "canyons", "forest", "city", "ice" };
-        public static readonly string[] Names = { "Canyons", "Giant Forest", "Dead City", "Ice" };
-        public static Biome ForSeed(int seed) { unchecked { uint x = (uint)seed * 2246822519u ^ 0x27d4eb2fu; x ^= x >> 15; x *= 2654435761u; x ^= x >> 13; return (Biome)(x % 4u); } }
+        public static readonly string[] Keys = { "canyons", "forest", "city", "ice", "volcanic", "crystal", "ocean" };
+        public static readonly string[] Names = { "Canyons", "Giant Forest", "Dead City", "Ice", "Volcanic", "Crystal Forest", "Ocean Islands" };
+        public static int Count => Keys.Length;
+        public static Biome ForSeed(int seed) { unchecked { uint x = (uint)seed * 2246822519u ^ 0x27d4eb2fu; x ^= x >> 15; x *= 2654435761u; x ^= x >> 13; return (Biome)(x % (uint)Keys.Length); } }
         public static Biome FromKey(string k) { int i = Array.IndexOf(Keys, k); return i < 0 ? Biome.Canyons : (Biome)i; }
         public static string Name(Biome b) => Names[(int)b];
         public static string Name(string key) => Names[(int)FromKey(key)];
@@ -37,6 +39,16 @@ namespace HostileHorizon
     //    Sky bridges between towers are solid boxes;
     //  - Ice: snow plains (about 230 m up, stepped by ice cliffs) cut by narrow, deep crevasses (the canyons); some crevasses are
     //    roofed over by snow bridges you fly under (ice caves; solid boxes).
+    // Round 7 (B2-B4):
+    //  - Volcanic: the canyons in black basalt, their floors dipping below the lava level (0 m) in rivers and lakes; pads are cooled
+    //    rock shelves raised over it; glowing vents (cones with a crater) on the floors. Lava is a liquid surface (Liquid): flying
+    //    into it is a crash at any crash level but Ghost;
+    //  - Crystal Forest: rolling dark ground with wide valleys; a crystal spire per 64 m cell off the valley floors (10-200 m, tilted
+    //    up to 14 degrees, solid) with a few thin shards round it (they break when hit: ShardHit);
+    //  - Ocean Islands: the sea (0 m, a liquid: the ground under it is the sea floor) with steep rocky islands (beaches, cliffs,
+    //    plateaus), sea stacks in the open water and rock arches (two stacks with a slab across: a Box, kind 2) to fly through.
+    //    Pads on the islands (tops, beaches, ledges): the flattest spot in the cell.
+    // SurfaceHeight is the ground or the liquid's surface, whichever is higher (everything that flies, lands or runs uses it).
     // Pure C# apart from Vector3 / Mathf (thread-safe), so chunk jobs can run it off the main thread.
     // SurfaceHeight is the height of the drawn ground (the 4 m triangle grid of the nearest chunks), used for collisions.
     public sealed class CanyonField
@@ -72,7 +84,9 @@ namespace HostileHorizon
                 case Biome.City: return CityT(x, z);
                 case Biome.Forest: return Channels(x, z, .05f, .09f, .22f, 1.35f);
                 case Biome.Ice: return Channels(x, z, .014f, .032f, .05f, 1f);
-                default: return Channels(x, z, .018f, .045f, .09f, 1f);
+                case Biome.Crystal: return Channels(x, z, .05f, .09f, .22f, 1.35f);
+                case Biome.Ocean: return OceanT(x, z);
+                default: return Channels(x, z, .018f, .045f, .09f, 1f);   // Canyons, Volcanic
             }
         }
 
@@ -98,6 +112,9 @@ namespace HostileHorizon
                 case Biome.Forest: return ForestHeight(x, z);
                 case Biome.City: return CityHeight(x, z);
                 case Biome.Ice: return IceHeight(x, z);
+                case Biome.Crystal: return CrystalHeight(x, z);
+                case Biome.Ocean: return OceanHeight(x, z);
+                case Biome.Volcanic: return VolcanicHeight(x, z);
             }
             float t = CanyonT(x, z);
             // terraces: five ledges with steep risers between them, mixed with the plain slope so they look worn
@@ -110,6 +127,221 @@ namespace HostileHorizon
             h += (3f + 8f * t) * detail.Fbm(x / 85f, z / 85f, 3);
             return h;
         }
+
+        // ---- Volcanic: the canyons' shape, sharper basalt walls, floors dipping under the lava in rivers and lakes, vents
+        public const float LavaLevel = 0f, SeaLevel = 0f;
+        float VolcanicFloor(float x, float z) => -9f + 16f * floorN.Fbm(x / 760f, z / 760f, 2);   // under 0 m: lava
+        float VolcanicHeight(float x, float z)
+        {
+            float t = CanyonT(x, z);
+            float s = t * 4f; float i = (float)Math.Floor(s); float f = s - i;
+            float terr = (i + Noise.Smooth(.6f, 1f, f)) / 4f;   // fewer, sharper ledges: columns of basalt
+            float tt = Noise.Lerp(t, terr, .75f);
+            float top = 300f + 120f * plateau.Fbm(x / 1600f, z / 1600f, 3) + 160f * ridge.Ridged(x / 800f, z / 800f, 2) * Noise.Smooth(.4f, 1f, t);
+            float bottom = VolcanicFloor(x, z);
+            float h = bottom + (top - bottom) * tt;
+            h += (2f + 7f * t) * detail.Ridged(x / 70f, z / 70f, 2);
+            var v = VentNear(x, z, out float vd);
+            if (v.ok && vd < v.r) { float k = vd / v.r; h = Math.Max(h, v.y + v.top * (1 - k * k) - (k < .3f ? v.top * .6f * (1 - k / .3f) : 0)); }   // a cone with a crater
+            return h;
+        }
+
+        public struct Vent { public bool ok; public float x, z, y, r, top; public Vector3 Crater => new Vector3(x, y + top * .45f, z); }
+        readonly ConcurrentDictionary<long, Vent> vents = new ConcurrentDictionary<long, Vent>();
+        // a vent per 256 m prop cell (about a third of them), on a floor
+        public Vent VentAt(int ci, int cj)
+        {
+            long key = ((long)ci << 32) ^ (uint)cj;
+            if (vents.TryGetValue(key, out var v)) return v;
+            v = new Vent();
+            if (Biome == Biome.Volcanic && R01(ci, cj, 80) < .34f)
+            {
+                float x = (ci + .5f) * PropCell + (R01(ci, cj, 81) - .5f) * 140f, z = (cj + .5f) * PropCell + (R01(ci, cj, 82) - .5f) * 140f;
+                // (no pad test here: PadAt needs the height, which needs the vents; a pad flattens whatever is under it anyway)
+                if (CanyonT(x, z) < .3f) v = new Vent { ok = true, x = x, z = z, y = Math.Max(LavaLevel + 2f, VolcanicFloor(x, z)), r = Noise.Lerp(14f, 26f, R01(ci, cj, 83)), top = Noise.Lerp(8f, 18f, R01(ci, cj, 84)) };
+            }
+            vents[key] = v; return v;
+        }
+        Vent VentNear(float x, float z, out float d)
+        {
+            d = 1e9f; var v = VentAt((int)Math.Floor(x / PropCell), (int)Math.Floor(z / PropCell)); if (!v.ok) return v;
+            d = (float)Math.Sqrt((x - v.x) * (x - v.x) + (z - v.z) * (z - v.z)); return v;
+        }
+
+        // ---- Crystal Forest: rolling dark ground with wide valleys (the forest's shape, lower and smoother)
+        float CrystalHeight(float x, float z)
+        {
+            float t = CanyonT(x, z);
+            float top = 70f + 40f * plateau.Fbm(x / 1400f, z / 1400f, 3);
+            float bottom = 4f * floorN.Fbm(x / 420f, z / 420f, 2);
+            float s = t * t * (3 - 2 * t);
+            return bottom + (top - bottom) * s + 18f * ridge.Fbm(x / 480f, z / 480f, 2) * t + 1.2f * detail.Fbm(x / 36f, z / 36f, 2);
+        }
+
+        // ---- Ocean Islands
+        float IslandM(float x, float z)
+        {
+            float wx = x + 300f * warpA.Fbm(x / 1500f, z / 1500f, 2), wz = z + 300f * warpB.Fbm(x / 1500f + 31.7f, z / 1500f + 11.3f, 2);
+            return plateau.Fbm(wx / 1900f, wz / 1900f, 4) + .45f * chanA.Fbm(wx / 650f, wz / 650f, 3) - .04f;   // > 0: land
+        }
+        float OceanT(float x, float z)
+        {
+            float t = Noise.Smooth(-.12f, -.01f, IslandM(x, z));
+            var st = StackNear(x, z, out float d); if (st.ok) t = Math.Max(t, Noise.Smooth(st.r + 45f, st.r, d));
+            return t;
+        }
+        float OceanHeight(float x, float z)
+        {
+            float m = IslandM(x, z);
+            float floor = -38f + 10f * floorN.Fbm(x / 600f, z / 600f, 2);
+            float beach = Noise.Smooth(-.02f, .005f, m) * 3.5f;                         // a sandy shelf just above the water
+            float cliff = Noise.Smooth(.012f, .05f, m);                                 // then the cliffs
+            float top = 60f + 190f * Noise.Smooth(-.1f, .5f, plateau.Fbm(x / 900f + 5f, z / 900f, 3)) + 50f * ridge.Ridged(x / 520f, z / 520f, 2);
+            float land = beach + cliff * top + (1f + 6f * cliff) * detail.Fbm(x / 60f, z / 60f, 3);
+            float h = m < -.02f ? Noise.Lerp(floor, -2f, Noise.Smooth(-.2f, -.02f, m)) : land;
+            var st = StackNear(x, z, out float d);
+            if (st.ok && d < st.r * 1.25f) { float k = Noise.Smooth(st.r * 1.25f, st.r * .9f, d); h = Math.Max(h, Noise.Lerp(floor, st.top + 4f * detail.Fbm(x / 20f, z / 20f, 2), k)); }
+            return h;
+        }
+
+        // sea stacks: one per 128 m cell (a quarter of them) in the open water; an arch's two legs are stacks too
+        public struct Stack { public bool ok; public float x, z, r, top; }
+        readonly ConcurrentDictionary<long, Stack> stacks = new ConcurrentDictionary<long, Stack>();
+        const float StackCell = 128f;
+        Stack StackAt(int si, int sj)
+        {
+            long key = ((long)si << 32) ^ (uint)sj;
+            if (stacks.TryGetValue(key, out var st)) return st;
+            st = new Stack();
+            if (Biome == Biome.Ocean)
+            {
+                var arch = ArchAt((int)Math.Floor(si * StackCell / PropCell), (int)Math.Floor(sj * StackCell / PropCell));
+                float x = (si + .5f) * StackCell + (R01(si, sj, 91) - .5f) * 60f, z = (sj + .5f) * StackCell + (R01(si, sj, 92) - .5f) * 60f;
+                if (arch.ok && Math.Floor(arch.a.x / StackCell) == si && Math.Floor(arch.a.z / StackCell) == sj) st = new Stack { ok = true, x = arch.a.x, z = arch.a.z, r = arch.legR, top = arch.top };
+                else if (arch.ok && Math.Floor(arch.b.x / StackCell) == si && Math.Floor(arch.b.z / StackCell) == sj) st = new Stack { ok = true, x = arch.b.x, z = arch.b.z, r = arch.legR, top = arch.top };
+                else if (!arch.ok && R01(si, sj, 90) < .25f && IslandM(x, z) < -.1f) st = new Stack { ok = true, x = x, z = z, r = Noise.Lerp(10f, 26f, R01(si, sj, 93)), top = Noise.Lerp(50f, 170f, R01(si, sj, 94)) };
+            }
+            stacks[key] = st; return st;
+        }
+        Stack StackNear(float x, float z, out float d)
+        {
+            int si = (int)Math.Floor(x / StackCell), sj = (int)Math.Floor(z / StackCell); d = 1e9f; var best = new Stack(); float bestEdge = 1e9f;
+            for (int dj = -1; dj <= 1; dj++)
+                for (int di = -1; di <= 1; di++)
+                {
+                    var st = StackAt(si + di, sj + dj); if (!st.ok) continue;
+                    float dd = (float)Math.Sqrt((x - st.x) * (x - st.x) + (z - st.z) * (z - st.z));
+                    if (dd - st.r < bestEdge) { bestEdge = dd - st.r; d = dd; best = st; }
+                }
+            return best;
+        }
+
+        // an arch: two stacks 70-110 m apart in the open water and a slab across their tops (the slab is a Box, kind 2). One cell's
+        // arch keeps both legs in its own 256 m cell (so a stack never needs a neighbour cell's arch).
+        public struct Arch { public bool ok; public Vector3 a, b; public float legR, top, thick; }
+        readonly ConcurrentDictionary<long, Arch> arches = new ConcurrentDictionary<long, Arch>();
+        public Arch ArchAt(int ci, int cj)
+        {
+            long key = ((long)ci << 32) ^ (uint)cj;
+            if (arches.TryGetValue(key, out var a)) return a;
+            a = new Arch();
+            if (Biome == Biome.Ocean && R01(ci, cj, 95) < .22f)
+            {
+                float x = (ci + .5f) * PropCell, z = (cj + .5f) * PropCell;
+                bool alongX = R01(ci, cj, 98) < .5f; float half = Noise.Lerp(35f, 55f, R01(ci, cj, 99));
+                var dir = alongX ? Vector3.right : Vector3.forward;
+                var pa = new Vector3(x, 0, z) - dir * half; var pb = new Vector3(x, 0, z) + dir * half;
+                if (IslandM(pa.x, pa.z) < -.1f && IslandM(pb.x, pb.z) < -.1f && IslandM(x, z) < -.1f)
+                    a = new Arch { ok = true, a = pa, b = pb, legR = Noise.Lerp(12f, 17f, R01(ci, cj, 100)), top = Noise.Lerp(48f, 80f, R01(ci, cj, 101)), thick = Noise.Lerp(12f, 18f, R01(ci, cj, 102)) };
+            }
+            arches[key] = a; return a;
+        }
+
+        // ---- Crystal Forest: a spire per 64 m cell and its shards
+        public struct Crystal { public bool ok; public Vector3 basePos, axis; public float radius, height, yaw; public int tint; }
+        public struct Shard { public bool ok; public Vector3 basePos, axis; public float radius, height, yaw; public long id; }
+        readonly ConcurrentDictionary<long, Crystal> crystals = new ConcurrentDictionary<long, Crystal>();
+        readonly ConcurrentDictionary<long, Shard[]> shards = new ConcurrentDictionary<long, Shard[]>();
+        public readonly ConcurrentDictionary<long, bool> Broken = new ConcurrentDictionary<long, bool>();   // shards broken this visit
+
+        public Crystal CrystalAt(int ti, int tj)
+        {
+            long key = ((long)ti << 32) ^ (uint)tj;
+            if (crystals.TryGetValue(key, out var c)) return c;
+            c = new Crystal();
+            if (Biome == Biome.Crystal && R01(ti, tj, 141) < .62f)
+            {
+                float x = (ti + .5f) * TreeCell + (R01(ti, tj, 142) - .5f) * 2 * 20f, z = (tj + .5f) * TreeCell + (R01(ti, tj, 143) - .5f) * 2 * 20f;
+                var p = PadAt((int)Math.Floor(x / PadCell), (int)Math.Floor(z / PadCell));
+                bool clearing = p.ok && (x - p.x) * (x - p.x) + (z - p.z) * (z - p.z) < (PadRadius + 45f) * (PadRadius + 45f);
+                if (!clearing && CanyonT(x, z) > .07f)
+                {
+                    float big = R01(ti, tj, 144); big *= big;
+                    float h = Noise.Lerp(10f, 200f, big), r = Noise.Lerp(1.6f, 14f, big) * Noise.Lerp(.8f, 1.2f, R01(ti, tj, 145));
+                    float tilt = R01(ti, tj, 146) * 14f, dirA = R01(ti, tj, 147) * 360f;
+                    var axis = Quaternion.Euler(0, dirA, 0) * Quaternion.Euler(tilt, 0, 0) * Vector3.up;
+                    float g = Math.Min(Math.Min(Height(x - r, z), Height(x + r, z)), Math.Min(Height(x, z - r), Height(x, z + r)));
+                    c = new Crystal { ok = true, basePos = new Vector3(x, g - 2f, z), axis = axis, radius = r, height = h, yaw = R01(ti, tj, 148) * 60f, tint = (int)(R01(ti, tj, 149) * 3) };
+                }
+            }
+            crystals[key] = c; return c;
+        }
+
+        // 2-5 thin shards round a cell's spire (or alone in an open cell)
+        public Shard[] ShardsAt(int ti, int tj)
+        {
+            long key = ((long)ti << 32) ^ (uint)tj;
+            if (shards.TryGetValue(key, out var list)) return list;
+            var l = new List<Shard>();
+            if (Biome == Biome.Crystal)
+            {
+                var c = CrystalAt(ti, tj);
+                int n = 2 + (int)(R01(ti, tj, 150) * 4);
+                for (int k = 0; k < n; k++)
+                {
+                    float a = R01(ti, tj, 151 + k) * Mathf.PI * 2, d = (c.ok ? c.radius : 0) + Noise.Lerp(4f, 16f, R01(ti, tj, 160 + k));
+                    float cx = c.ok ? c.basePos.x : (ti + .5f) * TreeCell, cz = c.ok ? c.basePos.z : (tj + .5f) * TreeCell;
+                    float x = cx + Mathf.Cos(a) * d, z = cz + Mathf.Sin(a) * d;
+                    if (Math.Floor(x / TreeCell) != ti || Math.Floor(z / TreeCell) != tj) continue;
+                    var p = PadAt((int)Math.Floor(x / PadCell), (int)Math.Floor(z / PadCell));
+                    if (p.ok && (x - p.x) * (x - p.x) + (z - p.z) * (z - p.z) < (PadRadius + 30f) * (PadRadius + 30f)) continue;
+                    var axis = Quaternion.Euler(0, a * Mathf.Rad2Deg, 0) * Quaternion.Euler(Noise.Lerp(10f, 35f, R01(ti, tj, 170 + k)), 0, 0) * Vector3.up;
+                    l.Add(new Shard { ok = true, basePos = new Vector3(x, Height(x, z) - .5f, z), axis = axis, radius = Noise.Lerp(.5f, 1.6f, R01(ti, tj, 180 + k)), height = Noise.Lerp(6f, 24f, R01(ti, tj, 190 + k)),
+                                      yaw = R01(ti, tj, 200 + k) * 60f, id = key * 8 + k });
+                }
+            }
+            list = l.ToArray(); shards[key] = list; return list;
+        }
+
+        // the closest point on a tilted, tapering prism's axis: inside it or not
+        static bool InPrism(Vector3 p, Vector3 b, Vector3 axis, float r, float h, out Vector3 n, out float depth, float taper)
+        {
+            n = Vector3.up; depth = 0;
+            float u = Vector3.Dot(p - b, axis); if (u < 0 || u > h) return false;
+            var off = p - (b + axis * u); float d = off.magnitude, rr = r * (1f - taper * u / h);
+            if (d >= rr) return false;
+            depth = rr - d; n = d > .01f ? off / d : Vector3.Cross(axis, Vector3.right).normalized; return true;
+        }
+
+        // a point inside an unbroken shard: which one (the ship breaks it; no hit)
+        public bool ShardHit(Vector3 p, out Shard hit)
+        {
+            hit = default; if (Biome != Biome.Crystal) return false;
+            int ti = (int)Math.Floor(p.x / TreeCell), tj = (int)Math.Floor(p.z / TreeCell);
+            for (int dj = -1; dj <= 1; dj++)
+                for (int di = -1; di <= 1; di++)
+                    foreach (var s in ShardsAt(ti + di, tj + dj))
+                        if (!Broken.ContainsKey(s.id) && InPrism(p, s.basePos, s.axis, s.radius + 1f, s.height, out _, out _, .85f)) { hit = s; return true; }
+            return false;
+        }
+
+        // ---- the liquid: lava (Volcanic) or the sea (Ocean); float.NegativeInfinity elsewhere
+        public float Liquid => Biome == Biome.Volcanic ? LavaLevel : Biome == Biome.Ocean ? SeaLevel : float.NegativeInfinity;
+        public bool HasLiquid => Biome == Biome.Volcanic || Biome == Biome.Ocean;
+        public bool IsLava => Biome == Biome.Volcanic;
+        // the drawn ground alone (the sea floor, the lava's bed), and whether the liquid covers it here
+        public float GroundHeight(float x, float z) => SurfaceHeight(x, z, out _, false);
+        public bool OverLiquid(float x, float z) => HasLiquid && GroundHeight(x, z) < Liquid;
 
         // ---- Giant Forest: rolling ground, wide valleys
         float ForestHeight(float x, float z)
@@ -255,6 +487,24 @@ namespace HostileHorizon
                     }
                 pads[key] = p; return p;
             }
+            if (Biome == Biome.Ocean)
+            {
+                // Round 7 (B4): on an island: the spot whose ground varies least within the pad (a top, a beach, a ledge)
+                float bestRelief = 9999;
+                for (int k = 0; k < 14; k++)
+                {
+                    r ^= r << 13; r ^= r >> 17; r ^= r << 5; float u = (r & 0xffff) / 65536f;
+                    r ^= r << 13; r ^= r >> 17; r ^= r << 5; float v = (r & 0xffff) / 65536f;
+                    float x = ci * PadCell + margin + u * span, z = cj * PadCell + margin + v * span, h0 = BaseHeight(x, z);
+                    if (h0 < SeaLevel + 3f || h0 > 280f) continue;
+                    float relief = 0;
+                    for (int a = 0; a < 8; a++) { float ang = a * Mathf.PI / 4; relief = Math.Max(relief, Math.Abs(BaseHeight(x + Mathf.Cos(ang) * PadRadius, z + Mathf.Sin(ang) * PadRadius) - h0)); }
+                    if (relief < bestRelief) { bestRelief = relief; bx = x; bz = z; }
+                }
+                p = new Pad { ok = bestRelief < 30f, x = bx, z = bz };
+                if (p.ok) p.h = BaseHeight(bx, bz);
+                pads[key] = p; return p;
+            }
             for (int k = 0; k < 12; k++)
             {
                 r ^= r << 13; r ^= r >> 17; r ^= r << 5; float u = (r & 0xffff) / 65536f;
@@ -264,6 +514,7 @@ namespace HostileHorizon
             }
             p = new Pad { ok = bestT < .02f, x = bx, z = bz };
             if (p.ok) p.h = BaseHeight(bx, bz);
+            if (p.ok && Biome == Biome.Volcanic) p.h = Math.Max(p.h, LavaLevel + 9f);   // Round 7 (B2): a cooled rock shelf over the lava
             pads[key] = p;
             return p;
         }
@@ -286,7 +537,8 @@ namespace HostileHorizon
         // The drawn ground: the 4 m grid's triangles (diagonal from (i, j) to (i + 1, j + 1)), as TerrainChunk lays them.
         public float SurfaceHeight(float x, float z) => SurfaceHeight(x, z, out _);
 
-        public float SurfaceHeight(float x, float z, out Vector3 normal)
+        public float SurfaceHeight(float x, float z, out Vector3 normal) => SurfaceHeight(x, z, out normal, true);
+        public float SurfaceHeight(float x, float z, out Vector3 normal, bool liquid)
         {
             float gx = x / Cell, gz = z / Cell;
             float i = Mathf.Floor(gx), j = Mathf.Floor(gz);
@@ -296,6 +548,7 @@ namespace HostileHorizon
             float h;
             if (fz > fx) { h = a + (d - c) * fx + (c - a) * fz; normal = new Vector3(-(d - c), Cell, -(c - a)).normalized; }
             else { h = a + (b - a) * fx + (d - b) * fz; normal = new Vector3(-(b - a), Cell, -(d - b)).normalized; }
+            if (liquid && h < Liquid) { h = Liquid; normal = Vector3.up; }   // Round 7: lava, the sea
             return h;
         }
 
@@ -392,6 +645,15 @@ namespace HostileHorizon
                     l.Add(new Box { kind = 0, c = c, half = new Vector3(5f, 3.5f, len / 2), yaw = alongX ? 90f : 0f });
                 }
             }
+            else if (Biome == Biome.Ocean)
+            {
+                var a = ArchAt(ci, cj);
+                if (a.ok)
+                {
+                    var mid = (a.a + a.b) / 2; float len = (a.b - a.a).magnitude + a.legR * 1.6f; bool alongX = Math.Abs(a.b.x - a.a.x) > 1f;
+                    l.Add(new Box { kind = 2, c = new Vector3(mid.x, a.top - a.thick / 2 + 3f, mid.z), half = new Vector3(a.legR * .9f, a.thick / 2, len / 2), yaw = alongX ? 90f : 0f });
+                }
+            }
             else if (Biome == Biome.Ice && R01(ci, cj, 70) < .42f)
             {
                 float x = (ci + .5f) * PropCell + (R01(ci, cj, 71) - .5f) * 120f, z = (cj + .5f) * PropCell + (R01(ci, cj, 72) - .5f) * 120f;
@@ -435,7 +697,18 @@ namespace HostileHorizon
                 }
                 return false;
             }
-            if (Biome != Biome.City && Biome != Biome.Ice) return false;
+            if (Biome == Biome.Crystal)
+            {
+                int ti = (int)Math.Floor(p.x / TreeCell), tj = (int)Math.Floor(p.z / TreeCell);
+                for (int dj = -1; dj <= 1; dj++)
+                    for (int di = -1; di <= 1; di++)
+                    {
+                        var c = CrystalAt(ti + di, tj + dj);
+                        if (c.ok && InPrism(p, c.basePos, c.axis, c.radius, c.height, out var cn, out var cd, .85f) && cd > depth) { depth = cd; normal = cn; }
+                    }
+                return depth > 0;
+            }
+            if (Biome != Biome.City && Biome != Biome.Ice && Biome != Biome.Ocean) return false;
             int ci = (int)Math.Floor(p.x / PropCell), cj = (int)Math.Floor(p.z / PropCell);
             for (int dj = -1; dj <= 1; dj++)
                 for (int di = -1; di <= 1; di++)

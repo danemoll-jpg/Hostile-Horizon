@@ -140,7 +140,8 @@ namespace HostileHorizon
         readonly List<MapPlanet> map = new List<MapPlanet>();
         string mapKey = ""; float mapDist = 10; Material mapLine;
 
-        static Color BiomeColour(Biome b) => b == Biome.Forest ? new Color(.35f, .8f, .4f) : b == Biome.City ? new Color(.62f, .68f, .8f) : b == Biome.Ice ? new Color(.85f, .95f, 1f) : new Color(.9f, .5f, .28f);
+        static Color BiomeColour(Biome b) => b == Biome.Forest ? new Color(.35f, .8f, .4f) : b == Biome.City ? new Color(.62f, .68f, .8f) : b == Biome.Ice ? new Color(.85f, .95f, 1f)
+            : b == Biome.Volcanic ? new Color(.85f, .2f, .1f) : b == Biome.Crystal ? new Color(.7f, .5f, 1f) : b == Biome.Ocean ? new Color(.25f, .55f, .95f) : new Color(.9f, .5f, .28f);
 
         List<int> MapSeeds()
         {

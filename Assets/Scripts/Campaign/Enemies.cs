@@ -122,7 +122,8 @@ namespace HostileHorizon
             var spots = new List<Vector3>(); var stump = new List<bool>();
             float cover = firstPlanet ? 0 : Difficulty.CoveredPads;
             int covered = Mathf.RoundToInt(pads.Count * cover), madeCovering = 0;
-            bool Spaced(Vector3 p) { foreach (var s in spots) if (Flat(s - p).magnitude < t.turretSpacing) return false; foreach (var pd in pads) if (Flat(pd - p).magnitude < 160f) return false; return Flat(p - start).magnitude > t.turretMinFromStart; }
+            bool Spaced(Vector3 p) { if (Field.OverLiquid(p.x, p.z) || Field.HasLiquid && p.y < Field.Liquid + 6f) return false;   // Round 7: never on the sea or the lava
+                 foreach (var s in spots) if (Flat(s - p).magnitude < t.turretSpacing) return false; foreach (var pd in pads) if (Flat(pd - p).magnitude < 160f) return false; return Flat(p - start).magnitude > t.turretMinFromStart; }
             // B7, Hard / Nightmare: a share of the pads is covered on purpose (a turret placed where it sees the pad)
             var order = new List<int>(); for (int i = 0; i < pads.Count; i++) order.Add(i);
             for (int i = order.Count - 1; i > 0; i--) { int j = rng.Next(i + 1); (order[i], order[j]) = (order[j], order[i]); }

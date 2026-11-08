@@ -1,6 +1,8 @@
 // Hostile Horizon, Round 4 (A2, A6): the giant trees (and other instanced props). GPU instancing, vertex colours, triplanar detail
 // (the rock's detail texture), a colour shift per instance (from its position), the main light with shadows, a little light through
 // the leaves, and the shared haze (HHCommon.hlsl). Material: Resources/Materials/Prop.mat (made by PlayerBuild, instancing on).
+// Round 7 (B3): _Crystal 1 = the Crystal Forest's spires and shards: glassy facets (a sharp sun glint, the sky by Fresnel), glowing
+// from inside in the tint's cold colour (brighter towards the tip: vertex alpha), slow inner bands. Not real refraction.
 Shader "HostileHorizon/Prop"
 {
     Properties
@@ -12,6 +14,7 @@ Shader "HostileHorizon/Prop"
         _AmbientGround ("Ambient from the ground", Color) = (0.16, 0.14, 0.08, 1)
         _Translucent ("Light through (leaves)", Float) = 0
         _Glow ("Glow spots", Float) = 0
+        _Crystal ("Crystal (Round 7)", Float) = 0
     }
     SubShader
     {
@@ -21,7 +24,7 @@ Shader "HostileHorizon/Prop"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         TEXTURE2D(_Detail); SAMPLER(sampler_Detail);
         CBUFFER_START(UnityPerMaterial)
-        float4 _Detail_ST, _Tint, _Vary, _AmbientSky, _AmbientGround; float _Translucent, _Glow;
+        float4 _Detail_ST, _Tint, _Vary, _AmbientSky, _AmbientGround; float _Translucent, _Glow, _Crystal;
         CBUFFER_END
         ENDHLSL
 
@@ -68,7 +71,18 @@ Shader "HostileHorizon/Prop"
                 col += float3(0.25, 0.9, 0.7) * spot * (0.6 + 0.4 * sin(_Time.y * 0.8 + h * 30));
 
                 float3 v = normalize(p - _WorldSpaceCameraPos);
-                col = lerp(col, HHHazeColor(v), HHHazeAmount(p, _WorldSpaceCameraPos));
+                if (_Crystal > 0.5)
+                {
+                    float fres = pow(1.0 - saturate(abs(dot(n, -v))), 3.0);
+                    float3 r = reflect(v, n);
+                    float3 sky = lerp(_AmbientGround.rgb, _AmbientSky.rgb, saturate(r.y * 0.5 + 0.5)) * 1.4;
+                    float3 hv = normalize(L.direction - v);
+                    float glint = pow(saturate(dot(n, hv)), 120.0) * 3.0 * L.shadowAttenuation;
+                    float bands = 0.65 + 0.35 * sin(dot(p, float3(0.05, 0.11, 0.07)) + _Time.y * 0.4 + h * 12.0);
+                    float3 core = _Tint.rgb * lerp(0.25, 1.0, i.color.a) * bands * (0.85 + 0.15 * sin(_Time.y * 0.7 + h * 40.0));
+                    col = core * (0.55 + 0.45 * d.g) + sky * fres * 0.9 + L.color * glint + albedo * L.color * ndl * L.shadowAttenuation * 0.15;
+                }
+                col = lerp(col, HHHazeColor(v), HHHazeAmount(p, _WorldSpaceCameraPos) * (_Crystal > 0.5 ? 0.85 : 1.0));
                 return half4(col, 1);
             }
             ENDHLSL

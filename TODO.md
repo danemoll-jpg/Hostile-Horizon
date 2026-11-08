@@ -168,132 +168,10 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 7: fixes (music, aliens up close, play log, the alien warning) + three more biomes
+Current Objective — none: Round 7 delivered (0.7.0, below); Round 8 to be written by the planning chat
 ---------------------------------------------------------------------------
 
-Fix 6.3 is delivered as 0.6.3 (status under "Previous deliveries"). Dan
-(2026-11-08): "HOTAS is working as expected now." Dan then asked for more
-biomes and polish next: this round is **Part A** (the fixes, items 0-5, commit)
-and **Part B** (three more biomes), one publish: **0.7.0**. Polish is Round 8;
-missions move to Round 9.
-
-**Part A — fixes**
-
-Dan (2026-11-08, PC, 0.6.3):
-- "I may be mistaken but I think the music disappears on planets after a bit."
-- "Still getting a warning about the aliens." (Which warning is being asked;
-  item 3 makes the next one visible in the log either way.)
-- "When they appear the graphics aren't very good. They are too close and you
-  can kind of see through their bodies."
-
-0. **Commit first** (the repo as it is, with this text).
-1. **Music that doesn't disappear.** Find out with data why the flight music goes
-   away. Planning chat's reading of `GameShell.Audio.cs` `MusicTick`: the flight
-   track goes silent whenever **any** pilot on foot is within 700 m and the ship
-   is under 250 m above the ground (`NearWaitingPilot`), and while landed; with
-   pilots about 700 m apart and the ship flying low in the canyons, that may be
-   most of the time. Also check the loop / crossfade logic over a long flight
-   (20+ min simulated, every biome track), and the tension layer taking over.
-   Fix: the flight music only drops out for the pickup itself: when the ship is
-   **landed or hovering for a pickup within about 250 m of the pilot it's
-   going for** (the route target), and comes back as soon as you leave; never
-   silent just for flying past a pilot. Log the reason whenever the music goes
-   quiet (item 3).
-2. **Aliens up close look right.**
-   - **"See through their bodies":** find the cause (a transparent / alpha
-     material from Meshy's textures, back faces culled on a one-sided mesh,
-     inverted normals, the cockpit camera's near clip plane (.05 m) cutting into
-     the model, the low LOD used close up, or the canopy glass shader's draw
-     order). Fix it so the creature is solid from every angle, inside and
-     outside the cockpit and through the canopy glass.
-   - **"Too close":** the strike and the canopy pose put the creature's body
-     through or right at the camera. Stage them so the player sees it: the
-     canopy creature pressed against the outside of the glass at a readable
-     distance (head and shoulders filling the view, not inside the camera);
-     the cockpit strike stops about 0.5-0.8 m from the player's eyes, face lit,
-     body visible behind it (VR rule 5 still: it comes at you, the camera
-     isn't moved).
-   - Up close it always uses the **full-detail** model and textures (no LOD
-     swap), with a light that shows its shape (a rim / cockpit light on it).
-   - Check with pictures from the cockpit for each of the five creatures: on
-     the canopy, at the strike, in the cabin camera, that Code looks at and
-     describes (solid? readable? scary?), before / after.
-3. **A play log Dan's planning chat can read.** In players' builds, write game
-   events (not every frame) to `Player.log` with a `[Play]` prefix: launch,
-   planet / biome, pilots found / boarded / lost, every alien event (type,
-   tell shown or not, door, canopy, strike type and time), every music change
-   with the reason (track, quiet: why), every computer / Control voice line,
-   docking, deaths. Short lines, so the planning chat can read what happened
-   in Dan's session from his PC.
-4. **The alien warning** — Dan: "the cockpit shuts down and the music
-   starts", before the creature is on him. That is the **slow burn** strike
-   (`GameShell.Strike.cs`: 25 %, `Horror(..., 3, ...)`: lights and displays
-   die, cabin noises, hatch hits, before the attack), which still announces
-   it. Dan wants the jump scare. **Remove the slow burn** (weights become
-   Instant about 55 % / On take-off about 45 %, tuning). In every strike,
-   the order is: the creature is on the player first (hatch bursts, lunge),
-   and only then the sting, the cut of the music, the lights / displays going
-   and the INTRUDER call. Nothing (no music, sting, sound, light, display,
-   input or message change) before the creature is visible. Check that no
-   tension / regeneration / other track can start before it. Prove with the
-   `[Play]` log and the event comparison from Round 6.
-5. **Check (muted, no focus):** item 1's music on a long low flight past pilots
-   in each biome (logged: it keeps playing, drops only for the pickup); the
-   creature pictures; the `[Play]` lines from a full campaign run.
-6. Commit Part A (publishing happens at the end of the round).
-
-**For Dan to check:** does the music stay with you while flying? Let an alien
-in or wait for one on the canopy: does it look solid and readable now? If
-anything strange happens, say so: the planning chat can read the `[Play]` log.
-
-
-**Part B — three more biomes** (Dan, 2026-11-08: "I want more biomes")
-
-B1. Add **Volcanic**, **Crystal Forest** and **Ocean Islands** to the biomes
-    a planet's seed can pick (Round 4's rules: one biome per planet, same seed
-    = same biome, the first planet of a career is Canyons; Free Flight's biome
-    picker gets them). Same game rules everywhere: landing pads, pilots and
-    wrecks, aliens, turrets and saucers placed to fit, radar, route trail,
-    recall / tow, crash levels.
-B2. **Volcanic:** black basalt canyons and cliffs, **lava rivers and lakes** in
-    the valley floors (glowing, they light the canyon walls from below; flying
-    into lava is a crash at any crash level except Ghost; low over it: heat
-    shimmer and a hull-heat warning), ash falling, smoke plumes, glowing vents,
-    a dark red sky. Pads on cooled rock shelves above the lava.
-B3. **Crystal Forest:** huge glassy crystal spires and clusters (10-200 m),
-    some translucent and glowing from inside in cold colours, refracting the
-    light; fields of smaller crystals; dark ground with luminous fungus /
-    moss; a pale violet sky. Crystals are solid (crash levels apply); thin
-    crystal shards break when hit (debris, chime-like shatter), big spires
-    don't. Pads in the clearings.
-B4. **Ocean Islands:** open sea with **tall rocky islands, sea stacks and
-    arches** to fly between and through, cliffs, surf breaking at their feet,
-    a moving water surface with reflections, sea spray low down, gulls-like
-    alien fliers (harmless, few). Hitting the water hard is a crash; skimming it
-    throws spray. Pilots crashed on island tops, beaches and ledges (the pads);
-    turrets on cliff tops; saucers over open water.
-B5. Each gets its own sky, light, weather, fog, materials and particles, as in
-    Round 4; its own Suno flight track (`flight_volcanic.mp3`,
-    `flight_crystal.mp3`, `flight_ocean.mp3`; prompts in `Docs/MUSIC.md`;
-    Dan's tracks are **already in `BundleMusic/`** (2026-11-08, put there by the
-    planning chat: volcanic 3:07, crystal 3:34, ocean 3:10); loop them like the
-    others and ship them in a soundtrack update); and new voice
-    lines where useful (Control naming the biome at launch, the computer's
-    "Hull heat" warning over lava).
-B6. Performance as Round 4 (instancing, LOD, the Deck setting thins them);
-    report frame rate per new biome on PC and the Deck setting.
-B7. **Check (muted, no focus):** per new biome: cockpit pictures flying low, a
-    landing at a pilot, a turret, the route trail; lava / water crash and heat
-    warning; crystal shard break; the same seed = the same biome; frame rate.
-
-**End of the round:** publish **0.7.0** (Part A = items 0-5 above, Part B), update
-`TODO.md` (per-item status for Part A and B1-B7: done / not done / deferred and
-why; the causes found) and `CLAUDE.md`, clean up, commit and push. Tell Dan if
-the three Suno tracks aren't in yet.
-
-**For Dan to check (Part B):** do the volcano, crystal and ocean planets feel
-different and good to fly? Lava, the arches, the crystal spires.
-
+Round 7's text as planned is in `TODO-ARCHIVE.md` (word for word). Its delivery is the first of "Previous deliveries".
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -320,6 +198,76 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Round 7 — the music, aliens up close, a [Play] log, no slow burn (Part A); Volcanic, Crystal Forest, Ocean Islands (Part B)
+(2026-11-08). Published: 0.7.0 (`game-700`, Latest) + `soundtrack-700` (Dan's three new tracks).** Exe built 2026-11-08 04:57. Part A
+committed alone (`f04ca14`). Evidence `Data/screenshots/round7/`: `partA_run3/` (`--only round7a`: model report, music loops and
+flights, the five creatures before / after), `partA_sleeper/` (Sleeper + Knocker again after the last fix), `partA_round6a/` (Round 6's
+event comparison), `partA_campaign/` (the old full-campaign check: `[Play]` lines), `partB_run1/` (`--only round7b`), `partB_free/`
+(`round7bfree`, after the Volcanic look fix), `partB_ocean/` (the skim), `partB_deck/` (`round7bperf -steamDeck 1`, 1280 x 800),
+`launcher*/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal.
+- **0 Commit first — done** (`659f7df`).
+- **1 Music — done. Cause (data):** 0.6.3 went quiet whenever any pilot on foot was within 700 m and the ship under 250 m up, and
+  whenever landed. Flying low along the route trail and on past pilots, the old rule silenced the flight track for **55 % (Canyons),
+  36 % (Forest), 32 % (City), 33 % (Ice) of the low flying**; the loops themselves were fine (all seven tracks crossfade back into their
+  loop, three passes each, ~20 min of play). Now it drops out only for the pickup: a pilot running / knocking / boarding, or landed /
+  hovering within `pickupQuietRange` 250 m of the route's pilot. Same flights: **0 % quiet**, heard 100 %; at each pickup quiet 100 %
+  (31-33 s), back at full volume 8 s after lift-off. Every change is a `[Play] music ...` line with the reason.
+- **2 Aliens up close — done (the canopy staging not: tuning limit). Cause (data):** the meshes are opaque and closed (0.01-0.07 % open
+  edges, opaque Lit materials), so not transparency or holes: 0.6.3's strike brought the body to **0.02-0.20 m from the eye** (Knocker
+  0.03, Stalker 0.02, Hollow 0.12, Mimic 0.20): the camera was in or against the skin and saw the inside of the shell through the near
+  clip. In flight the creature also trailed the eye (it chased a camera position a frame behind the moving ship). Now the strike uses the
+  ship's eye point, the face stops 0.65 m away and no part comes nearer than 0.42 m: measured **face 0.54-0.77 m, nearest part
+  0.37-0.48 m** for all five, at 47-66 m/s; up close the full-detail mesh (`forceMeshLod` 0), a cold face light, two-sided creature
+  materials. Pictures `r7a_<type>_strike_before/after_*`, `_cabin_cam_*` (solid in the cabin camera, 0.75-1.48 m). **Canopy:** at 0.6.3's
+  place 10-42 % of the body stands inside the glass bubble (hidden by the sill; it reads solid and close, `partA_sleeper/r7a_knocker_canopy_
+  after.png`). Try 1 (pushed out along the glass): 0 % inside but face 2.5-2.7 m away and partly out of view; try 2 (leaning over the
+  top): face above the view, 4 % inside. **Kept at 0.6.3's place** (full detail, light and two-sided material added); `CanopyStaging` holds
+  try 2 for later. Dan decides.
+- **3 [Play] log — done.** `Core/PlayLog.cs`: `[Play] <time> ...` lines in `Player.log` in players' builds: arrival (planet, seed,
+  biome, aliens waiting), launch, pilots found (alien or not, tell shown) / running / at the airlock / boarded / killed, every alien event
+  (type, door, canopy, strike kind and time), every music change with the reason, every computer / Control line, hull heat, shard breaks,
+  docking (the debrief), deaths. 506 lines in the Part A run, 102 in Part B's.
+- **4 The alien warning — done.** The slow burn is gone (`strikeInstantWeight` .55, `strikeTakeoffWeight` .45); the Sleeper alone with
+  you bursts too. Nothing changes until the creature is in view (at most 0.6 s): then burst / lunge sounds, sting, music cut, controls
+  taken; 0.35 s later lights, displays, alarm, INTRUDER. Measured for all five: **nothing the player could notice before it was in view**
+  (in view 0.07-0.33 s after the strike). Round 6's comparison again: alien and real pilot boarding **identical** to the strike (18 / 18,
+  20 / 20 events).
+- **5 Check — done** (`--only round7a`, ~45 min). Note: the old `--only campaign` check (Round 2's) crashed its scripted pilot into a
+  canyon wall after the first pickup and then stopped on its own bug; Round 7 changed no flying code; not chased further.
+- **6 Commit Part A — done** (`f04ca14`).
+- **B1 Three biomes — done.** `Biome` Volcanic / Crystal / Ocean; `ForSeed` picks from all seven (2 000 seeds: 267-313 each); same seed
+  = same ground (checked); first planet still Canyons; Free Flight's Planet type lists all seven. Pads, pilots, turrets, saucers, radar,
+  route trail, recall / tow, crash levels: checked on each (Campaign landing + pickup on all three; turrets on rock, never on the liquid).
+- **B2 Volcanic — done.** Basalt canyons, lava rivers / lakes (20 % of the ground), glowing crust, walls lit orange from below, cooled
+  shelves for pads (9 m over the lava), glowing vents with smoke plumes, ash + embers, dark red sky (brightened after the first pictures
+  were too dark to read). Lava = a crash at Bounce (checked; every level but Ghost); 18 m over it: HULL HEAT + "Hull heat. Climb." +
+  heat haze (rising glowing motes; no screen distortion: deliberate, VR rule 4 / no screen effects).
+- **B3 Crystal Forest — done.** Spires 10-200 m (499 in 2.6 km square, 150 over 100 m), tilted, glowing inside in three cold tints with
+  glassy facets (an opaque shader: Fresnel + inner glow, not real refraction); 5 125 shards; glowing moss on dark ground; pale violet sky.
+  A shard flown through breaks (debris, `crystal_shatter`, no hit); a spire is a hit at Bounce (checked).
+- **B4 Ocean Islands — done** (fliers code-made). Sea 54 % of the area, islands with beaches and cliffs, sea stacks, 16 arches in 4 km
+  square; moving sea (waves, Fresnel sky, sun glint, whitecaps), surf / wet rock / sand at the waterline, sea mist, spray; 7 harmless
+  gull-like fliers. A skim at 230 km/h touched the water twice: spray, no damage; a dive at Lasting = a crash ("the sea"). Pads on islands
+  (94 m up in the check); turrets on cliff tops.
+- **B5 Look, music, voices — done.** Sky / light / fog / materials / particles per biome; Dan's `flight_volcanic` (loop 103-152 s),
+  `flight_crystal` (132-184 s), `flight_ocean` (108-168 s) shipped as `soundtrack-700`; new lines (ElevenLabs): `ctl_brief_<biome>`,
+  `ctl_launch_<biome>` (Control names the world at launch), `cpu_hull_heat`, 36 `p<n>_mayday_<biome>`; sounds `crystal_shatter`,
+  `water_splash`.
+- **B6 Performance — done.** PC 1080p flying low: Volcanic 674 fps (1 % low 274), Crystal 526 (177), Ocean 474 (182). Deck setting
+  1280 x 800: Volcanic 959 (348), Crystal 728 (220), Ocean 298 (50, one 1.3 s frame: not seen on the PC run; first-load hitch?).
+- **B7 Check — done** (`--only round7b`, `round7bfree`, `round7bperf`).
+- **Publish — done:** `soundtrack-700` then `game-700` (Latest); the live catalog points at both. **The fresh `starter-200` install
+  check could not run:** from this session the launcher's requests to GitHub fail ("Update service unavailable"; PowerShell gets 504 on
+  the same URL), so it was not seen updating to 700 here.
+
+**Decisions made:** the canopy stays where 0.6.3 had it (two tries failed; numbers above); heat shimmer is rising particles, not a screen
+effect; the crystal look is faked (no refraction); the Sleeper's "comes for you" uses the jump-scare burst; turrets / pilots never on the
+lava or sea.
+**For Dan to check:** fly low past pilots: does the music stay? Let an alien in: solid, at arm's length, scary? Look at the canopy alien
+(it still stands partly inside the glass: keep it?). Fly the three new worlds: lava (and HULL HEAT), skim the sea, fly between the stacks
+and under an arch, break a crystal shard. After a session, the `[Play]` lines in `Player.log` are for the planning chat. On the Deck:
+the Ocean frame rate. Please start the launcher once: it should update to 0.7.0 (not verified from here).
 
 **Fix 6.3 — HOTAS trigger / R1 / R3, stray setting changes, an input recorder, the sound mix (2026-11-08). Published: 0.6.3
 (`game-603`, Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-08 01:47. Evidence `Data/screenshots/fix63/`: `run7/` (the
@@ -415,49 +363,6 @@ check at 1080p), `deck/` (pictures at 1280 x 800), `launcher/`. Every run headle
 **For Dan to check:** HOTAS setup: Reset HOTAS settings, then move the lever: does Throttle % follow it (Auto should already be on
 "z"), and does the ship speed up and slow down with it? Calibrate: are the steps clear? Does the picture match your HOTAS? Run
 Identify your buttons once: R2 sent nothing in today's log, so see whether "Held" shows R2 when you press it, and find where R1 is.
-
-**Fix 6.1 — menus with the HOTAS, and a clean controls page per device (2026-11-07). Published: 0.6.1 (`game-601`, Latest; soundtrack
-stays `soundtrack-401`).** Exe built 2026-11-07 19:14. Evidence `Data/screenshots/fix61/` (`exe_check_1080.txt`, pictures at 1080p and
-`deck_*` at 1280 x 800, Dan's HOTAS logs). Every run headless, muted (output 0.000 RMS), no window, Below Normal. Commit `167a346` planning.
-- **0 Commit first — done** (`167a346`).
-- **1 Menu navigation — done. Cause (logged on Dan's HOTAS through Windows' joystick / HID calls while Dan moved it; a batch-mode game sees
-  no real joystick):** the stick's left / right reads **-0.50 when centred** (HID 258 of its declared 0..1023; it reaches 0 left but only
-  686 = +0.34 right; forward / back is fine, 511 centred). The 0.6.0 menu fired Left at |x| > .55 whenever |y| < .55, so each time the
-  stick sagged through the middle leaning a little left it crossed -0.55 and changed the row's value (Dan's 16 s up / down recording:
-  2 value changes under the 0.6.0 rule). The same offset made the ship roll at -0.5 with the stick let go and (the action took the bigger
-  input) hid small pad stick moves while the HOTAS was plugged in. Twist / throttle were not the cause (not bound to menus). Fixed: the
-  HOTAS stick has its own action, **calibrated** (centre + each side's reach; centred on the stick's first report, reach learnt as it
-  moves, or Settings > Controls > HOTAS setup > Calibrate stick); menus use the dominant axis with a lock (`MenuPanel.NavReader`: up / down
-  |y| > .55 and > |x|; left / right only |x| > .6 and > 2|y|; after one, the other waits until both axes are under .25). Check: Dan's
-  recording and a lean / diagonal trace: **0 value changes** (0.6.0 rule on the same input: 2 and 8); left / right still change values;
-  the hat moves rows; twist and lever never navigate; HOTAS full right / left = roll +1 / -1, centred 0; a pad's 0.30 stick is no longer
-  hidden.
-- **2 Controls for the device in use — done.** `Controls.Btn(Act, device)` names every button per device; the device switches on a clear
-  push only (1.5 s of HOTAS jitter left the pad as the device). Advice line, airlock / brake / engines / recall / belly / cabin / route
-  prompts, the HUD and cockpit pause hint, menu footers, star map, Field Journal, seed entry. Pad: Xbox names and colours (A green, B red,
-  X blue, Y yellow), LB / RB / LT / RT, D-pad arrows, ☰ Menu, **View** (the font draws ⧉ blank, so it says "View"). HOTAS: printed symbols.
-- **3 Controls page — done.** Settings > Controls: Showing (the device used last; left / right shows another), HOTAS setup (when one is
-  plugged in), Back; groups Flying / Landing and pickup / Combat / Views / Ship, action | button; a code-drawn picture of the HOTAS (throttle
-  + stick, a label and line from every button, the hat, twist and lever; PS greyed "not used") or the pad; keyboard: the list only. The
-  symbols are drawn larger than the font's own (it draws □ ○ △ at half height).
-- **HOTAS button names and layout.** Dan's unit sends trigger 1, R3 2, R1 3, L3 4, □ 5, ✕ 6, ○ 7, △ 8, L1 10, SHARE 11, OPTIONS 12
-  (logged; L2 not pressed, 9 assumed); 12 buttons + hat. 0.6.0 bound buttons 13-16, which it doesn't have (level out on 14 never worked).
-  The new layout mirrors the pad: R2 fire / select, ✕ engines, ○ airlock / menu back, □ land / brakes, △ view, SHARE hold recall, OPTIONS
-  pause, R1 shield, R3 level out, L1 belly camera, L2 route target, L3 cabin camera. Old settings (version 1) get it once.
-- **4 HOTAS setup — done.** Calibrate stick, Identify your buttons (each symbol lit on the picture; 8 s skips one), Throttle axis, Invert
-  lever, every button action ("press a button to assign"; a button already in use swaps), live stick (raw and as used) / twist / lever /
-  hat / buttons held; no keyboard text. 8 rows on screen, the rest scroll. Check: identify with L1 / L2 swapped renamed them; Pause
-  assigned to L3 (the cabin camera took OPTIONS); calibration with Dan's reach gave centre -0.46, and the centred stick reads 0.
-- **5 Check — done** (`-exeCheckOnly fix61`, `Checks/ExeCheck.Fix61.cs`: a virtual HOTAS plays Dan's recorded trace; `fix61pics` for
-  1280 x 800). Looked at: readable at 1080p; at 1280 x 800 everything fits and reads, smaller (list ~18 px, picture labels ~16 px).
-- **6 Publish — done.** 0.6.1 = build 601, `game-601` Latest; a fresh `starter-200` install updated to `versions/601`, ready, exit 0.
-  Clean-up: 3.8 GB -> 3.7 GB.
-
-**For Dan to check:** with the HOTAS, move up and down the Settings: do values stay put? Run Settings > Controls > HOTAS setup >
-Calibrate stick once (then the ship shouldn't roll with the stick let go), and Identify your buttons if any name on the picture is wrong
-(L2 was guessed). Is the Controls page readable and does it show only the HOTAS? Do the prompts switch to Xbox buttons when you pick up
-the controller? Thrustmaster's own fix for the off-centre stick may be to unplug / replug it without touching the stick; if it then reads
-centred, run Calibrate stick again.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

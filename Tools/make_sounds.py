@@ -14,6 +14,11 @@ DOC = ROOT / 'Docs/SOUNDS.md'
 
 # name, seconds, loop, what it is for, prompt
 SOUNDS = [
+    # Round 7 (B3, B4)
+    ('crystal_shatter', 2.0, False, 'a thin crystal shard breaks when the ship flies through it',
+     'A tall thin crystal shard shattering: a bright glassy crack, then a cascade of ringing chime-like tinkles as glass pieces fall. No music.'),
+    ('water_splash', 1.5, False, 'the ship skims or slaps the sea',
+     'A fast aircraft skimming and slapping the surface of the sea: a sharp watery splash and a hiss of spray. No music.'),
     ('alien_shriek', 2.5, False, 'an alien reveals itself (engines started on it, thrown off the canopy)',
      'A horrifying inhuman creature shriek, wet and rasping, rising to a piercing screech then choking off. Close up, dry, no music.'),
     ('alien_death', 3.0, False, 'an alien dies (burnt by the exhaust, killed in the cabin)',

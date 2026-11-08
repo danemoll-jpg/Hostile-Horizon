@@ -24,7 +24,7 @@ namespace HostileHorizon
         // Round 4, item A5: each biome's sky, sun, haze, light and ground. Palettes are generated (no third-party art).
         public struct Look
         {
-            public Color haze, sunHaze, sun, zenith, planetA, planetB, ambient, ambientSky, dust, rockSky, rockGround, deep;
+            public Color haze, sunHaze, sun, zenith, planetA, planetB, ambient, ambientSky, dust, rockSky, rockGround, deep, hot;
             public float sunPitch, sunYaw, sunIntensity, overcast, fog, mode, flatFrom, flatTo; public Vector3 planetDir; public Color[] strata;
         }
 
@@ -32,6 +32,28 @@ namespace HostileHorizon
         {
             switch (b)
             {
+                // Round 7 (B2): a dark red sky, smoke overhead, black basalt, grey ash; the lava's light (hot) on the walls
+                case Biome.Volcanic:
+                    // (0.7.0 check, first look: too dark to read from the cockpit; brighter rock, sun and haze)
+                    return new Look { haze = new Color(.55f, .30f, .22f), sunHaze = new Color(1f, .55f, .30f), sun = new Color(1f, .66f, .46f), sunIntensity = 1.6f, sunPitch = 28f, sunYaw = 215f,
+                        zenith = new Color(.36f, .12f, .08f), planetA = new Color(.70f, .36f, .24f), planetB = new Color(.34f, .13f, .10f), planetDir = new Vector3(.5f, .3f, -.8f), overcast = .35f,
+                        ambient = new Color(.34f, .24f, .22f), ambientSky = new Color(.50f, .30f, .24f), rockSky = new Color(.56f, .40f, .36f), rockGround = new Color(.55f, .24f, .12f),
+                        dust = new Color(.30f, .28f, .27f), deep = Color.white, hot = new Color(1f, .40f, .10f), fog = 1f / 2000f, mode = 4, flatFrom = .7f, flatTo = .88f,
+                        strata = new[] { new Color(.22f, .20f, .20f), new Color(.30f, .27f, .25f), new Color(.18f, .17f, .18f), new Color(.36f, .28f, .24f), new Color(.26f, .23f, .22f) } };
+                // Round 7 (B3): a pale violet sky, dark ground, moss that glows cold teal
+                case Biome.Crystal:
+                    return new Look { haze = new Color(.62f, .56f, .74f), sunHaze = new Color(.95f, .86f, 1f), sun = new Color(.92f, .88f, 1f), sunIntensity = 1.35f, sunPitch = 30f, sunYaw = 120f,
+                        zenith = new Color(.40f, .32f, .62f), planetA = new Color(.80f, .72f, .92f), planetB = new Color(.46f, .40f, .66f), planetDir = new Vector3(-.3f, .5f, .8f), overcast = .05f,
+                        ambient = new Color(.22f, .20f, .30f), ambientSky = new Color(.44f, .40f, .60f), rockSky = new Color(.44f, .40f, .58f), rockGround = new Color(.12f, .10f, .16f),
+                        dust = new Color(.11f, .10f, .13f), deep = Color.white, hot = new Color(.25f, .95f, .85f), fog = 1f / 1900f, mode = 5, flatFrom = .6f, flatTo = .82f,
+                        strata = new[] { new Color(.14f, .12f, .17f), new Color(.20f, .17f, .24f), new Color(.10f, .09f, .12f), new Color(.24f, .20f, .28f) } };
+                // Round 7 (B4): a bright sea sky, grey-brown cliffs
+                case Biome.Ocean:
+                    return new Look { haze = new Color(.66f, .76f, .82f), sunHaze = new Color(1f, .94f, .82f), sun = new Color(1f, .95f, .84f), sunIntensity = 1.6f, sunPitch = 34f, sunYaw = 200f,
+                        zenith = new Color(.20f, .42f, .66f), planetA = new Color(.85f, .80f, .70f), planetB = new Color(.50f, .55f, .62f), planetDir = new Vector3(.6f, .25f, .7f), overcast = .05f,
+                        ambient = new Color(.30f, .34f, .38f), ambientSky = new Color(.44f, .54f, .64f), rockSky = new Color(.52f, .60f, .68f), rockGround = new Color(.30f, .32f, .30f),
+                        dust = new Color(.36f, .40f, .26f), deep = Color.white, hot = new Color(1f, .4f, .1f), fog = 1f / 2400f, mode = 6, flatFrom = .7f, flatTo = .88f,
+                        strata = new[] { new Color(.40f, .36f, .32f), new Color(.52f, .48f, .42f), new Color(.30f, .28f, .27f), new Color(.46f, .40f, .34f), new Color(.36f, .34f, .33f) } };
                 case Biome.Forest:
                     return new Look { haze = new Color(.52f, .58f, .40f), sunHaze = new Color(1f, .88f, .58f), sun = new Color(1f, .9f, .66f), sunIntensity = 1.5f, sunPitch = 38f, sunYaw = 205f,
                         zenith = new Color(.26f, .46f, .52f), planetA = new Color(.62f, .70f, .62f), planetB = new Color(.30f, .40f, .38f), planetDir = new Vector3(.6f, .35f, .7f), overcast = .1f,
@@ -81,6 +103,7 @@ namespace HostileHorizon
             {
                 RockMaterial.SetColor("_Dust", L.dust); RockMaterial.SetColor("_AmbientSky", L.rockSky); RockMaterial.SetColor("_AmbientGround", L.rockGround);
                 RockMaterial.SetFloat("_Mode", L.mode); RockMaterial.SetVector("_Flat", new Vector4(L.flatFrom, L.flatTo, 0, 0)); RockMaterial.SetColor("_Deep", L.deep);
+                RockMaterial.SetColor("_Hot", L.hot);
             }
             if (props) props.SetColours(Color.white, Color.white, L.ambientSky, L.rockGround);
             Weather = 0;

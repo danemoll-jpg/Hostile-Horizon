@@ -53,6 +53,12 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `ctl_brief_forest.mp3` | Control | new planet: Giant Forest | Forest world. Trees the size of towers, and a canopy you can't see through. Our people are in the clearings. |
 | `ctl_brief_city.mp3` | Control | new planet: Dead City | There's a dead city down there. Nobody's home. Except our pilots, in the streets and on the roofs. |
 | `ctl_brief_ice.mp3` | Control | new planet: Ice | Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar. |
+| `ctl_brief_volcanic.mp3` | Control | new planet: Volcanic | Volcanic world. Lava down in the valleys, ash in the air. Our people are up on the cooled shelves. Do not touch the lava. |
+| `ctl_brief_crystal.mp3` | Control | new planet: Crystal Forest | Crystal forest down there. Spires as tall as towers. The big ones will stop you dead. The small ones break. |
+| `ctl_brief_ocean.mp3` | Control | new planet: Ocean Islands | Ocean world. Islands, sea stacks, arches. Our pilots are on the islands. Skim the water if you like. Just don't dive into it. |
+| `ctl_launch_volcanic.mp3` | Control | launch: Volcanic | Volcanic below. Keep your height over the lava. |
+| `ctl_launch_crystal.mp3` | Control | launch: Crystal Forest | Crystal forest below. Mind the spires. |
+| `ctl_launch_ocean.mp3` | Control | launch: Ocean Islands | Open sea below. Stay off the water. |
 | `ctl_found_1.mp3` | Control | a beacon on the radar | Beacon on your scope. That's one of ours. |
 | `ctl_found_2.mp3` | Control | a beacon on the radar | Another beacon. Bring them home. |
 | `ctl_full.mp3` | Control | cabin full | Cabin's full. Climb to dock height and we'll take it from there. |
@@ -91,6 +97,7 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `cpu_intruder.mp3` | Computer | ship's computer | Intruder alert. Intruder alert. |
 | `cpu_engines_off.mp3` | Computer | ship's computer | Engines off. |
 | `cpu_whiteout.mp3` | Computer | ship's computer | Visibility low. Instruments only. |
+| `cpu_hull_heat.mp3` | Computer | ship's computer | Hull heat. Climb. |
 | `cpu_locked_on.mp3` | Computer | ship's computer | Warning. Locked on. |
 | `cpu_saucer.mp3` | Computer | ship's computer | Saucer. Saucer. |
 | `cpu_shield_up.mp3` | Computer | ship's computer | Shield up. |
@@ -101,6 +108,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p0_mayday_forest.mp3` | Hale | mayday (Giant Forest) | Mayday, mayday, Hale here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p0_mayday_city.mp3` | Hale | mayday (Dead City) | This is Corps pilot Hale, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p0_mayday_ice.mp3` | Hale | mayday (Ice) | Mayday, this is Hale. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p0_mayday_volcanic.mp3` | Hale | mayday (Volcanic) | Mayday, this is Hale. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p0_mayday_crystal.mp3` | Hale | mayday (Crystal Forest) | Mayday, mayday, Hale here. I'm down among the crystals. They hum. Come and get me. |
+| `p0_mayday_ocean.mp3` | Hale | mayday (Ocean Islands) | Mayday, this is Hale. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p0_mayday_wrong.mp3` | Hale | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Hale. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p0_see_1.mp3` | Hale | sees the ship land | I see you! I see you! I'm coming! |
 | `p0_see_2.mp3` | Hale | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -118,6 +128,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p1_mayday_forest.mp3` | Kade | mayday (Giant Forest) | Mayday, mayday, Kade here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p1_mayday_city.mp3` | Kade | mayday (Dead City) | This is Corps pilot Kade, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p1_mayday_ice.mp3` | Kade | mayday (Ice) | Mayday, this is Kade. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p1_mayday_volcanic.mp3` | Kade | mayday (Volcanic) | Mayday, this is Kade. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p1_mayday_crystal.mp3` | Kade | mayday (Crystal Forest) | Mayday, mayday, Kade here. I'm down among the crystals. They hum. Come and get me. |
+| `p1_mayday_ocean.mp3` | Kade | mayday (Ocean Islands) | Mayday, this is Kade. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p1_mayday_wrong.mp3` | Kade | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Kade. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p1_see_1.mp3` | Kade | sees the ship land | I see you! I see you! I'm coming! |
 | `p1_see_2.mp3` | Kade | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -135,6 +148,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p2_mayday_forest.mp3` | Penrose | mayday (Giant Forest) | Mayday, mayday, Penrose here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p2_mayday_city.mp3` | Penrose | mayday (Dead City) | This is Corps pilot Penrose, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p2_mayday_ice.mp3` | Penrose | mayday (Ice) | Mayday, this is Penrose. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p2_mayday_volcanic.mp3` | Penrose | mayday (Volcanic) | Mayday, this is Penrose. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p2_mayday_crystal.mp3` | Penrose | mayday (Crystal Forest) | Mayday, mayday, Penrose here. I'm down among the crystals. They hum. Come and get me. |
+| `p2_mayday_ocean.mp3` | Penrose | mayday (Ocean Islands) | Mayday, this is Penrose. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p2_mayday_wrong.mp3` | Penrose | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Penrose. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p2_see_1.mp3` | Penrose | sees the ship land | I see you! I see you! I'm coming! |
 | `p2_see_2.mp3` | Penrose | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -152,6 +168,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p3_mayday_forest.mp3` | Vasquez | mayday (Giant Forest) | Mayday, mayday, Vasquez here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p3_mayday_city.mp3` | Vasquez | mayday (Dead City) | This is Corps pilot Vasquez, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p3_mayday_ice.mp3` | Vasquez | mayday (Ice) | Mayday, this is Vasquez. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p3_mayday_volcanic.mp3` | Vasquez | mayday (Volcanic) | Mayday, this is Vasquez. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p3_mayday_crystal.mp3` | Vasquez | mayday (Crystal Forest) | Mayday, mayday, Vasquez here. I'm down among the crystals. They hum. Come and get me. |
+| `p3_mayday_ocean.mp3` | Vasquez | mayday (Ocean Islands) | Mayday, this is Vasquez. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p3_mayday_wrong.mp3` | Vasquez | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Vasquez. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p3_see_1.mp3` | Vasquez | sees the ship land | I see you! I see you! I'm coming! |
 | `p3_see_2.mp3` | Vasquez | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -169,6 +188,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p4_mayday_forest.mp3` | Marlow | mayday (Giant Forest) | Mayday, mayday, Marlow here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p4_mayday_city.mp3` | Marlow | mayday (Dead City) | This is Corps pilot Marlow, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p4_mayday_ice.mp3` | Marlow | mayday (Ice) | Mayday, this is Marlow. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p4_mayday_volcanic.mp3` | Marlow | mayday (Volcanic) | Mayday, this is Marlow. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p4_mayday_crystal.mp3` | Marlow | mayday (Crystal Forest) | Mayday, mayday, Marlow here. I'm down among the crystals. They hum. Come and get me. |
+| `p4_mayday_ocean.mp3` | Marlow | mayday (Ocean Islands) | Mayday, this is Marlow. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p4_mayday_wrong.mp3` | Marlow | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Marlow. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p4_see_1.mp3` | Marlow | sees the ship land | I see you! I see you! I'm coming! |
 | `p4_see_2.mp3` | Marlow | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -186,6 +208,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p5_mayday_forest.mp3` | Ashby | mayday (Giant Forest) | Mayday, mayday, Ashby here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p5_mayday_city.mp3` | Ashby | mayday (Dead City) | This is Corps pilot Ashby, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p5_mayday_ice.mp3` | Ashby | mayday (Ice) | Mayday, this is Ashby. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p5_mayday_volcanic.mp3` | Ashby | mayday (Volcanic) | Mayday, this is Ashby. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p5_mayday_crystal.mp3` | Ashby | mayday (Crystal Forest) | Mayday, mayday, Ashby here. I'm down among the crystals. They hum. Come and get me. |
+| `p5_mayday_ocean.mp3` | Ashby | mayday (Ocean Islands) | Mayday, this is Ashby. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p5_mayday_wrong.mp3` | Ashby | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Ashby. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p5_see_1.mp3` | Ashby | sees the ship land | I see you! I see you! I'm coming! |
 | `p5_see_2.mp3` | Ashby | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -203,6 +228,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p6_mayday_forest.mp3` | Tate | mayday (Giant Forest) | Mayday, mayday, Tate here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p6_mayday_city.mp3` | Tate | mayday (Dead City) | This is Corps pilot Tate, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p6_mayday_ice.mp3` | Tate | mayday (Ice) | Mayday, this is Tate. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p6_mayday_volcanic.mp3` | Tate | mayday (Volcanic) | Mayday, this is Tate. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p6_mayday_crystal.mp3` | Tate | mayday (Crystal Forest) | Mayday, mayday, Tate here. I'm down among the crystals. They hum. Come and get me. |
+| `p6_mayday_ocean.mp3` | Tate | mayday (Ocean Islands) | Mayday, this is Tate. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p6_mayday_wrong.mp3` | Tate | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Tate. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p6_see_1.mp3` | Tate | sees the ship land | I see you! I see you! I'm coming! |
 | `p6_see_2.mp3` | Tate | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -220,6 +248,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p7_mayday_forest.mp3` | Okafor | mayday (Giant Forest) | Mayday, mayday, Okafor here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p7_mayday_city.mp3` | Okafor | mayday (Dead City) | This is Corps pilot Okafor, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p7_mayday_ice.mp3` | Okafor | mayday (Ice) | Mayday, this is Okafor. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p7_mayday_volcanic.mp3` | Okafor | mayday (Volcanic) | Mayday, this is Okafor. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p7_mayday_crystal.mp3` | Okafor | mayday (Crystal Forest) | Mayday, mayday, Okafor here. I'm down among the crystals. They hum. Come and get me. |
+| `p7_mayday_ocean.mp3` | Okafor | mayday (Ocean Islands) | Mayday, this is Okafor. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p7_mayday_wrong.mp3` | Okafor | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Okafor. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p7_see_1.mp3` | Okafor | sees the ship land | I see you! I see you! I'm coming! |
 | `p7_see_2.mp3` | Okafor | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -237,6 +268,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p8_mayday_forest.mp3` | Grange | mayday (Giant Forest) | Mayday, mayday, Grange here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p8_mayday_city.mp3` | Grange | mayday (Dead City) | This is Corps pilot Grange, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p8_mayday_ice.mp3` | Grange | mayday (Ice) | Mayday, this is Grange. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p8_mayday_volcanic.mp3` | Grange | mayday (Volcanic) | Mayday, this is Grange. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p8_mayday_crystal.mp3` | Grange | mayday (Crystal Forest) | Mayday, mayday, Grange here. I'm down among the crystals. They hum. Come and get me. |
+| `p8_mayday_ocean.mp3` | Grange | mayday (Ocean Islands) | Mayday, this is Grange. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p8_mayday_wrong.mp3` | Grange | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Grange. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p8_see_1.mp3` | Grange | sees the ship land | I see you! I see you! I'm coming! |
 | `p8_see_2.mp3` | Grange | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -254,6 +288,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p9_mayday_forest.mp3` | Quill | mayday (Giant Forest) | Mayday, mayday, Quill here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p9_mayday_city.mp3` | Quill | mayday (Dead City) | This is Corps pilot Quill, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p9_mayday_ice.mp3` | Quill | mayday (Ice) | Mayday, this is Quill. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p9_mayday_volcanic.mp3` | Quill | mayday (Volcanic) | Mayday, this is Quill. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p9_mayday_crystal.mp3` | Quill | mayday (Crystal Forest) | Mayday, mayday, Quill here. I'm down among the crystals. They hum. Come and get me. |
+| `p9_mayday_ocean.mp3` | Quill | mayday (Ocean Islands) | Mayday, this is Quill. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p9_mayday_wrong.mp3` | Quill | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Quill. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p9_see_1.mp3` | Quill | sees the ship land | I see you! I see you! I'm coming! |
 | `p9_see_2.mp3` | Quill | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -271,6 +308,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p10_mayday_forest.mp3` | Brannock | mayday (Giant Forest) | Mayday, mayday, Brannock here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p10_mayday_city.mp3` | Brannock | mayday (Dead City) | This is Corps pilot Brannock, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p10_mayday_ice.mp3` | Brannock | mayday (Ice) | Mayday, this is Brannock. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p10_mayday_volcanic.mp3` | Brannock | mayday (Volcanic) | Mayday, this is Brannock. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p10_mayday_crystal.mp3` | Brannock | mayday (Crystal Forest) | Mayday, mayday, Brannock here. I'm down among the crystals. They hum. Come and get me. |
+| `p10_mayday_ocean.mp3` | Brannock | mayday (Ocean Islands) | Mayday, this is Brannock. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p10_mayday_wrong.mp3` | Brannock | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Brannock. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p10_see_1.mp3` | Brannock | sees the ship land | I see you! I see you! I'm coming! |
 | `p10_see_2.mp3` | Brannock | sees the ship land | That's you! Hold on, I'm on my way! |
@@ -288,6 +328,9 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `p11_mayday_forest.mp3` | Lund | mayday (Giant Forest) | Mayday, mayday, Lund here. I came down through the trees. I'm in a clearing, I think. Please hurry. |
 | `p11_mayday_city.mp3` | Lund | mayday (Dead City) | This is Corps pilot Lund, I'm down in the city. It's so quiet here. Please, somebody. |
 | `p11_mayday_ice.mp3` | Lund | mayday (Ice) | Mayday, this is Lund. I'm down on the ice. It's cold. It's so cold. Come get me. |
+| `p11_mayday_volcanic.mp3` | Lund | mayday (Volcanic) | Mayday, this is Lund. I'm on a ledge over the lava. It's getting hot. Please hurry. |
+| `p11_mayday_crystal.mp3` | Lund | mayday (Crystal Forest) | Mayday, mayday, Lund here. I'm down among the crystals. They hum. Come and get me. |
+| `p11_mayday_ocean.mp3` | Lund | mayday (Ocean Islands) | Mayday, this is Lund. I'm down on an island. Water everywhere. Is anyone up there? |
 | `p11_mayday_wrong.mp3` | Lund | mayday, wrong (Mimic sign) | Mayday, mayday, this is... this is Corps pilot Lund. I'm down, I'm down. Beacon's on. Is anyone... up there? |
 | `p11_see_1.mp3` | Lund | sees the ship land | I see you! I see you! I'm coming! |
 | `p11_see_2.mp3` | Lund | sees the ship land | That's you! Hold on, I'm on my way! |

@@ -31,7 +31,8 @@ namespace HostileHorizon
                         if (!pad.ok) continue;
                         x = pad.x; z = pad.z;
                     }
-                    if (pass == 2 && f.CanyonT(x, z) > floor[pass]) continue;   // (a pad is checked already: Round 4's rooftops aren't canyon floor)
+                    if (pass == 2 && f.CanyonT(x, z) > floor[pass]) continue;
+                    if (f.OverLiquid(x, z) || f.HasLiquid && f.Height(x, z) < f.Liquid + 3f) continue;   // Round 7: never on the sea or the lava   // (a pad is checked already: Round 4's rooftops aren't canyon floor)
                     if (Bumpiness(f, x, z, 16f) > flat[pass]) continue;
                     bool near = false; foreach (var s in sites) if (new Vector2(s.landing.x - x, s.landing.z - z).magnitude < t.pilotSpacing * gap[pass]) { near = true; break; }
                     if (near) continue;

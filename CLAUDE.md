@@ -266,7 +266,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   (GPU instancing, `Resources/Materials/Prop.mat` made by PlayerBuild, 2 LODs; Deck: trees to 60 % of the view, detailed to 420 m).
   Look per biome: `WorldLook.LookFor / ApplyBiome` (+ `Rock.shader` `_Mode`, `Sky.shader` `_Overcast`, `Prop.shader`, `Shaft.shader`);
   air and blizzards: `Effects/BiomeWeather.cs`. Free Flight: **Planet type** row (By seed / one biome; `GameSettings.freeBiome`); its rows
-  are Seed, Seed number, Planet type, Crash level, Start flight, Back. Later biomes queued: volcanic, crystal / fungal, ocean islands.
+  are Seed, Seed number, Planet type, Crash level, Start flight, Back. Round 7 added three more (below).
 - **Music (Round 4):** `Audio/Music.cs` (state -> track, 4 s crossfades, tension layer, silence near pilots and in the scares, ducks
   under voices, stingers). Files: **`BundleMusic/`** (git-ignored; Dan's Suno tracks `title_theme hangar planet_select flight_canyons
   flight_forest flight_city flight_ice`, + Dan's `tension_low_energy` (120 s, loops 65.7-107.3 s) and `regeneration` (30 s one-shot), Fix 4.1) -> `python Tools/music_loops.py` writes the
@@ -326,6 +326,40 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   wheel), animations, lore, record (`JournalEntry.killed / killedYou / firstPlanet`); silhouette for unmet kinds; from the hangar and the
   pause menu. Hangar rows: Launch, Jump, Star map, Upgrades, Repair, Refuel, Recover, Field Journal, Difficulty, Back. Check
   `-exeCheckOnly round6` (or `round6a` .. `round6e`; `Checks/ExeCheck.Round6.cs`, `ExeCheck.Round6CDE.cs`; about 45 min in all).
+- **Round 7 Part A:** **music** (`GameShell.Audio.cs` `MusicTick` / `PickupQuiet`): the flight track drops out only for the pickup (a pilot
+  running / knocking / boarding, or landed / hovering within `pickupQuietRange` 250 m of the route's pilot, else the nearest waiting one);
+  0.6.3's rule (any pilot on foot within 700 m with the ship under 250 m up, or landed) is kept as `OldMusicQuiet` for the check only.
+  **`[Play]` log** (`Core/PlayLog.cs`): game events in `Player.log` in players' builds (`[Play] <time> ...`, one line each, no stack
+  trace): arrival (planet, seed, biome, aliens waiting), launch, pilots found / running / at the airlock / boarded / killed, every alien
+  event (`AlienEvent`), every music change with its reason, every computer / Control line, hull heat, shard breaks, docking (the debrief),
+  deaths. **Creatures up close** (`GameShell.Aliens.cs`, `Strike.cs`, `Creature.cs`): the eye is the ship's eye point
+  (`ShipLayout.Eye`, rigid with the ship; the camera is a frame behind during coroutines); the strike's face stops `StrikeFace` .65 m from
+  the eye, no part nearer than `StrikeGap` .42 m (`KeepClear`, from the posed mesh: `Creature.Surface` bakes it); the canopy stays at 0.6.3's
+  place (two restaging tries failed, tuning limit; `CanopyStaging` / `NewCanopyFace` / `KeepOutOfCanopy` hold try 2, off; the bubble
+  `CanopyC` / `CanopyR` = ship.py's); up close full detail (`Renderer.forceMeshLod` 0) and a cold face light; creature materials two-sided (`_Cull` 0, made by
+  `CharacterImport.MakeMaterials`). `CheckOldStaging` = 0.6.3's staging for "before" pictures. **Strike** (`Strike.cs`): Instant / On
+  take-off only (`strikeInstantWeight` .55, `strikeTakeoffWeight` .45; the slow burn is gone; the Sleeper alone with you bursts too):
+  nothing changes until the creature is in view (`InView`, at most .6 s), then the burst / lunge sounds, sting, music cut, controls taken;
+  .35 s later lights / displays / alarm / INTRUDER. Check `-exeCheckOnly round7a` (= `round7music` + `round7aliens`, `Checks/ExeCheck.Round7.cs`).
+- **Biomes (Round 7 Part B):** **Volcanic**, **Crystal Forest**, **Ocean Islands** (`Biome` 4-6, keys `volcanic crystal ocean`; `ForSeed` now
+  picks from all seven; saved planets keep theirs). `CanyonField`: `VolcanicHeight` (the canyons in basalt, floors under the lava level 0 m
+  in rivers / lakes, vents `VentAt` per 256 m cell), `CrystalHeight` + `CrystalAt` (a spire per 64 m cell, 10-200 m, tilted, solid via
+  `SolidPush`) + `ShardsAt` (thin shards: `ShardHit` breaks them, no hit; `Broken` per visit), `OceanHeight` (`IslandM` islands with beaches
+  and cliffs, sea floor -38 m, `StackAt` sea stacks, `ArchAt` arches = two stacks + a slab `Box` kind 2). **Liquid** (`Liquid`, `HasLiquid`,
+  `IsLava`, `OverLiquid`, `GroundHeight`): `SurfaceHeight` returns the liquid's surface where it is higher, so flying, landing, the trail,
+  pilots and enemies all treat it as the surface. Pads: volcanic shelves raised to 9 m over the lava; ocean pads on islands (the flattest
+  spot of the cell). Never a pilot / turret on the liquid (`PlanetSites`, `Enemies.Spaced`). **Ship** (`ShipController`): lava = a crash at
+  every crash level but Ghost (`CrashCause` "lava"); the sea: a skim (spray `OnWater`, no landing on water) or, more than `waterHardSpeed`
+  12 m/s down, a hit x `waterHitScale` 3 as on rock; a shard: `OnShard`. **Look:** `Terrain/Liquid.cs` + `Shaders/Liquid.shader` (one grid
+  following the viewer: the sea with waves / Fresnel / glint / whitecaps, or lava with a drifting crust and glowing cracks), `Rock.shader`
+  `_Mode` 4 / 5 / 6 (+ `_Hot`: the lava's light on the walls, glowing moss, sand / wet rock / surf at the waterline), `Prop.shader` `_Crystal`
+  (glassy, glowing inside, three cold tints), `WorldLook.LookFor` (dark red / pale violet / sea skies), `BiomeProps` (crystals instanced in
+  two LODs like the trees, vent glows, arches), `BiomeWeather` (ash + embers, smoke plumes over the 6 nearest vents, heat haze, crystal motes,
+  sea mist, spray, shard debris), `Effects/Fliers.cs` (7 harmless gull-like fliers, Ocean only). **Hull heat** (`GameShell.LiquidTick`):
+  under `lavaHeatHeight` 30 m over lava: HULL HEAT on the displays + `cpu_hull_heat` (every 20 s), warning only. **Sound / voices:**
+  `crystal_shatter`, `water_splash` (`make_sounds.py`); `ctl_brief_<biome>` (arrival), `ctl_launch_<biome>` (Control names the world at
+  launch), `cpu_hull_heat`, `p<n>_mayday_<biome>`; music `flight_volcanic / crystal / ocean` (Dan's Suno tracks, soundtrack 700). Free
+  Flight's Planet type lists all seven. Check `-exeCheckOnly round7b` / `round7bperf` (`Checks/ExeCheck.Round7B.cs`).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -401,7 +435,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -465,13 +499,20 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 7 (Part A: the flight music drops out only for the pickup (cause: 0.6.3's rule silenced it for 32-55 % of low flying); aliens
+up close solid (cause: the strike put the eye 0.02-0.20 m from the body; now face 0.54-0.77 m, nothing nearer than 0.37-0.48 m; the
+canopy kept at 0.6.3's place after two failed restaging tries, for Dan); a `[Play]` event log in `Player.log`; the slow burn removed,
+nothing before the creature is in view. Part B: Volcanic, Crystal Forest, Ocean Islands with lava / sea, spires and shards, stacks and
+arches, Dan's three Suno tracks) is built, checked in the exe (headless, muted, `--only round7a`, `round7b`, `round7bfree`,
+`round7bperf` with the Deck setting, `round6a` again) and published as 0.7.0 (`game-700` Latest) + `soundtrack-700`. The fresh
+starter-200 install check could not reach GitHub from this session (not verified). Not yet played by Dan.** Details and numbers in
+`TODO.md` (Round 7 delivery). **Next: Round 8 (polish)**, to be written by the planning chat.
 **Fix 6.3 (R1 is the trigger and fires, also in Free Flight; the cause of Dan's changed throttle axis and button jobs found: 0.6.2's
 HOTAS setup rows stepped with left / right and the menus took left / right from the stick, so a hand leaning on it changed them (replayed:
 exactly Dan's file); now the stick only scrolls and jobs change only by "press a button"; no Throttle axis / Invert lever options; a live
 Test view and Record my input; an Engine volume, a new mix (music +4.6 dB over engine + wind at cruise, was -3.0), voices ducking the rest,
 a levelled, louder computer with a warning chime, Test voices) is built, checked in the exe (headless, muted, `--only fix63`, `fix62` again)
-and published as 0.6.3 (`game-603` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Not yet
-tried by Dan on the real HOTAS.** Details in `TODO.md` (Fix 6.3 delivery). **Next: Round 7**, to be written by the planning chat.
+and published as 0.6.3 (`game-603` Latest; soundtrack stays `soundtrack-401`); a starter-200 install updates to it from GitHub. Dan: "HOTAS is working as expected now."** Details in `TODO.md` (Fix 6.3 delivery). Round 7 followed (above).
 **Fix 6.2 (the HOTAS throttle lever works: 0.6.1's Auto read the `slider` axis, which never moves on Dan's HOTAS, so the ship kept its 30 %
 start; the lever is z, now found by itself or by Find throttle lever, with a live Throttle % and the ship following it from the first frame;
 Reset HOTAS settings, Reset this page, Reset all settings, each asked first; calibration asked first and done in three plain steps; a new

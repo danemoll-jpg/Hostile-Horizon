@@ -12,6 +12,8 @@ namespace HostileHorizon
     // the terrain's view distance (shorter on the Steam Deck setting). Prop cells (256 m) are worked out on worker threads; the draw
     // lists are rebuilt when the viewer crosses a cell. Bridges are one mesh per cell in the rock material (the biome's look).
     // Collisions don't use these objects: CanyonField.SolidPush answers from the seed, so the Deck's thinner drawing never changes play.
+    // Round 7 (B2-B4): the Crystal Forest's spires and shards (instanced like the trees, three cold tints, a broken shard is no longer
+    // drawn), the volcanic vents' glowing craters (VentGlows, for the smoke plumes too), the ocean's rock arches (boxes, kind 2).
     public sealed class BiomeProps : MonoBehaviour
     {
         public CanyonField Field { get; private set; }
@@ -19,14 +21,23 @@ namespace HostileHorizon
         public Material RockMaterial;
         public int TreesDrawn { get; private set; }
         public int NearTrees { get; private set; }
-        Material treeBark, treeLeaf, shaft;
-        Mesh trunkHi, trunkLo, crownHi, crownLo, shaftMesh;
+        Material treeBark, treeLeaf, shaft, ventGlow;
+        Mesh trunkHi, trunkLo, crownHi, crownLo, shaftMesh, crystalHi, crystalLo, disc;
+        readonly Material[] crystalMats = new Material[3];
+        public int CrystalsDrawn { get; private set; }
+        public readonly List<Vector3> VentsNear = new List<Vector3>();   // the craters within the view, nearest first (smoke plumes)
         Vector3 focus; float view = 3000f; Vector2Int lastCell = new Vector2Int(int.MinValue, 0); bool dirty;
 
-        sealed class Cell { public List<Matrix4x4> trunks = new List<Matrix4x4>(), crowns = new List<Matrix4x4>(); public List<CanyonField.Box> boxes = new List<CanyonField.Box>(); public List<Vector3> shafts = new List<Vector3>(); public GameObject go; }
+        sealed class Cell
+        {
+            public List<Matrix4x4> trunks = new List<Matrix4x4>(), crowns = new List<Matrix4x4>(); public List<CanyonField.Box> boxes = new List<CanyonField.Box>(); public List<Vector3> shafts = new List<Vector3>(); public GameObject go;
+            public List<Matrix4x4> crystals = new List<Matrix4x4>(); public List<int> tints = new List<int>(); public List<long> ids = new List<long>();   // Round 7: id -1 = a spire (never breaks)
+            public List<Vector3> vents = new List<Vector3>(); public List<float> ventR = new List<float>();
+        }
         readonly Dictionary<Vector2Int, Cell> cells = new Dictionary<Vector2Int, Cell>();
         readonly Dictionary<Vector2Int, Task<Cell>> jobs = new Dictionary<Vector2Int, Task<Cell>>();
         readonly List<Matrix4x4> nearTrunks = new List<Matrix4x4>(), nearCrowns = new List<Matrix4x4>(), farTrunks = new List<Matrix4x4>(), farCrowns = new List<Matrix4x4>();
+        readonly List<Matrix4x4>[] nearCrystals = { new List<Matrix4x4>(), new List<Matrix4x4>(), new List<Matrix4x4>() }, farCrystals = { new List<Matrix4x4>(), new List<Matrix4x4>(), new List<Matrix4x4>() };
         readonly List<Vector2Int> scratch = new List<Vector2Int>();
 
         public static BiomeProps Create(Material rock)
@@ -41,16 +52,23 @@ namespace HostileHorizon
             p.treeLeaf.SetColor("_Vary", new Color(.35f, .25f, .3f));
             p.shaft = new Material(Shader.Find("HostileHorizon/Shaft")); p.shaft.SetColor("_Color", new Color(.07f, .065f, .035f));
             p.trunkHi = Trunk(12, true); p.trunkLo = Trunk(6, false); p.crownHi = Crown(2, 3); p.crownLo = Crown(1, 0); p.shaftMesh = Shaft();
+            // Round 7: crystals (cold tints: ice blue, violet, pale teal), vent glows
+            var tints = new[] { new Color(.35f, .75f, 1.3f), new Color(.85f, .45f, 1.35f), new Color(.45f, 1.2f, 1.05f) };
+            for (int i = 0; i < 3; i++) { var m = p.crystalMats[i] = new Material(baseMat) { name = "Crystal " + i, enableInstancing = true }; m.SetFloat("_Crystal", 1f); m.SetColor("_Tint", tints[i]); m.SetColor("_Vary", new Color(.15f, .15f, .2f)); }
+            p.crystalHi = CrystalMesh(6); p.crystalLo = CrystalMesh(4); p.disc = Disc();
+            p.ventGlow = new Material(Shader.Find("HostileHorizon/Glow")) { name = "Vent glow" }; p.ventGlow.SetColor("_Color", new Color(1f, .45f, .12f) * 2.2f);
             return p;
         }
 
-        public void SetDetail(Texture detail) { treeBark.SetTexture("_Detail", detail); treeLeaf.SetTexture("_Detail", detail); }
+        public void SetDetail(Texture detail) { treeBark.SetTexture("_Detail", detail); treeLeaf.SetTexture("_Detail", detail); foreach (var m in crystalMats) m.SetTexture("_Detail", detail); }
+        public void ShardBroken() => dirty = true;   // Round 7: redraw without it
 
         public void SetField(CanyonField f)
         {
             foreach (var c in cells.Values) if (c.go) Destroy(c.go);
             cells.Clear(); jobs.Clear(); Field = f; lastCell = new Vector2Int(int.MinValue, 0); dirty = true;
             nearTrunks.Clear(); nearCrowns.Clear(); farTrunks.Clear(); farCrowns.Clear(); TreesDrawn = 0;
+            foreach (var l in nearCrystals) l.Clear(); foreach (var l in farCrystals) l.Clear(); CrystalsDrawn = 0; VentsNear.Clear();
         }
 
         public void SetFocus(Vector3 p, float viewDistance) { focus = p; view = viewDistance; }
@@ -59,7 +77,7 @@ namespace HostileHorizon
         public void SetColours(Color bark, Color leaf, Color sky, Color ground)
         {
             treeBark.SetColor("_Tint", bark); treeLeaf.SetColor("_Tint", leaf);
-            foreach (var m in new[] { treeBark, treeLeaf }) { m.SetColor("_AmbientSky", sky); m.SetColor("_AmbientGround", ground); }
+            foreach (var m in new[] { treeBark, treeLeaf, crystalMats[0], crystalMats[1], crystalMats[2] }) { m.SetColor("_AmbientSky", sky); m.SetColor("_AmbientGround", ground); }
         }
 
         void Update()
@@ -121,20 +139,42 @@ namespace HostileHorizon
                 var pad = f.PadAt(Mathf.FloorToInt((k.x + .5f) * CanyonField.PropCell / CanyonField.PadCell), Mathf.FloorToInt((k.y + .5f) * CanyonField.PropCell / CanyonField.PadCell));
                 if (pad.ok && Mathf.FloorToInt(pad.x / CanyonField.PropCell) == k.x && Mathf.FloorToInt(pad.z / CanyonField.PropCell) == k.y) c.shafts.Add(pad.Position);
             }
+            else if (f.Biome == Biome.Crystal)
+            {
+                for (int j = 0; j < per; j++)
+                    for (int i = 0; i < per; i++)
+                    {
+                        int ti = k.x * per + i, tj = k.y * per + j;
+                        var t = f.CrystalAt(ti, tj);
+                        if (t.ok) { c.crystals.Add(Matrix4x4.TRS(t.basePos, Quaternion.FromToRotation(Vector3.up, t.axis) * Quaternion.Euler(0, t.yaw, 0), new Vector3(t.radius, t.height, t.radius))); c.tints.Add(t.tint); c.ids.Add(-1); }
+                        foreach (var sh in f.ShardsAt(ti, tj)) { c.crystals.Add(Matrix4x4.TRS(sh.basePos, Quaternion.FromToRotation(Vector3.up, sh.axis) * Quaternion.Euler(0, sh.yaw, 0), new Vector3(sh.radius, sh.height, sh.radius))); c.tints.Add((int)(sh.id & 1) * 2); c.ids.Add(sh.id); }
+                    }
+            }
+            else if (f.Biome == Biome.Volcanic)
+            {
+                var v = f.VentAt(k.x, k.y); if (v.ok) { c.vents.Add(v.Crater); c.ventR.Add(v.r); }
+            }
             c.boxes.AddRange(f.BoxesAt(k.x, k.y));
             return c;
         }
 
         void BuildObjects(Vector2Int k, Cell c)
         {
-            if (c.boxes.Count == 0 && c.shafts.Count == 0) return;
+            if (c.boxes.Count == 0 && c.shafts.Count == 0 && c.vents.Count == 0) return;
             c.go = new GameObject($"Props {k.x},{k.y}"); c.go.transform.SetParent(transform, false);
             foreach (var b in c.boxes)
             {
-                var g = new GameObject(b.kind == 0 ? "Sky bridge" : "Snow bridge"); g.transform.SetParent(c.go.transform, false);
+                var g = new GameObject(b.kind == 0 ? "Sky bridge" : b.kind == 1 ? "Snow bridge" : "Rock arch"); g.transform.SetParent(c.go.transform, false);
                 g.transform.SetPositionAndRotation(b.c, Quaternion.Euler(0, b.yaw, 0));
-                g.AddComponent<MeshFilter>().sharedMesh = BoxMesh(b.half, b.kind == 1, Mathf.RoundToInt(b.c.x * 3 + b.c.z));
+                g.AddComponent<MeshFilter>().sharedMesh = BoxMesh(b.half, b.kind != 0, Mathf.RoundToInt(b.c.x * 3 + b.c.z));
                 var mr = g.AddComponent<MeshRenderer>(); mr.sharedMaterial = RockMaterial; mr.shadowCastingMode = ShadowCastingMode.On;
+            }
+            for (int i = 0; i < c.vents.Count; i++)
+            {
+                var g = new GameObject("Vent glow"); g.transform.SetParent(c.go.transform, false);
+                g.transform.SetPositionAndRotation(c.vents[i] + Vector3.up * .3f, Quaternion.identity); g.transform.localScale = new Vector3(c.ventR[i] * .32f, 1, c.ventR[i] * .32f);
+                g.AddComponent<MeshFilter>().sharedMesh = disc;
+                var mr = g.AddComponent<MeshRenderer>(); mr.sharedMaterial = ventGlow; mr.shadowCastingMode = ShadowCastingMode.Off;
             }
             foreach (var s in c.shafts)
             {
@@ -169,12 +209,27 @@ namespace HostileHorizon
                 }
             }
             NearTrees = nearTrunks.Count; TreesDrawn = nearTrunks.Count + farTrunks.Count;
+            // Round 7: crystals (a broken shard is gone), vents nearest first
+            foreach (var l in nearCrystals) l.Clear(); foreach (var l in farCrystals) l.Clear(); CrystalsDrawn = 0; VentsNear.Clear();
+            foreach (var kv in cells)
+            {
+                bool nearCell = Dist(kv.Key) < NearRange + CanyonField.PropCell; var c = kv.Value;
+                for (int i = 0; i < c.crystals.Count; i++)
+                {
+                    if (c.ids[i] >= 0 && Field.Broken.ContainsKey(c.ids[i])) continue;
+                    var p = c.crystals[i].GetColumn(3); float dx = p.x - focus.x, dz = p.z - focus.z;
+                    (nearCell && dx * dx + dz * dz < near2 ? nearCrystals : farCrystals)[c.tints[i]].Add(c.crystals[i]); CrystalsDrawn++;
+                }
+                VentsNear.AddRange(c.vents);
+            }
+            VentsNear.Sort((a, b) => (a - focus).sqrMagnitude.CompareTo((b - focus).sqrMagnitude));
         }
 
         void Draw()
         {
-            if (TreesDrawn == 0) return;
             var bounds = new Bounds(focus, Vector3.one * (view * 2 + 400));
+            for (int i = 0; i < 3; i++) { DrawList(crystalHi, crystalMats[i], nearCrystals[i], true, bounds); DrawList(crystalLo, crystalMats[i], farCrystals[i], false, bounds); }
+            if (TreesDrawn == 0) return;
             DrawList(trunkHi, treeBark, nearTrunks, true, bounds); DrawList(crownHi, treeLeaf, nearCrowns, true, bounds);
             DrawList(trunkLo, treeBark, farTrunks, false, bounds); DrawList(crownLo, treeLeaf, farCrowns, false, bounds);
         }
@@ -187,6 +242,38 @@ namespace HostileHorizon
         }
 
         // ---- meshes (unit sized: the instance scale gives each tree its size)
+
+        // Round 7: a crystal of radius 1 and height 1: a faceted prism (flat-shaded: each face its own vertices) tapering to a point,
+        // the facets a little uneven; vertex alpha = how far up (the inner glow is brighter towards the tip)
+        static Mesh CrystalMesh(int sides)
+        {
+            var v = new List<Vector3>(); var col = new List<Color>(); var tri = new List<int>(); var rng = new System.Random(sides * 7);
+            var ring0 = new Vector3[sides]; var ring1 = new Vector3[sides];
+            for (int s = 0; s < sides; s++)
+            {
+                float a = s * Mathf.PI * 2 / sides, r0 = .9f + (float)rng.NextDouble() * .2f;
+                ring0[s] = new Vector3(Mathf.Cos(a) * r0, 0, Mathf.Sin(a) * r0); ring1[s] = new Vector3(Mathf.Cos(a) * r0 * .62f, .74f + (float)rng.NextDouble() * .06f, Mathf.Sin(a) * r0 * .62f);
+            }
+            var tip = new Vector3(.04f, 1f, -.03f);
+            void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d) { int o = v.Count; v.Add(a); v.Add(b); v.Add(c); v.Add(d); foreach (var q in new[] { a, b, c, d }) col.Add(new Color(1, 1, 1, q.y)); tri.AddRange(new[] { o, o + 2, o + 1, o + 1, o + 2, o + 3 }); }
+            void Tri(Vector3 a, Vector3 b, Vector3 c) { int o = v.Count; v.Add(a); v.Add(b); v.Add(c); foreach (var q in new[] { a, b, c }) col.Add(new Color(1, 1, 1, q.y)); tri.AddRange(new[] { o, o + 2, o + 1 }); }
+            for (int s = 0; s < sides; s++)
+            {
+                int n = (s + 1) % sides;
+                Quad(ring0[s], ring0[n], ring1[s], ring1[n]);
+                Tri(ring1[s], ring1[n], tip);
+            }
+            var m = new Mesh { name = "Crystal" }; m.SetVertices(v); m.SetColors(col); m.SetTriangles(tri, 0); m.RecalculateNormals(); m.RecalculateBounds(); return m;
+        }
+
+        // a flat disc of radius 1 (a vent's glowing crater)
+        static Mesh Disc()
+        {
+            var v = new List<Vector3> { Vector3.zero }; var tri = new List<int>(); int n = 16;
+            for (int i = 0; i <= n; i++) { float a = i * Mathf.PI * 2 / n; v.Add(new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a))); }
+            for (int i = 1; i <= n; i++) { tri.Add(0); tri.Add(i + 1); tri.Add(i); }
+            var m = new Mesh { name = "Disc" }; m.SetVertices(v); m.SetTriangles(tri, 0); m.RecalculateNormals(); m.RecalculateBounds(); return m;
+        }
 
         // A trunk of radius 1 and height 1 (base at 0), the flare and taper of CanyonField.TrunkRadius, buttress ribs near the roots.
         static Mesh Trunk(int sides, bool ribs)

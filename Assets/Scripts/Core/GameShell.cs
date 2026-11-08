@@ -146,7 +146,7 @@ namespace HostileHorizon
         }
 
         // Round 4: Free Flight's planet type (by the seed, or one picked on the Free Flight page)
-        public static Biome FreeBiome(int seed) => GameSettings.S.freeBiome > 0 ? (Biome)Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, 3) : Biomes.ForSeed(seed);
+        public static Biome FreeBiome(int seed) => GameSettings.S.freeBiome > 0 ? (Biome)Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, Biomes.Count - 1) : Biomes.ForSeed(seed);
 
         void Update()
         {
@@ -335,8 +335,8 @@ namespace HostileHorizon
                     Value = () => editingSeed ? SeedEditText() : ChosenSeed.ToString(),
                     Submit = () => { if (GameSettings.S.seedMode == 2) { editingSeed = true; seedCursor = 7; } else if (GameSettings.S.seedMode == 1) RandomSeed = Seeds.NewRandom(); },
                 })
-                .Add(Option("Planet type", () => GameSettings.S.freeBiome == 0 ? $"By seed ({Biomes.Name(Biomes.ForSeed(ChosenSeed))})" : Biomes.Names[Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, 3)],
-                    d => { GameSettings.S.freeBiome = Wrap(GameSettings.S.freeBiome + d, 5); GameSettings.Save(); }))   // Round 4 (A1)
+                .Add(Option("Planet type", () => GameSettings.S.freeBiome == 0 ? $"By seed ({Biomes.Name(Biomes.ForSeed(ChosenSeed))})" : Biomes.Names[Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, Biomes.Count - 1)],
+                    d => { GameSettings.S.freeBiome = Wrap(GameSettings.S.freeBiome + d, Biomes.Count + 1); GameSettings.Save(); }))   // Round 4 (A1)
                 .Add(Option("Crash level", () => CrashLevels.Names[GameSettings.S.crashLevel], d => { GameSettings.S.crashLevel = Wrap(GameSettings.S.crashLevel + d, 5); GameSettings.Save(); }))
                 .Add(Action("Start flight", () => StartFlight(ChosenSeed, (CrashLevel)GameSettings.S.crashLevel)))
                 .Add(Action("Back", () => Menu.Show(title)));

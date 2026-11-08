@@ -51,6 +51,36 @@
    "text": "Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar."
   },
   {
+   "id": "ctl_brief_volcanic",
+   "speaker": "Control",
+   "text": "Volcanic world. Lava down in the valleys, ash in the air. Our people are up on the cooled shelves. Do not touch the lava."
+  },
+  {
+   "id": "ctl_brief_crystal",
+   "speaker": "Control",
+   "text": "Crystal forest down there. Spires as tall as towers. The big ones will stop you dead. The small ones break."
+  },
+  {
+   "id": "ctl_brief_ocean",
+   "speaker": "Control",
+   "text": "Ocean world. Islands, sea stacks, arches. Our pilots are on the islands. Skim the water if you like. Just don't dive into it."
+  },
+  {
+   "id": "ctl_launch_volcanic",
+   "speaker": "Control",
+   "text": "Volcanic below. Keep your height over the lava."
+  },
+  {
+   "id": "ctl_launch_crystal",
+   "speaker": "Control",
+   "text": "Crystal forest below. Mind the spires."
+  },
+  {
+   "id": "ctl_launch_ocean",
+   "speaker": "Control",
+   "text": "Open sea below. Stay off the water."
+  },
+  {
    "id": "ctl_found_1",
    "speaker": "Control",
    "text": "Beacon on your scope. That's one of ours."
@@ -241,6 +271,11 @@
    "text": "Visibility low. Instruments only."
   },
   {
+   "id": "cpu_hull_heat",
+   "speaker": "Computer",
+   "text": "Hull heat. Climb."
+  },
+  {
    "id": "cpu_locked_on",
    "speaker": "Computer",
    "text": "Warning. Locked on."
@@ -289,6 +324,21 @@
    "id": "p0_mayday_ice",
    "speaker": "Hale",
    "text": "Mayday, this is Hale. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p0_mayday_volcanic",
+   "speaker": "Hale",
+   "text": "Mayday, this is Hale. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p0_mayday_crystal",
+   "speaker": "Hale",
+   "text": "Mayday, mayday, Hale here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p0_mayday_ocean",
+   "speaker": "Hale",
+   "text": "Mayday, this is Hale. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p0_mayday_wrong",
@@ -376,6 +426,21 @@
    "text": "Mayday, this is Kade. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p1_mayday_volcanic",
+   "speaker": "Kade",
+   "text": "Mayday, this is Kade. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p1_mayday_crystal",
+   "speaker": "Kade",
+   "text": "Mayday, mayday, Kade here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p1_mayday_ocean",
+   "speaker": "Kade",
+   "text": "Mayday, this is Kade. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p1_mayday_wrong",
    "speaker": "Kade",
    "text": "Mayday, mayday, this is... this is Corps pilot Kade. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -459,6 +524,21 @@
    "id": "p2_mayday_ice",
    "speaker": "Penrose",
    "text": "Mayday, this is Penrose. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p2_mayday_volcanic",
+   "speaker": "Penrose",
+   "text": "Mayday, this is Penrose. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p2_mayday_crystal",
+   "speaker": "Penrose",
+   "text": "Mayday, mayday, Penrose here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p2_mayday_ocean",
+   "speaker": "Penrose",
+   "text": "Mayday, this is Penrose. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p2_mayday_wrong",
@@ -546,6 +626,21 @@
    "text": "Mayday, this is Vasquez. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p3_mayday_volcanic",
+   "speaker": "Vasquez",
+   "text": "Mayday, this is Vasquez. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p3_mayday_crystal",
+   "speaker": "Vasquez",
+   "text": "Mayday, mayday, Vasquez here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p3_mayday_ocean",
+   "speaker": "Vasquez",
+   "text": "Mayday, this is Vasquez. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p3_mayday_wrong",
    "speaker": "Vasquez",
    "text": "Mayday, mayday, this is... this is Corps pilot Vasquez. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -629,6 +724,21 @@
    "id": "p4_mayday_ice",
    "speaker": "Marlow",
    "text": "Mayday, this is Marlow. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p4_mayday_volcanic",
+   "speaker": "Marlow",
+   "text": "Mayday, this is Marlow. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p4_mayday_crystal",
+   "speaker": "Marlow",
+   "text": "Mayday, mayday, Marlow here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p4_mayday_ocean",
+   "speaker": "Marlow",
+   "text": "Mayday, this is Marlow. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p4_mayday_wrong",
@@ -716,6 +826,21 @@
    "text": "Mayday, this is Ashby. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p5_mayday_volcanic",
+   "speaker": "Ashby",
+   "text": "Mayday, this is Ashby. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p5_mayday_crystal",
+   "speaker": "Ashby",
+   "text": "Mayday, mayday, Ashby here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p5_mayday_ocean",
+   "speaker": "Ashby",
+   "text": "Mayday, this is Ashby. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p5_mayday_wrong",
    "speaker": "Ashby",
    "text": "Mayday, mayday, this is... this is Corps pilot Ashby. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -799,6 +924,21 @@
    "id": "p6_mayday_ice",
    "speaker": "Tate",
    "text": "Mayday, this is Tate. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p6_mayday_volcanic",
+   "speaker": "Tate",
+   "text": "Mayday, this is Tate. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p6_mayday_crystal",
+   "speaker": "Tate",
+   "text": "Mayday, mayday, Tate here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p6_mayday_ocean",
+   "speaker": "Tate",
+   "text": "Mayday, this is Tate. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p6_mayday_wrong",
@@ -886,6 +1026,21 @@
    "text": "Mayday, this is Okafor. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p7_mayday_volcanic",
+   "speaker": "Okafor",
+   "text": "Mayday, this is Okafor. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p7_mayday_crystal",
+   "speaker": "Okafor",
+   "text": "Mayday, mayday, Okafor here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p7_mayday_ocean",
+   "speaker": "Okafor",
+   "text": "Mayday, this is Okafor. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p7_mayday_wrong",
    "speaker": "Okafor",
    "text": "Mayday, mayday, this is... this is Corps pilot Okafor. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -969,6 +1124,21 @@
    "id": "p8_mayday_ice",
    "speaker": "Grange",
    "text": "Mayday, this is Grange. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p8_mayday_volcanic",
+   "speaker": "Grange",
+   "text": "Mayday, this is Grange. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p8_mayday_crystal",
+   "speaker": "Grange",
+   "text": "Mayday, mayday, Grange here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p8_mayday_ocean",
+   "speaker": "Grange",
+   "text": "Mayday, this is Grange. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p8_mayday_wrong",
@@ -1056,6 +1226,21 @@
    "text": "Mayday, this is Quill. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p9_mayday_volcanic",
+   "speaker": "Quill",
+   "text": "Mayday, this is Quill. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p9_mayday_crystal",
+   "speaker": "Quill",
+   "text": "Mayday, mayday, Quill here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p9_mayday_ocean",
+   "speaker": "Quill",
+   "text": "Mayday, this is Quill. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p9_mayday_wrong",
    "speaker": "Quill",
    "text": "Mayday, mayday, this is... this is Corps pilot Quill. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -1141,6 +1326,21 @@
    "text": "Mayday, this is Brannock. I'm down on the ice. It's cold. It's so cold. Come get me."
   },
   {
+   "id": "p10_mayday_volcanic",
+   "speaker": "Brannock",
+   "text": "Mayday, this is Brannock. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p10_mayday_crystal",
+   "speaker": "Brannock",
+   "text": "Mayday, mayday, Brannock here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p10_mayday_ocean",
+   "speaker": "Brannock",
+   "text": "Mayday, this is Brannock. I'm down on an island. Water everywhere. Is anyone up there?"
+  },
+  {
    "id": "p10_mayday_wrong",
    "speaker": "Brannock",
    "text": "Mayday, mayday, this is... this is Corps pilot Brannock. I'm down, I'm down. Beacon's on. Is anyone... up there?"
@@ -1224,6 +1424,21 @@
    "id": "p11_mayday_ice",
    "speaker": "Lund",
    "text": "Mayday, this is Lund. I'm down on the ice. It's cold. It's so cold. Come get me."
+  },
+  {
+   "id": "p11_mayday_volcanic",
+   "speaker": "Lund",
+   "text": "Mayday, this is Lund. I'm on a ledge over the lava. It's getting hot. Please hurry."
+  },
+  {
+   "id": "p11_mayday_crystal",
+   "speaker": "Lund",
+   "text": "Mayday, mayday, Lund here. I'm down among the crystals. They hum. Come and get me."
+  },
+  {
+   "id": "p11_mayday_ocean",
+   "speaker": "Lund",
+   "text": "Mayday, this is Lund. I'm down on an island. Water everywhere. Is anyone up there?"
   },
   {
    "id": "p11_mayday_wrong",

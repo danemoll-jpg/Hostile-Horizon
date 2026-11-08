@@ -7,6 +7,8 @@ own file with the same name (mp3 / ogg / wav) into that folder and rebuild.
 
 | File | Length | Loop | For | Prompt |
 |---|---|---|---|---|
+| `crystal_shatter.mp3` | 2 s | no | a thin crystal shard breaks when the ship flies through it | A tall thin crystal shard shattering: a bright glassy crack, then a cascade of ringing chime-like tinkles as glass pieces fall. No music. |
+| `water_splash.mp3` | 1.5 s | no | the ship skims or slaps the sea | A fast aircraft skimming and slapping the surface of the sea: a sharp watery splash and a hiss of spray. No music. |
 | `alien_shriek.mp3` | 2.5 s | no | an alien reveals itself (engines started on it, thrown off the canopy) | A horrifying inhuman creature shriek, wet and rasping, rising to a piercing screech then choking off. Close up, dry, no music. |
 | `alien_death.mp3` | 3 s | no | an alien dies (burnt by the exhaust, killed in the cabin) | A monstrous creature dying in agony: gurgling screech, wet choking, a body collapsing, a burning hiss. No music. |
 | `canopy_scrape.mp3` | 6 s | yes | the alien on the canopy: claws on the glass (loop) | Long hard claws slowly scraping and dragging across thick glass, squeaking and grinding, very close and unsettling. No music. |

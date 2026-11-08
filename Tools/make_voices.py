@@ -42,6 +42,13 @@ CONTROL_LINES = [
     ('brief_forest', 'new planet: Giant Forest', 'Forest world. Trees the size of towers, and a canopy you can\'t see through. Our people are in the clearings.'),
     ('brief_city', 'new planet: Dead City', 'There\'s a dead city down there. Nobody\'s home. Except our pilots, in the streets and on the roofs.'),
     ('brief_ice', 'new planet: Ice', 'Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar.'),
+    # Round 7 (B5): the new biomes: the briefing on arrival, and Control naming the world at launch
+    ('brief_volcanic', 'new planet: Volcanic', 'Volcanic world. Lava down in the valleys, ash in the air. Our people are up on the cooled shelves. Do not touch the lava.'),
+    ('brief_crystal', 'new planet: Crystal Forest', 'Crystal forest down there. Spires as tall as towers. The big ones will stop you dead. The small ones break.'),
+    ('brief_ocean', 'new planet: Ocean Islands', 'Ocean world. Islands, sea stacks, arches. Our pilots are on the islands. Skim the water if you like. Just don\'t dive into it.'),
+    ('launch_volcanic', 'launch: Volcanic', 'Volcanic below. Keep your height over the lava.'),
+    ('launch_crystal', 'launch: Crystal Forest', 'Crystal forest below. Mind the spires.'),
+    ('launch_ocean', 'launch: Ocean Islands', 'Open sea below. Stay off the water.'),
     ('found_1', 'a beacon on the radar', 'Beacon on your scope. That\'s one of ours.'),
     ('found_2', 'a beacon on the radar', 'Another beacon. Bring them home.'),
     ('full', 'cabin full', 'Cabin\'s full. Climb to dock height and we\'ll take it from there.'),
@@ -85,6 +92,7 @@ COMPUTER_LINES = [
     ('intruder', 'Intruder alert. Intruder alert.'),
     ('engines_off', 'Engines off.'),
     ('whiteout', 'Visibility low. Instruments only.'),
+    ('hull_heat', 'Hull heat. Climb.'),   # Round 7 (B2): low over lava
     # Round 5 (B4, B6)
     ('locked_on', 'Warning. Locked on.'),
     ('saucer', 'Saucer. Saucer.'),
@@ -100,6 +108,9 @@ PILOT_LINES = [
     ('mayday_forest', 'mayday (Giant Forest)', 'Mayday, mayday, {n} here. I came down through the trees. I\'m in a clearing, I think. Please hurry.'),
     ('mayday_city', 'mayday (Dead City)', 'This is Corps pilot {n}, I\'m down in the city. It\'s so quiet here. Please, somebody.'),
     ('mayday_ice', 'mayday (Ice)', 'Mayday, this is {n}. I\'m down on the ice. It\'s cold. It\'s so cold. Come get me.'),
+    ('mayday_volcanic', 'mayday (Volcanic)', 'Mayday, this is {n}. I\'m on a ledge over the lava. It\'s getting hot. Please hurry.'),
+    ('mayday_crystal', 'mayday (Crystal Forest)', 'Mayday, mayday, {n} here. I\'m down among the crystals. They hum. Come and get me.'),
+    ('mayday_ocean', 'mayday (Ocean Islands)', 'Mayday, this is {n}. I\'m down on an island. Water everywhere. Is anyone up there?'),
     ('mayday_wrong', 'mayday, wrong (Mimic sign)', 'Mayday, mayday, this is... this is Corps pilot {n}. I\'m down, I\'m down. Beacon\'s on. Is anyone... up there?'),
     ('see_1', 'sees the ship land', 'I see you! I see you! I\'m coming!'),
     ('see_2', 'sees the ship land', 'That\'s you! Hold on, I\'m on my way!'),

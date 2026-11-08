@@ -144,6 +144,10 @@ namespace HostileHorizon
         public float strikeInstantMin = 1, strikeInstantMax = 4;   // s after the airlock shuts
         public float strikeTakeoffMin = 2, strikeTakeoffMax = 6;   // s after lift-off, or sooner at the first hard turn
         public float strikeHardTurn = 70;                          // degrees per second of turning that counts as a hard turn
+        // Round 7 (B2-B4): the new biomes
+        public float waterHardSpeed = 12;                          // m/s down into the sea: more is a hit (x waterHitScale), less a skim
+        public float waterHitScale = 3;
+        public float lavaHeatHeight = 30;                          // under this over lava: HULL HEAT (warning only)
         public float canopyLeapChance = .5f, canopyLeapMin = 5, canopyLeapMax = 15;   // A3: leap (no warning) instead of the slow climb, s at the door
         public float herringFlicker = .12f, herringThump = .15f, herringCrackle = .12f;  // A4: chance per boarding (real pilots and aliens alike)
 

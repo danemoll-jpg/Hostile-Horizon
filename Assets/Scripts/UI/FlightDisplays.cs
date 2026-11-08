@@ -19,6 +19,7 @@ namespace HostileHorizon
         public int Cabin, CabinSize;
         public string Prompt = "", Place = "";
         public string Home = "", HomeWarning = "";   // Fix 2.3, set by GameShell.Campaign while flying
+        public string HeatWarning = "";               // Round 7 (B2): low over lava, every mode
         public string Cue = "";                      // Fix 2.4: SLOW DOWN - PRESS X, on the radar
         public bool PilotNear, PauseHint;            // Fix 2.4: a waiting pilot within pickup range; the first minute of a flight
         // Fix 2.5: the pickup, always on the HUD and in the cockpit: PILOT AT AIRLOCK — press B / PILOT COMING (set by the Campaign),
@@ -167,7 +168,7 @@ namespace HostileHorizon
             if (Ship.Kinematic && Campaign && say != "" && say != "Docked in the mothership")
                 say += Time.timeScale > 1.5f ? $"  ·  ×{Time.timeScale:0} (holding {Controls.FastForwardKey})" : $"  ·  hold {Controls.FastForwardKey} to speed up";
             bool homeOn = Campaign && !Ship.Kinematic && !Ship.Crashed;
-            string home = homeOn ? Home : "", homeWarn = homeOn ? HomeWarning : "";
+            string home = homeOn ? Home : "", homeWarn = HeatWarning != "" && !Ship.Kinematic && !Ship.Crashed ? HeatWarning : homeOn ? HomeWarning : "";
 
             if (Knocking) st = KnockText;
             bool shot = Campaign && Time.time - shotAt < 1.2f, lockBlink = Time.time % .6f < .4f;
