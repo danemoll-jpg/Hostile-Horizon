@@ -168,16 +168,63 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 10: the promo video
+Current Objective — Round 10: game fixes (Part A, 0.9.1) + the promo video (Part B)
 ---------------------------------------------------------------------------
 
 Round 9 is delivered as 0.9.0 (status under "Previous deliveries"). Dan
 (2026-11-09): "let's go ahead with the promo round". The plan below was decided
 with Dan on 2026-11-08; **the draft narration is approved** ("sounds good").
-This round makes video files, not a game update: no game release unless a
-game change is needed for the capture (then publish it as 0.9.1).
+Part A is a game update (0.9.1); Part B makes video files.
 
 0. **Commit first** (the repo as it is, with this text).
+
+**Part A first — game fixes (Fix 9.1, Dan 2026-11-09), before any capture,**
+so the video shows them. Publish them as **0.9.1** when done (a normal game
+release), then go on with the promo items below.
+
+A1. **Aliens rarer.** Dan: "I seem to be hitting them like 50 % of the time."
+    Now: share 20 % + 5 % a tier, max 35 %, and **at least one alien on every
+    planet after the first** (`max(1, round(share x pilots))`): with 3-4 pilots
+    that is 25-33 % or more of all pickups. New (Normal): share **10 %**, +2.5 %
+    a tier, max **20 %**, rolled per pilot from the seed (so **some planets have
+    none**, no minimum of one); the difficulty presets scale it (Easy lower,
+    Hard / Nightmare higher, Custom's slider). Report the measured share over
+    400 sample planets at tiers 0-4 for each preset. The Sleeper and the other
+    types stay in the mix.
+A2. **Dock through the bay, not the roof.** Dan: "Docking to the mothership
+    should come in through the bay and not the roof." The automatic approach
+    (and the tow / recall / mid-air rescue lifts) must fly in through the bay's
+    opening (the opening cut in Round 9 A), lined up behind / below it, never
+    through the hull or the roof. Launch leaves through the same opening (or the
+    floor doors if that's the bay's design, but never through solid hull).
+    Check: pictures along the approach from the chase view and the cockpit;
+    the path never passes through hull geometry (log the closest distance to the
+    hull mesh).
+A3. **Mothership textures.** Dan: "The mothership seems to be missing its
+    textures." Find why (Meshy textures not imported / not assigned after the
+    bay cut in Round 9, a material lost in the Blender re-export, the hull drawn
+    with a plain material, LOD materials). Restore the textured look on the
+    hull, wall modules and the openings' new trim. Check: pictures of the
+    mothership outside and in the bay, before / after.
+A4. **VR recenter that really recenters.** Dan: "It needs to recenter to the way
+    I am facing. If I take off the headset for a second, it faces a different
+    direction and I can't get it to correct." Recenter must set the view so the
+    direction the player's head is facing **now** becomes straight ahead in the
+    cockpit (yaw only; keep the horizon level), and move the head back to the
+    eye point. Handle the runtime's tracking-origin changes (the headset taken
+    off / put back on, Virtual Desktop / SteamVR recentering, the Quest's own
+    reset): when the origin changes, recenter automatically. The Recenter
+    control: a **HOTAS button** Dan can reach (assignable, default a base
+    button), the gamepad (hold ⧉ View + ☰ Menu, or as Code proposes), the
+    keyboard, and in the pause menu; it works in flight, landed, docked and in
+    menus. Check with the mock runtime: head turned 90° / 180°, taking the
+    "headset off" (pose lost and back with a different origin), then recenter:
+    straight ahead again, both eyes.
+A5. **Publish 0.9.1**, update `TODO.md` (status for A1-A4, the causes for A3)
+    and commit, then continue with the promo items.
+
+**Part B — the promo video**
+
 1. **Two cuts** from the same footage and narration:
    - **Trailer:** 60-90 s, 16:9, 1920 x 1080 (4K if the PC renders it in
      reasonable time), 60 fps, H.264 MP4, for Steam / YouTube.
