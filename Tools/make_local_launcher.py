@@ -18,7 +18,7 @@ def main():
     home = OUT / 'HostileHorizon'
     shutil.move(str(work / 'starter'), str(home))
     shutil.copy2(ROOT / 'Builds/Launcher/HostileHorizonLauncher.exe', home / 'HostileHorizonLauncher.exe')
-    shutil.copy2(ROOT / 'SourceArt/Title/HostileHorizonCover.png', home / 'HostileHorizon-Cover.png')
+    shutil.copy2(ROOT / 'SourceArt/Title/Steam/HostileHorizon-Cover.png', home / 'HostileHorizon-Cover.png')
     (home / 'Launcher-Licenses').mkdir()
     for name in ('JSON-LICENSE.txt', 'MINIZ-LICENSE.txt'): shutil.copy2(ROOT / 'Launcher/vendor' / name, home / 'Launcher-Licenses' / name)
     shutil.rmtree(work); shutil.rmtree(music)

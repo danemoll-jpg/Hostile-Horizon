@@ -322,8 +322,43 @@ Nightmare enemies.
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-Nothing queued after Round 9 yet: Dan and the planning chat decide what comes next
-(ideas so far, not decided: native Quest, more biomes, more alien types).
+- **Round 10 — Promo video** (Dan, 2026-11-08: "I also want to have a promo
+  video created after this next update"). **DECIDED with Dan:** after Round 9.
+  1. **Two cuts:** a **60-90 s trailer** (16:9, 1920 x 1080 or 4K, 60 fps,
+     for Steam / YouTube) and a **30 s vertical cut** (9:16, 1080 x 1920, for
+     phones / social), from the same footage and narration.
+  2. **Narrated by Control** (the game's mothership voice, ElevenLabs, same
+     voice as in game), like a mission briefing over radio. It must say the
+     game plays with a **HOTAS** and in **VR** (also on a gamepad and the Steam
+     Deck). Draft script below (Dan approves the final wording before
+     recording).
+  3. **The ending:** the last shot is a rescue at the airlock; an **alien
+     bursts out at the camera**, a hard cut / fade to black (a fade is fine in
+     the video), and over black, Control: "...Rescue Seven, respond. ... We've
+     lost contact." Then the title card and logo.
+  - **How:** real in-game footage, captured from the built game with scripted
+    cinematic camera paths (canyon run, biome montage: forest, city, ice,
+    volcanic, crystal, ocean; cockpit view with the hands on the HOTAS stick and
+    throttle; landing with the belly camera; the knock; turrets and saucers;
+    the mothership launch and docking; a VR-style cockpit look-around), rendered
+    frame by frame at full quality with no visible window and muted; edited with
+    ffmpeg; scored with Dan's Suno `title_theme` (and a flight track); ElevenLabs
+    sound; title cards from Dan's Steam artwork and logo
+    (`SourceArt/Title/SteamDeck/`); on-screen text short and big (readable on a
+    phone); a closing card with the name, "HOTAS · VR · Steam Deck", and the
+    game's version / where to get it as Dan decides.
+  - **STOP for Dan** after a rough cut (low-res preview of both cuts) before
+    the final render.
+  - **Draft narration (Control), for Dan to approve:**
+    "This is Control. The colony fleet went down over the frontier. Hundreds
+    of pilots, scattered across worlds that want them dead. ... You fly in
+    low. Below the guns, through the canyons, through the forests, between
+    the towers of dead cities. ... Find them. Land. Open the airlock. ...
+    Just make sure it's really them. ... Fly it with a HOTAS. Step into the
+    cockpit in VR. ... Hostile Horizon." (Ending, over black:) "Rescue Seven,
+    respond. ... Rescue Seven? ... We've lost contact."
+
+Other ideas, not decided: native Quest, more biomes, more alien types.
 
 ---------------------------------------------------------------------------
 Previous deliveries

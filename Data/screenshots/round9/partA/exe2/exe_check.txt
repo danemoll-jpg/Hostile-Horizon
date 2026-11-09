@@ -1,0 +1,37 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 133120 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 00:16; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- A2: the ship's rear (Free Flight, Canyons, Bounce)
+  steam art at start: 6 copied, 0 already there, into C:\Users\danmo\Hostile-Horizon\Data\screenshots\round9\partA\exe2\launcher_root
+  cabin under the ship: Cabin (active)
+screenshot r9a_before_chase.png
+screenshot r9a_before_close_chase.png
+screenshot r9a_before_landing_view.png
+screenshot r9a_before_rear_34.png
+screenshot r9a_before_rear_below.png
+screenshot r9a_before_side.png
+screenshot r9a_after_chase.png
+screenshot r9a_after_close_chase.png
+screenshot r9a_after_landing_view.png
+screenshot r9a_after_rear_34.png
+screenshot r9a_after_rear_below.png
+screenshot r9a_after_side.png
+screenshot r9a_cockpit_back_left.png
+--- A1: the mothership's openings (Campaign, new career)
+screenshot r9a_bay_inside_to_ship.png
+screenshot r9a_bay_inside_to_stern.png
+screenshot r9a_bay_inside_floor_opening.png
+screenshot r9a_launch_floor_opening.png
+screenshot r9a_approach_stern.png
+screenshot r9a_stern_straight.png
+screenshot r9a_below_floor_opening.png
+  the recall: the beam lifts the ship through the floor opening
+screenshot r9a_docking_1_far.png
+screenshot r9a_docking_2_near.png
+screenshot r9a_docking_3_entering.png
+  docking pictures: 3 of 3; phase docked
+--- 2b: the Steam art copy into a stand-in launcher folder
+  game folder SteamArt/: HostileHorizon-Cover.png, HostileHorizon-Hero.png, HostileHorizon-Icon.png, HostileHorizon-Logo.png, HostileHorizon-Portrait.png, HostileHorizon-Wide.png
+  again with an older cover there: 1 copied, 5 already there, into C:\Users\danmo\Hostile-Horizon\Data\screenshots\round9\partA\exe2\launcher_root
+  and once more: 0 copied, 6 already there, into C:\Users\danmo\Hostile-Horizon\Data\screenshots\round9\partA\exe2\launcher_root
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.016 RMS, peak 0.551, zeroed before the speakers; 4593664 samples); master volume 0.00

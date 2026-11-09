@@ -31,7 +31,7 @@ def main():
     install = OUT / 'install'
     shutil.copytree(OUT / 'r1/starter', install)
     shutil.copy2(ROOT / 'Builds/Launcher/HostileHorizonLauncher.exe', install / 'HostileHorizonLauncher.exe')
-    cover = ROOT / 'SourceArt/Title/HostileHorizonCover.png'
+    cover = ROOT / 'SourceArt/Title/Steam/HostileHorizon-Cover.png'
     if cover.exists(): shutil.copy2(cover, install / 'HostileHorizon-Cover.png')
     evidence = OUT / 'evidence'; saves = OUT / 'saves'
     cmd = [str(install / 'HostileHorizonLauncher.exe'), '--auto-check', '--root', str(install), '--test-save', str(saves), '--evidence', str(evidence),

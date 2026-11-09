@@ -158,6 +158,29 @@ namespace HostileHorizon
         public void BreakDoor() { Trace.Add("hatch", "breaks"); doorGone = true; doorVel = new Vector3(.2f, 1.2f, 3.2f); doorSpin = new Vector3(-180f, 40f, 30f); }
         public void ResetDoor() { doorGone = false; doorShake = 0; Door.localPosition = doorRest; Door.localRotation = Quaternion.identity; Door.gameObject.SetActive(true); }
 
+        // Fix 8.3 (Round 9 A2): Dan's "grey box at the back of the ship" was this cabin: built for the Round 3 hull (2.9 m wide, 1.56 m
+        // tall, back wall at z -3.55), it pokes out of the slimmer Round 8 Meshy hull under the tail (floor, back wall, lower sides).
+        // The hull is about 1.4 m tall inside and tapers, so the room can't simply fit: it is drawn only for a camera inside the hull
+        // (the cockpit eye, the VR head, the cabin camera); every outside view (chase, landing, belly, docking, the wreck) skips it.
+        public static readonly Vector3 InsideMin = new Vector3(-1.6f, -1.3f, -4.2f), InsideMax = new Vector3(1.6f, 1.9f, 3.7f);
+        public static bool CheckShowOutside;   // checks: 0.8.2's cabin, drawn for every camera (the "before" pictures)
+        Renderer[] parts = new Renderer[0]; int partsCount = -1; bool partsShown = true;
+        void OnEnable() => UnityEngine.Rendering.RenderPipelineManager.beginCameraRendering += BeforeCamera;
+        void OnDisable() { UnityEngine.Rendering.RenderPipelineManager.beginCameraRendering -= BeforeCamera; ShowParts(true); }
+        public bool InsideHull(Vector3 world)
+        {
+            var p = transform.InverseTransformPoint(world);
+            return p.x > InsideMin.x && p.x < InsideMax.x && p.y > InsideMin.y && p.y < InsideMax.y && p.z > InsideMin.z && p.z < InsideMax.z;
+        }
+        void BeforeCamera(UnityEngine.Rendering.ScriptableRenderContext ctx, Camera cam) => ShowParts(CheckShowOutside || cam == Cam || InsideHull(cam.transform.position));
+        void ShowParts(bool show)
+        {
+            if (transform.hierarchyCount != partsCount) { parts = GetComponentsInChildren<Renderer>(true); partsCount = transform.hierarchyCount; partsShown = !show; }
+            if (show == partsShown) return;
+            foreach (var r in parts) if (r) r.enabled = show;
+            partsShown = show;
+        }
+
         void LateUpdate()
         {
             float dt = Time.deltaTime; clock += dt;

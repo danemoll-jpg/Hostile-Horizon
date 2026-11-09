@@ -78,6 +78,7 @@ namespace HostileHorizon
             if (VrMode.Active) { Rig.EnableVr(); MenuPanel.VrRoot = Rig.transform; MenuPanel.VrHead = Rig.Head; }
             Comfort.Create(Rig.Head, Ship.transform);   // Round 8 (C5): every option off unless the player turns it on
             PlayLog.Add("display: " + VrMode.Status);
+            SteamArt.CopyUp(); PlayLog.Add("steam art: " + SteamArt.Result);   // Fix 8.3 (2b): the artwork beside the launcher
             ApplySettings();
 
             Menu.Show(loading);

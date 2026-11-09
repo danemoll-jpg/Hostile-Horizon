@@ -72,6 +72,7 @@ namespace HostileHorizon
             });
             var s = report.summary;
             string music = s.result == BuildResult.Succeeded ? CopyMusic(root, dir) : "music not copied (build failed)";   // Round 4 (B2)
+            string art = s.result == BuildResult.Succeeded ? CopySteamArt(root, dir) : "Steam art not copied (build failed)";   // Fix 8.3 (2b)
             string persistent = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile), "AppData", "LocalLow", PlayerSettings.companyName, PlayerSettings.productName);
             var lines = new[]
             {
@@ -82,6 +83,7 @@ namespace HostileHorizon
                 $"Settings and Player.log: {persistent}",
                 "Self-check: HostileHorizon.exe -exeCheck <dir> [-exeCheckOnly perf] [-steamDeck 1]",
                 music,
+                art,
             };
             File.WriteAllLines(Path.Combine(dir, "BUILD_INFO.txt"), lines.Concat(report.steps.Select(st => $"  step {st.name}: {st.duration.TotalSeconds:0.0} s")));
             Debug.Log(string.Join("\n", lines));
@@ -97,6 +99,18 @@ namespace HostileHorizon
             var m = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (!m) { m = new Material(Shader.Find("HostileHorizon/Prop")); AssetDatabase.CreateAsset(m, path); }
             m.shader = Shader.Find("HostileHorizon/Prop"); m.enableInstancing = true; EditorUtility.SetDirty(m); AssetDatabase.SaveAssets();
+        }
+
+        // Fix 8.3 (Round 9 A, 2b): Dan's Steam library artwork (SourceArt/Title/Steam/HostileHorizon-*.png, made by
+        // Tools/make_steam_art.py) ships in the game folder's SteamArt/; the game copies it up beside the launcher (SteamArt.cs), so an
+        // existing install gets the files with a normal game update.
+        static string CopySteamArt(string root, string dir)
+        {
+            string from = Path.Combine(root, "SourceArt", "Title", "Steam"), to = Path.Combine(dir, "SteamArt");
+            if (Directory.Exists(to)) Directory.Delete(to, true);
+            Directory.CreateDirectory(to); int n = 0;
+            foreach (var f in Directory.GetFiles(from, "HostileHorizon-*.png")) { File.Copy(f, Path.Combine(to, Path.GetFileName(f)), true); n++; }
+            return $"Steam art: {n} files in SteamArt/";
         }
 
         // Round 4 (B2), as Chastain Rush ships its music: BundleMusic/ (git-ignored: Dan's Suno tracks, the ElevenLabs loops and

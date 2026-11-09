@@ -1,7 +1,8 @@
 """Assemble a complete starter ZIP (launcher + game + soundtrack) from already-published signed manifests, verify its extracted
 inventory, and stage it as a publisher draft for Publish-LauncherRelease.py. Never signs, uploads or reads keys.
 Layout as the 0.21 Full ZIP: HostileHorizon/ launcher, cover, README, state.json, versions/<build>, shared/soundtracks/<build>;
-plus the icon and poster beside the launcher for a Steam shortcut (plain copies)."""
+plus the Steam library artwork beside the launcher (Fix 8.3: SourceArt/Title/Steam/HostileHorizon-*.png from Tools/make_steam_art.py:
+Portrait, Wide, Hero, Logo, Icon; the launcher's cover HostileHorizon-Cover.png = the portrait; plain copies)."""
 import argparse,importlib.util,json,pathlib,shutil,subprocess,zipfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('release',ROOT/'Tools/Prepare-LauncherRelease.py');r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
@@ -23,9 +24,7 @@ def main():
     p.add_argument('--music-manifest',type=pathlib.Path,required=True,help='published signed soundtrack-manifest.json')
     p.add_argument('--launcher',type=pathlib.Path,default=ROOT/'Builds/Launcher/HostileHorizonLauncher.exe')
     p.add_argument('--checks',type=pathlib.Path,default=ROOT/'Builds/Launcher/LauncherChecks.exe')
-    p.add_argument('--cover',type=pathlib.Path,default=ROOT/'SourceArt/Title/HostileHorizonCover.png')
-    p.add_argument('--icon',type=pathlib.Path,default=ROOT/'SourceArt/Title/GameIcon.png')
-    p.add_argument('--poster',type=pathlib.Path,default=ROOT/'SourceArt/Title/HostileHorizonPoster.png')
+    p.add_argument('--art',type=pathlib.Path,default=ROOT/'SourceArt/Title/Steam',help='HostileHorizon-*.png: Cover (the launcher), Portrait, Wide, Hero, Logo, Icon')
     p.add_argument('--readme',type=pathlib.Path,default=ROOT/'Docs/Starter/README-LAUNCHER.md')
     p.add_argument('--out',type=pathlib.Path,required=True,help='new draft folder')
     p.add_argument('--zip-name',required=True);p.add_argument('--tag',required=True);p.add_argument('--title',required=True);p.add_argument('--notes',required=True)
@@ -40,8 +39,8 @@ def main():
     g=f"versions/{gm['build']}";m=f"shared/soundtracks/{mm['build']}"
     copy_exact(a.game,starter/g,gm['files'])
     if not a.no_music:copy_exact(a.music,starter/m,mm['files'])
-    shutil.copy2(a.launcher,starter/'HostileHorizonLauncher.exe');shutil.copy2(a.cover,starter/'HostileHorizon-Cover.png')
-    shutil.copy2(a.icon,starter/'HostileHorizon-Icon.png');shutil.copy2(a.poster,starter/'HostileHorizon-Poster.png')
+    shutil.copy2(a.launcher,starter/'HostileHorizonLauncher.exe')
+    for n in ('Cover','Portrait','Wide','Hero','Logo','Icon'):shutil.copy2(a.art/f'HostileHorizon-{n}.png',starter/f'HostileHorizon-{n}.png')
     shutil.copy2(a.readme,starter/'README-LAUNCHER.md')   # (Round 81: Woodstock Rush's Install-Launcher.ps1, a migration from its old Racer.exe, is not needed: a fresh install)
     shutil.copy2(a.game_manifest,starter/'game-manifest.json');shutil.copy2(a.music_manifest,starter/'soundtrack-manifest.json')
     licenses=starter/'Launcher-Licenses';licenses.mkdir()

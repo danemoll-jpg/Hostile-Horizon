@@ -1,0 +1,85 @@
+{
+    "version": 1,
+    "systemSeed": 7171,
+    "systemName": "Nytha",
+    "credits": 2095,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261109,
+            "name": "Halkon-II",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-09 00:16:49",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 3,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 0,
+        "pilotsLost": 0,
+        "creditsEarned": 0,
+        "creditsSpent": 905,
+        "deaths": 0,
+        "planetsCleared": 0,
+        "sorties": 1,
+        "tows": 0,
+        "recalls": 1,
+        "aliensKilled": 0,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [],
+    "started": "2026-11-09 00:16",
+    "lastSaved": "2026-11-09 00:17:12",
+    "currentSeed": 20261109,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    }
+}
