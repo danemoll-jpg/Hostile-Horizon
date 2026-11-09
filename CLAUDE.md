@@ -59,6 +59,12 @@ is the source of truth for what to build; this file is the standing context.
      moments over fades and cuts.
   6. Input goes through Input System actions, never direct device reads, so
      XR controllers can be added as another binding set.
+  7. **Stereo shader rule (Fix 8.1).** VR renders single-pass instanced: every shader of the game (and every new one) must be
+     single-pass-instanced safe: `UNITY_VERTEX_INPUT_INSTANCE_ID` in the vertex input, `UNITY_VERTEX_OUTPUT_STEREO` in the output,
+     `UNITY_SETUP_INSTANCE_ID` + `UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO` in the vertex function, `UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX`
+     in the fragment function, in every pass that draws to the camera (forward, depth); screen / depth sampling stereo-aware. Without it the
+     right eye shows the clear colour (0.8.0). **VR checks compare both real eyes** (`-exeCheckOnly fix81 -vr`: the eye texture's two
+     slices, pixel-compared), never a flat camera per eye.
 - **Input devices:** Thrustmaster T.Flight HOTAS 4 (stick: pitch/roll, twist:
   yaw, detachable throttle lever: absolute throttle, hat: look / camera,
   buttons), any gamepad (Xbox layout, Steam Deck built-in controls), keyboard +
@@ -385,6 +391,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   "XR_RUNTIME_JSON=<repo>\Library\PackageCache\com.unity.xr.openxr@<hash>\Runtime\MockRuntime\unity-mock-runtime.json" --env
   "PATH=<that folder>\windows\x64;..."` (`local/round8_runs2.sh` has the exact line). `run_check.py`: `--env KEY=VALUE`; an `--extra`
   starting with `-` needs `--extra=...`.
+- **Fix 8.1:** every shader single-pass-instanced safe (rule 7 above). **Your body** `Flight/PilotBody.cs` (`GameShell.Body`): the Fix 3.1
+  pilot posed in code each frame (no head: shrunk at the neck; legs to the floor; two-bone IK hands on the stick / throttle, fingers curl,
+  the index pulls while firing). `ship.py`: the Meshy seat mirrored (stick right, throttle left), stick / throttle cut out as groups
+  `Stick` / `Throttle` (pivots from their bounds in `PilotBody.Pivot`; the throttle moved 15 cm forward); the stick tilts 18° (pitch /
+  roll), twists 15° (yaw), the lever swings ±22°. Floor window: `WIN_C` (0, 3.02), 0.42 x 0.70 m, frame, bolts (slot `chrome`), 30 mm glass
+  (slot `window`: `Shaders/Window.shader`), a lining widening to a clean cut in the belly (`WIN_FLARE`). Check `-exeCheckOnly fix81`
+  (flat) / `fix81 -vr` (mock runtime: the real eye texture, both slices compared; `local/fix81_runs.sh`); `CameraRig.CheckLook` (checks).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -460,7 +473,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|fix81|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -524,13 +537,18 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 8.1 (VR: the right eye showed blue: none of the 9 custom shaders was single-pass-instanced safe; all are now, and the VR check
+compares the two real eyes (old shaders: 27 / 32 pairs flagged, now 0 / 32); your pilot's body and gloved hands in the seat, the seat
+mirrored so the stick is on the right and the throttle on the left like Dan's HOTAS, both moving with the input; a clean rounded floor
+window with frame, bolts and thick glass in place of the ragged hole) is built, checked in the exe (headless, muted, `fix81` flat and on
+the mock VR runtime) and published as 0.8.1 (`game-801` Latest). Not yet seen by Dan in the Quest.** Details in `TODO.md` (Fix 8.1
+delivery). **Next: Round 9**, to be written by the planning chat.
 **Round 8 (A: the creature at the strike in front of the screens, the HUD off for it (cause: Round 7's staging put its body behind the
 screens and inside the dash, 34-59 % hidden; now 0-14 %, residuals for Dan); B: Dan's ship / cockpit / mothership / bay / turret /
 saucer via Meshy, 16 ElevenLabs sounds levelled into the Fix 6.3 mix, a credits page, Deck-setting numbers; C: VR through OpenXR,
 off unless asked, checked on the mock runtime) is built, checked in the exe (headless, muted: `round8a`, `round8b`, `round8b` Deck,
-`round4perf` / `round7bperf` Deck, `round8c` x 3) and published as 0.8.0 (`game-800` Latest; soundtrack stays `soundtrack-700`). Not yet
-played by Dan; VR only he can check (Quest 3 over Virtual Desktop).** Details in `TODO.md` (Round 8 delivery). **Next: Round 9**, to be
-written by the planning chat.
+`round4perf` / `round7bperf` Deck, `round8c` x 3) and published as 0.8.0 (`game-800`; soundtrack stays `soundtrack-700`). Dan in the Quest: scenery only in the
+left eye (fixed in Fix 8.1).** Details in `TODO.md` (Round 8 delivery). Fix 8.1 followed (above).
 **Round 7 (Part A: the flight music drops out only for the pickup (cause: 0.6.3's rule silenced it for 32-55 % of low flying); aliens
 up close solid (cause: the strike put the eye 0.02-0.20 m from the body; now face 0.54-0.77 m, nothing nearer than 0.37-0.48 m; the
 canopy kept at 0.6.3's place after two failed restaging tries, for Dan); a `[Play]` event log in `Player.log`; the slow burn removed,

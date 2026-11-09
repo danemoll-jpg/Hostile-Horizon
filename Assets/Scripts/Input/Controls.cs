@@ -254,6 +254,10 @@ namespace HostileHorizon
         // Round 5 (B3, B4): the gun (held) and the shield toggle
         public static bool FireHeld => fire.IsPressed();
         public static bool ShieldPressed => shield.WasPressedThisFrame();
+        // Fix 8.1: the pilot's fingers press the controls' buttons while they are held (PilotBody)
+        public static bool ShieldHeld => shield.IsPressed();
+        public static bool LevelOutHeld => levelOut.IsPressed();
+        public static bool LandHeld => land.IsPressed();
         static InputAction recenter;
         public static bool RecenterPressed => recenter != null && recenter.WasPressedThisFrame();
 

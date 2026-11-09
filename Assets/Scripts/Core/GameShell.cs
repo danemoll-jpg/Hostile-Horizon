@@ -31,6 +31,7 @@ namespace HostileHorizon
 
         ShipAudio shipAudio; public ShipAudio ShipSound => shipAudio;   // Fix 6.3: checks read its levels
         public ShipExtras Extras { get; private set; }
+        public PilotBody Body { get; private set; }
         public BellyCam Belly { get; private set; }
         public bool FastForwarding { get; private set; }
         public Explosion Blast { get; private set; }
@@ -100,6 +101,7 @@ namespace HostileHorizon
                 Material mat;
                 if (slot.StartsWith("mx_")) { var hard = Resources.Load<Material>("Hard/" + slot.Substring(3)); mat = hard ? new Material(hard) : new Material(r.sharedMaterial); }   // Round 8 (B1): Meshy parts
                 else if (slot == "glass") mat = glass;
+                else if (slot == "window") mat = new Material(Shader.Find("HostileHorizon/Window"));   // Fix 8.1: the floor window
                 else if (slot == "glow" || slot == "lamp") { mat = new Material(Shader.Find("HostileHorizon/Glow")); mat.SetColor("_Color", slot == "glow" ? new Color(1f, .5f, .18f) * 2.2f : new Color(1f, .95f, .8f) * 1.6f); }
                 else
                 {
@@ -111,6 +113,7 @@ namespace HostileHorizon
                         case "hull": c = new Color(.66f, .66f, .62f); smooth = .45f; metal = .2f; break;
                         case "panel": c = new Color(.32f, .34f, .35f); smooth = .4f; break;
                         case "metal": c = new Color(.55f, .56f, .58f); smooth = .55f; metal = .7f; break;
+                        case "chrome": c = new Color(.72f, .73f, .75f); smooth = .75f; metal = .9f; break;   // Fix 8.1: the window's bolts
                         case "engine": c = new Color(.15f, .16f, .17f); smooth = .3f; metal = .5f; break;
                         case "seat": c = new Color(.20f, .17f, .15f); smooth = .2f; break;
                         case "dash": c = new Color(.07f, .075f, .08f); smooth = .5f; break;
@@ -121,6 +124,7 @@ namespace HostileHorizon
                 r.sharedMaterial = mat; used.Add((mat, slot));
             }
             model = m.transform;
+            Body = PilotBody.Add(ship, m.transform);   // Fix 8.1: your body in the seat; the stick and throttle move with the input
             Extras = ShipExtras.Add(ship, litTemplate, used);
             debrisMaterial = new Material(litTemplate); debrisMaterial.SetColor("_BaseColor", new Color(.13f, .12f, .11f)); debrisMaterial.SetFloat("_Smoothness", .1f);
             go.SetActive(false);

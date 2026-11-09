@@ -42,12 +42,12 @@ Shader "HostileHorizon/Prop"
             #include "HHCommon.hlsl"
 
             struct A { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 color : COLOR; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; float3 nWS : TEXCOORD1; float4 color : COLOR; float3 origin : TEXCOORD2; };
+            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; float3 nWS : TEXCOORD1; float4 color : COLOR; float3 origin : TEXCOORD2; UNITY_VERTEX_OUTPUT_STEREO };
 
             V vert(A i)
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                V o; o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.nWS = TransformObjectToWorldNormal(i.normalOS);
+                V o; UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.nWS = TransformObjectToWorldNormal(i.normalOS);
                 o.positionCS = TransformWorldToHClip(o.posWS); o.color = i.color; o.origin = TransformObjectToWorld(float3(0, 0, 0)); return o;
             }
 
@@ -55,6 +55,7 @@ Shader "HostileHorizon/Prop"
 
             half4 frag(V i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 n = normalize(i.nWS); float3 p = i.posWS;
                 float3 w = pow(abs(n), 4.0); w /= (w.x + w.y + w.z);
                 float4 d = SAMPLE_TEXTURE2D(_Detail, sampler_Detail, p.zy / 7.0) * w.x + SAMPLE_TEXTURE2D(_Detail, sampler_Detail, p.xz / 7.0) * w.y + SAMPLE_TEXTURE2D(_Detail, sampler_Detail, p.xy / 7.0) * w.z;
@@ -127,8 +128,9 @@ Shader "HostileHorizon/Prop"
             #pragma fragment frag
             #pragma multi_compile_instancing
             struct A { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            float4 vert(A i) : SV_POSITION { UNITY_SETUP_INSTANCE_ID(i); return TransformObjectToHClip(i.positionOS.xyz); }
-            half frag() : SV_Target { return 0; }
+            struct D { float4 c : SV_POSITION; UNITY_VERTEX_OUTPUT_STEREO };
+            D vert(A i) { D o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.c = TransformObjectToHClip(i.positionOS.xyz); return o; }
+            half frag(D i) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); return 0; }
             ENDHLSL
         }
     }

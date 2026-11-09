@@ -45,12 +45,12 @@ Shader "HostileHorizon/Rock"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "HHCommon.hlsl"
 
-            struct A { float4 positionOS : POSITION; float3 normalOS : NORMAL; };
-            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; float3 nWS : TEXCOORD1; };
+            struct A { float4 positionOS : POSITION; float3 normalOS : NORMAL; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; float3 nWS : TEXCOORD1; UNITY_VERTEX_OUTPUT_STEREO };
 
             V vert(A i)
             {
-                V o; o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.nWS = TransformObjectToWorldNormal(i.normalOS);
+                V o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.nWS = TransformObjectToWorldNormal(i.normalOS);
                 o.positionCS = TransformWorldToHClip(o.posWS); return o;
             }
 
@@ -65,6 +65,7 @@ Shader "HostileHorizon/Rock"
 
             half4 frag(V i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 n = normalize(i.nWS); float3 p = i.posWS;
                 float3 w = pow(abs(n), 4.0); w /= (w.x + w.y + w.z);
                 float4 big = Tri(p, w, 1.0 / 61.0), fine = Tri(p, w, 1.0 / 9.0);
@@ -191,9 +192,10 @@ Shader "HostileHorizon/Rock"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            struct A { float4 positionOS : POSITION; };
-            float4 vert(A i) : SV_POSITION { return TransformObjectToHClip(i.positionOS.xyz); }
-            half frag() : SV_Target { return 0; }
+            struct A { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct D { float4 c : SV_POSITION; UNITY_VERTEX_OUTPUT_STEREO };
+            D vert(A i) { D o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.c = TransformObjectToHClip(i.positionOS.xyz); return o; }
+            half frag(D i) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); return 0; }
             ENDHLSL
         }
     }

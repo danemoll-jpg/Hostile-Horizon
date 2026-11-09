@@ -22,11 +22,12 @@ Shader "HostileHorizon/Particle"
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             CBUFFER_START(UnityPerMaterial) float4 _Color; float _SrcBlend, _DstBlend, _Softness; CBUFFER_END
-            struct A { float4 p : POSITION; float4 c : COLOR; float2 uv : TEXCOORD0; };
-            struct V { float4 p : SV_POSITION; float4 c : COLOR; float2 uv : TEXCOORD0; };
-            V vert(A i) { V o; o.p = TransformObjectToHClip(i.p.xyz); o.c = i.c * _Color; o.uv = i.uv; return o; }
+            struct A { float4 p : POSITION; float4 c : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct V { float4 p : SV_POSITION; float4 c : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_OUTPUT_STEREO };
+            V vert(A i) { V o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.p = TransformObjectToHClip(i.p.xyz); o.c = i.c * _Color; o.uv = i.uv; return o; }
             half4 frag(V i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float r = length(i.uv * 2 - 1);
                 float a = pow(saturate(1 - r), _Softness);
                 half4 c = i.c;

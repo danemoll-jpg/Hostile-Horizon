@@ -2439,3 +2439,138 @@ check at 1080p), `deck/` (pictures at 1280 x 800), `launcher/`. Every run headle
 **For Dan to check:** HOTAS setup: Reset HOTAS settings, then move the lever: does Throttle % follow it (Auto should already be on
 "z"), and does the ship speed up and slow down with it? Calibrate: are the steps clear? Does the picture match your HOTAS? Run
 Identify your buttons once: R2 sent nothing in today's log, so see whether "Held" shows R2 when you press it, and find where R1 is.
+
+=== Fix 8.1 specification (as the planning chat wrote it, moved from TODO.md at the end of Fix 8.1) ===
+
+---------------------------------------------------------------------------
+Current Objective — Fix 8.1: VR right eye, the pilot's body and hands, a real floor window
+---------------------------------------------------------------------------
+
+Round 8 is delivered as 0.8.0 (status under "Previous deliveries"). Round 9
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-08, Quest 3 through Virtual Desktop, 0.8.0):
+- "You can see the cockpit in both eyes but the scenery is only in the left
+  eye. Scenery in the right eye is blue."
+- "Is it possible to show the body and the hands of the pilot?"
+- "There is a hole in the floor, which I think would be fine except it is all
+  jagged instead of looking like a window."
+
+Cause of the first, found by the planning chat: OpenXR is set to **single-pass
+instanced** (`Assets/XR/Settings/OpenXR Package Settings.asset`
+`m_renderMode: 1`), and **none of the game's own shaders support it**: Rock,
+Prop, Sky, Liquid, Glass, Glow, GlowAdd, Particle and Shaft in
+`Assets/Resources/Shaders/` have no stereo-instancing macros, so they draw
+only into the left eye; the right eye shows the clear colour (blue). The
+cockpit uses URP's own shaders, which is why it shows in both eyes. Round 8's
+mock-runtime check didn't catch it: its pictures must compare both eyes.
+
+0. **Commit first** (the repo as it is, with this text).
+1. **Both eyes see everything.** Make every custom shader single-pass-instanced
+   safe (`UNITY_VERTEX_INPUT_INSTANCE_ID`, `UNITY_VERTEX_OUTPUT_STEREO`,
+   `UNITY_SETUP_INSTANCE_ID`, `UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO`,
+   `UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX` and stereo-aware screen /
+   depth sampling where used, e.g. Glass, Shaft, Liquid, fog), and check any
+   other custom rendering (render textures, command buffers, screen-space
+   effects, the belly / cabin camera feeds, particles, the GPU-instanced trees
+   / buildings / crystals) in single-pass instanced. Keep single-pass instanced
+   (it's the fast path the 1660 Ti needs). **Check:** with the mock runtime,
+   the left and right eye images of every biome, the sky, water / lava, glass,
+   the route trail, shots, particles and the mothership bay: the same scene in
+   both (allowing for eye offset); Code compares them pixel-wise (no blank /
+   one-colour eye) and looks at them.
+2. **The pilot's body and hands** (VR and the flat cockpit view).
+   - The player sits as a pilot in the seat: the corps flight suit (the pilot
+     model from Fix 3.1, its suit / gloves), seated, legs on the floor /
+     pedals, torso against the seat; **no head** in the player's own view
+     (VR: the head is the headset; flat screen: the camera is the head).
+   - **Mirror the seat's controls to match the HOTAS** (Dan, 2026-11-08: the
+     Meshy seat has the throttle on the right and the stick on the left; his
+     HOTAS is the other way round). Mirror the seat / consoles (or move the
+     controls) so the **stick is on the right and the throttle on the left**,
+     exactly where his hands are on the real HOTAS. Mirror cleanly (normals,
+     UVs, any text or markings must not read backwards) and update `ShipLayout`
+     and anything placed on the seat or consoles (screens, buttons, the cabin
+     hatch side if it depends on it).
+   - **Hands on the controls, following the real input:** the right hand on
+     the ship's stick, the left on the throttle, both drawn as in-cockpit
+     controls that move with the HOTAS / gamepad input (stick tilts with
+     pitch / roll, twists with yaw; throttle lever moves with the throttle),
+     hands placed by IK on them; fingers press when the matching buttons are
+     pressed (trigger = index finger for fire). The cockpit's stick and
+     throttle should look like real flight controls (the art pipeline if Code
+     needs new models: STOP for Dan).
+   - Body and arms follow the head a little in VR (torso stays in the seat,
+     shoulders turn slightly) so looking down feels like your body.
+   - The body is lit like the cockpit and shown in the cabin camera's view too
+     if it's in shot. The horror strike still reaches the player's face.
+   - **Check:** pictures looking down from the eye (VR both eyes, flat cockpit
+     view) at rest, full stick / throttle, firing.
+3. **A real window in the floor.** Replace the jagged hole with a proper floor
+   window: a clean shape (rounded rectangle) with a solid frame / trim and
+   bolts, thick glass with a slight tint, reflections and a few scratches,
+   placed between the pilot's feet so it's easy to look through when landing
+   (the belly camera stays as well). No jagged edges from the Meshy mesh: cut
+   it cleanly in Blender (or cover the old cut with the frame).
+   **Check:** pictures looking down through it in flight and in hover,
+   flat and in VR.
+4. **Publish as 0.8.1**, update `TODO.md` (per-item status) and `CLAUDE.md`
+   (the stereo shader rule: every new shader must be single-pass-instanced
+   safe, and VR checks compare both eyes), commit and push.
+
+**For Dan to check (Quest 3):** scenery in both eyes; look down: body, hands on
+the stick and throttle moving with the HOTAS; the floor window.
+
+=== Previous delivery moved from TODO.md at Fix 8.1 ===
+
+**Fix 6.3 — HOTAS trigger / R1 / R3, stray setting changes, an input recorder, the sound mix (2026-11-08). Published: 0.6.3
+(`game-603`, Latest; soundtrack stays `soundtrack-401`).** Exe built 2026-11-08 01:47. Evidence `Data/screenshots/fix63/`: `run7/` (the
+check `--only fix63`: `exe_check.txt`, pictures, the recorder's `hotas_input_log.txt`), `fix62_regression/` (`--only fix62` again: all OK),
+`launcher/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal. The check's HOTAS is a HID joystick built from Dan's own
+HID descriptor, so Unity's HID support names its controls exactly as for his unit (`trigger`, `button2`..`button12`, `stick`, `z`, `hat`...).
+- **0 Commit first — done** (`9d75f72`).
+- **1 R1 is the trigger — done.** `DefaultSymbolButtons` now R1 = button 1, R3 = button 3 (the back of the stick's head); the picture
+  (R1 on the trigger, R3 on the head), Identify, every prompt. Settings still on 0.6.2's default names get the new ones once (`version` 4).
+- **2 What changed Dan's settings — found and fixed. Cause:** on 0.6.2's HOTAS setup page the Throttle axis, Invert lever and all 11
+  button-job rows changed with **left / right**, and the menus took left / right from the **stick** too. A hand resting on the stick leans it
+  sideways while scrolling. Replaying that through 0.6.2's own menu rules (two left steps on Throttle axis, two on Invert lever, a held lean on
+  Level out (8 steps), one left on Camera view, one right on Shield) gives **exactly** Dan's 00:26 file: throttle axis `ry` (5), invert
+  true, jobs `[2,5,8,4,6,7,9,12,11,10,3]`. The other suspects don't: loading 0.6.1 / 0.6.2 / Dan's file never changes jobs, Identify only
+  changes names, Assign one job, Calibrate the calibration, Find the lever, the resets give the defaults. Fixed by 3 and 6b.
+- **3 No accidental changes — done.** On the HOTAS the stick only moves up / down in menus; values change only with the hat's left / right
+  or a press of R1 (select) on a row. Twist, rocker and lever never touch menus. Button jobs have no left / right at all (only "press a
+  button"). Check: the same leaning-stick trace with twist and lever moving, live on HOTAS setup: selection moved 15 times, **settings
+  unchanged**; stick held right 1 s on Flight assist: no change; hat right / R1 / hat left: Light / Off / Full; hat down moves a row.
+- **4 The trigger fires — done.** Fire and Submit's HOTAS bindings follow R1 as identified (`Controls.FireButton`; Unity names HID button 1
+  `trigger`). Free Flight has the gun now (no enemies; shots spark on the rock and cost energy). Check: HID button 1 held 1 s = 7 shots in
+  Free Flight and 7 in the Campaign.
+- **5 Input recorder — done.** Settings > Controls and HOTAS setup: **Record my input (20 s)** writes every control of every device (the
+  device list with Unity's HID descriptor, then each change: time, device, path, value, the game actions it feeds) to
+  `hotas_input_log.txt` beside `settings.json` and says where. Buttons don't act on the menu while it records. Check: 1 507 changes,
+  `trigger pressed -> Flight/Fire, UI/Submit`, `button3 pressed -> Flight/Shield`.
+- **6 Test view — done.** HOTAS setup always shows the live Test readout (stick, twist / rocker, lever, hat, each with its job; held
+  buttons with their job) and lights every held button on the picture. Holding R1 on a row also selects it, so the page says to use Record
+  my input to try buttons freely. Pictures `fix63_test_view_R1_held.png`, `_R3_held.png`, `fix63_controls_hotas.png`.
+- **6b No throttle-axis option — done.** Throttle axis and Invert lever are gone from every page; 0.6.2's saved values are ignored and
+  dropped. The lever is found by itself (z, else the axis moved end to end), forward = full; Find throttle lever learns the direction
+  (you leave the lever fully forward) and Reset HOTAS settings stay.
+- **6c Sound mix — done (2 tuning tries; numbers for Dan).** Settings > Sound > **Engine** (engine hum + wind, 100 %). Defaults: music 70
+  -> 85 % (0.6.2's untouched 70 becomes 85 once), tuning `engineMix` .55, `windMix` .5 (was 1 / 1). At cruise (383 km/h, 80 %): engine +
+  wind -5.9 dB, music +1.7 dB: music vs engine + wind **-3.0 dB -> +4.6 dB** (try 1, windMix .6: +4.5). The music's level comes from the
+  track files (-16 dB RMS, all four flight tracks): a muted run doesn't render the music, so it can't be metered live.
+- **6d Audible computer — done.** Every voice line ducks engine + wind (-8.6 dB measured), music (x.6, -4.4 dB) and effects (x.75).
+  The 18 computer lines: EQ + light compression + levelled (`Tools/process_computer_voice.py`; originals kept in
+  `SourceArt/Voices/computer_raw/`): **-31.1 .. -24.5 LUFS (6.6 LU apart) -> -16.7 .. -16.4 LUFS**, played at 100 % of Voices (was 90 %).
+  A two-tone chime before its 10 warnings. **Test voices** (Settings > Sound) plays Control, the computer and a pilot, also from the pause
+  menu (check: all three logged, muted). In Free Flight the computer can say only `cpu_pull_up` and `cpu_whiteout` (Ice blizzards); every
+  other line is Campaign only (energy, return / can't reach, hull, gear, airlock, pilot aboard, cabin full, intruder, engines off, locked
+  on, saucer, shield up / down, target down).
+- **7 Check — done** (`-exeCheckOnly fix63`, about 5 min). **8 Publish — done:** 0.6.3 = build 603, `game-603` Latest; a fresh `starter-200`
+  install updated to `versions/603`, exit 0. Clean-up: disk see the round report.
+
+**Decisions made:** the gun works in Free Flight (no enemies there); the Test view shows all the time on HOTAS setup; buttons are tried
+freely under Record my input (R1 is select on the page itself); the music meter uses the files' level.
+**For Dan to check:** the Throttle axis / Invert lever options are gone and the lever just works. Scroll Settings with the stick: nothing
+changes unless you use the hat. Pull R1 in Free Flight: does the gun fire? Can you hear the music over the engine now (try the Engine
+slider), and the computer (Settings > Sound > Test voices)? Then **Record my input** in HOTAS setup and move everything, so the planning
+chat can read `hotas_input_log.txt`.

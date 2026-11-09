@@ -13,8 +13,10 @@ Shader "HostileHorizon/Glow"
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             CBUFFER_START(UnityPerMaterial) float4 _Color; CBUFFER_END
-            float4 vert(float4 p : POSITION) : SV_POSITION { return TransformObjectToHClip(p.xyz); }
-            half4 frag() : SV_Target { return _Color; }
+            struct A { float4 p : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct V { float4 c : SV_POSITION; UNITY_VERTEX_OUTPUT_STEREO };
+            V vert(A i) { V o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.c = TransformObjectToHClip(i.p.xyz); return o; }
+            half4 frag(V i) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); return _Color; }
             ENDHLSL
         }
     }

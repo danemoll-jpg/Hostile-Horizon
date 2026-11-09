@@ -46,6 +46,7 @@ namespace HostileHorizon
         public bool Vr { get; private set; }
         Vector3 recPos; float recYaw, recenterAt = -1;
         public int Recentered { get; private set; }   // checks
+        public static Vector2? CheckLook;   // Fix 8.1 checks: look this way (flat); in VR the tracking space is tilted (the mock headset can't turn)
         public void EnableVr()
         {
             Vr = true; Current = Mode.Cockpit; Head.targetTexture = null; Head.stereoTargetEye = StereoTargetEyeMask.Both;
@@ -94,6 +95,7 @@ namespace HostileHorizon
                 else look = Vector2.MoveTowards(look, Vector2.zero, 160f * dt);
                 look.x = Mathf.Clamp(look.x, -150f, 150f); look.y = Mathf.Clamp(look.y, -60f, 70f);
             }
+            if (CheckLook.HasValue) look = CheckLook.Value;   // Fix 8.1 checks: a fixed look (yaw, pitch)
             var lookRot = Quaternion.Euler(-look.y, look.x, 0);
             var ship = Ship.transform;
             Head.nearClipPlane = Current == Mode.Cockpit ? .05f : .3f;
@@ -110,7 +112,7 @@ namespace HostileHorizon
             }
             if (Current == Mode.Cockpit)
             {
-                if (Vr) { var vrot = ship.rotation * Quaternion.Euler(0, -recYaw, 0); transform.SetPositionAndRotation(ship.TransformPoint(ShipLayout.Eye) - vrot * recPos, vrot); return; }
+                if (Vr) { var vrot = ship.rotation * Quaternion.Euler(0, -recYaw, 0) * (CheckLook.HasValue ? lookRot : Quaternion.identity); transform.SetPositionAndRotation(ship.TransformPoint(ShipLayout.Eye) - vrot * recPos, vrot); return; }
                 transform.SetPositionAndRotation(ship.TransformPoint(ShipLayout.Eye), ship.rotation * lookRot);
                 return;
             }

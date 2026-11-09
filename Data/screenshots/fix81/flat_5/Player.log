@@ -1,0 +1,189 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [50872] [19:25:27.151][Info   ] Available Layers: (1)
+[XR] [50872] [19:25:27.259][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [50872] [19:25:27.260][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [50872] [19:25:27.260][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [50872] [19:25:27.260][Info   ] ==== OpenXR Runtime Info ====
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Available Runtime Extensions: (34)
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [50872] [19:25:27.260][Info   ]   XR_MND_headless: Version=3
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_uuid: Version=1
+[XR] [50872] [19:25:27.260][Info   ]   XR_META_headset_id: Version=2
+[XR] [50872] [19:25:27.260][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Available Layers: (1)
+[XR] [50872] [19:25:27.260][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [50872] [19:25:27.260][Info   ] Runtime Version: 1.1.0
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] ==== OpenXR API Spec Version ====
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [50872] [19:25:27.260][Info   ]     Origin: result
+[XR] [50872] [19:25:27.260][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] ==== Std Exception Thrown ====
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [50872] [19:25:27.260][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [50872] [19:25:27.260][Info   ]     Origin: result
+[XR] [50872] [19:25:27.260][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [50872] [19:25:27.260][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [50872] [19:25:27.260][Info   ] 
+[XR] [50872] [19:25:27.260][Info   ] ==== Last 20 Events ====
+[XR] [50872] [19:25:27.260][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.604200 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 86016 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 19:25; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] VR off: flat screen (VR mode off); flat
+[ExeCheck] --- the pilot's body (Free Flight, Canyons)
+[Play]     2.4 music flight_canyons: flying
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]   body: hips at (0.00, 0.51, 2.19), head bone at (0.00, 0.90, 2.28) (drawn at 0.0001 size: no head), eye (0.00, 1.05, 2.40); feet (-0.27, 0.08, 2.86) / (0.27, 0.08, 2.86); knees (-0.19, 0.48, 2.65) / (0.20, 0.47, 2.63)
+[ExeCheck]   hands: right (0.36, 0.57, 2.48), 0.065 m from the stick's grip; left (-0.33, 0.56, 2.28), 0.079 m from the throttle's grip
+[ExeCheck]   stick pivot (0.334, 0.450, 2.535) (right of the seat: yes), throttle pivot (-0.315, 0.433, 2.357) (left: yes)
+[ExeCheck]   cabin camera: the body is out of its view (behind the bulkhead); body layer 0, cabin camera mask includes it True
+[ExeCheck] screenshot f81_body_rest.png
+[ExeCheck]   f81_body_stick_full_pull_right: stick pitch 1 roll 1 yaw 0 -> pivot (-18, 0, -18) deg; lever 0.30 -> (-9, 0, 0) deg; index finger resting; right hand 0.065 m from the grip, left 0.079 m
+[ExeCheck] screenshot f81_body_stick_full_pull_right.png
+[ExeCheck]   f81_body_stick_push_left_twist: stick pitch -1 roll -1 yaw 1 -> pivot (18, 15, 18) deg; lever 0.30 -> (-9, 0, 0) deg; index finger resting; right hand 0.065 m from the grip, left 0.079 m
+[ExeCheck] screenshot f81_body_stick_push_left_twist.png
+[ExeCheck]   f81_body_throttle_full: stick pitch 0 roll 0 yaw 0 -> pivot (0, 0, 0) deg; lever 1.00 -> (22, 0, 0) deg; index finger resting; right hand 0.065 m from the grip, left 0.079 m
+[ExeCheck] screenshot f81_body_throttle_full.png
+[ExeCheck]   f81_body_throttle_idle: stick pitch 0 roll 0 yaw 0 -> pivot (0, 0, 0) deg; lever 0.00 -> (-22, 0, 0) deg; index finger resting; right hand 0.065 m from the grip, left 0.079 m
+[ExeCheck] screenshot f81_body_throttle_idle.png
+[ExeCheck]   f81_body_firing: stick pitch 0 roll 0 yaw 0 -> pivot (0, 0, 0) deg; lever 0.30 -> (-9, 0, 0) deg; index finger PULLING the trigger; right hand 0.065 m from the grip, left 0.079 m
+[ExeCheck] screenshot f81_body_firing.png
+[Play]    10.0 voice COMPUTER: Pull up.
+[ExeCheck]     [626 fps] Flying/ Flight alt 21 gnd 23 spd 59 hdg 116 energy 100
+[ExeCheck]   live pad stick forward + right: Controls pitch -0.66 roll 0.66; the stick's top moved (-0.32, -0.29, -0.90) in the ship's space (0.21, 0.96, 0.20) (forward = +z, right = +x)
+[ExeCheck] screenshot f81_body_live_forward_right.png
+[ExeCheck] screenshot f81_body_left_hand.png
+[ExeCheck] screenshot f81_body_right_hand.png
+[ExeCheck] --- the floor window
+[ExeCheck]   in flight: 37 m over the ground
+[ExeCheck] screenshot f81_window_flight.png
+[ExeCheck]     [468 fps] Flying/ Hover alt 18 gnd 18 spd 5 hdg 144 energy 100
+[ExeCheck]   hovering: mode Hover, 13 m over the ground, 0 km/h
+[ExeCheck] screenshot f81_window_hover.png
+[ExeCheck] --- the strike (the creature still reaches your face)
+[ExeCheck]   face 0.62 m from the eye, nearest part 0.40 m
+[ExeCheck] screenshot f81_strike.png
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.013 RMS, peak 0.197, zeroed before the speakers; 2449408 samples); master volume 0.00
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

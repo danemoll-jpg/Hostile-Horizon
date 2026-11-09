@@ -34,14 +34,15 @@ Shader "HostileHorizon/Liquid"
             float4 _Detail_ST, _Deep, _Shallow, _SkyLow, _SkyHigh, _Hot; float _Mode;
             CBUFFER_END
 
-            struct A { float4 positionOS : POSITION; };
-            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; };
-            V vert(A i) { V o; o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.positionCS = TransformWorldToHClip(o.posWS); return o; }
+            struct A { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct V { float4 positionCS : SV_POSITION; float3 posWS : TEXCOORD0; UNITY_VERTEX_OUTPUT_STEREO };
+            V vert(A i) { V o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.posWS = TransformObjectToWorld(i.positionOS.xyz); o.positionCS = TransformWorldToHClip(o.posWS); return o; }
 
             float H(float2 p) { return SAMPLE_TEXTURE2D(_Detail, sampler_Detail, p).r; }
 
             half4 frag(V i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 p = i.posWS; float t = _Time.y;
                 float3 v = normalize(p - _WorldSpaceCameraPos); float dist = distance(p, _WorldSpaceCameraPos);
                 float3 col;
@@ -97,9 +98,10 @@ Shader "HostileHorizon/Liquid"
             #pragma vertex vert
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            struct A { float4 positionOS : POSITION; };
-            float4 vert(A i) : SV_POSITION { return TransformObjectToHClip(i.positionOS.xyz); }
-            half frag() : SV_Target { return 0; }
+            struct A { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct D { float4 c : SV_POSITION; UNITY_VERTEX_OUTPUT_STEREO };
+            D vert(A i) { D o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.c = TransformObjectToHClip(i.positionOS.xyz); return o; }
+            half frag(D i) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); return 0; }
             ENDHLSL
         }
     }

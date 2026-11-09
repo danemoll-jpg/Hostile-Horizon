@@ -23,14 +23,15 @@ Shader "HostileHorizon/Sky"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "HHCommon.hlsl"
             float4 _Zenith, _SunColor, _PlanetDir, _PlanetA, _PlanetB; float _Overcast;
-            struct A { float4 positionOS : POSITION; };
-            struct V { float4 positionCS : SV_POSITION; float3 dir : TEXCOORD0; };
-            V vert(A i) { V o; o.positionCS = TransformObjectToHClip(i.positionOS.xyz); o.dir = i.positionOS.xyz; return o; }
+            struct A { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct V { float4 positionCS : SV_POSITION; float3 dir : TEXCOORD0; UNITY_VERTEX_OUTPUT_STEREO };
+            V vert(A i) { V o; UNITY_SETUP_INSTANCE_ID(i); UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); o.positionCS = TransformObjectToHClip(i.positionOS.xyz); o.dir = i.positionOS.xyz; return o; }
 
             float Hash(float n) { return frac(sin(n) * 43758.5453); }
 
             half4 frag(V i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 v = normalize(i.dir); float3 sun = normalize(_HHSunDir.xyz);
                 float up = saturate(v.y);
                 float3 col = lerp(HHHazeColor(v), _Zenith.rgb, pow(up, 0.6));
