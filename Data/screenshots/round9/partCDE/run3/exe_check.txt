@@ -1,0 +1,45 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 90112 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 01:18; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- C / D / E: salvage 12 s within 70 m, comes back at 60 % hull, ambush chance 0.4; insurance 4 % of the ship's value, recovery x0.2
+D: insured True: credits 3000 -> 2760 (fee 240, ship value 6000); row "Insured for this flight ✓  <size=24>(select to cancel: +240 cr back)</size>"
+  cancelled: insured False, credits 3000
+  insured again True, credits 2760; hangar "<b>Ship</b>: your own   hull 100%   energy 100%" …
+screenshot r9d_hangar_insured.png
+  launch: insured flights 1
+  insured crash (own ship): check shortcut: hull set to 5 %, then a 10 % hit, at 0 m over the ground
+  insured crash (own ship): crashed; own ship wrecked True, wreck on seed 20261109 at (35, -389), wreck insured True, flying the loaner False
+  death page: "Your mind was backed up on the mothership. |  | The wreck burns where you hit. | <color=#9CFFB0>The flight was insured: recovery 600 cr instead of 3000 cr.</color>"
+screenshot r9d_death_page_insured.png
+D: recovery fee insured 600 cr vs 3000 cr uninsured
+  first regeneration bay: rows Pay recovery  <size=24>(600 cr)</size> / Take the loaner (free) / Recover it yourself  <size=24>(free: fly the loaner down to the wreck)</size>; fee 600 (full 3000), credits 2760
+screenshot r9c_regen_first.png
+C: flying the loaner True; hangar: "<b>2760 cr</b>   ·   the Selun system |  | <b>Ship</b>: the corps loaner (basic)   hull 100%   energy 100% | Your own ship is a wreck on Halkon-II: recovery 600 cr (insured), or fly the loaner down, land by it and hold <color=#E8473D><b>B</b></color> 12 s (free). |  | <b>Planet of the day: Halkon-II</b>  (Canyons, seed 20261109) |   pilots: 0 rescued · 0 lost · 3 waiting |   <color=#FFC873>Planet of the day: pilots pay +50 % (750 cr each)</color> |   <b>Missions</b>: life support (800 cr, 8:56) · <color=#FF8A80>clean run ✗</color> · recorder (700 cr) |   <color=#FF8A80>Defences: 3 turrets (fly low: turrets can't see into the canyons)</color> |  | <b>Career</b> (Normal) |   0 pilots rescued · 0 lost · 0 cr earned |   1 deaths · 0 planets cleared · 1 sorties · 0 enemies destroyed |   0 min flown · 1 hull hits · 0 cleared without dying ·0 missions · 0 salvages |  | <b>Last</b> | You're flying the corps loaner (basic, no upgrades). Your own ship is still a wreck: recover it here for 600 cr when you can, or fly down to it, land by it and hold <color=#E8473D><b>B</b></color> 12 s to salvage it yourself (free)."
+  launch: salvage here True; route target "YOUR WRECK"; radar wreck True; objectives "◆ YOUR WRECK: land by it · 70 m | ◆ LIFE SUPPORT P2: 8:53 | ◆ CLEAN RUN ✗ | ◆ RECORDER: land at the crash site · 1.9 km"
+screenshot r9c_loaner_route_to_wreck.png
+  a death on the way (the loaner): check shortcut: hull set to 5 %, then a 10 % hit, at 0 m over the ground
+  a death on the way (the loaner): crashed; own ship wrecked True, wreck on seed 20261109 at (35, -389), wreck insured True, flying the loaner False
+  death page: "Your mind was backed up on the mothership. |  | The wreck burns where you hit. | <color=#9CFFB0>The flight was insured: recovery 600 cr instead of 3000 cr.</color>"
+  the wreck after the loaner went down: same place True, still wrecked True, salvaged False
+  second regeneration bay: rows Pay recovery  <size=24>(600 cr)</size> / Take the loaner (free) / Recover it yourself  <size=24>(free: fly the loaner down to the wreck)</size>; fee 600 (full 3000), credits 2760
+screenshot r9c_regen_second.png
+screenshot r9c_wreck_close.png
+  landed True 23 m from the wreck; prompt "At your wreck: engines off (<color=#6CC24A><b>A</b></color>), then hold <color=#E8473D><b>B</b></color>"; saucers now 1
+screenshot r9c_landed_at_wreck.png
+    (holding B: airlock held True, landed True, engines False, input True, state Flying)
+  held 4 s, let go: salvaged False
+    (holding B: airlock held True, landed True, engines False, input True, state Flying)
+screenshot r9c_hooking_up.png
+  held 12.8 s: salvaged True; marker gone True
+  salvage sortie: recalled and docked; debrief "Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it) | <color=#FFE08A>Best run: this run: 0:58 of flight, 2250 cr, 2 hull hits, 2 deaths</color> | <b>Halkon-II cleared! +1000 credits</b> | <color=#8FFFFF>Missions paid: life support +800 cr</color> | Recall: -900 cr | <color=#9CFFB0>Your own ship is back in the bay (upgrades kept), the loaner returned. Hull 60 %: Repair below.</color> | Hull damage 40%: repair 480 cr (Repair below, or fly as it is)"
+C: own ship back True, hull 60 %, upgrades 0; salvages 1
+E: planet 1 Halkon-II: clears 1, best: 0:58, 2250 cr, 2 hits, no-death False; run reset 0 s
+screenshot r9c_hangar_own_ship_back.png
+  planet 2: recalled and docked; debrief "Delivered 4 pilots: +2000 cr | <color=#FFE08A>Best run: this run: 0:20 of flight, 2000 cr, 0 hull hits, no deaths</color> | <b>Ophssos-IX cleared! +1000 credits</b> | <color=#8FFFFF>Missions paid: life support +800, clean run +900 cr</color> | Recall: -900 cr | Energy used 0%. Refuelled 0%: -2 cr | Hull damage 40%: repair 480 cr (Repair below, or fly as it is)"
+E: planet 2 Ophssos-IX: clears 1, best: 0:20, 2000 cr, 0 hits, no-death True
+E: career totals: 80 s flown, 2 hull hits, 1 cleared without dying, 3 missions, 1 salvages, 1 insured flights
+screenshot r9e_star_map_best_1.png
+  star map row 1: "The Selun system: 2 planets visited, 2 cleared. | <color=#FFC873>★ Planet of the day Halkon-II: fastest clear 0:58 · most 2250 cr · fewest hits 2 · not yet without dying</color> | <b>Halkon-II</b>  (Canyons, seed 20261109) · ★ of the day · cleared | <color=#FFC873>Planet of the day: pilots pay +50 % (750 cr each).</color> | Danger: tier 0 (Normal) · 3 turrets left · 3 pilots | Pilots: 3 rescued · 0 lost · 0 waiting · visits 1 | <b>Missions</b> | ◆ Timed rescue  <size=22>(800 cr)</size>  <color=#9CFFB0>✓ done</color> | ◆ Clean run  <size=22>(900 cr)</size>  <color=#FF8A80>✗ failed</color> | ◆ Recover the flight recorder  <size=22>(700 cr)</size>  open |  | <color=#FFE08A><b>Best run</b>: fastest clear 0:58 · most 2250 cr · fewest hits 2 · not yet without dying</color>"
+screenshot r9e_star_map_best_2.png
+  star map row 2: "The Selun system: 2 planets visited, 2 cleared. | <color=#FFC873>★ Planet of the day Halkon-II: fastest clear 0:58 · most 2250 cr · fewest hits 2 · not yet without dying</color> | <b>Ophssos-IX</b>  (Ocean Islands, seed 15243327) · cleared | Danger: tier 1 (Normal) · 11 turrets, 2 saucers left · 4 pilots, aliens possible | Pilots: 4 rescued · 0 lost · 0 waiting · visits 1 | <b>Missions</b> | ◆ Knock out the turret nest  <size=22>(1000 cr)</size>  3 turrets | ◆ Timed rescue  <size=22>(800 cr)</size>  <color=#9CFFB0>✓ done</color> | ◆ Clean run  <size=22>(900 cr)</size>  <color=#9CFFB0>✓ done</color> |  | <color=#FFE08A><b>Best run</b>: fastest clear 0:20 · most 2000 cr · fewest hits 0 · cleared without dying ✓</color> | The mothership is over this planet now."
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.007 RMS, peak 0.210, zeroed before the speakers; 23590912 samples); master volume 0.00

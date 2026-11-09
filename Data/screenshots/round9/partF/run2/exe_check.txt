@@ -1,0 +1,25 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 98304 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 01:25; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- F: time trial: course 14 km, a gate every 550 m (radius 24 m), a missed gate +5 s
+  Free Flight page rows: Seed / Seed number  <size=22>(select to type)</size> / Planet type / Crash level / Start flight / Time trial / Ghost / Back
+screenshot r9f_free_flight_page.png
+run 1: Ocean Islands, seed 4711: course 14.0 km, 26 gates, first at (-723, 127, -309), last at (3186, 86, 3249); best before none, ghost none
+screenshot r9f_run1_start.png
+screenshot r9f_run 1_cockpit_gates.png
+screenshot r9f_run 1_chase.png
+  run 1: finished True in 283.8 s (flying 238.8 s, 9 missed: by 185, 98, 92, 115, 86, 82, 67, 29, 57 m from the centre); gates 26 / 26; wall / ground hits 0
+  result page: "<b>4:43.8</b>  (9 gates missed: +45 s) | <color=#7DFF9A>Your first time on this course.</color> | Seed 4711 · Ocean Islands · 26 gates | Your ghost will fly this run next time."
+screenshot r9f_run1_result.png
+  trials.json: best 283.8, 26 splits, ghost 2389 samples
+run 2: same course True (26 gates); ghost shown, best 283.8
+    ghost at 10 s: 64 m from the ship, shown True
+screenshot r9f_run 2_cockpit_gates.png
+    ghost at 30 s: 127 m from the ship, shown True
+screenshot r9f_run 2_chase_ghost.png
+    ghost at 60 s: 289 m from the ship, shown True
+  run 2: finished True in 294.4 s (flying 249.4 s, 9 missed: by 188, 98, 91, 116, 85, 82, 68, 29, 57 m from the centre); gates 26 / 26; wall / ground hits 0
+  result page: "<b>4:54.4</b>  (9 gates missed: +45 s) | Best 4:43.8 (+10.6 s) | Seed 4711 · Ocean Islands · 26 gates"
+screenshot r9f_run2_result.png
+  trials.json now: best 283.8 (2026-11-09 01:29)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.021 RMS, peak 0.106, zeroed before the speakers; 49575936 samples); master volume 0.00

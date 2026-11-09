@@ -211,8 +211,8 @@
     "turretAimErrorLevels": [
         14,
         14,
-        14,
-        14
+        13,
+        12.5
     ],
     "boltHitRadiusLevels": [
         3.5,

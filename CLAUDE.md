@@ -406,6 +406,34 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   page-wide left / right (`MenuPanel.Page.Side`) = previous / next kind; HOTAS twist turns the creature. `ship.py`: one material per Meshy
   model (the second console was a second, white slot) and the game fills every material slot; faces wholly on a canopy pane and nearly as
   dark (lum < .13) become glass (the windshield sliver). Check `-exeCheckOnly fix82` (flat) / `fix82 -vr` (mock runtime; `local/fix82_runs.sh`).
+- **Round 9:** (A) **Fix 8.3:** `mothership.py` bisects the Meshy hull along the bay's and the floor shaft's planes before deleting
+  the faces inside (clean straight cuts), then lines both openings (plated lip from the stern skin to the bay liners at z -26, the shaft
+  lining from the belly to under the doors, trim, edge lights). The "grey box" at the ship's rear was the code-built cabin (`Cabin.cs`,
+  Round 3's size) poking out of the slimmer Round 8 hull: it is now drawn only for a camera inside the hull (`Cabin.InsideHull`: cockpit,
+  VR head, cabin camera; `Cabin.CheckShowOutside` = 0.8.2's for checks). **Steam artwork:** Dan's originals in
+  `SourceArt/Title/SteamDeck/` -> `python Tools/make_steam_art.py` -> `SourceArt/Title/Steam/HostileHorizon-{Portrait,Cover,Wide,Hero,Logo,Icon}.png`
+  (Cover = the portrait: the launcher's cover; Hero 1920 x 620 with the title painted out; Logo transparent); the build copies them to
+  `Builds/HostileHorizon/SteamArt/`; the game (`Core/SteamArt.cs`) copies missing / changed ones up beside the launcher
+  (`<launcher>/versions/<id>/` -> `<launcher>/`) at start, so an existing install gets them with a game update (exe checks skip it unless
+  `-steamArtRoot <dir>`); the starter package ships them (`Package-LauncherStarter.py --art`). README-LAUNCHER.md: where each goes in Steam.
+  (B) **Side missions** (`Campaign/Missions.cs`, `Core/GameShell.Missions.cs`): 1-3 per planet from its seed (`PlanetState.missions`, made on
+  the first arrival after Round 9): flight recorder (land at the crash site, engines off, hold the airlock button `missionRecorderHold` 8 s),
+  turret nest (3-5 turrets round a valley: `Enemies.Setup(... nest)`, `Enemy.Nest`), timed rescue (`missionTimedSeconds` 540 s of flight time
+  on the planet; zero = the pilot lost), clean run (cleared with no hull damage); on the hangar (one line), the star map, the displays
+  (`FlightDisplays.Objectives`) and the radar (`RadarContact.mark` / `tag`); paid at the dock (`mission*Reward` x pay); Control `ctl_obj_*`.
+  (C) **Recover your own wreck** (`Core/GameShell.Salvage.cs`): the regeneration bay's third row; the wreck (`Career.wreckSeed/X/Z`) is your
+  ship's model burnt dark with an orange post, on the radar (WRECK) and the route trail's auto target; land, engines off, hold the airlock
+  button `salvageHold` 12 s; back at the next dock with `salvageHullDamage` 40 %; `salvageAmbushChance` .4 that a saucer waits. (D)
+  **Insurance**: hangar row, `insuranceShareOfShipValue` 4 % of the ship's value for one flight; an insured wreck's recovery x
+  `insuredRecoveryShare` .2 (`Career.wreckInsured`). (E) **Best runs**: `PlanetState.run*` / `best*` (fastest clear in flight time, most
+  credits, fewest hull hits, cleared without dying), on the star map (the planet of the day's first), career totals in `CareerStats`.
+  (F) **Time trial** (`Core/GameShell.Trial.cs`): Free Flight > Time trial / Ghost (rows after Start flight: older checks count rows); a course
+  from the seed and planet type (legs between landing pads ahead, each `RouteTrail.Plan`, `trialLength` 14 km, a gate every 550 m, radius
+  24 m, a miss +5 s); splits, `trials.json` beside settings.json (best, splits, ghost at 10 Hz per seed / planet type); the ghost = the ship's
+  model in `GlowAdd`. (G) **Harder enemies on Hard / Nightmare only**: tuning tables by aggression level (`turretLeadLevels`,
+  `turretInterceptLevels`, `turretAimErrorLevels`, `boltHitRadiusLevels`, `saucerHuntLevels`, `saucerPairLevels`; `Difficulty.TurretLead` ...);
+  Low / Normal = Round 5's numbers. Check `-exeCheckOnly round9` (or `round9a`, `round9b`, `round9c` = C+D+E, `round9f`, `round9g`;
+  `Checks/ExeCheck.Round9.cs`); `round9a` with `--extra=-steamArtRoot <dir>` checks the art copy.
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -481,7 +509,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|fix81|fix82|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|fix81|fix82|round9|round9a|round9b|round9c|round9f|round9g|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen

@@ -1,0 +1,21 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 98304 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 01:33; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- G: enemies by difficulty. Easy / Normal must be Round 5's numbers: lead .9, aim error 14 m at 1 km (/ aggression), hit radius 3.5 m, no intercept, no hunting
+  Easy (Low): aggression x0.6, lead 0.9, intercept False, aim error 14 / 0.6 = 23.3 m at 1 km, hit radius 3.5 m, fire every 3.00 s, lock 2.00 s; saucers hunt False, pairs False; a tier-3 planet: 7 turrets, 2 saucers
+  Normal: aggression x1, lead 0.9, intercept False, aim error 14 / 1 = 14.0 m at 1 km, hit radius 3.5 m, fire every 1.80 s, lock 1.20 s; saucers hunt False, pairs False; a tier-3 planet: 12 turrets, 2 saucers
+  Hard (High): aggression x1.35, lead 1, intercept True, aim error 14 / 1.35 = 10.4 m at 1 km, hit radius 3.5 m, fire every 1.33 s, lock 0.89 s; saucers hunt True, pairs False; a tier-3 planet: 16 turrets, 3 saucers
+  Nightmare (Brutal): aggression x1.7, lead 1, intercept True, aim error 14 / 1.7 = 8.2 m at 1 km, hit radius 3.5 m, fire every 1.06 s, lock 0.71 s; saucers hunt True, pairs True; a tier-3 planet: 20 turrets, 4 saucers
+  crossing: turret 1 at (2964, 165, -509); line 650 m out, 60 m above its gun, 100 m/s; seen on 19 of 19 points
+  hit rate, 650 m straight crossing, 6 passes: Normal: 0 hits of 57 shots (0 %)
+  hit rate, 650 m straight crossing, 6 passes: Easy (Low): 0 hits of 36 shots (0 %)
+  hit rate, 650 m straight crossing, 6 passes: Hard (High): 11 hits of 79 shots (14 %, 1 in 7.2)
+  hit rate, 650 m straight crossing, 6 passes: Nightmare (Brutal): 18 hits of 99 shots (18 %, 1 in 5.5)
+  saucers on Normal: mean distance to the ship 5931 -> 6633 m in 40 s; chasing 0 of 1; search points 0, pairings 0
+  saucers on Hard (High): mean distance to the ship 5931 -> 3021 m in 40 s; chasing 0 of 1; search points 3, pairings 0
+  saucers on Nightmare (Brutal): mean distance to the ship 5931 -> 2936 m in 40 s; chasing 0 of 1; search points 3, pairings 0
+  pairs on Hard (High): the near saucer chasing True, the far one (1.9 km, out of sight) chasing False; pairings 0
+  pairs on Nightmare (Brutal): the near saucer chasing True, the far one (1.9 km, out of sight) chasing True; pairings 1
+screenshot r9g_saucers.png
+  summary: Normal: 0 hits of 57 shots (0 %) | Easy (Low): 0 hits of 36 shots (0 %) | Hard (High): 11 hits of 79 shots (14 %, 1 in 7.2) | Nightmare (Brutal): 18 hits of 99 shots (18 %, 1 in 5.5)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.052 RMS, peak 0.300, zeroed before the speakers; 68427776 samples); master volume 0.00

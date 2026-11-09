@@ -175,7 +175,7 @@ namespace HostileHorizon
         // divided by the aggression (as Round 5), the fire rate and lock time still scale with it.
         public float[] turretLeadLevels = { .9f, .9f, 1f, 1f };            // share of the full lead
         public int[] turretInterceptLevels = { 0, 0, 1, 1 };               // 1: the lead aims where the bolt meets the ship (Round 5: where the ship is now)
-        public float[] turretAimErrorLevels = { 14, 14, 14, 14 };          // m at 1 km (before / aggression)
+        public float[] turretAimErrorLevels = { 14, 14, 13, 12.5f };      // m at 1 km (before / aggression); Hard / Nightmare: tuning try 2 (try 1: 14)
         public float[] boltHitRadiusLevels = { 3.5f, 3.5f, 3.5f, 3.5f };    // m round the ship's centre
         public int[] saucerHuntLevels = { 0, 0, 1, 1 };                    // 1: saucers not chasing search for the ship (fly toward where it is)
         public int[] saucerPairLevels = { 0, 0, 0, 1 };                    // 1: a saucer that finds you brings the nearest other one
