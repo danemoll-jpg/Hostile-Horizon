@@ -1,0 +1,80 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 81920 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 20:30; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+VR off: flat screen (VR mode off)
+--- the cockpit's materials (item 6)
+  Body__mx_cockpit_console: 1 slot(s): cockpit_console; textured yes
+  Body__mx_cockpit_dash: 1 slot(s): cockpit_dash; textured yes
+  Body__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+  Body__mx_ship: 1 slot(s): ship; textured yes
+  Stick__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+  Throttle__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+--- the stick and the throttle (item 2)
+  stick pivot (0.334, 0.450, 2.535), throttle pivot (-0.315, 0.433, 2.535): depth difference 0.0 cm (0.8.1: 17.8 cm); ShipLayout (0.334, 0.450, 2.535) / (-0.316, 0.433, 2.535)
+  right hand (0.36, 0.57, 2.48), left hand (-0.33, 0.56, 2.46); shoulder to hand: right 0.38 m, left 0.35 m
+screenshot f82_hands_rest.png
+screenshot f82_throttle_left.png
+--- the hands (item 1): every frame, hand on its control (mm), finger turn per frame, chest turn, shoulders
+    [647 fps] Flying/ Flight alt 35 gnd 36 spd 61 hdg 135 energy 100
+    [584 fps] Flying/ Flight alt 358 gnd 257 spd 81 hdg 145 energy 100
+  old (0.8.1's pose), 20 s, 10192 frames (hands_old.csv): right hand moved on the stick up to 148.9 mm, left hand on the throttle up to 131.4 mm (the stick's grip itself moved up to 43 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 180.0 deg from the ship's heading; shoulders moved up to 403 mm
+    [426 fps] Paused/ Hover alt 312 gnd 116 spd 14 hdg 160 energy 100
+    [632 fps] Flying/ Flight alt 214 gnd 212 spd 125 hdg 156 energy 100
+screenshot f82_hands_new_1.png
+    [553 fps] Flying/ Flight alt 499 gnd 244 spd 40 hdg 72 energy 100
+    [579 fps] Flying/ Flight alt 102 gnd 69 spd 68 hdg 186 energy 100
+screenshot f82_hands_new_2.png
+    [582 fps] Flying/ Hover alt 30 gnd 30 spd 83 hdg 186 energy 100
+screenshot f82_hands_new_3.png
+    [410 fps] Flying/ Hover alt 27 gnd 25 spd 1 hdg 182 energy 100
+    [422 fps] Flying/ Hover alt 27 gnd 25 spd 0 hdg 182 energy 100
+  new (Fix 8.2), 60 s, 30638 frames (hands_new.csv): right hand moved on the stick up to 0.4 mm, left hand on the throttle up to 0.3 mm (the stick's grip itself moved up to 40 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 3.5 deg from the ship's heading; shoulders moved up to 0 mm
+--- the windshield, the canopy frame, the right console (items 6, 7)
+screenshot f82_ahead.png
+screenshot f82_windshield_top_left.png
+screenshot f82_canopy_left.png
+screenshot f82_canopy_right.png
+    [456 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 135 energy 100
+screenshot f82_canopy_up.png
+screenshot f82_canopy_up_left.png
+screenshot f82_canopy_up_right.png
+screenshot f82_console_right.png
+screenshot f82_console_left.png
+--- docking with pilots aboard (item 3)
+    [572 fps] Auto/launch Hover alt 1473 gnd 1471 spd 26 hdg 315 energy 100
+  old: put aboard 2; cabin figures shown 2
+    [419 fps] Auto/tow-lift Flight alt 1475 gnd 1473 spd 9 hdg 315 energy 100
+  old (0.8.1's docking), in the hangar: cabin count 0, cabin figures shown 2, cabin camera on
+    [Play]   121.0 docked: 2 pilots delivered (pilot 1, pilot 2): they leave the ship
+    [Play]   121.0 docked (recall): Delivered 2 pilots: +1500 cr (planet of the day +50 %: 500 cr of it)|Recall: -900 cr|Energy used 0%. Refuelled 0%: -2 cr
+    [Play]   121.0 music hangar: docked
+  cabin camera picture f82_cabin_old_hangar.png
+    [587 fps] Auto/launch Hover alt 1424 gnd 1425 spd 73 hdg 315 energy 100
+  old: after the next launch: cabin count 0, cabin figures shown 0, cabin camera off
+  cabin camera picture f82_cabin_old_relaunch.png
+    [401 fps] Auto/launch Hover alt 1500 gnd 1498 spd 0 hdg 315 energy 100
+  new: put aboard 1; cabin figures shown 1
+    [532 fps] Auto/tow-lift Flight alt 1440 gnd 1372 spd 116 hdg 315 energy 100
+  new (Fix 8.2), in the hangar: cabin count 0, cabin figures shown 0, cabin camera off
+    [Play]   153.7 docked: 1 pilot delivered (pilot 3): they leave the ship
+    [Play]   153.7 docked (recall): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|<b>Halthel-II cleared! +1000 credits</b>|Recall: -900 cr|Energy used 0%. Refuelled 0%: -2 cr
+    [Play]   153.7 music hangar: docked
+  cabin camera picture f82_cabin_new_hangar.png
+    [508 fps] Auto/launch Hover alt 1462 gnd 1459 spd 37 hdg 315 energy 100
+  new: after the next launch: cabin count 0, cabin figures shown 0, cabin camera off
+  cabin camera picture f82_cabin_new_relaunch.png
+    [459 fps] Auto/dock-rise Flight alt 1490 gnd 1488 spd 16 hdg 315 energy 100
+--- the Field Journal: left / right on a kind's page (item 5)
+  opened: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Animation"
+screenshot f82_journal_mimic.png
+  D-pad right: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Animation"
+  D-pad right: "SLEEPER" (◀ Unknown   |   Mimic ▶), row "Animation"
+  D-pad left: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Animation"
+  D-pad left: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Animation"
+  D-pad left: "UNKNOWN" (◀ Knocker   |   Sleeper ▶     (not met yet)), row "Animation"
+  on the second row, D-pad right: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Reset view"
+  left stick right: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Reset view"; the view turned 0 deg (0: it changes the kind only)
+  right stick right: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Reset view"; the view turned 66 deg
+screenshot f82_journal_after.png
+  B: back to "FIELD JOURNAL"
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.038 RMS, peak 1.844, zeroed before the speakers; 17199104 samples); master volume 0.00

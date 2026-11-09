@@ -7,6 +7,9 @@ namespace HostileHorizon
     {
         public static readonly Vector3 Eye = new Vector3(0, 1.05f, 2.4f);          // ship.py EYE
         public static readonly Vector3 DashCentre = new Vector3(0, .6f, 2.95f);    // Round 8: the Meshy dash's middle (sounds); was (0, .62, 3.25)
+        // Fix 8.2: the stick (right) and the throttle (left) at the same depth, like a HOTAS on a desk (ship.py prints STICK / THROTTLE;
+        // PilotBody finds the pivots from the parts' bounds: these are where they land). 0.8.1's throttle sat 18 cm further back (z 2.357).
+        public static readonly Vector3 StickPivot = new Vector3(.334f, .450f, 2.535f), ThrottlePivot = new Vector3(-.316f, .433f, 2.535f);
         // Round 8 (B1): the dash's three screen recesses (ship.py prints them: SCREEN ...); the live screens sit in them
         public static readonly Vector3 ScreenCentre = new Vector3(0, .69f, 2.98f), ScreenLeft = new Vector3(-.359f, .676f, 2.975f), ScreenRight = new Vector3(.359f, .676f, 2.975f);
 

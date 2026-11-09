@@ -54,6 +54,7 @@ namespace HostileHorizon
             public GameObject Sheet;               // Fix 6.1: a layout of its own on the menu canvas, shown with the page (Settings > Controls)
             public Action Shown;                   // Fix 6.1: called each time the page is shown
             public int RowsShown;                  // Fix 6.1: rows on screen at once (0 = MaxRows); more scroll
+            public Action<int> Side;               // Fix 8.2: left / right on any row of the page (-1 / +1): the Field Journal's previous / next kind
             public int Selected;
             public Page Add(Row r) { Rows.Add(r); return this; }
         }
@@ -107,7 +108,8 @@ namespace HostileHorizon
         }
 
         public void Hide() { canvas.gameObject.SetActive(false); Current = null; if (sheetOn) sheetOn.SetActive(false); sheetOn = null; }
-        public void SetBackdrop(float alpha) => backdrop.color = new Color(.03f, .04f, .05f, alpha);
+        public void SetBackdrop(float alpha) { lastAlpha = alpha; backdrop.color = new Color(.03f, .04f, .05f, VrBoard ? Mathf.Max(alpha, .92f) : alpha); }
+        float lastAlpha = .55f; bool VrBoard => VrMode.Active && VrHead && CheckVrBoard == 0;   // Fix 8.2: in VR the board is near solid (the cockpit behind it doesn't show through the text)
 
         // VR rule 3: the same panel as a world-space board 2 m in front of the camera (used by the check; VR uses it later).
         public void ShowInWorld(Camera cam)
@@ -121,14 +123,38 @@ namespace HostileHorizon
         // Round 8 (C4): in VR every page is a board 1.4 m in front of where your head points (level, turned to face you), 1.34 m wide,
         // carried with the camera rig (the cockpit, the hangar, the title's slow pan); driven by the HOTAS / gamepad / keyboard as now.
         public static Transform VrRoot; public static Camera VrHead;
+        // Fix 8.2 (Dan: the Journal "clipped through the cockpit and I couldn't read it"): cause: 0.8.0 / 0.8.1 put the board 1.4 m out,
+        // beyond the dash (0.55 m) and the canopy frame (1.2-1.6 m), depth-tested like any object, so the cockpit cut through it. Now the
+        // board is 1.0 m out (0.96 m wide: the same 51 degrees of view), turned to where you look (up to 35 degrees down / 25 up),
+        // and drawn over everything (HostileHorizon/UIOnTop: no depth test, last in the frame), so nothing cuts through it.
+        public const float VrDistance = 1.0f, VrScale = .0005f;
+        public static int CheckVrBoard;   // checks: 0 Fix 8.2's board; 1 0.8.1's (1.4 m, level, depth-tested); 2 0.8.1's place drawn on top (what the cockpit hid)
+        static Material onTop;
         void PlaceInVr()
         {
             canvas.renderMode = RenderMode.WorldSpace; canvas.worldCamera = VrHead;
             var rt = (RectTransform)canvas.transform; rt.SetParent(VrRoot, false);
-            rt.sizeDelta = new Vector2(1920, 1080); rt.localScale = Vector3.one * .0007f;
-            var h = VrHead.transform; var fwd = Vector3.ProjectOnPlane(h.localRotation * Vector3.forward, Vector3.up); if (fwd.sqrMagnitude < .01f) fwd = Vector3.forward; fwd.Normalize();
-            rt.localPosition = h.localPosition + fwd * 1.4f - Vector3.up * .05f; rt.localRotation = Quaternion.LookRotation(fwd, Vector3.up);
+            rt.sizeDelta = new Vector2(1920, 1080);
+            var h = VrHead.transform;
+            if (!onTop) { var sh = Shader.Find("HostileHorizon/UIOnTop"); if (sh) onTop = new Material(sh) { name = "Menu on top (VR)" }; }
+            if (CheckVrBoard > 0)
+            {
+                rt.localScale = Vector3.one * .0007f;
+                var lv = Vector3.ProjectOnPlane(h.localRotation * Vector3.forward, Vector3.up); if (lv.sqrMagnitude < .01f) lv = Vector3.forward; lv.Normalize();
+                rt.localPosition = h.localPosition + lv * 1.4f - Vector3.up * .05f; rt.localRotation = Quaternion.LookRotation(lv, Vector3.up);
+                foreach (var g in canvas.GetComponentsInChildren<Graphic>(true)) g.material = CheckVrBoard == 2 ? onTop : null;
+                return;
+            }
+            rt.localScale = Vector3.one * VrScale;
+            var e = (h.localRotation).eulerAngles; float pitch = Mathf.Clamp(Mathf.DeltaAngle(0, e.x), -25f, 35f);   // + = looking down
+            var fwd = Quaternion.Euler(pitch, e.y, 0) * Vector3.forward;
+            rt.localPosition = h.localPosition + fwd * VrDistance; rt.localRotation = Quaternion.LookRotation(fwd, Quaternion.Euler(pitch, e.y, 0) * Vector3.up);
+            if (onTop) foreach (var g in canvas.GetComponentsInChildren<Graphic>(true)) g.material = onTop;
+            canvas.sortingOrder = 1000; SetBackdrop(lastAlpha);
         }
+        public static Material OnTopMaterial => onTop;   // checks
+        public Image Backdrop => backdrop;                // checks
+        public void CheckPlaceAgain() { if (VrHead && VrMode.Active) PlaceInVr(); }   // checks
 
         static bool Shown(Row r) => r.Visible == null || r.Visible();
         static int FirstVisible(Page p, int from, int dir)
@@ -150,6 +176,7 @@ namespace HostileHorizon
                 var row = p.Rows[p.Selected];
                 if (dir == 1) p.Selected = FirstVisible(p, p.Selected - 1, -1);
                 else if (dir == 2) p.Selected = FirstVisible(p, p.Selected + 1, 1);
+                else if ((dir == 3 || dir == 4) && p.Side != null) p.Side(dir == 3 ? -1 : 1);
                 else if (dir == 3 && !(row.Disabled?.Invoke() ?? false)) row.Left?.Invoke();
                 else if (dir == 4 && !(row.Disabled?.Invoke() ?? false)) row.Right?.Invoke();
             }

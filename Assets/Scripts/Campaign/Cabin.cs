@@ -149,6 +149,7 @@ namespace HostileHorizon
             }
             head.rotation = Quaternion.AngleAxis(Mathf.Sin(clock * .7f + i * 2) * 10f, fig.up) * Quaternion.AngleAxis(Mathf.Sin(clock * 1.1f + i) * 4f, fig.right) * head.rotation;
         }
+        public int FiguresShown { get { int n = 0; foreach (var f in figures) if (f.gameObject.activeSelf) n++; return n; } }   // checks (Fix 8.2)
         public CharacterRig PassengerRig(int seat) => seat >= 0 && seat < rigs.Count ? rigs[seat] : null;   // checks
 
         float crackleUntil;

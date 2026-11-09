@@ -85,28 +85,32 @@ namespace HostileHorizon
             {
                 Label = () => "Animation",
                 Value = () => Entry(journalType) == null ? "—" : AnimName(Anims[journalType][journalAnim]),
-                Left = () => StepAnim(-1), Right = () => StepAnim(1), Submit = () => StepAnim(1),
+                Submit = () => StepAnim(1),   // Fix 8.2: left / right change the kind (the page's Side); select plays the next animation
                 Disabled = () => Entry(journalType) == null,
             })
-            .Add(new MenuPanel.Row { Label = () => "Next kind", Value = () => Entry(NextType(1)) == null ? "Unknown" : Aliens.Names[NextType(1)], Left = () => OpenJournalType(NextType(-1)), Right = () => OpenJournalType(NextType(1)), Submit = () => OpenJournalType(NextType(1)) })
             .Add(Action("Reset view", () => { viewYaw = 200; viewPitch = 8; viewDist = viewHeight * 2.3f; }))
             .Add(Action("Back", () => Menu.Show(journalPage, true)));
+            // Fix 8.2 (Dan: "If an alien was selected, I couldn't go left or right to change"): left / right (stick, hat, D-pad, arrows)
+            // on any row go to the previous / next kind (unmet ones show as Unknown); turning moves to the inputs that don't also
+            // navigate (pad: right stick; keyboard: right-mouse drag; HOTAS: the twist), zoom as before
+            journalView.Side = d => OpenJournalType(NextType(d), true);
             journalView.View = () => Stage.Tex;
             journalView.Body = JournalText;
-            journalView.Hint = () => Controls.LastDevice == Controls.Device.Keyboard ? "Drag with the right mouse button: turn     Wheel / Shift-Ctrl: zoom     ← →: change     Esc: back"
-                : Controls.LastDevice == Controls.Device.Hotas ? $"Hat: turn     Stick left / right: change     {Controls.Btn(Controls.Act.Back)}: back"
-                : $"Right stick: turn     RT / LT: zoom     D-pad ← →: change     {Controls.Btn(Controls.Act.Back)}: back";
+            journalView.Hint = () => Controls.LastDevice == Controls.Device.Keyboard ? "← →: previous / next kind     Drag with the right mouse button: turn     Wheel / Shift-Ctrl: zoom     Esc: back"
+                : Controls.LastDevice == Controls.Device.Hotas ? $"Hat ← →: previous / next kind     Twist: turn     {Controls.Btn(Controls.Act.Back)}: back"
+                : $"D-pad ← →: previous / next kind     Right stick: turn     RT / LT: zoom     {Controls.Btn(Controls.Act.Back)}: back";
         }
 
         int NextType(int d) => (journalType - 1 + d + 5) % 5 + 1;
+        string KindName(int t) => Entry(t) == null ? "Unknown" : Aliens.Names[t];
         void StepAnim(int d) { if (Entry(journalType) == null) return; var a = Anims[journalType]; journalAnim = (journalAnim + d + a.Length) % a.Length; animClock = 0; if (viewRig) viewRig.Play(a[journalAnim], .25f, 1f, true); }
 
-        void OpenJournalType(int type)
+        void OpenJournalType(int type, bool keepRow = false)
         {
             journalType = type; journalAnim = 0; viewKey = "";
             journalView.Title = Entry(type) == null ? "UNKNOWN" : Aliens.Names[type].ToUpperInvariant();
-            journalView.Subtitle = Entry(type) == null ? "Not met yet" : "Field Journal";
-            Menu.Show(journalView);
+            journalView.Subtitle = $"◀ {KindName(NextType(-1))}   |   {KindName(NextType(1))} ▶" + (Entry(type) == null ? "     (not met yet)" : "");   // Fix 8.2
+            Menu.Show(journalView, keepRow);
         }
 
         public void ShowJournal(MenuPanel.Page from) { journalReturn = from; Menu.Show(journalPage); }
@@ -155,7 +159,8 @@ namespace HostileHorizon
             // E1: turn, tilt, zoom (unscaled time: works in the pause menu)
             float dt = Time.unscaledDeltaTime;
             var look = Controls.Look; var mouse = Controls.MouseLook;
-            viewYaw += (look.x * 110f) * dt + mouse.x * .25f;
+            if (Mathf.Abs(Controls.Navigate.x) > .3f) look.x = 0;   // Fix 8.2: a sideways push that also changes the kind doesn't turn it
+            viewYaw += (look.x * 110f + Controls.Yaw * 90f) * dt + mouse.x * .25f;   // Fix 8.2: the HOTAS twist turns it too
             viewPitch = Mathf.Clamp(viewPitch - look.y * 70f * dt - mouse.y * .2f, -20f, 60f);
             float zoom = Controls.ThrottleChange + (UnityEngine.InputSystem.Mouse.current != null ? UnityEngine.InputSystem.Mouse.current.scroll.ReadValue().y * .02f : 0);
             viewDist = Mathf.Clamp(viewDist - zoom * viewHeight * dt * (Mathf.Abs(zoom) > .5f ? 1 : 3), viewHeight * .45f, viewHeight * 3f);

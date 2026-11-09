@@ -121,7 +121,8 @@ namespace HostileHorizon
                     }
                     mat.SetColor("_BaseColor", c); mat.SetFloat("_Smoothness", smooth); mat.SetFloat("_Metallic", metal);
                 }
-                r.sharedMaterial = mat; used.Add((mat, slot));
+                // Fix 8.2: every slot of the part (a second slot kept the importer's plain white: 0.8.1's right console)
+                var all = r.sharedMaterials; for (int i = 0; i < all.Length; i++) all[i] = mat; r.sharedMaterials = all.Length > 0 ? all : new[] { mat }; used.Add((mat, slot));
             }
             model = m.transform;
             Body = PilotBody.Add(ship, m.transform);   // Fix 8.1: your body in the seat; the stick and throttle move with the input

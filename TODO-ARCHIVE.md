@@ -2574,3 +2574,73 @@ freely under Record my input (R1 is select on the page itself); the music meter 
 changes unless you use the hat. Pull R1 in Free Flight: does the gun fire? Can you hear the music over the engine now (try the Engine
 slider), and the computer (Settings > Sound > Test voices)? Then **Record my input** in HOTAS setup and move everything, so the planning
 chat can read `hotas_input_log.txt`.
+
+**Round 7 — the music, aliens up close, a [Play] log, no slow burn (Part A); Volcanic, Crystal Forest, Ocean Islands (Part B)
+(2026-11-08). Published: 0.7.0 (`game-700`, Latest) + `soundtrack-700` (Dan's three new tracks).** Exe built 2026-11-08 04:57. Part A
+committed alone (`f04ca14`). Evidence `Data/screenshots/round7/`: `partA_run3/` (`--only round7a`: model report, music loops and
+flights, the five creatures before / after), `partA_sleeper/` (Sleeper + Knocker again after the last fix), `partA_round6a/` (Round 6's
+event comparison), `partA_campaign/` (the old full-campaign check: `[Play]` lines), `partB_run1/` (`--only round7b`), `partB_free/`
+(`round7bfree`, after the Volcanic look fix), `partB_ocean/` (the skim), `partB_deck/` (`round7bperf -steamDeck 1`, 1280 x 800),
+`launcher*/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal.
+- **0 Commit first — done** (`659f7df`).
+- **1 Music — done. Cause (data):** 0.6.3 went quiet whenever any pilot on foot was within 700 m and the ship under 250 m up, and
+  whenever landed. Flying low along the route trail and on past pilots, the old rule silenced the flight track for **55 % (Canyons),
+  36 % (Forest), 32 % (City), 33 % (Ice) of the low flying**; the loops themselves were fine (all seven tracks crossfade back into their
+  loop, three passes each, ~20 min of play). Now it drops out only for the pickup: a pilot running / knocking / boarding, or landed /
+  hovering within `pickupQuietRange` 250 m of the route's pilot. Same flights: **0 % quiet**, heard 100 %; at each pickup quiet 100 %
+  (31-33 s), back at full volume 8 s after lift-off. Every change is a `[Play] music ...` line with the reason.
+- **2 Aliens up close — done (the canopy staging not: tuning limit). Cause (data):** the meshes are opaque and closed (0.01-0.07 % open
+  edges, opaque Lit materials), so not transparency or holes: 0.6.3's strike brought the body to **0.02-0.20 m from the eye** (Knocker
+  0.03, Stalker 0.02, Hollow 0.12, Mimic 0.20): the camera was in or against the skin and saw the inside of the shell through the near
+  clip. In flight the creature also trailed the eye (it chased a camera position a frame behind the moving ship). Now the strike uses the
+  ship's eye point, the face stops 0.65 m away and no part comes nearer than 0.42 m: measured **face 0.54-0.77 m, nearest part
+  0.37-0.48 m** for all five, at 47-66 m/s; up close the full-detail mesh (`forceMeshLod` 0), a cold face light, two-sided creature
+  materials. Pictures `r7a_<type>_strike_before/after_*`, `_cabin_cam_*` (solid in the cabin camera, 0.75-1.48 m). **Canopy:** at 0.6.3's
+  place 10-42 % of the body stands inside the glass bubble (hidden by the sill; it reads solid and close, `partA_sleeper/r7a_knocker_canopy_
+  after.png`). Try 1 (pushed out along the glass): 0 % inside but face 2.5-2.7 m away and partly out of view; try 2 (leaning over the
+  top): face above the view, 4 % inside. **Kept at 0.6.3's place** (full detail, light and two-sided material added); `CanopyStaging` holds
+  try 2 for later. Dan decides.
+- **3 [Play] log — done.** `Core/PlayLog.cs`: `[Play] <time> ...` lines in `Player.log` in players' builds: arrival (planet, seed,
+  biome, aliens waiting), launch, pilots found (alien or not, tell shown) / running / at the airlock / boarded / killed, every alien event
+  (type, door, canopy, strike kind and time), every music change with the reason, every computer / Control line, hull heat, shard breaks,
+  docking (the debrief), deaths. 506 lines in the Part A run, 102 in Part B's.
+- **4 The alien warning — done.** The slow burn is gone (`strikeInstantWeight` .55, `strikeTakeoffWeight` .45); the Sleeper alone with
+  you bursts too. Nothing changes until the creature is in view (at most 0.6 s): then burst / lunge sounds, sting, music cut, controls
+  taken; 0.35 s later lights, displays, alarm, INTRUDER. Measured for all five: **nothing the player could notice before it was in view**
+  (in view 0.07-0.33 s after the strike). Round 6's comparison again: alien and real pilot boarding **identical** to the strike (18 / 18,
+  20 / 20 events).
+- **5 Check — done** (`--only round7a`, ~45 min). Note: the old `--only campaign` check (Round 2's) crashed its scripted pilot into a
+  canyon wall after the first pickup and then stopped on its own bug; Round 7 changed no flying code; not chased further.
+- **6 Commit Part A — done** (`f04ca14`).
+- **B1 Three biomes — done.** `Biome` Volcanic / Crystal / Ocean; `ForSeed` picks from all seven (2 000 seeds: 267-313 each); same seed
+  = same ground (checked); first planet still Canyons; Free Flight's Planet type lists all seven. Pads, pilots, turrets, saucers, radar,
+  route trail, recall / tow, crash levels: checked on each (Campaign landing + pickup on all three; turrets on rock, never on the liquid).
+- **B2 Volcanic — done.** Basalt canyons, lava rivers / lakes (20 % of the ground), glowing crust, walls lit orange from below, cooled
+  shelves for pads (9 m over the lava), glowing vents with smoke plumes, ash + embers, dark red sky (brightened after the first pictures
+  were too dark to read). Lava = a crash at Bounce (checked; every level but Ghost); 18 m over it: HULL HEAT + "Hull heat. Climb." +
+  heat haze (rising glowing motes; no screen distortion: deliberate, VR rule 4 / no screen effects).
+- **B3 Crystal Forest — done.** Spires 10-200 m (499 in 2.6 km square, 150 over 100 m), tilted, glowing inside in three cold tints with
+  glassy facets (an opaque shader: Fresnel + inner glow, not real refraction); 5 125 shards; glowing moss on dark ground; pale violet sky.
+  A shard flown through breaks (debris, `crystal_shatter`, no hit); a spire is a hit at Bounce (checked).
+- **B4 Ocean Islands — done** (fliers code-made). Sea 54 % of the area, islands with beaches and cliffs, sea stacks, 16 arches in 4 km
+  square; moving sea (waves, Fresnel sky, sun glint, whitecaps), surf / wet rock / sand at the waterline, sea mist, spray; 7 harmless
+  gull-like fliers. A skim at 230 km/h touched the water twice: spray, no damage; a dive at Lasting = a crash ("the sea"). Pads on islands
+  (94 m up in the check); turrets on cliff tops.
+- **B5 Look, music, voices — done.** Sky / light / fog / materials / particles per biome; Dan's `flight_volcanic` (loop 103-152 s),
+  `flight_crystal` (132-184 s), `flight_ocean` (108-168 s) shipped as `soundtrack-700`; new lines (ElevenLabs): `ctl_brief_<biome>`,
+  `ctl_launch_<biome>` (Control names the world at launch), `cpu_hull_heat`, 36 `p<n>_mayday_<biome>`; sounds `crystal_shatter`,
+  `water_splash`.
+- **B6 Performance — done.** PC 1080p flying low: Volcanic 674 fps (1 % low 274), Crystal 526 (177), Ocean 474 (182). Deck setting
+  1280 x 800: Volcanic 959 (348), Crystal 728 (220), Ocean 298 (50, one 1.3 s frame: not seen on the PC run; first-load hitch?).
+- **B7 Check — done** (`--only round7b`, `round7bfree`, `round7bperf`).
+- **Publish — done:** `soundtrack-700` then `game-700` (Latest); the live catalog points at both. **The fresh `starter-200` install
+  check could not run:** from this session the launcher's requests to GitHub fail ("Update service unavailable"; PowerShell gets 504 on
+  the same URL), so it was not seen updating to 700 here.
+
+**Decisions made:** the canopy stays where 0.6.3 had it (two tries failed; numbers above); heat shimmer is rising particles, not a screen
+effect; the crystal look is faked (no refraction); the Sleeper's "comes for you" uses the jump-scare burst; turrets / pilots never on the
+lava or sea.
+**For Dan to check:** fly low past pilots: does the music stay? Let an alien in: solid, at arm's length, scary? Look at the canopy alien
+(it still stands partly inside the glass: keep it?). Fly the three new worlds: lava (and HULL HEAT), skim the sea, fly between the stacks
+and under an arch, break a crystal shard. After a session, the `[Play]` lines in `Player.log` are for the planning chat. On the Deck:
+the Ocean frame rate. Please start the launcher once: it should update to 0.7.0 (not verified from here).

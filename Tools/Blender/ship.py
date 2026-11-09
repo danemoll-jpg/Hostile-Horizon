@@ -50,7 +50,9 @@ def meshy(name, M4):
     ob.data = ob.data.copy(); ob.matrix_world = M4 @ ob.matrix_world
     bpy.context.view_layer.objects.active = ob; ob.select_set(True)
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True); ob.select_set(False)
-    m = bpy.data.materials.new('mx_' + name); ob.data.materials.clear(); ob.data.materials.append(m)
+    # Fix 8.2: one material per Meshy model (0.8.0 / 0.8.1 made 'mx_cockpit_console.001' for the second console: joined, it became a
+    # second material slot the game never filled, so the right console showed plain white)
+    m = bpy.data.materials.get('mx_' + name) or bpy.data.materials.new('mx_' + name); ob.data.materials.clear(); ob.data.materials.append(m)
     kit.PARTS.append((ob, G, 'mx_' + name))
     return ob
 
@@ -92,7 +94,15 @@ lum = luminance_of_faces(hullob, 'ship')
 # the canopy panes: dark, glossy faces over the cockpit (Unity y above 0.3, z 1.0 - 4.6)
 panes = [p.index for p in hullob.data.polygons if lum[p.index] < .07 and p.center.z > .3 and 1.0 < p.center.y < 4.6 and abs(p.center.x) < 1.6]
 print('SHIP canopy panes', len(panes), 'faces')
-split_off(hullob, panes, 'glass')
+# Fix 8.2: faces lying wholly on a pane (every corner a pane corner) and nearly as dark are part of it: Meshy's paint left a long
+# sliver of the left windshield (lum .081) as hull, a white spike at its top left from the eye. Brighter ones are frame strips: kept.
+K = lambda v: tuple(round(c, 4) for c in hullob.data.vertices[v].co)
+pane_v = set(K(v) for i in panes for v in hullob.data.polygons[i].vertices); ps = set(panes)
+slivers = [p.index for p in hullob.data.polygons if p.index not in ps and lum[p.index] < .13 and p.center.z > .3 and 1.0 < p.center.y < 4.6
+           and abs(p.center.x) < 1.6 and all(K(v) in pane_v for v in p.vertices)]
+for i in slivers:
+    c = hullob.data.polygons[i].center; print(f'SHIP pane sliver -> glass: face {i}, lum {lum[i]:.3f}, at Unity ({c.x:.2f}, {c.z:.2f}, {c.y:.2f})')
+split_off(hullob, panes + slivers, 'glass')
 hullob = [o for o, g, s in kit.PARTS if s == 'mx_ship'][0]
 
 # Fix 8.1: the floor window's shaft through the belly. Round 8 turned the belly faces whose centres fell in a box into glass, so the
@@ -138,12 +148,16 @@ out1 = sum((p.center - SC).dot(p.normal) > 0 for p in seat.data.polygons)
 print(f'SEAT mirrored: faces pointing out {out0} before, {out1} after (of {len(seat.data.polygons)}); custom normals {seat.data.has_custom_normals}')
 # the stick (right armrest's front) and the throttle (left armrest, the T-handle on two posts): the faces above the armrest top, in their
 # own groups (Stick, Throttle) so the game can move them; the game finds their pivots from their bounds (PilotBody.cs)
+stick_z = None
 for grp, (x0, x1, z0, z1, ylo) in (('Stick', (.285, .40, SEAT_AT[2] + .21, SEAT_AT[2] + .38, .453)),
                                     ('Throttle', (-.415, -.245, SEAT_AT[2] - .13, SEAT_AT[2] + .09, .452))):
     idx = [p.index for p in seat.data.polygons if x0 < p.center.x < x1 and z0 < p.center.y < z1 and p.center.z > ylo]
     part = meshykit.split(seat, idx, grp)
-    if grp == 'Throttle': part.data.transform(Matrix.Translation(kit.B(0, -.012, .15)))   # 15 cm forward along the armrest: the seat's own
-    # place put the hand 0.1-0.3 m behind the eye, the arm bent backwards (0.8.1's first pictures); now it rests beside the hip
+    vs = [v.co for v in part.data.vertices]; mid_z = (min(v.y for v in vs) + max(v.y for v in vs)) / 2
+    if grp == 'Stick': stick_z = mid_z
+    # Fix 8.1 moved the throttle 15 cm forward (in the seat's own place the arm bent backwards); Fix 8.2 (Dan: "move the throttle more
+    # forward so it is even with the flight stick"): its middle at the stick's depth, both hands the same distance out, like a HOTAS on a desk
+    if grp == 'Throttle': part.data.transform(Matrix.Translation(kit.B(0, -.012, stick_z - mid_z)))
     vs = [v.co for v in part.data.vertices]
     print(f'{grp.upper()} {len(idx)} faces: x {min(v.x for v in vs):.3f}..{max(v.x for v in vs):.3f}  y {min(v.z for v in vs):.3f}..{max(v.z for v in vs):.3f}  '
           f'z {min(v.y for v in vs):.3f}..{max(v.y for v in vs):.3f}')

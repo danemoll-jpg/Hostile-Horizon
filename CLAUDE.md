@@ -398,6 +398,14 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   roll), twists 15° (yaw), the lever swings ±22°. Floor window: `WIN_C` (0, 3.02), 0.42 x 0.70 m, frame, bolts (slot `chrome`), 30 mm glass
   (slot `window`: `Shaders/Window.shader`), a lining widening to a clean cut in the belly (`WIN_FLARE`). Check `-exeCheckOnly fix81`
   (flat) / `fix81 -vr` (mock runtime: the real eye texture, both slices compared; `local/fix81_runs.sh`); `CameraRig.CheckLook` (checks).
+- **Fix 8.2:** `PilotBody` poses every bone from the rest pose each frame, the body stays in the seat (it does not follow the head), the
+  drawn stick / lever are smoothed (`Smooth` 18/s); 0.8.1's pose is `CheckOldPose` (checks). Throttle at the stick's depth
+  (`ShipLayout.StickPivot / ThrottlePivot`, z 2.535). Docking: `DebriefAtDock` empties the cabin (figures, camera) at the dock
+  (`GameShell.CheckOldDock` = 0.8.1's). VR menu board: 1.0 m out (`MenuPanel.VrDistance`, `VrScale` .0005), opened where you look, near-solid
+  backdrop, drawn over everything (`Resources/Shaders/UIOnTop.shader`; `CheckVrBoard` 1 / 2 = 0.8.1's board for checks). Field Journal: a
+  page-wide left / right (`MenuPanel.Page.Side`) = previous / next kind; HOTAS twist turns the creature. `ship.py`: one material per Meshy
+  model (the second console was a second, white slot) and the game fills every material slot; faces wholly on a canopy pane and nearly as
+  dark (lum < .13) become glass (the windshield sliver). Check `-exeCheckOnly fix82` (flat) / `fix82 -vr` (mock runtime; `local/fix82_runs.sh`).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -473,7 +481,7 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   a player's build pauses as before. Frame rates from a batch-mode check are
   measured rendering into the off-screen view (no present to a window). Round 2 launchers:
   `local/round2/build.ps1 -Name <log>`; **start every check with**
-  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|fix81|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
+  `python Tools/run_check.py <dir> [--only all|perf|campaign|home|fix24|fix25|fix26|aliens|fix31|fix31h|fix31perf|fix32|round4|round4perf|music|round5a|round5|round5perf|round6|round6a|round6b|round6c|round6d|round6e|input|fix61|fix61pics|fix62|fix62pics|fix63|round7a|round7music|round7aliens|round7b|round7bperf|round8a|round8b|round8c|fix81|fix82|mute|screen] [--extra "-steamDeck 1"] [--size 1280x800]`
   (`-batchmode -mute`, no window, Below Normal; `mute` = a 10 s run that reports
   the output level; `fullscreen` (Fix 2.1) = a real
   start with the default screen setting applied: it opens a visible, focused full-screen
@@ -537,12 +545,19 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 8.2 (hands still on the stick and throttle: causes: chest / neck turns piled up every frame and the torso followed the head;
+hands now within 0.6 mm of their place on the controls over 60 s, 0.8.1's slid 149-249 mm; the throttle level with the stick; rescued
+pilots leave the ship at the dock (the cabin was never redrawn after the debrief); VR menus 1.0 m out, drawn over the cockpit (0.8.1's
+board was 98 % hidden looking down), opened where you look; Journal left / right between kinds; the right console textured (a second,
+unfilled material slot); the windshield sliver made glass) is built, checked in the exe (headless, muted, `fix82` flat and on the mock
+VR runtime) and published as 0.8.2 (`game-802` Latest). Not yet seen by Dan.** Details in `TODO.md` (Fix 8.2 delivery). **Next: Round 9**,
+to be written by the planning chat.
 **Fix 8.1 (VR: the right eye showed blue: none of the 9 custom shaders was single-pass-instanced safe; all are now, and the VR check
 compares the two real eyes (old shaders: 27 / 32 pairs flagged, now 0 / 32); your pilot's body and gloved hands in the seat, the seat
 mirrored so the stick is on the right and the throttle on the left like Dan's HOTAS, both moving with the input; a clean rounded floor
 window with frame, bolts and thick glass in place of the ragged hole) is built, checked in the exe (headless, muted, `fix81` flat and on
-the mock VR runtime) and published as 0.8.1 (`game-801` Latest). Not yet seen by Dan in the Quest.** Details in `TODO.md` (Fix 8.1
-delivery). **Next: Round 9**, to be written by the planning chat.
+the mock VR runtime) and published as 0.8.1 (`game-801`). Dan in the Quest: "all looks great" apart from the hands, the menus and the cockpit bits fixed in
+Fix 8.2.** Details in `TODO.md` (Fix 8.1 delivery).
 **Round 8 (A: the creature at the strike in front of the screens, the HUD off for it (cause: Round 7's staging put its body behind the
 screens and inside the dash, 34-59 % hidden; now 0-14 %, residuals for Dan); B: Dan's ship / cockpit / mothership / bay / turret /
 saucer via Meshy, 16 ElevenLabs sounds levelled into the Fix 6.3 mix, a credits page, Deck-setting numbers; C: VR through OpenXR,

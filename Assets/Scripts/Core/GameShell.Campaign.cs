@@ -593,6 +593,7 @@ namespace HostileHorizon
         }
 
         // At the dock: pilots paid, planet bonus, tow fee, fuel used charged (repair is the hangar's Repair button).
+        public static bool CheckOldDock;   // checks: 0.8.1's docking (the cabin's figures not redrawn)
         void DebriefAtDock(bool towLift)
         {
             var c = Career.C; var t = Tuning.T; var sb = new StringBuilder();
@@ -602,8 +603,14 @@ namespace HostileHorizon
                 c.Earn(pay + extra); c.stats.pilotsRescued += cabin.Count;
                 foreach (int i in cabin) Planet.pilots[i] = (int)PilotFate.Rescued;
                 sb.AppendLine($"Delivered {cabin.Count} pilot{(cabin.Count > 1 ? "s" : "")}: +{pay + extra} cr" + (extra > 0 ? $" (planet of the day +{t.dayBonus * 100:0} %: {extra} cr of it)" : ""));
+                PlayLog.Add($"docked: {cabin.Count} pilot{(cabin.Count > 1 ? "s" : "")} delivered ({string.Join(", ", cabin.ConvertAll(i => "pilot " + (i + 1)))}): they leave the ship");
                 cabin.Clear();
             }
+            // Fix 8.2 (Dan: "the rescued pilots count as rescued and show as 0 on board but they remain on board"): cause: the cabin list
+            // was cleared here, but the seated figures in the cabin are only redrawn from it by Reseat, which nothing called until the
+            // next launch, so the delivered pilots sat on in the cabin (and on the cabin camera) all through the hangar. Now they leave
+            // the ship at the dock: the cabin is emptied, its camera off, the chatter clock reset.
+            cabin.Clear(); if (!CheckOldDock) { Reseat(); if (CabinRoom) CabinRoom.FeedOn = false; chatterAt = 0; }
             CheckCleared(sb);
             if (towLift)
             {

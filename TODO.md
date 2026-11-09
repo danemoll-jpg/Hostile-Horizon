@@ -168,70 +168,11 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Fix 8.2: relaxed hands, cockpit fixes, docking pilots, menus in VR
+Current Objective — Round 9 (to be written by the planning chat)
 ---------------------------------------------------------------------------
 
-Fix 8.1 is delivered as 0.8.1 (status under "Previous deliveries"). Dan
-(2026-11-08, Quest 3): "Other than this it all looks great." Round 9 (missions
-and more progression) comes after this fix.
-
-0. **Commit first** (the repo as it is, with this text; leave the untracked
-   `Data/screenshots/fix81/vr_5/` files as they are or commit them with it).
-1. **Relaxed hands.** Dan: "Hands keep moving all over the place. They should
-   just be relaxed on the throttle and flight stick." Find what moves them
-   (IK targets jittering, following the head / torso too much, finger
-   animation, the controls' own motion amplified). The hands rest still and
-   relaxed on the grips; they only move with the stick and throttle
-   themselves (small, smooth), the index finger only on fire. No drifting,
-   shaking or reaching. Check: a minute of flying recorded as hand-position
-   logs plus pictures; hand movement should match the control movement and
-   nothing else.
-2. **Throttle level with the stick.** Dan: "Can we move the throttle more
-   forward so it is even with the flight stick." Move the throttle (and the
-   left hand) forward to the stick's depth, so both hands sit at the same
-   distance from the body, like the real HOTAS on a desk. Update `ShipLayout`.
-3. **Pilots stay aboard after docking (bug).** Dan: "When docking the
-   mothership, the rescued pilots count as being rescued and show as 0 on board
-   but they remain on board." Find why: the count / pay is reset at docking but
-   the pilot objects (cabin models, the cabin camera, cabin chatter, maybe the
-   cabin list used by the Sleeper or the next flight) aren't cleared. Fix: at
-   docking, the rescued pilots leave the ship (seen walking off in the bay if
-   simple, otherwise simply gone), the cabin is empty on the next launch, and
-   nothing from them carries over (voices, cabin camera, Sleeper logic).
-   Check with the `[Play]` log and a cabin-camera picture after re-launch.
-4. **Menus in VR must not clip into the cockpit.** Dan: "Pulled up the menu to
-   look at the journal and it clipped through the cockpit and I couldn't read
-   it." The VR menu board must always be fully visible and readable: placed in
-   the free space in front of the seat (inside the canopy, in front of the
-   dash, not intersecting it), or drawn on top of the cockpit geometry (its own
-   render order, no depth test against the cockpit) so nothing cuts through
-   it; sized and distanced for comfortable reading; recentred to where the
-   player is looking when opened. Check every menu page in VR (both eyes):
-   pause, Settings, the Field Journal with the 3D alien, hangar, star map.
-5. **Field Journal navigation.** Dan: "If an alien was selected, I couldn't go
-   left or right to change. I had to go back a level and select there." On an
-   alien's page, **left / right (stick, hat, D-pad, arrows) goes to the
-   previous / next alien** (skipping unmet ones or showing them as
-   "Unknown"), the 3D view keeps working (rotate / zoom on the other inputs),
-   and the page shows small "◀ Mimic | Knocker ▶" hints. Back still returns to
-   the list.
-6. **The white console on the right needs texture.** A plain white Meshy
-   surface: give it real detail: panel lines, worn paint, labels / small
-   switches, a material that isn't flat white (the art pipeline if a new model
-   is needed: STOP for Dan; otherwise texture it in Blender / with materials).
-   Check other cockpit surfaces for the same flat-white problem.
-7. **A jagged piece at the top left of the windshield.** Remove it: find the
-   stray Meshy geometry (or the canopy cut) at the windshield's top left and
-   clean it in Blender; check the whole canopy frame from the eye for any other
-   jagged bits.
-8. **Check (muted, no focus):** the items above, VR pictures in both eyes where
-   it applies (mock runtime), before / after.
-9. **Publish as 0.8.2**, update `TODO.md` (per-item status, the causes found
-   for 1 and 3) and `CLAUDE.md`, commit and push.
-
-**For Dan to check (Quest 3):** hands calm on the controls; the throttle level
-with the stick; docking empties the cabin; the Journal readable in VR and left
-/ right between aliens; the right console; the windshield's top left.
+Fix 8.2 is delivered as 0.8.2 (status under "Previous deliveries"). Next: Round 9
+(missions and more progression), written by Dan and the planning chat.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -250,6 +191,48 @@ Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Fix 8.2 — relaxed hands, cockpit fixes, docking pilots, menus in VR (2026-11-08). Published: 0.8.2 (`game-802`, Latest; soundtrack
+stays `soundtrack-700`).** Exe built 2026-11-08 20:46. Evidence `Data/screenshots/fix82/`: `flat_3/` and `vr_3/` (final; `vr_2/` = the
+same build bar a check-order fix), `flat_1`, `flat_2`, `vr_1` (earlier tries). New check `-exeCheckOnly fix82` (`Checks/ExeCheck.Fix82.cs`;
+`local/fix82_runs.sh flat|vr <name>`). Every run headless, muted (output 0.000 RMS), no window, Below Normal, one at a time; VR on the mock
+runtime with both real eyes compared (28 / 28 pairs drawn in both eyes).
+- **0 Commit first — done** (`af04da7`, with the untracked `fix81/vr_5` files).
+- **1 Relaxed hands — done. Causes found** (0.8.1's pose kept as `PilotBody.CheckOldPose`, the same flying logged every frame,
+  `hands_old.csv` / `hands_new.csv`): (a) the chest and neck turns were added onto the previous frame's pose (the animator is off, nothing
+  reset the bones), so any head turn twisted the chest further every frame, up to 180 degrees, swinging the shoulders up to 364-403 mm and
+  the arms with them; the hands slid 149-249 mm on the stick / throttle; (b) the torso followed the head camera (VR: the headset), a frame
+  late, switching to the seat past .35 m. (Fingers were measured steady in both: not a cause.) Fix: every bone starts each frame from the
+  rest pose, the body stays in the seat, no chest / neck turn, the drawn stick and lever smoothed (~55 ms). **Check:** 60 s of flying (stick
+  sweeps, throttle up / down, looking round, a hover): hands within 0.3-0.6 mm of their place on their controls while the grip itself moved
+  40-46 mm; shoulders 0 mm; pictures `f82_hands_new_1..3`.
+- **2 Throttle level with the stick — done.** `ship.py` puts the throttle's middle at the stick's depth (z 2.535; 0.8.1: 17.8 cm behind);
+  `ShipLayout.StickPivot / ThrottlePivot`. Check: depth difference 0.0 cm, shoulder to hand 0.38 / 0.35 m (`f82_hands_rest`, `f82_throttle_left`).
+- **3 Pilots aboard after docking — done. Cause:** `DebriefAtDock` cleared the cabin list but never redrew the cabin, so the delivered
+  pilots sat on in the cabin (and the cabin camera stayed on) through the whole hangar; the next launch emptied it. Fix: at the dock they
+  leave the ship (cabin redrawn, camera off, chatter reset; `[Play] docked: N pilots delivered (...): they leave the ship`). Check (0.8.1's as
+  `GameShell.CheckOldDock`): old: hangar count 0 but 2 figures, camera on; new: 0 figures, camera off, also after re-launch
+  (`f82_cabin_*_hangar / _relaunch.png`). Walking off in the bay not done (simply gone, as the item allows).
+- **4 VR menus — done. Cause:** the board was 1.4 m out, beyond the dash (0.55 m) and among the canopy frame (1.2-1.6 m), depth-tested,
+  so the cockpit cut through it: 3 % hidden looking ahead, **98 % looking down** (the board's backdrop painted one colour, pixels counted
+  in both eyes). Now 1.0 m out (same 51 degrees wide), opened where you look (35 down / 25 up at most), near-solid backdrop, drawn over
+  everything (`Shaders/UIOnTop.shader`, stereo-safe). Check: hangar, star map, pause, Settings, the Journal with its 3D alien, looking
+  down: 0 % hidden (`vr_3/f82_vr_*_eyes.png`).
+- **5 Field Journal left / right — done.** A page-wide `MenuPanel.Page.Side`: left / right on any row of a kind's page = previous / next
+  kind (unmet = Unknown), "◀ Sleeper | Unknown ▶" under the title; turning moves to inputs that don't navigate (pad right stick, mouse
+  drag, HOTAS twist), zoom unchanged; Back to the list. Check: D-pad right / left through the kinds, the view still turns 66 degrees with
+  the right stick, 0 with the left; B returns to the list.
+- **6 White right console — done, no new model.** Cause: both consoles were joined into one mesh with two Blender materials
+  (`mx_cockpit_console.001`); the game filled only the first slot, so the right one kept the importer's plain white. `ship.py` reuses the
+  material; the game fills every slot. Every other cockpit part has one textured slot (checked) (`f82_console_right`).
+- **7 Jagged piece at the windshield's top left — done.** A long sliver of the left pane (lum .081, just over the .07 glass threshold) stayed
+  hull; `ship.py` now makes glass of faces wholly on a pane and nearly as dark (4 faces). Canopy pictures from the eye: frame clean
+  (`f82_ahead`, `f82_windshield_top_left`, `f82_canopy_*`). Residual seen (in 0.8.0 too): a small dark triangle in the ceiling grab-handle recess.
+- **8 Check — done** (above). **9 Published 0.8.2 — done**; CLAUDE.md updated. Clean-up: 7.8 GB -> 7.8 GB.
+
+**For Dan to check (Quest 3):** hands calm on the stick and throttle while you look round and lean; the throttle level with the stick;
+dock with pilots and look back: cabin empty; the Journal readable in VR (and when looking down) and left / right between aliens; the right
+console; the windshield's top left; the ceiling handle recess.
 
 **Fix 8.1 — VR right eye, the pilot's body and hands, a real floor window (2026-11-08). Published: 0.8.1 (`game-801`, Latest;
 soundtrack stays `soundtrack-700`).** Exe built 2026-11-08 19:25. Evidence `Data/screenshots/fix81/`: `flat_5/` and `vr_5/` (final),
@@ -329,76 +312,6 @@ by mistake mid-round: those results were thrown away and run again).
 **For Dan to check:** the strike (anything still behind the screens?); the new ship / cockpit / mothership / turret / saucer; the hangar's
 light; the sounds (engine, gear, ambiences: levels by ear); the Deck. VR: `Play Hostile Horizon (VR).bat` with Virtual Desktop running:
 the head following you, Recenter, menus, the strip, the scares, the frame rate.
-
-**Round 7 — the music, aliens up close, a [Play] log, no slow burn (Part A); Volcanic, Crystal Forest, Ocean Islands (Part B)
-(2026-11-08). Published: 0.7.0 (`game-700`, Latest) + `soundtrack-700` (Dan's three new tracks).** Exe built 2026-11-08 04:57. Part A
-committed alone (`f04ca14`). Evidence `Data/screenshots/round7/`: `partA_run3/` (`--only round7a`: model report, music loops and
-flights, the five creatures before / after), `partA_sleeper/` (Sleeper + Knocker again after the last fix), `partA_round6a/` (Round 6's
-event comparison), `partA_campaign/` (the old full-campaign check: `[Play]` lines), `partB_run1/` (`--only round7b`), `partB_free/`
-(`round7bfree`, after the Volcanic look fix), `partB_ocean/` (the skim), `partB_deck/` (`round7bperf -steamDeck 1`, 1280 x 800),
-`launcher*/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal.
-- **0 Commit first — done** (`659f7df`).
-- **1 Music — done. Cause (data):** 0.6.3 went quiet whenever any pilot on foot was within 700 m and the ship under 250 m up, and
-  whenever landed. Flying low along the route trail and on past pilots, the old rule silenced the flight track for **55 % (Canyons),
-  36 % (Forest), 32 % (City), 33 % (Ice) of the low flying**; the loops themselves were fine (all seven tracks crossfade back into their
-  loop, three passes each, ~20 min of play). Now it drops out only for the pickup: a pilot running / knocking / boarding, or landed /
-  hovering within `pickupQuietRange` 250 m of the route's pilot. Same flights: **0 % quiet**, heard 100 %; at each pickup quiet 100 %
-  (31-33 s), back at full volume 8 s after lift-off. Every change is a `[Play] music ...` line with the reason.
-- **2 Aliens up close — done (the canopy staging not: tuning limit). Cause (data):** the meshes are opaque and closed (0.01-0.07 % open
-  edges, opaque Lit materials), so not transparency or holes: 0.6.3's strike brought the body to **0.02-0.20 m from the eye** (Knocker
-  0.03, Stalker 0.02, Hollow 0.12, Mimic 0.20): the camera was in or against the skin and saw the inside of the shell through the near
-  clip. In flight the creature also trailed the eye (it chased a camera position a frame behind the moving ship). Now the strike uses the
-  ship's eye point, the face stops 0.65 m away and no part comes nearer than 0.42 m: measured **face 0.54-0.77 m, nearest part
-  0.37-0.48 m** for all five, at 47-66 m/s; up close the full-detail mesh (`forceMeshLod` 0), a cold face light, two-sided creature
-  materials. Pictures `r7a_<type>_strike_before/after_*`, `_cabin_cam_*` (solid in the cabin camera, 0.75-1.48 m). **Canopy:** at 0.6.3's
-  place 10-42 % of the body stands inside the glass bubble (hidden by the sill; it reads solid and close, `partA_sleeper/r7a_knocker_canopy_
-  after.png`). Try 1 (pushed out along the glass): 0 % inside but face 2.5-2.7 m away and partly out of view; try 2 (leaning over the
-  top): face above the view, 4 % inside. **Kept at 0.6.3's place** (full detail, light and two-sided material added); `CanopyStaging` holds
-  try 2 for later. Dan decides.
-- **3 [Play] log — done.** `Core/PlayLog.cs`: `[Play] <time> ...` lines in `Player.log` in players' builds: arrival (planet, seed,
-  biome, aliens waiting), launch, pilots found (alien or not, tell shown) / running / at the airlock / boarded / killed, every alien event
-  (type, door, canopy, strike kind and time), every music change with the reason, every computer / Control line, hull heat, shard breaks,
-  docking (the debrief), deaths. 506 lines in the Part A run, 102 in Part B's.
-- **4 The alien warning — done.** The slow burn is gone (`strikeInstantWeight` .55, `strikeTakeoffWeight` .45); the Sleeper alone with
-  you bursts too. Nothing changes until the creature is in view (at most 0.6 s): then burst / lunge sounds, sting, music cut, controls
-  taken; 0.35 s later lights, displays, alarm, INTRUDER. Measured for all five: **nothing the player could notice before it was in view**
-  (in view 0.07-0.33 s after the strike). Round 6's comparison again: alien and real pilot boarding **identical** to the strike (18 / 18,
-  20 / 20 events).
-- **5 Check — done** (`--only round7a`, ~45 min). Note: the old `--only campaign` check (Round 2's) crashed its scripted pilot into a
-  canyon wall after the first pickup and then stopped on its own bug; Round 7 changed no flying code; not chased further.
-- **6 Commit Part A — done** (`f04ca14`).
-- **B1 Three biomes — done.** `Biome` Volcanic / Crystal / Ocean; `ForSeed` picks from all seven (2 000 seeds: 267-313 each); same seed
-  = same ground (checked); first planet still Canyons; Free Flight's Planet type lists all seven. Pads, pilots, turrets, saucers, radar,
-  route trail, recall / tow, crash levels: checked on each (Campaign landing + pickup on all three; turrets on rock, never on the liquid).
-- **B2 Volcanic — done.** Basalt canyons, lava rivers / lakes (20 % of the ground), glowing crust, walls lit orange from below, cooled
-  shelves for pads (9 m over the lava), glowing vents with smoke plumes, ash + embers, dark red sky (brightened after the first pictures
-  were too dark to read). Lava = a crash at Bounce (checked; every level but Ghost); 18 m over it: HULL HEAT + "Hull heat. Climb." +
-  heat haze (rising glowing motes; no screen distortion: deliberate, VR rule 4 / no screen effects).
-- **B3 Crystal Forest — done.** Spires 10-200 m (499 in 2.6 km square, 150 over 100 m), tilted, glowing inside in three cold tints with
-  glassy facets (an opaque shader: Fresnel + inner glow, not real refraction); 5 125 shards; glowing moss on dark ground; pale violet sky.
-  A shard flown through breaks (debris, `crystal_shatter`, no hit); a spire is a hit at Bounce (checked).
-- **B4 Ocean Islands — done** (fliers code-made). Sea 54 % of the area, islands with beaches and cliffs, sea stacks, 16 arches in 4 km
-  square; moving sea (waves, Fresnel sky, sun glint, whitecaps), surf / wet rock / sand at the waterline, sea mist, spray; 7 harmless
-  gull-like fliers. A skim at 230 km/h touched the water twice: spray, no damage; a dive at Lasting = a crash ("the sea"). Pads on islands
-  (94 m up in the check); turrets on cliff tops.
-- **B5 Look, music, voices — done.** Sky / light / fog / materials / particles per biome; Dan's `flight_volcanic` (loop 103-152 s),
-  `flight_crystal` (132-184 s), `flight_ocean` (108-168 s) shipped as `soundtrack-700`; new lines (ElevenLabs): `ctl_brief_<biome>`,
-  `ctl_launch_<biome>` (Control names the world at launch), `cpu_hull_heat`, 36 `p<n>_mayday_<biome>`; sounds `crystal_shatter`,
-  `water_splash`.
-- **B6 Performance — done.** PC 1080p flying low: Volcanic 674 fps (1 % low 274), Crystal 526 (177), Ocean 474 (182). Deck setting
-  1280 x 800: Volcanic 959 (348), Crystal 728 (220), Ocean 298 (50, one 1.3 s frame: not seen on the PC run; first-load hitch?).
-- **B7 Check — done** (`--only round7b`, `round7bfree`, `round7bperf`).
-- **Publish — done:** `soundtrack-700` then `game-700` (Latest); the live catalog points at both. **The fresh `starter-200` install
-  check could not run:** from this session the launcher's requests to GitHub fail ("Update service unavailable"; PowerShell gets 504 on
-  the same URL), so it was not seen updating to 700 here.
-
-**Decisions made:** the canopy stays where 0.6.3 had it (two tries failed; numbers above); heat shimmer is rising particles, not a screen
-effect; the crystal look is faked (no refraction); the Sleeper's "comes for you" uses the jump-scare burst; turrets / pilots never on the
-lava or sea.
-**For Dan to check:** fly low past pilots: does the music stay? Let an alien in: solid, at arm's length, scary? Look at the canopy alien
-(it still stands partly inside the glass: keep it?). Fly the three new worlds: lava (and HULL HEAT), skim the sea, fly between the stacks
-and under an arch, break a crystal shard. After a session, the `[Play]` lines in `Player.log` are for the planning chat. On the Deck:
-the Ocean frame rate. Please start the launcher once: it should update to 0.7.0 (not verified from here).
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

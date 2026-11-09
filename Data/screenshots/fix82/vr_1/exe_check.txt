@@ -1,0 +1,103 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 98304 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-08 20:33; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 2200 m
+VR on: VR on (OpenXRLoader; 0 x 0 per eye, MultiPass)
+--- the cockpit's materials (item 6)
+  Body__mx_cockpit_console: 1 slot(s): cockpit_console; textured yes
+  Body__mx_cockpit_dash: 1 slot(s): cockpit_dash; textured yes
+  Body__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+  Body__mx_ship: 1 slot(s): ship; textured yes
+  Stick__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+  Throttle__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+--- the stick and the throttle (item 2)
+  stick pivot (0.334, 0.450, 2.535), throttle pivot (-0.315, 0.433, 2.535): depth difference 0.0 cm (0.8.1: 17.8 cm); ShipLayout (0.334, 0.450, 2.535) / (-0.316, 0.433, 2.535)
+  right hand (0.36, 0.57, 2.48), left hand (-0.33, 0.56, 2.46); shoulder to hand: right 0.38 m, left 0.35 m
+  f82_hands_rest_eyes.png (1 render pass(es), 1512 x 1680 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.304 contrast 0.181 one-colour 4 %; right 75 % mean 0.308 contrast 0.180 one-colour 4 %; match: correlation 0.839 at -32 px shift, difference 0.054 -> both eyes drawn
+  f82_throttle_left_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.327 contrast 0.201 one-colour 4 %; right 75 % mean 0.291 contrast 0.187 one-colour 5 %; match: correlation 0.898 at -32 px shift, difference 0.046 -> both eyes drawn
+--- the hands (item 1): every frame, hand on its control (mm), finger turn per frame, chest turn, shoulders
+    [763 fps] Flying/ Flight alt 36 gnd 37 spd 59 hdg 135 energy 100
+    [676 fps] Flying/ Flight alt 366 gnd 285 spd 95 hdg 143 energy 100
+    [477 fps] Flying/ Hover alt 433 gnd 100 spd 12 hdg 159 energy 100
+  old (0.8.1's pose), 20 s, 11490 frames (hands_old.csv): right hand moved on the stick up to 249.4 mm, left hand on the throttle up to 214.5 mm (the stick's grip itself moved up to 44 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 180.0 deg from the ship's heading; shoulders moved up to 377 mm
+    [749 fps] Flying/ Flight alt 192 gnd 191 spd 119 hdg 157 energy 100
+  f82_hands_new_1_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.360 contrast 0.227 one-colour 6 %; right 75 % mean 0.345 contrast 0.193 one-colour 5 %; match: correlation 0.864 at -32 px shift, difference 0.056 -> both eyes drawn
+    [655 fps] Flying/ Flight alt 548 gnd 25 spd 32 hdg 77 energy 100
+    [676 fps] Flying/ Flight alt 215 gnd 76 spd 81 hdg 177 energy 100
+  f82_hands_new_2_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.297 contrast 0.174 one-colour 6 %; right 75 % mean 0.303 contrast 0.176 one-colour 6 %; match: correlation 0.839 at -32 px shift, difference 0.054 -> both eyes drawn
+    [664 fps] Flying/ Hover alt 32 gnd 33 spd 107 hdg 185 energy 100
+  f82_hands_new_3_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.322 contrast 0.176 one-colour 3 %; right 75 % mean 0.322 contrast 0.179 one-colour 3 %; match: correlation 0.834 at -32 px shift, difference 0.055 -> both eyes drawn
+    [418 fps] Flying/ Hover alt 25 gnd 23 spd 1 hdg 185 energy 100
+    [456 fps] Flying/ Hover alt 25 gnd 24 spd 1 hdg 185 energy 100
+  new (Fix 8.2), 60 s, 34537 frames (hands_new.csv): right hand moved on the stick up to 0.4 mm, left hand on the throttle up to 0.3 mm (the stick's grip itself moved up to 41 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 3.5 deg from the ship's heading; shoulders moved up to 0 mm
+--- the windshield, the canopy frame, the right console (items 6, 7)
+  f82_ahead_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.373 contrast 0.217 one-colour 5 %; right 75 % mean 0.387 contrast 0.218 one-colour 6 %; match: correlation 0.860 at -31 px shift, difference 0.054 -> both eyes drawn
+  f82_windshield_top_left_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.489 contrast 0.260 one-colour 4 %; right 75 % mean 0.421 contrast 0.240 one-colour 6 %; match: correlation 0.894 at -32 px shift, difference 0.048 -> both eyes drawn
+  f82_canopy_left_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.609 contrast 0.287 one-colour 15 %; right 75 % mean 0.509 contrast 0.292 one-colour 10 %; match: correlation 0.969 at -32 px shift, difference 0.033 -> both eyes drawn
+    [519 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 135 energy 100
+  f82_canopy_right_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.624 contrast 0.224 one-colour 7 %; right 75 % mean 0.681 contrast 0.220 one-colour 13 %; match: correlation 0.948 at -32 px shift, difference 0.034 -> both eyes drawn
+  f82_canopy_up_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.450 contrast 0.264 one-colour 14 %; right 75 % mean 0.468 contrast 0.260 one-colour 14 %; match: correlation 0.921 at -30 px shift, difference 0.034 -> both eyes drawn
+  f82_canopy_up_left_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.508 contrast 0.290 one-colour 14 %; right 75 % mean 0.376 contrast 0.237 one-colour 19 %; match: correlation 0.955 at -31 px shift, difference 0.027 -> both eyes drawn
+  f82_canopy_up_right_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.367 contrast 0.228 one-colour 17 %; right 75 % mean 0.504 contrast 0.288 one-colour 13 %; match: correlation 0.953 at -31 px shift, difference 0.029 -> both eyes drawn
+  f82_console_right_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.388 contrast 0.235 one-colour 8 %; right 75 % mean 0.463 contrast 0.242 one-colour 4 %; match: correlation 0.931 at -32 px shift, difference 0.050 -> both eyes drawn
+  f82_console_left_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.458 contrast 0.235 one-colour 5 %; right 75 % mean 0.385 contrast 0.233 one-colour 11 %; match: correlation 0.928 at -32 px shift, difference 0.051 -> both eyes drawn
+--- docking with pilots aboard (item 3)
+    [598 fps] Auto/launch Hover alt 1500 gnd 1498 spd 3 hdg 315 energy 100
+  old: put aboard 2; cabin figures shown 2
+    [605 fps] Auto/tow-lift Flight alt 1447 gnd 1447 spd 159 hdg 315 energy 100
+  old (0.8.1's docking), in the hangar: cabin count 0, cabin figures shown 2, cabin camera on
+    [Play]   121.0 docked: 2 pilots delivered (pilot 1, pilot 2): they leave the ship
+    [Play]   121.0 docked (recall): Delivered 2 pilots: +1500 cr (planet of the day +50 %: 500 cr of it)|Recall: -900 cr|Energy used 0%. Refuelled 0%: -2 cr
+    [Play]   121.0 music hangar: docked
+  cabin camera picture f82_cabin_old_hangar.png
+    [556 fps] Auto/launch Hover alt 1455 gnd 1453 spd 44 hdg 315 energy 100
+  old: after the next launch: cabin count 0, cabin figures shown 0, cabin camera off
+  cabin camera picture f82_cabin_old_relaunch.png
+    [506 fps] Auto/dock-rise Flight alt 1496 gnd 1494 spd 10 hdg 315 energy 100
+  new: put aboard 1; cabin figures shown 1
+    [640 fps] Flying/ Flight alt 1421 gnd 1328 spd 73 hdg 315 energy 100
+  new (Fix 8.2), in the hangar: cabin count 0, cabin figures shown 0, cabin camera off
+    [Play]   153.6 docked: 1 pilot delivered (pilot 3): they leave the ship
+    [Play]   153.6 docked (recall): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|<b>Halthel-II cleared! +1000 credits</b>|Recall: -900 cr|Energy used 0%. Refuelled 0%: -2 cr
+    [Play]   153.6 music hangar: docked
+  cabin camera picture f82_cabin_new_hangar.png
+    [373 fps] Auto/launch Hover alt 1492 gnd 1490 spd 13 hdg 315 energy 100
+  new: after the next launch: cabin count 0, cabin figures shown 0, cabin camera off
+  cabin camera picture f82_cabin_new_relaunch.png
+    [565 fps] Auto/tow-lift Flight alt 1466 gnd 1465 spd 114 hdg 315 energy 100
+--- the Field Journal: left / right on a kind's page (item 5)
+  opened: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Animation"
+  f82_journal_mimic_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.246 contrast 0.195 one-colour 21 %; right 75 % mean 0.259 contrast 0.202 one-colour 21 %; match: correlation 0.811 at -31 px shift, difference 0.044 -> both eyes drawn
+  D-pad right: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Animation"
+  D-pad right: "SLEEPER" (◀ Unknown   |   Mimic ▶), row "Animation"
+  D-pad left: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Animation"
+  D-pad left: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Animation"
+  D-pad left: "UNKNOWN" (◀ Knocker   |   Sleeper ▶     (not met yet)), row "Animation"
+  on the second row, D-pad right: "MIMIC" (◀ Sleeper   |   Unknown ▶), row "Reset view"
+  left stick right: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Reset view"; the view turned 0 deg (0: it changes the kind only)
+  right stick right: "KNOCKER" (◀ Unknown   |   Unknown ▶), row "Reset view"; the view turned 66 deg
+  f82_journal_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.247 contrast 0.195 one-colour 21 %; right 75 % mean 0.259 contrast 0.202 one-colour 21 %; match: correlation 0.809 at -31 px shift, difference 0.044 -> both eyes drawn
+    [352 fps] Docked/docked Hover alt 1500 gnd 1498 spd 0 hdg 315 energy 100
+  B: back to "FIELD JOURNAL"
+--- menus in VR (item 4): every page as a board, both eyes; the board's share the cockpit hid (0.8.1's board vs now)
+  f82_vr_hangar_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.251 contrast 0.194 one-colour 21 %; right 75 % mean 0.263 contrast 0.200 one-colour 21 %; match: correlation 0.804 at -31 px shift, difference 0.045 -> both eyes drawn
+  hangar: board pixels (both eyes, backdrop painted): 0.8.1's board 282842 of 290734 -> 3 % hidden by the cockpit; now 290734 (drawn over everything: none hidden)
+  f82_vr_hangar_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.251 contrast 0.194 one-colour 21 %; right 75 % mean 0.263 contrast 0.200 one-colour 21 %; match: correlation 0.804 at -31 px shift, difference 0.045 -> both eyes drawn
+  f82_vr_star_map_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.246 contrast 0.195 one-colour 21 %; right 75 % mean 0.258 contrast 0.202 one-colour 21 %; match: correlation 0.815 at -31 px shift, difference 0.044 -> both eyes drawn
+  star_map: board pixels (both eyes, backdrop painted): 0.8.1's board 232335 of 240227 -> 3 % hidden by the cockpit; now 240514 (drawn over everything: none hidden)
+  f82_vr_star_map_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.246 contrast 0.195 one-colour 21 %; right 75 % mean 0.258 contrast 0.202 one-colour 21 %; match: correlation 0.815 at -31 px shift, difference 0.044 -> both eyes drawn
+    [633 fps] Auto/launch Hover alt 1455 gnd 1453 spd 44 hdg 315 energy 100
+  f82_vr_pause_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.345 contrast 0.191 one-colour 5 %; right 75 % mean 0.379 contrast 0.226 one-colour 5 %; match: correlation 0.861 at -32 px shift, difference 0.039 -> both eyes drawn
+  pause: board pixels (both eyes, backdrop painted): 0.8.1's board 282845 of 290734 -> 3 % hidden by the cockpit; now 291023 (drawn over everything: none hidden)
+  f82_vr_pause_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.345 contrast 0.191 one-colour 5 %; right 75 % mean 0.378 contrast 0.226 one-colour 5 %; match: correlation 0.868 at -32 px shift, difference 0.037 -> both eyes drawn
+  f82_vr_settings_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.345 contrast 0.192 one-colour 5 %; right 75 % mean 0.379 contrast 0.226 one-colour 5 %; match: correlation 0.849 at -32 px shift, difference 0.041 -> both eyes drawn
+  settings: board pixels (both eyes, backdrop painted): 0.8.1's board 282845 of 290734 -> 3 % hidden by the cockpit; now 291023 (drawn over everything: none hidden)
+  f82_vr_settings_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.345 contrast 0.192 one-colour 5 %; right 75 % mean 0.379 contrast 0.226 one-colour 5 %; match: correlation 0.849 at -32 px shift, difference 0.041 -> both eyes drawn
+  f82_vr_journal_alien_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.341 contrast 0.195 one-colour 5 %; right 75 % mean 0.375 contrast 0.229 one-colour 5 %; match: correlation 0.872 at -32 px shift, difference 0.037 -> both eyes drawn
+  journal_alien: board pixels (both eyes, backdrop painted): 0.8.1's board 232393 of 240282 -> 3 % hidden by the cockpit; now 240803 (drawn over everything: none hidden)
+  f82_vr_journal_alien_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.341 contrast 0.195 one-colour 5 %; right 75 % mean 0.375 contrast 0.229 one-colour 5 %; match: correlation 0.872 at -32 px shift, difference 0.037 -> both eyes drawn
+    [438 fps] Paused/ Flight alt 1420 gnd 1298 spd 73 hdg 315 energy 100
+  f82_vr_journal_looking_down_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.342 contrast 0.182 one-colour 6 %; right 75 % mean 0.379 contrast 0.227 one-colour 5 %; match: correlation 0.865 at -32 px shift, difference 0.042 -> both eyes drawn
+  journal_looking_down: board pixels (both eyes, backdrop painted): 0.8.1's board 5961 of 240282 -> 98 % hidden by the cockpit; now 240281 (drawn over everything: none hidden)
+  f82_vr_journal_looking_down_after_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.342 contrast 0.182 one-colour 6 %; right 75 % mean 0.379 contrast 0.227 one-colour 5 %; match: correlation 0.865 at -32 px shift, difference 0.042 -> both eyes drawn
+--- eye comparison: 28 pairs, 0 with a blank / one-colour / mismatched eye
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.034 RMS, peak 2.046, zeroed before the speakers; 19499008 samples); master volume 0.00
