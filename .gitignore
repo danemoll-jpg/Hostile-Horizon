@@ -31,3 +31,10 @@ BundleMusic/
 SourceArt/Blender/Ship.blend
 SourceArt/Blender/Mothership.blend
 *.blend1
+
+# Round 10: promo footage and renders (large; made again by Tools/promo_capture.py and Tools/promo_edit.py)
+Promo/footage/
+Promo/rough/
+Promo/build/
+Promo/*.mp4
+Promo/*.sheet.jpg

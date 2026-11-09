@@ -177,7 +177,7 @@ namespace HostileHorizon
                     if (Controls.CameraPressed) Rig.Cycle();
                     if (Controls.ViewPressed) { viewDown = true; recallFiredThisHold = false; }
                     if (InCampaign) CampaignTick(); else TrialTick(Time.deltaTime);   // Round 9 (F1)
-                    Displays.PauseHint = Time.time - flightStartedAt < 60f;
+                    Displays.PauseHint = !Promo.Active && Time.time - flightStartedAt < 60f;   // Round 10: none in the promo footage
                     if (Now == State.Flying && (Controls.MenuPressed || ViewTap())) Pause();
                     break;
                 case State.Paused:

@@ -1,0 +1,405 @@
+{
+ "note": "Round 10 trailer (16:9). Shots: Promo/footage/<group>/<shot>.mp4 (Tools/promo_capture.py). The ending is the game's strike: its sounds and lines (game_voice). Render: python Tools/promo_edit.py Promo/edit_trailer.json [--rough]",
+ "size": [
+  1920,
+  1080
+ ],
+ "video": [
+  {
+   "black": true,
+   "dur": 1.0
+  },
+  {
+   "shot": "launch/mother_wide",
+   "in": 1.0,
+   "dur": 5.0,
+   "fi": 0.8
+  },
+  {
+   "shot": "launch/launch",
+   "in": 1.2,
+   "dur": 6.0
+  },
+  {
+   "shot": "free/canyon_chase",
+   "in": 3.0,
+   "dur": 3.0,
+   "engine": -16,
+   "amb": "amb_canyons.mp3"
+  },
+  {
+   "shot": "free/canyon_front",
+   "in": 1.0,
+   "dur": 3.0,
+   "engine": -14,
+   "amb": "amb_canyons.mp3"
+  },
+  {
+   "shot": "combat/turret_fire",
+   "in": 0.4,
+   "dur": 1.8,
+   "engine": -18
+  },
+  {
+   "shot": "free/canyon_high",
+   "in": 1.0,
+   "dur": 1.5,
+   "amb": "amb_canyons.mp3"
+  },
+  {
+   "shot": "free/biome_forest",
+   "in": 1.5,
+   "dur": 1.7,
+   "engine": -18,
+   "amb": "amb_forest.mp3"
+  },
+  {
+   "shot": "free/biome_city",
+   "in": 1.0,
+   "dur": 2.5,
+   "engine": -18,
+   "amb": "amb_city.mp3"
+  },
+  {
+   "shot": "free/biome_ice",
+   "in": 2.5,
+   "dur": 1.6,
+   "engine": -18,
+   "amb": "amb_ice.mp3"
+  },
+  {
+   "shot": "free/biome_volcanic",
+   "in": 4.5,
+   "dur": 1.6,
+   "engine": -18,
+   "amb": "amb_volcanic.mp3"
+  },
+  {
+   "shot": "free/biome_crystal",
+   "in": 2.0,
+   "dur": 1.6,
+   "engine": -18,
+   "amb": "amb_crystal.mp3"
+  },
+  {
+   "shot": "free/ocean_arch",
+   "in": 2.4,
+   "dur": 2.6,
+   "engine": -16,
+   "amb": "amb_ocean.mp3"
+  },
+  {
+   "shot": "launch/route_chase",
+   "in": 1.0,
+   "dur": 2.0,
+   "engine": -18
+  },
+  {
+   "shot": "launch/route_cockpit",
+   "in": 2.0,
+   "dur": 2.0,
+   "engine": -16
+  },
+  {
+   "shot": "launch/brake",
+   "in": 0.0,
+   "dur": 2.4,
+   "engine": -16
+  },
+  {
+   "shot": "launch/hover_cockpit",
+   "in": 1.0,
+   "dur": 2.2,
+   "engine": -18
+  },
+  {
+   "shot": "launch/brake",
+   "in": 3.9,
+   "dur": 1.5,
+   "engine": -18
+  },
+  {
+   "shot": "launch/pilot_run",
+   "in": 1.5,
+   "dur": 3.0,
+   "amb": "amb_canyons.mp3",
+   "amb_gain": -14
+  },
+  {
+   "shot": "launch/knock_door",
+   "in": 5.3,
+   "dur": 2.2,
+   "amb": "amb_canyons.mp3",
+   "amb_gain": -16
+  },
+  {
+   "shot": "launch/knock_cockpit",
+   "in": 0.4,
+   "dur": 3.3,
+   "amb": "amb_canyons.mp3",
+   "amb_gain": -18
+  },
+  {
+   "shot": "combat/shield",
+   "in": 0.2,
+   "dur": 2.0,
+   "engine": -18
+  },
+  {
+   "shot": "combat/gun_cockpit",
+   "in": 1.2,
+   "dur": 2.5,
+   "engine": -18
+  },
+  {
+   "shot": "combat/saucer_pass",
+   "in": 2.5,
+   "dur": 2.0,
+   "engine": -18
+  },
+  {
+   "shot": "combat/saucer_kill",
+   "in": 3.0,
+   "dur": 2.0,
+   "engine": -18
+  },
+  {
+   "shot": "free/cockpit_hands",
+   "in": 1.0,
+   "dur": 3.0,
+   "engine": -16
+  },
+  {
+   "shot": "free/vr_look",
+   "in": 1.0,
+   "dur": 3.8,
+   "engine": -16
+  },
+  {
+   "shot": "launch/dock",
+   "in": 9.0,
+   "dur": 4.0
+  },
+  {
+   "black": true,
+   "dur": 2.8
+  },
+  {
+   "shot": "ending_hollow/end_hollow_run",
+   "in": 2.0,
+   "dur": 2.0,
+   "amb": "amb_canyons.mp3",
+   "amb_gain": -12
+  },
+  {
+   "shot": "ending_hollow/end_hollow_airlock",
+   "in": 4.4,
+   "dur": 5.08,
+   "amb": "amb_canyons.mp3",
+   "amb_gain": -14
+  },
+  {
+   "black": true,
+   "dur": 4.2
+  },
+  {
+   "card": "end",
+   "dur": 4.5,
+   "fi": 0.6,
+   "fo": 0.8
+  }
+ ],
+ "cards": {
+  "end": {
+   "art": "SourceArt/Title/SteamDeck/hostile-horizon-landscape-master.png",
+   "art_level": 0.35,
+   "logo": "SourceArt/Title/Steam/HostileHorizon-Logo.png",
+   "logo_w": 0.55,
+   "logo_y": 0.42,
+   "text": "HOTAS  \u00b7  VR  \u00b7  Steam Deck",
+   "text_h": 0.045,
+   "text_pos": "bottom"
+  }
+ },
+ "text": [
+  {
+   "t": 63.2,
+   "dur": 3.4,
+   "text": "VR",
+   "size": 0.05,
+   "pos": "topleft",
+   "box": true
+  },
+  {
+   "image": "SourceArt/Title/Steam/HostileHorizon-Logo.png",
+   "t": 68.6,
+   "dur": 2.2,
+   "w": 0.5,
+   "pos": "center"
+  }
+ ],
+ "narration": [
+  {
+   "id": "n01",
+   "t": 1.4,
+   "gain": 9
+  },
+  {
+   "id": "n02",
+   "t": 3.4,
+   "gain": 9
+  },
+  {
+   "id": "n03",
+   "t": 6.9,
+   "gain": 9
+  },
+  {
+   "id": "n04",
+   "t": 12.3,
+   "gain": 9
+  },
+  {
+   "id": "n05",
+   "t": 18.0,
+   "gain": 9
+  },
+  {
+   "id": "n06",
+   "t": 38.0,
+   "gain": 9
+  },
+  {
+   "id": "n10",
+   "t": 43.35,
+   "gain": 9
+  },
+  {
+   "id": "n08",
+   "t": 60.3,
+   "gain": 9
+  },
+  {
+   "id": "n09",
+   "t": 68.8,
+   "gain": 9
+  }
+ ],
+ "music": [
+  {
+   "file": "BundleMusic/title_theme.mp3",
+   "from": 0.0,
+   "to": 12.6,
+   "at": 0.0,
+   "fi": 1.5,
+   "fo": 0.6,
+   "gain": -4
+  },
+  {
+   "file": "BundleMusic/title_theme.mp3",
+   "from": 66.3,
+   "to": 100.6,
+   "at": 12.0,
+   "fi": 0.4,
+   "fo": 1.5,
+   "gain": -4
+  },
+  {
+   "file": "BundleMusic/tension_low_energy.mp3",
+   "from": 65.7,
+   "to": 72.0,
+   "at": 45.6,
+   "fi": 1.0,
+   "fo": 0.8,
+   "gain": -8
+  },
+  {
+   "file": "BundleMusic/title_theme.mp3",
+   "from": 105.8,
+   "to": 126.0,
+   "at": 51.4,
+   "fi": 0.2,
+   "fo": 1.6,
+   "gain": -4
+  },
+  {
+   "file": "BundleMusic/tension_low_energy.mp3",
+   "from": 65.7,
+   "to": 73.983,
+   "at": 70.8,
+   "fi": 1.5,
+   "fo": 0.02,
+   "gain": -8,
+   "note": "cut at the strike (Music.Cut)"
+  },
+  {
+   "file": "BundleMusic/title_theme.mp3",
+   "from": 133.6,
+   "to": 144.8,
+   "at": 84.88,
+   "fi": 0.05,
+   "fo": 3.0,
+   "gain": -4
+  }
+ ],
+ "sfx": [
+  {
+   "file": "airlock_cycle.mp3",
+   "t": 6.3,
+   "gain": -10
+  },
+  {
+   "file": "dock_clamp.mp3",
+   "t": 8.4,
+   "gain": -6
+  },
+  {
+   "file": "dock_clamp.mp3",
+   "t": 69.9,
+   "gain": -8
+  },
+  {
+   "file": "hatch_burst.mp3",
+   "t": 79.083,
+   "gain": 0
+  },
+  {
+   "file": "creature_lunge.mp3",
+   "t": 79.083,
+   "gain": 0
+  },
+  {
+   "file": "sting_alien_reveal.mp3",
+   "t": 79.083,
+   "gain": 6
+  },
+  {
+   "file": "alarm.mp3",
+   "t": 79.433,
+   "dur": 1.25,
+   "loop": true,
+   "gain": -7,
+   "fade": 0.02
+  },
+  {
+   "file": "sting_death.mp3",
+   "t": 80.683,
+   "gain": -4
+  }
+ ],
+ "game_voice": [
+  {
+   "id": "cpu_intruder",
+   "kind": "computer",
+   "t": 79.433,
+   "gain": 3,
+   "stop": 80.683
+  },
+  {
+   "id": "ctl_lost_contact",
+   "kind": "radio",
+   "t": 80.833,
+   "gain": 9
+  }
+ ]
+}

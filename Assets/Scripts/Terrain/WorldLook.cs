@@ -164,6 +164,7 @@ namespace HostileHorizon
             if (SteamDeck.On) { q.view *= SteamDeck.ViewScale; q.shadow *= SteamDeck.ViewScale; q.msaa = 1; q.cascades = 1; q.shadowLods = 1; }
             // Round 8 (C7): the VR quality preset (two eyes at the headset's rate on a 1660 Ti): a shorter view, one short shadow cascade,
             // 2x MSAA (edges matter in a headset), render scale 0.9 (ApplyQuality)
+            if (Promo.Active) { q.view = 4500; q.shadow = 650; q.cascades = 4; q.msaa = 4; q.shadowLods = 2; }   // Round 10: the promo capture (frame by frame: time is no object)
             if (VrMode.Active) { q.view = Mathf.Min(q.view, 2200); q.shadow = Mathf.Min(q.shadow, 150); q.cascades = 1; q.msaa = 2; q.shadowLods = 1; }
             return q;
         }

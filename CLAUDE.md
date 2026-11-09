@@ -450,6 +450,16 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   0.9.0's (checks). Check `-exeCheckOnly fix91` (flat: A1-A3) / `fix91 -vr` (mock runtime: A4, the mock head turned through
   `mock_runtime.dll`'s `MockRuntime_SetReferenceSpace` / `SetView`); `bash local/fix91_runs.sh flat|vr <name>`. `run_check.py --exe <path>`
   runs a check on another build (absolute path).
+- **Promo video (Round 10 Part B):** (1) **capture** real footage from the built exe, headless and muted, frame by frame at 1/60 s
+  (`Checks/ExeCheck.Promo.cs`: `-exeCheckOnly promo:<group>`, `Promo.Active`; higher quality in `WorldLook`, `-promoDay` / `-promoSeed`):
+  `python Tools/promo_capture.py free|launch|combat|ending_<type> [--size 3840x2160]` -> `Promo/footage/<group>/<shot>.mp4` + `.events.txt`
+  (git-ignored, ~10 GB at 4K; needs a local build with the capture code: the published 0.9.1 was built before it, gameplay identical).
+  (2) **narration** by Control: `python Tools/promo_voice.py [--only n10] [--force]` -> `SourceArt/Promo/voice/` (n01-n10; e01-e03 unused).
+  (3) **edit** from the edit lists `Promo/edit_trailer.json` / `Promo/edit_vertical.json` (shots, cards, text, narration, music,
+  sfx, `game_voice` = the game's own lines with its computer chime / radio filter):
+  `python Tools/promo_edit.py Promo/edit_trailer.json [--rough | --4k] [--sheet]` -> `Promo/HostileHorizon_Trailer[_4K].mp4`
+  (`--rough`: half size in `Promo/rough/`); same for `edit_vertical.json` (subtitles burned in). -14 LUFS two-pass, a true-peak limiter.
+  ffmpeg 9 here: `-/filter_complex <file>`; its `amix` stops when the last-listed input ends, so the tool lists inputs by end time.
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -594,7 +604,9 @@ planet); docking round the mothership and in through the stern opening (0.9.0's 
 and down through the roof: now 0 crossings of the hull from every start); the mothership's Meshy textures (never loaded before); VR
 recentre in every state, hold Pause 1 s, automatic after the headset comes back) is built, checked in the exe (headless, muted, `fix91`
 flat and on the mock VR runtime) and published as 0.9.1 (`game-901` Latest). Not yet played by Dan.** Details in `TODO.md` (Part A
-status). **Next: Round 10 Part B (the promo video)**, in progress.
+status). **Round 10 Part B (the promo video) is done:** `Promo/HostileHorizon_Trailer.mp4` (89.4 s, 1080p; `_4K` beside it) and
+`Promo/HostileHorizon_Vertical.mp4` (30.1 s, 9:16), real exe footage, Control's narration, the game's own strike as the ending, after
+Dan's notes on two rough cuts. **Next:** nothing queued (TODO.md).
 **Round 9 (A: the mothership's openings cut cleanly and lined; the grey box at the ship's rear was the code-built cabin poking out of
 the Round 8 hull, now drawn only from inside; Dan's Steam artwork in the game, the starter and copied beside the launcher by the game,
 the portrait as the launcher's cover. B: side missions (recorder, turret nest, timed rescue, clean run); C: recover your own wreck in

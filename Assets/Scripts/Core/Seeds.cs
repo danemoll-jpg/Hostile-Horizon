@@ -10,7 +10,10 @@ namespace HostileHorizon
     {
         public const int Max = 99999999;
         public static readonly string[] ModeNames = { "Seed of the day", "Random", "Typed in" };
-        public static int OfTheDay => int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+        public static int OfTheDay => PromoDay > 0 ? PromoDay : int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+        // Round 10 (B): the promo capture fixes the day (-promoDay yyyymmdd), so a re-render gets the same planets
+        static int promoDay = -1;
+        static int PromoDay { get { if (promoDay < 0) { var a = LauncherBridge.Argument("-promoDay"); promoDay = a != null && int.TryParse(a, out int v) ? v : 0; } return promoDay; } }
         public static int NewRandom() => new Random().Next(0, Max + 1);
     }
 }

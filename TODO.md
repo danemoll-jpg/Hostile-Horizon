@@ -168,60 +168,23 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 10: game fixes (Part A, 0.9.1) + the promo video (Part B)
+Current Objective — none (Round 10 delivered, below)
 ---------------------------------------------------------------------------
 
-Round 9 is delivered as 0.9.0 (status under "Previous deliveries"). Dan
-(2026-11-09): "let's go ahead with the promo round". The plan below was decided
-with Dan on 2026-11-08; **the draft narration is approved** ("sounds good").
-Part A is a game update (0.9.1); Part B makes video files.
+Waiting for the planning chat to write the next round.
 
-0. **Commit first** (the repo as it is, with this text).
+---------------------------------------------------------------
+Next Steps — queued rounds (Do Not Start Yet)
+---------------------------------------------------------------------------
 
-**Part A first — game fixes (Fix 9.1, Dan 2026-11-09), before any capture,**
-so the video shows them. Publish them as **0.9.1** when done (a normal game
-release), then go on with the promo items below.
+Nothing queued after Round 10. Other ideas, not decided: native Quest, more biomes, more alien types.
 
-A1. **Aliens rarer.** Dan: "I seem to be hitting them like 50 % of the time."
-    Now: share 20 % + 5 % a tier, max 35 %, and **at least one alien on every
-    planet after the first** (`max(1, round(share x pilots))`): with 3-4 pilots
-    that is 25-33 % or more of all pickups. New (Normal): share **10 %**, +2.5 %
-    a tier, max **20 %**, rolled per pilot from the seed (so **some planets have
-    none**, no minimum of one); the difficulty presets scale it (Easy lower,
-    Hard / Nightmare higher, Custom's slider). Report the measured share over
-    400 sample planets at tiers 0-4 for each preset. The Sleeper and the other
-    types stay in the mix.
-A2. **Dock through the bay, not the roof.** Dan: "Docking to the mothership
-    should come in through the bay and not the roof." The automatic approach
-    (and the tow / recall / mid-air rescue lifts) must fly in through the bay's
-    opening (the opening cut in Round 9 A), lined up behind / below it, never
-    through the hull or the roof. Launch leaves through the same opening (or the
-    floor doors if that's the bay's design, but never through solid hull).
-    Check: pictures along the approach from the chase view and the cockpit;
-    the path never passes through hull geometry (log the closest distance to the
-    hull mesh).
-A3. **Mothership textures.** Dan: "The mothership seems to be missing its
-    textures." Find why (Meshy textures not imported / not assigned after the
-    bay cut in Round 9, a material lost in the Blender re-export, the hull drawn
-    with a plain material, LOD materials). Restore the textured look on the
-    hull, wall modules and the openings' new trim. Check: pictures of the
-    mothership outside and in the bay, before / after.
-A4. **VR recenter that really recenters.** Dan: "It needs to recenter to the way
-    I am facing. If I take off the headset for a second, it faces a different
-    direction and I can't get it to correct." Recenter must set the view so the
-    direction the player's head is facing **now** becomes straight ahead in the
-    cockpit (yaw only; keep the horizon level), and move the head back to the
-    eye point. Handle the runtime's tracking-origin changes (the headset taken
-    off / put back on, Virtual Desktop / SteamVR recentering, the Quest's own
-    reset): when the origin changes, recenter automatically. The Recenter
-    control: a **HOTAS button** Dan can reach (assignable, default a base
-    button), the gamepad (hold ⧉ View + ☰ Menu, or as Code proposes), the
-    keyboard, and in the pause menu; it works in flight, landed, docked and in
-    menus. Check with the mock runtime: head turned 90° / 180°, taking the
-    "headset off" (pose lost and back with a different origin), then recenter:
-    straight ahead again, both eyes.
-A5. **Publish 0.9.1**, update `TODO.md` (status for A1-A4, the causes for A3)
-    and commit, then continue with the promo items.
+---------------------------------------------------------------------------
+Previous deliveries
+---------------------------------------------------------------------------
+
+**Round 10 — Fix 9.1 (A) + the promo video (B) (2026-11-09). Published: 0.9.1 (`game-901`, Latest; soundtrack stays `soundtrack-700`).
+Videos: `Promo/HostileHorizon_Trailer.mp4` (+ `_4K`), `Promo/HostileHorizon_Vertical.mp4`.**
 
 **Part A status (Fix 9.1, 2026-11-09).** Evidence `Data/screenshots/fix91/` (`flat/` = `-exeCheckOnly fix91`, `vr/` = `fix91 -vr`
 on the mock runtime, `home/` = the `home` check again). Run: `bash local/fix91_runs.sh flat|vr <name>`.
@@ -264,83 +227,32 @@ on the mock runtime, `home/` = the `home` check again). Run: `bash local/fix91_r
   by Dan. **For Dan to check:** docking (through the stern, cockpit and chase), the mothership's look, aliens' frequency over a few
   planets, and in the Quest: hold OPTIONS 1 s to recentre (title, flight, hangar), and take the headset off and put it back on.
 
-**Part B — the promo video**
-
-1. **Two cuts** from the same footage and narration:
-   - **Trailer:** 60-90 s, 16:9, 1920 x 1080 (4K if the PC renders it in
-     reasonable time), 60 fps, H.264 MP4, for Steam / YouTube.
-   - **Vertical:** 30 s, 9:16, 1080 x 1920, 60 fps, H.264 MP4, for phones /
-     social: its own framing (reframed or separately captured shots), not a
-     letterboxed trailer; text bigger.
-   Output: `Promo/HostileHorizon_Trailer.mp4`, `Promo/HostileHorizon_Vertical.mp4`
-   (git-ignored if large; their capture scripts / edit lists in git).
-2. **Narration by Control** — the in-game Control voice (ElevenLabs, the same
-   voice id), as a radio briefing (the game's radio filter, lighter). The
-   approved script:
-   "This is Control. The colony fleet went down over the frontier. Hundreds of
-   pilots, scattered across worlds that want them dead. ... You fly in low.
-   Below the guns, through the canyons, through the forests, between the
-   towers of dead cities. ... Find them. Land. Open the airlock. ... Just make
-   sure it's really them. ... Fly it with a HOTAS. Step into the cockpit in VR.
-   ... Hostile Horizon."
-   Ending, over black: "Rescue Seven, respond. ... Rescue Seven? ... We've lost
-   contact."
-   The vertical cut uses a shortened version (Code trims it; same voice
-   takes). Subtitles burned in on the vertical cut (phones play muted).
-3. **Footage: real game, captured from the built exe** with scripted cinematic
-   camera paths (a capture mode, e.g. `-promoCapture <shot> <dir>`), rendered
-   **frame by frame at a fixed time step** (no dropped frames, full quality,
-   higher settings than play if the PC allows), **no visible window, muted**
-   (the testing rules; sound is added in the edit). Shot list (Code may add
-   more good-looking shots):
-   - opening: the mothership over a planet; the ship drops out of the bay;
-   - the canyon run low and fast (chase and cockpit views);
-   - a **biome montage**: Giant Forest, Dead City, Ice, Volcanic (lava),
-     Crystal Forest, Ocean Islands (arches);
-   - the **cockpit with the pilot's hands on the HOTAS stick and throttle**,
-     moving with the flying;
-   - **VR**: a cockpit look-around shot that reads as VR (head turning,
-     looking down through the floor window), labelled on screen;
-   - turrets firing, a saucer pass, the ship firing / shield;
-   - the radar and route trail; braking; a landing with the belly camera;
-   - a pilot running to the ship and the **three knocks**;
-   - docking in the mothership;
-   - the **ending**: landed, the knock, the airlock opens... an **alien bursts
-     out at the camera**, hard cut to black, Control's last lines over black,
-     then the title card.
-   Never show a full alien before the ending (only hints: a shadow, a figure
-   at a distance).
-4. **Edit (ffmpeg):** cut to the music and the narration; **score** with Dan's
-   Suno `title_theme` (the trailer), a flight track under the montage if it
-   fits; ElevenLabs / in-game sound effects (engine, wind, shots, knocks, the
-   alien shriek); the narration ducks the music. **Title cards** from Dan's
-   artwork (`SourceArt/Title/SteamDeck/`: the logo, the wide / portrait art),
-   short big on-screen text ("Rescue them.", "Don't let it in."). **Closing
-   card:** the logo, "HOTAS · VR · Steam Deck". No store link or price (none
-   decided yet; Dan can ask later).
-5. **STOP for Dan: rough cut.** Low-res previews of both cuts
-   (`Promo/rough/`), with the narration and music, plus a one-line list of the
-   shots. Wait for Dan's notes before the final render.
-6. **Final render** of both cuts after Dan's notes; check them (length, no
-   black frames except the ending, audio levels: narration clear over music,
-   loudness about -14 LUFS, no clipping; text readable on a phone). Any
-   audible playback for checking follows the testing rule (brief, reported) —
-   prefer measured levels.
-7. **Update `TODO.md`** (per-item status, the file paths, how to re-render)
-   and `CLAUDE.md` (the capture mode and the edit commands), clean up, commit
-   and push. Tell Dan where the two videos are.
-
-**For Dan to check:** the rough cut (step 5), then the two final videos.
-
----------------------------------------------------------------
-Next Steps — queued rounds (Do Not Start Yet)
----------------------------------------------------------------------------
-
-Nothing queued after Round 10. Other ideas, not decided: native Quest, more biomes, more alien types.
-
----------------------------------------------------------------------------
-Previous deliveries
----------------------------------------------------------------------------
+**Part B status (2026-11-09)** — videos: **`Promo/HostileHorizon_Trailer.mp4`** (89.4 s, 1920 x 1080, 60 fps), **`Promo/HostileHorizon_Trailer_4K.mp4`**
+(the same at 3840 x 2160), **`Promo/HostileHorizon_Vertical.mp4`** (30.1 s, 1080 x 1920, 60 fps, subtitles); all H.264, git-ignored.
+Contact sheets `Data/screenshots/round10/partB/`. Not committed: the 10 GB of 4K footage (`Promo/footage/`, kept for re-edits).
+- **B1 DONE.** Both cuts; the vertical crops the 4K footage per shot (`cx`), its text and subtitles bigger.
+- **B2 DONE, changed by Dan's notes.** Narration n01-n06, n08, n09 as approved + **"Rescue them." voiced** (n10, Dan); **"Just make
+  sure it's really them" dropped** (Dan: it gives the surprise away); the ending lines e01-e03 (recorded) **replaced by the game's own
+  lines at the strike** (Dan: "the voice isn't dramatic enough ... use the voice exactly as is in the game"): the computer's "Intruder
+  alert" with its chime (cut at the death, as `Voice.StopAll` does) and Control's `ctl_lost_contact` on the game's radio filter.
+- **B3 DONE.** Captured from the built exe (0.9.1 + the capture mode), headless, muted (output 0), frame by frame at 1/60 s, 4K, higher
+  settings; groups free, launch, combat, ending_hollow, ending_stalker. No alien seen before the ending. The volcanic shot re-cut to a
+  clean stretch (Dan: the ship went into the rock in the rough cut).
+- **B4 DONE, changed by Dan's notes.** Score: `title_theme`; `tension_low_energy` under the knocks and under the ending (black gap,
+  the run, the airlock), cut dead at the strike as `Music.Cut` does (Dan: tension music at the attack; the game itself plays it only
+  for low energy / far from home). The strike plays the game's sounds in full: hatch burst, lunge, `sting_alien_reveal`, the alarm,
+  then `sting_death`. Sounds on the frames the capture logged (knocks, shots, hits, explosions). Captions: **none for "Rescue them." /
+  "Don't let it in."** (Dan removed both); "VR" label, the logo over docking, closing card (logo, "HOTAS · VR · Steam Deck"). A short
+  black gap before the last clip (Dan).
+- **B5 DONE.** Three rough cuts (`Promo/rough/`), Dan's notes twice.
+- **B6 DONE.** Checks: lengths 89.4 / 30.1 s; black only where planned (open, the gap before the ending, after the strike);
+  loudness -14.1 / -14.4 LUFS, true peak -2.1 / -2.0 dBTP (no clipping); subtitles 54 px on 1920 (readable on a phone). Nothing played
+  aloud by Code (levels measured).
+- **B7 DONE.** This status, CLAUDE.md (capture / voice / edit commands), clean-up (project folders 9.6 -> 9.6 GB; `Promo/` 11.2 -> 10.5 GB:
+  render intermediates deleted, the 4K footage kept; C: has 57 GB free), commit, push. Nothing published (Part B makes videos;
+  the game's release is 0.9.1).
+- **Re-render:** `python Tools/promo_edit.py Promo/edit_trailer.json [--4k]`, `python Tools/promo_edit.py Promo/edit_vertical.json`
+  (`--rough` for previews). New footage: a local build, then `python Tools/promo_capture.py <group>`. New lines: `Tools/promo_voice.py`.
 
 **Round 9 — Fix 8.3 (A), side missions (B), recover your own wreck (C), insurance (D), best runs (E), time trial (F), tougher enemies on
 Hard / Nightmare (G) (2026-11-09). Published: 0.9.0 (`game-900`, Latest; soundtrack stays `soundtrack-700`) + `starter-900` (not Latest).**
@@ -450,36 +362,6 @@ runtime with both real eyes compared (28 / 28 pairs drawn in both eyes).
 **For Dan to check (Quest 3):** hands calm on the stick and throttle while you look round and lean; the throttle level with the stick;
 dock with pilots and look back: cabin empty; the Journal readable in VR (and when looking down) and left / right between aliens; the right
 console; the windshield's top left; the ceiling handle recess.
-
-**Fix 8.1 — VR right eye, the pilot's body and hands, a real floor window (2026-11-08). Published: 0.8.1 (`game-801`, Latest;
-soundtrack stays `soundtrack-700`).** Exe built 2026-11-08 19:25. Evidence `Data/screenshots/fix81/`: `flat_5/` and `vr_5/` (final),
-`vr_before/` (the same check against Round 8's shaders); in git: the reports and key pictures (all pictures stay on disk). Every run headless, muted (output 0.000
-RMS), no window, Below Normal, one at a time; `-exeCheckOnly fix81` (flat) and `fix81 -vr` on the mock runtime (`local/fix81_runs.sh`).
-- **0 Commit first — done** (`baac2dd`).
-- **1 Both eyes — done.** Cause confirmed: the 9 custom shaders had no stereo-instancing macros. All passes (forward + depth) now have
-  them, plus the new `Window.shader`; none samples the screen or depth. Single-pass instanced kept. Render-texture feeds (belly / cabin
-  camera, star map) are flat cameras: unaffected. **Check:** the eye pictures are now the real eye texture (both slices, copied right
-  after the stereo head camera draws). Round 8's check drew each eye with a separate flat camera, so it could not see the bug; also a
-  headless player draws no camera by itself, so Round 8's VR frame times (1-2 ms) did not include drawing the eyes: not valid.
-  Old shaders: 27 / 32 pairs flagged (right eye 38 % scenery vs 75 % left in every biome, blue: `vr_before/*_eyes.png`); new: 0 / 32
-  (7 biomes ahead + firing, lava, sea, hangar bay, launch, route trail, title, body, window, strike; correlation 0.78-0.94).
-- **2 Body and hands — done (one residual for Dan).** `Flight/PilotBody.cs`: the Fix 3.1 pilot posed in code, no head (shrunk at the
-  neck), legs to the floor beside the window, right hand on the stick, left on the throttle (two-bone IK, fingers curled), index pulls
-  the trigger while firing, thumbs press for shield / level out (stick) and air brake (throttle); chest / neck turn a little with the head.
-  Seat mirrored in `ship.py` (normals checked: 4865 outward faces before and after; the texture has no lettering): stick right, throttle
-  left; both cut out of the Meshy seat (groups Stick / Throttle, no new models needed). Stick tilts 18° with pitch / roll, twists 15°
-  with yaw (pad forward + right -> stick top forward + right, checked); lever swings ±22° with the throttle (the HOTAS lever when bound).
-  The throttle moved 15 cm forward along the armrest (in the seat's own place the arm bent backwards). Cabin camera: the body is out of
-  its view (same layer, would show). Strike: face 0.62 m, nearest part 0.40 m (unchanged). **Residual (tuning limit, two tries):**
-  looking far back over the left shoulder, your shoulder is a lumpy shape 10 cm from the eye (`flat_5/f81_body_left_hand.png`).
-- **3 Floor window — done.** Cause: Round 8 turned the belly faces whose centres fell in a box into glass. Now a clean cut along four
-  planes, a 0.42 x 0.70 m rounded window between the feet (raised frame, 14 bolts, 30 mm tinted glass with sky reflection and scratches),
-  and a lining that widens to the belly so the ground shows (`f81_window_flight.png`, `f81_window_hover.png`; in hover the nose gear shows).
-- **4 Published 0.8.1 — done**; CLAUDE.md has the stereo shader rule. Clean-up: 7.3 GB -> 7.3 GB.
-- Seen in passing (0.8.0 too, not changed): the right side console looks untextured white (`round8/partB_run1/r8b_cockpit_right.png`).
-
-**For Dan to check (Quest 3):** scenery in both eyes; look down: body, hands on the stick and throttle moving with the HOTAS, the
-trigger finger; the floor window in a hover; your left shoulder when looking back.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers
