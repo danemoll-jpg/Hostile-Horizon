@@ -1,0 +1,190 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.020 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [53216] [00:34:39.415][Info   ] Available Layers: (1)
+[XR] [53216] [00:34:39.585][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [53216] [00:34:39.585][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [53216] [00:34:39.585][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [53216] [00:34:39.585][Info   ] ==== OpenXR Runtime Info ====
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.585][Info   ] Available Runtime Extensions: (34)
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [53216] [00:34:39.585][Info   ]   XR_MND_headless: Version=3
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_uuid: Version=1
+[XR] [53216] [00:34:39.585][Info   ]   XR_META_headset_id: Version=2
+[XR] [53216] [00:34:39.585][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.585][Info   ] Available Layers: (1)
+[XR] [53216] [00:34:39.585][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.585][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.585][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [53216] [00:34:39.585][Info   ] Runtime Version: 1.1.0
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.585][Info   ] ==== OpenXR API Spec Version ====
+[XR] [53216] [00:34:39.585][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [53216] [00:34:39.586][Info   ]     Origin: result
+[XR] [53216] [00:34:39.586][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] ==== Std Exception Thrown ====
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [53216] [00:34:39.586][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [53216] [00:34:39.586][Info   ]     Origin: result
+[XR] [53216] [00:34:39.586][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [53216] [00:34:39.586][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [53216] [00:34:39.586][Info   ] 
+[XR] [53216] [00:34:39.586][Info   ] ==== Last 20 Events ====
+[XR] [53216] [00:34:39.586][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.725000 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (test run)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 118784 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-09 00:34; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] --- C / D / E: salvage 12 s within 70 m, comes back at 60 % hull, ambush chance 0.4; insurance 4 % of the ship's value, recovery x0.2
+[Play]     2.3 arrived: planet Halkon-II (seed 20261109, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]     2.3 missions: Timed rescue (Open), Clean run (Open), Recover the flight recorder (Open)
+[Play]     2.4 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]     2.9 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] D: insured True: credits 3000 -> 2760 (fee 240, ship value 6000); row "Insured for this flight ✓  <size=24>(select to cancel: +240 cr back)</size>"
+[ExeCheck]   cancelled: insured False, credits 3000
+[ExeCheck]   insured again True, credits 2760; hangar "<b>Ship</b>: your own   hull 100%   energy 100%" …
+[ExeCheck] screenshot r9d_hangar_insured.png
+[Play]     5.3 launch: Halkon-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]     5.3 missions open: Timed rescue, Clean run, Recover the flight recorder
+[Play]     5.3 launch: insured (240 cr)
+[Play]     5.3 music flight_canyons: flight (automatic)
+[Music] loaded flight_canyons (163 s)
+[Play]    11.3 voice CONTROL: Clamps released. Go and find our people.
+[Play]    13.5 music flight_canyons: flying
+[Play]    13.5 pilot 2 found (2.3 km): a real pilot
+[Play]    13.5 pilot 3 found (2.7 km): a real pilot
+[Play]    14.8 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]   launch: insured flights 1
+[Play]    21.8 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[Play]    28.8 voice CONTROL: One of ours is on failing life support. The clock's on your scope. Get them aboard and home before it runs out.
+[Play]    37.1 voice CONTROL: Bonus on this one if you clear the planet without a scratch on the hull.
+[Play]    42.4 voice COMPUTER: Warning. Locked on.
+[Play]    46.0 pilot 1 found (3.0 km): a real pilot
+[ExeCheck]   TIMED OUT waiting for the death page after 15 s (state Flying, phase )
+[ExeCheck]   insured crash (own ship): crashed; own ship wrecked False, wreck on seed 0 at (0, 0), wreck insured False, flying the loaner False
+NullReferenceException: Object reference not set to an instance of an object
+  at HostileHorizon.ExeCheck+<CrashHere>d__263.MoveNext () [0x001ff] in <4914caec10ef43bbab9166149c196775>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00023] in <9cbb64a954b741deb68ec58553207f43>:0 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+

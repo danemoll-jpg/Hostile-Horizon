@@ -76,12 +76,14 @@ namespace HostileHorizon
         {
             Terrain.Field.FindStart(out var start, out _);
             bool first = Career.C.planets.IndexOf(Planet) == 0;
-            Foes.Setup(Terrain.Field, Ship, Planet.seed, Planet.tier, first, sitePads, start);
+            var nest = MissionOf(MissionKind.Turrets);   // Round 9 (B1): the turret nest (placed even when done: destroyed ones stay down)
+            Foes.Setup(Terrain.Field, Ship, Planet.seed, Planet.tier, first, sitePads, start, nest != null ? nest.Site(Terrain.Field) : (Vector3?)null, nest?.count ?? 0);
             // the ones you destroyed stay destroyed (unless the difficulty's enemies changed since: then they are other enemies)
             string key = $"{Difficulty.Current.enemies}/{Difficulty.Current.aggression}";
             if (Planet.enemiesKey != key) { Planet.enemiesKey = key; Planet.enemiesDown.Clear(); }
             foreach (var e in Foes.All) if (Planet.enemiesDown.Contains(Id(e))) { e.Dead = true; e.Root.gameObject.SetActive(false); }
             FightLog.Clear(); foreach (var l in Foes.Placement) FightLog.Add("placed: " + l);
+            if (nest != null && nest.Open) { int placed = Foes.All.FindAll(e => e.Nest).Count; if (placed == 0) Planet.missions.Remove(nest); else nest.count = placed; }   // no high ground near the valley: no nest mission
             Planet.turrets = Foes.All.FindAll(e => e.Kind == EnemyKind.Turret).Count; Planet.saucers = Foes.All.FindAll(e => e.Kind == EnemyKind.Saucer).Count;   // Round 6 (D1)
         }
 
@@ -140,7 +142,7 @@ namespace HostileHorizon
         void ShipShot(Enemy by, float dmg, bool blocked, Vector3 at)
         {
             if (blocked) { shieldFlash = 1; Sfx.Play(Sfx.Clip("bolt_hit_shield"), at, .9f, 10f); FightLog.Add($"{Time.time:0.0} shield blocked a bolt from {(by != null ? Name(by) : "?")}"); return; }
-            Ship.TakeDamage(dmg); Rig.Shake(.7f); Displays.NoteShot(dmg);
+            Ship.TakeDamage(dmg); Rig.Shake(.7f); Displays.NoteShot(dmg); NoteHullHit();   // Round 9 (E1)
             Sfx.Play(Sfx.Clip("bolt_hit_hull"), at, 1f, 10f);
             LastKiller = by != null ? (by.Kind == EnemyKind.Turret ? "a turret" : "a saucer") : "enemy fire";
             FightLog.Add($"{Time.time:0.0} hit by {(by != null ? Name(by) : "?")}: -{dmg:0} % (hull {100 - Ship.Damage:0} %)");

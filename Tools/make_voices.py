@@ -76,6 +76,22 @@ CONTROL_LINES = [
     # Round 6 (D3): new downed pilots on a planet you'd cleared
     ('distress', 'at the dock: new distress calls on an old planet', 'New distress calls coming in from a planet you\'d cleared. More of ours went down there. It\'s on the star map.'),
     ('upgrade', 'the hangar: an upgrade fitted', 'Workshop says she\'s ready. Try not to bend it.'),
+    # Round 9 (B3): side missions: the briefing at launch, then the calls
+    ('obj_recorder', 'launch: mission, the flight recorder', 'There\'s a crashed drone down there with its flight recorder still in one piece. It\'s on your scope. Land beside it, engines off, and winch it aboard.'),
+    ('obj_turrets', 'launch: mission, the turret nest', 'Command wants a turret nest cleared out of one of the valleys. It\'s marked on your scope. Worth the trouble.'),
+    ('obj_timed', 'launch: mission, the timed rescue', 'One of ours is on failing life support. The clock\'s on your scope. Get them aboard and home before it runs out.'),
+    ('obj_clean', 'launch: mission, the clean run', 'Bonus on this one if you clear the planet without a scratch on the hull.'),
+    ('obj_recorder_aboard', 'mission: the recorder aboard', 'Recorder\'s aboard. Bring it home.'),
+    ('obj_turrets_done', 'mission: the nest destroyed', 'That\'s the nest gone. Nice shooting.'),
+    ('obj_timed_lost', 'mission: the timed pilot lost', 'Their life signs just went flat. We were too late for that one.'),
+    ('obj_clean_broken', 'mission: the clean run broken', 'That\'s a scratch on the hull. So much for the clean run.'),
+    ('obj_paid', 'at the dock: a mission paid', 'Side job\'s logged. The corps pays its debts.'),
+    # Round 9 (C1): recovering your own wreck
+    ('salvage', 'launch: your wreck to salvage', 'Your old ship\'s still down there. It\'s on your scope. Land beside it, cut your engines, and hook it up.'),
+    ('salvage_done', 'the wreck hooked up', 'Salvage line\'s on. She\'ll be back in the bay when you dock.'),
+    ('salvage_ambush', 'something waiting at the wreck', 'Movement near the wreck. You\'re not alone down there.'),
+    # Round 9 (D1): insurance
+    ('insured', 'launch: the flight insured', 'Insurance is logged for this flight. Try not to make them pay out.'),
 ]
 
 COMPUTER_LINES = [

@@ -58,7 +58,7 @@ namespace HostileHorizon
             Displays.SetVisible(false);
             Belly = BellyCam.Create(Ship); Displays.Belly = Belly;   // Fix 2.5: the belly / airlock camera
             shipAudio = ShipAudio.Create(Ship);
-            Ship.OnHit += i => { shipAudio.Thud(i); Displays.NoteHit(); };
+            Ship.OnHit += i => { shipAudio.Thud(i); Displays.NoteHit(); NoteHullHit(); };   // Round 9 (E1): hull hits for the best runs
             Ship.OnCrash += OnCrash;
             Ship.OnEnginesStarted += OnEnginesStarted;
             Ship.OnOutOfEnergy += OnOutOfEnergy;   // Fix 2.3: the beam catches a ship that runs dry in the air
@@ -70,7 +70,7 @@ namespace HostileHorizon
             CreateEnemies();               // Round 5: turrets, saucers, the gun, the shield
             Menu = MenuPanel.Create();
             RandomSeed = Seeds.NewRandom();
-            BuildPages();
+            BuildPages(); BuildTrialPages();
             BuildCampaignPages();
             TestRun.SetupHeadless(Rig.Head);   // a headless check: no window, the view drawn off-screen
             // Round 8 (C1, C2): VR only when asked (-vr or Settings > Display > VR mode); else, or with no headset, flat as always
@@ -176,7 +176,7 @@ namespace HostileHorizon
                     Terrain.SetFocus(Rig.transform.position);
                     if (Controls.CameraPressed) Rig.Cycle();
                     if (Controls.ViewPressed) { viewDown = true; recallFiredThisHold = false; }
-                    if (InCampaign) CampaignTick();
+                    if (InCampaign) CampaignTick(); else TrialTick(Time.deltaTime);   // Round 9 (F1)
                     Displays.PauseHint = Time.time - flightStartedAt < 60f;
                     if (Now == State.Flying && (Controls.MenuPressed || ViewTap())) Pause();
                     break;
@@ -226,6 +226,7 @@ namespace HostileHorizon
             Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
             Ship.UsesEnergy = false; Ship.Energy = 100;
             Ship.Spawn(pos, heading, level);
+            if (TrialMode) BuildCourse(pos, heading); else ClearTrial();   // Round 9 (F1): the time trial's course, from the seed
             Rig.Current = (CameraRig.Mode)Mathf.Clamp(GameSettings.S.cameraDefault, 0, 3); Rig.Snap(); Rig.FollowShip = true;
             Displays.Campaign = false; Displays.SetVisible(true);
             Menu.Hide();
@@ -311,7 +312,7 @@ namespace HostileHorizon
         }
 
         void ToTitle() => StartCoroutine(ToTitleRoutine());
-        IEnumerator ToTitleRoutine() { Time.timeScale = 1; if (InCampaign) SaveCareer(); Menu.Show(loading); yield return ShowTitleWorld(); ShowTitle(); }
+        IEnumerator ToTitleRoutine() { Time.timeScale = 1; EndTrialMode(); if (InCampaign) SaveCareer(); Menu.Show(loading); yield return ShowTitleWorld(); ShowTitle(); }
 
         public int ChosenSeed => GameSettings.S.seedMode == 0 ? Seeds.OfTheDay : GameSettings.S.seedMode == 1 ? RandomSeed : GameSettings.S.customSeed;
 
@@ -351,11 +352,13 @@ namespace HostileHorizon
                 .Add(Option("Planet type", () => GameSettings.S.freeBiome == 0 ? $"By seed ({Biomes.Name(Biomes.ForSeed(ChosenSeed))})" : Biomes.Names[Mathf.Clamp(GameSettings.S.freeBiome - 1, 0, Biomes.Count - 1)],
                     d => { GameSettings.S.freeBiome = Wrap(GameSettings.S.freeBiome + d, Biomes.Count + 1); GameSettings.Save(); }))   // Round 4 (A1)
                 .Add(Option("Crash level", () => CrashLevels.Names[GameSettings.S.crashLevel], d => { GameSettings.S.crashLevel = Wrap(GameSettings.S.crashLevel + d, 5); GameSettings.Save(); }))
-                .Add(Action("Start flight", () => StartFlight(ChosenSeed, (CrashLevel)GameSettings.S.crashLevel)))
+                .Add(Action("Start flight", () => { EndTrialMode(); StartFlight(ChosenSeed, (CrashLevel)GameSettings.S.crashLevel); }))
+                .Add(Action("Time trial", StartTrial))   // Round 9 (F1): gates through the planet, against the clock (after Start flight: older checks count rows)
+                .Add(Option("Ghost", () => GameSettings.S.trialGhost ? "On" : "Off", d => { GameSettings.S.trialGhost = !GameSettings.S.trialGhost; GameSettings.Save(); }))   // F2
                 .Add(Action("Back", () => Menu.Show(title)));
             freeFlight.Body = () => editingSeed
                 ? $"Type the seed number with the keyboard (Backspace deletes),\nor change the marked digit with up / down and move with left / right.\n{Controls.Btn(Controls.Act.Select)}: done."
-                : $"<b>{CrashLevels.Names[GameSettings.S.crashLevel]}</b>\n{CrashLevels.Explain[GameSettings.S.crashLevel]}\n\nThe same seed always makes the same planet.\nSeed of the day changes at midnight.";
+                : $"<b>{CrashLevels.Names[GameSettings.S.crashLevel]}</b>\n{CrashLevels.Explain[GameSettings.S.crashLevel]}\n\nThe same seed always makes the same planet.\nSeed of the day changes at midnight." + TrialBestLine();
             freeFlight.CaptureInput = SeedEditInput;
             if (Keyboard.current != null) Keyboard.current.onTextInput += ch =>
             {

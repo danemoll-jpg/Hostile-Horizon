@@ -206,6 +206,71 @@
    "text": "Workshop says she's ready. Try not to bend it."
   },
   {
+   "id": "ctl_obj_recorder",
+   "speaker": "Control",
+   "text": "There's a crashed drone down there with its flight recorder still in one piece. It's on your scope. Land beside it, engines off, and winch it aboard."
+  },
+  {
+   "id": "ctl_obj_turrets",
+   "speaker": "Control",
+   "text": "Command wants a turret nest cleared out of one of the valleys. It's marked on your scope. Worth the trouble."
+  },
+  {
+   "id": "ctl_obj_timed",
+   "speaker": "Control",
+   "text": "One of ours is on failing life support. The clock's on your scope. Get them aboard and home before it runs out."
+  },
+  {
+   "id": "ctl_obj_clean",
+   "speaker": "Control",
+   "text": "Bonus on this one if you clear the planet without a scratch on the hull."
+  },
+  {
+   "id": "ctl_obj_recorder_aboard",
+   "speaker": "Control",
+   "text": "Recorder's aboard. Bring it home."
+  },
+  {
+   "id": "ctl_obj_turrets_done",
+   "speaker": "Control",
+   "text": "That's the nest gone. Nice shooting."
+  },
+  {
+   "id": "ctl_obj_timed_lost",
+   "speaker": "Control",
+   "text": "Their life signs just went flat. We were too late for that one."
+  },
+  {
+   "id": "ctl_obj_clean_broken",
+   "speaker": "Control",
+   "text": "That's a scratch on the hull. So much for the clean run."
+  },
+  {
+   "id": "ctl_obj_paid",
+   "speaker": "Control",
+   "text": "Side job's logged. The corps pays its debts."
+  },
+  {
+   "id": "ctl_salvage",
+   "speaker": "Control",
+   "text": "Your old ship's still down there. It's on your scope. Land beside it, cut your engines, and hook it up."
+  },
+  {
+   "id": "ctl_salvage_done",
+   "speaker": "Control",
+   "text": "Salvage line's on. She'll be back in the bay when you dock."
+  },
+  {
+   "id": "ctl_salvage_ambush",
+   "speaker": "Control",
+   "text": "Movement near the wreck. You're not alone down there."
+  },
+  {
+   "id": "ctl_insured",
+   "speaker": "Control",
+   "text": "Insurance is logged for this flight. Try not to make them pay out."
+  },
+  {
    "id": "cpu_energy_low",
    "speaker": "Computer",
    "text": "Energy low."

@@ -8,7 +8,7 @@ namespace HostileHorizon
     // <launcher folder>/versions/<id>/; this build carries SteamArt/HostileHorizon-*.png (Portrait, Wide, Hero, Logo, Icon, Cover =
     // the portrait, which the launcher shows). At start the game copies any missing or changed file up into the launcher's folder
     // (only when HostileHorizonLauncher.exe is there), so an existing install (Dan's Deck) gets the files and the new launcher cover
-    // with a normal update, without a fresh install. Nothing else in that folder is touched. Test runs skip it unless a check asks
+    // with a normal update, without a fresh install. Nothing else in that folder is touched. Exe checks skip it unless they ask
     // (-steamArtRoot <folder>: copy into that folder as if it were the launcher's).
     public static class SteamArt
     {
@@ -23,7 +23,7 @@ namespace HostileHorizon
                 string to = LauncherBridge.Argument("-steamArtRoot");
                 if (to == null)
                 {
-                    if (TestRun.Muted) { Result = "skipped (test run)"; return; }
+                    if (CheckRun.Active) { Result = "skipped (exe check)"; return; }   // the launcher's own test run (-racerTestSave) copies: its install is a test folder
                     var up = Directory.GetParent(game)?.Parent; to = up?.FullName;
                     if (to == null || !File.Exists(Path.Combine(to, "HostileHorizonLauncher.exe"))) { Result = "no launcher above the game folder"; return; }
                 }

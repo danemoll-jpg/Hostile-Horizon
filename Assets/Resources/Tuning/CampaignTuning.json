@@ -114,13 +114,40 @@
     "beaconScale": 0.008,
     "flashScale": 0.009,
     "boltGlowScale": 0.006,
-    "upgEngine": [6500, 10500, 16000],
-    "upgHull": [6000, 9500, 14500],
-    "upgShields": [6000, 9500, 14500],
-    "upgEnergy": [6500, 10500, 16000],
-    "upgRadar": [5500, 8500, 13000],
-    "upgCabin": [7000, 12000],
-    "upgGun": [6000, 9500, 14500],
+    "upgEngine": [
+        6500,
+        10500,
+        16000
+    ],
+    "upgHull": [
+        6000,
+        9500,
+        14500
+    ],
+    "upgShields": [
+        6000,
+        9500,
+        14500
+    ],
+    "upgEnergy": [
+        6500,
+        10500,
+        16000
+    ],
+    "upgRadar": [
+        5500,
+        8500,
+        13000
+    ],
+    "upgCabin": [
+        7000,
+        12000
+    ],
+    "upgGun": [
+        6000,
+        9500,
+        14500
+    ],
     "upgEngineStep": 0.08,
     "upgHullStep": 0.25,
     "upgShieldsStep": 0.2,
@@ -142,5 +169,69 @@
     "voiceDuckMusic": 0.6,
     "voiceDuckEffects": 0.25,
     "ambienceMix": 0.5,
-    "voiceChime": 0.5
+    "voiceChime": 0.5,
+    "missionsMin": 1,
+    "missionsMax": 3,
+    "missionRecorderReward": 700,
+    "missionTurretsReward": 1000,
+    "missionTimedReward": 800,
+    "missionCleanReward": 900,
+    "missionRecorderHold": 8,
+    "missionRecorderRange": 70,
+    "missionNestMin": 3,
+    "missionNestMax": 5,
+    "missionNestRing": 380,
+    "missionTimedSeconds": 540,
+    "salvageHold": 12,
+    "salvageRange": 70,
+    "salvageHullDamage": 40,
+    "salvageAmbushChance": 0.4,
+    "salvageAmbushDistance": 1100,
+    "insuranceShareOfShipValue": 0.04,
+    "insuredRecoveryShare": 0.2,
+    "trialLength": 14000,
+    "trialLegMin": 1100,
+    "trialLegMax": 1900,
+    "trialGateSpacing": 550,
+    "trialGateFirst": 350,
+    "trialGateRadius": 24,
+    "trialMissPenalty": 5,
+    "turretLeadLevels": [
+        0.9,
+        0.9,
+        1.0,
+        1.0
+    ],
+    "turretInterceptLevels": [
+        0,
+        0,
+        1,
+        1
+    ],
+    "turretAimErrorLevels": [
+        14,
+        14,
+        14,
+        14
+    ],
+    "boltHitRadiusLevels": [
+        3.5,
+        3.5,
+        3.5,
+        3.5
+    ],
+    "saucerHuntLevels": [
+        0,
+        0,
+        1,
+        1
+    ],
+    "saucerPairLevels": [
+        0,
+        0,
+        0,
+        1
+    ],
+    "saucerHuntRadius": 600,
+    "saucerHuntEvery": 15
 }

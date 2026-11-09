@@ -1,0 +1,30 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 86016 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 00:25; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- B: side missions. Rewards (x pay): recorder 700, nest 1000, timed 800 (540 s), clean 900; recorder hold 8 s within 70 m
+  missions per planet from the seed (1-3): seed 1111: 3, seed 2222: 1, seed 3333: 2, seed 4444: 2, seed 5555: 2, seed 6666: 1, seed 7777: 3, seed 8888: 1
+planet 1 Halkon-II (seed 20261109): missions Timed rescue Open (pilot 2, 540 s); Clean run Open; Recover the flight recorder Open (site -259, 1464); Knock out the turret nest Open (1)
+  nest placement: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, a career's first planet (ease-in) | turret nest: 1 (asked 3) round the valley at (619, 1, 2713) | turrets: 3 (asked 3), 0 placed to cover a pad; pads in a turret's sight 0 of 3 | saucers: none on a career's first planet (ease-in)
+screenshot r9b_hangar_missions.png
+  launch: objectives "◆ LIFE SUPPORT P2: 8:57 | ◆ CLEAN RUN: no damage so far | ◆ RECORDER: land at the crash site · 1.9 km | ◆ TURRET NEST: 1 / 1 left"
+screenshot r9b_flight_radar_objectives.png
+screenshot r9b_recorder_site_approach.png
+  recorder: landed True 14 m from the site, engines off; prompt "At the crash site: engines off (<color=#6CC24A><b>A</b></color>), then hold <color=#E8473D><b>B</b></color>"
+  held 3 s then let go: aboard False, hold now 0.0 s
+screenshot r9b_recorder_pulling.png
+  held 8.8 s: aboard False; objectives "◆ LIFE SUPPORT P2: 8:13 | ◆ CLEAN RUN: no damage so far | ◆ RECORDER: land at the crash site · 10 m | ◆ TURRET NEST: 1 / 1 left"
+  nest: 1 turrets: 340 m out, 403 m up, sees the valley True
+screenshot r9b_nest_turret.png
+  nest destroyed: mission Done; enemies down saved 1
+  timed: pilot 2, 490 s left; radar tag "8:10"
+  timed pilot aboard: cabin 1, 456 s left
+  planet 1: docked; debrief "Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it) | <b>Halkon-II cleared! +1000 credits</b> | <color=#8FFFFF>Mission: Timed rescue +800 cr</color> | <color=#8FFFFF>Mission: Knock out the turret nest +1000 cr</color> | Energy used 25%. Refuelled 25%: -151 cr | Hull damage 28%: repair 336 cr (Repair below, or fly as it is)"
+  credits 3150 -> 8049; cleared True; missions Timed rescue Paid (pilot 2, 375 s); Clean run Failed; Recover the flight recorder Open (site -259, 1464); Knock out the turret nest Paid (1)
+screenshot r9b_hangar_after.png
+screenshot r9b_star_map_missions.png
+planet 2 Ceia-IX: missions Clean run Open; Knock out the turret nest Open (3); Timed rescue Open (pilot 1, 540 s); Recover the flight recorder Open (site 2441, 1433)
+screenshot r9b_timed_clock_radar.png
+  timed: clock run out: mission Failed, pilot 1 fate Lost, on foot False; message "Pilot 1's life support ran out. They're gone."
+  clean run after a 6 % hit: Failed
+  objectives now "◆ CLEAN RUN ✗ | ◆ TURRET NEST: 3 / 3 left | ◆ LIFE SUPPORT P1 ✗ lost | ◆ RECORDER: land at the crash site · 3.5 km"
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.021 RMS, peak 0.382, zeroed before the speakers; 21833728 samples); master volume 0.00

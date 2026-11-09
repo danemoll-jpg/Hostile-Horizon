@@ -14,6 +14,7 @@ namespace HostileHorizon
         public float Hp, LosAt, LockT, Cooldown, BurstGap, Lost, Yaw, Pitch, PassT, StumpTop, WaypointUntil;
         public int Burst, Pass;
         public bool Dead, Spotted, Los, Locked, Chasing, OnStump;
+        public bool Nest;          // Round 9 (B1): one of the turret nest's (the side mission)
         public AudioSource Hum;
         public Transform Beacon;   // Round 6 (B3): the blinking red warning light
         public Vector3 Eye => Kind == EnemyKind.Turret ? Pos + Vector3.up * 3.47f : Pos;   // Round 8: the Meshy turret's barrel axis (3.3 before)
@@ -110,7 +111,7 @@ namespace HostileHorizon
         }
 
         // pads: every pilot site's landing spot (B7); start: where the mothership arrives (launch area kept clear)
-        public void Setup(CanyonField f, ShipController ship, int seed, int tier, bool firstPlanet, List<Vector3> pads, Vector3 start)
+        public void Setup(CanyonField f, ShipController ship, int seed, int tier, bool firstPlanet, List<Vector3> pads, Vector3 start, Vector3? nest = null, int nestCount = 0)
         {
             Clear(); Field = f; Ship = ship;
             var t = Tuning.T; int mode = Difficulty.Enemies; float ag = Difficulty.Aggression;
@@ -150,6 +151,26 @@ namespace HostileHorizon
                 spots.Add(c); stump.Add(st);
             }
             for (int i = 0; i < spots.Count; i++) All.Add(MakeTurret(i, spots[i], stump[i]));
+            // Round 9 (B1): the turret nest: nestCount turrets on the high ground round one valley, each seeing its floor (on Easy /
+            // Normal still never where they see a pilot's pad); indices after the others, so destroyed ones stay destroyed
+            if (nest.HasValue && nestCount > 0)
+            {
+                var nr = new SeedRng(seed, 507); var ns = new List<Vector3>(); var valley = nest.Value + Vector3.up * 4f;
+                // three passes, looser each time: the rim near the point, the high ground right by it, then the slope itself (the canyon walls)
+                for (int a = 0; a < 900 && ns.Count < nestCount; a++)
+                {
+                    int pass = a / 300; float ring = pass == 0 ? t.missionNestRing : t.missionNestRing * 1.4f;
+                    float ang = nr.Value * Mathf.PI * 2, r = Mathf.Lerp(120f, ring, Mathf.Sqrt(nr.Value));
+                    float qx = valley.x + Mathf.Cos(ang) * r, qz = valley.z + Mathf.Sin(ang) * r; bool st = false;
+                    var c = pass == 0 ? HighPoint(qx, qz, out st) : pass == 1 ? HighPoint(qx, qz, out st, false) : OnTop(qx, qz, Field.SurfaceHeight(qx, qz), out st);
+                    if (Field.OverLiquid(c.x, c.z) || Field.HasLiquid && c.y < Field.Liquid + 6f || Flat(c - valley).magnitude > ring + 120f) continue;
+                    bool close = false; foreach (var q in ns) if (Flat(q - c).magnitude < 90f) close = true; foreach (var q in spots) if (Flat(q - c).magnitude < 150f) close = true;
+                    if (close || !Sees(c + Vector3.up * 3.3f, valley, 16f)) continue;
+                    if (cover <= 0) { bool sees = false; foreach (var pd in pads) if (Flat(pd - c).magnitude < t.turretRange && Sees(c + Vector3.up * 3.3f, pd + Vector3.up * 4f, 20f)) { sees = true; break; } if (sees) continue; }
+                    ns.Add(c); var e = MakeTurret(All.Count, c, st); e.Nest = true; All.Add(e);
+                }
+                Placement.Add($"turret nest: {ns.Count} (asked {nestCount}) round the valley at {nest.Value.ToString("0")}");
+            }
             int padsSeen = 0; foreach (var pd in pads) { foreach (var s in spots) if (Flat(pd - s).magnitude < t.turretRange && Sees(s + Vector3.up * 3.3f, pd + Vector3.up * 4f, 20f)) { padsSeen++; break; } }
             Placement.Add($"turrets: {spots.Count} (asked {nT}), {madeCovering} placed to cover a pad; pads in a turret's sight {padsSeen} of {pads.Count}");
             // B2, B9: saucers from the second planet on
@@ -371,6 +392,7 @@ namespace HostileHorizon
         Vector3 Lead(Vector3 from, float speed, float leadShare, float err, SeedRng rng = null)
         {
             var sp = Ship.transform.position; float d = Vector3.Distance(from, sp); float tt = d / speed;
+            if (Difficulty.TurretIntercept) for (int k = 0; k < 3; k++) tt = Vector3.Distance(from, sp + Ship.Velocity * tt) / speed;   // Round 9 (G): Hard / Nightmare aim where the bolt meets the ship
             var aim = sp + Ship.Velocity * tt * leadShare;
             float e = err * d / 1000f;
             aim += new Vector3(UnityEngine.Random.value - .5f, UnityEngine.Random.value - .5f, UnityEngine.Random.value - .5f) * 2f * e;
@@ -378,6 +400,7 @@ namespace HostileHorizon
         }
 
         public bool AnyLock { get; private set; }
+        public static bool CheckTargetKinematic;   // Round 9 (G) checks: a ship moved along a straight line by the check can be shot at
         public int Spotted { get { int n = 0; foreach (var e in All) if (!e.Dead && e.Spotted) n++; return n; } }
 
         void Update()
@@ -388,7 +411,7 @@ namespace HostileHorizon
             MoveBolts(dt);
             if (!Running || Ship == null || Field == null) { AnyLock = false; return; }
             var t = Tuning.T; float ag = Difficulty.Aggression; var sp = Ship.transform.position;
-            bool targetable = !Ship.Crashed && !Ship.Kinematic && Ship.gameObject.activeSelf;
+            bool targetable = !Ship.Crashed && (!Ship.Kinematic || CheckTargetKinematic) && Ship.gameObject.activeSelf;
             bool lockNow = false;
             float view = 3200f;
             for (int i = 0; i < All.Count; i++)
@@ -412,7 +435,7 @@ namespace HostileHorizon
             if (e.Los)
             {
                 if (!e.Spotted) e.Spotted = true;
-                var aim = Lead(e.Gun.position, t.turretBoltSpeed, t.turretLead, 0);
+                var aim = Lead(e.Gun.position, t.turretBoltSpeed, Difficulty.TurretLead, 0);
                 var to = aim - e.Gun.position;
                 float wantYaw = Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg, wantPitch = Mathf.Clamp(Mathf.Atan2(to.y, Flat(to).magnitude) * Mathf.Rad2Deg, -15f, 80f);
                 float rate = t.turretTurnRate * Mathf.Sqrt(ag);
@@ -429,7 +452,7 @@ namespace HostileHorizon
                     {
                         e.Cooldown = t.turretFireInterval / ag * UnityEngine.Random.Range(.8f, 1.2f);
                         var muzzle = e.Gun.position + e.Gun.forward * 3.1f;   // Round 8: the Meshy barrels' tips (3.9 before)
-                        var at = Lead(muzzle, t.turretBoltSpeed, t.turretLead, t.turretAimError / ag);
+                        var at = Lead(muzzle, t.turretBoltSpeed, Difficulty.TurretLead, Difficulty.TurretAimError / ag);
                         Shoot(muzzle, (at - muzzle).normalized * t.turretBoltSpeed, false, t.turretDamage, e, t.turretRange * 1.25f);
                         EnemyShots++; Sfx.Play(Sfx.Clip("turret_fire"), muzzle, 1f, 40f);
                         Threats.Add((e.Pos, Time.time + 2.5f)); FiredAtShip?.Invoke(e);
@@ -447,18 +470,27 @@ namespace HostileHorizon
             if (e.Los || hears)
             {
                 e.Lost = 0;
-                if (!e.Chasing) { e.Chasing = true; e.Pass = 0; if (!e.Spotted) { e.Spotted = true; } SaucerSpotted?.Invoke(e); }
+                if (!e.Chasing)
+                {
+                    e.Chasing = true; e.Pass = 0; if (!e.Spotted) { e.Spotted = true; } SaucerSpotted?.Invoke(e);
+                    if (Difficulty.SaucerPairs) Partner(e);   // Round 9 (G): Nightmare: it brings its wingman
+                }
             }
             else if (e.Chasing) { e.Lost += dt; if (e.Lost > 15f || !targetable) e.Chasing = false; }
             Vector3 target; float speed;
             if (!e.Chasing)
             {
-                if (Time.time > e.WaypointUntil || Flat(e.Waypoint - e.Pos).magnitude < 80f)
+                if (Difficulty.SaucersHunt && targetable && (Time.time > e.WaypointUntil || Flat(e.Waypoint - e.Pos).magnitude < 80f))
+                {   // Round 9 (G): Hard / Nightmare: searching, toward a point near where the ship is now
+                    float a = UnityEngine.Random.value * Mathf.PI * 2, r = UnityEngine.Random.Range(0f, t.saucerHuntRadius);
+                    e.Waypoint = sp + new Vector3(Mathf.Cos(a) * r, 0, Mathf.Sin(a) * r); e.Waypoint.y = Cruise(e.Waypoint); e.WaypointUntil = Time.time + t.saucerHuntEvery; Hunts++;
+                }
+                else if (Time.time > e.WaypointUntil || Flat(e.Waypoint - e.Pos).magnitude < 80f)
                 {
                     float a = UnityEngine.Random.value * Mathf.PI * 2, r = UnityEngine.Random.Range(200f, 1100f);
                     e.Waypoint = e.Home + new Vector3(Mathf.Cos(a) * r, 0, Mathf.Sin(a) * r); e.Waypoint.y = Cruise(e.Waypoint); e.WaypointUntil = Time.time + 40f;
                 }
-                target = e.Waypoint; speed = t.saucerPatrolSpeed;
+                target = e.Waypoint; speed = Difficulty.SaucersHunt ? Mathf.Lerp(t.saucerPatrolSpeed, t.saucerSpeed, .6f) : t.saucerPatrolSpeed;
             }
             else
             {
@@ -487,13 +519,22 @@ namespace HostileHorizon
             if (e.Chasing && e.Pass == 0 && e.Los && dist < t.saucerFireRange && Vector3.Angle(e.Vel, sp - e.Pos) < 35f && e.Cooldown <= 0 && e.BurstGap <= 0)
             {
                 var muzzle = e.Pos + e.Root.forward * 6.5f - Vector3.up * 1.3f;
-                var at = Lead(muzzle, t.saucerBoltSpeed, t.turretLead, t.turretAimError * 1.4f / ag);
+                var at = Lead(muzzle, t.saucerBoltSpeed, Difficulty.TurretLead, Difficulty.TurretAimError * 1.4f / ag);
                 Shoot(muzzle, (at - muzzle).normalized * t.saucerBoltSpeed + e.Vel * .5f, false, t.saucerDamage, e, t.saucerFireRange * 1.4f);
                 EnemyShots++; Sfx.Play(Sfx.Clip("saucer_fire"), muzzle, 1f, 40f);
                 Threats.Add((e.Pos, Time.time + 2.5f)); FiredAtShip?.Invoke(e);
                 e.Burst++; e.BurstGap = t.saucerBurstGap;
                 if (e.Burst >= t.saucerBurst) { e.Burst = 0; e.Cooldown = t.saucerCooldown / ag; }
             }
+        }
+
+        public int Hunts, Pairings;   // checks (Round 9 G)
+        void Partner(Enemy e)
+        {
+            Enemy best = null; float bd = 3500f;
+            foreach (var o in All) if (o != e && !o.Dead && o.Kind == EnemyKind.Saucer && !o.Chasing) { float d = Vector3.Distance(o.Pos, e.Pos); if (d < bd) { bd = d; best = o; } }
+            if (best == null) return;
+            best.Chasing = true; best.Pass = 0; best.Lost = 0; best.Spotted = true; Pairings++;
         }
 
         void MoveBolts(float dt)
@@ -521,7 +562,7 @@ namespace HostileHorizon
                 else if (!end && Ship && Ship.gameObject.activeSelf && !Ship.Crashed)
                 {
                     var c = Ship.transform.position;
-                    float r = ShieldOn ? ShieldRadius : Tuning.T.boltHitRadius;
+                    float r = ShieldOn ? ShieldRadius : Difficulty.BoltHitRadius;
                     if (SegDist(p0, b.p, c) < r)
                     {
                         var at = Closest(p0, b.p, c); var n = (at - c).normalized;

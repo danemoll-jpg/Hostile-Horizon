@@ -31,6 +31,7 @@ namespace HostileHorizon
         public int campaignCrashLevel = 3;    // Round 2, item 14 (unused since Round 5: the crash level is part of the difficulty, DifficultySetting)
         public int flightAssist = 1;          // Fix 2.4: 0 Full (0.2.3's), 1 Light, 2 Off
         public int sensitivity = 100;         // Fix 2.4: stick sensitivity, percent of the turn rates (50-150)
+        public bool trialGhost = true;        // Round 9 (F2): the time trial's ghost of your best run
         public bool routeTrail = true;        // Fix 2.6: the route trail to the next pilot / the mothership
         public int musicVolume = 85;          // Round 4 (B4): percent of the master volume (Fix 6.3: 70 -> 85, heard over the engine)
         public int effectsVolume = 100;       // Round 4 (B4)

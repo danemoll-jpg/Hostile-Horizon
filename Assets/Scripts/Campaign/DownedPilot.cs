@@ -312,17 +312,17 @@ namespace HostileHorizon
         public void Board() { if (Now != State.Knocking) return; Now = State.Boarding; boardT = 0; boardFrom = body.position; }
 
         // A real pilot killed by the exhaust: burnt, fallen. An alien: the Campaign shows the creature instead (Hide).
-        public void Kill()
+        public void Kill(bool burnt = true)   // Round 9 (B1): not burnt when their life support runs out (they just fall)
         {
             Now = State.Dead;
             if (rig)
             {   // Fix 3.1: a flinch from the blast, then the fall; burnt dark
-                rig.PlayThen("hit", "death"); rig.Tint(new Color(.16f, .14f, .12f));
+                rig.PlayThen("hit", "death"); if (burnt) rig.Tint(new Color(.16f, .14f, .12f));
                 if (shadow) shadow.gameObject.SetActive(false);
                 return;
             }
             body.rotation = body.rotation * Quaternion.Euler(-90, 0, 0); body.position += Vector3.up * .25f;
-            foreach (var r in body.GetComponentsInChildren<Renderer>()) { var m = new Material(r.sharedMaterial); m.SetColor("_BaseColor", new Color(.09f, .08f, .07f)); r.sharedMaterial = m; }
+            if (burnt) foreach (var r in body.GetComponentsInChildren<Renderer>()) { var m = new Material(r.sharedMaterial); m.SetColor("_BaseColor", new Color(.09f, .08f, .07f)); r.sharedMaterial = m; }
             Pose(0, 0);
             if (shadow) shadow.gameObject.SetActive(false);
         }

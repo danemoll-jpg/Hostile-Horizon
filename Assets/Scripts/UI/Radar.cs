@@ -12,7 +12,7 @@ namespace HostileHorizon
     // pilot bigger and brighter with a NEAREST tag, the mothership's blip with its distance too, and the route trail (Fix 2.6, item
     // 2) drawn as a dotted line. Contacts past the rim sit on it. Far away the bearing stays rough (to 30° past 3 km), as Round 2's
     // "more detail closer".
-    public struct RadarContact { public Vector3 position; public bool mothership; public int number; public int enemy; }   // Round 5: enemy 1 turret, 2 saucer (once spotted)
+    public struct RadarContact { public Vector3 position; public bool mothership; public int number; public int enemy; public string mark; public string tag; }   // Round 9: mark = a mission site's name (RECORDER, NEST, WRECK); tag = after a pilot's label (the timed rescue's clock)   // Round 5: enemy 1 turret, 2 saucer (once spotted)
 
     public sealed class RadarScope
     {
@@ -79,7 +79,7 @@ namespace HostileHorizon
             int best = -1; float bd = float.MaxValue;
             for (int i = 0; i < contacts.Count; i++)
             {
-                if (contacts[i].mothership || contacts[i].enemy != 0) continue;
+                if (contacts[i].mothership || contacts[i].enemy != 0 || contacts[i].mark != null) continue;
                 var d = contacts[i].position - ship.position; d.y = 0;
                 if (d.sqrMagnitude < bd) { bd = d.sqrMagnitude; best = i; }
             }
@@ -139,15 +139,17 @@ namespace HostileHorizon
                 if (dist > ExactRange) bearing = Mathf.Round(bearing / 30f) * 30f;
                 bool isNear = i == nearest;
                 float r = Mathf.Min(1, dist / Range), sz = radius * (isNear ? .19f : c.enemy != 0 ? .1f : .13f);
-                Color col = c.enemy != 0 ? new Color(1f, .22f, .2f) : c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
+                bool site = c.mark != null;
+                if (site) sz = radius * .13f;
+                Color col = site ? new Color(.45f, 1f, 1f) : c.enemy != 0 ? new Color(1f, .22f, .2f) : c.mothership ? new Color(.45f, .75f, 1f) : isNear ? new Color(1f, .92f, .55f) : new Color(1f, .7f, .28f);
                 col.a = dist > Range ? .55f * pulse : isNear ? 1 : .85f;
                 float a = bearing * Mathf.Deg2Rad;
                 var at = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * r * radius;
                 b.color = col; Place(b, at, sz);
                 halos[i].enabled = isNear; if (isNear) { halos[i].color = new Color(1f, 1f, .8f, .5f + .5f * pulse); Place(halos[i], at, sz * 2.1f); }
                 string name = c.mothership ? "MS" : $"P{c.number}";
-                labels[i].text = c.enemy != 0 ? (dist > Range ? "" : $"{(c.enemy == 1 ? "TURRET" : "SAUCER")} {Distance(dist)}") : isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}";
-                labels[i].color = c.enemy != 0 ? new Color(1f, .45f, .4f) : c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
+                labels[i].text = site ? $"{c.mark} {Distance(dist)}" : c.enemy != 0 ? (dist > Range ? "" : $"{(c.enemy == 1 ? "TURRET" : "SAUCER")} {Distance(dist)}") : (isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}") + (c.tag != null ? $" <color=#FF8A60><b>{c.tag}</b></color>" : "");
+                labels[i].color = site ? new Color(.55f, 1f, 1f) : c.enemy != 0 ? new Color(1f, .45f, .4f) : c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
                 labels[i].fontSize = isNear ? font + 1 : font;
                 // the label centred under the blip (over it in the scope's lower part), so it stays on the scope
                 labels[i].alignment = TextAnchor.MiddleCenter;
@@ -190,10 +192,10 @@ namespace HostileHorizon
                 if (shown++ >= max) break;
                 Vector3 d = c.position - ship.position; d.y = 0; float dist = d.magnitude;
                 float brg = (Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg + 360f) % 360f;
-                string name = c.mothership ? "MOTHERSHIP" : $"PILOT {c.number}";
+                string name = c.mark ?? (c.mothership ? "MOTHERSHIP" : $"PILOT {c.number}");
                 string b = dist > ExactRange ? $"~{Mathf.Round(brg / 30f) * 30f % 360:000}°" : dist > NearRange ? $"{Mathf.Round(brg / 10f) * 10f % 360:000}°" : $"{brg:000}°";
-                string line = $"{name}  {b}  {Distance(dist)}";
-                if (!c.mothership && first) { line = $"<b>{line}  ◄ NEAREST</b>"; first = false; }
+                string line = $"{name}  {b}  {Distance(dist)}" + (c.tag != null ? $"  <color=#FF8A60>{c.tag}</color>" : "");
+                if (!c.mothership && c.mark == null && first) { line = $"<b>{line}  ◄ NEAREST</b>"; first = false; }
                 sb.AppendLine(line);
             }
             return sb.ToString();

@@ -152,6 +152,35 @@ namespace HostileHorizon
         public float canopyLeapChance = .5f, canopyLeapMin = 5, canopyLeapMax = 15;   // A3: leap (no warning) instead of the slow climb, s at the door
         public float herringFlicker = .12f, herringThump = .15f, herringCrackle = .12f;  // A4: chance per boarding (real pilots and aliens alike)
 
+        // Round 9 (B): side missions. Rewards are times the difficulty's pay; the timed rescue's clock runs in flight on its planet.
+        public int missionsMin = 1, missionsMax = 3;
+        public int missionRecorderReward = 700, missionTurretsReward = 1000, missionTimedReward = 800, missionCleanReward = 900;
+        public float missionRecorderHold = 8, missionRecorderRange = 70;    // s holding the airlock button; m from the crash site's centre
+        public int missionNestMin = 3, missionNestMax = 5;                  // turrets in the nest
+        public float missionNestRing = 380;                                 // m: the nest's turrets stand on the high ground this close to the valley
+        public float missionTimedSeconds = 540;                             // s of flight time for the timed rescue
+        // Round 9 (C1): recovering your own wreck in the loaner
+        public float salvageHold = 12, salvageRange = 70;                   // s holding the airlock button, landed, engines off; m from the wreck
+        public float salvageHullDamage = 40;                                // % hull damage your ship comes back with (Repair in the hangar)
+        public float salvageAmbushChance = .4f, salvageAmbushDistance = 1100;   // chance a saucer is waiting near the wreck (enemies on), m away
+        // Round 9 (D1): insurance, bought in the hangar for one flight
+        public float insuranceShareOfShipValue = .04f;                      // the fee: 4 % of the ship's value (6000 + upgrades)
+        public float insuredRecoveryShare = .2f;
+        // Round 9 (F): the Free Flight time trial
+        public float trialLength = 14000, trialLegMin = 1100, trialLegMax = 1900;   // m of course; legs between landing pads ahead
+        public float trialGateSpacing = 550, trialGateFirst = 350, trialGateRadius = 24;   // m between gates; the first gate after the start; ring radius
+        public float trialMissPenalty = 5;                                          // s added for a gate missed
+        // Round 9 (G): tougher enemies on the harder settings, by aggression level (Low / Normal / High / Brutal = Easy / Normal / Hard /
+        // Nightmare; Custom's aggression picks the same). Low and Normal are Round 5's numbers (unchanged). The aim error is still
+        // divided by the aggression (as Round 5), the fire rate and lock time still scale with it.
+        public float[] turretLeadLevels = { .9f, .9f, 1f, 1f };            // share of the full lead
+        public int[] turretInterceptLevels = { 0, 0, 1, 1 };               // 1: the lead aims where the bolt meets the ship (Round 5: where the ship is now)
+        public float[] turretAimErrorLevels = { 14, 14, 14, 14 };          // m at 1 km (before / aggression)
+        public float[] boltHitRadiusLevels = { 3.5f, 3.5f, 3.5f, 3.5f };    // m round the ship's centre
+        public int[] saucerHuntLevels = { 0, 0, 1, 1 };                    // 1: saucers not chasing search for the ship (fly toward where it is)
+        public int[] saucerPairLevels = { 0, 0, 0, 1 };                    // 1: a saucer that finds you brings the nearest other one
+        public float saucerHuntRadius = 600, saucerHuntEvery = 15;         // m round the ship they search; s between new search points                            // an insured wreck's recovery costs 20 % of the normal fee
+
         static Tuning t;
         public static Tuning T
         {

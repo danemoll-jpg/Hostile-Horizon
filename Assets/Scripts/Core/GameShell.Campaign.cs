@@ -57,6 +57,7 @@ namespace HostileHorizon
         IEnumerator CampaignStart(bool fresh)
         {
             Now = State.Loading; Time.timeScale = 1; Menu.SetBackdrop(.6f); Menu.Show(loading);
+            EndTrialMode();   // Round 9 (F1)
             ClearCampaignWorld(); ClearCrash();
             var c = fresh || !Career.Exists ? Career.New() : Career.Load() ?? Career.New();
             Arrive(c, c.ArrivalSeed());   // Fix 3.2: a new day's planet of the day first, else where you left off
@@ -86,6 +87,8 @@ namespace HostileHorizon
             Terrain.Field.FindStart(out var start, out var heading);
             Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = true; Mother.SetDoors(0, true);
             SpawnPilots();
+            EnsureMissions(); // Round 9 (B1): the planet's side missions (before the enemies: the turret nest)
+            Career.EarnPlanet = Planet; PlaceWreck();   // Round 9 (E1: credits count toward this planet's run; C1: your wreck, if it is here)
             SetupEnemies();   // Round 5: the planet's turrets and saucers
             c.Save();
             Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
@@ -159,7 +162,9 @@ namespace HostileHorizon
             if (Belly) Belly.AirlockView = false;
             if (padRing) padRing.gameObject.SetActive(false);
             if (Route) Route.Clear(); routePick = -1;
-            if (Displays) { Displays.Route = ""; Displays.RoutePath = null; }
+            if (Displays) { Displays.Route = ""; Displays.RoutePath = null; Displays.Objectives = ""; }
+            if (siteMarker) Destroy(siteMarker);   // Round 9 (B1)
+            if (wreckMarker) Destroy(wreckMarker); Career.EarnPlanet = null;   // Round 9 (C1, E1)
             if (Ship) { Ship.UsesEnergy = false; Ship.Kinematic = false; Ship.SpeedFactor = Ship.ArmourFactor = Ship.DrainFactor = 1; }   // Round 6 (C): Free Flight has no upgrades
             RadarScope.ExactRange = RadarScope.MidRange; RadarScope.Bezel = 0; if (Foes) Foes.ShieldRadius = 8f; if (Extras) Extras.EngineLevel = 0;
             ClearAliens();
@@ -183,6 +188,7 @@ namespace HostileHorizon
         void CheckCleared(StringBuilder sb)
         {
             if (Planet.Count(PilotFate.Waiting) > 0) return;
+            if (!Planet.cleared) RecordBest(sb);   // Round 9 (E1): a clear ends a run
             if (Planet.bonusPaid) { Planet.cleared = true; return; }   // Round 6 (D3): cleared again after new distress calls (no second bonus)
             var c = Career.C; Planet.bonusPaid = Planet.cleared = true; c.stats.planetsCleared++; c.Earn(Tuning.T.clearBonus);
             SayCleared();
@@ -215,6 +221,10 @@ namespace HostileHorizon
             SayLaunch();   // Round 4: the launch cue and Control
             PlayLog.Add($"launch: {Planet.name} ({Biomes.Name(WorldBiome)}), energy {Ship.Energy:0} %, hull {100 - Ship.Damage:0} %, cabin {cabin.Count}, pilots waiting {Waiting}");
             SayHot();      // Round 5 (B6): "this planet is hot"
+            MissionsAtLaunch();   // Round 9 (B1)
+            PlaceWreck();         // Round 9 (C1): a fresh roll for what waits at the wreck
+            if (SalvageHere) Voice.Say("ctl_salvage", VoiceKind.Radio, 2, maxAge: 40f);
+            if (c.insured) { c.stats.insuredFlights++; Voice.Say("ctl_insured", VoiceKind.Radio, 2, maxAge: 30f); PlayLog.Add($"launch: insured ({c.InsuranceFee} cr)"); }
             Mother.Holding = true; Mother.SetDoors(1);
             Sfx.Play(Sfx.Hiss, Mother.transform.TransformPoint(new Vector3(0, -6, 0)), 1f, 20f);
             while (Mother.DoorsOpen < .98f) { HoldShip(); yield return null; }
@@ -274,6 +284,8 @@ namespace HostileHorizon
             con.Add(new RadarContact { position = Mother.transform.position, mothership = true });
             // Round 6 (B1): enemies within radar range always (Round 5: once spotted); the Radar upgrade reaches further
             foreach (var e in Foes.All) if (!e.Dead && (e.Spotted || Flat(e.Pos - Ship.transform.position).magnitude < (e.Kind == EnemyKind.Turret ? RadarTurretRange : RadarSaucerRange))) con.Add(new RadarContact { position = e.Pos, enemy = e.Kind == EnemyKind.Turret ? 1 : 2 });
+            MissionsTick(dt);   // Round 9 (B1): the missions' sites and clocks on the radar, their lines on the displays
+            SalvageTick(dt);    // Round 9 (C1, E1): your wreck; the planet's flight time
             Vector3 toMother = Flat(Mother.transform.position - Ship.transform.position);
             float climb = Mathf.Max(0, t.dockingHeight - Ship.Altitude), brg = (Mathf.Atan2(toMother.x, toMother.z) * Mathf.Rad2Deg + 360f) % 360f;
             Displays.Home = $"HOME {brg:000}° {toMother.magnitude / 1000f:0.0} km\nDOCK ↑ {climb:0} m";
@@ -331,12 +343,13 @@ namespace HostileHorizon
             }
             bool full = cabin.Count >= CabinSize;
             RoutePilot = routePick >= 0 ? foot.Find(p => p.Index == routePick) : routePick == -1 && !full && foot.Count > 0 ? foot[0] : null;
-            bool toMother = RoutePilot == null;
-            Vector3 goal = toMother ? Mother.transform.position : RoutePilot.LandingSpot;
+            bool toWreck = RouteToWreck; if (toWreck) RoutePilot = null;   // Round 9 (C1): the wreck you came to salvage first
+            bool toMother = RoutePilot == null && !toWreck;
+            Vector3 goal = toWreck ? WreckPos : toMother ? Mother.transform.position : RoutePilot.LandingSpot;
             bool on = GameSettings.S.routeTrail && Now == State.Flying && !Ship.Landed && !Ship.Kinematic && !Ship.Crashed;
             Route.Tick(on, Terrain.Field, Ship.transform, goal, toMother, t.dockingHeight);
             float d = Flat(goal - Ship.transform.position).magnitude;
-            RouteTargetName = toMother ? "MOTHERSHIP" : $"PILOT {RoutePilot.Index + 1}";
+            RouteTargetName = toWreck ? "YOUR WRECK" : toMother ? "MOTHERSHIP" : $"PILOT {RoutePilot.Index + 1}";
             Displays.Route = GameSettings.S.routeTrail ? $"ROUTE → {RouteTargetName} · {RadarScope.Distance(d)}{(routePick == -1 ? "" : " (picked)")}   [{Controls.RouteTargetKey}]" : "";
             Displays.RoutePath = on ? Route.Path : null;
         }
@@ -612,6 +625,7 @@ namespace HostileHorizon
             // the ship at the dock: the cabin is emptied, its camera off, the chatter clock reset.
             cabin.Clear(); if (!CheckOldDock) { Reseat(); if (CabinRoom) CabinRoom.FeedOn = false; chatterAt = 0; }
             CheckCleared(sb);
+            SettleMissions(sb);   // Round 9 (B2): missions done are paid at the dock
             if (towLift)
             {
                 int fee = recallLift ? t.recallFee : t.towFee, paid = c.Spend(fee);
@@ -623,6 +637,7 @@ namespace HostileHorizon
             string fuel = c.Refuel();
             if (fuel != "") sb.AppendLine($"Energy used {used:0}%. " + fuel);
             Ship.Energy = c.Current.energy;
+            SettleSalvage(sb);   // Round 9 (C1, D1): your own ship back from the salvage; the flight's insurance ends
             if (c.Current.damage > 0) sb.AppendLine($"Hull damage {c.Current.damage:0}%: repair {c.RepairCost} cr (Repair below, or fly as it is)");
             if (securityLine != "") { sb.AppendLine(securityLine); securityLine = ""; }
             string calls = DistressCheck(true); if (calls != "") sb.AppendLine(calls);   // Round 6 (D3)
@@ -704,11 +719,15 @@ namespace HostileHorizon
             int lost = 0;
             foreach (int i in cabin) { if (Planet.alien != null && i < Planet.alien.Length && Planet.alien[i] != 0) Planet.pilots[i] = (int)PilotFate.AlienGone; else { Planet.pilots[i] = (int)PilotFate.Lost; lost++; } }
             c.stats.pilotsLost += lost; c.stats.deaths++; cabin.Clear(); SleeperIndex = -1; stows.Clear();
+            MissionsOnDeath();   // Round 9 (B1)
+            WreckOnDeath();      // Round 9 (C1, D1): where your ship lies, insured or not
+            if (c.flyingLoaner && Planet != null) Planet.runDeaths++;   // (WreckOnDeath counts your own ship's)
             if (c.flyingLoaner) { c.flyingLoaner = false; c.loaner = new ShipState(); }   // the loaner is gone; your own ship stays where it is
             else { c.ship.wrecked = true; c.ship.damage = 100; c.ship.energy = Ship.Energy; }
             c.Save();
             dead.Body = () => got + (lost > 0 ? $"{lost} pilot{(lost > 1 ? "s" : "")} aboard died with you. " : "") +
-                "Your mind was backed up on the mothership.\n\n" + (killer != AlienType.None ? "Your ship is lost down there, with it inside." : "The wreck burns where you hit.");
+                "Your mind was backed up on the mothership.\n\n" + (killer != AlienType.None ? "Your ship is lost down there, with it inside." : "The wreck burns where you hit.") +
+                (c.wreckInsured && c.ship.wrecked ? $"\n<color=#9CFFB0>The flight was insured: recovery {c.RecoveryFee} cr instead of {c.FullRecoveryFee} cr.</color>" : "");
             Run(ShowDead());
         }
 
@@ -774,7 +793,7 @@ namespace HostileHorizon
         {
             Now = State.Auto; Phase = "recovery"; Menu.Hide();
             var c = Career.C; var t = Tuning.T;
-            if (loaner) { c.flyingLoaner = true; c.loaner = new ShipState(); debrief = $"You're flying the corps loaner (basic, no upgrades). Your own ship is still a wreck: recover it here for {c.RecoveryFee} cr when you can."; }
+            if (loaner) { c.flyingLoaner = true; c.loaner = new ShipState(); debrief = $"You're flying the corps loaner (basic, no upgrades). Your own ship is still a wreck: recover it here for {c.RecoveryFee} cr when you can, or fly down to it, land by it and hold {Controls.AirlockKey} {t.salvageHold:0} s to salvage it yourself (free)."; }
             else
             {
                 int paid = c.Spend(c.RecoveryFee); c.ship.wrecked = false; c.ship.damage = 0; c.ship.energy = Mathf.Max(c.ship.energy, t.freeMinimumFill); c.flyingLoaner = false;
@@ -858,6 +877,8 @@ namespace HostileHorizon
                   .Add(Action("Upgrades", () => Menu.Show(shopPage)))      // Round 6 (C)
                   .Add(new MenuPanel.Row { Label = () => $"Repair hull  <size=24>({Career.C.RepairCost} cr)</size>", Submit = () => { debrief = Career.C.Repair(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.damage <= 0 || Career.C.credits <= 0 })
                   .Add(new MenuPanel.Row { Label = () => $"Refuel  <size=24>({Career.C.RefuelCost} cr)</size>", Submit = () => { debrief = Career.C.Refuel(); Ship.SetEnergyAndDamage(Career.C.Current.energy, Career.C.Current.damage); Career.C.Save(); }, Disabled = () => Career.C.Current.energy >= 99.9f })
+                  .Add(new MenuPanel.Row { Label = () => Career.C.insured ? $"Insured for this flight ✓  <size=24>(select to cancel: +{Career.C.InsuranceFee} cr back)</size>" : $"Insure this flight  <size=24>({Career.C.InsuranceFee} cr)</size>", Submit = ToggleInsurance,
+                                           Visible = () => Career.C != null && !Career.C.flyingLoaner && !Career.C.ship.wrecked, Disabled = () => !Career.C.insured && Career.C.credits < Career.C.InsuranceFee })   // Round 9 (D1)
                   .Add(new MenuPanel.Row { Label = () => $"Recover your own ship  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, false)), Visible = () => Career.C != null && Career.C.flyingLoaner && Career.C.ship.wrecked, Disabled = () => Career.C.credits < Career.C.RecoveryFee })
                   .Add(Action("Field Journal", () => ShowJournal(hangar)))   // Round 3
                   .Add(new MenuPanel.Row { Label = () => $"Difficulty: {Difficulty.Name(Career.C.difficulty)}", Submit = () => ShowDifficulty(hangar) })   // Round 5 (B8)
@@ -894,9 +915,10 @@ namespace HostileHorizon
             dead.Add(Action("Wake up", () => Run(RegenTrip())));
 
             regen = new MenuPanel.Page { Title = "REGENERATION BAY", Subtitle = "New body, same mind. Credits and record kept." };
-            regen.Body = () => { var c = Career.C; return $"<b>{c.credits} cr</b>\n\nYour ship is a wreck on {Planet?.name}.\n\n<b>Pay recovery</b> ({c.RecoveryFee} cr): it is hauled back and repaired, upgrades kept.\n<b>Take the loaner</b>: a free basic ship. Your own stays wrecked until you pay its recovery from the hangar.\n\n{c.stats.deaths} death{(c.stats.deaths == 1 ? "" : "s")} so far."; };
+            regen.Body = () => { var c = Career.C; return $"<b>{c.credits} cr</b>\n\nYour ship is a wreck on {Planet?.name}.\n\n<b>Pay recovery</b> ({c.RecoveryFee} cr{(c.wreckInsured ? $", insured: {c.FullRecoveryFee} cr without" : "")}): it is hauled back and repaired, upgrades kept.\n<b>Take the loaner</b>: a free basic ship. Your own stays wrecked until you pay its recovery from the hangar.\n<b>Recover it yourself</b>: free. Fly the loaner down to the wreck, land by it, engines off, hold {Controls.AirlockKey} {Tuning.T.salvageHold:0} s. It may not be alone down there.\n\n{c.stats.deaths} death{(c.stats.deaths == 1 ? "" : "s")} so far."; };
             regen.Add(new MenuPanel.Row { Label = () => $"Pay recovery  <size=24>({Career.C.RecoveryFee} cr)</size>", Submit = () => Run(Deliver(false, true)), Disabled = () => Career.C.credits < Career.C.RecoveryFee })
-                 .Add(Action("Take the loaner (free)", () => Run(Deliver(true, true))));
+                 .Add(Action("Take the loaner (free)", () => Run(Deliver(true, true))))
+                 .Add(new MenuPanel.Row { Label = () => "Recover it yourself  <size=24>(free: fly the loaner down to the wreck)</size>", Submit = () => Run(Deliver(true, true)), Visible = () => Career.C != null && Career.C.ship.wrecked && Career.C.wreckSeed != 0 });   // Round 9 (C1)
 
             BuildJournalPage();
             outOfEnergy = new MenuPanel.Page { Title = "OUT OF ENERGY" };
@@ -916,15 +938,17 @@ namespace HostileHorizon
             var s = c.Current; var st = c.stats;
             return $"<b>{c.credits} cr</b>   ·   the {c.systemName} system\n\n" +
                 $"<b>Ship</b>: {(c.flyingLoaner ? "the corps loaner (basic)" : "your own")}   hull {100 - s.damage:0}%   energy {s.energy:0}%" + (Upgrades.Value(c.Current) > 0 ? $"   upgrades: {UpgradeSummary(c.Current)}" : "") + "\n" +
-                (c.flyingLoaner && c.ship.wrecked ? $"Your own ship is a wreck: recovery {c.RecoveryFee} cr.\n" : "") +
+                WreckLine() + InsuranceLine() +   // Round 9 (C1, D1)
                 (s.energy < 99.9f ? $"<color=#FFC873>Energy {s.energy:0} %: Refuel below ({c.RefuelCost} cr) before you launch.</color>\n" : "") +
                 $"\n<b>{(Planet.OfTheDay ? "Planet of the day" : "Planet")}: {Planet.name}</b>  ({Biomes.Name(Planet.biome)}, seed {Planet.seed})\n  pilots: {Planet.Count(PilotFate.Rescued)} rescued · {Planet.Count(PilotFate.Lost)} lost · {Planet.Count(PilotFate.Waiting)} waiting{(Planet.cleared ? "   CLEARED" : "")}\n" +
                 (Planet.OfTheDay ? $"  <color=#FFC873>Planet of the day: pilots pay +{Tuning.T.dayBonus * 100:0} % ({Mathf.RoundToInt(Tuning.T.pilotPay * (1 + Tuning.T.dayBonus))} cr each)</color>\n"
                                  : $"  Today's planet, {Names.Planet(Seeds.OfTheDay)}, pays +{Tuning.T.dayBonus * 100:0} % a pilot (Planets)\n") +
                 (Planet.cleared ? "  <color=#9CFFB0><b>Cleared! Jump to a new planet (selected).</b></color>\n" : "") +
+                MissionsLine(Planet) +   // Round 9 (B2)
                 (c.planets.Exists(p => p.distress) ? $"  <color=#FF8A80>New distress calls: {string.Join(", ", c.planets.FindAll(p => p.distress).ConvertAll(p => p.name))} (Star map)</color>\n" : "") +
                 (Foes.All.Count > 0 ? $"  <color=#FF8A80>Defences: {Alive(EnemyKind.Turret)} turrets{(Foes.All.Exists(e => e.Kind == EnemyKind.Saucer) ? $", {Alive(EnemyKind.Saucer)} saucers" : "")} (fly low: turrets can't see into the canyons)</color>\n" : "  Defences: none\n") +
                 $"\n<b>Career</b> ({Difficulty.Name(c.difficulty)})\n  {st.pilotsRescued} pilots rescued · {st.pilotsLost} lost · {st.creditsEarned} cr earned\n  {st.deaths} deaths · {st.planetsCleared} planets cleared · {st.sorties} sorties · {st.turretsDestroyed + st.saucersDestroyed} enemies destroyed\n" +
+                $"  {st.flightSeconds / 60f:0} min flown · {st.hullHits} hull hits · {st.cleanClears} cleared without dying ·{st.missionsDone} missions · {st.salvages} salvages\n" +   // Round 9 (E1)
                 (debrief != "" ? $"\n<b>Last</b>\n{debrief}" : "");
         }
     }

@@ -30,6 +30,7 @@ namespace HostileHorizon
         public BellyCam Belly;
         // Fix 2.6: the route trail's target line ("ROUTE → PILOT 2 · 1.4 km") and its path, drawn on the radar
         public string Route = "";
+        public string Objectives = "";               // Round 9 (B1): the planet's side missions, one line each (cockpit list and HUD)
         public string Subtitle = "";                 // Round 4 (C4): what is being said (Voices), on the HUD and the centre display
         // Round 5 (B4, B5, B6): the shield, LOCKED ON, incoming-fire marks, a hit's damage, the enemies left
         public bool Shield, LockedOn;
@@ -219,10 +220,11 @@ namespace HostileHorizon
             {
                 right.text = "";
                 rightList.text = (cue != "" ? $"<size=19><color=#FF9A40><b>SLOW DOWN — PRESS {Controls.LandKey}</b></color></size>\n" : "") + "\n" +   // Fix 2.6: the blips carry their distances; beside the scope: the route and the planet
-                    (Route != "" ? $"<size=18><color=#7DFFB0>{Route.Replace(" · ", "\n").Replace("   [", "\n<size=15>[").Replace("]", "]</size>")}</color></size>\n\n" : "") + $"<size=16>{Place}</size>";
+                    (Route != "" ? $"<size=18><color=#7DFFB0>{Route.Replace(" · ", "\n").Replace("   [", "\n<size=15>[").Replace("]", "]</size>")}</color></size>\n\n" : "") +
+                    (Objectives != "" ? $"<size=16><color=#8FFFFF>{Objectives}</color></size>\n" : "") + $"<size=16>{Place}</size>";
                 cockpitRadar.Draw(Ship.transform, Contacts, RoutePath, Threats); screenRadar.Draw(Ship.transform, Contacts, RoutePath, Threats);
             }
-            else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = ""; }
+            else { right.text = $"SEED\n{seed}\n{level}\nVIEW {CameraRig.ModeNames[(int)Rig.Current]}"; rightList.text = Objectives != "" ? $"\n\n\n\n\n<size=19><color=#8FFFFF>{Objectives}</color></size>" : ""; }   // Round 9 (F1): the time trial
             cockpitRadar.Show(Campaign); screenRadar.Show(Campaign); listBack.enabled = Campaign;
             // Round 3: the cabin camera
             bool cab = Campaign && CabinRoom && !Ship.Crashed;
@@ -242,7 +244,7 @@ namespace HostileHorizon
             screenLeft.text = $"<size=34><b>{spd * 3.6f:0}</b></size> km/h   {power.ToLower()}\nALT {alt:0} m    GND <b>{agl:0}</b> m\nHDG {hdg:000}°   {mode}\n{gear} · {engines}\n{hull}" +
                 (Campaign ? $"\nENERGY <b>{energy:0}%</b>   {cabin}{(Shield ? "   <color=#8FD8FF><b>SHIELD ON</b></color>" : "")}" + (home != "" ? "\n" + home.Replace("\n", "   ") : "") + (FightLine != "" ? $"\n<color=#FF9A90>{FightLine}</color>" : "") : "");
             screenRight.text = Campaign ? $"{Place}\nView: {CameraRig.ModeNames[(int)Rig.Current]}" : $"Seed {seed}   ·   {level}\nView: {CameraRig.ModeNames[(int)Rig.Current]}";
-            screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 5) + (Route != "" ? $"<color=#7DFFB0>{Route}</color>" : "") : "";
+            screenList.text = Campaign ? cue + RadarScope.List(Ship.transform, Contacts, 5) + (Route != "" ? $"<color=#7DFFB0>{Route}</color>" : "") + (Objectives != "" ? $"\n<color=#8FFFFF>{Objectives}</color>" : "") : Objectives != "" ? $"<size=26><color=#8FFFFF>{Objectives}</color></size>" : "";   // Round 9 (F1)
             prompt.text = say;
             bool flash = Ship.Hits > 0 && Time.time - lastHitTime < 1f;
             ThreatArrows();

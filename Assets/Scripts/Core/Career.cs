@@ -37,6 +37,11 @@ namespace HostileHorizon
         public string distressCheck;                      // Round 6 (D3): when its distress-call roll last ran (real time)
         public int distressRolls, distressNew;            // rolls made; pilots the last call added
         public bool distress, distressSaid;               // new pilots down since your last visit; Control has announced it
+        public List<Mission> missions = new List<Mission>(); public bool missionsSet;   // Round 9 (B1): side missions (Missions.cs)
+        // Round 9 (E1): best runs. A "run" is everything from one clear (or the first visit) to the next clear: flight time, credits
+        // earned here, hull hits, deaths. At each clear the bests are kept and the run starts again (distress calls reopen a planet).
+        public float runSeconds; public int runCredits, runHits, runDeaths;
+        public float bestClear; public int bestCredits, bestHits = -1, clears; public bool clearedNoDeath;
         public bool OfTheDay => seed == Seeds.OfTheDay;
         public int Count(PilotFate f) { int n = 0; foreach (var p in pilots) if (p == (int)f) n++; return n; }
     }
@@ -46,6 +51,7 @@ namespace HostileHorizon
         public int pilotsRescued, pilotsLost, creditsEarned, creditsSpent, deaths, planetsCleared, sorties, tows, recalls;
         public int aliensKilled;      // Round 3
         public int turretsDestroyed, saucersDestroyed;   // Round 5
+        public float flightSeconds; public int hullHits, cleanClears, missionsDone, salvages, insuredFlights;   // Round 9 (E1): totals
     }
 
     [Serializable] public sealed class JournalEntry
@@ -70,6 +76,12 @@ namespace HostileHorizon
         public int currentSeed;      // Fix 3.2: the planet the mothership is over (0 = none yet: today's)
         public int planetsMade;      // Fix 3.2: how many new planets this career has generated (the next one's number)
         public DifficultySetting difficulty = new DifficultySetting();   // Round 5 (B8): a save from before Round 5 is Normal
+        // Round 9 (C1, D1): your own ship's wreck (where it went down) and insurance
+        public int wreckSeed; public float wreckX, wreckY, wreckZ, wreckHeading;
+        public bool salvaged;        // hooked up by the mothership's salvage line: back at the next dock
+        public bool insured;         // this flight is insured (bought in the hangar; ends at the dock or with the ship)
+        public bool wreckInsured;    // the wreck went down insured: its recovery costs insuredRecoveryShare of the fee
+        public static PlanetState EarnPlanet;   // Round 9 (E1): credits earned count toward this planet's run (GameShell sets it)
 
         public static Career C { get; private set; }
         public ShipState Current => flyingLoaner ? loaner : ship;
@@ -184,11 +196,13 @@ namespace HostileHorizon
         }
 
         public int ShipValue => Tuning.T.shipValue + Upgrades.Value(ship);   // Round 6 (C2): the upgrades add their price (the loaner is free)
-        public int RecoveryFee => Tuning.T.recoveryBase + Mathf.RoundToInt(Tuning.T.recoveryShareOfShipValue * ShipValue);
+        public int FullRecoveryFee => Tuning.T.recoveryBase + Mathf.RoundToInt(Tuning.T.recoveryShareOfShipValue * ShipValue);
+        public int RecoveryFee => wreckInsured && ship.wrecked ? Mathf.RoundToInt(FullRecoveryFee * Tuning.T.insuredRecoveryShare) : FullRecoveryFee;   // Round 9 (D1)
+        public int InsuranceFee => Mathf.RoundToInt(Tuning.T.insuranceShareOfShipValue * ShipValue);
         public int RepairCost => Mathf.CeilToInt(Current.damage * Tuning.T.repairPricePerPercent);
         public int RefuelCost => Mathf.CeilToInt((100 - Current.energy) * Tuning.T.fuelPricePerPercent);
 
-        public void Earn(int cr) { credits += cr; stats.creditsEarned += cr; }
+        public void Earn(int cr) { credits += cr; stats.creditsEarned += cr; if (EarnPlanet != null) EarnPlanet.runCredits += cr; }
         public int Spend(int cr) { int paid = Mathf.Min(cr, credits); credits -= paid; stats.creditsSpent += paid; return paid; }   // never below zero
 
         // Refuel as far as the credits go; if that leaves less than the free minimum fill, the corps tops it up for free.

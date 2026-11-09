@@ -1,0 +1,25 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 137216 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 00:53; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+--- F: time trial: course 14 km, a gate every 550 m (radius 24 m), a missed gate +5 s
+  Free Flight page rows: Seed / Seed number  <size=22>(select to type)</size> / Planet type / Crash level / Start flight / Time trial / Ghost / Back
+screenshot r9f_free_flight_page.png
+run 1: Ocean Islands, seed 4711: course 17.3 km, 32 gates, first at (-723, 127, -309), last at (3863, 32, 4346); best before none, ghost none
+screenshot r9f_run1_start.png
+screenshot r9f_run 1_cockpit_gates.png
+screenshot r9f_run 1_chase.png
+  run 1: finished True in 343.6 s (flying 283.6 s, 12 missed); gates 32 / 32; wall / ground hits 0
+  result page: "<b>5:43.6</b>  (12 gates missed: +60 s) | <color=#7DFF9A>Your first time on this course.</color> | Seed 4711 · Ocean Islands · 32 gates | Your ghost will fly this run next time."
+screenshot r9f_run1_result.png
+  trials.json: best 343.6, 32 splits, ghost 2837 samples
+run 2: same course True (32 gates); ghost shown, best 343.6
+    ghost at 10 s: 16 m from the ship, shown True
+screenshot r9f_run 2_cockpit_gates.png
+    ghost at 30 s: 69 m from the ship, shown True
+screenshot r9f_run 2_chase_ghost.png
+    ghost at 60 s: 120 m from the ship, shown True
+  run 2: finished True in 354.7 s (flying 294.7 s, 12 missed); gates 32 / 32; wall / ground hits 0
+  result page: "<b>5:54.7</b>  (12 gates missed: +60 s) | Best 5:43.6 (+11.1 s) | Seed 4711 · Ocean Islands · 32 gates"
+screenshot r9f_run2_result.png
+  trials.json now: best 343.6 (2026-11-09 00:58)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.021 RMS, peak 0.105, zeroed before the speakers; 57860096 samples); master volume 0.00

@@ -51,6 +51,14 @@ namespace HostileHorizon
         public static CrashLevel Crash => (CrashLevel)Mathf.Clamp(Current.crashLevel, 0, 4);
         // B7: the share of pilots' landing pads that a turret can see (0 on Easy / Normal: a landed ship is never a sitting duck)
         public static float CoveredPads => At(Tuning.T.coveredPadShare, Current.aggression);
+        // Round 9 (G): the harder settings' enemies (Low / Normal: Round 5's numbers)
+        static int AtI(int[] a, int i) => a[Mathf.Clamp(i, 0, a.Length - 1)];
+        public static float TurretLead => At(Tuning.T.turretLeadLevels, Current.aggression);
+        public static bool TurretIntercept => AtI(Tuning.T.turretInterceptLevels, Current.aggression) != 0;
+        public static float TurretAimError => At(Tuning.T.turretAimErrorLevels, Current.aggression);
+        public static float BoltHitRadius => At(Tuning.T.boltHitRadiusLevels, Current.aggression);
+        public static bool SaucersHunt => AtI(Tuning.T.saucerHuntLevels, Current.aggression) != 0;
+        public static bool SaucerPairs => AtI(Tuning.T.saucerPairLevels, Current.aggression) != 0;
 
         public static string Name(DifficultySetting d) => PresetNames[Mathf.Clamp(d.preset, 0, 4)];
         public static string Summary(DifficultySetting d)

@@ -84,6 +84,19 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `ctl_hot_saucers.mp3` | Control | launch: turrets and saucers | Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving. |
 | `ctl_distress.mp3` | Control | at the dock: new distress calls on an old planet | New distress calls coming in from a planet you'd cleared. More of ours went down there. It's on the star map. |
 | `ctl_upgrade.mp3` | Control | the hangar: an upgrade fitted | Workshop says she's ready. Try not to bend it. |
+| `ctl_obj_recorder.mp3` | Control | launch: mission, the flight recorder | There's a crashed drone down there with its flight recorder still in one piece. It's on your scope. Land beside it, engines off, and winch it aboard. |
+| `ctl_obj_turrets.mp3` | Control | launch: mission, the turret nest | Command wants a turret nest cleared out of one of the valleys. It's marked on your scope. Worth the trouble. |
+| `ctl_obj_timed.mp3` | Control | launch: mission, the timed rescue | One of ours is on failing life support. The clock's on your scope. Get them aboard and home before it runs out. |
+| `ctl_obj_clean.mp3` | Control | launch: mission, the clean run | Bonus on this one if you clear the planet without a scratch on the hull. |
+| `ctl_obj_recorder_aboard.mp3` | Control | mission: the recorder aboard | Recorder's aboard. Bring it home. |
+| `ctl_obj_turrets_done.mp3` | Control | mission: the nest destroyed | That's the nest gone. Nice shooting. |
+| `ctl_obj_timed_lost.mp3` | Control | mission: the timed pilot lost | Their life signs just went flat. We were too late for that one. |
+| `ctl_obj_clean_broken.mp3` | Control | mission: the clean run broken | That's a scratch on the hull. So much for the clean run. |
+| `ctl_obj_paid.mp3` | Control | at the dock: a mission paid | Side job's logged. The corps pays its debts. |
+| `ctl_salvage.mp3` | Control | launch: your wreck to salvage | Your old ship's still down there. It's on your scope. Land beside it, cut your engines, and hook it up. |
+| `ctl_salvage_done.mp3` | Control | the wreck hooked up | Salvage line's on. She'll be back in the bay when you dock. |
+| `ctl_salvage_ambush.mp3` | Control | something waiting at the wreck | Movement near the wreck. You're not alone down there. |
+| `ctl_insured.mp3` | Control | launch: the flight insured | Insurance is logged for this flight. Try not to make them pay out. |
 | `cpu_energy_low.mp3` | Computer | ship's computer | Energy low. |
 | `cpu_return_now.mp3` | Computer | ship's computer | Return now. |
 | `cpu_cant_reach.mp3` | Computer | ship's computer | Mothership out of reach. |

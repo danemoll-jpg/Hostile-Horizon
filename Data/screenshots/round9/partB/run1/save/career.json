@@ -1,0 +1,211 @@
+{
+    "version": 1,
+    "systemSeed": 9191,
+    "systemName": "Selvix",
+    "credits": 8049,
+    "ship": {
+        "damage": 34.0,
+        "energy": 98.08686065673828,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261109,
+            "name": "Halkon-II",
+            "tier": 0,
+            "pilots": [
+                1,
+                1,
+                1
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-09 00:25:28",
+            "enemiesDown": [
+                3
+            ],
+            "enemiesKey": "2/1",
+            "turrets": 4,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false,
+            "missions": [
+                {
+                    "kind": 2,
+                    "state": 2,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": 1,
+                    "timeLeft": 374.5489807128906,
+                    "aboard": false
+                },
+                {
+                    "kind": 3,
+                    "state": 3,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 0,
+                    "state": 0,
+                    "x": -258.6907958984375,
+                    "z": 1463.605224609375,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 1,
+                    "state": 2,
+                    "x": 619.4815063476563,
+                    "z": 2713.46484375,
+                    "count": 1,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                }
+            ],
+            "missionsSet": true
+        },
+        {
+            "seed": 8020109,
+            "name": "Ceia-IX",
+            "tier": 1,
+            "pilots": [
+                2,
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0,
+                2
+            ],
+            "quirk": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "biome": "ice",
+            "biomeSet": true,
+            "lastVisit": "2026-11-09 00:28:54",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 11,
+            "saucers": 2,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false,
+            "missions": [
+                {
+                    "kind": 3,
+                    "state": 3,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 1,
+                    "state": 0,
+                    "x": 2393.5263671875,
+                    "z": 2227.06103515625,
+                    "count": 3,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 2,
+                    "state": 3,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": 0,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 0,
+                    "state": 0,
+                    "x": 2440.813720703125,
+                    "z": 1433.27197265625,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                }
+            ],
+            "missionsSet": true
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 3,
+        "pilotsLost": 1,
+        "creditsEarned": 5200,
+        "creditsSpent": 151,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 2,
+        "tows": 0,
+        "recalls": 0,
+        "aliensKilled": 0,
+        "turretsDestroyed": 1,
+        "saucersDestroyed": 0
+    },
+    "journal": [],
+    "started": "2026-11-09 00:25",
+    "lastSaved": "2026-11-09 00:29:14",
+    "currentSeed": 8020109,
+    "planetsMade": 1,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    }
+}

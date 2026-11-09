@@ -335,6 +335,7 @@ namespace HostileHorizon
         public static bool LandPressed => land.WasPressedThisFrame();
         public static bool EnginesPressed => engines.WasPressedThisFrame();
         public static bool AirlockPressed => airlock.WasPressedThisFrame();
+        public static bool AirlockHeld => airlock.IsPressed();   // Round 9 (B1, C1): held to pull the recorder / your wreck aboard
         // Fix 2.3: call the mothership to you (held: GameShell.Campaign times the hold)
         public static bool RecallHeld => recall.IsPressed();
         // Fix 2.4: the gamepad's View button also opens the pause menu: a tap (held, it is the recall in the Campaign)

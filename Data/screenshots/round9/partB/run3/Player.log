@@ -1,0 +1,264 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [39560] [00:39:55.263][Info   ] Available Layers: (1)
+[XR] [39560] [00:39:55.449][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [39560] [00:39:55.449][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [39560] [00:39:55.449][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [39560] [00:39:55.449][Info   ] ==== OpenXR Runtime Info ====
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Available Runtime Extensions: (34)
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [39560] [00:39:55.449][Info   ]   XR_MND_headless: Version=3
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_uuid: Version=1
+[XR] [39560] [00:39:55.449][Info   ]   XR_META_headset_id: Version=2
+[XR] [39560] [00:39:55.449][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Available Layers: (1)
+[XR] [39560] [00:39:55.449][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [39560] [00:39:55.449][Info   ] Runtime Version: 1.1.0
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] ==== OpenXR API Spec Version ====
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [39560] [00:39:55.449][Info   ]     Origin: result
+[XR] [39560] [00:39:55.449][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] ==== Std Exception Thrown ====
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [39560] [00:39:55.449][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [39560] [00:39:55.449][Info   ]     Origin: result
+[XR] [39560] [00:39:55.449][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [39560] [00:39:55.449][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [39560] [00:39:55.449][Info   ] 
+[XR] [39560] [00:39:55.449][Info   ] ==== Last 20 Events ====
+[XR] [39560] [00:39:55.449][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.676700 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (test run)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 73728 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-09 00:39; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] --- B: side missions. Rewards (x pay): recorder 700, nest 1000, timed 800 (540 s), clean 900; recorder hold 8 s within 70 m
+[ExeCheck]   missions per planet from the seed (1-3): seed 1111: 3, seed 2222: 1, seed 3333: 2, seed 4444: 2, seed 5555: 2, seed 6666: 1, seed 7777: 3, seed 8888: 1
+[Play]     1.9 arrived: planet Halkon-II (seed 20261109, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]     1.9 missions: Timed rescue (Open), Clean run (Open), Recover the flight recorder (Open), Knock out the turret nest (Open)
+[Play]     2.2 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]     2.4 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] planet 1 Halkon-II (seed 20261109): missions Timed rescue Open (pilot 2, 540 s); Clean run Open; Recover the flight recorder Open (site -259, 1464); Knock out the turret nest Open (1)
+[ExeCheck]   nest placement: difficulty Normal: enemies Turrets + Saucers, aggression Normal, aliens Normal, tells 75 %, false tells 0 %, Lasting damage, pay x1; tier 0, a career's first planet (ease-in) | turret nest: 1 (asked 3) round the valley at (619, 1, 2713) | turrets: 3 (asked 3), 0 placed to cover a pad; pads in a turret's sight 0 of 3 | saucers: none on a career's first planet (ease-in)
+[ExeCheck] screenshot r9b_hangar_missions.png
+[Play]     4.1 launch: Halkon-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]     4.1 missions open: Timed rescue, Clean run, Recover the flight recorder, Knock out the turret nest
+[Play]     4.1 music flight_canyons: flight (automatic)
+[Music] loaded flight_canyons (163 s)
+[Play]    11.1 voice CONTROL: Clamps released. Go and find our people.
+[Play]    12.3 music flight_canyons: flying
+[Play]    12.3 pilot 2 found (2.3 km): a real pilot
+[Play]    12.3 pilot 3 found (2.7 km): a real pilot
+[Play]    14.6 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]   launch: objectives "◆ LIFE SUPPORT P2: 8:57 | ◆ CLEAN RUN: no damage so far | ◆ RECORDER: land at the crash site · 1.9 km | ◆ TURRET NEST: 1 / 1 left"
+[ExeCheck] screenshot r9b_flight_radar_objectives.png
+[ExeCheck] screenshot r9b_recorder_site_approach.png
+[Play]    21.6 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[Play]    28.6 voice CONTROL: One of ours is on failing life support. The clock's on your scope. Get them aboard and home before it runs out.
+[Play]    36.9 voice CONTROL: Bonus on this one if you clear the planet without a scratch on the hull.
+[Play]    42.4 voice COMPUTER: Engines off.
+[ExeCheck]   recorder: landed True 14 m from the site, engines off; prompt "At the crash site: engines off (<color=#6CC24A><b>A</b></color>), then hold <color=#E8473D><b>B</b></color>"
+[Play]    43.9 voice COMPUTER: Airlock open.
+[ExeCheck]     (holding B: airlock held True, landed True, engines False, input True, state Flying)
+[ExeCheck]   held 3 s then let go: aboard False, hold now 0.0 s
+[Play]    45.5 voice COMPUTER: Airlock open.
+[ExeCheck]     (holding B: airlock held True, landed True, engines False, input True, state Flying)
+[ExeCheck] screenshot r9b_recorder_pulling.png
+[Play]    53.4 mission: flight recorder aboard
+[Play]    53.4 voice CONTROL: Recorder's aboard. Bring it home.
+[ExeCheck]   held 8.8 s: aboard True; objectives "◆ LIFE SUPPORT P2: 8:17 | ◆ CLEAN RUN: no damage so far | ◆ RECORDER: aboard, dock to deliver | ◆ TURRET NEST: 1 / 1 left"
+[ExeCheck]   nest: 1 turrets: 340 m out, 403 m up, sees the valley True
+[ExeCheck] screenshot r9b_nest_turret.png
+[Play]    57.4 mission: turret nest destroyed
+[Play]    57.4 voice COMPUTER: Target destroyed.
+[ExeCheck]   nest destroyed: mission Done; enemies down saved 1
+[ExeCheck]   timed: pilot 2, 495 s left; radar tag "8:14"
+[Play]    57.5 music (quiet): pickup: hovering 25 m from pilot 2
+[Play]    57.5 pilot 1 found (1.3 km): a real pilot
+[Play]    59.0 voice CONTROL: That's the nest gone. Nice shooting.
+[Play]    82.5 music (quiet): pickup: landed 25 m from pilot 2
+[Play]    83.1 music (quiet): pickup: pilot 2 running
+[Play]    83.1 pilot 2 runs to the ship
+[Play]    83.1 voice COMPUTER: Engines off.
+[Play]    88.9 music (quiet): pickup: pilot 2 knocking
+[Play]    88.9 pilot 2 at the airlock, knocking
+[Play]    88.9 music (quiet): pickup: pilot 2 boarding
+[Play]    90.3 pilot 2 boarded (a real pilot); cabin 1 / 6
+[Play]    90.3 music flight_canyons: flying
+[Play]    90.6 voice COMPUTER: Airlock open.
+[ExeCheck]   timed pilot aboard: cabin 1, 461 s left
+[Play]    91.0 pilot 1 boarded (a real pilot); cabin 2 / 6
+[Play]    91.0 pilot 3 boarded (a real pilot); cabin 3 / 6
+[Play]    92.0 voice COMPUTER: Pilot aboard.
+[Play]    93.4 voice CONTROL: That's everyone down there. Climb up and come home.
+[Play]    97.2 music flight_canyons: flight (automatic)
+[Play]    98.0 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[Play]   120.8 docked: 3 pilots delivered (pilot 2, pilot 1, pilot 3): they leave the ship
+[Play]   120.8 planet cleared: this run: 1:24 of flight, 2400 cr, 0 hull hits, no deaths; bests fastest clear 1:24 · most 2400 cr · fewest hits 0 · cleared without dying ✓
+[Play]   120.8 mission paid: Timed rescue +800 cr
+[Play]   120.8 mission paid: Clean run +900 cr
+[Play]   120.8 mission paid: Recover the flight recorder +700 cr
+[Play]   120.8 mission paid: Knock out the turret nest +1000 cr
+[Play]   120.8 docked (recall): Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it)|<color=#FFE08A>Best run: this run: 1:24 of flight, 2400 cr, 0 hull hits, no deaths</color>|<b>Halkon-II cleared! +1000 credits</b>|<color=#8FFFFF>Mission: Timed rescue +800 cr</color>|<color=#8FFFFF>Mission: Clean run +900 cr</color>|<color=#8FFFFF>Mission: Recover the flight recorder +700 cr</color>|<color=#8FFFFF>Mission: Knock out the turret nest +1000 cr</color>|Recall: -900 cr
+[Play]   120.9 music hangar: docked
+[Play]   120.9 voice CONTROL: That's the last of them. Planet's clear. Good work down there.
+[ExeCheck]   planet 1: recalled and docked; debrief "Delivered 3 pilots: +2250 cr (planet of the day +50 %: 750 cr of it) | <color=#FFE08A>Best run: this run: 1:24 of flight, 2400 cr, 0 hull hits, no deaths</color> | <b>Halkon-II cleared! +1000 credits</b> | <color=#8FFFFF>Mission: Timed rescue +800 cr</color> | <color=#8FFFFF>Mission: Clean run +900 cr</color> | <color=#8FFFFF>Mission: Recover the flight recorder +700 cr</color> | <color=#8FFFFF>Mission: Knock out the turret nest +1000 cr</color> | Recall: -900 cr"
+[ExeCheck]   credits 3150 -> 8900; cleared True; missions Timed rescue Paid (pilot 2, 455 s); Clean run Paid; Recover the flight recorder Paid (site -259, 1464, aboard); Knock out the turret nest Paid (1)
+[ExeCheck] screenshot r9b_hangar_after.png
+[Play]   122.1 music planet_select: docked
+[Music] loaded planet_select (200 s)
+[ExeCheck] screenshot r9b_star_map_missions.png
+[Play]   123.5 music hangar: docked
+[Play]   123.9 arrived: planet Ceia-IX (seed 8020109, Ice), new; pilots waiting 4, aliens among them 1
+[Play]   123.9 missions: Clean run (Open), Knock out the turret nest (Open), Timed rescue (Open), Recover the flight recorder (Open)
+[Play]   124.3 music planet_select: jump
+[Play]   124.6 music hangar: docked
+[Play]   125.5 voice CONTROL: Side job's logged. The corps pays its debts.
+[ExeCheck] planet 2 Ceia-IX: missions Clean run Open; Knock out the turret nest Open (3); Timed rescue Open (pilot 1, 540 s); Recover the flight recorder Open (site 2441, 1433)
+[Play]   125.6 launch: Ceia-IX (Ice), energy 100 %, hull 100 %, cabin 0, pilots waiting 4
+[Play]   125.6 missions open: Clean run, Knock out the turret nest, Timed rescue, Recover the flight recorder
+[Play]   125.7 music flight_ice: flight (automatic)
+[Music] loaded flight_ice (203 s)
+[Play]   129.2 voice CONTROL: Jump drive spooling. Hold on to something.
+[Play]   132.6 voice CONTROL: Ice world. Crevasses, white-outs, and cold enough to crack a hull. When the snow comes in, trust your radar.
+[Play]   133.8 music flight_ice: flying
+[Play]   133.8 pilot 1 found (2.7 km): a real pilot
+[Play]   133.8 pilot 2 found (2.3 km): a real pilot
+[Play]   133.8 pilot 3 found (3.0 km): a real pilot
+[ExeCheck] screenshot r9b_timed_clock_radar.png
+[Play]   140.5 mission: pilot 1's life support ran out
+[Play]   142.2 voice CONTROL: Heads up, this one's hot. Turrets on the high ground, and saucers in the air. Stay low, keep moving.
+[Play]   142.5 pilot 4 found (3.0 km): really a Hollow, tell hidden
+[ExeCheck]   timed: clock run out: mission Failed, pilot 1 fate Lost, on foot False; message "Pilot 1's life support ran out. They're gone."
+[Play]   142.7 mission: clean run broken (hull 94 %)
+[ExeCheck]   clean run after a 6 % hit: Failed
+[ExeCheck]   objectives now "◆ CLEAN RUN ✗ | ◆ TURRET NEST: 3 / 3 left | ◆ LIFE SUPPORT P1 ✗ lost | ◆ RECORDER: land at the crash site · 3.5 km"
+[Music] loaded flight_forest (223 s)
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.014 RMS, peak 0.165, zeroed before the speakers; 13967360 samples); master volume 0.00
+[Play]   143.9 music title_theme: title
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

@@ -123,6 +123,8 @@ namespace HostileHorizon
             var t = Tuning.T; int seed = SelectedSeed();
             int calls = c.planets.FindAll(p => p.distress).Count;
             string head = $"The {c.systemName} system: {c.planets.Count} planet{(c.planets.Count == 1 ? "" : "s")} visited, {c.stats.planetsCleared} cleared" + (calls > 0 ? $" · <color=#FF8A80>{calls} with new distress calls</color>" : "") + ".\n";
+            var today = c.planets.Find(x => x.seed == Seeds.OfTheDay);   // Round 9 (E1): the planet of the day's best, picked out
+            head += today != null && today.clears > 0 ? $"<color=#FFC873>★ Planet of the day {today.name}: {BestText(today)}</color>\n" : $"<color=#FFC873>★ Planet of the day {Names.Planet(Seeds.OfTheDay)}: no clear yet</color>\n";
             if (seed == 0) return head;
             var p = c.planets.Find(x => x.seed == seed); bool day = seed == Seeds.OfTheDay;
             int sel = planetsPage.Selected;
@@ -131,6 +133,8 @@ namespace HostileHorizon
             if (day) s += $"<color=#FFC873>Planet of the day: pilots pay +{t.dayBonus * 100:0} % ({Mathf.RoundToInt(t.pilotPay * (1 + t.dayBonus))} cr each).</color>\n";
             s += Danger(seed) + "\n";
             if (p != null) s += $"Pilots: {p.Count(PilotFate.Rescued)} rescued · {p.Count(PilotFate.Lost)} lost · {p.Count(PilotFate.Waiting)} waiting · visits {p.visits}" + (p.distress ? $"\n<color=#FF8A80>New distress calls: {p.distressNew} pilot{(p.distressNew == 1 ? "" : "s")} down since you cleared it.</color>" : "");
+            if (p != null && p.missions != null && p.missions.Count > 0) s += "\n<b>Missions</b>\n" + MissionsText(p, "");   // Round 9 (B2)
+            if (p != null && p.clears > 0) s += $"\n<color=#FFE08A><b>Best run</b>: {BestText(p)}</color>";   // Round 9 (E1)
             if (Planet != null && Planet.seed == seed) s += "\nThe mothership is over this planet now.";
             return s;
         }
