@@ -259,7 +259,19 @@ namespace HostileHorizon
         public static bool LevelOutHeld => levelOut.IsPressed();
         public static bool LandHeld => land.IsPressed();
         static InputAction recenter;
-        public static bool RecenterPressed => recenter != null && recenter.WasPressedThisFrame();
+        // Fix 9.1 (A4): in VR, holding the Pause button 1 s recentres the view (HOTAS OPTIONS by default, or whichever button HOTAS setup
+        // gives Pause; the pad's Menu; keyboard Esc); a tap still pauses (on release). Also the pad's right-stick click, Home and the
+        // pause menu. Outside VR the Pause button works as before (on press).
+        public const float RecenterHold = 1f;
+        static float menuDownAt = -1; static bool menuHoldFired; static int menuTapFrame = -1, menuHoldFrame = -1;
+        public static bool RecenterPressed => recenter != null && recenter.WasPressedThisFrame() || menuHoldFrame == Time.frameCount;
+        public static float MenuHeldFor => menuDownAt >= 0 && !menuHoldFired ? Time.unscaledTime - menuDownAt : 0;   // the "hold to recentre" bar
+        static void TickMenuHold()
+        {
+            if (menu.WasPressedThisFrame()) { menuDownAt = Time.unscaledTime; menuHoldFired = false; }
+            if (menuDownAt >= 0 && !menuHoldFired && menu.IsPressed() && Time.unscaledTime - menuDownAt >= RecenterHold) { menuHoldFired = true; menuHoldFrame = Time.frameCount; }
+            if (menu.WasReleasedThisFrame() || menuDownAt >= 0 && !menu.IsPressed()) { if (menuDownAt >= 0 && !menuHoldFired) menuTapFrame = Time.frameCount; menuDownAt = -1; }
+        }
 
         // ---- the HOTAS stick (Fix 6.1)
         public static bool HotasPresent => hotasStick != null && hotasStick.controls.Count > 0;
@@ -271,6 +283,7 @@ namespace HostileHorizon
         // Every frame (GameShell.Update): centre an uncalibrated stick on its first report, grow the reach as it is moved.
         public static void Tick()
         {
+            if (VrMode.Active) TickMenuHold();   // Fix 9.1 (A4)
             var d = HotasPresent ? hotasStick.controls[0].device : null;
             if (d != seenDevice) { seenDevice = d; seenTime = d != null ? d.lastUpdateTime : 0; HotasCentred = GameSettings.S.hotasCalibrated; leverBase.Clear(); }
             if (d != null)
@@ -330,7 +343,7 @@ namespace HostileHorizon
         public static Vector2 Look => look.ReadValue<Vector2>();
         public static Vector2 MouseLook => mouseHold.IsPressed() ? mouseLook.ReadValue<Vector2>() : Vector2.zero;
         public static bool CameraPressed => camera.WasPressedThisFrame();
-        public static bool MenuPressed => menu.WasPressedThisFrame();
+        public static bool MenuPressed => VrMode.Active ? menuTapFrame == Time.frameCount : menu.WasPressedThisFrame();
         // Round 2: landing mode (hover), engines on / off, the airlock
         public static bool LandPressed => land.WasPressedThisFrame();
         public static bool EnginesPressed => engines.WasPressedThisFrame();

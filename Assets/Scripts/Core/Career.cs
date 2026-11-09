@@ -28,6 +28,7 @@ namespace HostileHorizon
         public int[] alien, quirk;    // Round 3: AlienType per pilot (0 = a real pilot), and the tell shown (Aliens.Assign, from the seed)
         public bool cleared, bonusPaid;
         public int visits;
+        public int alienRoll;         // Fix 9.1 (A1): 1 = rolled per pilot at the new share; 0 = a 0.9.0 planet (its waiting pilots are rolled again once)
         public string biome = "canyons";   // Round 4 (A1): Biomes.Keys; from the seed (a career's first planet: always canyons)
         public bool biomeSet;              // Round 4: false in a save from before Round 4 (its biome is worked out on the next visit)
         public string lastVisit;           // Fix 3.2: for the planet list's order (most recent first)
@@ -122,12 +123,19 @@ namespace HostileHorizon
             foreach (var p in planets) if (p.seed == seed)
                 {
                     if (p.alien == null || p.alien.Length != p.pilots.Length) Aliens.Assign(p, planets.IndexOf(p) == 0);   // a planet saved before Round 3
+                    else if (p.alienRoll < 1)
+                    {
+                        // Fix 9.1 (A1): a planet from 0.9.0 (at least one alien each): its pilots still waiting get the new per-pilot roll
+                        var fresh = new PlanetState { seed = p.seed, tier = p.tier, pilots = new int[p.pilots.Length] }; Aliens.Assign(fresh, planets.IndexOf(p) == 0);
+                        for (int i = 0; i < p.pilots.Length; i++) if (p.pilots[i] == (int)PilotFate.Waiting) { p.alien[i] = fresh.alien[i]; p.quirk[i] = fresh.quirk[i]; }
+                    }
+                    p.alienRoll = 1;
                     if (!p.biomeSet) { p.biome = Biomes.Keys[(int)(planets.IndexOf(p) == 0 ? Biome.Canyons : Biomes.ForSeed(p.seed))]; p.biomeSet = true; }   // Round 4
                     return p;
                 }
             var t = Tuning.T; int tier = stats.planetsCleared;
             int n = Mathf.Min(t.pilotsMax, t.pilotsFirstPlanet + tier * t.pilotsPerTier);
-            var ps = new PlanetState { seed = seed, name = Names.Planet(seed), tier = tier, pilots = new int[n], biomeSet = true,
+            var ps = new PlanetState { seed = seed, name = Names.Planet(seed), tier = tier, pilots = new int[n], biomeSet = true, alienRoll = 1,
                                        biome = Biomes.Keys[(int)(planets.Count == 0 ? Biome.Canyons : Biomes.ForSeed(seed))] };   // Round 4: a career's first planet is Canyons
             Aliens.Assign(ps, planets.Count == 0);   // Round 3: a new career's first planet has no aliens
             planets.Add(ps);

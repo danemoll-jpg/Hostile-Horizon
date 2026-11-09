@@ -1,0 +1,60 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 98304 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 04:25; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 2200 m
+VR on: VR on (OpenXRLoader; 0 x 0 per eye, MultiPass)
+--- A4: the VR recentre on the mock runtime (the mock headset turned with MockRuntime.SetSpace / SetViewPose)
+  0.9.0 title (menus): straight, recentred: head local yaw 0, looks 0° from straight ahead
+  0.9.0 title (menus): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead; after the right-stick click: : head local yaw 90, looks +90° from straight ahead -> NOT straight ahead; state Title; automatic recentres meanwhile 0
+  0.9.0 title (menus): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks -180° from straight ahead; after the right-stick click: : head local yaw 180, looks -180° from straight ahead -> NOT straight ahead; state Title; automatic recentres meanwhile 0
+    (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+    (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+  0.9.0 title (menus): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks -55° from straight ahead -> NOT straight ahead; automatic recentres 0
+    [996 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+  now   title (menus): straight, recentred: head local yaw 0, looks 0° from straight ahead
+  now   title (menus): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead -> straight ahead; state Title; automatic recentres meanwhile 0
+  now   title (menus): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead -> straight ahead; state Title; automatic recentres meanwhile 0
+    (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+    [796 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+    (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+  now   title (menus): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+  a tap of Pause in VR: Paused (pauses, as before)
+  pause menu row: "Recenter VR view (or hold ☰ Menu 1 s)"
+  0.9.0 in flight (cockpit): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+  0.9.0 in flight (cockpit): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after the right-stick click: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+  0.9.0 in flight (cockpit): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after the right-stick click: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+    [973 fps] Flying/ Flight alt 39 gnd 38 spd 59 hdg 30 energy 100
+    (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+    (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+  0.9.0 in flight (cockpit): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks +125° from straight ahead, 37 cm from the eye point -> NOT straight ahead; automatic recentres 0
+  now   in flight (cockpit): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+  now   in flight (cockpit): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+    [1001 fps] Flying/ Flight alt 39 gnd 38 spd 59 hdg 30 energy 100
+  now   in flight (cockpit): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+    (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+    (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+  now   in flight (cockpit): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+  0.9.0 docked in the hangar (a menu up): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+  0.9.0 docked in the hangar (a menu up): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after the right-stick click: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+    [695 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+  0.9.0 docked in the hangar (a menu up): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after the right-stick click: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+    (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+    (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+  0.9.0 docked in the hangar (a menu up): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks +125° from straight ahead, 37 cm from the eye point -> NOT straight ahead; automatic recentres 0
+  now   docked in the hangar (a menu up): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+  now   docked in the hangar (a menu up): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+    [398 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+  now   docked in the hangar (a menu up): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+    (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+    (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+  now   docked in the hangar (a menu up): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+  the eyes, docked in the hangar (time running, nothing moving): straight, turned 90, recentred, headset off and back on
+  f91_vr_1_straight_eyes.png (1 render pass(es), 1512 x 1680 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.248 contrast 0.196 one-colour 23 %; right 75 % mean 0.262 contrast 0.203 one-colour 21 %; match: correlation 0.797 at -32 px shift, difference 0.043 -> both eyes drawn
+  f91_vr_2_turned_90_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+    [425 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+  f91_vr_3_recentred_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+  f91_vr_4_headset_back_on_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+  left eye of f91_vr_2_turned_90 vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+  left eye of f91_vr_3_recentred vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+  left eye of f91_vr_4_headset_back_on vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+  recentres in all: 33, automatic 6; eye pairs 4, failed 0
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.003 RMS, peak 0.067, zeroed before the speakers; 7366656 samples); master volume 0.00

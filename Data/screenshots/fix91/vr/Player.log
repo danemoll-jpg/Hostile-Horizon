@@ -1,0 +1,313 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.018 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [25752] [04:25:25.769][Info   ] Available Layers: (1)
+UnloadTime: 0.800400 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[VR] starting OpenXR
+[Subsystems] OpenXR XR Plugin successfully registered Provider for OpenXR Display
+[Subsystems] OpenXR XR Plugin successfully registered Provider for OpenXR Input
+[Subsystems] OpenXR XR Plugin successfully registered Provider for OpenXR Display
+Loading OpenXR loader library at path: openxr_loader
+[XR] XR_META_performance_metrics: Attempted to stop before session ready
+[Subsystems] Loading plugin UnityOpenXR for subsystem OpenXR Display...
+[XR] [25752] [04:25:26.676][Info   ] Available Layers: (1)
+[Subsystems] Loading plugin UnityOpenXR for subsystem OpenXR Input...
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[VR] VR on (OpenXRLoader; 0 x 0 per eye, MultiPass)
+Your project uses a scriptable render pipeline. You can use Camera.stereoTargetEye only with the built-in renderer.
+[Play]     0.0 display: VR on (OpenXRLoader; 0 x 0 per eye, MultiPass)
+[Play]     0.0 steam art: skipped (exe check)
+[XR] [25752] [04:25:27.003][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_UNKNOWN->XR_SESSION_STATE_IDLE session=3 time=0
+[XR] [25752] [04:25:27.003][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_IDLE->XR_SESSION_STATE_READY session=3 time=0
+[XR] XR_META_performance_metrics: Active providers:
+[XR] XR_META_performance_metrics: /perfmetrics_meta/app/cpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/app/gpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/app/gpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/cpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/gpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/gpu_frametime
+[XR] XR_META_performance_metrics: /perfmetrics_meta/device/gpu_utilization
+[XR] XR_META_performance_metrics: /perfmetrics_meta/device/cpu_utilization_average
+[XR] XR_META_performance_metrics: /perfmetrics_meta/device/cpu_utilization_worst
+[XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/dropped_frame_count
+[XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/dropped_frame_count
+[XR] XR_META_performance_metrics: /perfmetrics_meta/app/motion_to_photon_latency
+[XR] [25752] [04:25:27.010][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_READY->XR_SESSION_STATE_SYNCHRONIZED session=3 time=0
+[XR] [25752] [04:25:27.010][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_SYNCHRONIZED->XR_SESSION_STATE_VISIBLE session=3 time=0
+[XR] [25752] [04:25:27.010][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_VISIBLE->XR_SESSION_STATE_FOCUSED session=3 time=0
+[XR] [25752] [04:25:27.010][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [25752] [04:25:27.010][Info   ] ==== Report Reason: System Startup Completed ====
+
+
+[XR] [25752] [04:25:27.010][Info   ] ==== OpenXR Settings ====
+[XR] [25752] [04:25:27.010][Info   ] 
+[XR] [25752] [04:25:27.010][Info   ] Symmetric Projection: False
+[XR] [25752] [04:25:27.010][Info   ] Stereo Rendering Mode: SinglePassInstanced
+[XR] [25752] [04:25:27.010][Info   ] Latency Optimization: PrioritizeRendering
+[XR] [25752] [04:25:27.010][Info   ] Color Submission Modes: kRenderTextureFormatGroup8888
+[XR] [25752] [04:25:27.010][Info   ] Depth Submission Mode: None
+[XR] [25752] [04:25:27.010][Info   ] Space Warp Motion Vector Texture Format: RGBA16f
+[XR] [25752] [04:25:27.010][Info   ] Optimize Buffer Discards: False
+[XR] [25752] [04:25:27.011][Info   ] Multiview Render Regions Optimization Mode: None
+[XR] [25752] [04:25:27.011][Info   ] Use OpenXR Predicted Time: True
+[XR] [25752] [04:25:27.011][Info   ] Foveated Rendering API: SRPFoveation
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== OpenXR Provider Info ====
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Provider Version: ecb5f4e-dirty
+[XR] [25752] [04:25:27.011][Info   ] App: Hostile Horizon #3118937138
+[XR] [25752] [04:25:27.011][Info   ] Engine: 6000.6.1f1 #90182657
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== OpenXR Runtime Info ====
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available Runtime Extensions: (29)
+[XR] [25752] [04:25:27.011][Info   ]   XR_UNITY_mock_test: Version=123
+[XR] [25752] [04:25:27.011][Info   ]   XR_UNITY_null_gfx: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_UNITY_android_present: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_conformance_automation: Version=3
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [25752] [04:25:27.011][Info   ]   XR_VARJO_quad_views: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_ANDROID_recommended_resolution: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_META_recommended_layer_resolution: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_MSFT_secondary_view_configuration: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_MSFT_hand_interaction: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_hand_interaction: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_touch_controller_pro: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_MSFT_first_person_observer: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_MSFT_third_person_observer_private: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_META_performance_metrics: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_META_touch_controller_plus: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_hp_mixed_reality_controller: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_user_presence: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_performance_settings: Version=4
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_foveation: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_foveation_configuration: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_swapchain_update_state: Version=3
+[XR] [25752] [04:25:27.011][Info   ]   XR_ANDROID_enumerate_system_extension_properties: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available Layers: (1)
+[XR] [25752] [04:25:27.011][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Runtime Name: Unity Mock Runtime
+[XR] [25752] [04:25:27.011][Info   ] Runtime Version: 0.0.2
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Form factor: XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Runtime extensions enabled: (9)
+[XR] [25752] [04:25:27.011][Info   ]   XR_EXT_user_presence: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [25752] [04:25:27.011][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_META_performance_metrics: Version=2
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_foveation: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_foveation_configuration: Version=1
+[XR] [25752] [04:25:27.011][Info   ]   XR_FB_swapchain_update_state: Version=3
+[XR] [25752] [04:25:27.011][Info   ]   XR_ANDROID_enumerate_system_extension_properties: Version=1
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available Reference Spaces: (5)
+[XR] [25752] [04:25:27.011][Info   ]   XR_REFERENCE_SPACE_TYPE_VIEW
+[XR] [25752] [04:25:27.011][Info   ]   XR_REFERENCE_SPACE_TYPE_LOCAL
+[XR] [25752] [04:25:27.011][Info   ]   XR_REFERENCE_SPACE_TYPE_STAGE
+[XR] [25752] [04:25:27.011][Info   ]   XR_REFERENCE_SPACE_TYPE_UNBOUNDED_MSFT
+[XR] [25752] [04:25:27.011][Info   ]   XR_REFERENCE_SPACE_TYPE_LOCAL_FLOOR
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Instance Id  : 0xb
+[XR] [25752] [04:25:27.011][Info   ] System Id    : 0x2
+[XR] [25752] [04:25:27.011][Info   ] Session Id   : 0x3
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available View Configuration Types: (1)
+[XR] [25752] [04:25:27.011][Info   ]   XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO (Selected): FovMutable=False
+[XR] [25752] [04:25:27.011][Info   ]     [0]: Recommended: Width=1512, Height=1680, SampleCount=1
+[XR] [25752] [04:25:27.011][Info   ]     [0]:     Maximum: Width=3024, Height=3360, SampleCount=1
+[XR] [25752] [04:25:27.011][Info   ]     [1]: Recommended: Width=1512, Height=1680, SampleCount=1
+[XR] [25752] [04:25:27.011][Info   ]     [1]:     Maximum: Width=3024, Height=3360, SampleCount=1
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Skip Present To Main Screen: No
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Available Environment Blend Modes: (2)
+[XR] [25752] [04:25:27.011][Info   ]   XR_ENVIRONMENT_BLEND_MODE_OPAQUE (Selected)
+[XR] [25752] [04:25:27.011][Info   ]   XR_ENVIRONMENT_BLEND_MODE_ADDITIVE
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Features requested to be enabled: (0)
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Requested feature extensions not supported by runtime: (0)
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== OpenXR API Spec Version ====
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== OpenXR Init Info ====
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Stage 2 Missing Entry Points: (3)
+[XR] [25752] [04:25:27.011][Info   ]   xrCreateFoveationProfileFB
+[XR] [25752] [04:25:27.011][Info   ]   xrDestroyFoveationProfileFB
+[XR] [25752] [04:25:27.011][Info   ]   xrUpdateSwapchainFB
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== OpenXR Input ====
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] Action Sets: No action sets registered
+[XR] [25752] [04:25:27.011][Info   ] 
+[XR] [25752] [04:25:27.011][Info   ] ==== Last 20 Events ====
+[XR] [25752] [04:25:27.011][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_UNKNOWN->XR_SESSION_STATE_IDLE
+[XR] [25752] [04:25:27.011][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_IDLE->XR_SESSION_STATE_READY
+[XR] [25752] [04:25:27.011][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_READY->XR_SESSION_STATE_SYNCHRONIZED
+[XR] [25752] [04:25:27.012][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_SYNCHRONIZED->XR_SESSION_STATE_VISIBLE
+[XR] [25752] [04:25:27.012][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_VISIBLE->XR_SESSION_STATE_FOCUSED
+[XR] [25752] [04:25:27.012][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+[XR] Less or more than 4 intersections found.[XR] Less or more than 4 intersections found.XRTextureManager::RequestCreateTexture
+XRTextureManager::SetupRenderTextureFromXRRequest (id: 1 col: 000001CE735BBBF0 d: 0000000000000000 sr: 0000000000000000)
+RenderTexture::Create (id: 1)
+IVRDeviceCallback_CreateEyeTextureResources 000001CE735BBBF0
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 98304 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-09 04:25; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 2200 m
+[ExeCheck] VR on: VR on (OpenXRLoader; 0 x 0 per eye, MultiPass)
+[ExeCheck] --- A4: the VR recentre on the mock runtime (the mock headset turned with MockRuntime.SetSpace / SetViewPose)
+[ExeCheck]   0.9.0 title (menus): straight, recentred: head local yaw 0, looks 0° from straight ahead
+[ExeCheck]   0.9.0 title (menus): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead; after the right-stick click: : head local yaw 90, looks +90° from straight ahead -> NOT straight ahead; state Title; automatic recentres meanwhile 0
+[ExeCheck]   0.9.0 title (menus): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks -180° from straight ahead; after the right-stick click: : head local yaw 180, looks -180° from straight ahead -> NOT straight ahead; state Title; automatic recentres meanwhile 0
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]   0.9.0 title (menus): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks -55° from straight ahead -> NOT straight ahead; automatic recentres 0
+[ExeCheck]     [996 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]   now   title (menus): straight, recentred: head local yaw 0, looks 0° from straight ahead
+[ExeCheck]   now   title (menus): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead -> straight ahead; state Title; automatic recentres meanwhile 0
+[ExeCheck]   now   title (menus): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead -> straight ahead; state Title; automatic recentres meanwhile 0
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+[ExeCheck]     [796 fps] Title/ Flight alt 0 gnd 0 spd 0 hdg 0 energy 100
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+[ExeCheck]   now   title (menus): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+[Play]    22.5 music flight_canyons: flying
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]   a tap of Pause in VR: Paused (pauses, as before)
+[ExeCheck]   pause menu row: "Recenter VR view (or hold ☰ Menu 1 s)"
+[ExeCheck]   0.9.0 in flight (cockpit): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+[ExeCheck]   0.9.0 in flight (cockpit): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after the right-stick click: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+[ExeCheck]   0.9.0 in flight (cockpit): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after the right-stick click: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+[ExeCheck]     [973 fps] Flying/ Flight alt 39 gnd 38 spd 59 hdg 30 energy 100
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]   0.9.0 in flight (cockpit): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks +125° from straight ahead, 37 cm from the eye point -> NOT straight ahead; automatic recentres 0
+[ExeCheck]   now   in flight (cockpit): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+[ExeCheck]   now   in flight (cockpit): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+[ExeCheck]     [1001 fps] Flying/ Flight alt 39 gnd 38 spd 59 hdg 30 energy 100
+[ExeCheck]   now   in flight (cockpit): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Flying; automatic recentres meanwhile 0
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+[ExeCheck]   now   in flight (cockpit): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+[Music] loaded flight_forest (223 s)
+[Play]    24.1 music title_theme: title
+[Play]    25.4 arrived: planet Halkon-II (seed 20261109, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]    25.4 missions: Timed rescue (Open), Clean run (Open), Recover the flight recorder (Open)
+[Play]    25.5 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]    25.7 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck]   0.9.0 docked in the hangar (a menu up): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+[ExeCheck]   0.9.0 docked in the hangar (a menu up): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after the right-stick click: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+[ExeCheck]     [695 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+[ExeCheck]   0.9.0 docked in the hangar (a menu up): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after the right-stick click: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw 0)
+[ExeCheck]   0.9.0 docked in the hangar (a menu up): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks +125° from straight ahead, 37 cm from the eye point -> NOT straight ahead; automatic recentres 0
+[ExeCheck]   now   docked in the hangar (a menu up): straight, recentred: head local yaw 0, looks 0° from straight ahead, 0 cm from the eye point
+[ExeCheck]   now   docked in the hangar (a menu up): head turned to 90° (smoothly), moved 24 cm: head local yaw 90, looks +90° from straight ahead, 24 cm from the eye point; after holding Pause 1.25 s: : head local yaw 90, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+[ExeCheck]     [398 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+[ExeCheck]   now   docked in the hangar (a menu up): head turned to 180° (smoothly), moved 24 cm: head local yaw 180, looks +90° from straight ahead, 0 cm from the eye point; after holding Pause 1.25 s: : head local yaw 180, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead; state Docked; automatic recentres meanwhile 0
+[ExeCheck]     (headset off: HMD tracked, lost for 0.00 s, last yaw -180)
+[ExeCheck]     (back on: HMD tracked, lost for 0.00 s, last yaw -55)
+[ExeCheck]   now   docked in the hangar (a menu up): headset off 1.2 s, back on turned to 305°: : head local yaw -55, looks 0° from straight ahead, 0 cm from the eye point -> straight ahead by itself; automatic recentres 1 (the head pose jumped)
+[ExeCheck]   the eyes, docked in the hangar (time running, nothing moving): straight, turned 90, recentred, headset off and back on
+[ExeCheck]   f91_vr_1_straight_eyes.png (1 render pass(es), 1512 x 1680 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.248 contrast 0.196 one-colour 23 %; right 75 % mean 0.262 contrast 0.203 one-colour 21 %; match: correlation 0.797 at -32 px shift, difference 0.043 -> both eyes drawn
+[XR] Less or more than 4 intersections found.[XR] Less or more than 4 intersections found.XRTextureManager::RequestCreateTexture
+XRTextureManager::RequestDestroyTexture
+XRTextureManager::SetupRenderTextureFromXRRequest (id: 2 col: 000001CE735D0450 d: 0000000000000000 sr: 0000000000000000)
+RenderTexture::Create (id: 2)
+IVRDeviceCallback_CreateEyeTextureResources 000001CE735D0450
+[ExeCheck]   f91_vr_2_turned_90_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+[ExeCheck]     [425 fps] Docked/docked Hover alt 1500 gnd 1499 spd 0 hdg 210 energy 100
+[ExeCheck]   f91_vr_3_recentred_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+[ExeCheck]   f91_vr_4_headset_back_on_eyes.png (1 render pass(es), 1362 x 1512 x 2 Tex2DArray R8G8B8A8_UNorm, eye 1 = slice 1 (copy)): visible area: left 75 % mean 0.277 contrast 0.192 one-colour 23 %; right 75 % mean 0.292 contrast 0.197 one-colour 21 %; match: correlation 0.818 at -31 px shift, difference 0.045 -> both eyes drawn
+[ExeCheck]   left eye of f91_vr_2_turned_90 vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+[ExeCheck]   left eye of f91_vr_3_recentred vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+[ExeCheck]   left eye of f91_vr_4_headset_back_on vs straight ahead: correlation 0.838 at 0 px, difference 0.040 -> a different view
+[ExeCheck]   recentres in all: 33, automatic 6; eye pairs 4, failed 0
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.003 RMS, peak 0.067, zeroed before the speakers; 7366656 samples); master volume 0.00
+XRTextureManager::RequestDestroyTexture
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

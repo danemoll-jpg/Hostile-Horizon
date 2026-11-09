@@ -115,7 +115,7 @@ namespace HostileHorizon
         public int turretBounty = 150, saucerBounty = 300;
         public float boltHitRadius = 3.5f;               // m round the ship's centre              // degrees per second at most: the body righting when landing mode starts
         // Round 3: aliens ("Normal" values; difficulty presets come in Round 4)
-        public float alienShareStart = .20f, alienSharePerTier = .05f, alienShareMax = .35f;   // share of a planet's pilots (none on a career's first planet)
+        public float alienShareStart = .10f, alienSharePerTier = .025f, alienShareMax = .20f;   // chance per pilot (none on a career's first planet); Fix 9.1: was .20 / .05 / .35 with at least one a planet
         public float tellReliability = .75f;          // chance (per alien, from the seed) that it shows its tell
         public float falseTellChance = 0;             // chance a real pilot shows a tell-like quirk (off on Normal)
         public int alienBounty = 200;                 // credits for killing an alien with the exhaust

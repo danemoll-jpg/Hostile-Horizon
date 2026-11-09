@@ -223,6 +223,47 @@ A4. **VR recenter that really recenters.** Dan: "It needs to recenter to the way
 A5. **Publish 0.9.1**, update `TODO.md` (status for A1-A4, the causes for A3)
     and commit, then continue with the promo items.
 
+**Part A status (Fix 9.1, 2026-11-09).** Evidence `Data/screenshots/fix91/` (`flat/` = `-exeCheckOnly fix91`, `vr/` = `fix91 -vr`
+on the mock runtime, `home/` = the `home` check again). Run: `bash local/fix91_runs.sh flat|vr <name>`.
+- **A1 DONE.** Cause: `Aliens.Assign` forced `max(1, round(share x pilots))`: never a planet without one, 25-33 %+ of pickups.
+  Now each pilot is rolled from the seed at `Aliens.Share(tier)` = min(`alienShareMax` .20, `alienShareStart` .10 +
+  `alienSharePerTier` .025 x tier) x the difficulty's level (.6 / 1 / 1.25 / 1.5). Measured over 400 planets a tier (`flat/exe_check.txt`):
+  Easy 6.4-11.7 %, **Normal 10.8 % (tier 0) .. 20.0 % (tier 4)** (0.9.0: 33.3 / 25 / 40 / 33 / 29 %), Hard 13-25 %, Nightmare 16-29 %;
+  planets with none on Normal 72 % (tier 0) .. 19 % (tier 4) (0.9.0: 0 %); all five types appear. Planets saved by 0.9.0: their
+  still-waiting pilots are rolled again once (`PlanetState.alienRoll`).
+- **A2 DONE.** Cause (logged): 0.9.0's approach reached its lining-up point (350 m off the bow, 25 m under the bay) at up to 200 m/s
+  with no braking; its momentum carried the ship ~100 m up (seen at 1608 m, the mothership at 1500) through the hull, then down
+  through the roof into the bay: 28-48 crossings of the hull's surface from 3 of 5 starts; the lift from above went straight down
+  through it. Now (`GameShell.SternEntry`, `RoundTheHull`): round the hull in a lane beside it (only the corners needed, ~10 m/s round
+  each), lined up 260 m behind the stern, **in through the stern opening** at ~20 m/s slowing to a walking pace, turning round to face
+  out under the cradle; lifts (tow / recall / the beam) go round the hull to a lane 30 m under the keel, then up through the floor
+  opening; the launch drops clear of the keel before moving off. Measured against the hull's mesh (120 k triangles): **0 crossings
+  from all 5 docking starts, both lifts and the launch, at least 4.9 m from the hull** (`flat/exe_check.txt`); pictures
+  `flat/a2_chase_*`, `a2_cockpit_*`. Docking takes 19-23 s (0.9.0: 15-22 s). For Dan: in the Chase view the camera (30 m behind) is
+  inside the hull for the last seconds in the bay (the cockpit view is clean).
+- **A3 DONE.** Cause: `Mothership.cs` (unchanged since Round 2) never loaded the Meshy materials (`Resources/Hard/*.mat`, as the ship
+  and enemies do since Round 8): the hull, wall modules, cradle and pod were all drawn plain grey. Now the `mx_` slots get their
+  Meshy material (every slot filled), the code-built lining / trim / liners take the hull's / bay wall's textures, tinted; the floor
+  doors stay plain. Before: `Data/screenshots/round9/partA/exe2/r9a_approach_stern.png`, `r9a_docking_2_near.png`; after:
+  `flat/a3_stern.png`, `a3_side`, `a3_below`, `a3_bow`, `a3_bay_inside`.
+- **A4 DONE (numbers on the mock runtime; for Dan in the Quest).** Cause: 0.9.0 applied the recentre only in the cockpit view while
+  it followed the ship; on the title / menus (the rig placed by other code) a recentre changed nothing, and nothing recentred after
+  the headset came off (measured: 90° / 180° stayed off on the title; headset off and back at another yaw stayed 125° off everywhere).
+  Now (`CameraRig.PlaceVr`, `VrPlacer`): every placement is an eye pose and the recentre (yaw only, head back to the eye point) is
+  applied after it, in every state; **in VR, holding Pause 1 s recentres** (HOTAS OPTIONS by default, or whatever HOTAS setup gives
+  Pause; the pad's ☰ Menu; Esc), a tap still pauses (on release); the right-stick click, Home and the pause-menu row ("Recenter VR
+  view (or hold ... 1 s)") as before; automatic recentre when the runtime reports an origin change, when tracking comes back after
+  0.25 s, or when the head pose jumps > 45° at > 1500°/s (a reset the runtime did not report). Measured (`vr/exe_check.txt`): title,
+  flight and hangar: head turned 90° / 180° and moved 24 cm -> after the hold 0° and 0 cm; headset off 1.2 s, back on turned 305° ->
+  0° by itself (the mock never reports lost tracking: the jump detector did it). Both eyes drawn in every picture; the batch-mode
+  eye textures on the mock do not follow head turns at all (the "turned 90°" picture is straight too), so they cannot show the turn.
+- Regression: the `home` check (Fix 2.3's) again: part (a), a pickup and the climb to dock, docks through the stern as designed;
+  its later parts fail because turrets (since Round 5) shoot down its slow, low check pilot; a Nov 7 build (0.8.x, 0.9.0's docking)
+  fails the same check earlier and worse (`home_before/`, run with the new `run_check.py --exe`): the check is stale, not a regression.
+- **A5 DONE.** Exe built 2026-11-09 04:25; published **0.9.1 (`game-901`, Latest; soundtrack stays `soundtrack-700`)**. Not yet played
+  by Dan. **For Dan to check:** docking (through the stern, cockpit and chase), the mothership's look, aliens' frequency over a few
+  planets, and in the Quest: hold OPTIONS 1 s to recentre (title, flight, hangar), and take the headset off and put it back on.
+
 **Part B — the promo video**
 
 1. **Two cuts** from the same footage and narration:

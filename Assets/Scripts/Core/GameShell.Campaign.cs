@@ -235,9 +235,11 @@ namespace HostileHorizon
             {
                 float dt = Time.deltaTime; t += dt;
                 if (t < 1.8f) vy -= 9.8f * dt; else vy = Mathf.MoveTowards(vy, -14f, 6f * dt);   // falls clear, then the engines take the weight
-                if (t > 1.2f) speed = Mathf.MoveTowards(speed, 72f, 16f * dt);
+                // Fix 9.1 (A2): moves off only once below the keel (0.9.0 moved off at 1.2 s, still inside the floor opening's lining)
+                bool clear = CheckOldDockPath ? t > 1.2f : Mother.Local(pos).y < Mother.HullBox.min.y - 4f;
+                if (clear) speed = Mathf.MoveTowards(speed, 72f, 16f * dt);
                 pos += (Vector3.up * vy + fwd * speed) * dt;
-                float dive = t > 1.2f ? Mathf.Clamp(Mathf.Atan2(-vy, Mathf.Max(speed, 1f)) * Mathf.Rad2Deg, 0, 35) : 0;
+                float dive = speed > 0 ? Mathf.Clamp(Mathf.Atan2(-vy, Mathf.Max(speed, 1f)) * Mathf.Rad2Deg, 0, 35) : 0;
                 rot = Quaternion.Slerp(rot, Quaternion.LookRotation(fwd) * Quaternion.Euler(dive, 0, 0), 1 - Mathf.Exp(-2.5f * dt));
                 Ship.SetPose(pos, rot, dt, t < 2.2f);
                 if (t > 3.5f) Mother.SetDoors(0);
@@ -537,9 +539,20 @@ namespace HostileHorizon
             var tu = Tuning.T; LiftStarted = Time.time;
             if (!towLift) SayDockApproach();
             Displays.Prompt = !towLift ? "Docking: autopilot" : recallLift ? "Recall: the mothership is lifting you" : "Tow: the mothership is lifting you";
+            if (!towLift && !CheckOldDockPath)
+            {
+                yield return SternEntry(pos, vel, rot);   // Fix 9.1 (A2): round the hull and in through the bay's stern opening
+                goto docked;
+            }
+            if (towLift && !CheckOldDockPath)
+            {
+                // Fix 9.1 (A2): a lift (tow, recall, the beam's catch) goes round the hull to below the floor opening first, never through it
+                yield return RoundTheHull(pos, vel, Mother.Local(Mother.BelowBay(tu.bayRiseFrom)), tu.beamLiftSpeed, tu.beamLiftAccel, true);
+                pos = Ship.transform.position; vel = Ship.Velocity; rot = Ship.transform.rotation;
+            }
             if (!towLift)
             {
-                // A: fly round to a point behind and below the bay, lined up with it
+                // A: fly round to a point behind and below the bay, lined up with it (0.9.0's docking: CheckOldDockPath)
                 while (true)
                 {
                     float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
@@ -579,11 +592,93 @@ namespace HostileHorizon
             // C: straight up into the bay, slowing to the cradle
             Phase = "dock-rise"; Mother.SetDoors(1);
             yield return RiseIntoBay(pos, rot);
+        docked:
             Beam(false);
             yield return Security();   // Round 3: the Sleeper, still aboard, met by the mothership's security
             DebriefAtDock(towLift);
             if (Rig.Current != CameraRig.Mode.Cockpit) Rig.Current = CameraRig.Mode.Cockpit;   // the chase views would sit inside the hull
             ShowHangar();
+        }
+
+        // Fix 9.1 (A2). Dan: "Docking to the mothership should come in through the bay and not the roof." 0.9.0's docking lined up 350 m
+        // off the bow, slid the hull's whole length 7 m under its keel and rose through the floor; started above or beside the hull it
+        // flew straight through it. Now: round the hull (a lane beside it, string-pulled: only the corners needed), lined up 260 m behind
+        // the stern on the bay's axis, in through the open stern, slowing to a walking pace, turning to face out over the stern at the
+        // cradle. Lifts (tow, recall, the beam) still rise through the floor opening, but go round the hull to below it first.
+        // checks (Fix 9.1): a docking / lift from a place (out of the hangar's hold first: it would snap the ship back to the cradle)
+        public void CheckDock(Vector3 at, Quaternion rot, bool tow) { Menu.Hide(); Phase = "check-start"; Now = State.Auto; Ship.Spawn(at, rot, CrashLevel.Ghost, .5f, 0); Ship.Energy = 100; Rig.Snap(); Run(CheckDockSoon(tow)); }
+        IEnumerator CheckDockSoon(bool tow) { yield return null; yield return null; yield return Dock(tow); }
+        public static bool CheckOldDockPath;   // checks: 0.9.0's docking, lift and launch paths
+        List<Vector3> RouteRound(Vector3 from, Vector3 to, float margin, bool lift)
+        {
+            var b = Mother.HullBox; float side = from.x >= 0 ? 1 : -1, X = Mathf.Max(Mathf.Abs(b.min.x), b.max.x) + margin + 20f;
+            float zc = Mathf.Clamp(from.z, b.min.z - margin, b.max.z + margin);
+            float zEnd = to.z < b.min.z ? b.min.z - margin - 60f : to.z;
+            float y = lift ? Mathf.Min(to.y, b.min.y - margin) : to.y;   // a lift's lane runs well under the keel, then up to below the floor opening
+            return new List<Vector3> { new Vector3(side * X, from.y, from.z), new Vector3(side * X, y, zc), new Vector3(side * X, y, zEnd), to };
+        }
+
+        IEnumerator RoundTheHull(Vector3 pos, Vector3 vel, Vector3 goalLocal, float top, float acc, bool lift)
+        {
+            const float margin = 30f; var route = RouteRound(Mother.Local(pos), goalLocal, margin, lift); int k = 0; float bank = 0;
+            Quaternion rot = Ship.transform.rotation;
+            while (true)
+            {
+                float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
+                var lp = Mother.Local(pos);
+                for (int j = route.Count - 1; j > k; j--) if (!Mother.Blocked(lp, route[j], margin)) { k = j; break; }   // string-pulled
+                var to = Mother.World(route[k]) - pos; float d = to.magnitude;
+                float rest = d; for (int j = k; j < route.Count - 1; j++) rest += (route[j + 1] - route[j]).magnitude;
+                if (k == route.Count - 1 && d < 3f) break;
+                if (k < route.Count - 1 && d < 20f) { k++; continue; }
+                // brake for the end, and for every corner of the route (at most 40 m/s round it: a faster ship's momentum carried it
+                // past the corner into the hull, the first try's lift)
+                float cap = Mathf.Min(top, Mathf.Sqrt(2f * acc * .8f * rest));
+                if (k < route.Count - 1) cap = Mathf.Min(cap, Mathf.Sqrt(2f * acc * .8f * Mathf.Max(0, d - 15f)) + 10f);
+                Vector3 before = Flat(vel);
+                vel = Vector3.MoveTowards(vel, to / Mathf.Max(d, .01f) * cap, acc * dt);
+                pos += vel * dt;
+                if (lift) pos.y = Mathf.Max(pos.y, Ship.Field.SurfaceHeight(pos.x, pos.z) + 1.5f);   // never dragged through the rock
+                float turn = Vector3.SignedAngle(before, Flat(vel), Vector3.up) / dt;
+                bank = Mathf.Lerp(bank, lift ? 0 : Mathf.Clamp(-turn * 2f, -45, 45), 1 - Mathf.Exp(-3f * dt));
+                if (Flat(vel).sqrMagnitude > 4f) rot = Quaternion.Slerp(rot, Quaternion.LookRotation(lift ? Flat(vel) : vel) * Quaternion.Euler(0, 0, bank), 1 - Mathf.Exp(-(lift ? 1.5f : 4f) * dt));
+                Ship.SetPose(pos, rot, dt, false);
+                yield return null;
+            }
+        }
+
+        IEnumerator SternEntry(Vector3 pos, Vector3 vel, Quaternion rot)
+        {
+            var tu = Tuning.T; var b = Mother.HullBox;
+            Phase = "dock-approach"; Mother.SetDoors(0);
+            var line = new Vector3(0, 0, b.min.z - 260f);   // lined up behind the stern, on the bay's axis, at the cradle's height
+            yield return RoundTheHull(pos, vel, line, tu.dockApproachSpeed, tu.dockApproachAccel, false);
+            Phase = "dock-final";
+            pos = Ship.transform.position; vel = Ship.Velocity; rot = Ship.transform.rotation;
+            while (true)
+            {
+                float dt = Time.deltaTime; if (dt <= 0) { yield return null; continue; }
+                var lp = Mother.Local(pos); float rest = -lp.z + Mathf.Abs(lp.x) + Mathf.Abs(lp.y);
+                if (rest < .05f) break;
+                // pursue a point on the bay's axis a little ahead: lateral errors close before the opening
+                var aim = new Vector3(0, 0, Mathf.Min(lp.z + Mathf.Clamp(-lp.z * .25f, 4f, 40f), 0)); if (rest < 6f) aim = Vector3.zero;
+                var to = Mother.World(aim) - pos; float d = to.magnitude;
+                float cap = Mathf.Min(tu.dockFinalSpeed, Mathf.Sqrt(2f * 3.5f * rest) + .8f, d * 3f);   // about 20 m/s at the stern, a walking pace at the cradle
+                vel = Vector3.MoveTowards(vel, to / Mathf.Max(d, .001f) * cap, tu.dockFinalAccel * dt);
+                pos += vel * dt;
+                var q = Mother.Local(pos); if (q.z > 0) pos = Mother.World(new Vector3(q.x, q.y, 0));
+                // nose first through the opening, then turning round (to the right) to face out over the stern as it stops under the cradle
+                float turnK = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(26f, 2f, rest));
+                var axis = Mother.transform.rotation * Quaternion.Euler(0, 180f * turnK, 0);
+                rot = Quaternion.Slerp(rot, axis, 1 - Mathf.Exp(-(rest < 60f ? 6f : 2.5f) * dt));
+                Ship.SetPose(pos, rot, dt, rest < 80f);
+                yield return null;
+            }
+            Phase = "dock-rise";   // (the checks wait for the phases)
+            for (float t = 0; t < .6f; t += Time.deltaTime) { Ship.SetPose(Mother.DockPosition, Quaternion.Slerp(Ship.transform.rotation, Mother.DockRotation, 1 - Mathf.Exp(-8f * Time.deltaTime)), Time.deltaTime, true); yield return null; }
+            Ship.SetPose(Mother.DockPosition, Mother.DockRotation, Time.deltaTime, true);
+            Sfx.Play(Sfx.Thunk, Ship.transform.position + Vector3.up * 1.5f, 1f, 8f);
+            LiftEnded = Time.time;
         }
 
         IEnumerator RiseIntoBay(Vector3 pos, Quaternion rot)
@@ -903,7 +998,7 @@ namespace HostileHorizon
                 $"<b>Reset position</b>: hover over the nearest landing pad (free).\n<b>Recall</b>: the mothership comes and lifts you home (also: {Controls.RecallKey}).";
             campaignPause.Add(Action("Resume", Resume))
                          .Add(Action("Reset position", ResetPosition, () => !CanReset))
-                         .Add(new MenuPanel.Row { Label = () => "Recenter VR view", Submit = () => { Rig.Recenter(); Resume(); }, Visible = () => VrMode.Active })   // Round 8 (C3)
+                         .Add(new MenuPanel.Row { Label = () => $"Recenter VR view (or hold {Controls.PauseKey} 1 s)", Submit = () => { Rig.Recenter(); Resume(); }, Visible = () => VrMode.Active })   // Round 8 (C3)
                          .Add(new MenuPanel.Row { Label = () => $"Recall the mothership  <size=24>({Tuning.T.recallFee} cr)</size>", Submit = () => { Resume(); Recall(); },
                                                   Disabled = () => PausedFrom != State.Flying || calling != 0 || Ship.Crashed })
                          .Add(Action("Settings", () => { settingsReturn = campaignPause; Menu.Show(settings); }))

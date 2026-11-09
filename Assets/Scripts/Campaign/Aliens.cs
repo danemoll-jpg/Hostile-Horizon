@@ -26,36 +26,33 @@ namespace HostileHorizon
 
         // Which of a planet's pilots are aliens, of what type, and whether each shows its tell; a real pilot can get a false tell
         // (a tell-like quirk: falseTellChance, 0 on Normal). quirk = the behaviour shown (the type's tell, or None).
+        // Fix 9.1 (A1): each pilot is rolled on its own at the planet's share (Normal 10 % + 2.5 % a tier, at most 20 %, times the
+        // difficulty's level), so some planets have none. 0.9.0 put at least one alien on every planet after the first (with 3-4
+        // pilots that was 25-33 % or more of all pickups: Dan met them about half the time).
+        public static float Share(int tier) { var t = Tuning.T; return Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * tier) * Difficulty.AlienShare; }
+
         public static void Assign(PlanetState p, bool firstPlanet)
         {
-            var t = Tuning.T; int n = p.pilots.Length;
+            int n = p.pilots.Length;
             p.alien = new int[n]; p.quirk = new int[n];
             var rng = new SeedRng(p.seed, 31);
-            int count = 0;
-            if (!firstPlanet && n > 0)
+            float share = firstPlanet ? 0 : Share(p.tier);
+            for (int i = 0; i < n; i++)
             {
-                float share = Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * p.tier) * Difficulty.AlienShare;   // Round 5: difficulty
-                count = Mathf.Clamp(Mathf.RoundToInt(share * n), 1, n);
-            }
-            var order = new List<int>(); for (int i = 0; i < n; i++) order.Add(i);
-            for (int i = n - 1; i > 0; i--) { int j = rng.Next(i + 1); (order[i], order[j]) = (order[j], order[i]); }
-            for (int k = 0; k < n; k++)
-            {
-                int i = order[k];
-                int type = k < count ? rng.Next(5) + 1 : 0;
+                bool alien = rng.Value < share;
+                int type = rng.Next(5) + 1;
                 bool tell = rng.Value < Difficulty.TellReliability;   // Round 5: from the difficulty (Normal = tuning tellReliability .75)
                 bool falseTell = rng.Value < Difficulty.FalseTell;
                 int fake = rng.Next(4) + 1;
-                p.alien[i] = type;
-                p.quirk[i] = type != 0 ? (tell ? type : 0) : falseTell ? fake : 0;
+                p.alien[i] = alien ? type : 0;
+                p.quirk[i] = alien ? (tell ? type : 0) : falseTell ? fake : 0;
             }
         }
 
         // Round 6 (D3): pilots added by a distress call (from index `from`): aliens among them at the planet's share, tells as usual
         public static void AssignExtra(PlanetState p, int from, SeedRng rng)
         {
-            var t = Tuning.T;
-            float share = Mathf.Min(t.alienShareMax, t.alienShareStart + t.alienSharePerTier * p.tier) * Difficulty.AlienShare;
+            float share = Share(p.tier);
             for (int i = from; i < p.pilots.Length; i++)
             {
                 p.pilots[i] = (int)PilotFate.Waiting;

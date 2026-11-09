@@ -1,0 +1,187 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 71680 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 04:45; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+save folder: C:\Users\danmo\Hostile-Horizon\Data\screenshots\fix91\home_before\save; tuning: recall 900 cr (tow 1500 cr), hold 1 s, climb rate 30 m/s, margin 3 %, RETURN NOW within 8 %, beam reach 600 m, pilot fuel 3-15 %
+new career: planet Halkon-II (seed 20261109), 3 pilots, 3000 cr
+    [876 fps] Auto/launch Hover alt 1424 gnd 1420 spd 73 hdg 210 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 81°/s (continuous: no cut)
+  to pilot 2: 2291 m; radar says: 
+    [293 fps] Flying/ Flight alt 1120 gnd 688 spd 73 hdg 116 energy 98
+    [305 fps] Flying/ Flight alt 798 gnd 794 spd 73 hdg 66 energy 96
+    [240 fps] Flying/ Flight alt 600 gnd 602 spd 73 hdg 64 energy 94
+  near: radar says: <b>PILOT 2  059°  440 m  ◄ NEAREST</b>
+  landing mode: Hover, prompt "Braking: the ring on the ground shows where you will stop"
+    [171 fps] Flying/ Hover alt 523 gnd 40 spd 19 hdg 63 energy 92
+    [171 fps] Flying/ Hover alt 493 gnd 34 spd 18 hdg 63 energy 89
+    [161 fps] Flying/ Hover alt 261 gnd 259 spd 30 hdg 56 energy 85
+    [174 fps] Flying/ Hover alt 60 gnd 58 spd 12 hdg 53 energy 82
+    [247 fps] Flying/ Hover alt 15 gnd 13 spd 1 hdg 53 energy 79
+    [258 fps] Flying/ Hover alt 7 gnd 5 spd 1 hdg 53 energy 75
+  landed True at 4 m from the spot, Landed; hits 0, hull 86%, energy 73%
+    [293 fps] Flying/ Hover landed alt 4 gnd 2 spd 0 hdg 53 energy 73
+(e) pilot 2 aboard: energy 72.9% -> 86.9% (brought 14 %, range 3-15); message "Pilot 2 aboard (1 / 6), brought 14 % energy"
+screenshot h01_pilot_brought_energy.png
+  climbing: alt 47 m, display "HOME 052° 0.4 km / DOCK ↑ 953 m", advice "Landing mode: stick moves and turns, throttle up / down (faster high up), set down gently"
+    [239 fps] Flying/ Flight alt 101 gnd 48 spd 61 hdg 53 energy 85
+  climbing: alt 150 m, display "HOME 053° 0.3 km / DOCK ↑ 850 m", advice "1 aboard: more pilots, or climb to dock (↑ 850 m)"
+(a) docking started at alt 136 m (docking height 1000 m), phase dead; last readout "HOME 053° 0.3 km / DOCK ↑ 834 m"
+    [381 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [401 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [398 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [286 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [414 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [340 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [348 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [331 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [353 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [333 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [341 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [323 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [355 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [273 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [195 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+  TIMED OUT waiting for docked after 150 s (state Crashed, phase dead)
+  docked: 
+    [129 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [145 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [343 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [343 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [359 fps] Crashed/dead Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+  TIMED OUT waiting for the hangar after 60 s (state Crashed, phase dead)
+    [408 fps] Auto/regen-trip Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [447 fps] Auto/regen-trip Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [423 fps] Docked/regen Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+    [429 fps] Docked/regen Flight alt 136 gnd 0 spd 0 hdg 38 energy 85
+  TIMED OUT waiting for flight after launch after 30 s (state Docked, phase regen)
+launch: doors, drop, engines; handed over at 136 m, 0 km/h; camera: fastest 220 m/s, fastest turn 529°/s (continuous: no cut)
+  to pilot 1: 1365 m; radar says: <b>PILOT 1  140°  1.3 km  ◄ NEAREST</b>
+  near: radar says: <b>PILOT 1  140°  1.3 km  ◄ NEAREST</b>
+  landing mode: Flight, prompt "1 aboard: more pilots, or climb to dock (↑ 834 m)"
+  landed False at 1365 m from the spot, ; hits 0, hull 0%, energy 85%
+    [918 fps] Auto/recovery Hover alt 1236 gnd 1022 spd 40 hdg 210 energy 85
+    [1081 fps] Auto/recovery Hover alt 1481 gnd 1266 spd 9 hdg 210 energy 85
+    [960 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [647 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [585 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [670 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [708 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [719 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+    [742 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+  TIMED OUT waiting for the knock after 90 s (state Docked, phase docked)
+    [655 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 85
+  TIMED OUT waiting for boarding after 15 s (state Docked, phase docked)
+(e) pilot 1 aboard: energy 84.5% -> 84.5% (brought 14 %, range 3-15); message "Docked in the mothership"
+(b) flying low: energy 84.5%, needed to dock 3.0%, alt 1500 m (gnd 1286 m), warning "", advice "Docked in the mothership"
+  energy set to 11.6% (just above the RETURN NOW point)
+  RETURN NOW shown False: energy 11.6%, needed to dock 3.0%, alt 1500 m (gnd 1286 m), warning "", advice "Docked in the mothership"
+screenshot h03_return_now.png
+  looking toward the mothership: view 156° off it
+screenshot h03b_sky_marker_look_back.png
+  energy set to 3.4% (just above the CAN'T REACH point)
+  CAN'T REACH shown False: energy 3.4%, needed to dock 3.0%, alt 1500 m (gnd 1286 m), warning "", advice "Docked in the mothership"
+screenshot h04_cant_reach.png
+(c) energy set to 0.3 % in the air, 0 pilot aboard, mothership 0 m away (level)
+  out of energy at gnd 1286 m: advice "Docked in the mothership"
+    [644 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+    [653 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+    [670 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+    [261 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+    [321 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+    [207 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+  TIMED OUT waiting for the beam after 60 s (state Docked, phase docked)
+  beam caught the ship at gnd 1286 m, landed False (in the air: True)
+    [352 fps] Docked/docked Hover alt 1500 gnd 1286 spd 0 hdg 210 energy 0
+screenshot h05_beam_lift_look_up.png
+screenshot h05b_beam_lift_chase.png
+  docked: camera: fastest 0 m/s, fastest turn 165°/s (continuous: no cut); credits 0 -> 0; debrief: Your ship was recovered and repaired: -3000 cr.
+    [883 fps] Auto/launch Hover alt 1449 gnd 1453 spd 50 hdg 210 energy 85
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 62°/s (continuous: no cut)
+    [420 fps] Flying/ Flight alt 1079 gnd 560 spd 73 hdg 225 energy 83
+(d) recall held 0.4 s: called False (needs 1 s), advice "Keep holding to recall the mothership (900 cr)"
+  recall held 1.4 s in the air at gnd 553 m: called False, advice "Keep holding to recall the mothership (900 cr)"
+    [350 fps] Flying/ Flight alt 648 gnd 136 spd 73 hdg 235 energy 81
+    [355 fps] Flying/ Flight alt 270 gnd 272 spd 73 hdg 198 energy 79
+    [382 fps] Flying/ Flight alt 35 gnd 38 spd 73 hdg 243 energy 77
+    [392 fps] Flying/ Flight alt 200 gnd 197 spd 73 hdg 300 energy 75
+    [304 fps] Flying/ Flight alt 510 gnd 63 spd 73 hdg 360 energy 73
+    [364 fps] Flying/ Flight alt 112 gnd 54 spd 73 hdg 328 energy 71
+  beam caught the ship at gnd 39 m (phase )
+screenshot h06_recall_air.png
+    [661 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1063 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [966 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1051 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1100 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1053 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1009 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1013 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [990 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [845 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [1067 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [964 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [654 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [268 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [489 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for docked after the recall after 150 s (state Crashed, phase dead)
+  docked: camera: fastest 292 m/s, fastest turn 4005°/s (JUMP); credits 0 -> 0; debrief: 
+    [339 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [610 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [970 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [687 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [757 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [835 fps] Crashed/dead Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for the hangar after 60 s (state Crashed, phase dead)
+    [988 fps] Auto/regen-trip Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [979 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [714 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for flight after launch after 30 s (state Docked, phase regen)
+launch: doors, drop, engines; handed over at 77 m, 0 km/h; camera: fastest 220 m/s, fastest turn 526°/s (continuous: no cut)
+  to pilot 3: 2185 m; radar says: MOTHERSHIP  148°  610 m
+  near: radar says: MOTHERSHIP  148°  610 m
+  landing mode: Flight, prompt ""
+  landed False at 2185 m from the spot, ; hits 0, hull 0%, energy 70%
+    [806 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [723 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for the pilot to run after 15 s (state Docked, phase regen)
+  recall while pilot 3 runs to the ship: called False (must be False), message ""
+    [662 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [869 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [841 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [760 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [838 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [897 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [891 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [922 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [853 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for the knock after 90 s (state Docked, phase regen)
+    [948 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for boarding after 15 s (state Docked, phase regen)
+(e) pilot 3 aboard: energy 70.1% -> 70.1% (brought 14 %, range 3-15); message ""
+  recall held 1.4 s landed False: called False, advice ""
+    [806 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [764 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [516 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [785 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [783 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [734 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for the beam after 60 s (state Docked, phase regen)
+  beam lifting from the ground (phase regen)
+    [733 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [761 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [131 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [714 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [738 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [740 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [794 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [797 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [884 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [879 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [567 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [679 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [765 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [808 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+    [814 fps] Docked/regen Flight alt 77 gnd 0 spd 0 hdg 290 energy 70
+  TIMED OUT waiting for docked after the ground recall after 150 s (state Docked, phase regen)
+  docked: camera: fastest 0 m/s, fastest turn 0°/s (continuous: no cut); credits 0 -> 0; debrief: 
+career: tows 0, recalls 0, rescued 0
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.052 RMS, peak 1.609, zeroed before the speakers; 113997824 samples); master volume 0.00

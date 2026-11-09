@@ -13,7 +13,17 @@ namespace HostileHorizon
 
         Transform doorL, doorR; float doors, doorsTarget;   // 0 shut .. 1 open
         Vector3 velocity;
-        public bool Holding;                                // stays where it is (docking, docked, tow)
+        public bool Holding;
+        public Bounds HullBox { get; private set; }         // Fix 9.1 (A2): the hull's extent, mothership space (it is made at the origin, unturned)
+        public Vector3 Local(Vector3 world) => transform.InverseTransformPoint(world);
+        public Vector3 World(Vector3 local) => transform.TransformPoint(local);
+        // Does the segment a-b (mothership space) pass within `margin` of the hull's box?
+        public bool Blocked(Vector3 a, Vector3 b, float margin)
+        {
+            var box = HullBox; box.Expand(2 * margin); var d = b - a; float len = d.magnitude; if (len < 1e-3f) return box.Contains(a);
+            if (box.Contains(a)) return true;
+            return box.IntersectRay(new Ray(a, d / len), out float t) && t <= len;
+        }                                // stays where it is (docking, docked, tow)
         public float DoorsOpen => doors;
 
         public Quaternion DockRotation => transform.rotation * Quaternion.Euler(0, 180, 0);
@@ -35,16 +45,17 @@ namespace HostileHorizon
                 Material mat;
                 if (slot == "glass") mat = glass;
                 else if (slot == "glow" || slot == "window") { mat = new Material(Shader.Find("HostileHorizon/Glow")); mat.SetColor("_Color", slot == "glow" ? new Color(1f, .55f, .2f) * 2f : new Color(.55f, .8f, 1f) * 1.4f); }
-                else
-                {
-                    mat = new Material(litTemplate);
-                    Color c = slot == "hull" ? new Color(.46f, .48f, .5f) : slot == "panel" ? new Color(.3f, .32f, .34f) : slot == "bay" ? new Color(.2f, .21f, .22f) : slot == "metal" ? new Color(.5f, .52f, .55f) : new Color(.13f, .14f, .15f);
-                    mat.SetColor("_BaseColor", c); mat.SetFloat("_Smoothness", slot == "metal" ? .55f : .3f); mat.SetFloat("_Metallic", slot == "metal" ? .6f : .15f);
-                }
-                r.sharedMaterial = mat;
+                else if (slot.StartsWith("mx_")) { var hard = Resources.Load<Material>("Hard/" + slot.Substring(3)); mat = hard ? new Material(hard) : Plain(litTemplate, slot); }   // Fix 9.1 (A3): the Meshy textures
+                else mat = Textured(litTemplate, slot);
+                Slots.Add($"{r.name} -> {mat.name} ({(mat.HasProperty("_BaseMap") && mat.GetTexture("_BaseMap") ? mat.GetTexture("_BaseMap").name : "no texture")})");
+                var all = r.sharedMaterials; for (int i = 0; i < all.Length; i++) all[i] = mat; r.sharedMaterials = all.Length > 0 ? all : new[] { mat };   // every slot (as the ship, Fix 8.2)
             }
+            // Fix 9.1 (A2): the hull's extent in mothership space (the docking route goes round it)
+            var hb = new Bounds(); bool first = true;
+            foreach (var r in model.GetComponentsInChildren<Renderer>()) { var b = r.bounds; if (first) { hb = b; first = false; } else hb.Encapsulate(b); }
+            m.HullBox = new Bounds(go.transform.InverseTransformPoint(hb.center), hb.size);
             // floor doors: two slabs that slide out sideways into the hull
-            Material doorMat = new Material(litTemplate); doorMat.SetColor("_BaseColor", new Color(.28f, .29f, .3f));
+            Material doorMat = Plain(litTemplate, "door");   // Fix 9.1: plain (a cube's faces would squeeze the whole texture atlas)
             m.doorL = Slab(go.transform, "Door left", doorMat); m.doorR = Slab(go.transform, "Door right", doorMat);
             // bay lights
             Lamp(go.transform, new Vector3(0, 7.5f, -2), 30, 2.2f, new Color(1f, .9f, .8f));
@@ -52,6 +63,27 @@ namespace HostileHorizon
             Lamp(go.transform, new Vector3(11.5f, -3.4f, 11.5f), 6, 2.5f, new Color(.55f, .8f, 1f));   // inside the regeneration pod
             m.SetDoors(0, true);
             return m;
+        }
+
+        // Fix 9.1 (A3): 0.9.0's mothership never loaded the Meshy materials (Resources/Hard/*.mat, as the ship and enemies do): every part,
+        // the Meshy hull, wall modules, cradle and pod included, was drawn plain grey. The code-built parts (the openings' lining and trim,
+        // the bay's liners, floor strips and doors) now take the bay wall's / hull's Meshy textures, tinted, on their own UVs.
+        public static readonly System.Collections.Generic.List<string> Slots = new System.Collections.Generic.List<string>();   // checks
+        static Material Plain(Material litTemplate, string slot)
+        {
+            var mat = new Material(litTemplate) { name = "plain " + slot };
+            Color c = slot == "hull" ? new Color(.46f, .48f, .5f) : slot == "panel" ? new Color(.3f, .32f, .34f) : slot == "bay" ? new Color(.2f, .21f, .22f) : slot == "metal" ? new Color(.5f, .52f, .55f) : slot == "door" ? new Color(.28f, .29f, .3f) : new Color(.13f, .14f, .15f);
+            mat.SetColor("_BaseColor", c); mat.SetFloat("_Smoothness", slot == "metal" ? .55f : .3f); mat.SetFloat("_Metallic", slot == "metal" ? .6f : .15f);
+            return mat;
+        }
+        static Material Textured(Material litTemplate, string slot)
+        {
+            var src = Resources.Load<Material>(slot == "metal" || slot == "hull" ? "Hard/mothership" : "Hard/bay_wall");
+            if (!src) return Plain(litTemplate, slot);
+            var mat = new Material(src) { name = "textured " + slot };
+            Color tint = slot == "metal" ? new Color(.95f, .97f, 1f) : slot == "bay" ? new Color(.7f, .72f, .75f) : slot == "door" ? new Color(.85f, .86f, .88f) : Color.white;
+            if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", mat.GetColor("_BaseColor") * tint);
+            return mat;
         }
 
         static Transform Slab(Transform parent, string name, Material m)

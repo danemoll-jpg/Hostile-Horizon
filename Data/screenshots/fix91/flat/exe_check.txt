@@ -1,0 +1,106 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 71680 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-09 04:13; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+VR off: flat screen (VR mode off)
+--- A1: aliens per pilot over 400 planets a tier (seeds 1000..1399 + tier), not a career's first planet
+  tuning now: alienShareStart 0.1, alienSharePerTier 0.025, alienShareMax 0.2, levels [0.6, 1, 1.25, 1.5]; 0.9.0: .20 / .05 / .35, at least one a planet
+  Easy:
+    tier 0 (3 pilots): 6.4 % (expected 6.0 %), 82 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 13/18/15/13/18
+    tier 1 (4 pilots): 6.8 % (expected 7.5 %), 75 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 16/16/31/28/18
+    tier 2 (5 pilots): 8.8 % (expected 9.0 %), 64 % of planets with none; 0.9.0: 20.0 %, none 0 %; types 37/27/42/32/37
+    tier 3 (6 pilots): 11.5 % (expected 10.5 %), 48 % of planets with none; 0.9.0: 16.7 %, none 0 %; types 52/54/61/58/50
+    tier 4 (7 pilots): 11.7 % (expected 12.0 %), 41 % of planets with none; 0.9.0: 14.3 %, none 0 %; types 71/63/58/62/73
+  Normal:
+    tier 0 (3 pilots): 10.8 % (expected 10.0 %), 72 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 22/34/22/21/31
+    tier 1 (4 pilots): 11.4 % (expected 12.5 %), 61 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 33/27/50/42/30
+    tier 2 (5 pilots): 15.2 % (expected 15.0 %), 46 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 66/51/76/55/56
+    tier 3 (6 pilots): 18.6 % (expected 17.5 %), 29 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 85/86/95/88/92
+    tier 4 (7 pilots): 20.0 % (expected 20.0 %), 19 % of planets with none; 0.9.0: 28.6 %, none 0 %; types 122/108/106/96/127
+  Hard:
+    tier 0 (3 pilots): 13.1 % (expected 12.5 %), 67 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 29/45/26/24/33
+    tier 1 (4 pilots): 15.1 % (expected 15.6 %), 51 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 46/36/62/55/42
+    tier 2 (5 pilots): 19.5 % (expected 18.8 %), 36 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 84/69/91/70/75
+    tier 3 (6 pilots): 23.0 % (expected 21.9 %), 22 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 107/100/117/113/116
+    tier 4 (7 pilots): 24.5 % (expected 25.0 %), 12 % of planets with none; 0.9.0: 42.9 %, none 0 %; types 147/139/133/112/156
+  Nightmare:
+    tier 0 (3 pilots): 15.7 % (expected 15.0 %), 61 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 40/48/33/29/38
+    tier 1 (4 pilots): 18.3 % (expected 18.8 %), 44 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 61/47/68/62/55
+    tier 2 (5 pilots): 22.9 % (expected 22.5 %), 30 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 92/84/109/79/93
+    tier 3 (6 pilots): 27.3 % (expected 26.3 %), 16 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 127/122/144/129/134
+    tier 4 (7 pilots): 29.4 % (expected 30.0 %), 8 % of planets with none; 0.9.0: 57.1 %, none 0 %; types 167/166/165/139/187
+--- A3: the mothership's materials (cause: Mothership.cs never loaded the Meshy materials; every part plain grey)
+  Body__bay -> textured bay (bay_wall_albedo)
+  Body__glow -> HostileHorizon/Glow (no texture)
+  Body__metal -> textured metal (mothership_albedo)
+  Body__mx_bay_cradle -> bay_cradle (bay_cradle_albedo)
+  Body__mx_bay_wall -> bay_wall (bay_wall_albedo)
+  Body__mx_mothership -> mothership (mothership_albedo)
+  Body__mx_regen_pod -> regen_pod (regen_pod_albedo)
+  Body__panel -> textured panel (bay_wall_albedo)
+  Body__window -> HostileHorizon/Glow (no texture)
+  7 parts textured
+  hull mesh for the measurement: 215626 vertices, 119391 triangles (unreadable meshes skipped: 0); hull box (-43, -18, -42) .. (43, 35, 148)
+screenshot a3_stern.png
+screenshot a3_side.png
+screenshot a3_below.png
+screenshot a3_bow.png
+screenshot a3_bay_inside.png
+--- A2: dockings and lifts against the hull's mesh (ship outline: wing tips, nose, tail, top, belly)
+    [579 fps] Auto/dock-approach Flight alt 1244 gnd 1243 spd 200 hdg 30 energy 100
+    [465 fps] Auto/dock-final Flight alt 1632 gnd 1633 spd 150 hdg 210 energy 100
+  0.9.0 docking, from below and behind: docked after 20.9 s; THROUGH THE HULL: 28 crossings of its surface (first: point 2, (0.0, 18.5, 106.9) -> (0.0, 18.5, 106.8), ship centre (0.0, 20.4, 111.4), phase dock-final, 16.48 s in); nearest 0.2 m outside the bay; 1.2 s under the hull (0-40 m below its keel)
+    [439 fps] Auto/dock-approach Flight alt 1188 gnd 975 spd 153 hdg 210 energy 100
+    [430 fps] Auto/dock-final Flight alt 1504 gnd 1503 spd 62 hdg 32 energy 100
+  0.9.0 docking, from below and ahead: docked after 15.6 s; THROUGH THE HULL: 31 crossings of its surface (first: point 1, (4.4, 23.1, -30.1) -> (4.4, 17.8, -26.8), ship centre (0.0, 17.0, -26.0), phase dock-final, 12.53 s in); nearest 0.4 m outside the bay; 0.5 s under the hull (0-40 m below its keel)
+    [118 fps] Auto/dock-approach Flight alt 1396 gnd 1148 spd 200 hdg 348 energy 100
+    [255 fps] Auto/dock-final Flight alt 1536 gnd 1249 spd 91 hdg 178 energy 100
+  0.9.0 docking, from below at the side: docked after 20.2 s; THROUGH THE HULL: 47 crossings of its surface (first: point 0, (-25.6, 20.0, 49.2) -> (-22.0, 14.6, 43.6), ship centre (-25.4, 14.0, 40.6), phase dock-final, 15.44 s in); nearest 0.3 m outside the bay; 2.2 s under the hull (0-40 m below its keel)
+    [222 fps] Auto/dock-final Flight alt 1477 gnd 1259 spd 130 hdg 8 energy 100
+    [180 fps] Auto/dock-final Flight alt 1472 gnd 1425 spd 76 hdg 194 energy 100
+  0.9.0 docking, beside it at its height: docked after 16.4 s; never through the hull; nearest 5.0 m outside the bay; 3.8 s under the hull (0-40 m below its keel)
+    [378 fps] Auto/dock-approach Flight alt 1511 gnd 985 spd 151 hdg 49 energy 100
+    [668 fps] Auto/dock-final Flight alt 1471 gnd 1470 spd 27 hdg 227 energy 100
+  0.9.0 docking, from above it (a climb past its height): docked after 17.5 s; never through the hull; nearest 5.1 m outside the bay; 2.4 s under the hull (0-40 m below its keel)
+    [444 fps] Auto/dock-rise Flight alt 1484 gnd 1483 spd 20 hdg 210 energy 100
+  0.9.0 lift (tow / recall / beam), from below: docked after 7.0 s; never through the hull; nearest 5.2 m outside the bay; 1.0 s under the hull (0-40 m below its keel)
+  0.9.0 lift (tow / recall / beam), from above it: docked after 6.0 s; THROUGH THE HULL: 28 crossings of its surface (first: point 0, (-11.2, 18.3, 6.1) -> (-11.1, 18.2, 6.1), ship centre (-15.5, 18.2, 5.2), phase tow-lift, 3.05 s in); nearest 0.6 m outside the bay; 0.6 s under the hull (0-40 m below its keel)
+screenshot a2_chase_1_round_the_hull.png
+    [538 fps] Auto/dock-approach Flight alt 1074 gnd 588 spd 122 hdg 30 energy 100
+screenshot a2_chase_2_lined_up_behind.png
+    [613 fps] Auto/dock-final Flight alt 1500 gnd 1498 spd 30 hdg 30 energy 100
+screenshot a2_chase_3_at_the_stern.png
+screenshot a2_chase_4_in_the_bay.png
+  now   docking, from below and behind: docked after 20.0 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+screenshot a2_chase_5_docked.png
+    [613 fps] Auto/dock-approach Flight alt 1022 gnd 604 spd 122 hdg 210 energy 100
+    [622 fps] Auto/dock-final Flight alt 1502 gnd 1501 spd 42 hdg 30 energy 100
+    [676 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 6 hdg 203 energy 100
+  now   docking, from below and ahead: docked after 23.1 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+    [658 fps] Auto/dock-final Flight alt 1500 gnd 1500 spd 12 hdg 313 energy 100
+    [693 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 13 hdg 46 energy 100
+  now   docking, from below at the side: docked after 21.4 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+    [621 fps] Auto/dock-final Flight alt 1500 gnd 1500 spd 7 hdg 336 energy 100
+    [660 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 12 hdg 69 energy 100
+  now   docking, beside it at its height: docked after 19.4 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+screenshot a2_cockpit_1_round_the_hull.png
+    [526 fps] Auto/dock-final Flight alt 1502 gnd 1502 spd 15 hdg 178 energy 100
+screenshot a2_cockpit_2_lined_up_behind.png
+screenshot a2_cockpit_3_at_the_stern.png
+    [558 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 12 hdg 49 energy 100
+screenshot a2_cockpit_4_in_the_bay.png
+  now   docking, from above it (a climb past its height): docked after 19.6 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+screenshot a2_cockpit_5_docked.png
+    [514 fps] Auto/tow-lift Flight alt 1470 gnd 1469 spd 84 hdg 344 energy 100
+  now   lift (tow / recall / beam), from below: docked after 10.3 s; never through the hull; nearest 4.9 m outside the bay; 2.8 s under the hull (0-40 m below its keel)
+    [515 fps] Auto/tow-lift Flight alt 1436 gnd 1387 spd 69 hdg 326 energy 100
+  now   lift (tow / recall / beam), from above it: docked after 10.4 s; never through the hull; nearest 5.0 m outside the bay; 3.0 s under the hull (0-40 m below its keel)
+--- A2: the launch (drops through the floor doors)
+    [462 fps] Auto/launch Hover alt 1451 gnd 1451 spd 48 hdg 210 energy 100
+launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 84°/s (continuous: no cut)
+  0.9.0 launch: never through the hull; nearest 4.8 m outside the bay; 1.6 s under the hull (0-40 m below its keel)
+    [555 fps] Auto/dock-final Flight alt 1596 gnd 1185 spd 102 hdg 37 energy 100
+    [475 fps] Auto/dock-final Flight alt 1477 gnd 1476 spd 21 hdg 214 energy 100
+screenshot a2_launch_after_drop.png
+launch: doors, drop, engines; handed over at 1424 m, 227 km/h; camera: fastest 63 m/s, fastest turn 85°/s (continuous: no cut)
+  now   launch: never through the hull; nearest 5.1 m outside the bay; 2.5 s under the hull (0-40 m below its keel)
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.032 RMS, peak 0.388, zeroed before the speakers; 26886144 samples); master volume 0.00

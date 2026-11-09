@@ -434,6 +434,22 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `turretInterceptLevels`, `turretAimErrorLevels`, `boltHitRadiusLevels`, `saucerHuntLevels`, `saucerPairLevels`; `Difficulty.TurretLead` ...);
   Low / Normal = Round 5's numbers. Check `-exeCheckOnly round9` (or `round9a`, `round9b`, `round9c` = C+D+E, `round9f`, `round9g`;
   `Checks/ExeCheck.Round9.cs`); `round9a` with `--extra=-steamArtRoot <dir>` checks the art copy.
+- **Fix 9.1 (Round 10 Part A):** (A1) aliens rolled **per pilot** from the seed at `Aliens.Share(tier)` = min(`alienShareMax` .20,
+  `alienShareStart` .10 + `alienSharePerTier` .025 x tier) x the difficulty level (no minimum of one; some planets have none); 0.9.0
+  planets' waiting pilots rolled again once (`PlanetState.alienRoll`). (A2) **Docking in through the stern opening**
+  (`GameShell.SternEntry`): round the hull (`RoundTheHull`, `RouteRound`: a lane beside it, string-pulled against `Mothership.HullBox` /
+  `Blocked`, ~10 m/s round each corner), lined up 260 m behind the stern, in at ~20 m/s to a walking pace, turning to face out under the
+  cradle; lifts (tow / recall / beam) go round to a lane 30 m under the keel, then up through the floor opening; the launch drops
+  clear of the keel before moving off. `GameShell.CheckOldDockPath` = 0.9.0's paths (checks); `CheckDock(at, rot, tow)` (checks).
+  (A3) `Mothership.Create` loads the Meshy materials (`Hard/<name>.mat`, every slot), the code-built lining / trim / liners take the
+  hull's / bay wall's textures; `Mothership.fbx` is readable (the check measures paths against its triangles). (A4) **VR recentre
+  in every state:** `CameraRig.PlaceVr` (run by `VrPlacer`, execution order 32000) turns whatever eye pose the code set (cockpit, title,
+  hangar, scripted parts) into the tracking space's pose; **hold Pause 1 s in VR = recentre** (`Controls.RecenterHold`; HOTAS OPTIONS /
+  the button HOTAS setup gives Pause, pad ☰ Menu, Esc; a tap pauses on release), plus right-stick click / Home / pause-menu row;
+  automatic recentre on `trackingOriginUpdated`, tracking back after .25 s, or a head jump > 45° at > 1500°/s. `CameraRig.CheckOldVr` =
+  0.9.0's (checks). Check `-exeCheckOnly fix91` (flat: A1-A3) / `fix91 -vr` (mock runtime: A4, the mock head turned through
+  `mock_runtime.dll`'s `MockRuntime_SetReferenceSpace` / `SetView`); `bash local/fix91_runs.sh flat|vr <name>`. `run_check.py --exe <path>`
+  runs a check on another build (absolute path).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -573,6 +589,12 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Fix 9.1 (Round 10 Part A: aliens rarer, rolled per pilot (Normal 10.8 % at tier 0 .. 20 % at tier 4, was 33 % with one on every
+planet); docking round the mothership and in through the stern opening (0.9.0's approach overshot at 200 m/s and went through the hull
+and down through the roof: now 0 crossings of the hull from every start); the mothership's Meshy textures (never loaded before); VR
+recentre in every state, hold Pause 1 s, automatic after the headset comes back) is built, checked in the exe (headless, muted, `fix91`
+flat and on the mock VR runtime) and published as 0.9.1 (`game-901` Latest). Not yet played by Dan.** Details in `TODO.md` (Part A
+status). **Next: Round 10 Part B (the promo video)**, in progress.
 **Round 9 (A: the mothership's openings cut cleanly and lined; the grey box at the ship's rear was the code-built cabin poking out of
 the Round 8 hull, now drawn only from inside; Dan's Steam artwork in the game, the starter and copied beside the launcher by the game,
 the portrait as the launcher's cover. B: side missions (recorder, turret nest, timed rescue, clean run); C: recover your own wreck in

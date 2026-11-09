@@ -1,0 +1,343 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.013 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [52520] [04:13:11.242][Info   ] Available Layers: (1)
+[XR] [52520] [04:13:11.338][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [52520] [04:13:11.338][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [52520] [04:13:11.338][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [52520] [04:13:11.338][Info   ] ==== OpenXR Runtime Info ====
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Available Runtime Extensions: (34)
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [52520] [04:13:11.338][Info   ]   XR_MND_headless: Version=3
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_uuid: Version=1
+[XR] [52520] [04:13:11.338][Info   ]   XR_META_headset_id: Version=2
+[XR] [52520] [04:13:11.338][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Available Layers: (1)
+[XR] [52520] [04:13:11.338][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [52520] [04:13:11.338][Info   ] Runtime Version: 1.1.0
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] ==== OpenXR API Spec Version ====
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [52520] [04:13:11.338][Info   ]     Origin: result
+[XR] [52520] [04:13:11.338][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] ==== Std Exception Thrown ====
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [52520] [04:13:11.338][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [52520] [04:13:11.338][Info   ]     Origin: result
+[XR] [52520] [04:13:11.338][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [52520] [04:13:11.338][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [52520] [04:13:11.338][Info   ] 
+[XR] [52520] [04:13:11.338][Info   ] ==== Last 20 Events ====
+[XR] [52520] [04:13:11.338][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.574000 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (exe check)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 71680 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-09 04:13; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] VR off: flat screen (VR mode off)
+[ExeCheck] --- A1: aliens per pilot over 400 planets a tier (seeds 1000..1399 + tier), not a career's first planet
+[ExeCheck]   tuning now: alienShareStart 0.1, alienSharePerTier 0.025, alienShareMax 0.2, levels [0.6, 1, 1.25, 1.5]; 0.9.0: .20 / .05 / .35, at least one a planet
+[ExeCheck]   Easy:
+    tier 0 (3 pilots): 6.4 % (expected 6.0 %), 82 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 13/18/15/13/18
+    tier 1 (4 pilots): 6.8 % (expected 7.5 %), 75 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 16/16/31/28/18
+    tier 2 (5 pilots): 8.8 % (expected 9.0 %), 64 % of planets with none; 0.9.0: 20.0 %, none 0 %; types 37/27/42/32/37
+    tier 3 (6 pilots): 11.5 % (expected 10.5 %), 48 % of planets with none; 0.9.0: 16.7 %, none 0 %; types 52/54/61/58/50
+    tier 4 (7 pilots): 11.7 % (expected 12.0 %), 41 % of planets with none; 0.9.0: 14.3 %, none 0 %; types 71/63/58/62/73
+[ExeCheck]   Normal:
+    tier 0 (3 pilots): 10.8 % (expected 10.0 %), 72 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 22/34/22/21/31
+    tier 1 (4 pilots): 11.4 % (expected 12.5 %), 61 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 33/27/50/42/30
+    tier 2 (5 pilots): 15.2 % (expected 15.0 %), 46 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 66/51/76/55/56
+    tier 3 (6 pilots): 18.6 % (expected 17.5 %), 29 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 85/86/95/88/92
+    tier 4 (7 pilots): 20.0 % (expected 20.0 %), 19 % of planets with none; 0.9.0: 28.6 %, none 0 %; types 122/108/106/96/127
+[ExeCheck]   Hard:
+    tier 0 (3 pilots): 13.1 % (expected 12.5 %), 67 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 29/45/26/24/33
+    tier 1 (4 pilots): 15.1 % (expected 15.6 %), 51 % of planets with none; 0.9.0: 25.0 %, none 0 %; types 46/36/62/55/42
+    tier 2 (5 pilots): 19.5 % (expected 18.8 %), 36 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 84/69/91/70/75
+    tier 3 (6 pilots): 23.0 % (expected 21.9 %), 22 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 107/100/117/113/116
+    tier 4 (7 pilots): 24.5 % (expected 25.0 %), 12 % of planets with none; 0.9.0: 42.9 %, none 0 %; types 147/139/133/112/156
+[ExeCheck]   Nightmare:
+    tier 0 (3 pilots): 15.7 % (expected 15.0 %), 61 % of planets with none; 0.9.0: 33.3 %, none 0 %; types 40/48/33/29/38
+    tier 1 (4 pilots): 18.3 % (expected 18.8 %), 44 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 61/47/68/62/55
+    tier 2 (5 pilots): 22.9 % (expected 22.5 %), 30 % of planets with none; 0.9.0: 40.0 %, none 0 %; types 92/84/109/79/93
+    tier 3 (6 pilots): 27.3 % (expected 26.3 %), 16 % of planets with none; 0.9.0: 50.0 %, none 0 %; types 127/122/144/129/134
+    tier 4 (7 pilots): 29.4 % (expected 30.0 %), 8 % of planets with none; 0.9.0: 57.1 %, none 0 %; types 167/166/165/139/187
+[Play]     2.3 arrived: planet Halkon-II (seed 20261109, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]     2.3 missions: Timed rescue (Open), Clean run (Open), Recover the flight recorder (Open)
+[Play]     2.4 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[Play]     2.6 music hangar: docked
+[Music] loaded hangar (199 s)
+[ExeCheck] --- A3: the mothership's materials (cause: Mothership.cs never loaded the Meshy materials; every part plain grey)
+[ExeCheck]   Body__bay -> textured bay (bay_wall_albedo)
+[ExeCheck]   Body__glow -> HostileHorizon/Glow (no texture)
+[ExeCheck]   Body__metal -> textured metal (mothership_albedo)
+[ExeCheck]   Body__mx_bay_cradle -> bay_cradle (bay_cradle_albedo)
+[ExeCheck]   Body__mx_bay_wall -> bay_wall (bay_wall_albedo)
+[ExeCheck]   Body__mx_mothership -> mothership (mothership_albedo)
+[ExeCheck]   Body__mx_regen_pod -> regen_pod (regen_pod_albedo)
+[ExeCheck]   Body__panel -> textured panel (bay_wall_albedo)
+[ExeCheck]   Body__window -> HostileHorizon/Glow (no texture)
+[ExeCheck]   7 parts textured
+[ExeCheck]   hull mesh for the measurement: 215626 vertices, 119391 triangles (unreadable meshes skipped: 0); hull box (-43, -18, -42) .. (43, 35, 148)
+[ExeCheck] screenshot a3_stern.png
+[ExeCheck] screenshot a3_side.png
+[ExeCheck] screenshot a3_below.png
+[ExeCheck] screenshot a3_bow.png
+[ExeCheck] screenshot a3_bay_inside.png
+[ExeCheck] --- A2: dockings and lifts against the hull's mesh (ship outline: wing tips, nose, tail, top, belly)
+[Play]     5.8 music flight_canyons: flight (automatic)
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]     [579 fps] Auto/dock-approach Flight alt 1244 gnd 1243 spd 200 hdg 30 energy 100
+[Play]    11.2 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [465 fps] Auto/dock-final Flight alt 1632 gnd 1633 spd 150 hdg 210 energy 100
+[Play]    26.7 docked: Energy used 0%. Refuelled 0%: -1 cr
+[ExeCheck]   0.9.0 docking, from below and behind: docked after 20.9 s; THROUGH THE HULL: 28 crossings of its surface (first: point 2, (0.0, 18.5, 106.9) -> (0.0, 18.5, 106.8), ship centre (0.0, 20.4, 111.4), phase dock-final, 16.48 s in); nearest 0.2 m outside the bay; 1.2 s under the hull (0-40 m below its keel)
+[Play]    26.7 music hangar: docked
+[Play]    26.7 voice CONTROL: You're in. Get them to the infirmary.
+[Play]    27.0 music flight_canyons: flight (automatic)
+[ExeCheck]     [439 fps] Auto/dock-approach Flight alt 1188 gnd 975 spd 153 hdg 210 energy 100
+[Play]    29.9 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [430 fps] Auto/dock-final Flight alt 1504 gnd 1503 spd 62 hdg 32 energy 100
+[Play]    42.6 docked: 
+[ExeCheck]   0.9.0 docking, from below and ahead: docked after 15.6 s; THROUGH THE HULL: 31 crossings of its surface (first: point 1, (4.4, 23.1, -30.1) -> (4.4, 17.8, -26.8), ship centre (0.0, 17.0, -26.0), phase dock-final, 12.53 s in); nearest 0.4 m outside the bay; 0.5 s under the hull (0-40 m below its keel)
+[Play]    42.6 music hangar: docked
+[Play]    42.6 voice CONTROL: Clamps on. Welcome home.
+[Play]    42.9 music flight_canyons: flight (automatic)
+[Play]    44.4 voice CONTROL: I have you. Hold steady, bringing you in.
+[ExeCheck]     [118 fps] Auto/dock-approach Flight alt 1396 gnd 1148 spd 200 hdg 348 energy 100
+[ExeCheck]     [255 fps] Auto/dock-final Flight alt 1536 gnd 1249 spd 91 hdg 178 energy 100
+[Play]    63.2 docked: 
+[ExeCheck]   0.9.0 docking, from below at the side: docked after 20.2 s; THROUGH THE HULL: 47 crossings of its surface (first: point 0, (-25.6, 20.0, 49.2) -> (-22.0, 14.6, 43.6), ship centre (-25.4, 14.0, 40.6), phase dock-final, 15.44 s in); nearest 0.3 m outside the bay; 2.2 s under the hull (0-40 m below its keel)
+[Play]    63.2 music hangar: docked
+[Play]    63.2 voice CONTROL: Clamps on. Welcome home.
+[Play]    63.5 music flight_canyons: flight (automatic)
+[Play]    65.7 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [222 fps] Auto/dock-final Flight alt 1477 gnd 1259 spd 130 hdg 8 energy 100
+[ExeCheck]     [180 fps] Auto/dock-final Flight alt 1472 gnd 1425 spd 76 hdg 194 energy 100
+[Play]    79.9 docked: 
+[ExeCheck]   0.9.0 docking, beside it at its height: docked after 16.4 s; never through the hull; nearest 5.0 m outside the bay; 3.8 s under the hull (0-40 m below its keel)
+[Play]    79.9 music hangar: docked
+[Play]    79.9 voice CONTROL: Clamps on. Welcome home.
+[Play]    80.2 music flight_canyons: flight (automatic)
+[Play]    82.4 voice CONTROL: I have you. Hold steady, bringing you in.
+[ExeCheck]     [378 fps] Auto/dock-approach Flight alt 1511 gnd 985 spd 151 hdg 49 energy 100
+[ExeCheck]     [668 fps] Auto/dock-final Flight alt 1471 gnd 1470 spd 27 hdg 227 energy 100
+[Play]    97.7 docked: 
+[ExeCheck]   0.9.0 docking, from above it (a climb past its height): docked after 17.5 s; never through the hull; nearest 5.1 m outside the bay; 2.4 s under the hull (0-40 m below its keel)
+[Play]    98.1 music hangar: docked
+[Play]    98.1 voice CONTROL: You're in. Get them to the infirmary.
+[Play]    98.4 music flight_canyons: flight (automatic)
+[ExeCheck]     [444 fps] Auto/dock-rise Flight alt 1484 gnd 1483 spd 20 hdg 210 energy 100
+[Play]   105.3 docked (tow): Tow: -1500 cr
+[ExeCheck]   0.9.0 lift (tow / recall / beam), from below: docked after 7.0 s; never through the hull; nearest 5.2 m outside the bay; 1.0 s under the hull (0-40 m below its keel)
+[Play]   105.3 music hangar: docked
+[Play]   105.6 music flight_canyons: flight (automatic)
+[Play]   111.6 docked (tow): Tow: -1499 cr (the corps covered the other 1 cr)
+[ExeCheck]   0.9.0 lift (tow / recall / beam), from above it: docked after 6.0 s; THROUGH THE HULL: 28 crossings of its surface (first: point 0, (-11.2, 18.3, 6.1) -> (-11.1, 18.2, 6.1), ship centre (-15.5, 18.2, 5.2), phase tow-lift, 3.05 s in); nearest 0.6 m outside the bay; 0.6 s under the hull (0-40 m below its keel)
+[Play]   111.6 music hangar: docked
+[Play]   112.0 music flight_canyons: flight (automatic)
+[Play]   112.1 voice CONTROL: I have you. Hold steady, bringing you in.
+[ExeCheck] screenshot a2_chase_1_round_the_hull.png
+[ExeCheck]     [538 fps] Auto/dock-approach Flight alt 1074 gnd 588 spd 122 hdg 30 energy 100
+[ExeCheck] screenshot a2_chase_2_lined_up_behind.png
+[ExeCheck]     [613 fps] Auto/dock-final Flight alt 1500 gnd 1498 spd 30 hdg 30 energy 100
+[ExeCheck] screenshot a2_chase_3_at_the_stern.png
+[ExeCheck] screenshot a2_chase_4_in_the_bay.png
+[Play]   131.9 docked: Energy used 0%. Refuelled 0%: -0 cr
+[ExeCheck]   now   docking, from below and behind: docked after 20.0 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+[Play]   132.1 music hangar: docked
+[Play]   132.1 voice CONTROL: You're in. Get them to the infirmary.
+[ExeCheck] screenshot a2_chase_5_docked.png
+[Play]   132.2 music flight_canyons: flight (automatic)
+[ExeCheck]     [613 fps] Auto/dock-approach Flight alt 1022 gnd 604 spd 122 hdg 210 energy 100
+[Play]   135.8 voice CONTROL: I have you. Hold steady, bringing you in.
+[ExeCheck]     [622 fps] Auto/dock-final Flight alt 1502 gnd 1501 spd 42 hdg 30 energy 100
+[ExeCheck]     [676 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 6 hdg 203 energy 100
+[Play]   155.4 docked: 
+[ExeCheck]   now   docking, from below and ahead: docked after 23.1 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+[Play]   155.4 music hangar: docked
+[Play]   155.4 voice CONTROL: You're in. Get them to the infirmary.
+[Play]   155.7 music flight_canyons: flight (automatic)
+[Play]   158.7 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [658 fps] Auto/dock-final Flight alt 1500 gnd 1500 spd 12 hdg 313 energy 100
+[ExeCheck]     [693 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 13 hdg 46 energy 100
+[Play]   177.1 docked: 
+[ExeCheck]   now   docking, from below at the side: docked after 21.4 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+[Play]   177.1 music hangar: docked
+[Play]   177.1 voice CONTROL: You're in. Get them to the infirmary.
+[Play]   177.4 music flight_canyons: flight (automatic)
+[Play]   180.4 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [621 fps] Auto/dock-final Flight alt 1500 gnd 1500 spd 7 hdg 336 energy 100
+[ExeCheck]     [660 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 12 hdg 69 energy 100
+[Play]   196.8 docked: 
+[ExeCheck]   now   docking, beside it at its height: docked after 19.4 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+[Play]   196.8 music hangar: docked
+[Play]   196.8 voice CONTROL: Clamps on. Welcome home.
+[Play]   197.1 music flight_canyons: flight (automatic)
+[ExeCheck] screenshot a2_cockpit_1_round_the_hull.png
+[Play]   199.3 voice CONTROL: Docking clearance granted. Easy does it.
+[ExeCheck]     [526 fps] Auto/dock-final Flight alt 1502 gnd 1502 spd 15 hdg 178 energy 100
+[ExeCheck] screenshot a2_cockpit_2_lined_up_behind.png
+[ExeCheck] screenshot a2_cockpit_3_at_the_stern.png
+[ExeCheck]     [558 fps] Auto/dock-final Flight alt 1500 gnd 1499 spd 12 hdg 49 energy 100
+[ExeCheck] screenshot a2_cockpit_4_in_the_bay.png
+[Play]   216.7 docked: 
+[ExeCheck]   now   docking, from above it (a climb past its height): docked after 19.6 s; never through the hull; nearest 99.0 m outside the bay; 0.0 s under the hull (0-40 m below its keel)
+[Play]   216.9 music hangar: docked
+[Play]   216.9 voice CONTROL: You're in. Get them to the infirmary.
+[ExeCheck] screenshot a2_cockpit_5_docked.png
+[Play]   217.1 music flight_canyons: flight (automatic)
+[ExeCheck]     [514 fps] Auto/tow-lift Flight alt 1470 gnd 1469 spd 84 hdg 344 energy 100
+[Play]   227.4 docked (tow): Tow: -0 cr (the corps covered the other 1500 cr)
+[ExeCheck]   now   lift (tow / recall / beam), from below: docked after 10.3 s; never through the hull; nearest 4.9 m outside the bay; 2.8 s under the hull (0-40 m below its keel)
+[Play]   227.5 music hangar: docked
+[Play]   227.8 music flight_canyons: flight (automatic)
+[ExeCheck]     [515 fps] Auto/tow-lift Flight alt 1436 gnd 1387 spd 69 hdg 326 energy 100
+[Play]   238.2 docked (tow): Tow: -0 cr (the corps covered the other 1500 cr)|Energy used 0%. Refuelled 0%: -0 cr
+[ExeCheck]   now   lift (tow / recall / beam), from above it: docked after 10.4 s; never through the hull; nearest 5.0 m outside the bay; 3.0 s under the hull (0-40 m below its keel)
+[Play]   238.2 music hangar: docked
+[ExeCheck] --- A2: the launch (drops through the floor doors)
+[Play]   238.5 launch: Halkon-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   238.5 missions open: Timed rescue, Clean run, Recover the flight recorder
+[Play]   238.5 music flight_canyons: flight (automatic)
+[Play]   238.5 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]   241.8 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[ExeCheck]     [462 fps] Auto/launch Hover alt 1451 gnd 1451 spd 48 hdg 210 energy 100
+[ExeCheck] launch: doors, drop, engines; handed over at 1424 m, 264 km/h; camera: fastest 73 m/s, fastest turn 84°/s (continuous: no cut)
+[ExeCheck]   0.9.0 launch: never through the hull; nearest 4.8 m outside the bay; 1.6 s under the hull (0-40 m below its keel)
+[Play]   248.8 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[ExeCheck]     [555 fps] Auto/dock-final Flight alt 1596 gnd 1185 spd 102 hdg 37 energy 100
+[Play]   255.8 voice CONTROL: One of ours is on failing life support. The clock's on your scope. Get them aboard and home before it runs out.
+[ExeCheck]     [475 fps] Auto/dock-final Flight alt 1477 gnd 1476 spd 21 hdg 214 energy 100
+[Play]   264.0 voice CONTROL: Bonus on this one if you clear the planet without a scratch on the hull.
+[Play]   265.2 docked: 
+[Play]   265.3 music hangar: docked
+[Play]   265.3 launch: Halkon-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Play]   265.3 missions open: Timed rescue, Clean run, Recover the flight recorder
+[Play]   265.3 music flight_canyons: flight (automatic)
+[ExeCheck] screenshot a2_launch_after_drop.png
+[Play]   269.0 voice CONTROL: You're in. Get them to the infirmary.
+[ExeCheck] launch: doors, drop, engines; handed over at 1424 m, 227 km/h; camera: fastest 63 m/s, fastest turn 85°/s (continuous: no cut)
+[ExeCheck]   now   launch: never through the hull; nearest 5.1 m outside the bay; 2.5 s under the hull (0-40 m below its keel)
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.032 RMS, peak 0.388, zeroed before the speakers; 26886144 samples); master volume 0.00
+[Play]   271.3 music flight_canyons: flying
+[Play]   271.3 pilot 2 found (2.3 km): a real pilot
+[Play]   271.3 pilot 3 found (2.7 km): a real pilot
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

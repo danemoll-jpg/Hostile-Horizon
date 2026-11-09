@@ -447,7 +447,7 @@ namespace HostileHorizon
             pause.Body = () => $"Seed {FlightSeed}  ·  {Biomes.Name(WorldBiome)}  ·  {CrashLevels.Names[(int)FlightLevel]}";
             pause.Add(Action("Resume", Resume))
                  .Add(Action("Reset position", ResetPosition, () => !CanReset))
-                 .Add(new MenuPanel.Row { Label = () => "Recenter VR view", Submit = () => { Rig.Recenter(); Resume(); }, Visible = () => VrMode.Active })
+                 .Add(new MenuPanel.Row { Label = () => $"Recenter VR view (or hold {Controls.PauseKey} 1 s)", Submit = () => { Rig.Recenter(); Resume(); }, Visible = () => VrMode.Active })
                  .Add(Action("Restart (same seed)", () => StartFlight(FlightSeed, FlightLevel)))
                  .Add(Action("Settings", () => { settingsReturn = pause; Menu.Show(settings); }))
                  .Add(Action("Return to title", ToTitle))

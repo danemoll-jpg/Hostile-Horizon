@@ -9,13 +9,14 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 a = argparse.ArgumentParser(); a.add_argument('dir'); a.add_argument('--only', default='all'); a.add_argument('--minutes', type=float, default=25)
 a.add_argument('--extra', default=''); a.add_argument('--size', default='1920x1080')
-a.add_argument('--env', action='append', default=[])   # Round 8 (C8): KEY=VALUE for the game's process (the OpenXR mock runtime)
+a.add_argument('--env', action='append', default=[])
+a.add_argument('--exe', default='')   # Fix 9.1: another build's exe (an older version, for before / after)   # Round 8 (C8): KEY=VALUE for the game's process (the OpenXR mock runtime)
 o = a.parse_args()
 d = pathlib.Path(o.dir).resolve()
 if d.exists(): shutil.rmtree(d)
 d.mkdir(parents=True)
 w, h = o.size.split('x')
-args = [str(ROOT / 'Builds/HostileHorizon/HostileHorizon.exe'), '-batchmode', '-mute', '-exeCheck', str(d), '-exeCheckOnly', o.only, *o.extra.split(),
+args = [o.exe or str(ROOT / 'Builds/HostileHorizon/HostileHorizon.exe'), '-batchmode', '-mute', '-exeCheck', str(d), '-exeCheckOnly', o.only, *o.extra.split(),
         '-screen-fullscreen', '0', '-screen-width', w, '-screen-height', h, '-logFile', str(d / 'Player.log')]
 si = subprocess.STARTUPINFO(); si.dwFlags |= subprocess.STARTF_USESHOWWINDOW; si.wShowWindow = 7   # SW_SHOWMINNOACTIVE
 env = dict(os.environ); env.update(kv.split('=', 1) for kv in o.env)

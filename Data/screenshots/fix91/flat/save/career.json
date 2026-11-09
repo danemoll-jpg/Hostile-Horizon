@@ -1,0 +1,142 @@
+{
+    "version": 1,
+    "systemSeed": 4242,
+    "systemName": "Veeth",
+    "credits": 0,
+    "ship": {
+        "damage": 0.0,
+        "energy": 99.9007797241211,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261109,
+            "name": "Halkon-II",
+            "tier": 0,
+            "pilots": [
+                0,
+                0,
+                0
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": false,
+            "bonusPaid": false,
+            "visits": 1,
+            "alienRoll": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-09 04:13:14",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 3,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false,
+            "missions": [
+                {
+                    "kind": 2,
+                    "state": 0,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": 1,
+                    "timeLeft": 539.4960327148438,
+                    "aboard": false
+                },
+                {
+                    "kind": 3,
+                    "state": 0,
+                    "x": 0.0,
+                    "z": 0.0,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                },
+                {
+                    "kind": 0,
+                    "state": 0,
+                    "x": -258.6907958984375,
+                    "z": 1463.605224609375,
+                    "count": 0,
+                    "pilot": -1,
+                    "timeLeft": 0.0,
+                    "aboard": false
+                }
+            ],
+            "missionsSet": true,
+            "runSeconds": 0.5042398571968079,
+            "runCredits": 0,
+            "runHits": 0,
+            "runDeaths": 0,
+            "bestClear": 0.0,
+            "bestCredits": 0,
+            "bestHits": -1,
+            "clears": 0,
+            "clearedNoDeath": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 0,
+        "pilotsLost": 0,
+        "creditsEarned": 0,
+        "creditsSpent": 3000,
+        "deaths": 0,
+        "planetsCleared": 0,
+        "sorties": 2,
+        "tows": 4,
+        "recalls": 0,
+        "aliensKilled": 0,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0,
+        "flightSeconds": 0.5042398571968079,
+        "hullHits": 0,
+        "cleanClears": 0,
+        "missionsDone": 0,
+        "salvages": 0,
+        "insuredFlights": 0
+    },
+    "journal": [],
+    "started": "2026-11-09 04:13",
+    "lastSaved": "2026-11-09 04:17:53",
+    "currentSeed": 20261109,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    },
+    "wreckSeed": 0,
+    "wreckX": 0.0,
+    "wreckY": 0.0,
+    "wreckZ": 0.0,
+    "wreckHeading": 0.0,
+    "salvaged": false,
+    "insured": false,
+    "wreckInsured": false
+}
