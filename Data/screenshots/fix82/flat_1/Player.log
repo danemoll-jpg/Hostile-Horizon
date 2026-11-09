@@ -1,0 +1,384 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.015 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [51100] [20:08:28.567][Info   ] Available Layers: (1)
+[XR] [51100] [20:08:28.729][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [51100] [20:08:28.729][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [51100] [20:08:28.729][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [51100] [20:08:28.729][Info   ] ==== OpenXR Runtime Info ====
+[XR] [51100] [20:08:28.729][Info   ] 
+[XR] [51100] [20:08:28.729][Info   ] Available Runtime Extensions: (34)
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [51100] [20:08:28.729][Info   ]   XR_MND_headless: Version=3
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_uuid: Version=1
+[XR] [51100] [20:08:28.729][Info   ]   XR_META_headset_id: Version=2
+[XR] [51100] [20:08:28.729][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [51100] [20:08:28.729][Info   ] 
+[XR] [51100] [20:08:28.729][Info   ] Available Layers: (1)
+[XR] [51100] [20:08:28.729][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [51100] [20:08:28.729][Info   ] 
+[XR] [51100] [20:08:28.729][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [51100] [20:08:28.730][Info   ] Runtime Version: 1.1.0
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] ==== OpenXR API Spec Version ====
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [51100] [20:08:28.730][Info   ]     Origin: result
+[XR] [51100] [20:08:28.730][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] ==== Std Exception Thrown ====
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [51100] [20:08:28.730][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [51100] [20:08:28.730][Info   ]     Origin: result
+[XR] [51100] [20:08:28.730][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [51100] [20:08:28.730][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [51100] [20:08:28.730][Info   ] 
+[XR] [51100] [20:08:28.730][Info   ] ==== Last 20 Events ====
+[XR] [51100] [20:08:28.730][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.640100 ms
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 77824 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-08 20:08; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] VR off: flat screen (VR mode off)
+[ExeCheck] --- the cockpit's materials (item 6)
+[Play]     2.3 music flight_canyons: flying
+[Music] loaded flight_canyons (163 s)
+[ExeCheck]   Body__mx_cockpit_console: 1 slot(s): cockpit_console; textured yes
+[ExeCheck]   Body__mx_cockpit_dash: 1 slot(s): cockpit_dash; textured yes
+[ExeCheck]   Body__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+[ExeCheck]   Body__mx_ship: 1 slot(s): ship; textured yes
+[ExeCheck]   Stick__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+[ExeCheck]   Throttle__mx_cockpit_seat: 1 slot(s): cockpit_seat; textured yes
+[ExeCheck] --- the stick and the throttle (item 2)
+[ExeCheck]   stick pivot (0.334, 0.450, 2.535), throttle pivot (-0.315, 0.433, 2.535): depth difference 0.0 cm (0.8.1: 17.8 cm); ShipLayout (0.334, 0.450, 2.535) / (-0.316, 0.433, 2.535)
+[ExeCheck]   right hand (0.36, 0.57, 2.48), left hand (-0.33, 0.56, 2.46); shoulder to hand: right 0.38 m, left 0.35 m
+[ExeCheck] screenshot f82_hands_rest.png
+[ExeCheck] screenshot f82_throttle_left.png
+[ExeCheck] --- the hands (item 1): every frame, hand on its control (mm), finger turn per frame, chest turn, shoulders
+[Music] loaded flight_ocean (190 s)
+[Play]     6.1 music title_theme: title
+[Play]     7.3 music flight_canyons: flying
+[ExeCheck]     [727 fps] Flying/ Flight alt 35 gnd 36 spd 62 hdg 135 energy 100
+[ExeCheck]     [619 fps] Flying/ Flight alt 283 gnd 192 spd 77 hdg 146 energy 100
+[ExeCheck]   old (0.8.1's pose), 20 s, 10446 frames (hands_old.csv): right hand moved on the stick up to 246.9 mm, left hand on the throttle up to 208.4 mm (the stick's grip itself moved up to 43 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 180.0 deg from the ship's heading; shoulders moved up to 364 mm
+[Play]    29.7 music title_theme: title
+[ExeCheck]     [409 fps] Title/ Hover alt 124 gnd 116 spd 14 hdg 153 energy 100
+[Play]    30.9 music flight_canyons: flying
+[ExeCheck]     [619 fps] Flying/ Flight alt 208 gnd 206 spd 125 hdg 156 energy 100
+[ExeCheck] screenshot f82_hands_new_1.png
+[ExeCheck]     [540 fps] Flying/ Flight alt 547 gnd 29 spd 39 hdg 40 energy 100
+[ExeCheck]     [599 fps] Flying/ Flight alt 473 gnd 38 spd 70 hdg 12 energy 100
+[ExeCheck] screenshot f82_hands_new_2.png
+[ExeCheck]     [590 fps] Flying/ Hover alt 190 gnd 190 spd 74 hdg 350 energy 100
+[ExeCheck] screenshot f82_hands_new_3.png
+[ExeCheck]     [399 fps] Flying/ Hover alt 66 gnd 53 spd 8 hdg 15 energy 100
+[ExeCheck]     [424 fps] Flying/ Hover alt 33 gnd 25 spd 0 hdg 26 energy 100
+[ExeCheck]   new (Fix 8.2), 60 s, 30629 frames (hands_new.csv): right hand moved on the stick up to 0.3 mm, left hand on the throttle up to 0.3 mm (the stick's grip itself moved up to 46 mm in the ship); index finger turned up to 0.0 deg in one frame (0.00 deg a frame on average, no firing); chest turned up to 3.5 deg from the ship's heading; shoulders moved up to 0 mm
+[ExeCheck] --- the windshield, the canopy frame, the right console (items 6, 7)
+[Play]    93.2 music title_theme: title
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]    94.4 music flight_ice: flying
+[Music] loaded flight_ice (203 s)
+[ExeCheck] screenshot f82_ahead.png
+[ExeCheck] screenshot f82_windshield_top_left.png
+[ExeCheck] screenshot f82_canopy_left.png
+[ExeCheck] screenshot f82_canopy_right.png
+[ExeCheck]     [445 fps] Flying/ Flight alt 35 gnd 35 spd 59 hdg 135 energy 100
+[ExeCheck] screenshot f82_canopy_up.png
+[ExeCheck] screenshot f82_canopy_up_left.png
+[ExeCheck] screenshot f82_canopy_up_right.png
+[ExeCheck] screenshot f82_console_right.png
+[ExeCheck] screenshot f82_console_left.png
+[Play]   103.1 music title_theme: title
+[Play]   104.4 arrived: planet Halthel-II (seed 20261108, Canyons), new; pilots waiting 3, aliens among them 0
+[Play]   104.4 voice CONTROL: New world. Deep canyons, thin air, and beacons down in the cracks. Stay low and mind the walls.
+[ExeCheck] --- docking with pilots aboard (item 3)
+[Play]   104.6 music hangar: docked
+[Play]   104.6 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 3
+[Music] loaded hangar (199 s)
+[Play]   104.6 music flight_canyons: flight (automatic)
+[ExeCheck]     [598 fps] Auto/launch Hover alt 1476 gnd 1474 spd 23 hdg 315 energy 100
+[Play]   112.7 music flight_canyons: flying
+[Play]   112.7 pilot 1 found (2.3 km): a real pilot
+[Play]   112.7 pilot 2 found (2.4 km): a real pilot
+[Play]   112.7 pilot 3 found (2.4 km): a real pilot
+[Play]   113.5 voice CONTROL: This one's the planet of the day. The corps pays half again for anyone you bring home from here.
+[Play]   113.7 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   113.7 pilot 2 boarded (a real pilot); cabin 2 / 6
+[ExeCheck]   old: put aboard 2; cabin figures shown 2
+[ExeCheck]     [416 fps] Flying/ Hover alt 1487 gnd 1393 spd 14 hdg 315 energy 98
+[Play]   120.6 voice COMPUTER: Pilot aboard.
+[Play]   122.0 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[ExeCheck]     [196 fps] Flying/ Hover alt 1627 gnd 1533 spd 14 hdg 315 energy 95
+[ExeCheck]     [188 fps] Flying/ Hover alt 1766 gnd 1672 spd 14 hdg 315 energy 91
+[ExeCheck]     [196 fps] Flying/ Hover alt 1906 gnd 1812 spd 14 hdg 315 energy 88
+[ExeCheck]     [197 fps] Flying/ Hover alt 2046 gnd 1951 spd 14 hdg 315 energy 84
+[ExeCheck]     [226 fps] Flying/ Hover alt 2186 gnd 2091 spd 14 hdg 315 energy 81
+[ExeCheck]     [229 fps] Flying/ Hover alt 2325 gnd 2230 spd 14 hdg 315 energy 77
+[ExeCheck]     [231 fps] Flying/ Hover alt 2465 gnd 2370 spd 14 hdg 315 energy 74
+[ExeCheck]     [231 fps] Flying/ Hover alt 2605 gnd 2510 spd 14 hdg 315 energy 70
+[ExeCheck]     [218 fps] Flying/ Hover alt 2744 gnd 2650 spd 14 hdg 315 energy 67
+[ExeCheck]     [223 fps] Flying/ Hover alt 2883 gnd 2788 spd 14 hdg 315 energy 63
+[ExeCheck]     [227 fps] Flying/ Hover alt 3022 gnd 2927 spd 14 hdg 315 energy 60
+[ExeCheck]     [209 fps] Flying/ Hover alt 3152 gnd 3058 spd 14 hdg 315 energy 57
+[ExeCheck]     [250 fps] Flying/ Hover alt 3292 gnd 3198 spd 14 hdg 315 energy 53
+[ExeCheck]     [242 fps] Flying/ Hover alt 3432 gnd 3338 spd 14 hdg 315 energy 50
+[ExeCheck]     [246 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 46
+[ExeCheck]     [258 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 43
+[ExeCheck]     [261 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 39
+[ExeCheck]     [258 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 36
+[ExeCheck]     [253 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 32
+[ExeCheck]     [242 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 29
+[ExeCheck]     [255 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 25
+[ExeCheck]     [253 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 22
+[ExeCheck]     [260 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 18
+[Play]   358.2 music flight_canyons +tension: flying + tension (low energy)
+[Play]   358.2 voice COMPUTER: Energy low.
+[Music] loaded tension_low_energy (121 s)
+[ExeCheck]     [247 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 15
+[Play]   360.1 voice CONTROL: Watch your energy. I can't tow everyone.
+[ExeCheck]     [252 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 11
+[Play]   369.7 voice COMPUTER: Return now.
+[ExeCheck]     [253 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 8
+[ExeCheck]     [249 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 4
+[Play]   392.6 voice COMPUTER: Mothership out of reach.
+[ExeCheck]     [258 fps] Flying/ Hover alt 3505 gnd 3410 spd 0 hdg 315 energy 1
+[Play]   401.2 music flight_canyons: flight (automatic)
+[Play]   401.2 voice COMPUTER: Engines off.
+[Play]   402.7 voice CONTROL: You're out of power. Tow beam's on its way. That's going on your bill.
+[ExeCheck]     [271 fps] Auto/tow-lift Flight alt 2018 gnd 1556 spd 297 hdg 315 energy 0
+[ExeCheck]   TIMED OUT waiting for docked after 150 s (state Auto, phase dock-rise)
+[Play]   414.7 docked: 2 pilots delivered (pilot 1, pilot 2): they leave the ship
+[Play]   414.7 docked (tow): Delivered 2 pilots: +1500 cr (planet of the day +50 %: 500 cr of it)|Tow: -1500 cr|Energy used 100%. Refuelled 100%: -600 cr
+[Play]   414.7 music hangar: docked
+[ExeCheck]   old (0.8.1's docking), in the hangar: cabin count 0, cabin figures shown 2, cabin camera on
+[ExeCheck]     [Play]   414.7 docked: 2 pilots delivered (pilot 1, pilot 2): they leave the ship
+[ExeCheck]     [Play]   414.7 docked (tow): Delivered 2 pilots: +1500 cr (planet of the day +50 %: 500 cr of it)|Tow: -1500 cr|Energy used 100%. Refuelled 100%: -600 cr
+[ExeCheck]     [Play]   414.7 music hangar: docked
+[ExeCheck]   cabin camera picture f82_cabin_old_hangar.png
+[Play]   414.8 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 1
+[Play]   414.8 music flight_canyons: flight (automatic)
+[Play]   414.8 voice CONTROL: Clamps released. Go and find our people.
+[Play]   418.4 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[ExeCheck]     [478 fps] Auto/launch Hover alt 1449 gnd 1165 spd 51 hdg 315 energy 100
+[Play]   420.9 music flight_canyons: flying
+[ExeCheck]   old: after the next launch: cabin count 0, cabin figures shown 0, cabin camera off
+[ExeCheck]   cabin camera picture f82_cabin_old_relaunch.png
+[Play]   422.9 music flight_canyons: flight (automatic)
+[Play]   425.4 voice CONTROL: Recall received. We're coming to get you. It isn't free.
+[ExeCheck]     [436 fps] Auto/dock-rise Flight alt 1499 gnd 998 spd 4 hdg 315 energy 100
+[Play]   429.5 docked (recall): Recall: -900 cr|Energy used 0%. Refuelled 0%: -3 cr
+[Play]   429.5 music hangar: docked
+[Play]   430.3 launch: Halthel-II (Canyons), energy 100 %, hull 100 %, cabin 0, pilots waiting 1
+[Play]   430.3 music flight_canyons: flight (automatic)
+[Play]   430.3 voice CONTROL: Bay doors open. You're clear to drop.
+[Play]   433.5 voice CONTROL: Heads up, this one's hot. Gun turrets on the high ground. Keep low and they can't see you.
+[Play]   437.1 music flight_canyons: flying
+[Play]   438.1 pilot 3 boarded (a real pilot); cabin 1 / 6
+[ExeCheck]   new: put aboard 1; cabin figures shown 1
+[ExeCheck]     [584 fps] Flying/ Hover alt 1433 gnd 1144 spd 32 hdg 315 energy 100
+[Play]   440.5 voice COMPUTER: Pilot aboard.
+[Play]   441.9 voice CONTROL: That's everyone down there. Climb up and come home.
+[ExeCheck]     [242 fps] Flying/ Hover alt 1572 gnd 1173 spd 14 hdg 315 energy 96
+[ExeCheck]     [212 fps] Flying/ Hover alt 1707 gnd 1307 spd 14 hdg 315 energy 93
+[ExeCheck]     [217 fps] Flying/ Hover alt 1847 gnd 1447 spd 14 hdg 315 energy 89
+[ExeCheck]     [221 fps] Flying/ Hover alt 1986 gnd 1587 spd 14 hdg 315 energy 86
+[ExeCheck]     [249 fps] Flying/ Hover alt 2127 gnd 1727 spd 14 hdg 315 energy 82
+[ExeCheck]     [253 fps] Flying/ Hover alt 2266 gnd 1866 spd 14 hdg 315 energy 79
+[ExeCheck]     [257 fps] Flying/ Hover alt 2405 gnd 2006 spd 14 hdg 315 energy 75
+[ExeCheck]     [262 fps] Flying/ Hover alt 2545 gnd 2146 spd 14 hdg 315 energy 72
+[ExeCheck]     [262 fps] Flying/ Hover alt 2685 gnd 2286 spd 14 hdg 315 energy 68
+[ExeCheck]     [262 fps] Flying/ Hover alt 2822 gnd 2422 spd 14 hdg 315 energy 65
+[ExeCheck]     [227 fps] Flying/ Hover alt 2957 gnd 2557 spd 14 hdg 315 energy 62
+[ExeCheck]     [235 fps] Flying/ Hover alt 3093 gnd 2693 spd 14 hdg 315 energy 58
+[ExeCheck]     [276 fps] Flying/ Hover alt 3233 gnd 2833 spd 14 hdg 315 energy 55
+[ExeCheck]     [278 fps] Flying/ Hover alt 3373 gnd 2973 spd 14 hdg 315 energy 51
+[ExeCheck]     [283 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 48
+[ExeCheck]     [295 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 44
+[ExeCheck]     [305 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 41
+[ExeCheck]     [310 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 37
+[ExeCheck]     [302 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 34
+[ExeCheck]     [307 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 30
+[ExeCheck]     [305 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 27
+[ExeCheck]     [303 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 23
+[ExeCheck]     [297 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 20
+[ExeCheck]     [280 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 16
+[Play]   683.1 music flight_canyons +tension: flying + tension (low energy)
+[Play]   683.1 voice COMPUTER: Energy low.
+[Play]   685.0 voice CONTROL: Watch your energy. I can't tow everyone.
+[ExeCheck]     [288 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 13
+[Play]   694.5 voice COMPUTER: Return now.
+[ExeCheck]     [290 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 9
+[ExeCheck]     [291 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 6
+[Play]   717.4 voice COMPUTER: Mothership out of reach.
+[ExeCheck]     [292 fps] Flying/ Hover alt 3504 gnd 3105 spd 0 hdg 315 energy 2
+[Play]   726.0 music flight_canyons: flight (automatic)
+[Play]   726.0 voice COMPUTER: Engines off.
+[Play]   727.5 voice CONTROL: You're out of power. Tow beam's on its way. That's going on your bill.
+[ExeCheck]     [293 fps] Auto/tow-lift Flight alt 3246 gnd 2772 spd 165 hdg 315 energy 0
+[ExeCheck]   TIMED OUT waiting for docked after 150 s (state Auto, phase dock-rise)
+[ExeCheck]   new (Fix 8.2), in the hangar: cabin count 1, cabin figures shown 1, cabin camera on
+[ExeCheck]   cabin camera picture f82_cabin_new_hangar.png
+NullReferenceException: Object reference not set to an instance of an object
+  at HostileHorizon.ExeCheck+<DockRun>d__144.MoveNext () [0x003b5] in <4bb87eabdfc747c38c17e24978da5044>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00023] in <9cbb64a954b741deb68ec58553207f43>:0 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+
+[ExeCheck]     [300 fps] Auto/dock-rise Flight alt 1499 gnd 1082 spd 4 hdg 315 energy 0
+[Play]   739.5 docked: 1 pilot delivered (pilot 3): they leave the ship
+[Play]   739.5 docked (tow): Delivered 1 pilot: +750 cr (planet of the day +50 %: 250 cr of it)|<b>Halthel-II cleared! +1000 credits</b>|Tow: -1500 cr|Energy used 100%. Refuelled 100%: -600 cr
+[Play]   739.5 music hangar: docked
+[Play]   739.5 voice CONTROL: That's the last of them. Planet's clear. Good work down there.
+[ExeCheck]     [482 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [520 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [508 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [517 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [504 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [526 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [509 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [494 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [512 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [535 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [524 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [517 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [527 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [484 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [508 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [515 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [529 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [509 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [522 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [529 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [516 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [513 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [528 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [495 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [503 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [530 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [502 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [532 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [496 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [498 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [518 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [524 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [522 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [521 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [523 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [566 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [457 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [520 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [511 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [512 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [508 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [345 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [477 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [498 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100
+[ExeCheck]     [526 fps] Docked/docked Hover alt 1500 gnd 1082 spd 0 hdg 315 energy 100

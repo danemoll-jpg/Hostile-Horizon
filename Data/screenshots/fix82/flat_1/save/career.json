@@ -1,0 +1,85 @@
+{
+    "version": 1,
+    "systemSeed": 8282,
+    "systemName": "Meron",
+    "credits": 1147,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261108,
+            "name": "Halthel-II",
+            "tier": 0,
+            "pilots": [
+                1,
+                1,
+                1
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 20:10:15",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 3,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 3,
+        "pilotsLost": 0,
+        "creditsEarned": 3250,
+        "creditsSpent": 5103,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 3,
+        "tows": 2,
+        "recalls": 1,
+        "aliensKilled": 0,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [],
+    "started": "2026-11-08 20:10",
+    "lastSaved": "2026-11-08 20:20:50",
+    "currentSeed": 20261108,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    }
+}

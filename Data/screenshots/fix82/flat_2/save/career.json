@@ -1,0 +1,110 @@
+{
+    "version": 1,
+    "systemSeed": 8282,
+    "systemName": "Meron",
+    "credits": 2640,
+    "ship": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "loaner": {
+        "damage": 0.0,
+        "energy": 100.0,
+        "wrecked": false,
+        "upgrades": []
+    },
+    "flyingLoaner": false,
+    "planets": [
+        {
+            "seed": 20261108,
+            "name": "Halthel-II",
+            "tier": 0,
+            "pilots": [
+                1,
+                1,
+                1
+            ],
+            "alien": [
+                0,
+                0,
+                0
+            ],
+            "quirk": [
+                0,
+                0,
+                0
+            ],
+            "cleared": true,
+            "bonusPaid": true,
+            "visits": 1,
+            "biome": "canyons",
+            "biomeSet": true,
+            "lastVisit": "2026-11-08 20:32:06",
+            "enemiesDown": [],
+            "enemiesKey": "2/1",
+            "turrets": 3,
+            "saucers": 0,
+            "distressCheck": "",
+            "distressRolls": 0,
+            "distressNew": 0,
+            "distress": false,
+            "distressSaid": false
+        }
+    ],
+    "stats": {
+        "pilotsRescued": 3,
+        "pilotsLost": 0,
+        "creditsEarned": 3250,
+        "creditsSpent": 3610,
+        "deaths": 0,
+        "planetsCleared": 1,
+        "sorties": 4,
+        "tows": 0,
+        "recalls": 4,
+        "aliensKilled": 0,
+        "turretsDestroyed": 0,
+        "saucersDestroyed": 0
+    },
+    "journal": [
+        {
+            "type": 1,
+            "encounters": 1,
+            "killed": 1,
+            "killedYou": 0,
+            "firstPlanet": "Halthel-II",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 3,
+            "encounters": 1,
+            "killed": 1,
+            "killedYou": 0,
+            "firstPlanet": "Halthel-II",
+            "firstSeen": "2026-11-08"
+        },
+        {
+            "type": 5,
+            "encounters": 1,
+            "killed": 1,
+            "killedYou": 0,
+            "firstPlanet": "Halthel-II",
+            "firstSeen": "2026-11-08"
+        }
+    ],
+    "started": "2026-11-08 20:32",
+    "lastSaved": "2026-11-08 20:33:20",
+    "currentSeed": 20261108,
+    "planetsMade": 0,
+    "difficulty": {
+        "preset": 1,
+        "enemies": 2,
+        "aggression": 1,
+        "alienShare": 1,
+        "tells": 1,
+        "falseTells": 0,
+        "crashLevel": 3,
+        "pay": 1
+    }
+}

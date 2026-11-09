@@ -168,25 +168,162 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 9 (to be written by the planning chat)
+Current Objective — Round 9: Fix 8.3 (A), missions (B), own wreck (C), insurance (D), best runs (E), time trial (F), harder enemies on Hard / Nightmare (G)
 ---------------------------------------------------------------------------
 
-Fix 8.2 is delivered as 0.8.2 (status under "Previous deliveries"). Next: Round 9
-(missions and more progression), written by Dan and the planning chat.
+Fix 8.2 is delivered as 0.8.2 (status under "Previous deliveries"). Round 9
+(missions and more progression) comes after this fix.
+
+Dan (2026-11-08):
+- "Both holes in the mothership have jaggies."
+- "My ship has a black / grey box in the rear which I don't believe belongs
+  there."
+
+0. **Commit first** (the repo as it is, with this text; the untracked
+   `Data/screenshots/fix82/` files with it).
+1. **Clean mothership openings.** Both openings in the mothership's hull (the
+   bay cut out of the Meshy hull, Round 8 B1) have jagged edges. Cut them
+   cleanly in Blender (a smooth outline) and give each a proper frame / lip
+   (hull plating turning inward, trim, lights along the edge) so they look
+   built, not cut. Check the rest of the mothership from outside and from the
+   bay for other jagged cuts. **Check:** pictures of both openings from the
+   approach, during docking and from inside the bay, before / after.
+2. **The grey box at the back of the ship.** Find what it is (a leftover
+   collision / placeholder box, a Round 1-7 part such as the old airlock,
+   cabin or engine block showing through the new Meshy hull, a camera / light
+   helper, the cabin room poking out). Remove it or hide it inside the hull;
+   if it is something the game needs (the cabin room, a collider), keep it
+   invisible from outside. Check the whole ship from every chase / landing view
+   for any other leftover old parts. **Check:** pictures of the ship's rear
+   from the chase view, landing view and the mothership bay, before / after;
+   say what the box was.
+3. **Publish as 0.8.3**, update `TODO.md` (per-item status, what the box was)
+   and `CLAUDE.md`, commit and push.
+
+2b. **Dan's Steam library artwork and the launcher cover** (Dan, 2026-11-08:
+   "I added these three which I want part of the file so that I can update
+   Steam Deck. I also want the launcher to use the portrait version.")
+   Dan's images are in **`SourceArt/Title/SteamDeck/`** (where he saved them):
+   `hostile-horizon-portrait-600x900.png`, `hostile-horizon-landscape-920x430.png`,
+   `hostile-horizon-logo.png` (opaque dark-teal background), plus the full-size
+   masters and `generation-notes.txt`. Use these originals.
+   `SourceArt/Title/Dan/` holds re-saved copies the planning chat made from the
+   chat upload: **delete that folder** (duplicates).
+   - **Launcher cover = the portrait** (`hostile-horizon-portrait-600x900.png`) in place
+     of the old `HostileHorizonCover.png`; check it fits the launcher window
+     without stretching or cropping the title.
+   - **The starter package and the game folder ship all Steam artwork** beside
+     the launcher, named for what Steam calls them: `HostileHorizon-Portrait.png`
+     (library capsule / grid), `HostileHorizon-Wide.png` (wide capsule / header),
+     `HostileHorizon-Hero.png` (the library's big banner: make it 1920 x 620
+     from `SteamDeck/hostile-horizon-landscape-master.png` (full resolution),
+     no title text if a clean crop allows, so the logo can sit on it),
+     `HostileHorizon-Logo.png` (make a **transparent** version of Dan's logo by
+     removing the dark-teal background with clean edges), and the existing
+     icon. The old poster is replaced by the portrait.
+   - Since existing installs update through the launcher, also put the artwork
+     where an existing install gets it (the launcher's top folder on the next
+     update), so Dan doesn't need a fresh install to get the files on the Deck.
+   - **README-LAUNCHER.md** (Steam Deck section): how to set each one in Steam
+     (Desktop Mode: right-click the game → Manage → Set custom artwork for the
+     portrait; the hero, logo and wide image through the library page's
+     right-click / Properties options as Steam names them), and which file goes
+     where. Tell Dan the steps in the status too.
+   - **Check:** the launcher's window with the new cover (picture); the
+     transparent logo over the hero (picture); the files present in the starter
+     ZIP and in an updated install's top folder.
+
+**For Dan to check:** the mothership openings while docking; the ship's rear in
+the chase view. The launcher's portrait cover; set the Steam artwork on the Deck
+from the files beside the launcher.
+
+**Dan (2026-11-08): fold Round 9 and the time trial into this round, and put the
+harder enemies on the harder difficulty settings.** So this round is **Round 9**:
+Part A = Fix 8.3 (items 0-2 above; commit), Parts B-G below (commit after each).
+One publish at the end: **0.9.0** (item 3 above is replaced by the end of the
+round below).
+
+**Part B — side missions**
+B1. Each planet gets 1-3 optional **objectives**, chosen by its seed (planet of
+    the day included), listed in the hangar and on the star map, announced by
+    Control at launch, tracked on a cockpit display and the HUD:
+    - **Recover the flight recorder:** land at a marked crash site and hold the
+      airlock button for about 8 s to pull it aboard (engines off, like a
+      pickup; anything nearby can still come for you).
+    - **Knock out the turret cluster:** 3-5 turrets guarding one valley.
+    - **Timed rescue:** one pilot's life support runs out (a countdown shown
+      on the radar); rescue and dock before it hits zero.
+    - **Clean run:** clear the planet without hull damage.
+B2. Rewards in credits (tuning), paid at docking; completion shown on the star
+    map. Failing one costs nothing except the reward (the timed pilot is lost).
+B3. Voice lines (Control briefings, completions) with ElevenLabs.
+
+**Part C — recover your own wreck**
+C1. After a death, a third choice next to Pay recovery / Take the loaner:
+    **Recover it yourself** (free): you launch in the loaner; the wreck is
+    marked on the radar and the route trail; land at it, engines off, hold the
+    airlock button for about 12 s to salvage it. Danger as anywhere on the
+    planet (aliens, turrets, saucers), plus a chance something is waiting at the
+    wreck (tuning). Success: at the next dock your own ship (with its upgrades)
+    is back and the loaner returned. Dying on the way: the wreck stays where it
+    is (pay or try again).
+
+**Part D — insurance**
+D1. In the hangar before launch: **Insure this flight** for a fee (a share of the
+    ship's value, tuning). If you die on that flight, recovery costs much less
+    (tuning, starting 20 % of the normal fee). Shown in the hangar and on the
+    death screen. Pilots aboard are never covered.
+
+**Part E — best runs**
+E1. Per planet: fastest clear, most credits earned, fewest hull hits, cleared
+    without dying; shown on the star map, with the planet of the day's best
+    picked out. Career stats get the totals.
+
+**Part F — Free Flight time trial** (decided earlier)
+F1. In Free Flight: **Time trial** mode: a course of glowing gates through the
+    canyons / forest / city / ice / lava / crystals / islands, generated from
+    the seed so the same seed is the same course; a timer, split times, missed
+    gates cost time, a best time per seed and biome.
+F2. A **ghost** of your best run you can race (a translucent ship), on by
+    default, switchable.
+F3. Course length about 2-3 minutes; the crash level setting applies.
+
+**Part G — tougher enemies on the harder settings** (the deferred "more of a
+threat", Dan: "put [it] on a harder mode")
+G1. **Easy and Normal stay exactly as now.**
+G2. **Hard:** turrets lead their shots and hit a ship crossing at mid range
+    some of the time (target: about 1 shot in 6 at 650 m on a straight
+    crossing); saucers actively hunt (they search for the ship, not just react
+    when they see it); more turrets. **Nightmare:** more again (about 1 in 4,
+    faster fire, more saucers that work in pairs). All numbers in the tuning
+    file (`turretLead`, `turretAimError`, `boltHitRadius` per preset);
+    Custom's aggression slider covers the same range.
+G3. Fairness: the warnings (incoming-fire markers, LOCKED ON) and dodgeable
+    bolts stay; pads stay out of sight on Hard where Round 5 said so.
+
+**Check (muted, no focus, per the testing rules):** each part in the built exe:
+a side mission of each kind completed and paid; the timed pilot lost when the
+clock runs out; a wreck recovered yourself (and a death on the way); insurance
+cutting the fee; best runs recorded; a time trial course run twice (same course,
+ghost, best time); Hard / Nightmare hit rates measured against the targets
+(two tuning attempts at most, then report); Normal unchanged (same numbers as
+Round 5).
+
+**End of the round:** publish **0.9.0**, update `TODO.md` (per-item status for
+Fix 8.3 and B1-G3: done / not done / deferred and why; what the grey box was;
+tuning values) and `CLAUDE.md`, clean up, commit and push.
+
+**For Dan to check (Parts B-G):** the side missions; recovering your own wreck;
+insurance; the star map's best runs; a time trial with the ghost; Hard and
+Nightmare enemies.
+
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 9 — Missions and more progression:** mission objectives (recover a
-  flight recorder, knock out a turret cluster, timed rescues, no-damage runs),
-  recovering your own wreck yourself, insurance, best run per planet.
-- **Enemies more of a threat** (DEFERRED by Dan 2026-11-07 until he's used to
-  them; not decided against): turrets that hit a moving ship sometimes on
-  Normal, saucers that hunt, more fire. Round 5's tuning note
-  (`turretLead`, `turretAimError`, `boltHitRadius`) applies.
-- **Free Flight time trial** (DECIDED yes): gates, timer, best time per seed.
-  After Round 9 unless Dan moves it.
+Nothing queued after Round 9 yet: Dan and the planning chat decide what comes next
+(ideas so far, not decided: native Quest, more biomes, more alien types).
 
 ---------------------------------------------------------------------------
 Previous deliveries

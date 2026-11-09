@@ -1,0 +1,15 @@
+Hostile Horizon Steam library artwork
+Generated with the built-in image_gen tool using project asset references.
+Landscape export: 920 x 430 PNG. Portrait export: 600 x 900 PNG.
+Full-resolution generated masters are included alongside the exports.
+References: SourceArt/Meshy/{ship,pilot,stalker}/render_34.png and SourceArt/Title/HostileHorizonCover.png.
+The landscape output was also used as a style reference for the portrait.
+
+Shared prompt:
+Create premium cinematic painted-realistic sci-fi game key art for HOSTILE HORIZON, a canyon rescue flight game with lurking alien impostors. Use supplied local game asset renders as faithful design references: image 1 exact compact worn white rescue shuttle with orange stripes, black multi-pane cockpit, twin engine pods and twin tail fins; image 2 orange flight-suit pilot with white helmet black visor and grey armor; image 3 sinewy brown long-clawed stalker alien; image 4 layered rust sandstone canyon environment reference only, replace its typography. Preserve recognizable designs and proportions. Dramatic teal dusk sky, copper sunset canyon rim light, atmospheric haze. Ship banking low through steep sedimentary canyons, small stranded pilot on ledge, stalker partly concealed in foreground shadow. Strong elegant composition, credible scale, crisp ship silhouette, premium detailed illustration with restrained film grain, suspense and rescue adventure. Exact only text HOSTILE HORIZON in two bold stacked lines, warm ivory geometric cinematic sans-serif lettering, very legible at thumbnail size, no tagline, no badges, no Steam logo, no borders or watermark.
+
+Landscape composition: wide 92:43; title on left, ship center-right, pilot and stalker lower-right. Essential elements within safe margins.
+Portrait composition: 2:3; matching typography and palette, title at top, ship across middle, pilot signaling below and stalker bottom-right.
+Exports resized with high-quality bicubic interpolation using System.Drawing.
+
+Logo-only variant: built-in image_gen. Prompt: Minimal logo-only title card; HOSTILE above HORIZON, centered bold ivory geometric uppercase lettering matching the cover, on deep dark teal, no scenery or decorative elements. Transparent generation attempts produced artifacts; final delivered logo uses an opaque teal background.
