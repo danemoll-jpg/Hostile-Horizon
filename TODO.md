@@ -168,154 +168,10 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 9: Fix 8.3 (A), missions (B), own wreck (C), insurance (D), best runs (E), time trial (F), harder enemies on Hard / Nightmare (G)
+Current Objective — none: Round 9 delivered as 0.9.0 (status under "Previous deliveries")
 ---------------------------------------------------------------------------
 
-Fix 8.2 is delivered as 0.8.2 (status under "Previous deliveries"). Round 9
-(missions and more progression) comes after this fix.
-
-Dan (2026-11-08):
-- "Both holes in the mothership have jaggies."
-- "My ship has a black / grey box in the rear which I don't believe belongs
-  there."
-
-0. **Commit first** (the repo as it is, with this text; the untracked
-   `Data/screenshots/fix82/` files with it).
-1. **Clean mothership openings.** Both openings in the mothership's hull (the
-   bay cut out of the Meshy hull, Round 8 B1) have jagged edges. Cut them
-   cleanly in Blender (a smooth outline) and give each a proper frame / lip
-   (hull plating turning inward, trim, lights along the edge) so they look
-   built, not cut. Check the rest of the mothership from outside and from the
-   bay for other jagged cuts. **Check:** pictures of both openings from the
-   approach, during docking and from inside the bay, before / after.
-2. **The grey box at the back of the ship.** Find what it is (a leftover
-   collision / placeholder box, a Round 1-7 part such as the old airlock,
-   cabin or engine block showing through the new Meshy hull, a camera / light
-   helper, the cabin room poking out). Remove it or hide it inside the hull;
-   if it is something the game needs (the cabin room, a collider), keep it
-   invisible from outside. Check the whole ship from every chase / landing view
-   for any other leftover old parts. **Check:** pictures of the ship's rear
-   from the chase view, landing view and the mothership bay, before / after;
-   say what the box was.
-3. **Publish as 0.8.3**, update `TODO.md` (per-item status, what the box was)
-   and `CLAUDE.md`, commit and push.
-
-2b. **Dan's Steam library artwork and the launcher cover** (Dan, 2026-11-08:
-   "I added these three which I want part of the file so that I can update
-   Steam Deck. I also want the launcher to use the portrait version.")
-   Dan's images are in **`SourceArt/Title/SteamDeck/`** (where he saved them):
-   `hostile-horizon-portrait-600x900.png`, `hostile-horizon-landscape-920x430.png`,
-   `hostile-horizon-logo.png` (opaque dark-teal background), plus the full-size
-   masters and `generation-notes.txt`. Use these originals.
-   `SourceArt/Title/Dan/` holds re-saved copies the planning chat made from the
-   chat upload: **delete that folder** (duplicates).
-   - **Launcher cover = the portrait** (`hostile-horizon-portrait-600x900.png`) in place
-     of the old `HostileHorizonCover.png`; check it fits the launcher window
-     without stretching or cropping the title.
-   - **The starter package and the game folder ship all Steam artwork** beside
-     the launcher, named for what Steam calls them: `HostileHorizon-Portrait.png`
-     (library capsule / grid), `HostileHorizon-Wide.png` (wide capsule / header),
-     `HostileHorizon-Hero.png` (the library's big banner: make it 1920 x 620
-     from `SteamDeck/hostile-horizon-landscape-master.png` (full resolution),
-     no title text if a clean crop allows, so the logo can sit on it),
-     `HostileHorizon-Logo.png` (make a **transparent** version of Dan's logo by
-     removing the dark-teal background with clean edges), and the existing
-     icon. The old poster is replaced by the portrait.
-   - Since existing installs update through the launcher, also put the artwork
-     where an existing install gets it (the launcher's top folder on the next
-     update), so Dan doesn't need a fresh install to get the files on the Deck.
-   - **README-LAUNCHER.md** (Steam Deck section): how to set each one in Steam
-     (Desktop Mode: right-click the game → Manage → Set custom artwork for the
-     portrait; the hero, logo and wide image through the library page's
-     right-click / Properties options as Steam names them), and which file goes
-     where. Tell Dan the steps in the status too.
-   - **Check:** the launcher's window with the new cover (picture); the
-     transparent logo over the hero (picture); the files present in the starter
-     ZIP and in an updated install's top folder.
-
-**For Dan to check:** the mothership openings while docking; the ship's rear in
-the chase view. The launcher's portrait cover; set the Steam artwork on the Deck
-from the files beside the launcher.
-
-**Dan (2026-11-08): fold Round 9 and the time trial into this round, and put the
-harder enemies on the harder difficulty settings.** So this round is **Round 9**:
-Part A = Fix 8.3 (items 0-2 above; commit), Parts B-G below (commit after each).
-One publish at the end: **0.9.0** (item 3 above is replaced by the end of the
-round below).
-
-**Part B — side missions**
-B1. Each planet gets 1-3 optional **objectives**, chosen by its seed (planet of
-    the day included), listed in the hangar and on the star map, announced by
-    Control at launch, tracked on a cockpit display and the HUD:
-    - **Recover the flight recorder:** land at a marked crash site and hold the
-      airlock button for about 8 s to pull it aboard (engines off, like a
-      pickup; anything nearby can still come for you).
-    - **Knock out the turret cluster:** 3-5 turrets guarding one valley.
-    - **Timed rescue:** one pilot's life support runs out (a countdown shown
-      on the radar); rescue and dock before it hits zero.
-    - **Clean run:** clear the planet without hull damage.
-B2. Rewards in credits (tuning), paid at docking; completion shown on the star
-    map. Failing one costs nothing except the reward (the timed pilot is lost).
-B3. Voice lines (Control briefings, completions) with ElevenLabs.
-
-**Part C — recover your own wreck**
-C1. After a death, a third choice next to Pay recovery / Take the loaner:
-    **Recover it yourself** (free): you launch in the loaner; the wreck is
-    marked on the radar and the route trail; land at it, engines off, hold the
-    airlock button for about 12 s to salvage it. Danger as anywhere on the
-    planet (aliens, turrets, saucers), plus a chance something is waiting at the
-    wreck (tuning). Success: at the next dock your own ship (with its upgrades)
-    is back and the loaner returned. Dying on the way: the wreck stays where it
-    is (pay or try again).
-
-**Part D — insurance**
-D1. In the hangar before launch: **Insure this flight** for a fee (a share of the
-    ship's value, tuning). If you die on that flight, recovery costs much less
-    (tuning, starting 20 % of the normal fee). Shown in the hangar and on the
-    death screen. Pilots aboard are never covered.
-
-**Part E — best runs**
-E1. Per planet: fastest clear, most credits earned, fewest hull hits, cleared
-    without dying; shown on the star map, with the planet of the day's best
-    picked out. Career stats get the totals.
-
-**Part F — Free Flight time trial** (decided earlier)
-F1. In Free Flight: **Time trial** mode: a course of glowing gates through the
-    canyons / forest / city / ice / lava / crystals / islands, generated from
-    the seed so the same seed is the same course; a timer, split times, missed
-    gates cost time, a best time per seed and biome.
-F2. A **ghost** of your best run you can race (a translucent ship), on by
-    default, switchable.
-F3. Course length about 2-3 minutes; the crash level setting applies.
-
-**Part G — tougher enemies on the harder settings** (the deferred "more of a
-threat", Dan: "put [it] on a harder mode")
-G1. **Easy and Normal stay exactly as now.**
-G2. **Hard:** turrets lead their shots and hit a ship crossing at mid range
-    some of the time (target: about 1 shot in 6 at 650 m on a straight
-    crossing); saucers actively hunt (they search for the ship, not just react
-    when they see it); more turrets. **Nightmare:** more again (about 1 in 4,
-    faster fire, more saucers that work in pairs). All numbers in the tuning
-    file (`turretLead`, `turretAimError`, `boltHitRadius` per preset);
-    Custom's aggression slider covers the same range.
-G3. Fairness: the warnings (incoming-fire markers, LOCKED ON) and dodgeable
-    bolts stay; pads stay out of sight on Hard where Round 5 said so.
-
-**Check (muted, no focus, per the testing rules):** each part in the built exe:
-a side mission of each kind completed and paid; the timed pilot lost when the
-clock runs out; a wreck recovered yourself (and a death on the way); insurance
-cutting the fee; best runs recorded; a time trial course run twice (same course,
-ghost, best time); Hard / Nightmare hit rates measured against the targets
-(two tuning attempts at most, then report); Normal unchanged (same numbers as
-Round 5).
-
-**End of the round:** publish **0.9.0**, update `TODO.md` (per-item status for
-Fix 8.3 and B1-G3: done / not done / deferred and why; what the grey box was;
-tuning values) and `CLAUDE.md`, clean up, commit and push.
-
-**For Dan to check (Parts B-G):** the side missions; recovering your own wreck;
-insurance; the star map's best runs; a time trial with the ghost; Hard and
-Nightmare enemies.
+Next: Round 10 (the promo video), queued below; the planning chat starts it with Dan.
 
 
 ---------------------------------------------------------------
@@ -363,6 +219,73 @@ Other ideas, not decided: native Quest, more biomes, more alien types.
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Round 9 — Fix 8.3 (A), side missions (B), recover your own wreck (C), insurance (D), best runs (E), time trial (F), tougher enemies on
+Hard / Nightmare (G) (2026-11-09). Published: 0.9.0 (`game-900`, Latest; soundtrack stays `soundtrack-700`) + `starter-900` (not Latest).**
+Exe built 2026-11-09 (final after the G tuning). Commits: plan `7127eb4`, Part A `2bc6e8a`, Parts B-G `dd8e17c` (B-E share the campaign
+files: one commit), G tuning + final checks after it. Evidence `Data/screenshots/round9/`: `partA/` (Blender `before_*` / `after_mother`,
+`box_find/`, `exe2/`), `partB/run4`, `partCDE/run3`, `partF/run2`, `partG/run3` (earlier runs beside them), `launcher/`,
+`update_from_github/`. New check `-exeCheckOnly round9` (`round9a`, `round9b`, `round9c` = C+D+E, `round9f`, `round9g`;
+`Checks/ExeCheck.Round9.cs`). Every run headless, muted (output 0.000 RMS), no window, Below Normal, one at a time.
+- **A0 Commit first — done** (`7127eb4`). **A1 Mothership openings — done.** Cause: the bay and floor shaft were cut by deleting whole
+  faces by their centres (saw-tooth edges). `mothership.py` now slices the hull exactly along the openings' planes, then deletes; both
+  openings lined: a plated lip from the stern skin to the bay liners, a shaft lining from the belly to under the doors, trim, edge lights.
+  Check: Blender before / after, exe pictures from the approach, below, during the recall beam (3 stages) and inside the bay
+  (`partA/exe2/r9a_sheet.png`). No other cuts on the mothership.
+- **A2 The grey box — done. It was the passenger cabin** (`Campaign/Cabin.cs`, built in code in Round 3 for the old hull: 2.9 m wide,
+  1.56 m tall, back wall at z -3.55): the Round 8 Meshy hull is slimmer and only ~1.4 m tall inside, so the cabin's floor, back wall and
+  lower sides poked out under the tail (Blender test: 90-172 of 216 sample points outside the hull). The cabin is needed (passengers,
+  hatch, cabin camera), so it is now drawn only for cameras inside the hull (cockpit, VR head, cabin camera). Check: chase / close chase /
+  landing view / rear / below / side, before (0.8.2's cabin) and after (`partA/exe2/r9a_before_* / r9a_after_*`); the cockpit still sees
+  the hatch. No other leftover parts seen.
+- **2b Steam artwork — done.** Dan's originals (`SourceArt/Title/SteamDeck/`; `SourceArt/Title/Dan/` deleted) ->
+  `python Tools/make_steam_art.py` -> `SourceArt/Title/Steam/`: Portrait 600 x 900 (also the launcher's Cover), Wide 920 x 430, **Hero
+  1920 x 620** (no crop drops the title without cutting the ship: the title is painted out of the sky, the ship whole), **Logo
+  transparent** (background un-mixed into alpha, clean edges; `logo_over_hero.png`), Icon. Shipped in the game folder (`SteamArt/`), the
+  starter ZIP (beside the launcher) and **copied up beside the launcher by the 0.9.0 game on its first start** (`Core/SteamArt.cs`), so
+  an existing install gets them with the update. README-LAUNCHER.md: a table of which file goes where in Steam. Checks: the launcher with
+  the portrait cover (`launcher/auto-5.png`: whole, not stretched); the starter ZIP lists all six beside the launcher; an older install
+  updated from GitHub to 0.9.0 has all six in its top folder ("6 copied", `update_from_github/`).
+- **B1 Side missions — done.** 1-3 per planet from its seed (8 seeds: 3, 1, 2, 2, 2, 1, 3, 1), in the hangar (one line), the star map, at
+  launch by Control, on the cockpit list / HUD and the radar. Check (all kinds forced on one planet): recorder pulled aboard after an 8 s
+  hold (a 3 s hold and let go: not), nest 3 / 3 turrets on the high ground seeing the valley, destroyed; timed pilot picked up with 455 s
+  left; clean run home without a scratch: all four paid at the dock (3450 -> 9200 cr). Second planet: the timed clock run out -> the
+  pilot lost; a 6 % hit -> clean run failed. **B2 — done** (rewards x pay, at the dock; failing costs only the reward). **B3 — done**: 13
+  new Control lines (ElevenLabs; Docs/VOICES.md), not heard by Code (muted).
+- **C1 Recover your own wreck — done.** Third choice in the regeneration bay; the wreck (your ship, burnt) on the radar (WRECK), the route
+  trail and the displays; land, engines off, hold the airlock 12 s; back at the next dock at 60 % hull, upgrades kept, loaner returned.
+  Check: the loaner lost on the way (wreck stays where it was, same choices again), then the salvage (a saucer was waiting: ambush chance
+  .4), own ship back.
+- **D1 Insurance — done.** Hangar row (4 % of the ship's value: 240 cr; select again to cancel); insured wreck's recovery 600 cr instead
+  of 3000 (20 %); on the hangar, the death page and the regeneration bay; pilots never covered.
+- **E1 Best runs — done.** Per planet: fastest clear (flight time), most credits, fewest hull hits, cleared without dying; on the star
+  map with the planet of the day's picked out; career totals (minutes flown, hull hits, clean clears, missions, salvages, insured flights).
+- **F1-F3 Time trial — done.** Free Flight > Time trial / Ghost (On). Course from the seed and planet type (14 km, a gate every 550 m,
+  radius 24 m, a miss +5 s), timer, splits, best per seed + planet type in `trials.json` with its ghost. Check (Ocean Islands, seed 4711,
+  Bounce): 26 gates, same course twice, the ghost of run 1 shown in run 2, best 4:43.8 kept over the slower 4:54.4. The check's simple
+  pilot missed 9 gates by flying low over hills (29-188 m off): for Dan to judge the course at speed.
+- **G1-G3 Harder enemies — done, tuning limit reached** (2 tries). Easy / Normal unchanged (Round 5's lead .9, error 14, radius 3.5; 650 m
+  crossing: Normal 0-1 hits in 57-58 shots). Hard: full intercept lead, error 13 (try 1: 14), saucers search for you: **1 in 6.6-7.2**
+  (target 1 in 6). Nightmare: error 12.5 (try 1: 14), saucers in pairs: **1 in 3.4** (try 1: 1 in 4.5-5.5; target 1 in 4). Turret / saucer
+  counts and fire rate scale as before (tier 3: 12 / 16 / 20 turrets). Warnings, dodgeable bolts and Hard's covered-pad share unchanged.
+  Numbers: `turretLeadLevels`, `turretInterceptLevels`, `turretAimErrorLevels` (14, 14, 13, 12.5), `boltHitRadiusLevels`,
+  `saucerHuntLevels`, `saucerPairLevels`, `saucerHuntRadius` 600, `saucerHuntEvery` 15.
+- **End — done.** Published 0.9.0 + starter-900; CLAUDE.md updated. Clean-up: 11.5 GB -> 9.2 GB.
+
+**Tuning added (CampaignTuning.json):** missions 1-3; rewards recorder 700, nest 1000, timed 800, clean 900; recorder hold 8 s within 70 m;
+nest 3-5 turrets within 380 m; timed 540 s; salvage hold 12 s within 70 m, back at 40 % damage, ambush .4 at 1100 m; insurance 4 %,
+insured recovery 20 %; trial 14 km, legs 1.1-1.9 km, gates 550 m apart (first 350 m), radius 24 m, miss +5 s; the G tables above.
+
+**Steam artwork on the Deck (for Dan):** start the launcher once (it updates to 0.9.0 and starts the game: the game puts the six
+`HostileHorizon-*.png` files beside the launcher; the launcher shows the portrait from its next start). Then in Desktop Mode, Steam
+Library: right-click the game -> Manage -> Set custom artwork -> `HostileHorizon-Portrait.png`; the game's tile in the Recent games shelf ->
+Manage -> Set custom artwork -> `HostileHorizon-Wide.png`; on the game's page right-click the empty banner -> Set custom background ->
+`HostileHorizon-Hero.png`, and Set custom logo -> `HostileHorizon-Logo.png` (Adjust logo position if wanted); Properties -> the icon
+square -> `HostileHorizon-Icon.png`.
+
+**For Dan to check:** the mothership openings while docking; the ship's rear in the chase view; the launcher's cover; the Steam artwork
+on the Deck; the side missions (Control's lines by ear); recovering your own wreck; insurance; the star map's best runs; a time trial with
+the ghost (are the gates well placed at speed?); Hard and Nightmare enemies (hit rates just off target: your call).
 
 **Fix 8.2 — relaxed hands, cockpit fixes, docking pilots, menus in VR (2026-11-08). Published: 0.8.2 (`game-802`, Latest; soundtrack
 stays `soundtrack-700`).** Exe built 2026-11-08 20:46. Evidence `Data/screenshots/fix82/`: `flat_3/` and `vr_3/` (final; `vr_2/` = the
@@ -435,55 +358,6 @@ RMS), no window, Below Normal, one at a time; `-exeCheckOnly fix81` (flat) and `
 
 **For Dan to check (Quest 3):** scenery in both eyes; look down: body, hands on the stick and throttle moving with the HOTAS, the
 trigger finger; the floor window in a hover; your left shoulder when looking back.
-
-**Round 8 — the creature in front of the screens (A), new models, sound, credits, Deck numbers (B), VR (C) (2026-11-08). Published:
-0.8.0 (`game-800`, Latest; soundtrack stays `soundtrack-700`).** Exe built 2026-11-08 18:14. Commits: Part A `b0127db`, models `e5ac84f` /
-`1c33830`, B2-C `2ac7c9d`. Evidence `Data/screenshots/round8/`: `partA/` (+ `a_try1`, `a_try2`, `partA_run3`, `partA_run4`: logs of each
-staging try), `partB_models/`, `partB_run1/`, `partB_deck/`, `partB_deck4/`, `partB_deck7/`, `partB_controls/`, `partC_flat/`,
-`partC_noruntime/`, `partC_mock/`. Every run headless, muted (output 0.000 RMS), no window, Below Normal, one at a time (one overlap
-by mistake mid-round: those results were thrown away and run again).
-- **A0 — done** (`bf66b6d`). **A1 — done. Cause:** Round 7 turned the whole creature to look at you with its face 0.65 m out, so its body
-  ran straight out from there, away from you: behind the screens (0.51-0.57 m) and inside the dash, **34-59 % of it hidden** (pixel maps:
-  each frame drawn with and without creature / screens / cockpit / HUD); the screens themselves z-test correctly; the flat HUD stayed on.
-- **A2 — done, residuals for Dan (tuning limit).** HUD / prompts / subtitles hide at the strike (back with the death page). Face 0.40-0.55 m
-  out, body down past your left shoulder toward the hatch (canopy break-in: up over the dash), neck and head turned to you after the
-  animation (`Creature.LookAt` / `FaceAt`). Still hidden: Mimic 13.5 % (shoulder, behind a screen), Knocker 11 %, Stalker 12 % (in the
-  dash); Hollow, Sleeper, all break-ins 0-1 %. **A3 — done** (pictures + `_covered` maps per creature).
-- **B1 — done.** Dan's 10 concepts -> Meshy -> Blender (`hard_cleanup.py`, `meshykit.py`, `render_ship.py`) -> game. Ship: Meshy hull at
-  0.8 (10 m) round `ShipLayout.Eye`, its canopy panes = game glass, hull two-sided, belly window glass; Meshy seat / dash (live screens in
-  its recesses: `ShipLayout.Screen*`) / two consoles; new `Contacts`, airlock door at the hull's painted door (z +0.8), engine glow at the
-  pods. Mothership: Meshy hull, bay cut out, 7 wall modules, cradle, regeneration pod. Turret cut into base / head / gun (pivots measured:
-  ring 2.40, gun (0, 1.07, 1.53), barrel tips 3.1 m), saucer with the game's rim lamps. For Dan: the hangar is dim, the floor window's
-  edge is ragged.
-- **B2 — done.** 16 ElevenLabs sounds (Docs/SOUNDS.md), levelled (`Tools/level_sounds.py`: one-shots -12, engines -16, ambiences -24 LUFS;
-  raws in `SourceArt/Sounds_raw/`): engine idle / cruise loops (crossfaded and pitched by throttle, at the old hum's level: 0.0322 vs
-  0.0313 RMS, music over engine + wind +11.1 dB vs +11.3), gear down / up, airlock, clamp, jump drive, explosion, regen bay, 7 biome
-  ambiences (`AmbienceTick`, tuning `ambienceMix` .5). Not heard by Code (muted): **for Dan to listen**.
-- **B3 — done (on this PC with the Deck setting at 1280 x 800, not on a Deck):** Canyons 1026 fps (1 % low 359), Forest 906 (314), City
-  1096 (263), Ice 841 (287), Volcanic 874 (316), Crystal 723 (242), Ocean 578 (205); no lighter settings needed. Credits / menus /
-  controls pages read at 1280 x 800 (`partB_deck`, `partB_controls`). Fixed on the way: `round4perf` broke at 7 biomes (array of 4).
-- **B4 — done.** Credits page: People / Made with / Licences (JSON for Modern C++ and miniz, MIT; no CC0 assets).
-- **B5 — done.** Pictures in game: cockpit (ahead, down, left, right, back), chase, close chase, landing view, hangar, launch, turret,
-  saucer. Frame rate with the new models: cockpit 824 fps (1 % low 198), close chase 789 (192), 1080p; no same-flight 0.7.0 number.
-- **C1 — done.** OpenXR 1.18.0 + XR Management 4.6.1; `Editor/XrSetup.cs` before every build: OpenXR for Windows, not started with the
-  game, single-pass instanced. **C2 — done.** `Core/VrMode.cs`: only `-vr` or Settings > Display > VR mode (Off by default), never on the
-  Deck; no runtime -> says so, flat, title in 2.3 s (checked); `Play Hostile Horizon (VR).bat`; the launcher passes `-vr` (source + build;
-  installed launchers get it with the next starter package).
-- **C3 — done, 1:1 not provable with the mock.** TrackedPoseDriver on the head, rig = tracking space, Recenter (right-stick click, Home,
-  pause menu; auto at start): head on the eye point after it (0.000 m); cockpit view only. The mock's test API did not move Unity's head
-  pose, so 1:1 head movement is **for Dan**.
-- **C4 — done.** No screen overlay in VR; warning / prompt / subtitle on a strip under the canopy frame; every menu on a 1.34 m board
-  1.4 m ahead (title, pause seen in both eyes). No motion controllers this round (optional).
-- **C5 — done.** Display: Comfort vignette / fade for the jump / horizon line, all Off by default (`Effects/Comfort.cs`).
-- **C6 — done.** Strike staged at the real head in VR (face 0.49 m, nearest 0.34 m in the mock run); creature, knocks, cabin are 3D sounds.
-- **C7 — done.** VR quality preset: view 2200 m, shadows 150 m / 1 cascade, MSAA 2x, render scale 0.9. **Frame times (mock runtime,
-  1512 x 1680 per eye, both eyes):** Canyons 1.0 ms (1 % 4.5), Forest 1.3 (5.1), City 1.0 (4.6), Ice 1.5 (6.0), Volcanic 1.3 (5.0),
-  Crystal 1.6 (5.9), Ocean 1.9 (6.9) vs 13.9 ms (72 Hz) / 11.1 ms (90 Hz). Virtual Desktop's encode is not in these.
-- **C8 — done:** flat (OpenXR never started), no runtime (flat), mock (all above, both eyes' pictures). **For Dan: everything in the Quest.**
-
-**For Dan to check:** the strike (anything still behind the screens?); the new ship / cockpit / mothership / turret / saucer; the hangar's
-light; the sounds (engine, gear, ambiences: levels by ear); the Deck. VR: `Play Hostile Horizon (VR).bat` with Virtual Desktop running:
-the head following you, Recenter, menus, the strip, the scares, the frame rate.
 
 ---------------------------------------------------------------------------
 Technical Notes / Blockers

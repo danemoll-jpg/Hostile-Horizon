@@ -573,13 +573,20 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 9 (A: the mothership's openings cut cleanly and lined; the grey box at the ship's rear was the code-built cabin poking out of
+the Round 8 hull, now drawn only from inside; Dan's Steam artwork in the game, the starter and copied beside the launcher by the game,
+the portrait as the launcher's cover. B: side missions (recorder, turret nest, timed rescue, clean run); C: recover your own wreck in
+the loaner; D: insurance; E: best runs per planet and career totals; F: the Free Flight time trial with splits, best times and a ghost;
+G: tougher enemies on Hard / Nightmare only (Hard 1 in 6.6-7.2 hits, Nightmare 1 in 3.4 at 650 m: tuning limit, for Dan); Easy / Normal
+unchanged) is built, checked in the exe (headless, muted, `round9a` .. `round9g`), and published as 0.9.0 (`game-900` Latest) +
+`starter-900` (not Latest); an older install updated from GitHub got all six artwork files. Not yet played by Dan.** Details and the
+Deck artwork steps in `TODO.md` (Round 9 delivery). **Next: Round 10 (promo video)**, queued in `TODO.md`.
 **Fix 8.2 (hands still on the stick and throttle: causes: chest / neck turns piled up every frame and the torso followed the head;
 hands now within 0.6 mm of their place on the controls over 60 s, 0.8.1's slid 149-249 mm; the throttle level with the stick; rescued
 pilots leave the ship at the dock (the cabin was never redrawn after the debrief); VR menus 1.0 m out, drawn over the cockpit (0.8.1's
 board was 98 % hidden looking down), opened where you look; Journal left / right between kinds; the right console textured (a second,
 unfilled material slot); the windshield sliver made glass) is built, checked in the exe (headless, muted, `fix82` flat and on the mock
-VR runtime) and published as 0.8.2 (`game-802` Latest). Not yet seen by Dan.** Details in `TODO.md` (Fix 8.2 delivery). **Next: Round 9**,
-to be written by the planning chat.
+VR runtime) and published as 0.8.2 (`game-802` Latest). Not yet seen by Dan.** Details in `TODO.md` (Fix 8.2 delivery). Round 9 followed (above).
 **Fix 8.1 (VR: the right eye showed blue: none of the 9 custom shaders was single-pass-instanced safe; all are now, and the VR check
 compares the two real eyes (old shaders: 27 / 32 pairs flagged, now 0 / 32); your pilot's body and gloved hands in the seat, the seat
 mirrored so the stick is on the right and the throttle on the left like Dan's HOTAS, both moving with the input; a clean rounded floor
