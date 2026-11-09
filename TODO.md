@@ -168,53 +168,87 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — none: Round 9 delivered as 0.9.0 (status under "Previous deliveries")
+Current Objective — Round 10: the promo video
 ---------------------------------------------------------------------------
 
-Next: Round 10 (the promo video), queued below; the planning chat starts it with Dan.
+Round 9 is delivered as 0.9.0 (status under "Previous deliveries"). Dan
+(2026-11-09): "let's go ahead with the promo round". The plan below was decided
+with Dan on 2026-11-08; **the draft narration is approved** ("sounds good").
+This round makes video files, not a game update: no game release unless a
+game change is needed for the capture (then publish it as 0.9.1).
 
+0. **Commit first** (the repo as it is, with this text).
+1. **Two cuts** from the same footage and narration:
+   - **Trailer:** 60-90 s, 16:9, 1920 x 1080 (4K if the PC renders it in
+     reasonable time), 60 fps, H.264 MP4, for Steam / YouTube.
+   - **Vertical:** 30 s, 9:16, 1080 x 1920, 60 fps, H.264 MP4, for phones /
+     social: its own framing (reframed or separately captured shots), not a
+     letterboxed trailer; text bigger.
+   Output: `Promo/HostileHorizon_Trailer.mp4`, `Promo/HostileHorizon_Vertical.mp4`
+   (git-ignored if large; their capture scripts / edit lists in git).
+2. **Narration by Control** — the in-game Control voice (ElevenLabs, the same
+   voice id), as a radio briefing (the game's radio filter, lighter). The
+   approved script:
+   "This is Control. The colony fleet went down over the frontier. Hundreds of
+   pilots, scattered across worlds that want them dead. ... You fly in low.
+   Below the guns, through the canyons, through the forests, between the
+   towers of dead cities. ... Find them. Land. Open the airlock. ... Just make
+   sure it's really them. ... Fly it with a HOTAS. Step into the cockpit in VR.
+   ... Hostile Horizon."
+   Ending, over black: "Rescue Seven, respond. ... Rescue Seven? ... We've lost
+   contact."
+   The vertical cut uses a shortened version (Code trims it; same voice
+   takes). Subtitles burned in on the vertical cut (phones play muted).
+3. **Footage: real game, captured from the built exe** with scripted cinematic
+   camera paths (a capture mode, e.g. `-promoCapture <shot> <dir>`), rendered
+   **frame by frame at a fixed time step** (no dropped frames, full quality,
+   higher settings than play if the PC allows), **no visible window, muted**
+   (the testing rules; sound is added in the edit). Shot list (Code may add
+   more good-looking shots):
+   - opening: the mothership over a planet; the ship drops out of the bay;
+   - the canyon run low and fast (chase and cockpit views);
+   - a **biome montage**: Giant Forest, Dead City, Ice, Volcanic (lava),
+     Crystal Forest, Ocean Islands (arches);
+   - the **cockpit with the pilot's hands on the HOTAS stick and throttle**,
+     moving with the flying;
+   - **VR**: a cockpit look-around shot that reads as VR (head turning,
+     looking down through the floor window), labelled on screen;
+   - turrets firing, a saucer pass, the ship firing / shield;
+   - the radar and route trail; braking; a landing with the belly camera;
+   - a pilot running to the ship and the **three knocks**;
+   - docking in the mothership;
+   - the **ending**: landed, the knock, the airlock opens... an **alien bursts
+     out at the camera**, hard cut to black, Control's last lines over black,
+     then the title card.
+   Never show a full alien before the ending (only hints: a shadow, a figure
+   at a distance).
+4. **Edit (ffmpeg):** cut to the music and the narration; **score** with Dan's
+   Suno `title_theme` (the trailer), a flight track under the montage if it
+   fits; ElevenLabs / in-game sound effects (engine, wind, shots, knocks, the
+   alien shriek); the narration ducks the music. **Title cards** from Dan's
+   artwork (`SourceArt/Title/SteamDeck/`: the logo, the wide / portrait art),
+   short big on-screen text ("Rescue them.", "Don't let it in."). **Closing
+   card:** the logo, "HOTAS · VR · Steam Deck". No store link or price (none
+   decided yet; Dan can ask later).
+5. **STOP for Dan: rough cut.** Low-res previews of both cuts
+   (`Promo/rough/`), with the narration and music, plus a one-line list of the
+   shots. Wait for Dan's notes before the final render.
+6. **Final render** of both cuts after Dan's notes; check them (length, no
+   black frames except the ending, audio levels: narration clear over music,
+   loudness about -14 LUFS, no clipping; text readable on a phone). Any
+   audible playback for checking follows the testing rule (brief, reported) —
+   prefer measured levels.
+7. **Update `TODO.md`** (per-item status, the file paths, how to re-render)
+   and `CLAUDE.md` (the capture mode and the edit commands), clean up, commit
+   and push. Tell Dan where the two videos are.
+
+**For Dan to check:** the rough cut (step 5), then the two final videos.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
 ---------------------------------------------------------------------------
 
-- **Round 10 — Promo video** (Dan, 2026-11-08: "I also want to have a promo
-  video created after this next update"). **DECIDED with Dan:** after Round 9.
-  1. **Two cuts:** a **60-90 s trailer** (16:9, 1920 x 1080 or 4K, 60 fps,
-     for Steam / YouTube) and a **30 s vertical cut** (9:16, 1080 x 1920, for
-     phones / social), from the same footage and narration.
-  2. **Narrated by Control** (the game's mothership voice, ElevenLabs, same
-     voice as in game), like a mission briefing over radio. It must say the
-     game plays with a **HOTAS** and in **VR** (also on a gamepad and the Steam
-     Deck). Draft script below (Dan approves the final wording before
-     recording).
-  3. **The ending:** the last shot is a rescue at the airlock; an **alien
-     bursts out at the camera**, a hard cut / fade to black (a fade is fine in
-     the video), and over black, Control: "...Rescue Seven, respond. ... We've
-     lost contact." Then the title card and logo.
-  - **How:** real in-game footage, captured from the built game with scripted
-    cinematic camera paths (canyon run, biome montage: forest, city, ice,
-    volcanic, crystal, ocean; cockpit view with the hands on the HOTAS stick and
-    throttle; landing with the belly camera; the knock; turrets and saucers;
-    the mothership launch and docking; a VR-style cockpit look-around), rendered
-    frame by frame at full quality with no visible window and muted; edited with
-    ffmpeg; scored with Dan's Suno `title_theme` (and a flight track); ElevenLabs
-    sound; title cards from Dan's Steam artwork and logo
-    (`SourceArt/Title/SteamDeck/`); on-screen text short and big (readable on a
-    phone); a closing card with the name, "HOTAS · VR · Steam Deck", and the
-    game's version / where to get it as Dan decides.
-  - **STOP for Dan** after a rough cut (low-res preview of both cuts) before
-    the final render.
-  - **Draft narration (Control), for Dan to approve:**
-    "This is Control. The colony fleet went down over the frontier. Hundreds
-    of pilots, scattered across worlds that want them dead. ... You fly in
-    low. Below the guns, through the canyons, through the forests, between
-    the towers of dead cities. ... Find them. Land. Open the airlock. ...
-    Just make sure it's really them. ... Fly it with a HOTAS. Step into the
-    cockpit in VR. ... Hostile Horizon." (Ending, over black:) "Rescue Seven,
-    respond. ... Rescue Seven? ... We've lost contact."
-
-Other ideas, not decided: native Quest, more biomes, more alien types.
+Nothing queued after Round 10. Other ideas, not decided: native Quest, more biomes, more alien types.
 
 ---------------------------------------------------------------------------
 Previous deliveries
