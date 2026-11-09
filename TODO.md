@@ -168,8 +168,70 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — none: Fix 8.1 is delivered (below). Next: Round 9, to be written by the planning chat.
+Current Objective — Fix 8.2: relaxed hands, cockpit fixes, docking pilots, menus in VR
 ---------------------------------------------------------------------------
+
+Fix 8.1 is delivered as 0.8.1 (status under "Previous deliveries"). Dan
+(2026-11-08, Quest 3): "Other than this it all looks great." Round 9 (missions
+and more progression) comes after this fix.
+
+0. **Commit first** (the repo as it is, with this text; leave the untracked
+   `Data/screenshots/fix81/vr_5/` files as they are or commit them with it).
+1. **Relaxed hands.** Dan: "Hands keep moving all over the place. They should
+   just be relaxed on the throttle and flight stick." Find what moves them
+   (IK targets jittering, following the head / torso too much, finger
+   animation, the controls' own motion amplified). The hands rest still and
+   relaxed on the grips; they only move with the stick and throttle
+   themselves (small, smooth), the index finger only on fire. No drifting,
+   shaking or reaching. Check: a minute of flying recorded as hand-position
+   logs plus pictures; hand movement should match the control movement and
+   nothing else.
+2. **Throttle level with the stick.** Dan: "Can we move the throttle more
+   forward so it is even with the flight stick." Move the throttle (and the
+   left hand) forward to the stick's depth, so both hands sit at the same
+   distance from the body, like the real HOTAS on a desk. Update `ShipLayout`.
+3. **Pilots stay aboard after docking (bug).** Dan: "When docking the
+   mothership, the rescued pilots count as being rescued and show as 0 on board
+   but they remain on board." Find why: the count / pay is reset at docking but
+   the pilot objects (cabin models, the cabin camera, cabin chatter, maybe the
+   cabin list used by the Sleeper or the next flight) aren't cleared. Fix: at
+   docking, the rescued pilots leave the ship (seen walking off in the bay if
+   simple, otherwise simply gone), the cabin is empty on the next launch, and
+   nothing from them carries over (voices, cabin camera, Sleeper logic).
+   Check with the `[Play]` log and a cabin-camera picture after re-launch.
+4. **Menus in VR must not clip into the cockpit.** Dan: "Pulled up the menu to
+   look at the journal and it clipped through the cockpit and I couldn't read
+   it." The VR menu board must always be fully visible and readable: placed in
+   the free space in front of the seat (inside the canopy, in front of the
+   dash, not intersecting it), or drawn on top of the cockpit geometry (its own
+   render order, no depth test against the cockpit) so nothing cuts through
+   it; sized and distanced for comfortable reading; recentred to where the
+   player is looking when opened. Check every menu page in VR (both eyes):
+   pause, Settings, the Field Journal with the 3D alien, hangar, star map.
+5. **Field Journal navigation.** Dan: "If an alien was selected, I couldn't go
+   left or right to change. I had to go back a level and select there." On an
+   alien's page, **left / right (stick, hat, D-pad, arrows) goes to the
+   previous / next alien** (skipping unmet ones or showing them as
+   "Unknown"), the 3D view keeps working (rotate / zoom on the other inputs),
+   and the page shows small "◀ Mimic | Knocker ▶" hints. Back still returns to
+   the list.
+6. **The white console on the right needs texture.** A plain white Meshy
+   surface: give it real detail: panel lines, worn paint, labels / small
+   switches, a material that isn't flat white (the art pipeline if a new model
+   is needed: STOP for Dan; otherwise texture it in Blender / with materials).
+   Check other cockpit surfaces for the same flat-white problem.
+7. **A jagged piece at the top left of the windshield.** Remove it: find the
+   stray Meshy geometry (or the canopy cut) at the windshield's top left and
+   clean it in Blender; check the whole canopy frame from the eye for any other
+   jagged bits.
+8. **Check (muted, no focus):** the items above, VR pictures in both eyes where
+   it applies (mock runtime), before / after.
+9. **Publish as 0.8.2**, update `TODO.md` (per-item status, the causes found
+   for 1 and 3) and `CLAUDE.md`, commit and push.
+
+**For Dan to check (Quest 3):** hands calm on the controls; the throttle level
+with the stick; docking empties the cabin; the Journal readable in VR and left
+/ right between aliens; the right console; the windshield's top left.
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
