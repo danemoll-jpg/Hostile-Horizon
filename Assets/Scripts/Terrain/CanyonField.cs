@@ -584,7 +584,7 @@ namespace HostileHorizon
 
         public const float TreeCell = 64f, PropCell = 256f;
         public struct Tree { public bool ok; public Vector3 basePos; public float radius, height, yaw; public Vector3 crown, crownSize; public float trunkTop; }
-        public struct Box { public Vector3 c, half; public float yaw; public int kind; }   // kind 0 sky bridge, 1 snow bridge
+        public struct Box { public Vector3 c, half; public float yaw; public int kind; }   // kind 0 sky bridge, 1 snow bridge, 2 sea arch, 3 land bridge (Round 11)
         readonly ConcurrentDictionary<long, Tree> trees = new ConcurrentDictionary<long, Tree>();
         readonly ConcurrentDictionary<long, Box[]> boxes = new ConcurrentDictionary<long, Box[]>();
 
@@ -678,7 +678,62 @@ namespace HostileHorizon
                     }
                 }
             }
+            else if (Biome == Biome.Canyons || Biome == Biome.Volcanic) LandBridge(ci, cj, l);
             list = l.ToArray(); boxes[key] = list; return list;
+        }
+
+        // Round 11 (B2): a natural rock bridge across a canyon (Canyons: sandstone; Volcanic: basalt), wall to wall, in some 256 m cells
+        // where a canyon floor is: from 60 m over the floor (tight) to most of the way up; never within 260 m of a pad (pilots, the
+        // start, Reset) and always at least 20 m over the height the route trail flies there. Solid (a Box, kind 3).
+        public static float BridgeChance = .3f;
+        public static float BridgeSag(Vector3 half) => Math.Min(half.y * 2.4f, 45f);
+        void LandBridge(int ci, int cj, List<Box> l)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                if (R01(ci, cj, 80 + k) > BridgeChance) continue;
+                float x = (ci + .5f) * PropCell + (R01(ci, cj, 83 + k) - .5f) * 150f, z = (cj + .5f) * PropCell + (R01(ci, cj, 86 + k) - .5f) * 150f;
+                if (CanyonT(x, z) > .03f) continue;
+                bool nearPad = false;
+                for (int dj = -1; dj <= 1 && !nearPad; dj++) for (int di = -1; di <= 1 && !nearPad; di++)
+                    { var p = PadAt((int)Math.Floor(x / PadCell) + di, (int)Math.Floor(z / PadCell) + dj); nearPad = p.ok && new Vector2(x - p.x, z - p.z).magnitude < 260f; }
+                if (nearPad) continue;
+                float e = 12f, gx = CanyonT(x + e, z) - CanyonT(x - e, z), gz = CanyonT(x, z + e) - CanyonT(x, z - e);
+                if (gx * gx + gz * gz < 1e-6f) continue;
+                var across = new Vector2(gx, gz).normalized; var along = new Vector2(-across.y, across.x);
+                float floor = Height(x, z);
+                // the route trail's flying height here (RouteTrail: 35 m over the floor, raised where the canyon is narrow)
+                float trail = floor + 35f;
+                for (int u = -1; u <= 1; u++) trail = Math.Max(trail, Height(x + along.x * u * 15f, z + along.y * u * 15f) + 35f);
+                for (int w = -2; w <= 2; w++) if (w != 0) trail = Math.Max(trail, Height(x + across.x * w * 17.5f, z + across.y * w * 17.5f) + 12f);
+                float thick = Noise.Lerp(14f, 30f, R01(ci, cj, 89 + k));
+                float lowest = Math.Max(floor + 60f, trail + 20f);
+                bool tight = R01(ci, cj, 92 + k) < .4f;
+                float rimish = Math.Min(Height(x + across.x * 160f, z + across.y * 160f), Height(x - across.x * 160f, z - across.y * 160f));
+                float highest = floor + (rimish - floor) * .75f - thick;
+                if (highest < lowest) continue;
+                float bottom = tight ? Math.Min(highest, lowest + R01(ci, cj, 95 + k) * 30f) : Noise.Lerp(lowest, highest, R01(ci, cj, 95 + k));
+                float top = bottom + thick;
+                // wall to wall at the bridge's top: march out each way until the rock is above it, then bury the ends 20 m
+                float a = 0, b = 0;
+                for (float q = 4; q <= 220 && a == 0; q += 4) if (Height(x - across.x * q, z - across.y * q) > top + 4f) a = q;
+                for (float q = 4; q <= 220 && b == 0; q += 4) if (Height(x + across.x * q, z + across.y * q) > top + 4f) b = q;
+                if (a == 0 || b == 0) continue;
+                float len = a + b + 40f, mid = (b - a) / 2;
+                var c = new Vector3(x + across.x * mid, (bottom + top) / 2, z + across.y * mid);
+                float yaw = Mathf.Atan2(across.x, across.y) * Mathf.Rad2Deg;   // the box's z axis across the canyon
+                var half = new Vector3(Noise.Lerp(16f, 34f, R01(ci, cj, 98 + k)), thick / 2, len / 2);
+                l.Add(new Box { kind = 3, c = c, half = half, yaw = yaw });
+                // the arch's underside sags toward the walls (BiomeProps.BridgeMesh: sag * u^3, u = 0 mid-span .. 1 at the ends): solid
+                // boxes (kind 4, not drawn) under the outer parts: u .5-.8 down to half the sag, u .8-1 down to all of it
+                float sag = BridgeSag(half), dir = 1; var acr3 = new Vector3(across.x, 0, across.y);
+                for (int side = 0; side < 2; side++, dir = -1)
+                {
+                    l.Add(new Box { kind = 4, c = c + acr3 * dir * half.z * .65f + Vector3.down * (half.y + sag * .26f), half = new Vector3(half.x, sag * .26f, half.z * .15f), yaw = yaw });
+                    l.Add(new Box { kind = 4, c = c + acr3 * dir * half.z * .9f + Vector3.down * (half.y + sag * .5f), half = new Vector3(half.x, sag * .5f, half.z * .1f), yaw = yaw });
+                }
+                return;
+            }
         }
 
         // A point inside something solid that is not the ground (a trunk, a bridge): the way out and how far. Checks the point's own
@@ -708,7 +763,7 @@ namespace HostileHorizon
                     }
                 return depth > 0;
             }
-            if (Biome != Biome.City && Biome != Biome.Ice && Biome != Biome.Ocean) return false;
+            if (Biome != Biome.City && Biome != Biome.Ice && Biome != Biome.Ocean && Biome != Biome.Canyons && Biome != Biome.Volcanic) return false;   // Round 11: land bridges
             int ci = (int)Math.Floor(p.x / PropCell), cj = (int)Math.Floor(p.z / PropCell);
             for (int dj = -1; dj <= 1; dj++)
                 for (int di = -1; di <= 1; di++)

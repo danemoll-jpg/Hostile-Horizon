@@ -82,7 +82,7 @@ namespace HostileHorizon
 
         void Update()
         {
-            if (Field == null || Field.Biome == Biome.Canyons) return;
+            if (Field == null) return;   // Round 11: Canyons has props too (land bridges)
             int r = Mathf.CeilToInt(view / CanyonField.PropCell);
             var fc = new Vector2Int(Mathf.FloorToInt(focus.x / CanyonField.PropCell), Mathf.FloorToInt(focus.z / CanyonField.PropCell));
             // finished jobs
@@ -164,9 +164,10 @@ namespace HostileHorizon
             c.go = new GameObject($"Props {k.x},{k.y}"); c.go.transform.SetParent(transform, false);
             foreach (var b in c.boxes)
             {
-                var g = new GameObject(b.kind == 0 ? "Sky bridge" : b.kind == 1 ? "Snow bridge" : "Rock arch"); g.transform.SetParent(c.go.transform, false);
+                if (b.kind == 4) continue;   // Round 11: a land bridge's abutment (solid only; drawn as part of the bridge)
+                var g = new GameObject(b.kind == 0 ? "Sky bridge" : b.kind == 1 ? "Snow bridge" : b.kind == 3 ? "Land bridge" : "Rock arch"); g.transform.SetParent(c.go.transform, false);
                 g.transform.SetPositionAndRotation(b.c, Quaternion.Euler(0, b.yaw, 0));
-                g.AddComponent<MeshFilter>().sharedMesh = BoxMesh(b.half, b.kind != 0, Mathf.RoundToInt(b.c.x * 3 + b.c.z));
+                g.AddComponent<MeshFilter>().sharedMesh = b.kind == 3 ? BridgeMesh(b.half, Mathf.RoundToInt(b.c.x * 3 + b.c.z)) : BoxMesh(b.half, b.kind != 0, Mathf.RoundToInt(b.c.x * 3 + b.c.z));
                 var mr = g.AddComponent<MeshRenderer>(); mr.sharedMaterial = RockMaterial; mr.shadowCastingMode = ShadowCastingMode.On;
             }
             for (int i = 0; i < c.vents.Count; i++)
@@ -296,7 +297,7 @@ namespace HostileHorizon
             }
             int w = sides + 1;
             for (int r = 0; r < us.Length - 1; r++)
-                for (int s = 0; s < sides; s++) { int a = r * w + s, b = a + 1, c = a + w, d = c + 1; tri.Add(a); tri.Add(c); tri.Add(b); tri.Add(b); tri.Add(c); tri.Add(d); }
+                for (int s = 0; s < sides; s++) { int a = r * w + s, b = a + 1, c = a + w, d = c + 1; tri.Add(a); tri.Add(b); tri.Add(c); tri.Add(b); tri.Add(d); tri.Add(c); }
             var m = new Mesh { name = "Trunk" }; m.SetVertices(v); m.SetColors(col); m.SetTriangles(tri, 0); m.RecalculateNormals(); m.RecalculateBounds(); return m;
         }
 
@@ -364,6 +365,41 @@ namespace HostileHorizon
 
         // A box (the collision box's size); a snow bridge's underside is bumpy (pushed up into the box only, so it never hangs below
         // what collides) and its top a little uneven.
+        // Round 11 (B2): a land bridge: a slab of rock along its box (z across the canyon), its cross-section a rough rounded block, the
+        // top worn (within the box: what you see is what you hit), the underside sagging into thick abutments only in the outer
+        // quarter at each end (inside the canyon walls). Drawn with the rock material (the same textures and strata as the walls).
+        static Mesh BridgeMesh(Vector3 h, int seed)
+        {
+            const int segZ = 28, ring = 16; var nz = new Noise(seed); var v = new List<Vector3>(); var tri = new List<int>();
+            for (int j = 0; j <= segZ; j++)
+            {
+                float t = j / (float)segZ, z = -h.z + 2 * h.z * t, u = Mathf.Abs(t - .5f) * 2;   // 0 mid-span, 1 at the ends
+                float sag = u * u * u * CanyonField.BridgeSag(h);   // an arch: thin in the middle, thick abutments into the walls
+                for (int i = 0; i < ring; i++)
+                {
+                    float a = i / (float)ring * Mathf.PI * 2;
+                    float cx = Mathf.Cos(a), cy = Mathf.Sin(a);
+                    // a superellipse: a block with rounded edges
+                    float px = Mathf.Sign(cx) * Mathf.Pow(Mathf.Abs(cx), .45f), py = Mathf.Sign(cy) * Mathf.Pow(Mathf.Abs(cy), .45f);
+                    float n = nz.Fbm(px * 1.7f + z / 23f, py * 1.7f + z / 31f, 3), n2 = nz.Fbm(z / 60f + 5f, py * .5f, 2);
+                    float x = px * h.x * (.8f + .2f * n), y = py * h.y * (.78f + .22f * n);
+                    if (py > 0) y += (n2 - .5f) * h.y * .5f - h.y * .25f;   // a worn, uneven top (kept inside the box)
+                    if (py < 0) y -= sag * (.7f + .3f * Mathf.Abs(n));
+                    x = Mathf.Clamp(x, -h.x, h.x); if (py >= 0) y = Mathf.Min(y, h.y);
+                    v.Add(new Vector3(x, y, z));
+                }
+            }
+            for (int j = 0; j < segZ; j++)
+                for (int i = 0; i < ring; i++)
+                {
+                    int a = j * ring + i, b = j * ring + (i + 1) % ring, c = a + ring, d = b + ring;
+                    tri.Add(a); tri.Add(b); tri.Add(c); tri.Add(b); tri.Add(d); tri.Add(c);
+                }
+            int c0 = v.Count; v.Add(new Vector3(0, 0, -h.z)); int c1 = v.Count; v.Add(new Vector3(0, 0, h.z));
+            for (int i = 0; i < ring; i++) { tri.Add(c0); tri.Add((i + 1) % ring); tri.Add(i); tri.Add(c1); tri.Add(segZ * ring + i); tri.Add(segZ * ring + (i + 1) % ring); }
+            var m = new Mesh { name = "Land bridge", indexFormat = IndexFormat.UInt32 }; m.SetVertices(v); m.SetTriangles(tri, 0); m.RecalculateNormals(); m.RecalculateBounds(); return m;
+        }
+
         static Mesh BoxMesh(Vector3 h, bool snow, int seed)
         {
             int seg = snow ? 10 : 1; var v = new List<Vector3>(); var tri = new List<int>(); var nz = new Noise(seed);

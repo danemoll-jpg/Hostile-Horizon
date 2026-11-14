@@ -151,7 +151,20 @@ namespace HostileHorizon
             DetailTex = DetailTexture();
             RockMaterial.SetTexture("_Detail", DetailTex);
             RockMaterial.SetTexture("_Strata", StrataTexture(LookFor(Biome.Canyons).strata, 1984));
+            // Round 11 (B1): the CC0 photo-scanned sets (ambientCG Rock029, Ground079S, Rocks011; Tools/make_rock_textures.py)
+            int found = 0;
+            foreach (var (prop, file) in new[] { ("_RockTex", "rock_albedo"), ("_RockNrm", "rock_normal"), ("_GroundTex", "ground_albedo"), ("_GroundNrm", "ground_normal"), ("_ScreeTex", "scree_albedo"), ("_ScreeNrm", "scree_normal") })
+            {
+                var t = Resources.Load<Texture2D>("Textures/Terrain/" + file);
+                if (t) { RockMaterial.SetTexture(prop, t); found++; }
+            }
+            PhotoTextures = found == 6;
+            SetPhoto(true);
         }
+
+        public static bool PhotoTextures { get; private set; }
+        // Round 11: the photo textures on, or the Round 10 look (checks' before / after; also if the textures are missing)
+        public static void SetPhoto(bool on) { if (RockMaterial) RockMaterial.SetFloat("_Photo", on && PhotoTextures ? 1 : 0); }
 
         public struct Quality { public float view, shadow; public int cascades, msaa, shadowLods; }
 
