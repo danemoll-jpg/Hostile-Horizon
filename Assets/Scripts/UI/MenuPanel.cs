@@ -44,6 +44,7 @@ namespace HostileHorizon
         public sealed class Page
         {
             public string Title, Subtitle;
+            public Func<string> SubtitleFn;        // Round 11 (A1): a live subtitle (HOTAS setup: how the HOTAS arrives)
             public Func<string> Body;              // text under the rows (axis display, credits, hints)
             public Func<List<(Texture pic, string label)>> Pictures;   // Fix 3.1: a row of pictures under the rows (the Field Journal)
             public List<Row> Rows = new List<Row>();
@@ -193,7 +194,7 @@ namespace HostileHorizon
         void Refresh()
         {
             var p = Current; if (p == null) return;
-            title.text = p.Title; subtitle.text = p.Subtitle ?? "";
+            title.text = p.Title; subtitle.text = p.SubtitleFn?.Invoke() ?? p.Subtitle ?? "";
             int line = 0;
             for (int i = 0; i < rows.Count; i++) rows[i].text = "";
             cursor.enabled = false;

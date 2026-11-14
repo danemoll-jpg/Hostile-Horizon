@@ -48,6 +48,7 @@ namespace HostileHorizon
         {
             GameSettings.Load();
             Controls.Init();
+            { var hf = HotasProbe.DiagnoseNow(out var hw); PlayLog.Add($"input: Wine / Proton {(HotasProbe.UnderWine ? HotasProbe.WineVersion : "no")}, HOTAS {HotasProbe.FormName(hf)} ({hw})"); }   // Round 11 (A1)
             WorldLook.Create();
             Rig = CameraRig.Create();
             Terrain = new GameObject("Terrain").AddComponent<TerrainStreamer>();

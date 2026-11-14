@@ -57,12 +57,12 @@ namespace HostileHorizon
                 Back = () => Menu.Show(settings), Sheet = controlsSheet.gameObject, Shown = () => controlsSheet.Showing = Controls.LastDevice,
                 CaptureInput = () => InputRecorder.Active, Body = () => InputRecorder.Active || InputRecorder.LastNote != "" ? $"<color=#FFD233>{InputRecorder.Status}</color>" : "" };
             controlsPage.Add(Option("Showing", () => DeviceNames[(int)controlsSheet.Showing], d => controlsSheet.Showing = (Controls.Device)Wrap((int)controlsSheet.Showing + d, 3)))
-                .Add(new MenuPanel.Row { Label = () => "HOTAS setup", Submit = () => Menu.Show(hotasSetup), Visible = () => Controls.HotasPresent })
+                .Add(new MenuPanel.Row { Label = () => "HOTAS setup", Submit = () => Menu.Show(hotasSetup), Visible = () => Controls.HotasPresent || HotasProbe.OnDeckOrProton })   // Round 11 (A1): on the Deck / Proton too, with the fix steps
                 .Add(Action("Record my input (20 s)", InputRecorder.Begin))
                 .Add(Action("Back", () => Menu.Show(settings)));
 
             setupSheet = ControlsSheet.Create(Menu.Root, true); setupSheet.Showing = Controls.Device.Hotas; setupSheet.Report = SetupReport; setupSheet.Top = () => Controls.HotasPresent ? Controls.ThrottleReadout() : "";
-            hotasSetup = new MenuPanel.Page { Title = "HOTAS SETUP", Subtitle = "Thrustmaster T.Flight HOTAS 4", Back = () => { EndCapture(); Menu.Show(controlsPage); },
+            hotasSetup = new MenuPanel.Page { Title = "HOTAS SETUP", SubtitleFn = () => "Thrustmaster T.Flight HOTAS 4" + (HotasProbe.OnDeckOrProton ? "  ·  arrives as: " + HotasProbe.FormName(HotasProbe.Diagnose(out _)) : ""), Back = () => { EndCapture(); Menu.Show(controlsPage); },
                 Sheet = setupSheet.gameObject, CaptureInput = () => InputRecorder.Active || CaptureTick(), RowsShown = 8,
                 Hint = () => InputRecorder.Active ? "Recording: buttons don't act on the menu now, so try any of them" : capture == Capture.None ? Controls.MenuHint(true, Controls.Device.Hotas)
                     : capture == Capture.Identify ? "A button you don't have: wait 8 seconds and it is skipped"
@@ -80,6 +80,7 @@ namespace HostileHorizon
                 {
                     Label = () => h.label, Value = () => Controls.HotasName(Controls.HotasButtonFor(act)),
                     Submit = () => StartAssign(act),   // Fix 6.3: no left / right: only "press a button" changes a job
+                    Visible = () => Controls.HotasPresent,   // Round 11 (A2): without a HOTAS the page shows the Deck steps instead
                 });
             }
             hotasSetup.Add(Action("Reset HOTAS settings", () => Confirm("Reset all HOTAS settings?",
@@ -221,6 +222,8 @@ namespace HostileHorizon
                 case Capture.Identify: return Big($"Press  {Controls.SymbolText(captureIdx)}") + $"\n(lit on the picture; {captureIdx + 1} of {Controls.HotasSymbols.Length}; wait 8 seconds to skip)";
                 case Capture.Assign: return Big($"Press a button for: {Controls.HotasActs[(int)assignAct].label}") + "\n" + captureNote;
             }
+            // Round 11 (A1, A2): under Proton without the HOTAS as a joystick: what reaches the game instead, and the fix steps
+            if (!Controls.HotasPresent && HotasProbe.OnDeckOrProton) { var f = HotasProbe.Diagnose(out var why); return $"<size=18>Found: {why}</size>\n" + HotasProbe.Steps(f); }
             return (captureNote != "" ? $"<color=#FFD233>{captureNote}</color>\n" : "") + Controls.HotasReport();
         }
     }

@@ -21,6 +21,17 @@ B / Esc skips the update and plays the installed game at once. Any other button 
 5. Optional: the library artwork (see **Steam library artwork** below).
 6. Back in Gaming Mode, play it from your library. The launcher updates the game by itself, then starts it. The game opens full screen; on the Deck its **Steam Deck** setting (Settings) is on by itself (a shorter view distance and lighter shadows, for the frame rate).
 
+### A HOTAS on the Steam Deck (Thrustmaster T.Flight HOTAS 4)
+
+By default Steam hands the game a virtual controller instead of the HOTAS (the game then sees "a controller, not a HOTAS" and only part of it works). To give the game the HOTAS itself, in Steam (Desktop or Gaming Mode), on the Hostile Horizon launcher's entry:
+
+1. **Properties → Controller**: set it to **Disable Steam Input**.
+2. **Properties → General → Launch options**: `PROTON_ENABLE_HIDRAW=0x044F/0xB67C %command%` (Proton then passes the HOTAS through raw, exactly as Windows sees it).
+3. Set the switch on the HOTAS base to **PC** (not PS4), and plug the HOTAS in (dock or USB-C adapter) **before** you start the game.
+4. Start the game, then **Settings → Controls → HOTAS setup**: the line under the title says how the HOTAS arrives ("a HID joystick, raw (Proton hidraw)" is the goal; "made by Proton's SDL bus" also works). Use the **Test view** there: move everything and watch it.
+
+If it still isn't right: on the same page choose **Record my input (20 s)**, move and press everything, and send the file. The page shows where it was saved; it is inside the shortcut's Proton prefix, something like `/home/deck/.local/share/Steam/steamapps/compatdata/<number>/pfx/drive_c/users/steamuser/AppData/LocalLow/Hostile Horizon/Hostile Horizon/hotas_input_log.txt` (in Desktop Mode, open it with the Dolphin file manager; the `<number>` folder is the shortcut's own).
+
 ### Steam library artwork
 
 The artwork files are in the top `HostileHorizon` folder, beside the launcher. An install made before version 0.9.0 gets them with the 0.9.0 update: open the game once through the launcher and they appear there (the launcher's own cover changes to the portrait on its next start). Set them in **Desktop Mode**, in Steam's Library:

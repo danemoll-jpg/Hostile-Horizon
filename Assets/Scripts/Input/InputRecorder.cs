@@ -34,6 +34,11 @@ namespace HostileHorizon
             sb.AppendLine($"Hostile Horizon input log {System.DateTime.Now:yyyy-MM-dd HH:mm:ss}, game {Application.version}, {Seconds:0} s");
             var s = GameSettings.S;
             sb.AppendLine($"settings: lever found \"{s.throttleAxisFound}\" (bound {Controls.ThrottleAxisPath}, forward = lowest value {s.leverForwardIsMin}); button names [{string.Join(",", s.hotasSymbolButtons ?? Controls.DefaultSymbolButtons)}] (R2 R1 R3 L1 L2 L3 □ ✕ ○ △ SHARE OPTIONS); jobs [{string.Join(",", s.hotasButtons ?? new int[0])}] ({string.Join(" ", Controls.HotasActs.Select(h => h.label))}); fire / select on button {Controls.FireButton}; calibration [{string.Join(",", (s.hotasCal ?? new float[0]).Select(v => v.ToString("0.00")))}] calibrated {s.hotasCalibrated}");
+            // Round 11 (A3): how the HOTAS arrives (Proton: hidraw / SDL / an Xbox-style pad / Steam Input) and every HID path listed
+            var form = HotasProbe.Diagnose(out var why);
+            sb.AppendLine($"system: {SystemInfo.operatingSystem}; Wine / Proton {(HotasProbe.UnderWine ? "yes " + HotasProbe.WineVersion : "no")}; Steam Deck {SteamDeck.Detected}; SteamAppId {System.Environment.GetEnvironmentVariable("SteamAppId")}; STEAM_COMPAT_DATA_PATH {System.Environment.GetEnvironmentVariable("STEAM_COMPAT_DATA_PATH")}; PROTON_ENABLE_HIDRAW \"{System.Environment.GetEnvironmentVariable("PROTON_ENABLE_HIDRAW")}\"; SDL_GAMECONTROLLER_IGNORE_DEVICES \"{System.Environment.GetEnvironmentVariable("SDL_GAMECONTROLLER_IGNORE_DEVICES")}\"");
+            sb.AppendLine($"HOTAS arrives as: {HotasProbe.FormName(form)} ({why})");
+            sb.AppendLine("HID device paths:"); foreach (var p in HotasProbe.HidPaths()) sb.AppendLine("  " + p);
             sb.AppendLine("devices:");
             foreach (var d in InputSystem.devices)
             {
@@ -89,7 +94,7 @@ namespace HostileHorizon
         {
             Active = false;
             sb.AppendLine($"end: {Changes} changes in {Seconds:0} s");
-            try { Directory.CreateDirectory(Path.GetDirectoryName(FilePath)); File.WriteAllText(FilePath, sb.ToString()); LastNote = $"Saved: {FilePath} ({Changes} changes)"; }
+            try { Directory.CreateDirectory(Path.GetDirectoryName(FilePath)); File.WriteAllText(FilePath, sb.ToString()); LastNote = $"Saved ({Changes} changes): {HotasProbe.RecorderWhere(FilePath)}"; }
             catch (System.Exception e) { LastNote = "Not saved: " + e.Message; }
             Debug.Log("[InputRecorder] " + LastNote);
         }

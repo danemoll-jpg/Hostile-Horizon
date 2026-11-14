@@ -1,0 +1,30 @@
+Hostile Horizon input log 2026-11-14 04:07:54, game 1.0, 20 s
+settings: lever found "" (bound <Joystick>/z, forward = lowest value True); button names [10,1,3,2,9,4,5,6,7,8,11,12] (R2 R1 R3 L1 L2 L3 □ ✕ ○ △ SHARE OPTIONS); jobs [12,2,8,3,5,6,7,11,10,9,4] (Pause Level out Camera view Shield Land / air brakes Engines on / off Airlock · menu back Recall (hold) Belly camera Route target Cabin camera); fire / select on button 1; calibration [-1.00,0.00,1.00,-1.00,0.00,1.00] calibrated True
+system: Windows 11  (10.0.26200); Wine / Proton yes ; Steam Deck False; SteamAppId ; STEAM_COMPAT_DATA_PATH /home/deck/.local/share/Steam/steamapps/compatdata/3141592653; PROTON_ENABLE_HIDRAW ""; SDL_GAMECONTROLLER_IGNORE_DEVICES ""
+HOTAS arrives as: not found (no HOTAS among 0 HID device(s) (1 gamepad(s) seen))
+HID device paths:
+devices:
+  CheckPad  layout Gamepad  product ""  manufacturer ""  interface   id 1
+    /CheckPad/buttonSouth  (Button)  now pressed
+    /CheckPad/buttonWest  (Button)  now released
+    /CheckPad/buttonNorth  (Button)  now released
+    /CheckPad/buttonEast  (Button)  now released
+    /CheckPad/leftStickPress  (Button)  now released
+    /CheckPad/rightStickPress  (Button)  now released
+    /CheckPad/leftShoulder  (Button)  now released
+    /CheckPad/rightShoulder  (Button)  now released
+    /CheckPad/start  (Button)  now released
+    /CheckPad/select  (Button)  now released
+    /CheckPad/leftTrigger  (Button)  now released
+    /CheckPad/rightTrigger  (Button)  now released
+    /CheckPad/dpad/up  (Button)  now released
+    /CheckPad/dpad/down  (Button)  now released
+    /CheckPad/dpad/left  (Button)  now released
+    /CheckPad/dpad/right  (Button)  now released
+    /CheckPad/leftStick/x  (Axis)  now 0.000 (raw 0.000)
+    /CheckPad/leftStick/y  (Axis)  now 0.000 (raw 0.000)
+    /CheckPad/rightStick/x  (Axis)  now 0.000 (raw 0.000)
+    /CheckPad/rightStick/y  (Axis)  now 0.000 (raw 0.000)
+changes (seconds from the start, device, control, value, game action):
+  0.011  CheckPad  /CheckPad/buttonSouth  released  -> Flight/Engines, Flight/Fire, UI/Submit
+end: 1 changes in 20 s
