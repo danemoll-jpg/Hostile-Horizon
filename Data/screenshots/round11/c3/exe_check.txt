@@ -1,0 +1,81 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 75776 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-14 06:35; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+=== Round 11 C: training
+  a career made before training: Selae, 3000 cr; career.json 1388 bytes
+  title rows: Free Flight / Campaign / Training / Settings / Credits / Quit
+  training page rows: 1. Flying / 2. Navigation / 3. Landing / 4. The pickup / 5. Aliens / 6. Combat / 7. Getting home / 8. VR: recentre [VR only] (disabled) / Back
+screenshot r11c_0_lessons.png
+--- lesson 1 (Flying): flying True; 6 steps; step 1 "Pitch: push the nose down and pull it up (left stick)"
+screenshot r11c_l1_step1.png
+screenshot r11c_l1_step2.png
+screenshot r11c_l1_step3.png
+screenshot r11c_l1_step4.png
+screenshot r11c_l1_step5.png
+screenshot r11c_l1_step6.png
+  lesson 1: COMPLETE; saved as done True; log: lesson 1 (Flying) started | step 1 done in 1.7 s | step 2 done in 1.2 s | step 3 done in 1.8 s | step 4 done in 3.0 s | step 5 done in 0.7 s | step 6 done in 1.0 s | lesson 1 complete
+screenshot r11c_l1_complete.png
+--- lesson 2 (Navigation): flying True; 5 steps; step 1 "The radar shows each beacon and its distance. Fly 400 m closer to the nearest one (now 2.5 km)"
+screenshot r11c_l2_step1.png
+screenshot r11c_l2_step2.png
+screenshot r11c_l2_step3.png
+  D-pad → held 0.8 s: radar filter ALL -> PILOTS; step now 4
+screenshot r11c_l2_step4.png
+screenshot r11c_l2_step5.png
+  lesson 2: COMPLETE; saved as done True; log: lesson 2 (Navigation) started | step 1 done in 17.3 s | step 2 done in 0.0 s | step 3 done in 0.8 s | step 4 done in 23.1 s | step 5 done in 0.3 s | lesson 2 complete
+screenshot r11c_l2_complete.png
+--- lesson 3 (Landing): flying True; 4 steps; step 1 "Brake into landing mode: <color=#3D8FE8><b>X</b></color> (the air brakes, then hover)"
+screenshot r11c_l3_step1.png
+screenshot r11c_l3_step2.png
+screenshot r11c_l3_step3.png
+screenshot r11c_l3_step4.png
+  lesson 3: COMPLETE; saved as done True; log: lesson 3 (Landing) started | step 1 done in 18.8 s | step 2 done in 24.5 s | step 3 done in 0.0 s | hint on step 4 | step 4 done in 34.2 s | lesson 3 complete
+screenshot r11c_l3_complete.png
+--- lesson 4 (The pickup): flying True; 5 steps; step 1 "Brake (<color=#3D8FE8><b>X</b></color>), hover over the ring and land on the pad: throttle down (RT / LT)"
+screenshot r11c_l4_step1.png
+screenshot r11c_l4_step2.png
+screenshot r11c_l4_step3.png
+screenshot r11c_l4_step4.png
+screenshot r11c_l4_step5.png
+  lesson 4: COMPLETE; saved as done True; log: lesson 4 (The pickup) started | hint on step 1 | step 1 done in 49.4 s | step 2 done in 0.7 s | step 3 done in 5.8 s | step 4 done in 2.2 s | step 5 done in 0.6 s | lesson 4 complete
+screenshot r11c_l4_complete.png
+--- lesson 5 (Aliens): flying True; 5 steps; step 1 "Land by the beacon, engines off (<color=#6CC24A><b>A</b></color>), and watch who comes"
+  practice aliens: Knocker (tell shown: Knocker) at pad 1, Mimic (tell Mimic) at pad 2, 1893 m away
+screenshot r11c_l5_step1.png
+screenshot r11c_l5_step2.png
+screenshot r11c_l5_step3.png
+screenshot r11c_l5_airlock_camera.png
+  airlock opened to the practice alien: cabin 0, phase "", horror "climbing" (no scare: False); prompt "▶ Keep the airlock shut. Start the engines (<color=#6CC24A><b>A</b></color>): the exhaust burns it"
+screenshot r11c_l5_opened_to_it.png
+screenshot r11c_l5_step4.png
+screenshot r11c_l5_step5.png
+screenshot r11c_l5_canopy.png
+  left on the canopy 12 s past the break-in time: still outside True (clock 9.0 of 10)
+  lesson 5: COMPLETE; saved as done True; log: lesson 5 (Aliens) started | hint on step 1 | step 1 done in 49.8 s | step 2 done in 5.8 s | opened the airlock to the practice alien (stopped: no scare in training) | step 3 done in 7.1 s | hint on step 4 | step 4 done in 100.2 s | step 5 done in 17.8 s | lesson 5 complete
+screenshot r11c_l5_complete.png
+--- lesson 6 (Combat): flying True; 3 steps; step 1 "Shield up: D-pad ← (it stops bolts and uses energy)"
+  targets: Turret 645 m, Saucer 498 m
+screenshot r11c_l6_step1.png
+screenshot r11c_l6_step2.png
+    gun: 7 shots, 4 hits, destroyed after 1.1 s
+screenshot r11c_l6_step3.png
+    gun: 7 shots, 5 hits, destroyed after 1.3 s
+  hull after the fight 100 % (training: hits do no damage)
+  lesson 6: COMPLETE; saved as done True; log: lesson 6 (Combat) started | step 1 done in 1.0 s | hint on step 2 | step 2 done in 31.5 s | step 3 done in 1.3 s | lesson 6 complete
+screenshot r11c_l6_complete.png
+--- lesson 7 (Getting home): flying True; 3 steps; step 1 "RETURN NOW: just enough energy to climb home. Turn toward HOME (its bearing on the display)"
+  energy 17 % (home needs 13 %): RETURN NOW; HOME 2.5 km
+screenshot r11c_l7_step1.png
+screenshot r11c_l7_step3.png
+  lesson 7: COMPLETE; saved as done True; log: lesson 7 (Getting home) started | step 1 done in 1.1 s | step 2 done in 0.0 s | docked | docked on step 3: home is the lesson's goal | step 3 done in 11.2 s | lesson 7 complete
+screenshot r11c_l7_complete.png
+  VR lesson outside VR: "8. VR: recentre" [VR only] disabled True
+--- lesson 1 (Flying): flying True; 6 steps; step 1 "Pitch: push the nose down and pull it up (left stick)"
+screenshot r11c_pause_menu.png
+  pause > Skip this step: now step 2 "Roll: tip the wings left and right (left stick)"
+  31 s without touching the stick: hint shown True; voices 0.9 voice ctl_tr_welcome [Radio, p3, 7.3 s] CONTROL: Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record., 8.6 voice ctl_tr_fly [Radio, p3, 8.0 s] CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself., 17.1 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 19.8 voice ctl_tr_nav [Radio, p3, 9.1 s] CONTROL: Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is., 51.7 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 54.2 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 57.0 voice ctl_tr_land [Radio, p3, 6.4 s] CONTROL: Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow., 95.6 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 98.0 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 125.7 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 130.8 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 133.6 voice ctl_tr_pickup [Radio, p3, 6.6 s] CONTROL: Engines off and wait. The pilot runs to you and knocks. Then you open the airlock., 160.1 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 179.6 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 182.5 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 186.0 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 190.3 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 193.1 voice ctl_tr_alien [Radio, p3, 8.3 s] CONTROL: Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines., 219.2 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 240.5 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 245.0 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 252.2 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 281.9 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 352.1 voice ctl_tr_canopy [Radio, p3, 5.7 s] CONTROL: It's on your canopy. Engines or shield. Burn it off before it gets in., 371.2 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 374.0 voice ctl_tr_combat [Radio, p3, 6.5 s] CONTROL: Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back., 401.1 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 406.4 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 409.2 voice ctl_tr_home [Radio, p3, 6.3 s] CONTROL: Your power's running low. Climb for the mothership, or hold recall and we'll come and get you., 441.6 voice ctl_tr_fly [Radio, p3, 8.0 s] CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.
+screenshot r11c_hint.png
+  career.json after training: UNCHANGED (byte for byte) OK; the career in memory is the one from before: True; training mode False
+  training.json: { "done": [ true, true, true, true, true, true, true, false ], "offered": false }
+  output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 2.070, zeroed before the speakers; 54931456 samples); master volume 0.00
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 2.070, zeroed before the speakers; 54931456 samples); master volume 0.00

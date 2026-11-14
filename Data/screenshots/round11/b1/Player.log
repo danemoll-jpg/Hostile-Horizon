@@ -1,0 +1,250 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [27736] [04:16:20.017][Info   ] Available Layers: (1)
+[XR] [27736] [04:16:20.126][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [27736] [04:16:20.126][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [27736] [04:16:20.126][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [27736] [04:16:20.126][Info   ] ==== OpenXR Runtime Info ====
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Available Runtime Extensions: (34)
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [27736] [04:16:20.126][Info   ]   XR_MND_headless: Version=3
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_uuid: Version=1
+[XR] [27736] [04:16:20.126][Info   ]   XR_META_headset_id: Version=2
+[XR] [27736] [04:16:20.126][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Available Layers: (1)
+[XR] [27736] [04:16:20.126][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [27736] [04:16:20.126][Info   ] Runtime Version: 1.1.0
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] ==== OpenXR API Spec Version ====
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [27736] [04:16:20.126][Info   ]     Origin: result
+[XR] [27736] [04:16:20.126][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] ==== Std Exception Thrown ====
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [27736] [04:16:20.126][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [27736] [04:16:20.126][Info   ]     Origin: result
+[XR] [27736] [04:16:20.126][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [27736] [04:16:20.126][Info   ] 
+[XR] [27736] [04:16:20.126][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [27736] [04:16:20.126][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [27736] [04:16:20.127][Info   ] 
+[XR] [27736] [04:16:20.127][Info   ] ==== Last 20 Events ====
+[XR] [27736] [04:16:20.127][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.658900 ms
+[Play]     0.0 input: Wine / Proton no, HOTAS not found (no HOTAS plugged in)
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (exe check)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 67584 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-14 04:16; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] === Round 11 B: rock textures and land bridges
+[ExeCheck]   photo textures loaded: True
+[ExeCheck]     ground_albedo: 2048 x 2048, BC7, mips 12, 0.0 MB
+[ExeCheck]     ground_normal: 2048 x 2048, BC7, mips 12, 0.0 MB
+[ExeCheck]     rock_albedo: 2048 x 2048, BC7, mips 12, 0.0 MB
+[ExeCheck]     rock_normal: 2048 x 2048, BC7, mips 12, 0.0 MB
+[ExeCheck]     scree_albedo: 1024 x 1024, BC7, mips 11, 0.0 MB
+[ExeCheck]     scree_normal: 1024 x 1024, BC7, mips 11, 0.0 MB
+[ExeCheck]   texture memory for the six: 0.0 MB
+[ExeCheck]   Canyons seed 20261114: 2 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 80-251 m (1 under 95 m: tight); at least 45 m over the route trail's 35 m line; nearest pad 338 m (rule: over 260 m); same seed, same bridges: True; e.g. 204 m long, 64 m wide, 20 m thick
+[ExeCheck]   Volcanic seed 20261114: 2 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 76-204 m (1 under 95 m: tight); at least 41 m over the route trail's 35 m line; nearest pad 338 m (rule: over 260 m); same seed, same bridges: True; e.g. 216 m long, 64 m wide, 20 m thick
+[ExeCheck]   Canyons seed 777: 0 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 1000000000-0 m (0 under 95 m: tight); at least 1000000000 m over the route trail's 35 m line; nearest pad 1000000000 m (rule: over 260 m); same seed, same bridges: True
+[ExeCheck]   Volcanic seed 777: 0 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 1000000000-0 m (0 under 95 m: tight); at least 1000000000 m over the route trail's 35 m line; nearest pad 1000000000 m (rule: over 260 m); same seed, same bridges: True
+[ExeCheck]   Canyons seed 4242: 1 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 252-252 m (0 under 95 m: tight); at least 217 m over the route trail's 35 m line; nearest pad 405 m (rule: over 260 m); same seed, same bridges: True; e.g. 148 m long, 37 m wide, 17 m thick
+[ExeCheck]   Volcanic seed 4242: 1 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 214-214 m (0 under 95 m: tight); at least 179 m over the route trail's 35 m line; nearest pad 405 m (rule: over 260 m); same seed, same bridges: True; e.g. 148 m long, 37 m wide, 17 m thick
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+[Play]     0.7 music flight_canyons: flying
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] --- Canyons, seed of the day 20261114
+[ExeCheck] screenshot r11b_1_canyon_low_before.png
+[ExeCheck] screenshot r11b_1_canyon_low_after.png
+[ExeCheck]   wall up close: 30 m across the canyon, the ship 22 m from it at 20 m over the ground
+[ExeCheck] screenshot r11b_2_wall_close_before.png
+[ExeCheck] screenshot r11b_2_wall_close_after.png
+[ExeCheck] screenshot r11b_3_wall_foot_before.png
+[ExeCheck] screenshot r11b_3_wall_foot_after.png
+[ExeCheck]   nearest land bridge 1.3 km from the start: 204 m long, 64 m wide, its underside 80 m over the canyon floor; flying under at 40 m
+[ExeCheck] screenshot r11b_4_bridge_ahead_before.png
+[ExeCheck] screenshot r11b_4_bridge_ahead_after.png
+[ExeCheck] screenshot r11b_5_bridge_close_before.png
+[ExeCheck] screenshot r11b_5_bridge_close_after.png
+[ExeCheck] screenshot r11b_6_under_bridge.png
+[ExeCheck]   flown under it (level, 228 km/h): hits 0, closest to its underside 40 m
+[ExeCheck]   flown into it at Bounce: hits 1 (impact 77 m/s) SOLID OK
+[ExeCheck] screenshot r11b_7_bridge_hit.png
+[ExeCheck] Canyons BEFORE (Round 10 look): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.028 RMS, peak 1.152, zeroed before the speakers; 3459072 samples); master volume 0.00
+[ExeCheck] fps Canyons BEFORE (Round 10 look): average 469.8, 1% low 186.9, worst frame 230 ms over 7047 frames; mean height over ground 39 m; terrain chunks 583, waiting 0
+[ExeCheck] Canyons AFTER (photo textures): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 1.152, zeroed before the speakers; 4997120 samples); master volume 0.00
+[ExeCheck] fps Canyons AFTER (photo textures): average 342.4, 1% low 75.7, worst frame 239 ms over 5135 frames; mean height over ground 39 m; terrain chunks 582, waiting 0
+[Music] loaded flight_city (219 s)
+[Play]    50.9 music title_theme: title
+[Play]    51.7 music flight_volcanic: flying
+[Music] loaded flight_volcanic (187 s)
+[ExeCheck] Volcanic BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 1.152, zeroed before the speakers; 6731776 samples); master volume 0.00
+[ExeCheck] fps Volcanic BEFORE: average 138.4, 1% low 30.0, worst frame 1438 ms over 2204 frames; mean height over ground 46 m; terrain chunks 578, waiting 0
+[ExeCheck] Volcanic AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 1.152, zeroed before the speakers; 8275968 samples); master volume 0.00
+[ExeCheck] fps Volcanic AFTER: average 339.0, 1% low 93.4, worst frame 641 ms over 5453 frames; mean height over ground 86 m; terrain chunks 577, waiting 0
+[ExeCheck] screenshot r11b_8_volcanic_after.png
+[ExeCheck] screenshot r11b_9_volcanic_bridge.png
+[Play]    82.4 music title_theme: title
+[Play]    82.9 music flight_ice: flying
+[Music] loaded flight_ice (203 s)
+[ExeCheck] Ice BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.924, zeroed before the speakers; 10203136 samples); master volume 0.00
+[ExeCheck] fps Ice BEFORE: average 91.2, 1% low 7.3, worst frame 2581 ms over 1368 frames; mean height over ground 61 m; terrain chunks 580, waiting 0
+[ExeCheck] Ice AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 1.924, zeroed before the speakers; 11812864 samples); master volume 0.00
+[ExeCheck] fps Ice AFTER: average 102.5, 1% low 15.0, worst frame 3584 ms over 1435 frames; mean height over ground 54 m; terrain chunks 582, waiting 2
+[ExeCheck] screenshot r11b_8_ice_after.png
+[Play]   110.0 music title_theme: title
+[Play]   111.4 music flight_ocean: flying
+[Music] loaded flight_ocean (190 s)
+[ExeCheck] Ocean Islands BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.924, zeroed before the speakers; 14829568 samples); master volume 0.00
+[ExeCheck] fps Ocean Islands BEFORE: average 263.8, 1% low 52.3, worst frame 475 ms over 3960 frames; mean height over ground 53 m; terrain chunks 581, waiting 1
+[ExeCheck] Ocean Islands AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.924, zeroed before the speakers; 16363520 samples); master volume 0.00
+[ExeCheck] fps Ocean Islands AFTER: average 279.3, 1% low 64.6, worst frame 236 ms over 4191 frames; mean height over ground 55 m; terrain chunks 578, waiting 0
+[ExeCheck] screenshot r11b_8_ocean_after.png
+[Play]   144.5 music title_theme: title
+[Play]   145.0 music flight_forest: flying
+[Music] loaded flight_forest (223 s)
+[ExeCheck] Giant Forest BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.924, zeroed before the speakers; 18110464 samples); master volume 0.00
+[ExeCheck] fps Giant Forest BEFORE: average 203.1, 1% low 30.6, worst frame 1008 ms over 2868 frames; mean height over ground 36 m; terrain chunks 575, waiting 0
+[ExeCheck] Giant Forest AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 1.924, zeroed before the speakers; 19755008 samples); master volume 0.00
+[ExeCheck] fps Giant Forest AFTER: average 212.2, 1% low 55.4, worst frame 1325 ms over 3464 frames; mean height over ground 36 m; terrain chunks 579, waiting 0
+[ExeCheck] screenshot r11b_8_forest_after.png
+[Play]   175.6 music title_theme: title
+[Play]   177.8 music flight_crystal: flying
+[Music] loaded flight_crystal (214 s)
+[ExeCheck] Crystal Forest BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 1.924, zeroed before the speakers; 22239232 samples); master volume 0.00
+[ExeCheck] fps Crystal Forest BEFORE: average 109.3, 1% low 19.0, worst frame 4315 ms over 2109 frames; mean height over ground 36 m; terrain chunks 576, waiting 1
+[ExeCheck] Crystal Forest AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 1.924, zeroed before the speakers; 23775232 samples); master volume 0.00
+[ExeCheck] fps Crystal Forest AFTER: average 186.7, 1% low 28.1, worst frame 1210 ms over 2803 frames; mean height over ground 36 m; terrain chunks 574, waiting 0
+[ExeCheck] screenshot r11b_8_crystal_after.png
+[Play]   207.5 music title_theme: title
+[Play]   207.9 music flight_city: flying
+[Play]   215.0 voice COMPUTER: Pull up.
+[ExeCheck] Dead City BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 2.354, zeroed before the speakers; 25473024 samples); master volume 0.00
+[ExeCheck] fps Dead City BEFORE: average 395.6, 1% low 73.2, worst frame 392 ms over 5934 frames; mean height over ground 67 m; terrain chunks 576, waiting 0
+[Play]   229.3 voice COMPUTER: Pull up.
+[ExeCheck] Dead City AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 2.354, zeroed before the speakers; 27009024 samples); master volume 0.00
+[ExeCheck] fps Dead City AFTER: average 338.4, 1% low 46.1, worst frame 243 ms over 5076 frames; mean height over ground 80 m; terrain chunks 582, waiting 0
+[ExeCheck] screenshot r11b_8_city_after.png
+[ExeCheck]   output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 2.354, zeroed before the speakers; 27168768 samples); master volume 0.00
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 2.354, zeroed before the speakers; 27168768 samples); master volume 0.00
+[Play]   241.5 music title_theme: title
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

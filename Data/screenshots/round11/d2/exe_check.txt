@@ -1,0 +1,19 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 77824 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-14 06:35; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+=== Round 11 D: the radar filter
+  contacts on the radar: 32 (the planet's own and the check's)
+screenshot r11d_0_before_round10.png
+screenshot r11d_1_all.png
+  hold D-pad → 0.8 s: filter PILOTS (settings radarFilter 1); HUD list: <b>PILOT 20  000°  300 m  ◄ NEAREST</b> | MOTHERSHIP  015°  390 m | PILOT 21  037°  510 m | PILOT 22  074°  720 m | PILOT 23  111°  930 m | 
+screenshot r11d_2_pilots.png
+  hold D-pad → 0.8 s: filter ENEMIES (settings radarFilter 2); HUD list: MOTHERSHIP  015°  430 m | 
+screenshot r11d_3_enemies.png
+  hold D-pad → 0.8 s: filter TASKS (settings radarFilter 3); HUD list: MOTHERSHIP  015°  470 m | RECORDER  010°  1.2 km | NEST  130°  1.7 km | WRECK  250°  2.2 km | RECORDER  220°  2.6 km | 
+screenshot r11d_4_tasks.png
+screenshot r11d_5_cockpit_tasks.png
+  a fourth hold: back to ALL
+  a tap of D-pad →: filter still ALL; route target "ROUTE → PILOT 2 · 1.6 km   [D-pad →]" -> "ROUTE → PILOT 3 · 1.9 km (picked)   [D-pad →]"
+screenshot r11d_6_all_cockpit.png
+  output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.009 RMS, peak 0.066, zeroed before the speakers; 1810432 samples); master volume 0.00
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.009 RMS, peak 0.066, zeroed before the speakers; 1810432 samples); master volume 0.00

@@ -1,0 +1,612 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.018 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [32168] [05:57:58.888][Info   ] Available Layers: (1)
+[XR] [32168] [05:57:59.353][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [32168] [05:57:59.353][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [32168] [05:57:59.353][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [32168] [05:57:59.353][Info   ] ==== OpenXR Runtime Info ====
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Available Runtime Extensions: (34)
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [32168] [05:57:59.353][Info   ]   XR_MND_headless: Version=3
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_uuid: Version=1
+[XR] [32168] [05:57:59.353][Info   ]   XR_META_headset_id: Version=2
+[XR] [32168] [05:57:59.353][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Available Layers: (1)
+[XR] [32168] [05:57:59.353][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [32168] [05:57:59.353][Info   ] Runtime Version: 1.1.0
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] ==== OpenXR API Spec Version ====
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [32168] [05:57:59.353][Info   ]     Origin: result
+[XR] [32168] [05:57:59.353][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] ==== Std Exception Thrown ====
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [32168] [05:57:59.353][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [32168] [05:57:59.353][Info   ]     Origin: result
+[XR] [32168] [05:57:59.353][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [32168] [05:57:59.353][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [32168] [05:57:59.353][Info   ] 
+[XR] [32168] [05:57:59.353][Info   ] ==== Last 20 Events ====
+[XR] [32168] [05:57:59.353][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 6.176600 ms
+[Play]     0.0 input: Wine / Proton no, HOTAS not found (no HOTAS plugged in)
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (exe check)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 391168 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-14 05:58; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] === Round 11 C: training
+[ExeCheck]   a career made before training: Cerrra, 3000 cr; career.json 1389 bytes
+[ExeCheck]   title rows: Free Flight / Campaign / Training / Settings / Credits / Quit
+[ExeCheck]   training page rows: 1. Flying / 2. Navigation / 3. Landing / 4. The pickup / 5. Aliens / 6. Combat / 7. Getting home / 8. VR: recentre [VR only] (disabled) / Back
+[ExeCheck] screenshot r11c_0_lessons.png
+[Play]     0.9 training: lesson 1 Flying
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+[Play]     1.4 music flight_canyons: flying
+[Play]     1.4 voice CONTROL: Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record.
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] --- lesson 1 (Flying): flying True; 6 steps; step 1 "Pitch: push the nose down and pull it up (left stick)"
+[ExeCheck] screenshot r11c_l1_step1.png
+[ExeCheck] screenshot r11c_l1_step2.png
+[ExeCheck] screenshot r11c_l1_step3.png
+[ExeCheck] screenshot r11c_l1_step4.png
+[Play]     8.3 voice CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.
+[ExeCheck] screenshot r11c_l1_step5.png
+[ExeCheck] screenshot r11c_l1_step6.png
+[Play]    11.0 training: lesson 1 complete
+[ExeCheck]   lesson 1: COMPLETE; saved as done True; log: lesson 1 (Flying) started | step 1 done in 1.8 s | step 2 done in 1.1 s | step 3 done in 1.8 s | step 4 done in 3.1 s | step 5 done in 0.7 s | step 6 done in 1.1 s | lesson 1 complete
+[ExeCheck] screenshot r11c_l1_complete.png
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 15)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+[Music] loaded flight_city (219 s)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 14)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]    11.3 music title_theme: title
+[Play]    11.3 training: lesson 2 Navigation
+[Play]    12.0 music flight_canyons: flying
+[Play]    12.0 pilot 1 found (2.7 km): a real pilot
+[Play]    12.0 pilot 2 found (2.5 km): a real pilot
+[Play]    12.0 pilot 3 found (2.7 km): a real pilot
+[ExeCheck] --- lesson 2 (Navigation): flying True; 4 steps; step 1 "The radar shows each beacon and its distance. Fly 400 m closer to the nearest one (now 2.5 km)"
+[ExeCheck] screenshot r11c_l2_step1.png
+[Play]    16.9 voice CONTROL: Lesson complete. Well flown.
+[Play]    19.6 voice CONTROL: Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is.
+[Play]    42.1 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]    57.5 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l2_step2.png
+[Play]    87.5 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[ExeCheck]   lesson 2: NOT complete (step 2: "Pick a target for the route trail: D-pad →"); saved as done False; log: lesson 2 (Navigation) started | hint on step 1 | step 1 done in 45.5 s | hint on step 2
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+[Play]   114.4 music title_theme: title
+[Play]   114.4 training: lesson 3 Landing
+[Play]   116.6 music flight_canyons: flying
+[Play]   116.6 pilot 1 found (1.5 km): a real pilot
+[Play]   116.6 pilot 2 found (0.7 km): a real pilot
+[Play]   116.6 voice CONTROL: Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow.
+[ExeCheck] --- lesson 3 (Landing): flying True; 4 steps; step 1 "Brake into landing mode: <color=#3D8FE8><b>X</b></color> (the air brakes, then hover)"
+[ExeCheck] screenshot r11c_l3_step1.png
+[Play]   146.6 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   154.6 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l3_step2.png
+[Play]   157.2 voice COMPUTER: Landing gear down.
+[Play]   184.8 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   187.3 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]   204.2 voice CONTROL: That's it. Next.
+[ExeCheck] screenshot r11c_l3_step3.png
+[ExeCheck] screenshot r11c_l3_step4.png
+[Play]   234.2 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   268.9 training: lesson 3 complete
+[ExeCheck]   lesson 3: COMPLETE; saved as done True; log: lesson 3 (Landing) started | hint on step 1 | step 1 done in 38.2 s | hint on step 2 | step 2 done in 49.6 s | step 3 done in 0.0 s | hint on step 4 | step 4 done in 64.7 s | lesson 3 complete
+[ExeCheck] screenshot r11c_l3_complete.png
+[Play]   268.9 voice CONTROL: Lesson complete. Well flown.
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+[Play]   274.3 music title_theme: title
+[Play]   274.3 training: lesson 4 The pickup
+[Play]   276.2 music flight_canyons: flying
+[Play]   276.2 pilot 1 found (0.4 km): a real pilot
+[Play]   276.2 pilot 2 found (1.5 km): a real pilot
+[Play]   276.2 voice CONTROL: Engines off and wait. The pilot runs to you and knocks. Then you open the airlock.
+[ExeCheck] --- lesson 4 (The pickup): flying True; 5 steps; step 1 "Brake (<color=#3D8FE8><b>X</b></color>), hover over the ring and land on the pad: throttle down (RT / LT)"
+[ExeCheck] screenshot r11c_l4_step1.png
+[Play]   281.3 voice COMPUTER: Landing gear down.
+[Play]   286.8 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]   306.2 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   346.2 music (quiet): pickup: landed 27 m from pilot 1
+[Play]   346.2 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l4_step2.png
+[Play]   346.8 music (quiet): pickup: pilot 1 running
+[Play]   346.8 pilot 1 runs to the ship
+[Play]   347.6 voice COMPUTER: Engines off.
+[ExeCheck] screenshot r11c_l4_step3.png
+[Play]   349.1 voice CONTROL: That's it. Next.
+[Play]   352.7 music (quiet): pickup: pilot 1 knocking
+[Play]   352.7 pilot 1 at the airlock, knocking
+[Play]   352.7 voice CONTROL: Good.
+[Play]   353.3 music (quiet): pickup: pilot 1 boarding
+[ExeCheck] screenshot r11c_l4_step4.png
+[Play]   353.7 voice COMPUTER: Airlock open.
+[Play]   354.7 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   354.7 music flight_canyons: flying
+[Play]   355.1 training: lesson 4 complete
+[ExeCheck] screenshot r11c_l4_step5.png
+[ExeCheck]   lesson 4: COMPLETE; saved as done True; log: lesson 4 (The pickup) started | hint on step 1 | step 1 done in 70.0 s | step 2 done in 0.6 s | step 3 done in 5.9 s | step 4 done in 1.9 s | step 5 done in 0.4 s | lesson 4 complete
+[ExeCheck] screenshot r11c_l4_complete.png
+[Play]   355.1 voice COMPUTER: Pilot aboard.
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]   356.2 music title_theme: title
+[Play]   356.2 training: lesson 5 Aliens
+[Play]   356.7 voice CONTROL: Lesson complete. Well flown.
+[Play]   356.8 music flight_canyons: flying
+[Play]   356.8 pilot 1 found (0.4 km): really a Knocker, tell shown
+[Play]   356.8 pilot 2 found (1.5 km): really a Mimic, tell shown
+[ExeCheck] --- lesson 5 (Aliens): flying True; 5 steps; step 1 "Land by the beacon, engines off (<color=#6CC24A><b>A</b></color>), and watch who comes"
+[ExeCheck]   practice aliens: Knocker (tell shown: Knocker) at pad 1, Mimic (tell Mimic) at pad 2, 1893 m away
+[ExeCheck] screenshot r11c_l5_step1.png
+[Play]   359.0 voice CONTROL: Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines.
+[Play]   365.6 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]   386.8 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   422.5 music (quiet): pickup: landed 27 m from pilot 1
+[Play]   423.0 music (quiet): pickup: pilot 1 running
+[Play]   423.0 pilot 1 runs to the ship (a Knocker)
+[Play]   423.0 voice COMPUTER: Engines off.
+[ExeCheck] screenshot r11c_l5_step2.png
+[Play]   424.7 voice CONTROL: Good.
+[Play]   429.0 music (quiet): pickup: pilot 1 knocking
+[Play]   429.0 pilot 1 at the airlock, knocking (a Knocker, tell shown)
+[Play]   429.0 voice CONTROL: That's it. Next.
+[ExeCheck] screenshot r11c_l5_step3.png
+[ExeCheck] screenshot r11c_l5_airlock_camera.png
+[Play]   433.0 voice COMPUTER: Airlock open.
+[ExeCheck]   airlock opened to the practice alien: cabin 0, phase "", horror "" (no scare: True); prompt "PILOT AT AIRLOCK — press <color=#E8473D><b>B</b></color> to open"
+[ExeCheck] screenshot r11c_l5_opened_to_it.png
+[Play]   434.2 alien: exhaust killed pilot 1: a Knocker (tell shown: True); bounty +200 cr
+[Play]   434.2 alien: journal: Knocker encounter 1 (killed by the exhaust): "Listen at the door."
+[Play]   434.4 music flight_canyons: flying
+[Play]   434.6 voice CONTROL: That was no pilot. Good call.
+[ExeCheck] screenshot r11c_l5_step4.png
+[Play]   444.0 voice COMPUTER: Pull up.
+[Play]   464.4 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   497.2 music (quiet): pickup: hovering 250 m from pilot 2
+[Play]   556.0 music (quiet): pickup: landed 23 m from pilot 2
+[Play]   556.7 music (quiet): pickup: pilot 2 running
+[Play]   556.7 pilot 2 runs to the ship (a Mimic)
+[Play]   556.7 voice COMPUTER: Engines off.
+[Play]   560.3 music (quiet): pickup: pilot 2 knocking
+[Play]   560.3 pilot 2 at the airlock, knocking (a Mimic, tell shown)
+[Play]   566.5 alien: pilot 2 (Mimic) left at the airlock 6 s: it climbs onto the canopy
+[Play]   566.5 music (quiet): alien on the canopy
+[Play]   566.5 voice CONTROL: It's on your canopy. Engines or shield. Burn it off before it gets in.
+[ExeCheck] screenshot r11c_l5_step5.png
+[Play]   568.8 alien: on the canopy: pressed against the glass
+[ExeCheck] screenshot r11c_l5_canopy.png
+[ExeCheck]   left on the canopy 12 s past the break-in time: still outside True (clock 9.0 of 10)
+[Play]   582.6 alien: engines on with it on the canopy: thrown off (Mimic); bounty +200 cr
+[Play]   582.6 alien: journal: Mimic encounter 1 (thrown off the canopy): "Something about the way the light falls on it..."
+[Play]   582.6 voice COMPUTER: Shield up.
+[Play]   582.7 training: lesson 5 complete
+[ExeCheck]   lesson 5: COMPLETE; saved as done True; log: lesson 5 (Aliens) started | hint on step 1 | step 1 done in 66.2 s | step 2 done in 6.0 s | opened the airlock to the practice alien (stopped: no scare in training) | step 3 done in 5.4 s | hint on step 4 | step 4 done in 132.1 s | step 5 done in 16.1 s | lesson 5 complete
+[ExeCheck] screenshot r11c_l5_complete.png
+NullReferenceException: Object reference not set to an instance of an object.
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00011] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at UnityEngine.Component.get_transform () [0x00006] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at HostileHorizon.GameShell+<Dies>d__53.MoveNext () [0x001ea] in <6c31618433244698b9d06bdc6d2ee219>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00023] in <9cbb64a954b741deb68ec58553207f43>:0 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[Play]   582.9 music title_theme: title
+[Play]   582.9 training: lesson 6 Combat
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 7)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 12)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 13)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 9)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 11)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 10)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 6)
+[Play]   583.3 music flight_canyons: flying
+[Play]   584.0 voice CONTROL: Lesson complete. Well flown.
+[ExeCheck] --- lesson 6 (Combat): flying True; 3 steps; step 1 "Shield up: D-pad ← (it stops bolts and uses energy)"
+[ExeCheck]   targets: Turret 644 m, Saucer 497 m
+[ExeCheck] screenshot r11c_l6_step1.png
+[ExeCheck] screenshot r11c_l6_step2.png
+[Play]   586.1 voice CONTROL: Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back.
+[Play]   597.5 voice COMPUTER: Warning. Locked on.
+[Play]   608.3 voice COMPUTER: Pull up.
+[Play]   614.3 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   624.3 voice COMPUTER: Target destroyed.
+[ExeCheck]     gun: 6 shots, 4 hits, destroyed after 1.1 s
+[ExeCheck] screenshot r11c_l6_step3.png
+[Play]   625.7 music flight_canyons +tension: flying + tension (home warning)
+[Music] loaded tension_low_energy (121 s)
+[Play]   625.9 music flight_canyons +tension: flying + tension (low energy)
+[Play]   625.9 voice COMPUTER: Return now.
+[Play]   626.3 training: lesson 6 complete
+[ExeCheck]     gun: 11 shots, 5 hits, destroyed after 2.1 s
+[ExeCheck]   hull after the fight 100 % (training: hits do no damage)
+[ExeCheck]   lesson 6: COMPLETE; saved as done True; log: lesson 6 (Combat) started | step 1 done in 1.1 s | hint on step 2 | step 2 done in 40.0 s | step 3 done in 2.1 s | lesson 6 complete
+[ExeCheck] screenshot r11c_l6_complete.png
+[Play]   626.7 music title_theme: title
+[Play]   626.7 training: lesson 7 Getting home
+[Play]   627.4 music flight_canyons +tension: flying + tension (home warning)
+[Play]   627.5 voice COMPUTER: Energy low.
+[ExeCheck] --- lesson 7 (Getting home): flying True; 3 steps; step 1 "RETURN NOW: just enough energy to climb home. Turn toward HOME (its bearing on the display)"
+[ExeCheck]   energy 17 % (home needs 13 %): RETURN NOW; HOME 2.5 km
+[ExeCheck] screenshot r11c_l7_step1.png
+[Play]   629.7 voice CONTROL: Lesson complete. Well flown.
+[Play]   632.2 voice CONTROL: Your power's running low. Climb for the mothership, or hold recall and we'll come and get you.
+[Play]   635.3 voice CONTROL: Watch your energy. I can't tow everyone.
+[Play]   648.3 music flight_canyons +tension: flying + tension (low energy)
+[Play]   657.4 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   660.9 voice COMPUTER: Mothership out of reach.
+[Play]   676.1 music flight_canyons: flight (automatic)
+[Play]   676.1 voice COMPUTER: Engines off.
+[Play]   682.1 voice CONTROL: You're out of power. Tow beam's on its way. That's going on your bill.
+[Play]   696.4 planet cleared: this run: 0:48 of flight, 0 cr, 10 hull hits, no deaths; bests fastest clear 0:48 · most 0 cr · fewest hits 10 · cleared without dying ✓
+[Play]   696.4 docked (tow): <color=#FFE08A>Best run: this run: 0:48 of flight, 0 cr, 10 hull hits, no deaths</color>|<b>Kathae-II cleared! +1000 credits</b>|Tow: -1500 cr|Energy used 100%. Refuelled 100%: -600 cr
+[Play]   696.5 music hangar: docked
+[Music] loaded hangar (199 s)
+[Play]   697.6 voice CONTROL: That's the last of them. Planet's clear. Good work down there.
+[ExeCheck]   lesson 7: NOT complete (step 1: "RETURN NOW: just enough energy to climb home. Turn toward HOME (its bearing on the display)"); saved as done False; log: lesson 7 (Getting home) started | hint on step 1 | docked
+NullReferenceException: Object reference not set to an instance of an object
+  at HostileHorizon.ExeCheck.Row (System.String label) [0x00039] in <6c31618433244698b9d06bdc6d2ee219>:0 
+  at HostileHorizon.ExeCheck+<LessonEnd>d__264.MoveNext () [0x0022c] in <6c31618433244698b9d06bdc6d2ee219>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00023] in <9cbb64a954b741deb68ec58553207f43>:0 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+

@@ -168,109 +168,10 @@ seed visits any planet, and planets get harder (more pilots, enemies, aliens) as
 the career goes on.
 
 ---------------------------------------------------------------------------
-Current Objective — Round 11: HOTAS on the Steam Deck (A), better canyon textures + land bridges (B), training mode (C)
+Current Objective — none queued (Round 11 delivered; next: the Native Quest rounds below, when Dan says)
 ---------------------------------------------------------------------------
 
-Round 10 is delivered (0.9.1 + the promo videos; status under "Previous
-deliveries"). One publish at the end: **0.11.0**. Commit after each part.
-
-0. **Commit first** (the repo as it is, with this text).
-
-**Part A — the HOTAS on the Steam Deck**
-
-Dan (2026-11-14): "I tried the HOTAS hooked up through a docking station on my
-Steam Deck. It only partially worked and the game recognised it as a
-controller but not a HOTAS."
-
-Likely causes (planning chat): under Proton, **Steam Input** grabs controllers
-and hands the game a virtual Xbox pad, and Proton only passes joysticks
-through raw (HID) when asked, e.g. the launch option
-`PROTON_ENABLE_HIDRAW=0x044F/0xB67C %command%` (Thrustmaster's vendor id 044F,
-Dan's T.Flight HOTAS 4 PC-mode product id B67C, from Fix 6.2's HID log). Find
-out with data.
-A1. **Game side:** recognise the HOTAS whatever form it arrives in on
-    Linux / Proton: by device name / vendor / product id ("T.Flight Hotas 4",
-    044F:B67C) whether it shows up as a HID joystick, a "gamepad" through
-    SDL / winebus, or several devices; map its axes and buttons (stick,
-    twist, lever, rocker, hat, the PS-labelled buttons) for each form, and
-    keep the identify / calibrate / Find-lever steps working on it. If only
-    Steam Input's virtual pad reaches the game, say so on the HOTAS setup page
-    with the fix steps (A2) instead of half-working.
-A2. **Deck setup steps** in `README-LAUNCHER.md` (Steam Deck section) and on the
-    HOTAS setup page when running on the Deck: in Steam (Desktop or Gaming
-    Mode) → the game's **Properties → Controller → "Disable Steam Input"**;
-    **Properties → General → Launch options:**
-    `PROTON_ENABLE_HIDRAW=0x044F/0xB67C %command%` (and whatever else the tests
-    show is needed); the PS4 / PC switch on the HOTAS base on **PC**; plug the
-    HOTAS in before starting the game. Code verifies each step's effect as far
-    as it can (a Proton-like Windows check can't prove it; say what's
-    unproven).
-A3. **Record my input works on the Deck** and tells Dan where the file is
-    (inside the Proton prefix: give the exact path), so Dan can send it to
-    the planning chat if it still doesn't work.
-A4. **For Dan to check:** the steps above, then HOTAS setup → Test view on the
-    Deck; if not right, Record my input and send the file.
-
-**Part B — better textures for the canyon worlds, and land bridges**
-
-Dan's friend (2026-11-14): better textures, especially for the valley worlds
-(Canyons), "along with land bridges".
-B1. **Canyon rock that looks real up close and far away:** replace the
-    code-generated rock textures with high-quality **CC0 photo-scanned PBR
-    sets** (sandstone, layered sedimentary rock, scree, dusty ground; e.g.
-    ambientCG / Poly Haven: colour, normal, roughness, AO; credits list them):
-    tiling broken up with macro variation (large-scale colour and strata
-    bands that follow the terrain height, like real canyon layers), detail
-    normals close up, triplanar on the walls without smearing, wet / dark
-    varnish streaks down the cliffs, rubble at the foot of walls. Apply the
-    same quality to the other ground-based biomes where their rock / ground
-    uses the same shader (ice cliffs, volcanic basalt, ocean cliffs), as far
-    as time allows; Canyons first. Stereo-safe (CLAUDE.md shader rule).
-B2. **Land bridges / natural arches** across the canyons: some canyons get rock
-    arches and land bridges spanning wall to wall at different heights (some
-    you fly under, some low enough to make it tight; a few with ledges that can
-    be landing pads), placed from the seed, solid (crash levels apply), never
-    blocking a pilot's pad or the route trail's way in, the same textures as the
-    walls. Also on the other rock biomes where they fit (ice bridges on Ice,
-    basalt on Volcanic).
-B3. **Performance:** texture memory and frame rate on PC, the Steam Deck setting
-    (40+ fps) and VR (72 Hz preset); compressed textures, mip-maps; report per
-    biome before / after.
-B4. **Check:** cockpit pictures low in a canyon, a wall up close, a land bridge
-    flown under, before / after, that Code looks at and describes.
-
-**Part C — training mode**
-
-Dan (2026-11-14): "A training mode would be helpful too."
-C1. **Training** on the title screen (and offered once when a new career starts):
-    a short series of guided lessons on a safe practice planet (no career
-    effect, no credits lost, unlimited energy unless the lesson is about
-    energy), coached by **Control** (new ElevenLabs lines) with on-screen steps
-    using the active device's buttons (HOTAS / gamepad / keyboard):
-    1. Flying: pitch, roll, yaw, throttle, letting go to self-right, level out;
-    2. Navigation: radar, distances, the route trail, the mothership marker;
-    3. Landing: braking, the stop ring, hover, belly camera / floor window,
-       touchdown;
-    4. The pickup: engines off, the knock, the airlock, the cabin;
-    5. Aliens: a practice alien with its tell shown clearly, and what to do
-       (don't open, engines / shield, take off); the canopy (no full scare in
-       training, but a creature on the canopy to deal with);
-    6. Combat: the gun, the shield, a turret and a saucer target;
-    7. Getting home: docking, recall, energy warnings;
-    8. (optional) VR: recenter.
-C2. Each lesson can be replayed alone from a list; progress saved; a lesson
-    completes when the player does the thing (not a timer); hints if stuck;
-    skip at any time.
-C3. **Check (muted, no focus):** play each lesson with the virtual pad from
-    the title; pictures of the steps; it completes; nothing leaks into the
-    career save.
-
-**End of the round:** publish **0.11.0**, update `TODO.md` (per-item status for
-A1-A4, B1-B4, C1-C3: done / not done / deferred and why; the HOTAS findings) and
-`CLAUDE.md`, clean up, commit and push.
-
-**For Dan to check:** the HOTAS on the Deck (Part A steps); the canyon rock and
-the land bridges (show your friend); Training from the title screen.
+Round 11 is delivered and published as 0.11.0; status under "Previous deliveries".
 
 ---------------------------------------------------------------
 Next Steps — queued rounds (Do Not Start Yet)
@@ -296,6 +197,80 @@ Other ideas, not decided: more biomes, more alien types.
 ---------------------------------------------------------------------------
 Previous deliveries
 ---------------------------------------------------------------------------
+
+**Round 11 — HOTAS on the Steam Deck (A), CC0 rock textures + land bridges (B), training (C), a radar you can filter (D)
+(2026-11-14). Published: 0.11.0 (`game-1100`, Latest; soundtrack stays `soundtrack-700`).** Plan text: `TODO-ARCHIVE.md`
+("Round 11 plan"). Evidence `Data/screenshots/round11/` (`a1` HOTAS, `b2` / `b3` / `b3deck` textures and bridges, `c3` training,
+`d2` radar). Checks: `-exeCheckOnly round11a | round11b | round11c | round11d` (headless, muted: output 0 in every run). Dan's PC was
+saturated by other projects for part of the round (CPU 100 %, 0.5 GB free; another project's Unity build): the frame rates below are
+from a later, quieter run; earlier ones were discarded.
+
+**HOTAS findings (Part A).** From Wine's source (`dlls/winebus.sys/main.c`, `bus_sdl.c`, wine master and Valve's proton_10.0 /
+experimental_10.0, read 2026-11-14): with **Steam Input on**, Steam hides the HOTAS from the game and gives it its own virtual Xbox pad
+(VID 28DE): the game sees "a controller, not a HOTAS" (Dan's report). With Steam Input off, Proton's **SDL bus** makes a HID joystick
+of it itself (manufacturer "SDL"; Linux puts the HOTAS 4's x y z rx ry rz slider dial in that order, which SDL / winebus name X Y Z RX RY
+RZ SLIDER DIAL: the same names as on Windows; buttons 1-12 in order), unless SDL has a gamepad mapping for it (then an Xbox-style pad:
+only 6 axes). **`PROTON_ENABLE_HIDRAW=0x044F/0xB67C`** (Proton 10 reads exactly that format) passes the HOTAS through raw, the same
+descriptor as Windows; 044F:B67C is not on Wine's built-in hidraw list (T.16000M, TWCS, T-Rudder are). Unproven on a real Deck: whether
+SteamOS lets the game open the HOTAS's hidraw node (if not, Proton falls back to SDL, which also works); whether the Deck's own controls
+still work with Steam Input disabled for the game.
+- **A1 DONE.** `Input/HotasProbe.cs` tells the forms apart (Unity joysticks, SetupDi's HID paths, `wine_get_version`); HOTAS setup is
+  shown under Proton / on the Deck even without a HOTAS, its subtitle says how it arrives, and without a joystick it shows what reached
+  the game and the fix steps; a `[Play] input:` line at start. Mapping: the SDL form and the hidraw form both drive stick / twist /
+  lever / hat / buttons through the game's actions (check: stick +0.62 / -0.41, yaw, lever 30 %, hat, R1 fire, ✕ engines: ALL OK
+  both), Identify works on the SDL form; Find lever reads the same `z` (fix62 checks it; this harness can't sweep a HID lever end to end).
+- **A2 DONE.** The steps (Disable Steam Input; launch option; PC switch; plug in first; restart) on HOTAS setup (`a1/round11a_setup_*.png`)
+  and in `Docs/Starter/README-LAUNCHER.md` (Steam Deck). What a Windows check proves: the detection of each form from faked device
+  lists; not proven: the steps' effect on a real Deck.
+- **A3 DONE.** Record my input now logs the system, Proton's env vars and every HID path, and says where the file is in Linux terms
+  (`.../steamapps/compatdata/<id>/pfx/drive_c/users/steamuser/AppData/LocalLow/Hostile Horizon/Hostile Horizon/hotas_input_log.txt`).
+- **A4 FOR DAN:** the steps above, then Settings > Controls > HOTAS setup on the Deck (the line under the title should say "raw (Proton
+  hidraw)" or "Proton's SDL bus"), Test view; if not right: Record my input and send the file.
+
+- **B1 DONE.** CC0 ambientCG Rock 029 (walls), Ground 079 S (flats), Rocks 011 (scree), credited (Credits > Licences): walls triplanar
+  at 7 m and 21 m blended by a large noise (no repeat), the strata bands kept (photo colour mixed with them in Canyons; other biomes keep
+  their palette with the photo's light and shade), normal maps (to 700 m) and a close detail normal (60 m), varnish streaks, scree on
+  the slopes at the wall feet. Ice / volcanic / ocean / forest / crystal use the same shader (their own colours); the city's facades are
+  unchanged. Pictures before / after: `b2/cmp_r11b_*` (low in a canyon, a wall up close, a wall's foot, a bridge ahead).
+- **B2 DONE (one part deferred).** Land bridges in Canyons and Volcanic: an arch wall to wall (`BridgeMesh`), solid (flown into at
+  Bounce: a hit; flown under level: no hit), from the seed (same seed, same bridges), 60-300 m over the floor (the tight ones 60-95 m),
+  at least 41 m over the route trail's line, never within 260 m of a pad; 0-4 per 16 km² (seed 777's canyons have none). Ice keeps its
+  Round 4 snow bridges. **Deferred:** ledges on bridges as landing pads (pads are terrain-only; it needs the pad / pilot system to know
+  boxes; not in this round).
+- **B3 DONE (VR not measured).** Textures 24 MB (2048² BC7 x 4 + 1024² x 2, mip-maps, aniso 8). Frame rate before -> after, 1080p,
+  1660 Ti, flying low (`b3/exe_check.txt`): Canyons 450 -> 443 (1 % low 230 -> 212), Volcanic 450 -> 447, Ice 452 -> 448, Ocean 372 ->
+  387, Forest 452 -> 421, Crystal 338 -> 362, City 504 -> 490. Steam Deck setting at 1280 x 800 (`b3deck/`): Canyons 644 -> 639 (1 % low 325 -> 313), Volcanic 397 -> 359, Ice 356 -> 337, Ocean 284 -> 310, Forest 370 -> 383, Crystal 308 -> 333, City 390 -> 458 (measured on the 1660 Ti with the Deck setting, not on a Deck: the Deck's own frame rate is for Dan; the ups are run-to-run noise). VR's 72 Hz
+  preset not measured (the mock runtime's numbers aren't the headset's); the cost on PC is a few per cent.
+- **B4 DONE.** Cockpit pictures before / after, looked at: before, the walls' code-made crackle pattern repeats like knitting; after,
+  real rock grain with the colour bands still across the walls, dark streaks down the steep faces; the bridge an arch with its opening
+  seen from under it (`b2/r11b_6_under_bridge.png`), a hit picture (`r11b_7`), Volcanic's basalt bridge (`r11b_9`).
+
+- **C1 DONE.** Title > Training (and offered once at New career: "Start training" / "Not now"), eight lessons on a practice Canyons
+  planet (seed 1984), Control coaching (15 new ElevenLabs lines `ctl_tr_*`, made silently), the step on the HUD and the cockpit
+  displays with the device's own button: Flying, Navigation (incl. the radar filter), Landing, The pickup, Aliens (a Knocker with its
+  tell; opening to it stops at the door; a Mimic on the canopy that never gets in), Combat (a practice turret and saucer; hits do no
+  damage), Getting home (RETURN NOW, recall, the beam), VR recentre (VR only). Runs on a throwaway in-memory career.
+- **C2 DONE.** A list to replay any lesson (done ✓ saved in `training.json`), each step completes when done, a hint (and Control) after
+  30 s stuck, pause: skip a step / restart / lessons / leave.
+- **C3 DONE.** The virtual pad played lessons 1-7 from the title: **all seven COMPLETE** (`c3/exe_check.txt`, a picture per step
+  `c3/r11c_l*_step*.png`); skip worked, the hint showed after 31 s; the VR lesson listed "VR only"; a career made first: **career.json
+  unchanged byte for byte**, the real career back in memory. After the run: the first practice alien's canopy climb delayed (it began
+  climbing 6 s after knocking; now only the second one does): not re-run.
+
+- **D1 DONE.** Radar filter All -> Pilots -> Enemies -> Tasks: **hold the route-target button 0.5 s** (pad D-pad →, keyboard T, HOTAS
+  L2 or whatever HOTAS setup gives Route target; a tap still picks the route target) or keyboard **M**; no clash on any device or in VR.
+  "RADAR: PILOTS" over the scope; the mothership and incoming-fire marks always; Tasks = mission sites and your wreck.
+- **D2 DONE.** On All: smaller blips, labels only on the nearest two of a kind, nothing past the rim but the mothership; on every filter
+  overlapping blips of a kind merge into one with "×N", no labels on rim-pinned blips, overlapping labels dropped (NEAREST and the
+  mothership kept). Left: when the mothership sits right behind the nearest pilot their two labels still touch.
+- **D3 DONE.** Saved in settings.json (`radarFilter`); on both the cockpit radar and the HUD; the text list beside it filtered; a step
+  in Training's Navigation lesson.
+- **D4 DONE.** A busy radar (the planet's own contacts + 12 pilots, 8 turrets, 4 saucers, 3 task sites the check adds: busier than any
+  planet makes): `d2/radar_compare.png` = Round 10's drawing, All, Pilots, Enemies, Tasks. Before: labels piled on each other; after,
+  readable on every filter.
+
+**For Dan to check:** the HOTAS on the Deck (A4); the canyon rock and the bridges (show your friend); Training from the title; the
+radar filter (hold D-pad → / L2 / T, or M).
 
 **Round 10 — Fix 9.1 (A) + the promo video (B) (2026-11-09). Published: 0.9.1 (`game-901`, Latest; soundtrack stays `soundtrack-700`).
 Videos: `Promo/HostileHorizon_Trailer.mp4` (+ `_4K`), `Promo/HostileHorizon_Vertical.mp4`.**

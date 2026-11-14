@@ -1,0 +1,72 @@
+window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 75776 samples); master volume 0.00
+check pilot: Flight assist Full for getting about (measurements set their own)
+Hostile Horizon exe check 2026-11-14 06:47; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+=== Round 11 B: rock textures and land bridges
+  photo textures loaded: True
+    ground_albedo: 2048 x 2048, BC7, mips 12, 5.3 MB
+    ground_normal: 2048 x 2048, BC7, mips 12, 5.3 MB
+    rock_albedo: 2048 x 2048, BC7, mips 12, 5.3 MB
+    rock_normal: 2048 x 2048, BC7, mips 12, 5.3 MB
+    scree_albedo: 1024 x 1024, BC7, mips 11, 1.3 MB
+    scree_normal: 1024 x 1024, BC7, mips 11, 1.3 MB
+  texture memory for the six: 24.0 MB
+  Canyons seed 20261114: 4 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 80-300 m (1 under 95 m: tight); at least 45 m over the route trail's 35 m line; nearest pad 338 m (rule: over 260 m); same seed, same bridges: True; e.g. 132 m long, 54 m wide, 24 m thick
+  Volcanic seed 20261114: 4 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 76-257 m (1 under 95 m: tight); at least 41 m over the route trail's 35 m line; nearest pad 338 m (rule: over 260 m); same seed, same bridges: True; e.g. 136 m long, 54 m wide, 24 m thick
+  Canyons seed 777: 0 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 1000000000-0 m (0 under 95 m: tight); at least 1000000000 m over the route trail's 35 m line; nearest pad 1000000000 m (rule: over 260 m); same seed, same bridges: True
+  Volcanic seed 777: 0 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 1000000000-0 m (0 under 95 m: tight); at least 1000000000 m over the route trail's 35 m line; nearest pad 1000000000 m (rule: over 260 m); same seed, same bridges: True
+  Canyons seed 4242: 3 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 169-279 m (0 under 95 m: tight); at least 134 m over the route trail's 35 m line; nearest pad 287 m (rule: over 260 m); same seed, same bridges: True; e.g. 164 m long, 41 m wide, 26 m thick
+  Volcanic seed 4242: 3 land bridges in 16 x 16 prop cells (4.1 x 4.1 km); clearance under them 137-243 m (0 under 95 m: tight); at least 102 m over the route trail's 35 m line; nearest pad 287 m (rule: over 260 m); same seed, same bridges: True; e.g. 156 m long, 41 m wide, 26 m thick
+--- Canyons, seed of the day 20261114
+screenshot r11b_1_canyon_low_before.png
+screenshot r11b_1_canyon_low_after.png
+  wall up close: 30 m across the canyon, the ship 22 m from it at 20 m over the ground
+screenshot r11b_2_wall_close_before.png
+screenshot r11b_2_wall_close_after.png
+screenshot r11b_3_wall_foot_before.png
+screenshot r11b_3_wall_foot_after.png
+  nearest land bridge 1.3 km from the start: 204 m long, 64 m wide, its underside 80 m over the canyon floor; flying under at 40 m
+screenshot r11b_4_bridge_ahead_before.png
+screenshot r11b_4_bridge_ahead_after.png
+screenshot r11b_5_bridge_close_before.png
+screenshot r11b_5_bridge_close_after.png
+screenshot r11b_6_under_bridge.png
+  flown under it (level, 228 km/h): hits 0, closest to its underside 40 m
+  flown into it at Bounce: hits 1 (impact 77 m/s) SOLID OK
+screenshot r11b_7_bridge_hit.png
+Canyons BEFORE (Round 10 look): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.032 RMS, peak 1.729, zeroed before the speakers; 3778560 samples); master volume 0.00
+fps Canyons BEFORE (Round 10 look): average 449.9, 1% low 229.5, worst frame 7 ms over 6749 frames; mean height over ground 39 m; terrain chunks 585, waiting 0
+Canyons AFTER (photo textures): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.029 RMS, peak 1.729, zeroed before the speakers; 5318656 samples); master volume 0.00
+fps Canyons AFTER (photo textures): average 442.5, 1% low 211.6, worst frame 39 ms over 6638 frames; mean height over ground 39 m; terrain chunks 584, waiting 1
+Volcanic BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 1.729, zeroed before the speakers; 7673856 samples); master volume 0.00
+fps Volcanic BEFORE: average 450.2, 1% low 229.3, worst frame 22 ms over 6753 frames; mean height over ground 37 m; terrain chunks 581, waiting 0
+Volcanic AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.729, zeroed before the speakers; 9209856 samples); master volume 0.00
+fps Volcanic AFTER: average 446.9, 1% low 222.7, worst frame 10 ms over 6704 frames; mean height over ground 37 m; terrain chunks 581, waiting 0
+screenshot r11b_8_volcanic_after.png
+screenshot r11b_9_volcanic_bridge.png
+Ice BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.734, zeroed before the speakers; 11755520 samples); master volume 0.00
+fps Ice BEFORE: average 452.0, 1% low 234.3, worst frame 14 ms over 6780 frames; mean height over ground 44 m; terrain chunks 581, waiting 0
+Ice AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.734, zeroed before the speakers; 13291520 samples); master volume 0.00
+fps Ice AFTER: average 447.9, 1% low 232.8, worst frame 100 ms over 6718 frames; mean height over ground 44 m; terrain chunks 580, waiting 0
+screenshot r11b_8_ice_after.png
+Ocean Islands BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 1.734, zeroed before the speakers; 15683584 samples); master volume 0.00
+fps Ocean Islands BEFORE: average 371.6, 1% low 185.7, worst frame 15 ms over 5575 frames; mean height over ground 51 m; terrain chunks 582, waiting 0
+Ocean Islands AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.734, zeroed before the speakers; 17219584 samples); master volume 0.00
+fps Ocean Islands AFTER: average 387.1, 1% low 214.0, worst frame 11 ms over 5806 frames; mean height over ground 51 m; terrain chunks 582, waiting 0
+screenshot r11b_8_ocean_after.png
+Giant Forest BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.734, zeroed before the speakers; 19591168 samples); master volume 0.00
+fps Giant Forest BEFORE: average 452.2, 1% low 229.4, worst frame 7 ms over 6784 frames; mean height over ground 37 m; terrain chunks 573, waiting 0
+Giant Forest AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.023 RMS, peak 1.734, zeroed before the speakers; 21127168 samples); master volume 0.00
+fps Giant Forest AFTER: average 421.2, 1% low 210.2, worst frame 112 ms over 6319 frames; mean height over ground 37 m; terrain chunks 573, waiting 0
+screenshot r11b_8_forest_after.png
+Crystal Forest BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 1.734, zeroed before the speakers; 23502848 samples); master volume 0.00
+fps Crystal Forest BEFORE: average 338.0, 1% low 133.5, worst frame 116 ms over 5071 frames; mean height over ground 37 m; terrain chunks 574, waiting 0
+Crystal Forest AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.022 RMS, peak 1.734, zeroed before the speakers; 25038848 samples); master volume 0.00
+fps Crystal Forest AFTER: average 362.2, 1% low 147.2, worst frame 12 ms over 5435 frames; mean height over ground 36 m; terrain chunks 573, waiting 0
+screenshot r11b_8_crystal_after.png
+Dead City BEFORE: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.024 RMS, peak 1.803, zeroed before the speakers; 27412480 samples); master volume 0.00
+fps Dead City BEFORE: average 504.2, 1% low 241.4, worst frame 16 ms over 7562 frames; mean height over ground 71 m; terrain chunks 580, waiting 0
+Dead City AFTER: sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.803, zeroed before the speakers; 28948480 samples); master volume 0.00
+fps Dead City AFTER: average 489.9, 1% low 215.1, worst frame 133 ms over 7349 frames; mean height over ground 65 m; terrain chunks 580, waiting 0
+screenshot r11b_8_city_after.png
+  output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.803, zeroed before the speakers; 28968960 samples); master volume 0.00
+end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.025 RMS, peak 1.803, zeroed before the speakers; 28968960 samples); master volume 0.00

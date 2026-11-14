@@ -1,0 +1,374 @@
+Mono path[0] = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/Managed'
+Mono config path = 'C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.6.1f1 (7efac9f6c10e)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Users/danmo/Hostile-Horizon/Builds/HostileHorizon/HostileHorizon_Data/UnitySubsystems
+[Subsystems] No descriptors matched for  examples in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in UnitySubsystems/UnityOpenXR/UnitySubsystemsManifest.json.
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+d3d12: failed to query info queue interface (0x80004002).
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce GTX 1660 Ti (ID=0x2182)
+    Vendor:          NVIDIA
+    VRAM:            5966 MB
+    App VRAM Budget: 5198 MB
+    Driver:          32.0.16.1088
+Begin MonoManager ReloadAssembly
+- Finished resetting the current domain, in  0.022 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+XRGeneral Settings awakening...
+[XR] [56372] [06:35:39.090][Info   ] Available Layers: (1)
+[XR] [56372] [06:35:39.228][Error  ] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE
+[XR] [56372] [06:35:39.228][Info   ] 
+
+==== Start Unity OpenXR Diagnostic Report ====
+
+
+[XR] [56372] [06:35:39.228][Info   ] ==== Report Reason: Uncaught Exception ====
+
+
+[XR] [56372] [06:35:39.228][Info   ] ==== OpenXR Runtime Info ====
+[XR] [56372] [06:35:39.228][Info   ] 
+[XR] [56372] [06:35:39.228][Info   ] Available Runtime Extensions: (34)
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_D3D11_enable: Version=11
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_D3D12_enable: Version=11
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_vulkan_enable: Version=10
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_vulkan_enable2: Version=4
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_opengl_enable: Version=12
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_composition_layer_depth: Version=6
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_win32_convert_performance_counter_time: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_convert_timespec_time: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [56372] [06:35:39.228][Info   ]   XR_EXT_eye_gaze_interaction: Version=2
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_eye_tracking_social: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_face_tracking: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_face_tracking2: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_FB_body_tracking: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_META_body_tracking_full_body: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_META_body_tracking_fidelity: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_META_body_tracking_calibration: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_HTCX_vive_tracker_interaction: Version=3
+[XR] [56372] [06:35:39.228][Info   ]   XR_MND_headless: Version=3
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_locate_spaces: Version=1
+[XR] [56372] [06:35:39.228][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [56372] [06:35:39.229][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [56372] [06:35:39.229][Info   ]   XR_EXT_uuid: Version=1
+[XR] [56372] [06:35:39.229][Info   ]   XR_META_headset_id: Version=2
+[XR] [56372] [06:35:39.229][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] Available Layers: (1)
+[XR] [56372] [06:35:39.229][Info   ]   XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility: SpecVersion=1.0.0, LayerVersion=6, Description="Compatibility layer for OculusXR Plugin"
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] Available Runtime Layer Extensions: LayerName="XR_APILAYER_VIRTUALDESKTOP_oculus_compatibility": (0)
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] Runtime Name: VirtualDesktopXR
+[XR] [56372] [06:35:39.229][Info   ] Runtime Version: 1.1.0
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] ==== OpenXR API Spec Version ====
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [56372] [06:35:39.229][Info   ]     Origin: result
+[XR] [56372] [06:35:39.229][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] ==== Std Exception Thrown ====
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] Function: PreInit_Display_Setup::<lambda_5af39cf6d19b65598e0ebf5f58390eca>::operator ()
+[XR] [56372] [06:35:39.229][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [56372] [06:35:39.229][Info   ]     Origin: result
+[XR] [56372] [06:35:39.229][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [56372] [06:35:39.229][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [56372] [06:35:39.229][Info   ] 
+[XR] [56372] [06:35:39.229][Info   ] ==== Last 20 Events ====
+[XR] [56372] [06:35:39.229][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+UnloadTime: 0.735000 ms
+[Play]     0.0 input: Wine / Proton no, HOTAS not found (no HOTAS plugged in)
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+GameObject has multiple AudioSources and/or AudioListeners attached. While built-in filters like lowpass are instantiated separately, components implementing OnAudioFilterRead may only be used by either one AudioSource or AudioListener at a time.
+The reason for this is that any state information used by the callback exists only once in the component, and the source or listener calling it cannot be inferred from the callback.
+In this case the OnAudioFilterRead callback of script ShipAudio was first attached to a component of type AudioSource on the game object Ship audio after which another component of type AudioSource tried to attach it.
+[Play]     0.0 music title_theme: title
+[Music] loaded title_theme (145 s)
+[Play]     0.0 display: flat screen (VR mode off)
+[Play]     0.0 steam art: skipped (exe check)
+[ExeCheck] window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.000 RMS, peak 0.000, zeroed before the speakers; 75776 samples); master volume 0.00
+[ExeCheck] check pilot: Flight assist Full for getting about (measurements set their own)
+[ExeCheck] Hostile Horizon exe check 2026-11-14 06:35; 1920x1080 off-screen; GPU NVIDIA GeForce GTX 1660 Ti; Steam Deck setting off; view 3200 m
+[ExeCheck] === Round 11 C: training
+[ExeCheck]   a career made before training: Selae, 3000 cr; career.json 1388 bytes
+[ExeCheck]   title rows: Free Flight / Campaign / Training / Settings / Credits / Quit
+[ExeCheck]   training page rows: 1. Flying / 2. Navigation / 3. Landing / 4. The pickup / 5. Aliens / 6. Combat / 7. Getting home / 8. VR: recentre [VR only] (disabled) / Back
+[ExeCheck] screenshot r11c_0_lessons.png
+[Play]     0.7 training: lesson 1 Flying
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]     0.9 music flight_canyons: flying
+[Play]     0.9 voice CONTROL: Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record.
+[Music] loaded flight_canyons (163 s)
+[ExeCheck] --- lesson 1 (Flying): flying True; 6 steps; step 1 "Pitch: push the nose down and pull it up (left stick)"
+[ExeCheck] screenshot r11c_l1_step1.png
+[ExeCheck] screenshot r11c_l1_step2.png
+[ExeCheck] screenshot r11c_l1_step3.png
+[ExeCheck] screenshot r11c_l1_step4.png
+[Play]     8.6 voice CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.
+[ExeCheck] screenshot r11c_l1_step5.png
+[ExeCheck] screenshot r11c_l1_step6.png
+[Play]    10.3 training: lesson 1 complete
+[ExeCheck]   lesson 1: COMPLETE; saved as done True; log: lesson 1 (Flying) started | step 1 done in 1.7 s | step 2 done in 1.2 s | step 3 done in 1.8 s | step 4 done in 3.0 s | step 5 done in 0.7 s | step 6 done in 1.0 s | lesson 1 complete
+[ExeCheck] screenshot r11c_l1_complete.png
+[Music] loaded flight_city (219 s)
+[Play]    10.4 music title_theme: title
+[Play]    10.4 training: lesson 2 Navigation
+[Play]    10.6 music flight_canyons: flying
+[Play]    10.6 pilot 1 found (2.7 km): a real pilot
+[Play]    10.6 pilot 2 found (2.5 km): a real pilot
+[Play]    10.6 pilot 3 found (2.7 km): a real pilot
+[ExeCheck] --- lesson 2 (Navigation): flying True; 5 steps; step 1 "The radar shows each beacon and its distance. Fly 400 m closer to the nearest one (now 2.5 km)"
+[ExeCheck] screenshot r11c_l2_step1.png
+[Play]    17.1 voice CONTROL: Lesson complete. Well flown.
+[Play]    19.8 voice CONTROL: Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is.
+[ExeCheck] screenshot r11c_l2_step2.png
+[Play]    28.7 radar filter: PILOTS
+[ExeCheck] screenshot r11c_l2_step3.png
+[ExeCheck]   D-pad → held 0.8 s: radar filter ALL -> PILOTS; step now 4
+[ExeCheck] screenshot r11c_l2_step4.png
+[Play]    51.7 voice CONTROL: That's it. Next.
+[Play]    52.1 training: lesson 2 complete
+[ExeCheck] screenshot r11c_l2_step5.png
+[ExeCheck]   lesson 2: COMPLETE; saved as done True; log: lesson 2 (Navigation) started | step 1 done in 17.3 s | step 2 done in 0.0 s | step 3 done in 0.8 s | step 4 done in 23.1 s | step 5 done in 0.3 s | lesson 2 complete
+[ExeCheck] screenshot r11c_l2_complete.png
+[Play]    52.2 music title_theme: title
+[Play]    52.2 training: lesson 3 Landing
+[Play]    52.3 music flight_canyons: flying
+[Play]    52.3 pilot 1 found (1.5 km): a real pilot
+[Play]    52.3 pilot 2 found (0.7 km): a real pilot
+[ExeCheck] --- lesson 3 (Landing): flying True; 4 steps; step 1 "Brake into landing mode: <color=#3D8FE8><b>X</b></color> (the air brakes, then hover)"
+[ExeCheck] screenshot r11c_l3_step1.png
+[Play]    54.2 voice CONTROL: Lesson complete. Well flown.
+[Play]    57.0 voice CONTROL: Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow.
+[ExeCheck] screenshot r11c_l3_step2.png
+[Play]    85.7 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]    95.6 voice CONTROL: That's it. Next.
+[ExeCheck] screenshot r11c_l3_step3.png
+[ExeCheck] screenshot r11c_l3_step4.png
+[Play]    98.0 voice CONTROL: Good.
+[Play]   125.7 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   129.9 training: lesson 3 complete
+[ExeCheck]   lesson 3: COMPLETE; saved as done True; log: lesson 3 (Landing) started | step 1 done in 18.8 s | step 2 done in 24.5 s | step 3 done in 0.0 s | hint on step 4 | step 4 done in 34.2 s | lesson 3 complete
+[ExeCheck] screenshot r11c_l3_complete.png
+[Play]   130.0 music title_theme: title
+[Play]   130.0 training: lesson 4 The pickup
+[Play]   130.2 music flight_canyons: flying
+[Play]   130.2 pilot 1 found (0.4 km): a real pilot
+[Play]   130.2 pilot 2 found (1.5 km): a real pilot
+[Play]   130.8 voice CONTROL: Lesson complete. Well flown.
+[ExeCheck] --- lesson 4 (The pickup): flying True; 5 steps; step 1 "Brake (<color=#3D8FE8><b>X</b></color>), hover over the ring and land on the pad: throttle down (RT / LT)"
+[ExeCheck] screenshot r11c_l4_step1.png
+[Play]   133.6 voice CONTROL: Engines off and wait. The pilot runs to you and knocks. Then you open the airlock.
+[Play]   136.4 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]   160.1 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   179.6 music (quiet): pickup: landed 27 m from pilot 1
+[Play]   179.6 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l4_step2.png
+[Play]   180.2 music (quiet): pickup: pilot 1 running
+[Play]   180.2 pilot 1 runs to the ship
+[ExeCheck] screenshot r11c_l4_step3.png
+[Play]   180.9 voice COMPUTER: Engines off.
+[Play]   182.5 voice CONTROL: That's it. Next.
+[Play]   186.0 music (quiet): pickup: pilot 1 knocking
+[Play]   186.0 pilot 1 at the airlock, knocking
+[Play]   186.0 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l4_step4.png
+[Play]   186.8 music (quiet): pickup: pilot 1 boarding
+[Play]   187.3 voice COMPUTER: Airlock open.
+[Play]   188.2 pilot 1 boarded (a real pilot); cabin 1 / 6
+[Play]   188.2 music flight_canyons: flying
+[Play]   188.8 voice COMPUTER: Pilot aboard.
+[Play]   188.8 training: lesson 4 complete
+[ExeCheck] screenshot r11c_l4_step5.png
+[ExeCheck]   lesson 4: COMPLETE; saved as done True; log: lesson 4 (The pickup) started | hint on step 1 | step 1 done in 49.4 s | step 2 done in 0.7 s | step 3 done in 5.8 s | step 4 done in 2.2 s | step 5 done in 0.6 s | lesson 4 complete
+[ExeCheck] screenshot r11c_l4_complete.png
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 8)
+[Play]   189.0 music title_theme: title
+[Play]   189.0 training: lesson 5 Aliens
+[Play]   189.2 music flight_canyons: flying
+[Play]   189.2 pilot 1 found (0.4 km): really a Knocker, tell shown
+[Play]   189.2 pilot 2 found (1.5 km): really a Mimic, tell shown
+[ExeCheck] --- lesson 5 (Aliens): flying True; 5 steps; step 1 "Land by the beacon, engines off (<color=#6CC24A><b>A</b></color>), and watch who comes"
+[ExeCheck]   practice aliens: Knocker (tell shown: Knocker) at pad 1, Mimic (tell Mimic) at pad 2, 1893 m away
+[Play]   190.3 voice CONTROL: Lesson complete. Well flown.
+[ExeCheck] screenshot r11c_l5_step1.png
+[Play]   193.1 voice CONTROL: Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines.
+[Play]   195.5 music (quiet): pickup: hovering 250 m from pilot 1
+[Play]   219.2 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   238.5 music (quiet): pickup: landed 27 m from pilot 1
+[Play]   239.0 music (quiet): pickup: pilot 1 running
+[Play]   239.0 pilot 1 runs to the ship (a Knocker)
+[Play]   239.0 voice COMPUTER: Engines off.
+[ExeCheck] screenshot r11c_l5_step2.png
+[Play]   240.5 voice CONTROL: Good.
+[Play]   244.8 music (quiet): pickup: pilot 1 knocking
+[Play]   244.8 pilot 1 at the airlock, knocking (a Knocker, tell shown)
+[Play]   245.0 voice CONTROL: That's it. Next.
+[ExeCheck] screenshot r11c_l5_step3.png
+[ExeCheck] screenshot r11c_l5_airlock_camera.png
+[Play]   250.6 voice COMPUTER: Airlock open.
+[Play]   250.8 alien: pilot 1 (Knocker) left at the airlock 6 s: it climbs onto the canopy
+[Play]   250.8 music (quiet): alien on the canopy
+[ExeCheck]   airlock opened to the practice alien: cabin 0, phase "", horror "climbing" (no scare: False); prompt "▶ Keep the airlock shut. Start the engines (<color=#6CC24A><b>A</b></color>): the exhaust burns it"
+[ExeCheck] screenshot r11c_l5_opened_to_it.png
+[Play]   251.9 alien: engines on with it on the canopy: thrown off (Knocker); bounty +200 cr
+[Play]   251.9 alien: journal: Knocker encounter 1 (thrown off the canopy): "Listen at the door."
+[Play]   251.9 music flight_canyons: flying
+[Play]   252.2 voice CONTROL: Good.
+[ExeCheck] screenshot r11c_l5_step4.png
+[Play]   258.8 voice COMPUTER: Pull up.
+[Play]   281.9 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[Play]   297.6 music (quiet): pickup: hovering 250 m from pilot 2
+[Play]   341.7 music (quiet): pickup: landed 25 m from pilot 2
+[Play]   342.2 music (quiet): pickup: pilot 2 running
+[Play]   342.2 pilot 2 runs to the ship (a Mimic)
+[Play]   342.2 voice COMPUTER: Engines off.
+[Play]   346.1 music (quiet): pickup: pilot 2 knocking
+[Play]   346.1 pilot 2 at the airlock, knocking (a Mimic, tell shown)
+[Play]   352.1 alien: pilot 2 (Mimic) left at the airlock 6 s: it climbs onto the canopy
+[Play]   352.1 music (quiet): alien on the canopy
+[Play]   352.1 voice CONTROL: It's on your canopy. Engines or shield. Burn it off before it gets in.
+[ExeCheck] screenshot r11c_l5_step5.png
+[Play]   354.5 alien: on the canopy: pressed against the glass
+[ExeCheck] screenshot r11c_l5_canopy.png
+[ExeCheck]   left on the canopy 12 s past the break-in time: still outside True (clock 9.0 of 10)
+[Play]   369.9 alien: engines on with it on the canopy: thrown off (Mimic); bounty +200 cr
+[Play]   369.9 alien: journal: Mimic encounter 1 (thrown off the canopy): "Something about the way the light falls on it..."
+[Play]   369.9 voice COMPUTER: Shield up.
+[Play]   369.9 training: lesson 5 complete
+[ExeCheck]   lesson 5: COMPLETE; saved as done True; log: lesson 5 (Aliens) started | hint on step 1 | step 1 done in 49.8 s | step 2 done in 5.8 s | opened the airlock to the practice alien (stopped: no scare in training) | step 3 done in 7.1 s | hint on step 4 | step 4 done in 100.2 s | step 5 done in 17.8 s | lesson 5 complete
+[ExeCheck] screenshot r11c_l5_complete.png
+NullReferenceException: Object reference not set to an instance of an object.
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00011] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at UnityEngine.Component.get_transform () [0x00006] in <9cbb64a954b741deb68ec58553207f43>:0 
+  at HostileHorizon.GameShell+<Dies>d__53.MoveNext () [0x001ea] in <0b63b00ec8c74ec08b0e95acfc59d66c>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00023] in <9cbb64a954b741deb68ec58553207f43>:0 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]   370.0 music title_theme: title
+[Play]   370.0 training: lesson 6 Combat
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+Internal: deleting an allocation that is older than its permitted lifetime of 4 frames (age = 5)
+[Play]   370.1 music flight_canyons: flying
+[ExeCheck] --- lesson 6 (Combat): flying True; 3 steps; step 1 "Shield up: D-pad ← (it stops bolts and uses energy)"
+[ExeCheck]   targets: Turret 645 m, Saucer 498 m
+[Play]   371.2 voice CONTROL: Lesson complete. Well flown.
+[ExeCheck] screenshot r11c_l6_step1.png
+[ExeCheck] screenshot r11c_l6_step2.png
+[Play]   374.0 voice CONTROL: Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back.
+[Play]   381.5 voice COMPUTER: Warning. Locked on.
+[Play]   387.9 voice COMPUTER: Pull up.
+[Play]   401.1 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[ExeCheck]     gun: 7 shots, 4 hits, destroyed after 1.1 s
+[ExeCheck] screenshot r11c_l6_step3.png
+[Play]   403.9 training: lesson 6 complete
+[ExeCheck]     gun: 7 shots, 5 hits, destroyed after 1.3 s
+[ExeCheck]   hull after the fight 100 % (training: hits do no damage)
+[ExeCheck]   lesson 6: COMPLETE; saved as done True; log: lesson 6 (Combat) started | step 1 done in 1.0 s | hint on step 2 | step 2 done in 31.5 s | step 3 done in 1.3 s | lesson 6 complete
+[ExeCheck] screenshot r11c_l6_complete.png
+[Play]   403.9 music title_theme: title
+[Play]   403.9 training: lesson 7 Getting home
+[Play]   404.1 music flight_canyons +tension: flying + tension (home warning)
+[Music] loaded tension_low_energy (121 s)
+[ExeCheck] --- lesson 7 (Getting home): flying True; 3 steps; step 1 "RETURN NOW: just enough energy to climb home. Turn toward HOME (its bearing on the display)"
+[ExeCheck]   energy 17 % (home needs 13 %): RETURN NOW; HOME 2.5 km
+[ExeCheck] screenshot r11c_l7_step1.png
+[Play]   406.4 music flight_canyons: flying
+[Play]   406.4 voice CONTROL: Lesson complete. Well flown.
+[ExeCheck] screenshot r11c_l7_step3.png
+[Play]   408.3 music flight_canyons +tension: flying + tension (low energy)
+[Play]   409.2 voice CONTROL: Your power's running low. Climb for the mothership, or hold recall and we'll come and get you.
+[Play]   415.9 voice COMPUTER: Energy low.
+[Play]   416.4 music flight_canyons: flight (automatic)
+[Play]   421.8 voice CONTROL: Watch your energy. I can't tow everyone.
+[Play]   440.9 planet cleared: this run: 0:12 of flight, 0 cr, 3 hull hits, no deaths; bests fastest clear 0:12 · most 0 cr · fewest hits 3 · cleared without dying ✓
+[Play]   440.9 docked (recall): <color=#FFE08A>Best run: this run: 0:12 of flight, 0 cr, 3 hull hits, no deaths</color>|<b>Kathae-II cleared! +1000 credits</b>|Recall: -900 cr|Energy used 92%. Refuelled 92%: -553 cr
+[Play]   440.9 training: lesson 7 complete
+[ExeCheck]   lesson 7: COMPLETE; saved as done True; log: lesson 7 (Getting home) started | step 1 done in 1.1 s | step 2 done in 0.0 s | docked | docked on step 3: home is the lesson's goal | step 3 done in 11.2 s | lesson 7 complete
+[ExeCheck] screenshot r11c_l7_complete.png
+[Music] loaded hangar (199 s)
+[ExeCheck]   VR lesson outside VR: "8. VR: recentre" [VR only] disabled True
+[Play]   440.9 training: lesson 1 Flying
+[Play]   441.2 music title_theme: title
+[Play]   441.6 music flight_canyons: flying
+[Play]   441.6 voice CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.
+[ExeCheck] --- lesson 1 (Flying): flying True; 6 steps; step 1 "Pitch: push the nose down and pull it up (left stick)"
+[ExeCheck] screenshot r11c_pause_menu.png
+[ExeCheck]   pause > Skip this step: now step 2 "Roll: tip the wings left and right (left stick)"
+[Play]   472.6 voice CONTROL: Take your time. The step's on your display, with the button for it.
+[ExeCheck]   31 s without touching the stick: hint shown True; voices 0.9 voice ctl_tr_welcome [Radio, p3, 7.3 s] CONTROL: Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record., 8.6 voice ctl_tr_fly [Radio, p3, 8.0 s] CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself., 17.1 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 19.8 voice ctl_tr_nav [Radio, p3, 9.1 s] CONTROL: Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is., 51.7 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 54.2 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 57.0 voice ctl_tr_land [Radio, p3, 6.4 s] CONTROL: Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow., 95.6 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 98.0 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 125.7 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 130.8 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 133.6 voice ctl_tr_pickup [Radio, p3, 6.6 s] CONTROL: Engines off and wait. The pilot runs to you and knocks. Then you open the airlock., 160.1 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 179.6 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 182.5 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 186.0 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 190.3 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 193.1 voice ctl_tr_alien [Radio, p3, 8.3 s] CONTROL: Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines., 219.2 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 240.5 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 245.0 voice ctl_tr_good_2 [Radio, p1, 1.9 s] CONTROL: That's it. Next., 252.2 voice ctl_tr_good_1 [Radio, p1, 0.9 s] CONTROL: Good., 281.9 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 352.1 voice ctl_tr_canopy [Radio, p3, 5.7 s] CONTROL: It's on your canopy. Engines or shield. Burn it off before it gets in., 371.2 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 374.0 voice ctl_tr_combat [Radio, p3, 6.5 s] CONTROL: Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back., 401.1 voice ctl_tr_hint [Radio, p2, 4.7 s] CONTROL: Take your time. The step's on your display, with the button for it., 406.4 voice ctl_tr_done [Radio, p3, 2.3 s] CONTROL: Lesson complete. Well flown., 409.2 voice ctl_tr_home [Radio, p3, 6.3 s] CONTROL: Your power's running low. Climb for the mothership, or hold recall and we'll come and get you., 441.6 voice ctl_tr_fly [Radio, p3, 8.0 s] CONTROL: Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.
+[ExeCheck] screenshot r11c_hint.png
+[ExeCheck]   career.json after training: UNCHANGED (byte for byte) OK; the career in memory is the one from before: True; training mode False
+[ExeCheck]   training.json: { "done": [ true, true, true, true, true, true, true, false ], "offered": false }
+[ExeCheck]   output level (muted): sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 2.070, zeroed before the speakers; 54931456 samples); master volume 0.00
+[ExeCheck] end: window: none (batch mode), view 1920x1080 off-screen; sound: muted from the first frame; measured output level 0.000 RMS, peak 0.000 (the game produced 0.026 RMS, peak 2.070, zeroed before the speakers; 54931456 samples); master volume 0.00
+[Play]   473.1 music title_theme: title
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+CodeReloadManager destroyed

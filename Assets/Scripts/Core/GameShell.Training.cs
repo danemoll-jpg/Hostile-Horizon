@@ -84,7 +84,7 @@ namespace HostileHorizon
             Terrain.Field.FindStart(out var start, out var heading); tStart = start;
             Mother.gameObject.SetActive(true); Mother.Place(start, heading); Mother.Holding = false; Mother.SetDoors(0, true);
             SpawnPilots();
-            foreach (var p in Pilots) if (p.IsAlien) { p.Leaps = false; p.ClimbAfter = 6f; }   // the canopy alien climbs soon after it knocks
+            foreach (var p in Pilots) if (p.IsAlien) { p.Leaps = false; p.ClimbAfter = p.Index == 1 ? 6f : 60f; }   // the second (canopy) alien climbs soon after it knocks; the first waits
             Career.EarnPlanet = Planet;
             Ship.Field = Terrain.Field; Rig.Field = Terrain.Field;
             Foes.Clear();

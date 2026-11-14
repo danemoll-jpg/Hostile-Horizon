@@ -481,6 +481,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   practice planet seed 1984 (Canyons), Bounce, hits do no damage, energy only in "Getting home", an alien never gets in (airlock:
   `TrainingAlienAtDoor`; canopy clock capped), practice targets `Enemies.TrainingTargets`; Control's lines `ctl_tr_*`
   (`make_voices.py --only ctl_tr_`). Check `-exeCheckOnly round11c` (every lesson with the virtual pad; career.json compared).
+  (D) **Radar filter** (`UI/Radar.cs`: `RadarScope.Filter` = `GameSettings.radarFilter`, All / Pilots / Enemies / Tasks; the mothership
+  and incoming-fire marks always): **hold the route-target button 0.5 s** (pad D-pad →, keyboard T, HOTAS L2 / whatever HOTAS setup gives
+  Route target; a tap still picks the route target, now on release: `Controls.RouteTargetPressed` / `RadarFilterPressed`) or keyboard
+  **M**; "RADAR: ..." over both scopes (cockpit + HUD), the text list filtered too. On All: smaller blips, labels on the nearest two of a
+  kind, nothing past the rim but the mothership; on every filter overlapping blips of a kind merge (×N), no labels on rim-pinned blips,
+  a label that would overlap one drawn is dropped (NEAREST and the mothership first). `RadarScope.OldStyle` = Round 10's drawing
+  (checks). Training's Navigation lesson has a filter step. Check `-exeCheckOnly round11d` (a busy radar: the check adds contacts).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,
@@ -620,6 +627,13 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
 - **Clean-up at the end of a round:** `python Tools/cleanup_round.py [--dry-run]`.
 
 ## Where things stand
+**Round 11 (A: the HOTAS under Proton: Steam Input hides it behind a virtual pad; the fix is Disable Steam Input + `PROTON_ENABLE_HIDRAW=0x044F/0xB67C`,
+the game now says how the HOTAS arrives and shows the steps, Record my input gives the Linux path; B: CC0 photo-scanned rock / ground / scree
+(ambientCG, credited) and land bridges in Canyons / Volcanic, a few per cent of frame rate; C: Training, eight lessons coached by Control, all
+seven non-VR lessons completed by the check, career.json untouched; D: a radar you can filter (hold the route-target button or M), less
+clutter) is built (2026-11-14 06:47), checked in the exe (headless, muted, `round11a` .. `round11d`) and published as 0.11.0 (`game-1100`
+Latest; soundtrack stays `soundtrack-700`). Not yet played by Dan; the HOTAS on a real Deck is unproven.** Details in `TODO.md` (Round 11
+delivery). **Next:** the Native Quest rounds (queued in `TODO.md`).
 **Fix 9.1 (Round 10 Part A: aliens rarer, rolled per pilot (Normal 10.8 % at tier 0 .. 20 % at tier 4, was 33 % with one on every
 planet); docking round the mothership and in through the stern opening (0.9.0's approach overshot at 200 m/s and went through the hull
 and down through the roof: now 0 crossings of the hull from every start); the mothership's Meshy textures (never loaded before); VR
