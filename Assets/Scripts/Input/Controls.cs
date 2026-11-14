@@ -67,6 +67,9 @@ namespace HostileHorizon
             // Round 8 (C3): Recenter the VR view: gamepad right-stick click, keyboard Home (and the pause menu, on every device)
             recenter = f.FindAction("Recenter") ?? f.AddAction("Recenter", InputActionType.Button);
             if (recenter.bindings.Count == 0) { recenter.AddBinding("<Gamepad>/rightStickPress"); recenter.AddBinding("<Keyboard>/home"); }
+            // Round 11 (D1): the radar filter: keyboard M (also: hold the route-target button 0.5 s on every device)
+            radarKey = f.FindAction("RadarFilter") ?? f.AddAction("RadarFilter", InputActionType.Button);
+            if (radarKey.bindings.Count == 0) radarKey.AddBinding("<Keyboard>/m");
             navigate = u["Navigate"]; submit = u["Submit"]; cancel = u["Cancel"];
             f.actionTriggered += Noted; u.actionTriggered += Noted;
             LastDevice = Gamepad.all.Count > 0 ? Device.Gamepad : Joystick.all.Count > 0 ? Device.Hotas : Device.Keyboard;
@@ -161,7 +164,7 @@ namespace HostileHorizon
         }
 
         // ---- button names per device (Fix 6.1: only the device in use; Xbox names and colours on the pad)
-        public enum Act { Fire, Select, Back, Engines, Airlock, Land, Camera, Recall, Pause, Shield, LevelOut, BellyCam, RouteTarget, CabinCam, FastForward, Look, Throttle, Yaw, PitchRoll, Menus }
+        public enum Act { Fire, Select, Back, Engines, Airlock, Land, Camera, Recall, Pause, Shield, LevelOut, BellyCam, RouteTarget, CabinCam, FastForward, Look, Throttle, Yaw, PitchRoll, Menus, RadarFilter }
         static readonly Dictionary<string, string> glyphs = new Dictionary<string, string>();
         // A symbol the UI font can draw, else a plain stand-in.
         public static string Glyph(string want, string alt)
@@ -201,7 +204,7 @@ namespace HostileHorizon
                     case Act.Pause: return "Esc"; case Act.Shield: return "Z"; case Act.LevelOut: return "L"; case Act.BellyCam: return "V";
                     case Act.RouteTarget: return "T"; case Act.CabinCam: return "N"; case Act.FastForward: return "hold Space";
                     case Act.Look: return "arrows / right mouse"; case Act.Throttle: return "Shift / Ctrl"; case Act.Yaw: return "Q / E";
-                    case Act.PitchRoll: return "W S / A D"; case Act.Menus: return "arrows";
+                    case Act.PitchRoll: return "W S / A D"; case Act.Menus: return "arrows"; case Act.RadarFilter: return "M (or hold T)";
                 }
             if (d == Device.Hotas)
                 switch (a)
@@ -213,6 +216,7 @@ namespace HostileHorizon
                     case Act.RouteTarget: return H(HotasAct.RouteTarget); case Act.CabinCam: return H(HotasAct.CabinCam);
                     case Act.FastForward: return "hold " + HotasName(FireButton); case Act.Look: return "hat"; case Act.Throttle: return "throttle lever";
                     case Act.Yaw: return "twist"; case Act.PitchRoll: return "stick"; case Act.Menus: return "stick / hat up-down, hat left-right";
+                    case Act.RadarFilter: return "hold " + H(HotasAct.RouteTarget);
                 }
             switch (a)
             {
@@ -221,7 +225,7 @@ namespace HostileHorizon
                 case Act.Shield: return "D-pad ←"; case Act.LevelOut: return "left-stick click"; case Act.BellyCam: return "D-pad ↓";
                 case Act.RouteTarget: return "D-pad →"; case Act.CabinCam: return "D-pad ↑"; case Act.FastForward: return "hold " + PadA;
                 case Act.Look: return "right stick"; case Act.Throttle: return "RT / LT"; case Act.Yaw: return "LB / RB"; case Act.PitchRoll: return "left stick";
-                case Act.Menus: return "D-pad / left stick";
+                case Act.Menus: return "D-pad / left stick"; case Act.RadarFilter: return "hold D-pad →";
             }
             return "";
         }
@@ -247,7 +251,16 @@ namespace HostileHorizon
 
         public static bool BellyCamPressed => bellyCam.WasPressedThisFrame();
         // Fix 2.6: cycle the route trail's target (next pilot / mothership). Round 3: the cabin camera on the HUD.
-        public static bool RouteTargetPressed => routeTarget.WasPressedThisFrame();
+        // Round 11 (D1): a tap (released within 0.5 s) picks the route target; held 0.5 s it cycles the radar filter instead
+        public static bool RouteTargetPressed => routeTapFrame == Time.frameCount;
+        public static bool RadarFilterPressed => radarHoldFrame == Time.frameCount || radarKey != null && radarKey.WasPressedThisFrame();
+        static InputAction radarKey; static float routeDownAt = -1; static bool routeHoldFired; static int routeTapFrame = -1, radarHoldFrame = -1;
+        static void TickRouteHold()
+        {
+            if (routeTarget.WasPressedThisFrame()) { routeDownAt = Time.unscaledTime; routeHoldFired = false; }
+            if (routeDownAt >= 0 && !routeHoldFired && routeTarget.IsPressed() && Time.unscaledTime - routeDownAt >= .5f) { routeHoldFired = true; radarHoldFrame = Time.frameCount; }
+            if (routeDownAt >= 0 && !routeTarget.IsPressed()) { if (!routeHoldFired) routeTapFrame = Time.frameCount; routeDownAt = -1; }
+        }
         public static bool CabinCamPressed => cabinCam.WasPressedThisFrame();
         // Round 5 (A2): level out at once
         public static bool LevelOutPressed => levelOut.WasPressedThisFrame();
@@ -284,6 +297,7 @@ namespace HostileHorizon
         public static void Tick()
         {
             if (VrMode.Active) TickMenuHold();   // Fix 9.1 (A4)
+            TickRouteHold();                     // Round 11 (D1)
             var d = HotasPresent ? hotasStick.controls[0].device : null;
             if (d != seenDevice) { seenDevice = d; seenTime = d != null ? d.lastUpdateTime : 0; HotasCentred = GameSettings.S.hotasCalibrated; leverBase.Clear(); }
             if (d != null)

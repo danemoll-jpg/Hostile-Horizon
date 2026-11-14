@@ -162,6 +162,5 @@ namespace HostileHorizon
             Log($"  output level (muted): {TestRun.Report()}");
         }
 
-        IEnumerator Round11C() { yield break; }
     }
 }

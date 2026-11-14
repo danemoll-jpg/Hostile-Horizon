@@ -97,6 +97,21 @@ and voice of a pilot already lost on that planet. No other type has a voice sign
 | `ctl_salvage_done.mp3` | Control | the wreck hooked up | Salvage line's on. She'll be back in the bay when you dock. |
 | `ctl_salvage_ambush.mp3` | Control | something waiting at the wreck | Movement near the wreck. You're not alone down there. |
 | `ctl_insured.mp3` | Control | launch: the flight insured | Insurance is logged for this flight. Try not to make them pay out. |
+| `ctl_tr_welcome.mp3` | Control | training: the start | Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record. |
+| `ctl_tr_fly.mp3` | Control | training lesson 1: flying | Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself. |
+| `ctl_tr_nav.mp3` | Control | training lesson 2: navigation | Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is. |
+| `ctl_tr_land.mp3` | Control | training lesson 3: landing | Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow. |
+| `ctl_tr_pickup.mp3` | Control | training lesson 4: the pickup | Engines off and wait. The pilot runs to you and knocks. Then you open the airlock. |
+| `ctl_tr_alien.mp3` | Control | training lesson 5: aliens | Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines. |
+| `ctl_tr_canopy.mp3` | Control | training lesson 5: the canopy | It's on your canopy. Engines or shield. Burn it off before it gets in. |
+| `ctl_tr_combat.mp3` | Control | training lesson 6: combat | Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back. |
+| `ctl_tr_home.mp3` | Control | training lesson 7: getting home | Your power's running low. Climb for the mothership, or hold recall and we'll come and get you. |
+| `ctl_tr_vr.mp3` | Control | training lesson 8: VR | If the view drifts, look straight ahead and recentre it. |
+| `ctl_tr_good_1.mp3` | Control | training: a step done | Good. |
+| `ctl_tr_good_2.mp3` | Control | training: a step done | That's it. Next. |
+| `ctl_tr_hint.mp3` | Control | training: stuck on a step | Take your time. The step's on your display, with the button for it. |
+| `ctl_tr_done.mp3` | Control | training: a lesson complete | Lesson complete. Well flown. |
+| `ctl_tr_all.mp3` | Control | training: every lesson complete | That's the lot. You're ready for the real thing. |
 | `cpu_energy_low.mp3` | Computer | ship's computer | Energy low. |
 | `cpu_return_now.mp3` | Computer | ship's computer | Return now. |
 | `cpu_cant_reach.mp3` | Computer | ship's computer | Mothership out of reach. |

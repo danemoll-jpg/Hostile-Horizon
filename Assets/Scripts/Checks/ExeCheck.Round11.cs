@@ -27,6 +27,7 @@ namespace HostileHorizon
             if (all || CheckRun.Only == "round11a") yield return Round11A();
             if (all || CheckRun.Only == "round11b") yield return Round11B();
             if (all || CheckRun.Only == "round11c") yield return Round11C();
+            if (all || CheckRun.Only == "round11d") yield return Round11D();
         }
 
         InputDevice AddSdlHotas()

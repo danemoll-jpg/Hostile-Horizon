@@ -25,6 +25,15 @@ namespace HostileHorizon
         readonly Image[] rings = new Image[3]; readonly Text[] ringLabels = new Text[3];
         public float Range { get; private set; } = 3000;   // metres at the rim (checks read it)
         public static float ExactRange = MidRange;          // Round 6 (C): exact bearings out to here (the Radar upgrade)
+        // Round 11 (D1, D2): the filter (All / Pilots / Enemies / Tasks; the mothership and incoming fire always show) and less clutter
+        // on All: smaller blips, labels only on the nearest two of each kind, overlapping blips of a kind merged into one with a count,
+        // nothing past the rim (but the mothership). OldStyle = Round 10's drawing (checks' "before").
+        public static readonly string[] FilterNames = { "ALL", "PILOTS", "ENEMIES", "TASKS" };
+        public static int Filter { get => Mathf.Clamp(GameSettings.S.radarFilter, 0, 3); set => GameSettings.S.radarFilter = (value % 4 + 4) % 4; }
+        public static bool OldStyle;
+        static int KindOf(RadarContact c) => c.mothership ? 0 : c.enemy != 0 ? 2 : c.mark != null ? 3 : 1;   // 0 mothership, 1 pilot, 2 enemy, 3 task
+        public static bool Shows(RadarContact c) => OldStyle || Filter == 0 || c.mothership || KindOf(c) == Filter;
+        readonly Text header;
         public static int Bezel;                            // Round 6 (C3): the Radar upgrade's level: a bright outer ring
         readonly Image bezel;
 
@@ -44,6 +53,8 @@ namespace HostileHorizon
             var h = Img(root, null, new Color(.4f, 1f, .8f, .18f), Vector2.zero, 0); h.rectTransform.sizeDelta = new Vector2(size * .9f, 2);
             var v = Img(root, null, new Color(.4f, 1f, .8f, .18f), Vector2.zero, 0); v.rectTransform.sizeDelta = new Vector2(2, size * .9f);
             var ship = Img(root, null, new Color(1f, .62f, .32f), Vector2.zero, 0); ship.rectTransform.sizeDelta = new Vector2(size * .035f, size * .07f);
+            header = UiKit.Label(root, "Radar filter", font, TextAnchor.LowerCenter, new Color(.55f, 1f, .85f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(-size / 2, size / 2 + 2), new Vector2(size / 2, size / 2 + font * 1.6f));
+            header.horizontalOverflow = HorizontalWrapMode.Overflow;
         }
 
         static Image Img(Transform parent, Sprite s, Color c, Vector2 at, float size)
@@ -87,6 +98,8 @@ namespace HostileHorizon
         }
 
         readonly List<Image> threatMarks = new List<Image>();
+        readonly List<Vector2> labelAt = new List<Vector2>();
+        readonly HashSet<int> labelled = new HashSet<int>(); readonly List<(Vector2 at, int kind, int i)> placed = new List<(Vector2, int, int)>(); readonly Dictionary<int, int> merged = new Dictionary<int, int>();
         public void Draw(Transform ship, List<RadarContact> contacts, List<Vector3> route = null, List<(Vector3 from, float until)> threats = null)
         {
             // Round 5 (B6): incoming fire: a red mark on the rim toward each shooter, fading in 2.5 s
@@ -104,10 +117,18 @@ namespace HostileHorizon
             for (int i = nt; i < threatMarks.Count; i++) threatMarks[i].enabled = false;
             float pulse = .65f + .35f * Mathf.Sin(Time.time * 5f);
             bezel.enabled = Bezel > 0; if (Bezel > 0) { bezel.color = new Color(.45f, 1f, .9f, .35f + .2f * Bezel); Place(bezel, Vector2.zero, size * (1.04f + .03f * Bezel)); }
+            header.enabled = !OldStyle; header.text = $"RADAR: {FilterNames[Filter]}";
             int nearest = Nearest(ship, contacts);
-            // the zoom: the smallest range that holds the nearest pilot (the mothership when no pilot is left)
+            if (!OldStyle && Filter != 0 && Filter != 1) nearest = -1;   // no NEAREST pilot tag while pilots are filtered out
+            // the zoom: the smallest range that holds the nearest pilot (the mothership when no pilot is left); Round 11: on the Enemies /
+            // Tasks filters, the nearest of those
             float want = 0;
             int focus = nearest >= 0 ? nearest : contacts.FindIndex(c => c.mothership);
+            if (!OldStyle && (Filter == 2 || Filter == 3))
+            {
+                float bd = float.MaxValue;
+                for (int i = 0; i < contacts.Count; i++) if (KindOf(contacts[i]) == Filter) { var d = contacts[i].position - ship.position; d.y = 0; if (d.sqrMagnitude < bd) { bd = d.sqrMagnitude; focus = i; } }
+            }
             if (focus >= 0) { var d = contacts[focus].position - ship.position; d.y = 0; want = d.magnitude * 1.1f; }
             Range = Ranges[Ranges.Length - 1]; foreach (var r in Ranges) if (r >= want) { Range = r; break; }
             float step = Range <= 1000 ? 500 : Range <= 3000 ? 1000 : Range / 3f;   // rings: 0.5 / 1, 1 / 2, 1 / 2 / 3, 2 / 4 / 6, 3 / 6 / 9 km
@@ -124,6 +145,25 @@ namespace HostileHorizon
                 var at = new Vector2(.69f, .69f) * (rm / Range * radius);   // on the ring, up and right
                 ringLabels[i].rectTransform.offsetMin = at + new Vector2(2, 1); ringLabels[i].rectTransform.offsetMax = at + new Vector2(80, font);
             }
+            // Round 11 (D2): on All, labels only on the nearest two of each kind; overlapping blips of a kind merge (a count)
+            labelled.Clear(); placed.Clear(); labelAt.Clear();
+            // NEAREST and the mothership claim their label spots first
+            if (!OldStyle)
+                for (int i = 0; i < contacts.Count; i++)
+                    if (i == nearest || contacts[i].mothership)
+                    {
+                        Vector3 d0 = contacts[i].position - ship.position; d0.y = 0; float b0 = (Mathf.Atan2(d0.x, d0.z) * Mathf.Rad2Deg - ship.eulerAngles.y) * Mathf.Deg2Rad;
+                        var at0 = new Vector2(Mathf.Sin(b0), Mathf.Cos(b0)) * Mathf.Min(1, d0.magnitude / Range) * radius; float s0 = radius * .15f;
+                        var o0 = at0 + new Vector2(0, at0.y < -radius * .55f ? s0 * .55f + font * .7f : -(s0 * .55f + font * .7f)); o0.x = Mathf.Clamp(o0.x, -radius * .55f, radius * .55f);
+                        labelAt.Add(o0);
+                    }
+            if (!OldStyle && Filter == 0)
+                for (int k = 1; k <= 3; k++)
+                {
+                    var idx = new List<int>(); for (int i = 0; i < contacts.Count; i++) if (KindOf(contacts[i]) == k) idx.Add(i);
+                    idx.Sort((x, y) => (contacts[x].position - ship.position).sqrMagnitude.CompareTo((contacts[y].position - ship.position).sqrMagnitude));
+                    for (int j = 0; j < idx.Count && j < 2; j++) labelled.Add(idx[j]);
+                }
             for (int i = 0; i < contacts.Count; i++)
             {
                 if (blips.Count <= i)
@@ -135,6 +175,7 @@ namespace HostileHorizon
                 }
                 var c = contacts[i]; var b = blips[i]; b.enabled = true; labels[i].enabled = true;
                 Vector3 dv = c.position - ship.position; dv.y = 0;
+                if (!Shows(c) || !OldStyle && Filter == 0 && !c.mothership && dv.magnitude > Range) { b.enabled = false; halos[i].enabled = false; labels[i].enabled = false; continue; }
                 float dist = dv.magnitude, bearing = Mathf.Atan2(dv.x, dv.z) * Mathf.Rad2Deg - ship.eulerAngles.y;
                 if (dist > ExactRange) bearing = Mathf.Round(bearing / 30f) * 30f;
                 bool isNear = i == nearest;
@@ -145,19 +186,39 @@ namespace HostileHorizon
                 col.a = dist > Range ? .55f * pulse : isNear ? 1 : .85f;
                 float a = bearing * Mathf.Deg2Rad;
                 var at = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * r * radius;
+                if (!OldStyle && Filter == 0 && !c.mothership && i != nearest) sz *= .75f;   // D2: smaller on All
+                if (!OldStyle && !c.mothership && i != nearest)
+                {
+                    int k = KindOf(c), into = -1;
+                    for (int j = 0; j < placed.Count; j++) if (placed[j].kind == k && (placed[j].at - at).magnitude < sz * .9f) { into = placed[j].i; break; }
+                    if (into >= 0) { merged[into] = merged.TryGetValue(into, out var m) ? m + 1 : 2; b.enabled = false; halos[i].enabled = false; labels[i].enabled = false; continue; }
+                    placed.Add((at, k, i)); merged[i] = 1;
+                }
                 b.color = col; Place(b, at, sz);
                 halos[i].enabled = isNear; if (isNear) { halos[i].color = new Color(1f, 1f, .8f, .5f + .5f * pulse); Place(halos[i], at, sz * 2.1f); }
                 string name = c.mothership ? "MS" : $"P{c.number}";
                 labels[i].text = site ? $"{c.mark} {Distance(dist)}" : c.enemy != 0 ? (dist > Range ? "" : $"{(c.enemy == 1 ? "TURRET" : "SAUCER")} {Distance(dist)}") : (isNear ? $"<b>NEAREST {Distance(dist)}</b>" : $"{name} {Distance(dist)}") + (c.tag != null ? $" <color=#FF8A60><b>{c.tag}</b></color>" : "");
                 labels[i].color = site ? new Color(.55f, 1f, 1f) : c.enemy != 0 ? new Color(1f, .45f, .4f) : c.mothership ? new Color(.6f, .85f, 1f) : isNear ? new Color(1f, 1f, .75f) : new Color(1f, .82f, .5f);
                 labels[i].fontSize = isNear ? font + 1 : font;
+                if (!OldStyle && Filter == 0 && !c.mothership && !isNear && !labelled.Contains(i)) labels[i].text = "";   // D2: the nearest two of a kind only
+                if (!OldStyle && !c.mothership && !isNear && dist > Range) labels[i].text = "";   // D2: no labels on blips pinned at the rim
                 // the label centred under the blip (over it in the scope's lower part), so it stays on the scope
                 labels[i].alignment = TextAnchor.MiddleCenter;
                 var o = at + new Vector2(0, at.y < -radius * .55f ? sz * .55f + font * .7f : -(sz * .55f + font * .7f));
                 o.x = Mathf.Clamp(o.x, -radius * .55f, radius * .55f);   // kept over the scope
                 labels[i].rectTransform.offsetMin = o + new Vector2(-110, -font); labels[i].rectTransform.offsetMax = o + new Vector2(110, font);
+                // D2: a label that would overlap one already drawn is dropped (NEAREST and the mothership first: drawn in that order below)
+                if (!OldStyle && labels[i].text != "")
+                {
+                    bool keep = isNear || c.mothership;
+                    if (!keep) foreach (var q in labelAt) if (Mathf.Abs(q.x - o.x) < 95f && Mathf.Abs(q.y - o.y) < font * 1.15f) { labels[i].text = ""; break; }
+                    if (labels[i].text != "") labelAt.Add(o);
+                }
             }
             for (int i = contacts.Count; i < blips.Count; i++) { blips[i].enabled = false; halos[i].enabled = false; labels[i].enabled = false; }
+            // D2: a merged blip shows how many it holds
+            foreach (var kv in merged) if (kv.Value > 1 && kv.Key < labels.Count && labels[kv.Key].enabled) labels[kv.Key].text = (labels[kv.Key].text == "" ? "" : labels[kv.Key].text + " ") + $"<b>×{kv.Value}</b>";
+            merged.Clear();
             // the route: a dot every ~1/24 of the range along it, out to the rim
             int nd = 0;
             if (route != null && route.Count > 1)
@@ -183,7 +244,7 @@ namespace HostileHorizon
         // The text list beside the scope: the nearest beacons, as exact as the distance allows.
         public static string List(Transform ship, List<RadarContact> contacts, int max)
         {
-            var sorted = contacts.FindAll(c => c.enemy == 0);   // Round 5: enemies are on the scope, not in this list
+            var sorted = contacts.FindAll(c => c.enemy == 0 && Shows(c));   // Round 5: enemies are on the scope, not in this list; Round 11: the filter
             sorted.Sort((x, y) => (x.position - ship.position).sqrMagnitude.CompareTo((y.position - ship.position).sqrMagnitude));
             var sb = new StringBuilder();
             int shown = 0; bool first = true;

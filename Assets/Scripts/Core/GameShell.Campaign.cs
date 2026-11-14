@@ -197,6 +197,7 @@ namespace HostileHorizon
 
         void ShowHangar()
         {
+            if (Training.Active) { TrainingDocked(); return; }   // Round 11 (C1): training docks into the lesson's end, not the hangar
             var sb = new StringBuilder(); CheckCleared(sb);
             if (sb.Length > 0) { debrief = (debrief + "\n" + sb).Trim(); Career.C.Save(); }
             Now = State.Docked; Phase = "docked"; Time.timeScale = 1;
@@ -264,11 +265,12 @@ namespace HostileHorizon
             StowawayTick(dt); if (Now != State.Flying) return;   // Round 6 (A2)
             CabinRoom.FeedOn = cabin.Count > 0 || !CabinRoom.LightsOn;
             if (Ship.InputEnabled && Controls.CabinCamPressed) Displays.CabinPip = !Displays.CabinPip;
+            if (Ship.InputEnabled && Controls.RadarFilterPressed) { RadarScope.Filter++; GameSettings.Save(); Flash($"Radar: {RadarScope.FilterNames[RadarScope.Filter]}", 2f); PlayLog.Add($"radar filter: {RadarScope.FilterNames[RadarScope.Filter]}"); }   // Round 11 (D1)
 
             if (Ship.InputEnabled && Time.frameCount > Ship.IgnoreButtonsUntil && Controls.AirlockPressed)
             {
                 if (!Ship.Landed) Flash("The airlock only opens on the ground", 2.5f);
-                else { Extras.OpenAirlock(4f); Voice.Say("cpu_airlock_open", VoiceKind.Computer, 3, maxAge: 2f); foreach (var p in Pilots) if (p.AtDoor && cabin.Count < CabinSize) p.Board(); }
+                else { Extras.OpenAirlock(4f); Voice.Say("cpu_airlock_open", VoiceKind.Computer, 3, maxAge: 2f); foreach (var p in Pilots) if (p.AtDoor && cabin.Count < CabinSize && !TrainingAlienAtDoor(p)) p.Board(); }   // Round 11: never let in during training
             }
 
             // the recall: held for a moment so a stray press costs nothing
@@ -801,6 +803,7 @@ namespace HostileHorizon
 
         void Died(AlienType killer = AlienType.None)
         {
+            if (Training.Active) { StartCoroutine(TrainingCrashed()); return; }   // Round 11: a crash in training restarts the lesson
             var c = Career.C; Phase = "dead"; calling = 0;
             bool shotDown = killer == AlienType.None && Time.time - Ship.LastShotAt < 1f && LastKiller != "";   // Round 5 (B5)
             PlayLog.Add($"died: {(killer != AlienType.None ? "killed by a " + killer : shotDown ? "shot down by " + LastKiller : "crashed")}; cabin {cabin.Count}");
@@ -952,7 +955,7 @@ namespace HostileHorizon
                 return s + (c != null ? $"\nDifficulty: {Difficulty.Name(c.difficulty)} (change it in the hangar)" : "") + $"\n\nToday's planet: <b>{Names.Planet(Seeds.OfTheDay)}</b> (seed {Seeds.OfTheDay})\n\n<b>A new career: {Difficulty.Name(nd)}</b>\n<size=24>{Difficulty.Summary(nd)}</size>";
             };
             campaignPage.Add(Action("Continue", () => StartCampaign(false), () => !Career.Exists))
-                .Add(Action("New career", () => { if (Career.Exists) Menu.Show(confirmNew); else StartCampaign(true); }))
+                .Add(Action("New career", () => { if (Career.Exists) Menu.Show(confirmNew); else NewCareerOrOffer(); }))
                 // Round 5 (B8): the difficulty for a new career (it holds the crash level); the hangar changes a running career's
                 .Add(Option("Difficulty (new career)", () => Difficulty.Name(GameSettings.S.difficulty), d => { var s = GameSettings.S.difficulty; s.ApplyPreset(Wrap(Mathf.Min(s.preset, 3) + (s.preset == 4 && d > 0 ? 0 : d), 4)); GameSettings.Save(); }))
                 .Add(Action("Difficulty options", () => ShowDifficulty(campaignPage)))
@@ -961,7 +964,7 @@ namespace HostileHorizon
             confirmNew = new MenuPanel.Page { Title = "NEW CAREER?", Back = () => Menu.Show(campaignPage) };
             confirmNew.Body = () => { var c = Career.C ?? Career.Load(); return c == null ? "" : $"This replaces your career in the {c.systemName} system:\n{c.credits} cr, {c.stats.pilotsRescued} pilots rescued, {c.planets.Count} planets visited.\n\nIt can't be undone."; };
             confirmNew.Add(Action("No, keep my career", () => Menu.Show(campaignPage)))
-                      .Add(Action("Yes, start a new career", () => StartCampaign(true)));
+                      .Add(Action("Yes, start a new career", NewCareerOrOffer));   // Round 11 (C1): training offered once first
 
             hangar = new MenuPanel.Page { Title = "HANGAR", Subtitle = "Rescue carrier, high over the planet" };
             hangar.Body = HangarText;

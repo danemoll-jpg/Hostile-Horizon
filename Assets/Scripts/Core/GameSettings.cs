@@ -19,6 +19,7 @@ namespace HostileHorizon
         public string throttleAxisFound = ""; // Fix 6.2: the lever Auto found (the axis that moved most; "Find throttle lever" or by itself)
         public bool leverForwardIsMin = true; // Fix 6.3: the lever reads its lowest value pushed forward (HID throttles, Dan's z)
         public int cameraDefault;             // CameraRig.Mode
+        public int radarFilter;               // Round 11 (D1): 0 All, 1 Pilots, 2 Enemies, 3 Tasks (RadarScope.Filter)
         public int quality = 2;               // 0 Low, 1 Medium, 2 High
         public int steamDeck;                 // 0 Auto, 1 On, 2 Off (as Chastain Rush)
         public int vrMode;                    // Round 8 (C2): 0 Off (default), 1 On: start in VR (OpenXR); -vr on the command line also does

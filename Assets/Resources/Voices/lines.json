@@ -271,6 +271,81 @@
    "text": "Insurance is logged for this flight. Try not to make them pay out."
   },
   {
+   "id": "ctl_tr_welcome",
+   "speaker": "Control",
+   "text": "Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record."
+  },
+  {
+   "id": "ctl_tr_fly",
+   "speaker": "Control",
+   "text": "Let's get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself."
+  },
+  {
+   "id": "ctl_tr_nav",
+   "speaker": "Control",
+   "text": "Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is."
+  },
+  {
+   "id": "ctl_tr_land",
+   "speaker": "Control",
+   "text": "Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow."
+  },
+  {
+   "id": "ctl_tr_pickup",
+   "speaker": "Control",
+   "text": "Engines off and wait. The pilot runs to you and knocks. Then you open the airlock."
+  },
+  {
+   "id": "ctl_tr_alien",
+   "speaker": "Control",
+   "text": "Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines."
+  },
+  {
+   "id": "ctl_tr_canopy",
+   "speaker": "Control",
+   "text": "It's on your canopy. Engines or shield. Burn it off before it gets in."
+  },
+  {
+   "id": "ctl_tr_combat",
+   "speaker": "Control",
+   "text": "Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back."
+  },
+  {
+   "id": "ctl_tr_home",
+   "speaker": "Control",
+   "text": "Your power's running low. Climb for the mothership, or hold recall and we'll come and get you."
+  },
+  {
+   "id": "ctl_tr_vr",
+   "speaker": "Control",
+   "text": "If the view drifts, look straight ahead and recentre it."
+  },
+  {
+   "id": "ctl_tr_good_1",
+   "speaker": "Control",
+   "text": "Good."
+  },
+  {
+   "id": "ctl_tr_good_2",
+   "speaker": "Control",
+   "text": "That's it. Next."
+  },
+  {
+   "id": "ctl_tr_hint",
+   "speaker": "Control",
+   "text": "Take your time. The step's on your display, with the button for it."
+  },
+  {
+   "id": "ctl_tr_done",
+   "speaker": "Control",
+   "text": "Lesson complete. Well flown."
+  },
+  {
+   "id": "ctl_tr_all",
+   "speaker": "Control",
+   "text": "That's the lot. You're ready for the real thing."
+  },
+  {
    "id": "cpu_energy_low",
    "speaker": "Computer",
    "text": "Energy low."

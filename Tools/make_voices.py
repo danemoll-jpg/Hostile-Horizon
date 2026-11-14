@@ -92,6 +92,22 @@ CONTROL_LINES = [
     ('salvage_ambush', 'something waiting at the wreck', 'Movement near the wreck. You\'re not alone down there.'),
     # Round 9 (D1): insurance
     ('insured', 'launch: the flight insured', 'Insurance is logged for this flight. Try not to make them pay out.'),
+    # Round 11 (C1): training, Control coaching
+    ('tr_welcome', 'training: the start', 'Welcome to training, pilot. Practice planet, practice ship. Nothing you do out here goes on your record.'),
+    ('tr_fly', 'training lesson 1: flying', 'Let\'s get a feel for her. Pitch, roll, yaw, throttle. Then let go of the stick and watch her level herself.'),
+    ('tr_nav', 'training lesson 2: navigation', 'Your radar shows every beacon and how far out it is. Pick a target, follow the trail, and keep an eye on where home is.'),
+    ('tr_land', 'training lesson 3: landing', 'Time to put her down. Brake into landing mode, find the ring, and settle in nice and slow.'),
+    ('tr_pickup', 'training lesson 4: the pickup', 'Engines off and wait. The pilot runs to you and knocks. Then you open the airlock.'),
+    ('tr_alien', 'training lesson 5: aliens', 'Careful with this one. Watch it, listen to it. That is not a pilot. Keep the airlock shut and light your engines.'),
+    ('tr_canopy', 'training lesson 5: the canopy', 'It\'s on your canopy. Engines or shield. Burn it off before it gets in.'),
+    ('tr_combat', 'training lesson 6: combat', 'Turret and a saucer, both ours to practise on. Guns hot. Shield up when they fire back.'),
+    ('tr_home', 'training lesson 7: getting home', 'Your power\'s running low. Climb for the mothership, or hold recall and we\'ll come and get you.'),
+    ('tr_vr', 'training lesson 8: VR', 'If the view drifts, look straight ahead and recentre it.'),
+    ('tr_good_1', 'training: a step done', 'Good.'),
+    ('tr_good_2', 'training: a step done', 'That\'s it. Next.'),
+    ('tr_hint', 'training: stuck on a step', 'Take your time. The step\'s on your display, with the button for it.'),
+    ('tr_done', 'training: a lesson complete', 'Lesson complete. Well flown.'),
+    ('tr_all', 'training: every lesson complete', 'That\'s the lot. You\'re ready for the real thing.'),
 ]
 
 COMPUTER_LINES = [

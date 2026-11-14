@@ -180,6 +180,7 @@ namespace HostileHorizon
                 if (CanopyAlien != p) yield break;
                 if (Now != State.Flying) { yield return null; continue; }   // paused: it waits too
                 CanopyClock += Time.deltaTime;
+                if (Training.Active) CanopyClock = Mathf.Min(CanopyClock, Tuning.T.breakInAfter - 1f);   // Round 11: in training it never breaks in
                 PlaceFace(c, st.TransformPoint(CanopyFace), CanopyLook(st), CanopyUp(st), 4f);   // lying over the nose, head toward you
                 if (Time.frameCount % 3 == 0) KeepOutOfCanopy(c);
                 c.LightFrom(Eye);

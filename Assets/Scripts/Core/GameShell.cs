@@ -178,12 +178,13 @@ namespace HostileHorizon
                     if (Controls.CameraPressed) Rig.Cycle();
                     if (Controls.ViewPressed) { viewDown = true; recallFiredThisHold = false; }
                     if (InCampaign) CampaignTick(); else TrialTick(Time.deltaTime);   // Round 9 (F1)
+                    TrainingTick();   // Round 11 (C1)
                     Displays.PauseHint = !Promo.Active && Time.time - flightStartedAt < 60f;   // Round 10: none in the promo footage
                     if (Now == State.Flying && (Controls.MenuPressed || ViewTap())) Pause();
                     break;
                 case State.Paused:
                     Terrain.SetFocus(Rig.transform.position);
-                    if ((Controls.MenuPressed || Controls.ViewPressed) && (Menu.Current == pause || Menu.Current == campaignPause)) Resume();
+                    if ((Controls.MenuPressed || Controls.ViewPressed) && (Menu.Current == pause || Menu.Current == campaignPause || Menu.Current == trainingPause)) Resume();
                     break;
                 case State.Crashed:
                 case State.Docked:
@@ -250,7 +251,7 @@ namespace HostileHorizon
         {
             if (!CanPause) return;
             pausedFrom = Now; hudWasOn = Displays.Visible; viewDown = false;
-            Now = State.Paused; Time.timeScale = 0; Displays.SetVisible(false); Menu.SetBackdrop(.45f); Menu.Show(InCampaign ? campaignPause : pause);
+            Now = State.Paused; Time.timeScale = 0; Displays.SetVisible(false); Menu.SetBackdrop(.45f); Menu.Show(Training.Active ? trainingPause : InCampaign ? campaignPause : pause);
         }
 
         public void Resume()
@@ -333,6 +334,7 @@ namespace HostileHorizon
                 Body = () => $"Today's planet: {Names.Planet(Seeds.OfTheDay)} ({Biomes.Name(Biomes.ForSeed(Seeds.OfTheDay))}), seed {Seeds.OfTheDay}" };
             title.Add(Action("Free Flight", () => Menu.Show(freeFlight)))
                  .Add(Action("Campaign", () => Menu.Show(campaignPage)))
+                 .Add(Action("Training", () => Menu.Show(trainingPage)))   // Round 11 (C1)
                  .Add(Action("Settings", () => { settingsReturn = title; Menu.Show(settings); }))
                  .Add(Action("Credits", () => Menu.Show(credits)))
                  .Add(Action("Quit", Quit));
@@ -408,7 +410,7 @@ namespace HostileHorizon
                  .Add(ResetRow("the sound settings", GameSettings.ResetSound, () => sound))
                  .Add(Action("Back", () => Menu.Show(settings)));
 
-            BuildControlsPages();   // Fix 6.1: Settings > Controls (per device, with pictures) and HOTAS setup
+            BuildControlsPages(); BuildTrainingPages();   // Round 11 (C1)   // Fix 6.1: Settings > Controls (per device, with pictures) and HOTAS setup
 
             // Fix 2.1: Chastain Rush's Settings > Display page (Core/ScreenSetting.cs).
             display = new MenuPanel.Page { Title = "DISPLAY", Back = () => Menu.Show(settings), Body = () =>

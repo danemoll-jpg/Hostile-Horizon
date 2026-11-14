@@ -460,6 +460,27 @@ All from the repo root. Unity: `C:\Program Files\Unity\Hub\Editor\6000.6.1f1\Edi
   `python Tools/promo_edit.py Promo/edit_trailer.json [--rough | --4k] [--sheet]` -> `Promo/HostileHorizon_Trailer[_4K].mp4`
   (`--rough`: half size in `Promo/rough/`); same for `edit_vertical.json` (subtitles burned in). -14 LUFS two-pass, a true-peak limiter.
   ffmpeg 9 here: `-/filter_complex <file>`; its `amix` stops when the last-listed input ends, so the tool lists inputs by end time.
+- **Round 11:** (A) **the HOTAS under Proton** (`Input/HotasProbe.cs`, read only): how it reaches the game, from Wine's winebus source
+  (gitlab.winehq.org wine + Valve's wine proton_10.0, `dlls/winebus.sys/main.c`, `bus_sdl.c`): **hidraw** (`PROTON_ENABLE_HIDRAW=0x044F/0xB67C`;
+  044F:B67C is not on Wine's own hidraw list) = Windows' descriptor; **SDL** (default) = a HID joystick Wine builds (manufacturer "SDL",
+  axes X Y Z RX RY RZ SLIDER DIAL in SDL's order = the same names for this HOTAS, buttons 1-12, VID / PID kept); **an Xbox-style pad** when
+  SDL has a gamepad mapping for it (path keeps `VID_044F` with `&IG_`); **Steam Input** on = only Steam's virtual pad (`VID_28DE`).
+  `HotasProbe.Diagnose` (Unity's joysticks + SetupDi's HID paths + `ntdll!wine_get_version`); HOTAS setup is shown under Proton / on the
+  Deck without a HOTAS too (subtitle "arrives as: ...", the fix steps instead of the job rows); `[Play] input:` line at start; Record my
+  input logs the system, Proton env vars, every HID path and says where the file is in Linux terms (`wine_get_unix_file_name`, else
+  `STEAM_COMPAT_DATA_PATH`/pfx/drive_c/...). Steps also in `Docs/Starter/README-LAUNCHER.md` (Steam Deck). Check `-exeCheckOnly round11a`
+  (Proton forms faked: `HotasProbe.TestWine`, `TestPaths`). (B) **terrain textures**: CC0 ambientCG sets Rock029 (walls), Ground079S
+  (flats), Rocks011 (scree) by `python Tools/make_rock_textures.py` (zips in `SourceArt/CC0/`, git-ignored) -> `Resources/Textures/Terrain/`
+  (import: `Editor/TerrainTextureImport.cs`; 24 MB); `Rock.shader` `_Photo` 1 (0 = Round 10's look: `WorldLook.SetPhoto`), credits list
+  them. **Land bridges** (`CanyonField.LandBridge`, Canyons + Volcanic): `Box` kind 3 (drawn by `BiomeProps.BridgeMesh`, an arch) + kind 4
+  abutments (solid only), `BridgeChance` .3 per 256 m cell (3 tries), from 60 m over the floor and 20 m over the route trail's line, not
+  within 260 m of a pad. Check `-exeCheckOnly round11b` (pictures before / after, a bridge flown under / into, fps per biome).
+  (C) **Training** (title > Training; offered once at New career: `trainingOffer`): `Core/Training.cs` (lessons, `training.json` beside
+  settings.json), `Core/GameShell.Training.cs` (steps that complete when done, hints after 30 s, pause: skip / restart / lessons /
+  leave), a throwaway career in memory (`Career.BeginTraining` / `EndTraining`; `Career.Save` does nothing while `Career.Training`),
+  practice planet seed 1984 (Canyons), Bounce, hits do no damage, energy only in "Getting home", an alien never gets in (airlock:
+  `TrainingAlienAtDoor`; canopy clock capped), practice targets `Enemies.TrainingTargets`; Control's lines `ctl_tr_*`
+  (`make_voices.py --only ctl_tr_`). Check `-exeCheckOnly round11c` (every lesson with the virtual pad; career.json compared).
 - **Controls and the HOTAS (Fix 6.1):** `Input/Controls.cs`: the HOTAS stick has its own `HotasStick` action, calibrated in code
   (`GameSettings.hotasCal` = x min / centre / max, y min / centre / max; centred on the stick's first report and its reach learnt as it
   moves, or Settings > Controls > HOTAS setup > Calibrate stick: Dan's stick reads -0.50 left / right when centred). `Controls.Btn(Act,

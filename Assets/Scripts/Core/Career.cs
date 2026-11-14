@@ -110,8 +110,20 @@ namespace HostileHorizon
             return C;
         }
 
+        // Round 11 (C1): training flies a throwaway career kept in memory: never saved, and the real one is back after it
+        public static bool Training { get; private set; }
+        static Career beforeTraining;
+        public static void BeginTraining()
+        {
+            if (!Training) beforeTraining = C;
+            Training = true;
+            C = new Career { systemSeed = HostileHorizon.Training.PracticeSeed, systemName = "Practice", credits = Tuning.T.startingCredits, started = "training", difficulty = new DifficultySetting() };
+        }
+        public static void EndTraining() { if (!Training) return; C = beforeTraining; beforeTraining = null; Training = false; }
+
         public void Save()
         {
+            if (Training) return;   // Round 11: nothing from training reaches career.json
             lastSaved = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             try { Directory.CreateDirectory(Folder); File.WriteAllText(FilePath + ".tmp", JsonUtility.ToJson(this, true)); File.Copy(FilePath + ".tmp", FilePath, true); File.Delete(FilePath + ".tmp"); }
             catch (Exception e) { Debug.LogWarning("Career not saved: " + e.Message); }

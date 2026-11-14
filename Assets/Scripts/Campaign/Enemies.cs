@@ -298,6 +298,14 @@ namespace HostileHorizon
             return e;
         }
 
+        // Round 11 (C1): training's practice targets: one turret, one saucer
+        public void TrainingTargets(CanyonField f, ShipController ship, Vector3 turretAt, Vector3 saucerHome)
+        {
+            Clear(); Field = f; Ship = ship;
+            All.Add(MakeTurret(0, turretAt, false)); All.Add(MakeSaucer(1, saucerHome, 0));
+            Placement.Add($"training: a turret at {turretAt:F0}, a saucer at {saucerHome:F0}");
+        }
+
         public Enemy CheckSaucer(Vector3 home) { var e = MakeSaucer(All.Count, home, 0); All.Add(e); return e; }   // checks (round8b): a saucer to look at
 
         Enemy MakeSaucer(int i, Vector3 home, float heading)
